@@ -1,0 +1,24 @@
+{
+  "name": "IsmlLinter",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^4.18.2",
+    "eslint-plugin-jasmine": "^2.9.3",
+    "jasmine": "^3.1.0",
+    "jasmine-node": "^1.14.5",
+    "readdir": "0.0.13"
+  },
+  "scripts": {
+    "start": "node src/app/IsmlLinter",
+    "test": "jasmine-node src/spec/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+bitbucket.org:osfglobalservices/ismllinter.git"
+  },
+  "author": "Fabio Quixadá <fabio.quixada@osf-commerce.com>",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/osfglobalservices/ismllinter#readme"
+}

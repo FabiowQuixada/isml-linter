@@ -1,0 +1,27 @@
+{
+    "plugins": [
+        "jasmine"
+    ],
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true,
+        "jasmine": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:jasmine/recommended"
+    ],
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": ["error"],
+        "quotes": ["error", "single"],
+        "semi": ["error", "always"],
+        "eol-last": ["error", "always"],
+        "eqeqeq": ["error", "always"],
+        "complexity": ["warn"],
+        "no-trailing-spaces": ["error", { "skipBlankLines": false }]
+    }
+}
