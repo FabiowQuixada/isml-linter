@@ -6,6 +6,10 @@
   "devDependencies": {
     "eslint": "^4.18.2",
     "eslint-plugin-jasmine": "^2.9.3",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^4.0.2",
+    "gulp-eslint-if-fixed": "^1.0.0",
+    "gulp-jasmine": "^3.0.0",
     "jasmine": "^3.1.0",
     "jasmine-node": "^1.14.5",
     "readdir": "0.0.13"
