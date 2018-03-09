@@ -1,0 +1,6 @@
+instrumentation:
+    root: src/app
+    extensions:
+        - .js
+    excludes: []
+    include-all-sources: true
