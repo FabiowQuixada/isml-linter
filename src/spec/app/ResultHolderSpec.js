@@ -57,6 +57,16 @@ describe('ResultHolder', () => {
         expect(outputFile).toEqual(expectedResult);
     });
 
+    it('saves linter report to file', () => {
+        ResultHolder.addError(rule, fileName, line, lineNumber);
+        ResultHolder.exportReport();
+
+        const outputFile = require('../../../report.json');
+        const expectedResult = expectedReportObj();
+
+        expect(outputFile).toEqual(expectedResult);
+    });
+
     const expectedResultObj = type => {
         let result = {};
 
@@ -66,5 +76,13 @@ describe('ResultHolder', () => {
                     'Line 3: <isscript>' ] }};
 
         return result;
+    };
+
+    const expectedReportObj = () => {
+        return {
+            'errors' : {
+                'Avoid putting logic into ISML' : 1
+            }
+        };
     };
 });

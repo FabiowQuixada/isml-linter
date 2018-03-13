@@ -10,6 +10,7 @@ const lint = dir => {
     });
 
     ResultHolder.saveToFile();
+    ResultHolder.exportReport();
 };
 
 module.exports = {
