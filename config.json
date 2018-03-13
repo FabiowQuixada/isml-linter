@@ -1,6 +1,17 @@
 {
-  "rootTemplateDir" : "../ecom-giorgioarmani-us/cartridges/app_armani_us/cartridge/templates/default/",
-  "srcDir"          : "src/**/*.js",
-  "appDir"          : "src/app/**/*.js",
-  "specDir"         : "src/spec/**/*.js"
+  "files" : {
+    "srcJs"      : "src/**/*.js",
+    "appJs"      : "src/app/**/*.js",
+    "specJs"     : "src/spec/**/*.js"
+  },
+
+  "dir" : {
+    "rootTemplate"       : "../ecom-giorgioarmani-us/cartridges/app_armani_us/cartridge/templates/default/",
+    "src"                : "src/",
+    "app"                : "src/app/",
+    "rules"              : "src/app/rules/",
+    "spec"               : "src/spec/",
+    "specTemplate"       : "src/spec/templates/",
+    "specLinterTemplate" : "src/spec/templates/isml_linter/"
+  }
 }

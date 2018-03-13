@@ -16,7 +16,7 @@
     "readdir": "0.0.13"
   },
   "scripts": {
-    "start": "node src/app/IsmlLinter",
+    "start": "node src/index",
     "test": "jasmine-node src/spec/",
     "cover": "node ./node_modules/istanbul/lib/cli.js cover node_modules/jasmine-node/bin/jasmine-node src/spec"
   },
