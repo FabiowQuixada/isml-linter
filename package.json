@@ -2,7 +2,9 @@
   "name": "IsmlLinter",
   "version": "1.0.0",
   "main": "src/index.js",
-  "dependencies": {},
+  "dependencies": {
+    "app-root-path": "^2.0.1"
+  },
   "devDependencies": {
     "eslint": "^4.18.2",
     "eslint-plugin-jasmine": "^2.9.3",
@@ -16,7 +18,7 @@
     "readdir": "0.0.13"
   },
   "scripts": {
-    "start": "node src/index",
+    "start": "node index",
     "test": "jasmine-node src/spec/",
     "cover": "node ./node_modules/istanbul/lib/cli.js cover node_modules/jasmine-node/bin/jasmine-node src/spec"
   },
