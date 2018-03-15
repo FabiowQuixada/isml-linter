@@ -1,5 +1,6 @@
 var fs = require('fs');
-const outputFilePath = './output.json';
+const config = require('../../config.json');
+const outputFilePath = `${config.dir.output}output.json`;
 
 module.exports = {
     getRule: specFileName => {

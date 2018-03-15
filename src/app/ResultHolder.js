@@ -8,7 +8,7 @@ const reportFile = `${config.dir.output}report.json`;
 
 const formattedLine = (line, lineNumber) => `Line ${lineNumber}: ${line.trim()}`;
 const saveToFile = (targetFile, content) => {
-    const dir = 'output';
+    const dir = config.dir.output;
 
     if (!fs.existsSync(dir)){
         fs.mkdirSync(dir);
