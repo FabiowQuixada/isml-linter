@@ -1,5 +1,6 @@
 const fs = require('fs');
-const config = require('../../config.json');
+const reqlib = require('app-root-path').require;
+const config = reqlib('/config.json');
 const ERROR = 'errors';
 const WARNING = 'warnings';
 const INFO = 'info';

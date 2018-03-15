@@ -1,5 +1,6 @@
+const reqlib = require('app-root-path').require;
 const specFileName = require('path').basename(__filename);
-const rule = require('../../SpecHelper').getRule(specFileName);
+const rule = reqlib('src/spec/SpecHelper').getRule(specFileName);
 
 describe(rule.name, () => {
     it('detects inadequate code', () => {

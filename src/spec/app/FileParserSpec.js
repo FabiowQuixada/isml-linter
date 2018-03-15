@@ -1,6 +1,7 @@
-const config = require('../../../config.json');
-const ResultHolder = require('../../app/ResultHolder');
-const FileParser = require('../../app/FileParser');
+const reqlib = require('app-root-path').require;
+const config = reqlib('/config.json');
+const ResultHolder = reqlib('/src/app/ResultHolder');
+const FileParser = reqlib('/src/app/FileParser');
 
 describe('FileParser', () => {
     it('correctly parses a given ISML file', () => {
