@@ -15,7 +15,8 @@
     "istanbul": "^0.4.5",
     "jasmine": "^3.1.0",
     "jasmine-node": "^1.14.5",
-    "readdir": "0.0.13"
+    "readdir": "0.0.13",
+    "rmdir": "^1.2.0"
   },
   "scripts": {
     "start": "node index",

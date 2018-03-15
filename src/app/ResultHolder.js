@@ -1,20 +1,11 @@
-const fs = require('fs');
 const reqlib = require('app-root-path').require;
 const config = reqlib('/config.json');
+const FileUtils = reqlib('src/app/FileUtils');
 const ERROR = 'errors';
 const WARNING = 'warnings';
 const INFO = 'info';
 
 const formattedLine = (line, lineNumber) => `Line ${lineNumber}: ${line.trim()}`;
-const saveToFile = (targetFile, content) => {
-    const dir = config.dir.output;
-
-    if (!fs.existsSync(dir)){
-        fs.mkdirSync(dir);
-    }
-
-    fs.writeFileSync(targetFile, JSON.stringify(content, null, 4));
-};
 
 const add = (that, type, rule, fileName, line, lineNumber) => {
     that.output = that.output || {};
@@ -44,7 +35,7 @@ const exportReport = content => {
             });
         });
 
-        saveToFile(config.dir.output + config.file.report, report);
+        FileUtils.saveToJsonFile(config.dir.output, config.file.report, report);
     }
 };
 
@@ -54,6 +45,6 @@ module.exports = {
     addInfo     : (rule, file, line, lineNumber) => add(this, INFO,    rule, file, line, lineNumber),
     cleanOutput : () => this.output = {},
     getOutput   : () => this.output || {},
-    saveToFile  : () => { saveToFile(config.dir.output + config.file.output, this.output); },
+    saveToFile  : () => { FileUtils.saveToJsonFile(config.dir.output, config.file.output, this.output); },
     exportReport: () => { exportReport(this.output); }
 };

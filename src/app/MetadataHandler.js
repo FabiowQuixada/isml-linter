@@ -12,22 +12,12 @@
 
  */
 
-const fs = require('fs');
 const appRoot = require('app-root-path');
 const reqlib = appRoot.require;
 const config = reqlib('/config.json');
 const RulesHolder = reqlib('/src/app/RulesHolder');
+const FileUtils = reqlib('src/app/FileUtils');
 const outputFilePath = `${appRoot}/${config.dir.metadata}${config.file.metadata}`;
-
-const saveToFile = (targetFile, content) => {
-    const dir = config.dir.metadata;
-
-    if (!fs.existsSync(dir)){
-        fs.mkdirSync(dir);
-    }
-
-    fs.writeFileSync(targetFile, JSON.stringify(content, null, 4));
-};
 
 const updateMetadataFileRule = (newMetadata, fixedRule) => {
     const type = fixedRule.type;
@@ -49,7 +39,7 @@ const updateMetadataFile = (fixedRules, originalMetadataContent) => {
         updateMetadataFileRule(newMetadata, fixedRule);
     });
 
-    saveToFile(outputFilePath, newMetadata);
+    FileUtils.saveToJsonFile(config.dir.metadata, 'metadata.json', newMetadata);
 };
 
 const printNewErrorsMsg = (type, rule, newErrors) => {
@@ -97,12 +87,8 @@ const createMetadataFileIfItDoesntExist = () => {
     const metadataFilePath = `${config.dir.metadata}${config.file.metadata}`;
     const reportContent = reqlib(`/${config.dir.output}${config.file.report}`);
 
-    if (!fs.existsSync(config.dir.metadata)) {
-        fs.mkdirSync(config.dir.metadata);
-    }
-
-    if (!fs.existsSync(metadataFilePath)) {
-        saveToFile(targetFilePath, reportContent);
+    if (!FileUtils.fileExists(metadataFilePath)) {
+        FileUtils.saveToJsonFile(config.dir.metadata, config.file.metadata, reportContent);
     }
 };
 

@@ -1,8 +1,9 @@
-const reqlib = require('app-root-path').require;
+const appRoot = require('app-root-path');
+const reqlib = appRoot.require;
 const ResultHolder = reqlib('/src/app/ResultHolder');
 const config = reqlib('/config.json');
 const LogicInTemplateRule = reqlib('/src/app/rules/LogicInTemplateRule');
-const SpecHelper = reqlib('/src/spec/SpecHelper');
+const FileUtils = reqlib('/src/app/FileUtils');
 
 describe('ResultHolder', () => {
 
@@ -16,7 +17,7 @@ describe('ResultHolder', () => {
     });
 
     afterEach(() => {
-        SpecHelper.deleteOutputFile();
+        FileUtils.deleteFile(`${config.dir.output}${config.file.output}`);
     });
 
     it('adds an error to the output', () => {

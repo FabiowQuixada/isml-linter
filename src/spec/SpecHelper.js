@@ -1,7 +1,10 @@
-const fs = require('fs');
 const reqlib = require('app-root-path').require;
 const config = reqlib('/config.json');
-const outputFilePath = `${require('app-root-path')}/${config.dir.output}${config.file.output}`;
+const FileUtils = reqlib('/src/app/FileUtils');
+
+const outputFilePath = `${config.dir.specTemp}${config.file.output}`;
+const reportFilePath = `${config.dir.specTemp}${config.file.report}`;
+const metadataFilePath = `${config.dir.specTemp}${config.file.metadata}`;
 
 module.exports = {
     getRule: specFileName => {
@@ -10,9 +13,13 @@ module.exports = {
         return rule;
     },
 
-    deleteOutputFile: () => {
-        fs.statSync(outputFilePath, () => {
-            fs.unlinkSync(outputFilePath);
-        });
+    cleanTempDirectory: () => {
+        if (FileUtils.fileExists(config.dir.specTemp)) {
+            FileUtils.deleteFile(outputFilePath);
+            FileUtils.deleteFile(reportFilePath);
+            FileUtils.deleteFile(metadataFilePath);
+        }
+
+        FileUtils.deleteDirectory(config.dir.specTemp);
     }
 };

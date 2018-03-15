@@ -2,3 +2,4 @@ node_modules/
 coverage/
 output/
 metadata/
+src/spec/temp/

@@ -14,6 +14,7 @@
     "specTemplate"       : "src/spec/templates/",
     "output"             : "output/",
     "metadata"           : "metadata/",
+    "specTemp"           : "src/spec/temp/",
     "specLinterTemplate" : "src/spec/templates/isml_linter/"
   },
 
