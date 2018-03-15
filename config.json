@@ -12,6 +12,7 @@
     "rules"              : "src/app/rules/",
     "spec"               : "src/spec/",
     "specTemplate"       : "src/spec/templates/",
+    "output"             : "output/",
     "specLinterTemplate" : "src/spec/templates/isml_linter/"
   }
 }

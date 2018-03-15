@@ -1,5 +1,3 @@
 node_modules/
 coverage/
-
-output.json
-report.json
+output/

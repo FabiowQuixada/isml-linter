@@ -1,4 +1,5 @@
 const ResultHolder = require('../../app/ResultHolder');
+const config = require('../../../config.json');
 const LogicInTemplateRule = require('../../app/rules/LogicInTemplateRule');
 const SpecHelper = require('../SpecHelper');
 
@@ -51,7 +52,7 @@ describe('ResultHolder', () => {
         ResultHolder.addError(rule, fileName, line, lineNumber);
         ResultHolder.saveToFile();
 
-        const outputFile = require('../../../output.json');
+        const outputFile = require(`../../../${config.dir.output}/output.json`);
         const expectedResult = expectedResultObj('errors');
 
         expect(outputFile).toEqual(expectedResult);
@@ -61,7 +62,7 @@ describe('ResultHolder', () => {
         ResultHolder.addError(rule, fileName, line, lineNumber);
         ResultHolder.exportReport();
 
-        const outputFile = require('../../../report.json');
+        const outputFile = require(`../../../${config.dir.output}/report.json`);
         const expectedResult = expectedReportObj();
 
         expect(outputFile).toEqual(expectedResult);

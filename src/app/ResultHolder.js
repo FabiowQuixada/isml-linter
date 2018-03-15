@@ -1,12 +1,19 @@
 const fs = require('fs');
+const config = require('../../config.json');
 const ERROR = 'errors';
 const WARNING = 'warnings';
 const INFO = 'info';
-const outputFile = 'output.json';
-const reportFile = 'report.json';
+const outputFile = `${config.dir.output}output.json`;
+const reportFile = `${config.dir.output}report.json`;
 
 const formattedLine = (line, lineNumber) => `Line ${lineNumber}: ${line.trim()}`;
 const saveToFile = (targetFile, content) => {
+    const dir = 'output';
+
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
+
     fs.writeFileSync(targetFile, JSON.stringify(content, null, 4));
 };
 
