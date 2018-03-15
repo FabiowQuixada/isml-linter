@@ -1,6 +1,7 @@
 const readDir = require('readdir');
 const FileParser = require('./FileParser');
 const ResultHolder = require('./ResultHolder');
+const MetadataHandler = require('./MetadataHandler');
 
 const lint = dir => {
     const filesArray = readDir.readSync(dir, ['**.isml']);
@@ -11,6 +12,7 @@ const lint = dir => {
 
     ResultHolder.saveToFile();
     ResultHolder.exportReport();
+    MetadataHandler.run();
 };
 
 module.exports = {

@@ -13,6 +13,7 @@
     "spec"               : "src/spec/",
     "specTemplate"       : "src/spec/templates/",
     "output"             : "output/",
+    "metadata"           : "metadata/",
     "specLinterTemplate" : "src/spec/templates/isml_linter/"
   }
 }
