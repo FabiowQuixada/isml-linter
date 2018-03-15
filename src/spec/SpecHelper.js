@@ -1,7 +1,7 @@
 const fs = require('fs');
 const reqlib = require('app-root-path').require;
 const config = reqlib('/config.json');
-const outputFilePath = `${require('app-root-path').toString()}/${config.dir.output}output.json`;
+const outputFilePath = `${require('app-root-path')}/${config.dir.output}${config.file.output}`;
 
 module.exports = {
     getRule: specFileName => {

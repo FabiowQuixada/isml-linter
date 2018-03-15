@@ -53,7 +53,7 @@ describe('ResultHolder', () => {
         ResultHolder.addError(rule, fileName, line, lineNumber);
         ResultHolder.saveToFile();
 
-        const outputFile = reqlib(`/${config.dir.output}output.json`);
+        const outputFile = reqlib(`/${config.dir.output}${config.file.output}`);
         const expectedResult = expectedResultObj('errors');
 
         expect(outputFile).toEqual(expectedResult);
@@ -63,7 +63,7 @@ describe('ResultHolder', () => {
         ResultHolder.addError(rule, fileName, line, lineNumber);
         ResultHolder.exportReport();
 
-        const outputFile = reqlib(`${config.dir.output}report.json`);
+        const outputFile = reqlib(`${config.dir.output}${config.file.report}`);
         const expectedResult = expectedReportObj();
 
         expect(outputFile).toEqual(expectedResult);

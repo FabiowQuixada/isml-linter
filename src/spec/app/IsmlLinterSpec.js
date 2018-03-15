@@ -3,7 +3,7 @@
 // const IsmlLinter = reqlib('/src/app/IsmlLinter');
 // const SpecHelper = reqlib('/src/spec/SpecHelper');
 // const targetDir = config.dir.specLinterTemplate;
-// const outputFilePath = `${require('app-root-path').toString()}/${config.dir.output}output.json`;
+// const outputFilePath = `${require('app-root-path')}/${config.dir.output}${config.file.output}`;
 
 // describe('IsmlLinter', () => {
 //     it('saves result to an output file', () => {

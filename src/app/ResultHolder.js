@@ -4,8 +4,6 @@ const config = reqlib('/config.json');
 const ERROR = 'errors';
 const WARNING = 'warnings';
 const INFO = 'info';
-const outputFile = `${config.dir.output}output.json`;
-const reportFile = `${config.dir.output}report.json`;
 
 const formattedLine = (line, lineNumber) => `Line ${lineNumber}: ${line.trim()}`;
 const saveToFile = (targetFile, content) => {
@@ -46,7 +44,7 @@ const exportReport = content => {
             });
         });
 
-        saveToFile(reportFile, report);
+        saveToFile(config.dir.output + config.file.report, report);
     }
 };
 
@@ -56,6 +54,6 @@ module.exports = {
     addInfo     : (rule, file, line, lineNumber) => add(this, INFO,    rule, file, line, lineNumber),
     cleanOutput : () => this.output = {},
     getOutput   : () => this.output || {},
-    saveToFile  : () => { saveToFile(outputFile, this.output); },
+    saveToFile  : () => { saveToFile(config.dir.output + config.file.output, this.output); },
     exportReport: () => { exportReport(this.output); }
 };

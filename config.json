@@ -1,5 +1,5 @@
 {
-  "files" : {
+  "regex" : {
     "srcJs"      : "src/**/*.js",
     "appJs"      : "src/app/**/*.js",
     "specJs"     : "src/spec/**/*.js"
@@ -15,5 +15,11 @@
     "output"             : "output/",
     "metadata"           : "metadata/",
     "specLinterTemplate" : "src/spec/templates/isml_linter/"
+  },
+
+  "file" : {
+    "metadata" : "metadata.json",
+    "output" : "output.json",
+    "report" : "report.json"
   }
 }
