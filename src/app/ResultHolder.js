@@ -15,7 +15,7 @@ const add = (that, type, rule, fileName, line, lineNumber) => {
     that.output[type][rule][fileName].push(formattedLine(line, lineNumber));
 };
 
-const exportReport = content => {
+const exportReport = (dir, content) => {
     if (content) {
         let report = {};
 
@@ -35,7 +35,7 @@ const exportReport = content => {
             });
         });
 
-        FileUtils.saveToJsonFile(config.dir.output, config.file.report, report);
+        FileUtils.saveToJsonFile(dir, config.file.report, report);
     }
 };
 
@@ -45,6 +45,6 @@ module.exports = {
     addInfo     : (rule, file, line, lineNumber) => add(this, INFO,    rule, file, line, lineNumber),
     cleanOutput : () => this.output = {},
     getOutput   : () => this.output || {},
-    saveToFile  : () => { FileUtils.saveToJsonFile(config.dir.output, config.file.output, this.output); },
-    exportReport: () => { exportReport(this.output); }
+    saveToFile  : dir => { FileUtils.saveToJsonFile(dir, config.file.output, this.output); },
+    exportReport: dir => { exportReport(dir, this.output); }
 };

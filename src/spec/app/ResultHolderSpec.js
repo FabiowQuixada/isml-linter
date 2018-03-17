@@ -17,7 +17,8 @@ describe('ResultHolder', () => {
     });
 
     afterEach(() => {
-        FileUtils.deleteFile(`${config.dir.output}${config.file.output}`);
+        FileUtils.deleteFile(`${config.dir.specTemp}${config.file.output}`);
+        FileUtils.deleteFile(`${config.dir.specTemp}${config.file.report}`);
     });
 
     it('adds an error to the output', () => {
@@ -52,9 +53,9 @@ describe('ResultHolder', () => {
 
     it('saves output to file', () => {
         ResultHolder.addError(rule, fileName, line, lineNumber);
-        ResultHolder.saveToFile();
+        ResultHolder.saveToFile(config.dir.specTemp);
 
-        const outputFile = reqlib(`/${config.dir.output}${config.file.output}`);
+        const outputFile = reqlib(`/${config.dir.specTemp}${config.file.output}`);
         const expectedResult = expectedResultObj('errors');
 
         expect(outputFile).toEqual(expectedResult);
@@ -62,9 +63,9 @@ describe('ResultHolder', () => {
 
     it('saves linter report to file', () => {
         ResultHolder.addError(rule, fileName, line, lineNumber);
-        ResultHolder.exportReport();
+        ResultHolder.exportReport(config.dir.specTemp);
 
-        const outputFile = reqlib(`${config.dir.output}${config.file.report}`);
+        const outputFile = reqlib(`/${config.dir.specTemp}${config.file.report}`);
         const expectedResult = expectedReportObj();
 
         expect(outputFile).toEqual(expectedResult);

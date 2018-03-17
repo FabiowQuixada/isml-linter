@@ -32,14 +32,14 @@ const updateMetadataFileRule = (newMetadata, fixedRule) => {
     }
 };
 
-const updateMetadataFile = (fixedRules, originalMetadataContent) => {
+const updateMetadataFile = (fixedRules, targetDir, originalMetadataContent) => {
     let newMetadata = Object.assign({}, originalMetadataContent);
 
     fixedRules.forEach( fixedRule => {
         updateMetadataFileRule(newMetadata, fixedRule);
     });
 
-    FileUtils.saveToJsonFile(config.dir.metadata, 'metadata.json', newMetadata);
+    FileUtils.saveToJsonFile(targetDir, 'metadata.json', newMetadata);
 };
 
 const printNewErrorsMsg = (type, rule, newErrors) => {
@@ -83,20 +83,20 @@ const checkRule = (type, rule, reportFile, metadataFile, fixedRulesArray) => {
     return isOk;
 };
 
-const createMetadataFileIfItDoesntExist = () => {
-    const metadataFilePath = `${config.dir.metadata}${config.file.metadata}`;
-    const reportContent = reqlib(`/${config.dir.output}${config.file.report}`);
+const createMetadataFileIfItDoesntExist = (sourceDir, targetDir) => {
+    const metadataFilePath = `/${targetDir}${config.file.metadata}`;
+    const reportContent = reqlib(`/${sourceDir}${config.file.report}`);
 
     if (!FileUtils.fileExists(metadataFilePath)) {
-        FileUtils.saveToJsonFile(config.dir.metadata, config.file.metadata, reportContent);
+        FileUtils.saveToJsonFile(targetDir, config.file.metadata, reportContent);
     }
 };
 
-const run = () => {
-    createMetadataFileIfItDoesntExist();
+const run = (sourceDir, targetDir) => {
+    createMetadataFileIfItDoesntExist(sourceDir, targetDir);
 
-    const originalMetadataFile = reqlib(`/${config.dir.metadata}${config.file.metadata}`);
-    const reportFile = reqlib(`/${config.dir.output}${config.file.report}`);
+    const originalMetadataFile = reqlib(`/${targetDir}${config.file.metadata}`);
+    const reportFile = reqlib(`/${sourceDir}${config.file.report}`);
     const types = ['errors', 'warnings', 'info']; // TODO Centralize;
     const fixedRulesArray = [];
     let isOk = true;
@@ -107,7 +107,7 @@ const run = () => {
         });
     });
 
-    updateMetadataFile(fixedRulesArray, originalMetadataFile);
+    updateMetadataFile(fixedRulesArray, targetDir, originalMetadataFile);
 
     return isOk;
 };
