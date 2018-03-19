@@ -1,5 +1,7 @@
 ### Before you start 
-Make sure that, before running any command, you set the "rootTemplate" property in the config.json file. This is the directory where the linter will look for ISML files to run over. There is a default example there, so just follow the same pattern :)
+Make sure that, before running any command, you set the "rootTemplateDir" property in the config.json file. This is the directory where the linter will look for ISML files to run over. There is a default example there, so just follow the same pattern :)
+
+And of course, don't forget to run "npm install".
 
 
 ### Using the Isml Linter
