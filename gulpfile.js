@@ -4,7 +4,11 @@ const eslint = require('gulp-eslint');
 const eslintIfFixed = require('gulp-eslint-if-fixed');
 const istanbul = require('gulp-istanbul');
 const reqlib = require('app-root-path').require;
+const run = require('gulp-run');
 const Constants = reqlib('/src/app/Constants');
+const config = reqlib('/config.json');
+
+const ismlRegex = config.rootTemplateDir + '**/*.isml';
  
 gulp.task('lint_n_fix', () => {
     return gulp.src([Constants.srcJsRegex,'!node_modules/**', `!${Constants.specTempDir}`])
@@ -31,6 +35,7 @@ gulp.task('cover', ['pre-cover'], () =>
         .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
 );
 
+gulp.task('lint_isml', () => run('npm start').exec() );
 
 /** Watchers *************************************************************************************/
 gulp.task('watch_n_fix', () => {
@@ -47,4 +52,8 @@ gulp.task('watch_n_test', () => {
 
 gulp.task('watch_fix_n_test', () => {
   gulp.watch(Constants.srcJsRegex, ['lint_n_fix', 'test']);
+});
+
+gulp.task('watch_isml', () => {
+  gulp.watch(ismlRegex, ['lint_isml']);
 });
