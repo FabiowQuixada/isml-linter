@@ -80,7 +80,7 @@ describe('ResultHolder', () => {
         result[type] = {
             'Avoid putting logic into ISML' : {
                 'reorder/quickreorder.isml' : [
-                    'Line 3: <isscript>' ] }};
+                    'Line 4: <isscript>' ] }};
 
         return result;
     };

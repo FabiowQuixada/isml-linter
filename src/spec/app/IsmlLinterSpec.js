@@ -51,15 +51,15 @@ const expectedResult = {
     'errors': {
         'Use class "hidden"': {
             'ec/templates/isml_linter/sample_file_1.isml': [
-                'Line 0: <div style="display: none;">${addToCartUrl}</div>'
+                'Line 1: <div style="display: none;">${addToCartUrl}</div>'
             ]
         },
         'Wrap expression in <isprint> tag': {
             'ec/templates/isml_linter/sample_file_1.isml': [
-                'Line 0: <div style="display: none;">${addToCartUrl}</div>'
+                'Line 1: <div style="display: none;">${addToCartUrl}</div>'
             ],
             'ec/templates/isml_linter/sample_file_2.isml': [
-                'Line 0: ${URLUtils.https(\'Reorder-ListingPage\')}'
+                'Line 1: ${URLUtils.https(\'Reorder-ListingPage\')}'
             ]
         }
     }

@@ -9,7 +9,7 @@ const INFO = 'info';
 const outputFileName = Constants.outputFileName;
 const reportFileName = Constants.reportFileName;
 
-const formattedLine = (line, lineNumber) => `Line ${lineNumber}: ${line.trim()}`;
+const formattedLine = (line, lineNumber) => `Line ${lineNumber+1}: ${line.trim()}`;
 
 const add = (that, type, rule, fileName, line, lineNumber) => {
     that.output = that.output || {};
