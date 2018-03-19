@@ -1,9 +1,12 @@
 const appRoot = require('app-root-path');
 const reqlib = appRoot.require;
 const ResultHolder = reqlib('/src/app/ResultHolder');
-const config = reqlib('/config.json');
 const LogicInTemplateRule = reqlib('/src/app/rules/LogicInTemplateRule');
-const FileUtils = reqlib('/src/app/FileUtils');
+const SpecHelper = reqlib('/src/spec/SpecHelper');
+const Constants = reqlib('/src/app/Constants');
+
+const specTempDir = Constants.specTempDir;
+const outputFilePath = Constants.specOutputFilePath;
 
 describe('ResultHolder', () => {
 
@@ -14,11 +17,11 @@ describe('ResultHolder', () => {
 
     beforeEach(() => {
         ResultHolder.cleanOutput();
+        SpecHelper.cleanTempDirectory();
     });
 
     afterEach(() => {
-        FileUtils.deleteFile(`${config.dir.specTemp}${config.file.output}`);
-        FileUtils.deleteFile(`${config.dir.specTemp}${config.file.report}`);
+        SpecHelper.cleanTempDirectory();
     });
 
     it('adds an error to the output', () => {
@@ -53,9 +56,9 @@ describe('ResultHolder', () => {
 
     it('saves output to file', () => {
         ResultHolder.addError(rule, fileName, line, lineNumber);
-        ResultHolder.saveToFile(config.dir.specTemp);
+        ResultHolder.saveToFile(specTempDir);
 
-        const outputFile = reqlib(`/${config.dir.specTemp}${config.file.output}`);
+        const outputFile = reqlib('/' + outputFilePath);
         const expectedResult = expectedResultObj('errors');
 
         expect(outputFile).toEqual(expectedResult);
@@ -63,9 +66,9 @@ describe('ResultHolder', () => {
 
     it('saves linter report to file', () => {
         ResultHolder.addError(rule, fileName, line, lineNumber);
-        ResultHolder.exportReport(config.dir.specTemp);
+        ResultHolder.exportReport(specTempDir);
 
-        const outputFile = reqlib(`/${config.dir.specTemp}${config.file.report}`);
+        const outputFile = reqlib(reportFilePath);
         const expectedResult = expectedReportObj();
 
         expect(outputFile).toEqual(expectedResult);

@@ -1,27 +1,5 @@
 {
-  "regex" : {
-    "srcJs"      : "src/**/*.js",
-    "appJs"      : "src/app/**/*.js",
-    "specJs"     : "src/spec/**/*.js"
-  },
-
   "dir" : {
-    "rootTemplate"       : "../ecom-giorgioarmani-us/cartridges/app_armani_us/cartridge/templates/default/",
-    "src"                : "src/",
-    "app"                : "src/app/",
-    "rules"              : "src/app/rules/",
-    "spec"               : "src/spec/",
-    "specTemplate"       : "src/spec/templates/",
-    "specFileParserTemplate"       : "src/spec/templates/file_parser/",
-    "output"             : "output/",
-    "metadata"           : "metadata/",
-    "specTemp"           : "src/spec/temp/",
-    "specLinterTemplate" : "src/spec/templates/isml_linter/"
-  },
-
-  "file" : {
-    "metadata" : "metadata.json",
-    "output" : "output.json",
-    "report" : "report.json"
+    "rootTemplate"       : "../ecom-giorgioarmani-us/cartridges/app_armani_us/cartridge/templates/default/"
   }
 }

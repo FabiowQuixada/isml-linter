@@ -1,5 +1,4 @@
 const reqlib = require('app-root-path').require;
-const config = reqlib('/config.json');
 const MetadataHandler = reqlib('/src/app/MetadataHandler');
 const FileUtils = reqlib('/src/app/FileUtils');
 const SpecHelper = reqlib('/src/spec/SpecHelper');
@@ -7,7 +6,7 @@ const Constants = reqlib('/src/app/Constants');
 
 const specTempDir = Constants.specTempDir;
 const metadataFilePath = Constants.specMetadataFilePath;
-const compiledOutputFileName = Constants.compiledOutputFileName;
+const reportFileName = Constants.reportFileName;
 
 describe('MetadataHandler', () => {
     beforeEach(() => {
@@ -19,18 +18,18 @@ describe('MetadataHandler', () => {
     });
 
     it('creates a metadata file if does not exist', () => {
-        FileUtils.saveToJsonFile(specTempDir, config.file.report, baseReportFileContent);
-        MetadataHandler.run(config.dir.specTemp, config.dir.specTemp);
+        FileUtils.saveToJsonFile(specTempDir, reportFileName, baseReportFileContent);
+        MetadataHandler.run(specTempDir, specTempDir);
 
-        expect(FileUtils.fileExists(`${specTempDir}${config.file.metadata}`)).toBe(true);
+        expect(FileUtils.fileExists(metadataFilePath)).toBe(true);
     });
 
     it('copies report file data to a metadata file if does not exist', () => {
         // TODO
-        // FileUtils.saveToJsonFile(specTempDir, config.file.report, baseReportFileContent);
-        // MetadataHandler.run(config.dir.specTemp, config.dir.specTemp);
+        // FileUtils.saveToJsonFile(specTempDir, reportFileName, baseReportFileContent);
+        // MetadataHandler.run(specTempDir, specTempDir);
 
-        // const metadataFile = reqlib(`/${config.dir.specTemp}${config.file.metadata}`);
+        // const metadataFile = reqlib(metadataFilePath);
 
         // expect(metadataFile).toEqual(baseReportFileContent);
     });
@@ -40,9 +39,9 @@ describe('MetadataHandler', () => {
         // FileUtils.saveToJsonFile(specTempDir, metadataFileName, baseCompiledOutputFileContent);
         // FileUtils.saveToJsonFile(specTempDir, compiledOutputFileName, compiledOutputWithLessErrorsInASingleRule);
 
-        // MetadataHandler.run(config.dir.specTemp, config.dir.specTemp);
+        // MetadataHandler.run(specTempDir, specTempDir);
 
-        // const metadataFile = reqlib(`/${config.dir.specTemp}${config.file.metadata}`);
+        // const metadataFile = reqlib(`/${specTempDir}${metadataFileName}`);
 
         // expect(metadataFile).toEqual(expectedUpdatedMetadataResult);
     });

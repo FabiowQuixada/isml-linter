@@ -14,10 +14,12 @@
 
 const appRoot = require('app-root-path');
 const reqlib = appRoot.require;
-const config = reqlib('/config.json');
 const RulesHolder = reqlib('/src/app/RulesHolder');
 const FileUtils = reqlib('src/app/FileUtils');
-const outputFilePath = `${appRoot}/${config.dir.metadata}${config.file.metadata}`;
+const Constants = reqlib('/src/app/Constants');
+
+const reportFileName = Constants.reportFileName;
+const metadataFileName = Constants.metadataFileName;
 
 const updateMetadataFileRule = (newMetadata, fixedRule) => {
     const type = fixedRule.type;
@@ -39,7 +41,7 @@ const updateMetadataFile = (fixedRules, targetDir, originalMetadataContent) => {
         updateMetadataFileRule(newMetadata, fixedRule);
     });
 
-    FileUtils.saveToJsonFile(targetDir, 'metadata.json', newMetadata);
+    FileUtils.saveToJsonFile(targetDir, metadataFileName, newMetadata);
 };
 
 const printNewErrorsMsg = (type, rule, newErrors) => {
@@ -84,19 +86,19 @@ const checkRule = (type, rule, reportFile, metadataFile, fixedRulesArray) => {
 };
 
 const createMetadataFileIfItDoesntExist = (sourceDir, targetDir) => {
-    const metadataFilePath = `/${targetDir}${config.file.metadata}`;
-    const reportContent = reqlib(`/${sourceDir}${config.file.report}`);
+    const metadataFilePath = `/${targetDir}${metadataFileName}`;
+    const reportContent = reqlib(`/${sourceDir}${reportFileName}`);
 
     if (!FileUtils.fileExists(metadataFilePath)) {
-        FileUtils.saveToJsonFile(targetDir, config.file.metadata, reportContent);
+        FileUtils.saveToJsonFile(targetDir, metadataFileName, reportContent);
     }
 };
 
 const run = (sourceDir, targetDir) => {
     createMetadataFileIfItDoesntExist(sourceDir, targetDir);
 
-    const originalMetadataFile = reqlib(`/${targetDir}${config.file.metadata}`);
-    const reportFile = reqlib(`/${sourceDir}${config.file.report}`);
+    const originalMetadataFile = reqlib(`/${targetDir}${metadataFileName}`);
+    const reportFile = reqlib(`/${sourceDir}${reportFileName}`);
     const types = ['errors', 'warnings', 'info']; // TODO Centralize;
     const fixedRulesArray = [];
     let isOk = true;

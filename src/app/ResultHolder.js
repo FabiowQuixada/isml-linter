@@ -1,9 +1,13 @@
 const reqlib = require('app-root-path').require;
-const config = reqlib('/config.json');
 const FileUtils = reqlib('src/app/FileUtils');
+const Constants = reqlib('/src/app/Constants');
+
 const ERROR = 'errors';
 const WARNING = 'warnings';
 const INFO = 'info';
+
+const outputFileName = Constants.outputFileName;
+const reportFileName = Constants.reportFileName;
 
 const formattedLine = (line, lineNumber) => `Line ${lineNumber}: ${line.trim()}`;
 
@@ -35,7 +39,7 @@ const exportReport = (dir, content) => {
             });
         });
 
-        FileUtils.saveToJsonFile(dir, config.file.report, report);
+        FileUtils.saveToJsonFile(dir, reportFileName, report);
     }
 };
 
@@ -45,6 +49,6 @@ module.exports = {
     addInfo     : (rule, file, line, lineNumber) => add(this, INFO,    rule, file, line, lineNumber),
     cleanOutput : () => this.output = {},
     getOutput   : () => this.output || {},
-    saveToFile  : dir => { FileUtils.saveToJsonFile(dir, config.file.output, this.output); },
+    saveToFile  : dir => { FileUtils.saveToJsonFile(dir, outputFileName, this.output); },
     exportReport: dir => { exportReport(dir, this.output); }
 };

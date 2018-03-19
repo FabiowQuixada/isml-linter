@@ -1,10 +1,11 @@
 const reqlib = require('app-root-path').require;
-const config = reqlib('/config.json');
 const FileUtils = reqlib('/src/app/FileUtils');
+const Constants = reqlib('/src/app/Constants');
 
-const outputFilePath = `${config.dir.specTemp}${config.file.output}`;
-const reportFilePath = `${config.dir.specTemp}${config.file.report}`;
-const metadataFilePath = `${config.dir.specTemp}${config.file.metadata}`;
+const specTempDir = Constants.specTempDir;
+const outputFilePath = Constants.specOutputFilePath;
+const reportFilePath = Constants.specReportFilePath;
+const metadataFilePath = Constants.specMetadataFilePath;
 
 module.exports = {
     getRule: specFileName => {
@@ -14,12 +15,13 @@ module.exports = {
     },
 
     cleanTempDirectory: () => {
-        if (FileUtils.fileExists(config.dir.specTemp)) {
+        if (FileUtils.fileExists(specTempDir)) {
             FileUtils.deleteFile(outputFilePath);
             FileUtils.deleteFile(reportFilePath);
             FileUtils.deleteFile(metadataFilePath);
+            // FileUtils.deleteFile('src/spec/temp/undefined');
         }
 
-        FileUtils.deleteDirectory(config.dir.specTemp);
+        FileUtils.deleteDirectory(specTempDir);
     }
 };

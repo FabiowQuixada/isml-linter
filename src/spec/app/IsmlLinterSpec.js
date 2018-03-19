@@ -1,12 +1,14 @@
 const reqlib = require('app-root-path').require;
-const config = reqlib('/config.json');
 const IsmlLinter = reqlib('/src/app/IsmlLinter');
 const FileUtils = reqlib('/src/app/FileUtils');
 const SpecHelper = reqlib('/src/spec/SpecHelper');
-const targetDir = config.dir.specLinterTemplate;
-const outputFilePath = `${config.dir.specTemp}${config.file.output}`;
-const reportFilePath = `${config.dir.specTemp}${config.file.report}`;
-const metadataFilePath = `${config.dir.specTemp}${config.file.metadata}`;
+const Constants = reqlib('/src/app/Constants');
+
+const ismlSpecDir = Constants.ismlLinterSpecDir;
+const specTempDir = Constants.specTempDir;
+const outputFilePath = Constants.specOutputFilePath;
+const reportFilePath = Constants.specReportFilePath;
+const metadataFilePath = Constants.specMetadataFilePath;
 
 describe('IsmlLinter', () => {
     beforeEach(() => {
@@ -18,28 +20,28 @@ describe('IsmlLinter', () => {
     });
 
     it('lints ISML files in a given directory', () => {
-        IsmlLinter.lint(targetDir);
+        IsmlLinter.lint(ismlSpecDir);
 
         expect(IsmlLinter.getOutput()).toEqual(expectedResult);
     });
 
     it('saves result to an output file', () => {
-        IsmlLinter.lint(targetDir);
-        IsmlLinter.export(config.dir.specTemp, config.dir.specTemp);
+        IsmlLinter.lint(ismlSpecDir);
+        IsmlLinter.export(specTempDir, specTempDir);
 
         expect(FileUtils.fileExists(outputFilePath)).toBe(true);
     });
 
     it('saves compiled result to a report file', () => {
-        IsmlLinter.lint(targetDir);
-        IsmlLinter.export(config.dir.specTemp, config.dir.specTemp);
+        IsmlLinter.lint(ismlSpecDir);
+        IsmlLinter.export(specTempDir, specTempDir);
 
         expect(FileUtils.fileExists(reportFilePath)).toBe(true);
     });
 
     it('saves compiled result to a metadata file', () => {
-        IsmlLinter.lint(targetDir);
-        IsmlLinter.export(config.dir.specTemp, config.dir.specTemp);
+        IsmlLinter.lint(ismlSpecDir);
+        IsmlLinter.export(specTempDir, specTempDir);
 
         expect(FileUtils.fileExists(metadataFilePath)).toBe(true);
     });
