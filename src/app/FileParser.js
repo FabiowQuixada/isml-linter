@@ -4,9 +4,11 @@ const FileUtils = reqlib('src/app/FileUtils');
 const Constants = reqlib('/src/app/Constants');
 const RulesHolder = require('./RulesHolder');
 
-const ERROR = 'errors';
-const WARNING = 'warnings';
-const INFO = 'info';
+const ENTRY_TYPES = {
+    ERROR: 'errors',
+    WARNING: 'warnings',
+    INFO: 'info'
+};
 
 const outputFileName = Constants.outputFileName;
 const compiledOutputFileName = Constants.compiledOutputFileName;
@@ -58,16 +60,17 @@ const compileOutput = (dir, content) => {
     }
 };
 
-const addError    = (parser, rule, file, line, lineNumber) => add(parser, ERROR,   rule, file, line, lineNumber);
-const addWarning  = (parser, rule, file, line, lineNumber) => add(parser, WARNING, rule, file, line, lineNumber);
-const addInfo     = (parser, rule, file, line, lineNumber) => add(parser, INFO,    rule, file, line, lineNumber);
+const addError = (parser, rule, file, line, lineNumber) => {
+    add(parser, ENTRY_TYPES.ERROR, rule, file, line, lineNumber);
+};
 
 const FileParser = {
     parse       : fileName => { parse(this, fileName); },
     cleanOutput : () => this.output = {},
     getOutput   : () => this.output || {},
     saveToFile  : dir => { FileUtils.saveToJsonFile(dir, outputFileName, this.output); },
-    compileOutput: dir => { compileOutput(dir, this.output); }
+    compileOutput: dir => { compileOutput(dir, this.output); },
+    ENTRY_TYPES
 };
 
 module.exports = FileParser;

@@ -16,6 +16,7 @@ const appRoot = require('app-root-path');
 const reqlib = appRoot.require;
 const RulesHolder = reqlib('/src/app/RulesHolder');
 const FileUtils = reqlib('src/app/FileUtils');
+const FileParser = reqlib('/src/app/FileParser');
 const Constants = reqlib('/src/app/Constants');
 
 const compiledOutputFileName = Constants.compiledOutputFileName;
@@ -99,11 +100,11 @@ const run = (sourceDir, targetDir) => {
 
     const originalMetadataFile = reqlib(`/${targetDir}${metadataFileName}`);
     const compiledOutputFile = reqlib(`/${sourceDir}${compiledOutputFileName}`);
-    const types = ['errors', 'warnings', 'info']; // TODO Centralize;
+    const types = FileParser.ENTRY_TYPES;
     const fixedRulesArray = [];
     let isOk = true;
 
-    types.forEach( type => {
+    Object.keys(types).forEach( type => {
         RulesHolder.rules.forEach( rule => {
             isOk = isOk && checkRule(type, rule, compiledOutputFile, originalMetadataFile, fixedRulesArray);
         });
