@@ -18,7 +18,7 @@ const RulesHolder = reqlib('/src/app/RulesHolder');
 const FileUtils = reqlib('src/app/FileUtils');
 const Constants = reqlib('/src/app/Constants');
 
-const reportFileName = Constants.reportFileName;
+const compiledOutputFileName = Constants.compiledOutputFileName;
 const metadataFileName = Constants.metadataFileName;
 
 const updateMetadataFileRule = (newMetadata, fixedRule) => {
@@ -60,13 +60,13 @@ const printErrorFixesMsg = (type, rule, newFixes) => {
     }
 };
 
-const checkRule = (type, rule, reportFile, metadataFile, fixedRulesArray) => {
-    const reportErrors = reportFile[type] ? reportFile[type][rule.title] : 0;
+const checkRule = (type, rule, compiledFile, metadataFile, fixedRulesArray) => {
+    const compiledErrors = compiledFile[type] ? compiledFile[type][rule.title] : 0;
     const metadataErrors = metadataFile[type] ? metadataFile[type][rule.title] : 0;
-    const newErrors = reportErrors - metadataErrors;
+    const newErrors = compiledErrors - metadataErrors;
     let isOk = true;
 
-    if (reportErrors !== 0 && metadataErrors !== 0) {
+    if (compiledErrors !== 0 && metadataErrors !== 0) {
 
         if (newErrors > 0) {
             printNewErrorsMsg(type, rule, newErrors);
@@ -87,10 +87,10 @@ const checkRule = (type, rule, reportFile, metadataFile, fixedRulesArray) => {
 
 const createMetadataFileIfItDoesntExist = (sourceDir, targetDir) => {
     const metadataFilePath = `/${targetDir}${metadataFileName}`;
-    const reportContent = reqlib(`/${sourceDir}${reportFileName}`);
+    const compiledOutputContent = reqlib(`/${sourceDir}${compiledOutputFileName}`);
 
     if (!FileUtils.fileExists(metadataFilePath)) {
-        FileUtils.saveToJsonFile(targetDir, metadataFileName, reportContent);
+        FileUtils.saveToJsonFile(targetDir, metadataFileName, compiledOutputContent);
     }
 };
 
@@ -98,14 +98,14 @@ const run = (sourceDir, targetDir) => {
     createMetadataFileIfItDoesntExist(sourceDir, targetDir);
 
     const originalMetadataFile = reqlib(`/${targetDir}${metadataFileName}`);
-    const reportFile = reqlib(`/${sourceDir}${reportFileName}`);
+    const compiledOutputFile = reqlib(`/${sourceDir}${compiledOutputFileName}`);
     const types = ['errors', 'warnings', 'info']; // TODO Centralize;
     const fixedRulesArray = [];
     let isOk = true;
 
     types.forEach( type => {
         RulesHolder.rules.forEach( rule => {
-            isOk = isOk && checkRule(type, rule, reportFile, originalMetadataFile, fixedRulesArray);
+            isOk = isOk && checkRule(type, rule, compiledOutputFile, originalMetadataFile, fixedRulesArray);
         });
     });
 

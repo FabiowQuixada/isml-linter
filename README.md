@@ -7,7 +7,7 @@ And of course, don't forget to run "npm install".
 ### Using the Isml Linter
 Run the app through the "npm start" command, it will generate some files under the output/ directory. Those files will give you the whole picture of how much the ISML files in your project follow the defined rules.
 
-Also, you can continuously watch for ISML template changes through a gulp task. Simply run "gulp watch_isml" from IsmlLinter project root directory and any changes you do in files under the directory defined in the config.json file will generate an updated report.
+Also, you can continuously watch for ISML template changes through a gulp task. Simply run "gulp watch_isml" from IsmlLinter project root directory and any changes you do in files under the directory defined in the config.json file will generate an updated output.
 
 
 ### Adding a Rule

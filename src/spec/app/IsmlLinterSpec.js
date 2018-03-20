@@ -7,7 +7,7 @@ const Constants = reqlib('/src/app/Constants');
 const ismlSpecDir = Constants.ismlLinterSpecDir;
 const specTempDir = Constants.specTempDir;
 const outputFilePath = Constants.specOutputFilePath;
-const reportFilePath = Constants.specReportFilePath;
+const compiledOutputFilePath = Constants.specCompiledOutputFilePath;
 const metadataFilePath = Constants.specMetadataFilePath;
 
 describe('IsmlLinter', () => {
@@ -32,11 +32,11 @@ describe('IsmlLinter', () => {
         expect(FileUtils.fileExists(outputFilePath)).toBe(true);
     });
 
-    it('saves compiled result to a report file', () => {
+    it('saves compiled result to an output file', () => {
         IsmlLinter.lint(ismlSpecDir);
         IsmlLinter.export(specTempDir, specTempDir);
 
-        expect(FileUtils.fileExists(reportFilePath)).toBe(true);
+        expect(FileUtils.fileExists(compiledOutputFilePath)).toBe(true);
     });
 
     it('saves compiled result to a metadata file', () => {

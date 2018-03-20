@@ -41,14 +41,14 @@ describe('FileParser', () => {
         expect(outputFile).toEqual(expectedResult);
     });
 
-    it('saves linter report to file', () => {
+    it('saves linter compiled output to file', () => {
         // FileParser.parse(fileName);
-        // FileParser.exportReport(specTempDir);
+        // FileParser.compileOutput(specTempDir);
 
-        // const reportFile = reqlib('/' + reportFilePath);
-        // const expectedResult = expectedReportObj();
+        // const compiledOutputFile = reqlib('/' + compiledOutputFilePath);
+        // const expectedResult = expectedCompiledOutputObj();
 
-        // expect(reportFile).toEqual(expectedResult);
+        // expect(compiledOutputFile).toEqual(expectedResult);
     });
 
     const expectedResultObj = type => {

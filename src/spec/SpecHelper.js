@@ -4,7 +4,7 @@ const Constants = reqlib('/src/app/Constants');
 
 const specTempDir = Constants.specTempDir;
 const outputFilePath = Constants.specOutputFilePath;
-const reportFilePath = Constants.specReportFilePath;
+const compiledOutputFilePath = Constants.specCompiledOutputFilePath;
 const metadataFilePath = Constants.specMetadataFilePath;
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
     cleanTempDirectory: () => {
         if (FileUtils.fileExists(specTempDir)) {
             FileUtils.deleteFile(outputFilePath);
-            FileUtils.deleteFile(reportFilePath);
+            FileUtils.deleteFile(compiledOutputFilePath);
             FileUtils.deleteFile(metadataFilePath);
             // FileUtils.deleteFile('src/spec/temp/undefined');
         }

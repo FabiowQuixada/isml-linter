@@ -6,7 +6,7 @@ const Constants = reqlib('/src/app/Constants');
 
 const specTempDir = Constants.specTempDir;
 const metadataFilePath = Constants.specMetadataFilePath;
-const reportFileName = Constants.reportFileName;
+const compiledOutputFileName = Constants.compiledOutputFileName;
 
 describe('MetadataHandler', () => {
     beforeEach(() => {
@@ -18,20 +18,20 @@ describe('MetadataHandler', () => {
     });
 
     it('creates a metadata file if does not exist', () => {
-        FileUtils.saveToJsonFile(specTempDir, reportFileName, baseReportFileContent);
+        FileUtils.saveToJsonFile(specTempDir, compiledOutputFileName, baseCompiledOutputFileContent);
         MetadataHandler.run(specTempDir, specTempDir);
 
         expect(FileUtils.fileExists(metadataFilePath)).toBe(true);
     });
 
-    it('copies report file data to a metadata file if does not exist', () => {
+    it('copies compiled output file data to a metadata file if does not exist', () => {
         // TODO
-        // FileUtils.saveToJsonFile(specTempDir, reportFileName, baseReportFileContent);
+        // FileUtils.saveToJsonFile(specTempDir, compiledOutputFileName, baseCompiledOutputFileContent);
         // MetadataHandler.run(specTempDir, specTempDir);
 
         // const metadataFile = reqlib(metadataFilePath);
 
-        // expect(metadataFile).toEqual(baseReportFileContent);
+        // expect(metadataFile).toEqual(baseCompiledOutputFileContent);
     });
 
     it('updates the metadata single rule if there are fewer errors', () => {
@@ -51,7 +51,7 @@ describe('MetadataHandler', () => {
     });
 });
 
-const baseReportFileContent = {
+const baseCompiledOutputFileContent = {
     'errors': {
         'Direct call to the "dw" package': 72,
         'Wrap expression in <isprint> tag': 90,

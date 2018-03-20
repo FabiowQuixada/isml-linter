@@ -9,7 +9,7 @@ const WARNING = 'warnings';
 const INFO = 'info';
 
 const outputFileName = Constants.outputFileName;
-const reportFileName = Constants.reportFileName;
+const compiledOutputFileName = Constants.compiledOutputFileName;
 
 const formattedLine = (line, lineNumber) => `Line ${lineNumber+1}: ${line.trim()}`;
 
@@ -34,28 +34,27 @@ const parse = (parser, fileName) => {
     });
 };
 
-const exportReport = (dir, content) => {
-
+const compileOutput = (dir, content) => {
     if (content) {
-        let report = {};
+        let compiledOutput = {};
 
         Object.keys(content).forEach( type => {
 
-            report[type] = report[type] || {};
+            compiledOutput[type] = compiledOutput[type] || {};
 
             Object.keys(content[type]).forEach( error => {
-                report[type][error] = 0;
+                compiledOutput[type][error] = 0;
 
                 Object.keys(content[type][error]).forEach( file => {
                     Object.keys(content[type][error][file]).forEach( () => {
-                        report[type][error] += 1;
+                        compiledOutput[type][error] += 1;
                     });
                 });
 
             });
         });
 
-        FileUtils.saveToJsonFile(dir, reportFileName, report);
+        FileUtils.saveToJsonFile(dir, compiledOutputFileName, compiledOutput);
     }
 };
 
@@ -68,7 +67,7 @@ const FileParser = {
     cleanOutput : () => this.output = {},
     getOutput   : () => this.output || {},
     saveToFile  : dir => { FileUtils.saveToJsonFile(dir, outputFileName, this.output); },
-    exportReport: dir => { exportReport(dir, this.output); }
+    compileOutput: dir => { compileOutput(dir, this.output); }
 };
 
 module.exports = FileParser;

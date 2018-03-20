@@ -1,7 +1,7 @@
 
 // File names;
 const outputFileName = 'output.json';
-const reportFileName = 'report.json';
+const compiledOutputFileName = 'compiled_output.json';
 const metadataFileName = 'metadata.json';
 
 // Directories;
@@ -26,12 +26,12 @@ module.exports = {
 
     // File names;
     outputFileName,
-    reportFileName,
+    compiledOutputFileName,
     metadataFileName,
 
     // File paths;
     specOutputFilePath: `${specTempDir}${outputFileName}`,
-    specReportFilePath: `${specTempDir}${reportFileName}`,
+    specCompiledOutputFilePath: `${specTempDir}${compiledOutputFileName}`,
     specMetadataFilePath: `${specTempDir}${metadataFileName}`,
 
     // Regex;
