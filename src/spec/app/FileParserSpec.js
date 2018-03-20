@@ -1,14 +1,70 @@
-const reqlib = require('app-root-path').require;
-const ResultHolder = reqlib('/src/app/ResultHolder');
+const appRoot = require('app-root-path');
+const reqlib = appRoot.require;
 const FileParser = reqlib('/src/app/FileParser');
+const SpecHelper = reqlib('/src/spec/SpecHelper');
 const Constants = reqlib('/src/app/Constants');
 
-const fileParserSpecDir = Constants.fileParserSpecDir;
+const specTempDir = Constants.specTempDir;
+const outputFilePath = Constants.specOutputFilePath;
+const fileName = Constants.fileParserSpecDir + 'sample_file.isml';
 
 describe('FileParser', () => {
-    it('correctly parses a given ISML file', () => {
-        FileParser.parse(`${fileParserSpecDir}sample_file.isml`, ResultHolder);
 
-        expect(ResultHolder.getOutput()).not.toEqual({});
+    beforeEach(() => {
+        FileParser.cleanOutput();
+        SpecHelper.cleanTempDirectory();
     });
+
+    afterEach(() => {
+        SpecHelper.cleanTempDirectory();
+    });
+
+    it('correctly parses a given ISML file', () => {
+        FileParser.parse(fileName);
+
+        expect(FileParser.getOutput()).not.toEqual({});
+    });
+
+    it('cleans output', () => {
+        FileParser.cleanOutput();
+
+        expect(FileParser.getOutput()).toEqual({});
+    });
+
+    it('saves output to file', () => {
+        FileParser.parse(fileName);
+        FileParser.saveToFile(specTempDir);
+
+        const outputFile = reqlib('/' + outputFilePath);
+        const expectedResult = expectedResultObj('errors');
+
+        expect(outputFile).toEqual(expectedResult);
+    });
+
+    it('saves linter report to file', () => {
+        // FileParser.parse(fileName);
+        // FileParser.exportReport(specTempDir);
+
+        // const reportFile = reqlib('/' + reportFilePath);
+        // const expectedResult = expectedReportObj();
+
+        // expect(reportFile).toEqual(expectedResult);
+    });
+
+    const expectedResultObj = type => {
+        let result = {};
+
+        result[type] = {
+            'Use class "hidden"' : {
+                'ec/templates/file_parser/sample_file.isml' : [
+                    'Line 2: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>' ]
+            },
+            'Wrap expression in <isprint> tag' : {
+                'ec/templates/file_parser/sample_file.isml' : [
+                    'Line 2: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>' ]
+            }
+        };
+
+        return result;
+    };
 });

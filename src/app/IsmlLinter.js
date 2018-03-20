@@ -1,27 +1,26 @@
 const readDir = require('readdir');
 const FileParser = require('./FileParser');
-const ResultHolder = require('./ResultHolder');
 const MetadataHandler = require('./MetadataHandler');
 
 const lint = (linter, dir) => {
-    ResultHolder.cleanOutput();
+    FileParser.cleanOutput();
     const filesArray = readDir.readSync(dir, ['**.isml']);
 
     filesArray.forEach( fileName => {
-        FileParser.parse(`${dir}${fileName}`, ResultHolder);
+        FileParser.parse(`${dir}${fileName}`);
     });
 
-    linter.resultHolder = ResultHolder;
+    linter.fileParser = FileParser;
 };
 
 const exportResultToFile = (linter, outputDir, metaDir) => {
-    linter.resultHolder.saveToFile(outputDir);
-    linter.resultHolder.exportReport(outputDir);
+    linter.fileParser.saveToFile(outputDir);
+    linter.fileParser.exportReport(outputDir);
     MetadataHandler.run(outputDir, metaDir);
 };
 
 module.exports = {
     lint: dir => { lint(this, dir); },
-    getOutput: () => this.resultHolder.getOutput(),
+    getOutput: () => this.fileParser.getOutput(),
     export: (outputDir, metaDir) => { exportResultToFile(this, outputDir, metaDir); }
 };
