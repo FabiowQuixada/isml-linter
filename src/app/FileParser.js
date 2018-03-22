@@ -28,7 +28,7 @@ const parse = (parser, fileName) => {
     const simpleFileName = fileName.substring(fileName.indexOf('default/') + 7);
 
     lineArray.forEach( (line, lineNumber) => {
-        RulesHolder.rules.forEach( rule => {
+        RulesHolder.getEnabledRules().forEach( rule => {
             if (rule.isBroken(line)) {
                 addError(parser, rule.title, simpleFileName, line, lineNumber);
             }

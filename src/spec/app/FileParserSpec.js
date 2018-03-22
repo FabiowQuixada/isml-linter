@@ -3,6 +3,8 @@ const reqlib = appRoot.require;
 const FileParser = reqlib('/src/app/FileParser');
 const SpecHelper = reqlib('/src/spec/SpecHelper');
 const Constants = reqlib('/src/app/Constants');
+const LogicInTemplateRule = reqlib('/src/app/rules/LogicInTemplateRule');
+const DisplayNoneRule = reqlib('/src/app/rules/DisplayNoneRule');
 
 const specTempDir = Constants.specTempDir;
 const outputFilePath = Constants.specOutputFilePath;
@@ -39,6 +41,36 @@ describe('FileParser', () => {
         const expectedResult = expectedResultObj('errors');
 
         expect(outputFile).toEqual(expectedResult);
+    });
+
+    it('ignores disabled rules', () => {
+        FileParser.parse(fileName);
+        FileParser.saveToFile(specTempDir);
+        const outputFile = reqlib('/' + outputFilePath);
+        let ruleWasChecked = false;
+
+        Object.keys(outputFile.errors).forEach( rule => {
+            if (rule === LogicInTemplateRule.title) {
+                ruleWasChecked = true;
+            }
+        });
+
+        expect(ruleWasChecked).toBe(false);
+    });
+
+    it('checks non-disabled rules', () => {
+        FileParser.parse(fileName);
+        FileParser.saveToFile(specTempDir);
+        const outputFile = reqlib('/' + outputFilePath);
+        let ruleWasChecked = false;
+
+        Object.keys(outputFile.errors).forEach( rule => {
+            if (rule === DisplayNoneRule.title) {
+                ruleWasChecked = true;
+            }
+        });
+
+        expect(ruleWasChecked).toBe(true);
     });
 
     it('saves linter compiled output to file', () => {

@@ -1,2 +1,6 @@
 <isset name="pageUrl" value="${URLUtils.https('Reorder-ListingPage')}" scope="page"/>
 <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>
+
+<isscript>
+
+</isscript>

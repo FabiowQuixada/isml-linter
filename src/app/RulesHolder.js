@@ -6,5 +6,6 @@ require('fs').readdirSync(normalizedPath).forEach( file => {
 });
 
 module.exports = {
-    rules
+    rules,
+    getEnabledRules : () => rules.filter( rule => rule.isEnabled() )
 };
