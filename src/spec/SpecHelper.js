@@ -3,9 +3,10 @@ const FileUtils = reqlib('/src/app/FileUtils');
 const Constants = reqlib('/src/app/Constants');
 
 const specTempDir = Constants.specTempDir;
-const outputFilePath = Constants.specOutputFilePath;
-const compiledOutputFilePath = Constants.specCompiledOutputFilePath;
-const metadataFilePath = Constants.specMetadataFilePath;
+
+const cleanTempDirectory = () => {
+    FileUtils.deleteDirectoryRecursively(specTempDir);
+};
 
 module.exports = {
     getRule: specFileName => {
@@ -14,14 +15,13 @@ module.exports = {
         return rule;
     },
 
-    cleanTempDirectory: () => {
-        if (FileUtils.fileExists(specTempDir)) {
-            FileUtils.deleteFile(outputFilePath);
-            FileUtils.deleteFile(compiledOutputFilePath);
-            FileUtils.deleteFile(metadataFilePath);
-            // FileUtils.deleteFile('src/spec/temp/undefined');
-        }
+    beforeEach: () => {
+        process.env.NODE_ENV = Constants.ENV_TEST;
+        cleanTempDirectory();
+    },
 
-        FileUtils.deleteDirectory(specTempDir);
+    afterEach: () => {
+        process.env.NODE_ENV = Constants.ENV_DEV;
+        cleanTempDirectory();
     }
 };

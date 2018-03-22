@@ -19,9 +19,24 @@ const createDirIfDoesNotExist = dirPath => {
     }
 };
 
-const deleteDirectory = dirPath => {
+const deleteDirectoryRecursively = dirPath => {
     if (fs.existsSync(`${rootPath}/${dirPath}`)) {
-        fs.rmdirSync(`${rootPath}/${dirPath}`);
+        deleteDirRecursively(`${rootPath}/${dirPath}`);
+    }
+};
+
+const deleteDirRecursively = path => {
+    if (fs.existsSync(path)) {
+        fs.readdirSync(path).forEach( file => {
+            const curPath = path + '/' + file;
+            if (fs.lstatSync(curPath).isDirectory()) {
+                deleteDirRecursively(curPath);
+            } else {
+                fs.unlinkSync(curPath);
+            }
+        });
+
+        fs.rmdirSync(path);
     }
 };
 
@@ -32,5 +47,5 @@ module.exports = {
     fileExists,
     createDirIfDoesNotExist,
     deleteFile,
-    deleteDirectory
+    deleteDirectoryRecursively
 };

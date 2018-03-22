@@ -20,7 +20,7 @@ describe('FileUtils', () => {
     });
 
     it('creates a parent directory if it does not exist to the json file', () => {
-        FileUtils.deleteDirectory(specTempDir);
+        FileUtils.deleteDirectoryRecursively(specTempDir);
 
         FileUtils.saveToJsonFile(specTempDir, fileName, content);
 
@@ -45,7 +45,15 @@ describe('FileUtils', () => {
     });
 
     it('deletes a directory', () => {
-        FileUtils.deleteDirectory(specTempDir);
+        FileUtils.deleteDirectoryRecursively(specTempDir);
+
+        expect(FileUtils.fileExists(specTempDir)).toBe(false);
+    });
+
+    it('deletes a directory recursively', () => {
+        FileUtils.createDirIfDoesNotExist(specTempDir);
+        FileUtils.createDirIfDoesNotExist(specTempDir + 'innerDir');
+        FileUtils.deleteDirectoryRecursively(specTempDir);
 
         expect(FileUtils.fileExists(specTempDir)).toBe(false);
     });
