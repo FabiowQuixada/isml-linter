@@ -12,11 +12,11 @@ describe('FileParser', () => {
 
     beforeEach(() => {
         FileParser.cleanOutput();
-        SpecHelper.cleanTempDirectory();
+        SpecHelper.beforeEach();
     });
 
     afterEach(() => {
-        SpecHelper.cleanTempDirectory();
+        SpecHelper.afterEach();
     });
 
     it('correctly parses a given ISML file', () => {

@@ -1,4 +1,5 @@
 const reqlib = require('app-root-path').require;
+const SpecHelper = reqlib('/src/spec/SpecHelper');
 const Constants = reqlib('/src/app/Constants');
 const FileUtils = reqlib('/src/app/FileUtils');
 
@@ -11,6 +12,11 @@ describe('FileUtils', () => {
     beforeEach(() => {
         FileUtils.createDirIfDoesNotExist(specTempDir);
         FileUtils.deleteFile(fileFullPath);
+        SpecHelper.beforeEach();
+    });
+
+    afterEach(() => {
+        SpecHelper.afterEach();
     });
 
     it('saves content to json file', () => {

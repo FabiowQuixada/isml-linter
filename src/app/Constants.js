@@ -16,6 +16,10 @@ const srcJsRegex = 'src/**/*.js';
 const appJsRegex = 'src/app/**/*.js';
 const specJsRegex = 'src/spec/**/*.js';
 
+// Environments;
+const ENV_DEV = 'dev';
+const ENV_TEST = 'test';
+
 module.exports = {
     // Directories;
     ismlLinterSpecDir: specLinterTemplate,
@@ -37,5 +41,9 @@ module.exports = {
     // Regex;
     srcJsRegex,
     appJsRegex,
-    specJsRegex
+    specJsRegex,
+
+    // Environments;
+    ENV_DEV,
+    ENV_TEST
 };

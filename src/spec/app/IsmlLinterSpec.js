@@ -12,11 +12,11 @@ const metadataFilePath = Constants.specMetadataFilePath;
 
 describe('IsmlLinter', () => {
     beforeEach(() => {
-        SpecHelper.cleanTempDirectory();
+        SpecHelper.beforeEach();
     });
 
     afterEach(() => {
-        SpecHelper.cleanTempDirectory();
+        SpecHelper.afterEach();
     });
 
     it('lints ISML files in a given directory', () => {

@@ -10,11 +10,11 @@ const compiledOutputFileName = Constants.compiledOutputFileName;
 
 describe('MetadataHandler', () => {
     beforeEach(() => {
-        SpecHelper.cleanTempDirectory();
+        SpecHelper.beforeEach();
     });
 
     afterEach(() => {
-        SpecHelper.cleanTempDirectory();
+        SpecHelper.afterEach();
     });
 
     it('creates a metadata file if does not exist', () => {
