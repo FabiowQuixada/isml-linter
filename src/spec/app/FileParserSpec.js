@@ -8,6 +8,7 @@ const DisplayNoneRule = reqlib('/src/app/rules/DisplayNoneRule');
 
 const specTempDir = Constants.specTempDir;
 const outputFilePath = Constants.specOutputFilePath;
+const compiledOutputFilePath = Constants.specCompiledOutputFilePath;
 const fileName = Constants.fileParserSpecDir + 'sample_file.isml';
 
 describe('FileParser', () => {
@@ -81,6 +82,15 @@ describe('FileParser', () => {
         // const expectedResult = expectedCompiledOutputObj();
 
         // expect(compiledOutputFile).toEqual(expectedResult);
+    });
+
+    it('sets the total quantity of errors to the compiled output', () => {
+        FileParser.parse(fileName);
+        FileParser.compileOutput(specTempDir);
+
+        const compiledOutputFile = reqlib('/' + compiledOutputFilePath).total;
+
+        expect(compiledOutputFile).toEqual(2);
     });
 
     const expectedResultObj = type => {

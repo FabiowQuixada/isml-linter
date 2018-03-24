@@ -38,6 +38,7 @@ const parse = (parser, fileName) => {
 
 const compileOutput = (dir, content) => {
     if (content) {
+        let total = 0;
         let compiledOutput = {};
 
         Object.keys(content).forEach( type => {
@@ -50,11 +51,13 @@ const compileOutput = (dir, content) => {
                 Object.keys(content[type][error]).forEach( file => {
                     Object.keys(content[type][error][file]).forEach( () => {
                         compiledOutput[type][error] += 1;
+                        total += 1;
                     });
                 });
-
             });
         });
+
+        compiledOutput.total = total;
 
         FileUtils.saveToJsonFile(dir, compiledOutputFileName, compiledOutput);
     }
