@@ -75,13 +75,13 @@ describe('FileParser', () => {
     });
 
     it('saves linter compiled output to file', () => {
-        // FileParser.parse(fileName);
-        // FileParser.compileOutput(specTempDir);
+        FileParser.parse(fileName);
+        FileParser.compileOutput(specTempDir);
 
-        // const compiledOutputFile = reqlib('/' + compiledOutputFilePath);
-        // const expectedResult = expectedCompiledOutputObj();
+        const compiledOutputFile = reqlib('/' + compiledOutputFilePath);
+        const expectedResult = expectedCompiledOutputObj();
 
-        // expect(compiledOutputFile).toEqual(expectedResult);
+        expect(compiledOutputFile).toEqual(expectedResult);
     });
 
     it('sets the total quantity of errors to the compiled output', () => {
@@ -91,6 +91,13 @@ describe('FileParser', () => {
         const compiledOutputFile = reqlib('/' + compiledOutputFilePath).total;
 
         expect(compiledOutputFile).toEqual(2);
+    });
+
+    const expectedCompiledOutputObj = () => ({
+        errors : {
+            'Use class "hidden"' : 1,
+            'Wrap expression in <isprint> tag' : 1 },
+        'total' : 2
     });
 
     const expectedResultObj = type => {
