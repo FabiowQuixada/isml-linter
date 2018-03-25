@@ -4,7 +4,7 @@ const FileParser = reqlib('/src/app/FileParser');
 const SpecHelper = reqlib('/src/spec/SpecHelper');
 const Constants = reqlib('/src/app/Constants');
 const LogicInTemplateRule = reqlib('/src/app/rules/LogicInTemplateRule');
-const DisplayNoneRule = reqlib('/src/app/rules/DisplayNoneRule');
+const StyleAttributeRule = reqlib('/src/app/rules/StyleAttributeRule');
 
 const specTempDir = Constants.specTempDir;
 const outputFilePath = Constants.specOutputFilePath;
@@ -66,7 +66,7 @@ describe('FileParser', () => {
         let ruleWasChecked = false;
 
         Object.keys(outputFile.errors).forEach( rule => {
-            if (rule === DisplayNoneRule.title) {
+            if (rule === StyleAttributeRule.title) {
                 ruleWasChecked = true;
             }
         });
@@ -104,7 +104,7 @@ describe('FileParser', () => {
 
     const expectedOne = () => ({
         'errors' : {
-            'Use class "hidden"' : {
+            'Avoid using inline style' : {
                 'ec/templates/file_parser/sample_file.isml' : [
                     'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>'
                 ]
@@ -118,7 +118,7 @@ describe('FileParser', () => {
 
     const expectedCompiledOutputObj = () => ({
         errors : {
-            'Use class "hidden"' : 1,
+            'Avoid using inline style' : 1,
             'Wrap expression in <isprint> tag' : 1 },
         'total' : 2
     });
@@ -127,7 +127,7 @@ describe('FileParser', () => {
         let result = {};
 
         result[type] = {
-            'Use class "hidden"' : {
+            'Avoid using inline style' : {
                 'ec/templates/file_parser/sample_file.isml' : [
                     'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>' ]
             },

@@ -49,7 +49,7 @@ describe('IsmlLinter', () => {
 
 const expectedResult = {
     'errors': {
-        'Use class "hidden"': {
+        'Avoid using inline style': {
             'ec/templates/isml_linter/sample_file_1.isml': [
                 'Line 1: <div style="display: none;">${addToCartUrl}</div>'
             ]

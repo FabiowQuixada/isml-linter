@@ -5,7 +5,7 @@ const ruleName = require('path').basename(__filename).slice(0, -3);
 
 module.exports = {
     name: ruleName,
-    title: 'Use class "hidden"',
+    title: 'Avoid using inline style',
     isEnabled: () => config.disabledRules.indexOf(ruleName) === -1,
-    isBroken: line => line.indexOf('display: none') !== -1 || line.indexOf('display:none') !== -1
+    isBroken: line => line.indexOf('style="') !== -1
 };

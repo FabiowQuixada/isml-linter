@@ -1,7 +1,7 @@
 const reqlib = require('app-root-path').require;
 const SpecHelper = reqlib('/src/spec/SpecHelper');
 const specFileName = require('path').basename(__filename);
-const rule = reqlib('/src/spec/SpecHelper').getRule(specFileName);
+const rule = reqlib('src/spec/SpecHelper').getRule(specFileName);
 
 describe(rule.name, () => {
     beforeEach(() => {
@@ -13,16 +13,13 @@ describe(rule.name, () => {
     });
 
     it('detects inadequate code', () => {
-        let line = '<div class="block block_registration" style="display: none;">';
-
-        expect(rule.isBroken(line)).toBe(true);
-        line = '<div class="block block_registration" style="display:none;">';
+        const line = '<div style="display: none;">';
 
         expect(rule.isBroken(line)).toBe(true);
     });
 
-    it('accepts code that is not related to the rule', () => {
-        const line = 'if (category == null && pdict.Product != null) {';
+    it('ignores empty lines', () => {
+        const line = '<div class="hidden">';
 
         expect(rule.isBroken(line)).toBe(false);
     });
