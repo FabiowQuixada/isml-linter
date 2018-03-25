@@ -93,6 +93,29 @@ describe('FileParser', () => {
         expect(compiledOutputFile).toEqual(2);
     });
 
+    it('displays the correct line in output file', () => {
+        FileParser.parse(fileName);
+        FileParser.saveToFile(specTempDir);
+
+        const outputFile = reqlib('/' + outputFilePath);
+
+        expect(outputFile).toEqual(expectedOne());
+    });
+
+    const expectedOne = () => ({
+        'errors' : {
+            'Use class "hidden"' : {
+                'ec/templates/file_parser/sample_file.isml' : [
+                    'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>'
+                ]
+            },
+            'Wrap expression in <isprint> tag' : {
+                'ec/templates/file_parser/sample_file.isml' : [
+                    'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>' ]
+            }
+        }
+    });
+
     const expectedCompiledOutputObj = () => ({
         errors : {
             'Use class "hidden"' : 1,
@@ -106,11 +129,11 @@ describe('FileParser', () => {
         result[type] = {
             'Use class "hidden"' : {
                 'ec/templates/file_parser/sample_file.isml' : [
-                    'Line 2: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>' ]
+                    'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>' ]
             },
             'Wrap expression in <isprint> tag' : {
                 'ec/templates/file_parser/sample_file.isml' : [
-                    'Line 2: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>' ]
+                    'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>' ]
             }
         };
 

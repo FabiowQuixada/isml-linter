@@ -24,7 +24,7 @@ const add = (parser, type, rule, fileName, line, lineNumber) => {
 };
 
 const parse = (parser, fileName) => {
-    const lineArray = fs.readFileSync(fileName, 'utf-8').split('\n').filter(Boolean);
+    const lineArray = fs.readFileSync(fileName, 'utf-8').split('\n');
     const simpleFileName = fileName.substring(fileName.indexOf('default/') + 7);
 
     lineArray.forEach( (line, lineNumber) => {
