@@ -10,6 +10,7 @@ const specFileParserTemplate = 'src/spec/templates/file_parser/';
 const specLinterTemplate = 'src/spec/templates/isml_linter/';
 const outputDir = 'output/';
 const metadataDir = 'metadata/';
+const rulesDir = 'src/app/rules/';
 
 // Regex;
 const srcJsRegex = 'src/**/*.js';
@@ -27,6 +28,7 @@ module.exports = {
     specTempDir: specTempDir,
     outputDir,
     metadataDir,
+    rulesDir,
 
     // File names;
     outputFileName,

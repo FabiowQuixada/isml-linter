@@ -1,7 +1,9 @@
-const normalizedPath = require('path').join(__dirname, 'rules');
+const reqlib = require('app-root-path').require;
+const Constants = reqlib('/src/app/Constants');
+
 let rules = [];
 
-require('fs').readdirSync(normalizedPath).forEach( file => {
+require('fs').readdirSync(Constants.rulesDir).forEach( file => {
     rules.push(require('./rules/' + file));
 });
 
