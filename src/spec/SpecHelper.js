@@ -27,6 +27,6 @@ module.exports = {
     },
 
     getRuleSpecTemplate: (rule, fileNumber) => {
-        return `${Constants.specRuleTemplateDir}${snake(rule.name)}/file_${fileNumber}.isml`;
+        return `${Constants.specRuleTemplateDir}/${snake(rule.name)}/file_${fileNumber}.isml`;
     }
 };

@@ -1,5 +1,6 @@
 {
   "enabledRules" : [
+    "BalancedIsifTagRule",
     "BrTagRule",
     "DwOccurrenceRule",
     "ImportPackageRule",
