@@ -1,29 +1,43 @@
 const path = require('path');
-const rootPath = require('app-root-path').toString();
+const reqlib = require('app-root-path').require;
+const Constants = reqlib('/src/app/Constants');
+const rootPath = Constants.clientIsmlDir;
 const fs = require('fs');
 
 const saveToJsonFile = (filePath, fileName, content) => {
     createDirIfDoesNotExist(filePath);
-    const fullPath = path.join(rootPath, filePath, fileName);
+    const fullPath = path.join(filePath, fileName);
 
     fs.writeFileSync(fullPath, JSON.stringify(content, null, 4));
 };
 
 const deleteFile = filePath => {
     if (fileExists(filePath)) {
-        fs.unlinkSync(path.join(rootPath, filePath));
+        fs.unlinkSync(path.join(filePath));
     }
 };
 
 const createDirIfDoesNotExist = dirPath => {
-    if (!fs.existsSync(path.join(rootPath, dirPath))) {
-        fs.mkdirSync(path.join(rootPath, dirPath));
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath);
+    }
+};
+
+const createClientRootDir = () => {
+    if (!fs.existsSync(rootPath)) {
+        fs.mkdirSync(rootPath);
+    }
+};
+
+const createClientDir = dirName => {
+    if (!fs.existsSync(path.join(rootPath, dirName))) {
+        fs.mkdirSync(path.join(rootPath, dirName));
     }
 };
 
 const deleteDirectoryRecursively = dirPath => {
-    if (fs.existsSync(path.join(rootPath, dirPath))) {
-        deleteDirRecursively(path.join(rootPath, dirPath));
+    if (fs.existsSync(path.join(dirPath))) {
+        deleteDirRecursively(path.join(dirPath));
     }
 };
 
@@ -42,12 +56,14 @@ const deleteDirRecursively = dirPath => {
     }
 };
 
-const fileExists = filePath => fs.existsSync(path.join(rootPath, filePath));
+const fileExists = filePath => fs.existsSync(filePath);
 
 module.exports = {
     saveToJsonFile,
     fileExists,
     createDirIfDoesNotExist,
     deleteFile,
-    deleteDirectoryRecursively
+    deleteDirectoryRecursively,
+    createClientRootDir,
+    createClientDir
 };

@@ -89,7 +89,7 @@ const checkRule = (type, rule, compiledFile, metadataFile, fixedRulesArray) => {
 
 const createMetadataFileIfItDoesntExist = (sourceDir, targetDir) => {
     const metadataFilePath = path.join(targetDir, metadataFileName);
-    const compiledOutputContent = reqlib(`/${sourceDir}/${compiledOutputFileName}`);
+    const compiledOutputContent = require(`/${sourceDir}/${compiledOutputFileName}`);
 
     if (!FileUtils.fileExists(metadataFilePath)) {
         FileUtils.saveToJsonFile(targetDir, metadataFileName, compiledOutputContent);
@@ -99,8 +99,8 @@ const createMetadataFileIfItDoesntExist = (sourceDir, targetDir) => {
 const run = (sourceDir, targetDir) => {
     createMetadataFileIfItDoesntExist(sourceDir, targetDir);
 
-    const originalMetadataFile = reqlib(`/${targetDir}/${metadataFileName}`);
-    const compiledOutputFile = reqlib(`/${sourceDir}/${compiledOutputFileName}`);
+    const originalMetadataFile = require(`/${targetDir}/${metadataFileName}`);
+    const compiledOutputFile = require(`/${sourceDir}/${compiledOutputFileName}`);
     const types = FileParser.ENTRY_TYPES;
     const fixedRulesArray = [];
     let isOk = true;

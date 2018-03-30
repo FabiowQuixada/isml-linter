@@ -23,7 +23,7 @@ describe('FileUtils', () => {
     it('saves content to json file', () => {
         FileUtils.saveToJsonFile(specTempDir, fileName, content);
 
-        expect(reqlib(fileFullPath)).toEqual(content);
+        expect(require(fileFullPath)).toEqual(content);
     });
 
     it('creates a parent directory if it does not exist to the json file', () => {

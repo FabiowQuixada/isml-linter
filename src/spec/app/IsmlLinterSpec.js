@@ -50,15 +50,15 @@ describe('IsmlLinter', () => {
 const expectedResult = {
     'errors': {
         'Avoid using inline style': {
-            'ec/templates/isml_linter/sample_file_1.isml': [
+            '/isml_linter/sample_file_1.isml': [
                 'Line 1: <div style="display: none;">${addToCartUrl}</div>'
             ]
         },
         'Wrap expression in <isprint> tag': {
-            'ec/templates/isml_linter/sample_file_1.isml': [
+            '/isml_linter/sample_file_1.isml': [
                 'Line 1: <div style="display: none;">${addToCartUrl}</div>'
             ],
-            'ec/templates/isml_linter/sample_file_2.isml': [
+            '/isml_linter/sample_file_2.isml': [
                 'Line 1: ${URLUtils.https(\'Reorder-ListingPage\')}'
             ]
         }

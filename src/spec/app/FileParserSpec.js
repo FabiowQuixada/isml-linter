@@ -39,7 +39,7 @@ describe('FileParser', () => {
         FileParser.parse(fileName);
         FileParser.saveToFile(specTempDir);
 
-        const outputFile = reqlib('/' + outputFilePath);
+        const outputFile = require('/' + outputFilePath);
         const expectedResult = expectedResultObj('errors');
 
         expect(outputFile).toEqual(expectedResult);
@@ -48,7 +48,7 @@ describe('FileParser', () => {
     it('ignores disabled rules', () => {
         FileParser.parse(fileName);
         FileParser.saveToFile(specTempDir);
-        const outputFile = reqlib('/' + outputFilePath);
+        const outputFile = require('/' + outputFilePath);
         let ruleWasChecked = false;
 
         Object.keys(outputFile.errors).forEach( rule => {
@@ -63,7 +63,7 @@ describe('FileParser', () => {
     it('checks non-disabled rules', () => {
         FileParser.parse(fileName);
         FileParser.saveToFile(specTempDir);
-        const outputFile = reqlib('/' + outputFilePath);
+        const outputFile = require('/' + outputFilePath);
         let ruleWasChecked = false;
 
         Object.keys(outputFile.errors).forEach( rule => {
@@ -79,7 +79,7 @@ describe('FileParser', () => {
         FileParser.parse(fileName);
         FileParser.compileOutput(specTempDir);
 
-        const compiledOutputFile = reqlib('/' + compiledOutputFilePath);
+        const compiledOutputFile = require('/' + compiledOutputFilePath);
         const expectedResult = expectedCompiledOutputObj();
 
         expect(compiledOutputFile).toEqual(expectedResult);
@@ -89,7 +89,7 @@ describe('FileParser', () => {
         FileParser.parse(fileName);
         FileParser.compileOutput(specTempDir);
 
-        const compiledOutputFile = reqlib('/' + compiledOutputFilePath).total;
+        const compiledOutputFile = require('/' + compiledOutputFilePath).total;
 
         expect(compiledOutputFile).toEqual(2);
     });
@@ -98,7 +98,7 @@ describe('FileParser', () => {
         FileParser.parse(fileName);
         FileParser.saveToFile(specTempDir);
 
-        const outputFile = reqlib('/' + outputFilePath);
+        const outputFile = require(outputFilePath);
 
         expect(outputFile).toEqual(expectedOne());
     });
@@ -106,12 +106,12 @@ describe('FileParser', () => {
     const expectedOne = () => ({
         'errors' : {
             'Avoid using inline style' : {
-                'ec/templates/file_parser/sample_file.isml' : [
+                '/file_parser/sample_file.isml' : [
                     'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>'
                 ]
             },
             'Wrap expression in <isprint> tag' : {
-                'ec/templates/file_parser/sample_file.isml' : [
+                '/file_parser/sample_file.isml' : [
                     'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>' ]
             }
         }
@@ -129,11 +129,11 @@ describe('FileParser', () => {
 
         result[type] = {
             'Avoid using inline style' : {
-                'ec/templates/file_parser/sample_file.isml' : [
+                '/file_parser/sample_file.isml' : [
                     'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>' ]
             },
             'Wrap expression in <isprint> tag' : {
-                'ec/templates/file_parser/sample_file.isml' : [
+                '/file_parser/sample_file.isml' : [
                     'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>' ]
             }
         };
