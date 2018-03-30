@@ -6,6 +6,6 @@ const ruleName = require('path').basename(__filename).slice(0, -3);
 module.exports = {
     name: ruleName,
     title: 'Line contains only blank spaces',
-    isEnabled: () => config.disabledRules.indexOf(ruleName) === -1,
+    isEnabled: () => config.enabledRules.indexOf(ruleName) !== -1,
     isBroken: line => line !== '' && !/\S/.test(line)
 };

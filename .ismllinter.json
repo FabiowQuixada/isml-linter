@@ -1,4 +1,14 @@
 {
-  "disabledRules" : [
+  "enabledRules" : [
+    "BrTagRule",
+    "DwOccurrenceRule",
+    "ImportPackageRule",
+    "IsprintTagRule",
+    "LogicInTemplateRule",
+    "RequirePreferenceRule",
+    "SpaceAtEndOfLineRule",
+    "SpacesOnlyLineRule",
+    "StyleAttributeRule",
+    "TabRule"
   ]
 }

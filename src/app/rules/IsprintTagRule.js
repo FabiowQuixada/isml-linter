@@ -6,6 +6,6 @@ const ruleName = require('path').basename(__filename).slice(0, -3);
 module.exports = {
     name: ruleName,
     title: 'Wrap expression in <isprint> tag',
-    isEnabled: () => config.disabledRules.indexOf(ruleName) === -1,
+    isEnabled: () => config.enabledRules.indexOf(ruleName) !== -1,
     isBroken: line => line.indexOf('>${') !== -1 || line.indexOf(' ${') !== -1
 };

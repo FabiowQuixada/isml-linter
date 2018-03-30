@@ -6,6 +6,6 @@ const ruleName = require('path').basename(__filename).slice(0, -3);
 module.exports = {
     name: ruleName,
     title: 'Avoid using <br/> tags',
-    isEnabled: () => config.disabledRules.indexOf(ruleName) === -1,
+    isEnabled: () => config.enabledRules.indexOf(ruleName) !== -1,
     isBroken: line => line.indexOf('<br') !== -1
 };

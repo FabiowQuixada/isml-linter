@@ -1,6 +1,14 @@
 {
   "env": "test",
-  "disabledRules" : [
-    "LogicInTemplateRule"
+  "enabledRules" : [
+    "BrTagRule",
+    "DwOccurrenceRule",
+    "ImportPackageRule",
+    "IsprintTagRule",
+    "RequirePreferenceRule",
+    "SpaceAtEndOfLineRule",
+    "SpacesOnlyLineRule",
+    "StyleAttributeRule",
+    "TabRule"
   ]
 }

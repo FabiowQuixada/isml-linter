@@ -6,6 +6,6 @@ const ruleName = require('path').basename(__filename).slice(0, -3);
 module.exports = {
     name: ruleName,
     title: 'Usage of importPackage()',
-    isEnabled: () => config.disabledRules.indexOf(ruleName) === -1,
+    isEnabled: () => config.enabledRules.indexOf(ruleName) !== -1,
     isBroken: line => line.indexOf('importPackage') !== -1
 };
