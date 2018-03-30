@@ -1,0 +1,1 @@
+<button>${dw.web.Resource.msg('product.storelocator','_preferences',null)}</button>
