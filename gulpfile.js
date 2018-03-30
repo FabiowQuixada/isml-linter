@@ -6,7 +6,7 @@ const istanbul = require('gulp-istanbul');
 const reqlib = require('app-root-path').require;
 const run = require('gulp-run');
 const Constants = reqlib('/src/app/Constants');
-const config = reqlib('/config.json');
+const config = reqlib('/.ismllinter.json');
 
 const ismlRegex = config.rootTemplateDir + '**/*.isml';
  

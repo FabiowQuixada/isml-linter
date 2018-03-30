@@ -9,6 +9,7 @@ const clientMetadataDir = path.join(clientIsmlDir, 'metadata');
 const outputFileName = 'output.json';
 const compiledOutputFileName = 'compiled_output.json';
 const metadataFileName = 'metadata.json';
+const clientConfigFileName = '.ismllinter.json';
 
 // Directories;
 const specTempDir = path.join(clientAppDir, 'src', 'spec', 'temp');
@@ -51,6 +52,7 @@ module.exports = {
     outputFileName,
     compiledOutputFileName,
     metadataFileName,
+    clientConfigFileName,
 
     // File paths;
     specOutputFilePath,

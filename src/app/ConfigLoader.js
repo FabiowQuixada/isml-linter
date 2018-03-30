@@ -8,9 +8,8 @@ const loadCurrentEnvConfigurationFile = () => {
         return reqlib(config_path);
     }
 
-    return reqlib('/config.json');
+    return require(Constants.clientAppDir + '/' + Constants.clientConfigFileName);
 };
-
 
 module.exports = {
     load: loadCurrentEnvConfigurationFile
