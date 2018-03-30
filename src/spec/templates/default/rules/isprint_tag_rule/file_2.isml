@@ -1,0 +1,1 @@
+<label><isprint value="${Resource.msg('reorder.sortbyproducttype','reorder',null)}" /></label>

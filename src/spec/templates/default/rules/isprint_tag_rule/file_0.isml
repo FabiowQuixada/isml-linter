@@ -1,0 +1,2 @@
+<a class="logout_mobile_link">${dw.web.Resource.msg('global.logout','locale',null)}</a>
+

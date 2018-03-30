@@ -2,6 +2,7 @@ const reqlib = require('app-root-path').require;
 const SpecHelper = reqlib('/src/spec/SpecHelper');
 const specFileName = require('path').basename(__filename);
 const rule = reqlib('src/spec/SpecHelper').getRule(specFileName);
+const FileParser = reqlib('/src/app/FileParser');
 
 describe(rule.name, () => {
     beforeEach(() => {
@@ -12,25 +13,27 @@ describe(rule.name, () => {
         SpecHelper.afterEach();
     });
 
-    it('detects inadequate code', () => {
-        let line = '<a class="logout_mobile_link">${dw.web.Resource.msg(\'global.logout\',\'locale\',null)}</a>';
+    it('detects inadequate code in the middle of the line', () => {
+        const file = SpecHelper.getRuleSpecTemplate(rule, 0);
 
-        expect(rule.isBroken(line)).toBe(true);
+        expect(rule.check(file, FileParser)).toBe(true);
+    });
 
-        line = '                             ${pdict.CurrentCustomer.profile.firstName}';
+    it('detects inadequate and indented code', () => {
+        const file = SpecHelper.getRuleSpecTemplate(rule, 1);
 
-        expect(rule.isBroken(line)).toBe(true);
+        expect(rule.check(file, FileParser)).toBe(true);
     });
 
     it('accepts good code', () => {
-        const line = '<label><isprint value="${Resource.msg(\'reorder.sortbyproducttype\',\'reorder\',null)}" /></label>';
+        const file = SpecHelper.getRuleSpecTemplate(rule, 2);
 
-        expect(rule.isBroken(line)).toBe(false);
+        expect(rule.check(file, FileParser)).toBe(false);
     });
 
     it('accepts code that is not related to the rule', () => {
-        const line = 'if (category == null && pdict.Product != null) {';
+        const file = SpecHelper.getRuleSpecTemplate(rule, 3);
 
-        expect(rule.isBroken(line)).toBe(false);
+        expect(rule.check(file, FileParser)).toBe(false);
     });
 });
