@@ -1,0 +1,1 @@
+var order = require(\'dw/order/OrderMgr\').getOrder(session.privacy.lastOrderNo);

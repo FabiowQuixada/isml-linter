@@ -2,6 +2,7 @@ const reqlib = require('app-root-path').require;
 const SpecHelper = reqlib('/src/spec/SpecHelper');
 const specFileName = require('path').basename(__filename);
 const rule = reqlib('src/spec/SpecHelper').getRule(specFileName);
+const FileParser = reqlib('/src/app/FileParser');
 
 describe(rule.name, () => {
     beforeEach(() => {
@@ -13,24 +14,26 @@ describe(rule.name, () => {
     });
 
     it('detects inadequate code', () => {
-        let line = 'var category : dw.catalog.Category;';
+        const file = SpecHelper.getRuleSpecTemplate(rule, 0);
 
-        expect(rule.isBroken(line)).toBe(true);
+        expect(rule.check(file, FileParser)).toBe(true);
+    });
 
-        line = '<a href="${dw.catalog.ProductSearchModel.urlForCategory(\'Search-Show\',cat.ID)}"';
+    it('detects inadequate code in the middle of the line', () => {
+        const file = SpecHelper.getRuleSpecTemplate(rule, 1);
 
-        expect(rule.isBroken(line)).toBe(true);
+        expect(rule.check(file, FileParser)).toBe(true);
     });
 
     it('accepts good code', () => {
-        const line = 'var order = require(\'dw/order/OrderMgr\').getOrder(session.privacy.lastOrderNo);';
+        const file = SpecHelper.getRuleSpecTemplate(rule, 2);
 
-        expect(rule.isBroken(line)).toBe(false);
+        expect(rule.check(file, FileParser)).toBe(false);
     });
 
     it('accepts code that is not related to the rule', () => {
-        const line = 'if (category == null && pdict.Product != null) {';
+        const file = SpecHelper.getRuleSpecTemplate(rule, 3);
 
-        expect(rule.isBroken(line)).toBe(false);
+        expect(rule.check(file, FileParser)).toBe(false);
     });
 });
