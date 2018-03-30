@@ -1,3 +1,4 @@
+const path = require('path');
 const reqlib = require('app-root-path').require;
 const SpecHelper = reqlib('/src/spec/SpecHelper');
 const Constants = reqlib('/src/app/Constants');
@@ -7,7 +8,7 @@ describe('FileUtils', () => {
     const specTempDir = Constants.specTempDir;
     const fileName = 'sample.json';
     const content = {'key': 'some value'};
-    const fileFullPath = `${specTempDir}${fileName}`;
+    const fileFullPath = path.join(specTempDir, fileName);
 
     beforeEach(() => {
         FileUtils.createDirIfDoesNotExist(specTempDir);
@@ -58,7 +59,7 @@ describe('FileUtils', () => {
 
     it('deletes a directory recursively', () => {
         FileUtils.createDirIfDoesNotExist(specTempDir);
-        FileUtils.createDirIfDoesNotExist(specTempDir + 'innerDir');
+        FileUtils.createDirIfDoesNotExist(path.join(specTempDir, 'innerDir'));
         FileUtils.deleteDirectoryRecursively(specTempDir);
 
         expect(FileUtils.fileExists(specTempDir)).toBe(false);

@@ -1,5 +1,5 @@
 {
-  "rootTemplateDir" : "/src/spec/templates/",
+  "rootTemplateDir" : "src/spec/templates",
   "disabledRules" : [
     "LogicInTemplateRule"
   ]

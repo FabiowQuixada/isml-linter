@@ -1,5 +1,5 @@
 {
-  "rootTemplateDir" : "../ecom-giorgioarmani-us/cartridges/app_armani_us/cartridge/templates/default/",
+  "rootTemplateDir" : "../ecom-giorgioarmani-us/cartridges/app_armani_us/cartridge/templates/default",
   "disabledRules" : [
   ]
 }

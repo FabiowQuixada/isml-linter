@@ -1,13 +1,14 @@
 const readDir = require('readdir');
 const FileParser = require('./FileParser');
 const MetadataHandler = require('./MetadataHandler');
+const path = require('path');
 
 const lint = (linter, dir) => {
     FileParser.cleanOutput();
     const filesArray = readDir.readSync(dir, ['**.isml']);
 
     filesArray.forEach( fileName => {
-        FileParser.parse(`${dir}${fileName}`);
+        FileParser.parse(path.join(dir, fileName));
     });
 
     linter.fileParser = FileParser;

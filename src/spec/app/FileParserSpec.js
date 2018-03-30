@@ -1,5 +1,6 @@
 const appRoot = require('app-root-path');
 const reqlib = appRoot.require;
+const path = require('path');
 const FileParser = reqlib('/src/app/FileParser');
 const SpecHelper = reqlib('/src/spec/SpecHelper');
 const Constants = reqlib('/src/app/Constants');
@@ -9,7 +10,7 @@ const StyleAttributeRule = reqlib('/src/app/rules/StyleAttributeRule');
 const specTempDir = Constants.specTempDir;
 const outputFilePath = Constants.specOutputFilePath;
 const compiledOutputFilePath = Constants.specCompiledOutputFilePath;
-const fileName = Constants.fileParserSpecDir + 'sample_file.isml';
+const fileName = path.join(Constants.fileParserSpecDir, 'sample_file.isml');
 
 describe('FileParser', () => {
 
