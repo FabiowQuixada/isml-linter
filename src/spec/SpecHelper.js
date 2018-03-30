@@ -1,6 +1,7 @@
 const reqlib = require('app-root-path').require;
 const FileUtils = reqlib('/src/app/FileUtils');
 const Constants = reqlib('/src/app/Constants');
+const snake = require('to-snake-case');
 
 const specTempDir = Constants.specTempDir;
 
@@ -23,5 +24,9 @@ module.exports = {
     afterEach: () => {
         process.env.NODE_ENV = Constants.ENV_DEV;
         cleanTempDirectory();
+    },
+
+    getRuleSpecTemplate: (rule, fileNumber) => {
+        return `${Constants.specRuleTemplateDir}${snake(rule.name)}/file_${fileNumber}.isml`;
     }
 };

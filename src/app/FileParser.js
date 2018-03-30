@@ -1,5 +1,4 @@
 const reqlib = require('app-root-path').require;
-const fs = require('fs');
 const FileUtils = reqlib('src/app/FileUtils');
 const Constants = reqlib('/src/app/Constants');
 const RulesHolder = require('./RulesHolder');
@@ -24,16 +23,7 @@ const add = (parser, type, rule, fileName, line, lineNumber) => {
 };
 
 const parse = (parser, fileName) => {
-    const lineArray = fs.readFileSync(fileName, 'utf-8').split('\n');
-    const simpleFileName = fileName.substring(fileName.indexOf('default/') + 7);
-
-    lineArray.forEach( (line, lineNumber) => {
-        RulesHolder.getEnabledRules().forEach( rule => {
-            if (rule.isBroken(line)) {
-                addError(parser, rule.title, simpleFileName, line, lineNumber);
-            }
-        });
-    });
+    RulesHolder.getEnabledRules().forEach( rule => rule.check(fileName, FileParser) );
 };
 
 const compileOutput = (dir, content) => {
@@ -63,8 +53,8 @@ const compileOutput = (dir, content) => {
     }
 };
 
-const addError = (parser, rule, file, line, lineNumber) => {
-    add(parser, ENTRY_TYPES.ERROR, rule, file, line, lineNumber);
+const addError = (rule, file, line, lineNumber) => {
+    add(this, ENTRY_TYPES.ERROR, rule, file, line, lineNumber);
 };
 
 const FileParser = {
@@ -73,6 +63,7 @@ const FileParser = {
     getOutput   : () => this.output || {},
     saveToFile  : dir => { FileUtils.saveToJsonFile(dir, outputFileName, this.output); },
     compileOutput: dir => { compileOutput(dir, this.output); },
+    addError,
     ENTRY_TYPES
 };
 

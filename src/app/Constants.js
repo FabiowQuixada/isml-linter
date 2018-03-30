@@ -15,6 +15,7 @@ const clientConfigFileName = '.ismllinter.json';
 const specTempDir = path.join(clientAppDir, 'src', 'spec', 'temp');
 const specFileParserTemplate = path.join(clientAppDir, 'src', 'spec', 'templates', 'default', 'file_parser');
 const specLinterTemplate = path.join(clientAppDir, 'src', 'spec', 'templates', 'default', 'isml_linter');
+const specRuleTemplateDir = path.join(clientAppDir, 'src', 'spec', 'templates', 'default', 'rules');
 const outputDir = 'output';
 const metadataDir = 'metadata';
 const rulesDir = path.join('src', 'app', 'rules');
@@ -47,6 +48,7 @@ module.exports = {
     outputDir,
     metadataDir,
     rulesDir,
+    specRuleTemplateDir,
 
     // File names;
     outputFileName,
