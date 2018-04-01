@@ -28,6 +28,13 @@
     "test": "jasmine-node src/spec/",
     "cover": "node ./node_modules/istanbul/lib/cli.js cover node_modules/jasmine-node/bin/jasmine-node src/spec"
   },
+  "keywords": [
+    "isml",
+    "linter",
+    "demandware",
+    "salesforce",
+    "digital-script"
+  ],
   "author": "Fabio Tavora Quixadá <ftquixada@gmail.com>",
   "license": "ISC"
 }
