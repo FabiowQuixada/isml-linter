@@ -4,7 +4,7 @@ class AbstractRule {
 
     constructor(name, description) {
         this.name = name;
-        this.title = description;
+        this.description = description;
     }
 
     isEnabled() {

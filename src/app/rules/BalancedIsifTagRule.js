@@ -30,7 +30,7 @@ class Rule extends AbstractRule {
         });
 
         unbalancedTags.forEach( error => {
-            parser.addError(that.title, simpleFileName, error.line, error.lineNumber);
+            parser.addError(that.description, simpleFileName, error.line, error.lineNumber);
         });
 
         return unbalancedTags.length > 0;

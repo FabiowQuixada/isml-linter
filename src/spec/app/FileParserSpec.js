@@ -50,7 +50,7 @@ describe('FileParser', () => {
         let ruleWasChecked = false;
 
         Object.keys(outputFile.errors).forEach( rule => {
-            if (rule === LogicInTemplateRule.title) {
+            if (rule === LogicInTemplateRule.description) {
                 ruleWasChecked = true;
             }
         });
@@ -65,7 +65,7 @@ describe('FileParser', () => {
         let ruleWasChecked = false;
 
         Object.keys(outputFile.errors).forEach( rule => {
-            if (rule === StyleAttributeRule.title) {
+            if (rule === StyleAttributeRule.description) {
                 ruleWasChecked = true;
             }
         });

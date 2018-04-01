@@ -11,7 +11,7 @@ class AbstractSingleLineRule extends AbstractRule {
 
         lineArray.forEach( (line, lineNumber) => {
             if (that.isBroken(line)) {
-                parser.addError(that.title, simpleFileName, line, lineNumber);
+                parser.addError(that.description, simpleFileName, line, lineNumber);
                 isBroken = true;
             }
         });

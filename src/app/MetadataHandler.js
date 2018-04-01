@@ -23,7 +23,7 @@ const metadataFileName = Constants.metadataFileName;
 
 const updateMetadataFileRule = (newMetadata, fixedRule) => {
     const type = fixedRule.type;
-    const rule = fixedRule.rule.title;
+    const rule = fixedRule.rule.description;
     const fixedErrors = fixedRule.fixedErrors;
     const currentErrors = newMetadata[type][rule];
 
@@ -46,23 +46,23 @@ const updateMetadataFile = (fixedRules, targetDir, originalMetadataContent) => {
 
 const printNewErrorsMsg = (type, rule, newErrors) => {
     if (newErrors === 1) {
-        console.log(`[${type}] ${rule.title} :: There is 1 new error since last run.`);
+        console.log(`[${type}] ${rule.description} :: There is 1 new error since last run.`);
     } else {
-        console.log(`[${type}] ${rule.title} :: There are ${Math.abs(newErrors)} new errors since last run.`);
+        console.log(`[${type}] ${rule.description} :: There are ${Math.abs(newErrors)} new errors since last run.`);
     }
 };
 
 const printErrorFixesMsg = (type, rule, newFixes) => {
     if (newFixes === 1) {
-        console.log(`[${type}] ${rule.title} :: 1 error was fixed since last run!`);
+        console.log(`[${type}] ${rule.description} :: 1 error was fixed since last run!`);
     } else {
-        console.log(`[${type}] ${rule.title} :: ${Math.abs(newFixes)} errors were fixed since last run!`);
+        console.log(`[${type}] ${rule.description} :: ${Math.abs(newFixes)} errors were fixed since last run!`);
     }
 };
 
 const checkRule = (type, rule, compiledFile, metadataFile, fixedRulesArray) => {
-    const compiledErrors = compiledFile[type] ? compiledFile[type][rule.title] : 0;
-    const metadataErrors = metadataFile[type] ? metadataFile[type][rule.title] : 0;
+    const compiledErrors = compiledFile[type] ? compiledFile[type][rule.description] : 0;
+    const metadataErrors = metadataFile[type] ? metadataFile[type][rule.description] : 0;
     const newErrors = compiledErrors - metadataErrors;
     let isOk = true;
 
