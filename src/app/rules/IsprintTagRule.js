@@ -1,26 +1,12 @@
-const config = require('../ConfigLoader').load();
-const fs = require('fs');
+const AbstractSingleLineRule = require('../AbstractSingleLineRule');
 
 const ruleName = require('path').basename(__filename).slice(0, -3);
+const description = 'Wrap expression in <isprint> tag';
 
-module.exports = {
-    name: ruleName,
-    title: 'Wrap expression in <isprint> tag',
-    isEnabled: () => config.enabledRules.indexOf(ruleName) !== -1,
-    isBroken: line => line.indexOf('>${') !== -1 || line.indexOf(' ${') !== -1,
-    check: function(fileName, parser) {
-        const that = this;
-        const lineArray = fs.readFileSync(fileName, 'utf-8').split('\n');
-        const simpleFileName = fileName.substring(fileName.indexOf('default/') + 7);
-        let isBroken = false;
+class Rule extends AbstractSingleLineRule {
+    constructor() { super(ruleName, description); }
 
-        lineArray.forEach( (line, lineNumber) => {
-            if (that.isBroken(line)) {
-                parser.addError(that.title, simpleFileName, line, lineNumber);
-                isBroken = true;
-            }
-        });
+    isBroken(line) { return line.indexOf('>${') !== -1 || line.indexOf(' ${') !== -1; }
+}
 
-        return isBroken;
-    }
-};
+module.exports = new Rule;
