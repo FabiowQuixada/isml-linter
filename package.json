@@ -28,6 +28,9 @@
     "test": "jasmine-node src/spec/",
     "cover": "node ./node_modules/istanbul/lib/cli.js cover node_modules/jasmine-node/bin/jasmine-node src/spec"
   },
+  "bin": {
+    "isml-linter": "./bin/isml-linter.js"
+  },
   "keywords": [
     "isml",
     "linter",
