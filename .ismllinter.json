@@ -6,7 +6,6 @@
     "ImportPackageRule",
     "IsprintTagRule",
     "LogicInTemplateRule",
-    "RequirePreferenceRule",
     "SpaceAtEndOfLineRule",
     "SpacesOnlyLineRule",
     "StyleAttributeRule",

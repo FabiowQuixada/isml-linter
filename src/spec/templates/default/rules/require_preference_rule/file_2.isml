@@ -1,2 +1,0 @@
-if (category == null && pdict.Product != null) {
-}
