@@ -1,8 +1,7 @@
 const path = require('path');
-const reqlib = require('app-root-path').require;
-const SpecHelper = reqlib('/src/spec/SpecHelper');
-const Constants = reqlib('/src/app/Constants');
-const FileUtils = reqlib('/src/app/FileUtils');
+const SpecHelper = require('../SpecHelper');
+const Constants = require('../../app/Constants');
+const FileUtils = require('../../app/FileUtils');
 
 describe('FileUtils', () => {
     const specTempDir = Constants.specTempDir;

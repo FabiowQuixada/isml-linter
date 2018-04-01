@@ -1,11 +1,9 @@
-const appRoot = require('app-root-path');
-const reqlib = appRoot.require;
 const path = require('path');
-const FileParser = reqlib('/src/app/FileParser');
-const SpecHelper = reqlib('/src/spec/SpecHelper');
-const Constants = reqlib('/src/app/Constants');
-const LogicInTemplateRule = reqlib('/src/app/rules/LogicInTemplateRule');
-const StyleAttributeRule = reqlib('/src/app/rules/StyleAttributeRule');
+const FileParser = require('../../app/FileParser');
+const SpecHelper = require('../SpecHelper');
+const Constants = require('../../app/Constants');
+const LogicInTemplateRule = require('../../app/rules/LogicInTemplateRule');
+const StyleAttributeRule = require('../../app/rules/StyleAttributeRule');
 
 const specTempDir = Constants.specTempDir;
 const outputFilePath = Constants.specOutputFilePath;

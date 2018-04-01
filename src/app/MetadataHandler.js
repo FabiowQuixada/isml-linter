@@ -12,12 +12,10 @@
 
  */
 
-const appRoot = require('app-root-path');
-const reqlib = appRoot.require;
-const RulesHolder = reqlib('/src/app/RulesHolder');
-const FileUtils = reqlib('src/app/FileUtils');
-const FileParser = reqlib('/src/app/FileParser');
-const Constants = reqlib('/src/app/Constants');
+const RulesHolder = require('./RulesHolder');
+const FileUtils = require('./FileUtils');
+const FileParser = require('./FileParser');
+const Constants = require('./Constants');
 const path = require('path');
 
 const compiledOutputFileName = Constants.compiledOutputFileName;
@@ -89,7 +87,7 @@ const checkRule = (type, rule, compiledFile, metadataFile, fixedRulesArray) => {
 
 const createMetadataFileIfItDoesntExist = (sourceDir, targetDir) => {
     const metadataFilePath = path.join(targetDir, metadataFileName);
-    const compiledOutputContent = require(`/${sourceDir}/${compiledOutputFileName}`);
+    const compiledOutputContent = require(path.join(sourceDir, compiledOutputFileName));
 
     if (!FileUtils.fileExists(metadataFilePath)) {
         FileUtils.saveToJsonFile(targetDir, metadataFileName, compiledOutputContent);
@@ -99,8 +97,8 @@ const createMetadataFileIfItDoesntExist = (sourceDir, targetDir) => {
 const run = (sourceDir, targetDir) => {
     createMetadataFileIfItDoesntExist(sourceDir, targetDir);
 
-    const originalMetadataFile = require(`/${targetDir}/${metadataFileName}`);
-    const compiledOutputFile = require(`/${sourceDir}/${compiledOutputFileName}`);
+    const originalMetadataFile = require(path.join(targetDir, metadataFileName));
+    const compiledOutputFile = require(path.join(sourceDir, compiledOutputFileName));
     const types = FileParser.ENTRY_TYPES;
     const fixedRulesArray = [];
     let isOk = true;

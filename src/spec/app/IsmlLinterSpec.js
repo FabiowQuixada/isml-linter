@@ -1,8 +1,7 @@
-const reqlib = require('app-root-path').require;
-const IsmlLinter = reqlib('/src/app/IsmlLinter');
-const FileUtils = reqlib('/src/app/FileUtils');
-const SpecHelper = reqlib('/src/spec/SpecHelper');
-const Constants = reqlib('/src/app/Constants');
+const IsmlLinter = require('../../app/IsmlLinter');
+const FileUtils = require('../../app/FileUtils');
+const SpecHelper = require('../SpecHelper');
+const Constants = require('../../app/Constants');
 
 const ismlSpecDir = Constants.ismlLinterSpecDir;
 const specTempDir = Constants.specTempDir;

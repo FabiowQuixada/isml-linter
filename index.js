@@ -1,7 +1,6 @@
-const reqlib = require('app-root-path').require;
-const Constants = reqlib('/src/app/Constants');
-const IsmlLinter = reqlib('/src/app/IsmlLinter');
-const FileUtils = reqlib('/src/app/FileUtils');
+const Constants = require('./src/app/Constants');
+const IsmlLinter = require('./src/app/IsmlLinter');
+const FileUtils = require('./src/app/FileUtils');
 const ismlDir = Constants.clientAppDir;
 
 FileUtils.createClientRootDir();

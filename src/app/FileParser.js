@@ -1,6 +1,5 @@
-const reqlib = require('app-root-path').require;
-const FileUtils = reqlib('src/app/FileUtils');
-const Constants = reqlib('/src/app/Constants');
+const FileUtils = require('./FileUtils');
+const Constants = require('./Constants');
 const RulesHolder = require('./RulesHolder');
 
 const ENTRY_TYPES = {

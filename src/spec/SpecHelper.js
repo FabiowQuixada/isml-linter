@@ -1,6 +1,5 @@
-const reqlib = require('app-root-path').require;
-const FileUtils = reqlib('/src/app/FileUtils');
-const Constants = reqlib('/src/app/Constants');
+const FileUtils = require('../app/FileUtils');
+const Constants = require('../app/Constants');
 const snake = require('to-snake-case');
 
 const specTempDir = Constants.specTempDir;
@@ -12,7 +11,7 @@ const cleanTempDirectory = () => {
 module.exports = {
     getRule: specFileName => {
         const ruleName = specFileName.substr(0, specFileName.indexOf('Spec'));
-        const rule = reqlib(`/src/app/rules/${ruleName}`);
+        const rule = require(`../app/rules/${ruleName}`);
         return rule;
     },
 

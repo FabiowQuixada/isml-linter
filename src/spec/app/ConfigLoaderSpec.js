@@ -1,8 +1,6 @@
-const appRoot = require('app-root-path');
-const reqlib = appRoot.require;
-const ConfigLoader = reqlib('/src/app/ConfigLoader');
-const SpecHelper = reqlib('/src/spec/SpecHelper');
-const Constants = reqlib('/src/app/Constants');
+const ConfigLoader = require('../../app/ConfigLoader');
+const SpecHelper = require('../SpecHelper');
+const Constants = require('../../app/Constants');
 
 describe('ConfigLoader', () => {
 

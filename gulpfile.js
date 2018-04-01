@@ -3,10 +3,9 @@ const jasmine = require('gulp-jasmine');
 const eslint = require('gulp-eslint');
 const eslintIfFixed = require('gulp-eslint-if-fixed');
 const istanbul = require('gulp-istanbul');
-const reqlib = require('app-root-path').require;
 const run = require('gulp-run');
-const Constants = reqlib('/src/app/Constants');
-const config = reqlib('/.ismllinter.json');
+const Constants = require('./src/app/Constants');
+const config = require('./.ismllinter.json');
 
 const ismlRegex = config.rootTemplateDir + '**/*.isml';
  

@@ -1,5 +1,4 @@
-const reqlib = require('app-root-path').require;
-const config = reqlib('/src/app/ConfigLoader').load();
+const config = require('../ConfigLoader').load();
 const fs = require('fs');
 
 const ruleName = require('path').basename(__filename).slice(0, -3);

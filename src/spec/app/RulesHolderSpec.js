@@ -1,7 +1,6 @@
-const reqlib = require('app-root-path').require;
-const SpecHelper = reqlib('/src/spec/SpecHelper');
-const RulesHolder = reqlib('src/app/RulesHolder');
-const Constants = reqlib('/src/app/Constants');
+const SpecHelper = require('../SpecHelper');
+const RulesHolder = require('../../app/RulesHolder');
+const Constants = require('../../app/Constants');
 
 describe('RulesHolder', () => {
     beforeEach(() => {

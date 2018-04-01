@@ -1,7 +1,6 @@
 const path = require('path');
-const reqlib = require('app-root-path').require;
-const Constants = reqlib('/src/app/Constants');
-const rootPath = Constants.clientIsmlDir;
+const Constants = require('./Constants');
+const rootPath = Constants.clientIsmlLinterDir;
 const fs = require('fs');
 
 const saveToJsonFile = (filePath, fileName, content) => {

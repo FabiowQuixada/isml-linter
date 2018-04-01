@@ -1,7 +1,8 @@
 node_modules/
 coverage/
-ismllinter/
+isml-linter/
 cartridges/
 src/spec/temp/
 
-npm-debug.log
+*.log
+*.tgz

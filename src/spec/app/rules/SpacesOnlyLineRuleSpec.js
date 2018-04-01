@@ -1,8 +1,7 @@
-const reqlib = require('app-root-path').require;
-const SpecHelper = reqlib('/src/spec/SpecHelper');
+const SpecHelper = require('../../SpecHelper');
 const specFileName = require('path').basename(__filename);
-const rule = reqlib('src/spec/SpecHelper').getRule(specFileName);
-const FileParser = reqlib('/src/app/FileParser');
+const rule = SpecHelper.getRule(specFileName);
+const FileParser = require('../../../app/FileParser');
 
 describe(rule.name, () => {
     beforeEach(() => {

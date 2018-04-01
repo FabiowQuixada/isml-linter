@@ -1,8 +1,7 @@
-const reqlib = require('app-root-path').require;
-const MetadataHandler = reqlib('/src/app/MetadataHandler');
-const FileUtils = reqlib('/src/app/FileUtils');
-const SpecHelper = reqlib('/src/spec/SpecHelper');
-const Constants = reqlib('/src/app/Constants');
+const MetadataHandler = require('../../app/MetadataHandler');
+const FileUtils = require('../../app/FileUtils');
+const SpecHelper = require('../SpecHelper');
+const Constants = require('../../app/Constants');
 
 const specTempDir = Constants.specTempDir;
 const metadataFilePath = Constants.specMetadataFilePath;
@@ -29,7 +28,7 @@ describe('MetadataHandler', () => {
         // FileUtils.saveToJsonFile(specTempDir, compiledOutputFileName, baseCompiledOutputFileContent);
         // MetadataHandler.run(specTempDir, specTempDir);
 
-        // const metadataFile = reqlib(metadataFilePath);
+        // const metadataFile = require(metadataFilePath);
 
         // expect(metadataFile).toEqual(baseCompiledOutputFileContent);
     });
@@ -41,7 +40,7 @@ describe('MetadataHandler', () => {
 
         // MetadataHandler.run(specTempDir, specTempDir);
 
-        // const metadataFile = reqlib(`/${specTempDir}${metadataFileName}`);
+        // const metadataFile = require(`/${specTempDir}${metadataFileName}`);
 
         // expect(metadataFile).toEqual(expectedUpdatedMetadataResult);
     });

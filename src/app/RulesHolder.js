@@ -1,5 +1,4 @@
-const reqlib = require('app-root-path').require;
-const Constants = reqlib('/src/app/Constants');
+const Constants = require('./Constants');
 
 let rules = [];
 
