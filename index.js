@@ -5,10 +5,7 @@ const FileUtils = require('./src/app/FileUtils');
 const ConsoleUtils = require('./src/app/ConsoleUtils');
 const ismlDir = Constants.clientAppDir;
 
-FileUtils.createClientRootDir();
-FileUtils.createClientDir('output');
-FileUtils.createClientDir('metadata');
-
+IsmlLinter.init();
 IsmlLinter.lint(ismlDir);
 IsmlLinter.export(Constants.clientOutputDir, Constants.clientMetadataDir);
 
