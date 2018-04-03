@@ -94,7 +94,7 @@ const createMetadataFileIfItDoesntExist = (sourceDir, targetDir) => {
     }
 };
 
-const run = (sourceDir, targetDir) => {
+const updateMatadataFile = (sourceDir, targetDir) => {
     createMetadataFileIfItDoesntExist(sourceDir, targetDir);
 
     const originalMetadataFile = require(path.join(targetDir, metadataFileName));
@@ -115,5 +115,5 @@ const run = (sourceDir, targetDir) => {
 };
 
 module.exports = {
-    run
+    updateMatadataFile
 };

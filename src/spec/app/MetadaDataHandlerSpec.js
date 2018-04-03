@@ -18,7 +18,7 @@ describe('MetadataHandler', () => {
 
     it('creates a metadata file if does not exist', () => {
         FileUtils.saveToJsonFile(specTempDir, compiledOutputFileName, baseCompiledOutputFileContent);
-        MetadataHandler.run(specTempDir, specTempDir);
+        MetadataHandler.updateMatadataFile(specTempDir, specTempDir);
 
         expect(FileUtils.fileExists(metadataFilePath)).toBe(true);
     });
@@ -26,7 +26,7 @@ describe('MetadataHandler', () => {
     it('copies compiled output file data to a metadata file if does not exist', () => {
         // TODO
         // FileUtils.saveToJsonFile(specTempDir, compiledOutputFileName, baseCompiledOutputFileContent);
-        // MetadataHandler.run(specTempDir, specTempDir);
+        // MetadataHandler.updateMatadataFile(specTempDir, specTempDir);
 
         // const metadataFile = require(metadataFilePath);
 
@@ -38,7 +38,7 @@ describe('MetadataHandler', () => {
         // FileUtils.saveToJsonFile(specTempDir, metadataFileName, baseCompiledOutputFileContent);
         // FileUtils.saveToJsonFile(specTempDir, compiledOutputFileName, compiledOutputWithLessErrorsInASingleRule);
 
-        // MetadataHandler.run(specTempDir, specTempDir);
+        // MetadataHandler.updateMatadataFile(specTempDir, specTempDir);
 
         // const metadataFile = require(`/${specTempDir}${metadataFileName}`);
 

@@ -17,7 +17,7 @@ const lint = (linter, dir) => {
 const exportResultToFile = (linter, outputDir, metaDir) => {
     linter.fileParser.saveToFile(outputDir);
     linter.fileParser.compileOutput(outputDir);
-    MetadataHandler.run(outputDir, metaDir);
+    MetadataHandler.updateMatadataFile(outputDir, metaDir);
 };
 
 module.exports = {
