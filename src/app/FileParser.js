@@ -56,12 +56,27 @@ const addError = (rule, file, line, lineNumber) => {
     add(this, ENTRY_TYPES.ERROR, rule, file, line, lineNumber);
 };
 
+const orderOutputByRuleDescription = parser => {
+    const orderedOutput = {};
+
+    Object.keys(parser.output).sort().forEach( level => {
+        orderedOutput[level] = {};
+
+        Object.keys(parser.output[level]).sort().forEach( ruleDesc => {
+            orderedOutput[level][ruleDesc] = parser.output[level][ruleDesc];
+        });
+    });
+
+    parser.output = orderedOutput;
+};
+
 const FileParser = {
     parse       : fileName => { parse(this, fileName); },
     cleanOutput : () => this.output = {},
     getOutput   : () => this.output || {},
     saveToFile  : dir => { FileUtils.saveToJsonFile(dir, outputFileName, this.output); },
     compileOutput: dir => { compileOutput(dir, this.output); },
+    orderOutputByRuleDescription : () => { orderOutputByRuleDescription(this); },
     addError,
     ENTRY_TYPES
 };

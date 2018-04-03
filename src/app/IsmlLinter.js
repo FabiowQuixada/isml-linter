@@ -12,6 +12,7 @@ const lint = (linter, dir) => {
     });
 
     linter.fileParser = FileParser;
+    linter.fileParser.orderOutputByRuleDescription();
 };
 
 const exportResultToFile = (linter, outputDir, metaDir) => {

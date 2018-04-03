@@ -44,6 +44,20 @@ describe('IsmlLinter', () => {
 
         expect(FileUtils.fileExists(metadataFilePath)).toBe(true);
     });
+
+    it('orders output errors by rule description', () => {
+        const inlineRuleDesc = SpecHelper.getRule('StyleAttributeRuleSpec').description;
+        const isprintRuleDesc = SpecHelper.getRule('IsprintTagRuleSpec').description;
+        const blankLineRuleDesc = SpecHelper.getRule('SpacesOnlyLineRuleSpec').description;
+        const outputErrorArray = [];
+        const expectedResult = [inlineRuleDesc, blankLineRuleDesc, isprintRuleDesc];
+
+        IsmlLinter.lint(ismlSpecDir);
+
+        Object.keys(IsmlLinter.getOutput().errors).forEach( error => outputErrorArray.push(error));
+
+        expect(outputErrorArray).toEqual(expectedResult);
+    });
 });
 
 const expectedResult = {
@@ -51,6 +65,11 @@ const expectedResult = {
         'Avoid using inline style': {
             '/isml_linter/sample_file_1.isml': [
                 'Line 1: <div style="display: none;">${addToCartUrl}</div>'
+            ]
+        },
+        'Line contains only blank spaces' : {
+            '/isml_linter/sample_file_1.isml' : [
+                'Line 2: '
             ]
         },
         'Wrap expression in <isprint> tag': {
