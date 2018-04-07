@@ -4,6 +4,7 @@
     "BrTagRule",
     "DwOccurrenceRule",
     "ImportPackageRule",
+    "GitConflictRule",
     "IsprintTagRule",
     "LogicInTemplateRule",
     "SpaceAtEndOfLineRule",
