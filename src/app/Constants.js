@@ -8,27 +8,30 @@ const ENV_PROD = 'prod';
 
 // Directory names;
 const ismllinterDirName = 'isml-linter';
+const outputDir = 'output';
+const metadataDir = 'metadata';
 
 // File names;
 const outputFileName = 'output.json';
 const compiledOutputFileName = 'compiled_output.json';
 const metadataFileName = 'metadata.json';
 const clientConfigFileName = '.ismllinter.json';
+const specConfigFileName = 'spec_config.json';
 
 const clientAppDir = process.cwd();
 const clientNodeModulesLinterDir = path.join(clientAppDir, 'node_modules', ismllinterDirName);
 const linterMainDir = (env === ENV_PROD ? clientNodeModulesLinterDir : clientAppDir);
 const clientIsmlLinterDir = path.join(clientAppDir, ismllinterDirName);
-const clientOutputDir = path.join(clientIsmlLinterDir, 'output');
-const clientMetadataDir = path.join(clientIsmlLinterDir, 'metadata');
+const clientOutputDir = path.join(clientIsmlLinterDir, outputDir);
+const clientMetadataDir = path.join(clientIsmlLinterDir, metadataDir);
 
 // Directories;
-const specTempDir = path.join(linterMainDir, 'src', 'spec', 'temp');
-const specFileParserTemplate = path.join(linterMainDir, 'src', 'spec', 'templates', 'default', 'file_parser');
-const specLinterTemplate = path.join(linterMainDir, 'src', 'spec', 'templates', 'default', 'isml_linter');
-const specRuleTemplateDir = path.join(linterMainDir, 'src', 'spec', 'templates', 'default', 'rules');
-const outputDir = 'output';
-const metadataDir = 'metadata';
+const specDir = path.join(linterMainDir, 'src', 'spec');
+const specTempDir = path.join(specDir, 'temp');
+const specTemplateDir = path.join(specDir, 'templates', 'default');
+const specFileParserTemplate = path.join(specTemplateDir, 'file_parser');
+const specLinterTemplate = path.join(specTemplateDir, 'isml_linter');
+const specRuleTemplateDir = path.join(specTemplateDir, 'rules');
 const rulesDir = path.join(linterMainDir, 'src', 'app', 'rules');
 
 // Regex;
@@ -57,12 +60,14 @@ module.exports = {
     rulesDir,
     specRuleTemplateDir,
     ismllinterDirName,
+    specDir,
 
     // File names;
     outputFileName,
     compiledOutputFileName,
     metadataFileName,
     clientConfigFileName,
+    specConfigFileName,
 
     // File paths;
     specOutputFilePath,
