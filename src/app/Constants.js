@@ -56,6 +56,7 @@ module.exports = {
     metadataDir,
     rulesDir,
     specRuleTemplateDir,
+    ismllinterDirName,
 
     // File names;
     outputFileName,

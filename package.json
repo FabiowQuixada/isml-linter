@@ -4,6 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "app-root-path": "^2.0.1",
+    "chalk": "^2.3.2",
     "readdir": "0.0.13"
   },
   "devDependencies": {
