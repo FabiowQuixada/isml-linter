@@ -1,9 +1,11 @@
+const path = require('path');
 const Constants = require('./Constants');
 
 let rules = [];
 
 require('fs').readdirSync(Constants.rulesDir).forEach( file => {
-    rules.push(require('./rules/' + file));
+    const rulePath = path.join(__dirname, 'rules', file);
+    rules.push(require(rulePath));
 });
 
 module.exports = {
