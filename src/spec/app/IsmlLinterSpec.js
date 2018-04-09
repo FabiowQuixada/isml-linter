@@ -1,7 +1,11 @@
+const path = require('path');
 const IsmlLinter = require('../../app/IsmlLinter');
 const FileUtils = require('../../app/FileUtils');
 const SpecHelper = require('../SpecHelper');
 const Constants = require('../../app/Constants');
+const SpacesOnlyLineRule = require('../../app/rules/SpacesOnlyLineRule');
+const StyleAttributeRule = require('../../app/rules/StyleAttributeRule');
+const IsprintTagRule = require('../../app/rules/IsprintTagRule');
 
 const ismlSpecDir = Constants.ismlLinterSpecDir;
 const specTempDir = Constants.specTempDir;
@@ -21,7 +25,7 @@ describe('IsmlLinter', () => {
     it('lints ISML files in a given directory', () => {
         IsmlLinter.lint(ismlSpecDir);
 
-        expect(IsmlLinter.getOutput()).toEqual(expectedResult);
+        expect(IsmlLinter.getOutput()).toEqual(expectedResultObj('errors'));
     });
 
     it('saves result to an output file', () => {
@@ -60,25 +64,34 @@ describe('IsmlLinter', () => {
     });
 });
 
-const expectedResult = {
-    'errors': {
-        'Avoid using inline style': {
-            '/isml_linter/sample_file_1.isml': [
-                'Line 1: <div style="display: none;">${addToCartUrl}</div>'
-            ]
-        },
-        'Line contains only blank spaces' : {
-            '/isml_linter/sample_file_1.isml' : [
-                'Line 2: '
-            ]
-        },
-        'Wrap expression in <isprint> tag': {
-            '/isml_linter/sample_file_1.isml': [
-                'Line 1: <div style="display: none;">${addToCartUrl}</div>'
-            ],
-            '/isml_linter/sample_file_2.isml': [
-                'Line 1: ${URLUtils.https(\'Reorder-ListingPage\')}'
-            ]
-        }
-    }
+const expectedResultObj = type => {
+    const result = {};
+    result[type] = {};
+
+    const inlineStyleRuleDesc = StyleAttributeRule.description;
+    const blankLineRuleDesc = SpacesOnlyLineRule.description;
+    const isprintRuleDesc = IsprintTagRule.description;
+
+    const file0Path = path.join(...'/isml_linter/sample_file_1.isml'.split( '/' ));
+    const file1Path = path.join(...'/isml_linter/sample_file_2.isml'.split( '/' ));
+    const line0 = 'Line 1: <div style="display: none;">${addToCartUrl}</div>';
+    const line1 = 'Line 2: ';
+    const line2 = 'Line 1: <div style="display: none;">${addToCartUrl}</div>';
+    const line3 = 'Line 1: ${URLUtils.https(\'Reorder-ListingPage\')}';
+
+    result[type][inlineStyleRuleDesc] = {};
+    result[type][inlineStyleRuleDesc][file0Path] = [];
+    result[type][inlineStyleRuleDesc][file0Path].push(line0);
+
+    result[type][blankLineRuleDesc] = {};
+    result[type][blankLineRuleDesc][file0Path] = [];
+    result[type][blankLineRuleDesc][file0Path].push(line1);
+
+    result[type][isprintRuleDesc] = {};
+    result[type][isprintRuleDesc][file0Path] = [];
+    result[type][isprintRuleDesc][file0Path].push(line2);
+    result[type][isprintRuleDesc][file1Path] = [];
+    result[type][isprintRuleDesc][file1Path].push(line3);
+
+    return result;
 };
