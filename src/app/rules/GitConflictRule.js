@@ -6,7 +6,7 @@ const description = 'Unresolved Git conflict';
 class Rule extends AbstractSingleLineRule {
     constructor() { super(ruleName, description); }
 
-    isBroken(line) { return line === '<<<<<<< HEAD' || line === '======='; }
+    isBroken(line) { return this.isEqual(line, '<<<<<<< HEAD') || this.isEqual(line, '======='); }
 }
 
 module.exports = new Rule;

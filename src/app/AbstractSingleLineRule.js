@@ -6,7 +6,7 @@ class AbstractSingleLineRule extends AbstractRule {
     check(fileName, parser) {
         const that = this;
         const lineArray = fs.readFileSync(fileName, 'utf-8').split('\n');
-        const simpleFileName = fileName.substring(fileName.indexOf('default/') + 7);
+        const simpleFileName = fileName.substring(fileName.indexOf('default') + 8);
         let isBroken = false;
 
         lineArray.forEach( (line, lineNumber) => {
@@ -17,6 +17,11 @@ class AbstractSingleLineRule extends AbstractRule {
         });
 
         return isBroken;
+    }
+
+    isEqual(line, string) {
+        const regEx = new RegExp(string + '(\r)*', 'gi');
+        return line.match(regEx);
     }
 }
 

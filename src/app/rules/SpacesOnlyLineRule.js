@@ -6,7 +6,7 @@ const description = 'Line contains only blank spaces';
 class Rule extends AbstractSingleLineRule {
     constructor() { super(ruleName, description); }
 
-    isBroken(line) { return line !== '' && !/\S/.test(line); }
+    isBroken(line) { return line !== '' && line !== '\r' && line !== '\n' && !/\S/.test(line); }
 }
 
 module.exports = new Rule;
