@@ -16,6 +16,7 @@ const RulesHolder = require('./RulesHolder');
 const FileUtils = require('./FileUtils');
 const FileParser = require('./FileParser');
 const Constants = require('./Constants');
+const ConsoleUtils = require('./ConsoleUtils');
 const path = require('path');
 
 const compiledOutputFileName = Constants.compiledOutputFileName;
@@ -44,22 +45,6 @@ const updateMetadataFile = (fixedRules, targetDir, originalMetadataContent) => {
     FileUtils.saveToJsonFile(targetDir, metadataFileName, newMetadata);
 };
 
-const printNewErrorsMsg = (type, rule, newErrors) => {
-    if (newErrors === 1) {
-        console.log(`[${type}] ${rule.description} :: There is 1 new error since last run.`);
-    } else {
-        console.log(`[${type}] ${rule.description} :: There are ${Math.abs(newErrors)} new errors since last run.`);
-    }
-};
-
-const printErrorFixesMsg = (type, rule, newFixes) => {
-    if (newFixes === 1) {
-        console.log(`[${type}] ${rule.description} :: 1 error was fixed since last run!`);
-    } else {
-        console.log(`[${type}] ${rule.description} :: ${Math.abs(newFixes)} errors were fixed since last run!`);
-    }
-};
-
 const checkRule = (type, rule, compiledFile, metadataFile, fixedRulesArray) => {
     const compiledErrors = compiledFile[type] ? compiledFile[type][rule.description] : 0;
     const metadataErrors = metadataFile[type] ? metadataFile[type][rule.description] : 0;
@@ -69,10 +54,10 @@ const checkRule = (type, rule, compiledFile, metadataFile, fixedRulesArray) => {
     if (compiledErrors !== 0 && metadataErrors !== 0) {
 
         if (newErrors > 0) {
-            printNewErrorsMsg(type, rule, newErrors);
+            ConsoleUtils.printNewErrorsMsg(type, rule, newErrors);
             isOk = false;
         } else if (newErrors < 0) {
-            printErrorFixesMsg(type, rule, newErrors);
+            ConsoleUtils.printErrorFixesMsg(type, rule, newErrors);
 
             fixedRulesArray.push({
                 'type'        : type,
