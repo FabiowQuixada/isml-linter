@@ -11,7 +11,7 @@ const ismlSpecDir = Constants.ismlLinterSpecDir;
 const specTempDir = Constants.specTempDir;
 const outputFilePath = Constants.specOutputFilePath;
 const compiledOutputFilePath = Constants.specCompiledOutputFilePath;
-const metadataFilePath = Constants.specMetadataFilePath;
+//const metadataFilePath = Constants.specMetadataFilePath;
 
 describe('IsmlLinter', () => {
     beforeEach(() => {
@@ -42,12 +42,12 @@ describe('IsmlLinter', () => {
         expect(FileUtils.fileExists(compiledOutputFilePath)).toBe(true);
     });
 
-    it('saves compiled result to a metadata file', () => {
-        IsmlLinter.lint(ismlSpecDir);
-        IsmlLinter.export(specTempDir, specTempDir);
-
-        expect(FileUtils.fileExists(metadataFilePath)).toBe(true);
-    });
+    //it('saves compiled result to a metadata file', () => {
+    //    IsmlLinter.lint(ismlSpecDir);
+    //    IsmlLinter.export(specTempDir, specTempDir);
+    //
+    //    expect(FileUtils.fileExists(metadataFilePath)).toBe(true);
+    //});
 
     it('orders output errors by rule description', () => {
         const inlineRuleDesc = SpecHelper.getRule('StyleAttributeRuleSpec').description;
