@@ -43,6 +43,7 @@ const specJsRegex = path.join('src', 'spec', '**', '*.js');
 const specOutputFilePath = path.join(specTempDir, outputFileName);
 const specCompiledOutputFilePath = path.join(specTempDir, compiledOutputFileName);
 const specMetadataFilePath = path.join(specTempDir, metadataFileName);
+const configFilePath = path.join(clientAppDir, clientConfigFileName);
 
 module.exports = {
     // Client directories;
@@ -73,6 +74,7 @@ module.exports = {
     specOutputFilePath,
     specCompiledOutputFilePath,
     specMetadataFilePath,
+    configFilePath,
 
     // Regex;
     srcJsRegex,

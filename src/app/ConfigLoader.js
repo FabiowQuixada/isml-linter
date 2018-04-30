@@ -1,5 +1,6 @@
 const path = require('path');
 const Constants = require('./Constants');
+const FileUtils = require('./FileUtils');
 
 const loadCurrentEnvConfigurationFile = () => {
 
@@ -7,7 +8,37 @@ const loadCurrentEnvConfigurationFile = () => {
         return require(path.join(Constants.specDir, Constants.specConfigFileName));
     }
 
-    return require(path.join(Constants.clientAppDir, Constants.clientConfigFileName));
+
+    if (!FileUtils.fileExists(Constants.configFilePath)) {
+        init();
+    }
+
+    return require(Constants.configFilePath);
+};
+
+const createClientDirectories = () => {
+    FileUtils.createClientRootDir();
+    FileUtils.createClientDir('output');
+    //FileUtils.createClientDir('metadata');
+};
+
+const createConfigFile = () => {
+    if (!FileUtils.fileExists(Constants.configFilePath)) {
+        const configContent = {};
+        configContent.enabledRules = [];
+
+        require('fs').readdirSync(Constants.rulesDir).forEach( filename => {
+            const ruleName = filename.slice(0, -3);
+            configContent.enabledRules.push(ruleName);
+        });
+
+        FileUtils.saveToJsonFile(Constants.clientAppDir, Constants.clientConfigFileName, configContent);
+    }
+};
+
+const init = () => {
+    createClientDirectories();
+    createConfigFile();
 };
 
 module.exports = {
