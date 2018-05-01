@@ -1,7 +1,7 @@
 const path = require('path');
 const Constants = require('./Constants');
 
-let rules = [];
+const rules = [];
 
 require('fs').readdirSync(Constants.rulesDir).forEach( file => {
     const rulePath = path.join(__dirname, 'rules', file);
@@ -9,6 +9,6 @@ require('fs').readdirSync(Constants.rulesDir).forEach( file => {
 });
 
 module.exports = {
-    rules,
+    getAllRules : () => rules,
     getEnabledRules : () => rules.filter( rule => rule.isEnabled() )
 };

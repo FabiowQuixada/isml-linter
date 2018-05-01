@@ -89,7 +89,7 @@ const updateMatadataFile = (sourceDir, targetDir) => {
     let isOk = true;
 
     Object.keys(types).forEach( type => {
-        RulesHolder.rules.forEach( rule => {
+        RulesHolder.getAllRules().forEach( rule => {
             isOk = isOk && checkRule(type, rule, compiledOutputFile, originalMetadataFile, fixedRulesArray);
         });
     });

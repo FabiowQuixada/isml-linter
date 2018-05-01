@@ -12,7 +12,7 @@ describe('RulesHolder', () => {
     });
 
     it('holds the correct number of rules', () => {
-        expect(RulesHolder.rules.length).toBe(numberOfRules());
+        expect(RulesHolder.getAllRules().length).toBe(numberOfRules());
     });
 });
 
