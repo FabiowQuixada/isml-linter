@@ -1,14 +1,14 @@
 {
-  "env": "test",
-  "enabledRules" : [
-    "BrTagRule",
-    "DwOccurrenceRule",
-    "ImportPackageRule",
-    "IsprintTagRule",
-    "RequirePreferenceRule",
-    "SpaceAtEndOfLineRule",
-    "SpacesOnlyLineRule",
-    "StyleAttributeRule",
-    "TabRule"
-  ]
+    "env": "test",
+    "enabledRules" : {
+        "BrTagRule" : {}, 
+        "DwOccurrenceRule" : {}, 
+        "ImportPackageRule" : {}, 
+        "IsprintTagRule" : {}, 
+        "RequirePreferenceRule" : {}, 
+        "SpaceAtEndOfLineRule" : {}, 
+        "SpacesOnlyLineRule" : {}, 
+        "StyleAttributeRule" : {}, 
+        "TabRule" : {}
+    }
 }

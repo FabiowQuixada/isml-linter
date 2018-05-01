@@ -1,15 +1,15 @@
 {
-  "enabledRules" : [
-    "BalancedIsifTagRule",
-    "BrTagRule",
-    "DwOccurrenceRule",
-    "ImportPackageRule",
-    "GitConflictRule",
-    "IsprintTagRule",
-    "LogicInTemplateRule",
-    "SpaceAtEndOfLineRule",
-    "SpacesOnlyLineRule",
-    "StyleAttributeRule",
-    "TabRule"
-  ]
+    "enabledRules": {
+        "BalancedIsifTagRule": {},
+        "BrTagRule": {},
+        "DwOccurrenceRule": {},
+        "GitConflictRule": {},
+        "ImportPackageRule": {},
+        "IsprintTagRule": {},
+        "LogicInTemplateRule": {},
+        "SpaceAtEndOfLineRule": {},
+        "SpacesOnlyLineRule": {},
+        "StyleAttributeRule": {},
+        "TabRule": {}
+    }
 }

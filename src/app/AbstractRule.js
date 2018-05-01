@@ -8,7 +8,7 @@ class AbstractRule {
     }
 
     isEnabled() {
-        return config && config.enabledRules && config.enabledRules.indexOf(this.name) !== -1;
+        return config && config.enabledRules && this.name in config.enabledRules;
     }
 }
 

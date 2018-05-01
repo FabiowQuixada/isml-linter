@@ -25,11 +25,11 @@ const createClientDirectories = () => {
 const createConfigFile = () => {
     if (!FileUtils.fileExists(Constants.configFilePath)) {
         const configContent = {};
-        configContent.enabledRules = [];
+        configContent.enabledRules = {};
 
         require('fs').readdirSync(Constants.rulesDir).forEach( filename => {
             const ruleName = filename.slice(0, -3);
-            configContent.enabledRules.push(ruleName);
+            configContent.enabledRules[ruleName] = {};
         });
 
         FileUtils.saveToJsonFile(Constants.clientAppDir, Constants.clientConfigFileName, configContent);
