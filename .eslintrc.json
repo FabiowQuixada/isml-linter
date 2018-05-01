@@ -23,6 +23,15 @@
         "eol-last": ["error", "always"],
         "eqeqeq": ["error", "always"],
         "complexity": ["warn"],
-        "no-trailing-spaces": ["error", { "skipBlankLines": false }]
+        "no-trailing-spaces": ["error", { "skipBlankLines": false }],
+        "no-var": ["error"],
+        "prefer-const": ["error"],
+        "consistent-return": ["error"],
+        "no-extra-parens": ["error"],
+        "strict": ["error"],
+        "no-mixed-requires": ["error"],
+        "comma-spacing": ["error"],
+        "max-depth": ["error"],
+        "no-tabs": ["error"]
     }
 }

@@ -20,7 +20,7 @@ const specConfigFileName = 'spec_config.json';
 
 const clientAppDir = process.cwd();
 const clientNodeModulesLinterDir = path.join(clientAppDir, 'node_modules', ismllinterDirName);
-const linterMainDir = (env === ENV_PROD ? clientNodeModulesLinterDir : clientAppDir);
+const linterMainDir = env === ENV_PROD ? clientNodeModulesLinterDir : clientAppDir;
 const clientIsmlLinterDir = path.join(clientAppDir, ismllinterDirName);
 const clientOutputDir = path.join(clientIsmlLinterDir, outputDir);
 const clientMetadataDir = path.join(clientIsmlLinterDir, metadataDir);

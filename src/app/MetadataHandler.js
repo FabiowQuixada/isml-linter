@@ -36,7 +36,7 @@ const updateMetadataFileRule = (newMetadata, fixedRule) => {
 };
 
 const updateMetadataFile = (fixedRules, targetDir, originalMetadataContent) => {
-    let newMetadata = Object.assign({}, originalMetadataContent);
+    const newMetadata = Object.assign({}, originalMetadataContent);
 
     fixedRules.forEach( fixedRule => {
         updateMetadataFileRule(newMetadata, fixedRule);

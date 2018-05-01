@@ -28,7 +28,7 @@ const parse = (parser, fileName) => {
 const compileOutput = (dir, content) => {
     if (content) {
         let total = 0;
-        let compiledOutput = {};
+        const compiledOutput = {};
 
         Object.keys(content).forEach( type => {
 
