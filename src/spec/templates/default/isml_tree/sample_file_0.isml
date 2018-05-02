@@ -1,0 +1,5 @@
+<iscontent type="text/html" charset="UTF-8" compact="true" />
+<isinclude template="util/modules" />
+
+<isset name="lineItem" value="${'some value'}" scope="page" />
+<isset name="productLineItem" value="${lineItem}" scope="page" />
