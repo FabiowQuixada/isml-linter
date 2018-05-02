@@ -42,6 +42,14 @@ describe('IsmlLinter', () => {
         expect(FileUtils.fileExists(compiledOutputFilePath)).toBe(true);
     });
 
+    it('ignores files under the node_modules/ directory', () => {
+        IsmlLinter.lint(ismlSpecDir);
+
+        const output = JSON.stringify(IsmlLinter.getOutput());
+
+        expect(output.indexOf('node_modules')).toBe(-1);
+    });
+
     //it('saves compiled result to a metadata file', () => {
     //    IsmlLinter.lint(ismlSpecDir);
     //    IsmlLinter.export(specTempDir, specTempDir);

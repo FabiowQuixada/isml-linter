@@ -5,7 +5,9 @@ const path = require('path');
 
 const lint = (linter, dir) => {
     FileParser.cleanOutput();
-    const filesArray = readDir.readSync(dir, ['**.isml']);
+    const filesArray = readDir
+        .readSync(dir, ['**.isml'])
+        .filter( file => file.indexOf('node_modules') === -1 );
 
     filesArray.forEach( fileName => {
         FileParser.parse(path.join(dir, fileName));
