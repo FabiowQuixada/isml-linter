@@ -22,6 +22,7 @@
     "readdir": "0.0.13",
     "rimraf": "^2.6.2",
     "rmdir": "^1.2.0",
+    "sinon": "^5.0.3",
     "to-snake-case": "^1.0.0"
   },
   "scripts": {
