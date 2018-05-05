@@ -3,7 +3,9 @@ const SpecHelper = require('../SpecHelper');
 const Constants = require('../../app/Constants');
 const FileUtils = require('../../app/FileUtils');
 
-describe('FileUtils', () => {
+const targetObjName = SpecHelper.getTargetObjName(__filename);
+
+describe(targetObjName, () => {
     const specTempDir = Constants.specTempDir;
     const fileName = 'sample.json';
     const content = {'key': 'some value'};

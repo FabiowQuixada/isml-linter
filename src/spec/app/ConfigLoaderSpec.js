@@ -2,7 +2,9 @@ const ConfigLoader = require('../../app/ConfigLoader');
 const SpecHelper = require('../SpecHelper');
 const Constants = require('../../app/Constants');
 
-describe('ConfigLoader', () => {
+const targetObjName = SpecHelper.getTargetObjName(__filename);
+
+describe(targetObjName, () => {
 
     beforeEach(() => {
         SpecHelper.beforeEach();

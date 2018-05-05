@@ -1,6 +1,7 @@
 const FileUtils = require('../app/FileUtils');
 const Constants = require('../app/Constants');
 const snake = require('to-snake-case');
+const path = require('path');
 
 const specTempDir = Constants.specTempDir;
 
@@ -27,5 +28,14 @@ module.exports = {
 
     getRuleSpecTemplate: (rule, fileNumber) => {
         return `${Constants.specRuleTemplateDir}/${snake(rule.name)}/file_${fileNumber}.isml`;
+    },
+
+    /**
+     * The name of the object under test is inferred from the spec file name. So for example: from
+     * the "IsmlLinterSpec.js" file name (which is passed as param), it is implicitly inferred that
+     * the object under test is "IsmlLinter". It simply removes the "Spec.js" suffix;
+     */
+    getTargetObjName: specFileName => {
+        return path.basename(specFileName).slice(0, -7);
     }
 };

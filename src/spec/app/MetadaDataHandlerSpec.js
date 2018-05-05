@@ -6,8 +6,9 @@ const Constants = require('../../app/Constants');
 const specTempDir = Constants.specTempDir;
 const metadataFilePath = Constants.specMetadataFilePath;
 const compiledOutputFileName = Constants.compiledOutputFileName;
+const targetObjName = SpecHelper.getTargetObjName(__filename);
 
-describe('MetadataHandler', () => {
+describe(targetObjName, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });

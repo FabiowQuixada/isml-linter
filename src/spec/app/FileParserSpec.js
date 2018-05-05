@@ -10,8 +10,9 @@ const specTempDir = Constants.specTempDir;
 const outputFilePath = Constants.specOutputFilePath;
 const compiledOutputFilePath = Constants.specCompiledOutputFilePath;
 const fileName = path.join(Constants.fileParserSpecDir, 'sample_file.isml');
+const targetObjName = SpecHelper.getTargetObjName(__filename);
 
-describe('FileParser', () => {
+describe(targetObjName, () => {
 
     beforeEach(() => {
         FileParser.cleanOutput();

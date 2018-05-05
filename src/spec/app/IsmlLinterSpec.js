@@ -12,8 +12,9 @@ const specTempDir = Constants.specTempDir;
 const outputFilePath = Constants.specOutputFilePath;
 const compiledOutputFilePath = Constants.specCompiledOutputFilePath;
 //const metadataFilePath = Constants.specMetadataFilePath;
+const targetObjName = SpecHelper.getTargetObjName(__filename);
 
-describe('IsmlLinter', () => {
+describe(targetObjName, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });

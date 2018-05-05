@@ -2,7 +2,9 @@ const SpecHelper = require('../SpecHelper');
 const RulesHolder = require('../../app/RulesHolder');
 const Constants = require('../../app/Constants');
 
-describe('RulesHolder', () => {
+const targetObjName = SpecHelper.getTargetObjName(__filename);
+
+describe(targetObjName, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });
