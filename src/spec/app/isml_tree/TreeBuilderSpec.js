@@ -17,13 +17,19 @@ describe(targetObjName, () => {
     it('creates a one-level-deep tree with correct number of children', () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
 
-        expect(rootNode.getNumberOfChildren()).toEqual(4);
+        expect(rootNode.getNumberOfChildren()).toEqual(5);
     });
 
     it('creates a one-level-deep tree with node values', () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
 
-        expect(rootNode.getChild(2).getValue()).toEqual('<isset name="lineItem" value="${\'some value\'}" scope="page" />');
+        expect(rootNode.getChild(3).getValue()).toEqual('<isset name="lineItem" value="${\'some value\'}" scope="page" />');
+    });
+
+    it('creates a tree with non-self-closing tags', () => {
+        const rootNode = TreeBuilder.build(getFilePath(0));
+
+        expect(rootNode.getChild(2).getValue()).toEqual('<div>');
     });
 });
 
