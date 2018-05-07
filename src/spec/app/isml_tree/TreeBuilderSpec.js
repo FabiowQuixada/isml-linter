@@ -43,6 +43,14 @@ describe(targetObjName, () => {
 
         expect(rootNode.getChild(2).getChild(0).getValue()).toEqual('<isprint value="some text" />');
     });
+
+    it('creates a tree with a self-closed tag grandchild', () => {
+        const rootNode = TreeBuilder.build(getFilePath(0));
+
+        rootNode.print();
+
+        expect(rootNode.getChild(3).getChild(0).getValue()).toEqual('<isif condition="${true}">');
+    });
 });
 
 const getFilePath = number => {

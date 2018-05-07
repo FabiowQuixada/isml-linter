@@ -6,7 +6,9 @@
 </div>
 
 <div class="wrapper">
-    <isprint value="some text" />
+    <isif condition="${true}">
+        <div class="true" />
+    </isif>
 </div>
 
 <isset name="lineItem" value="${'some value'}" scope="page" />
