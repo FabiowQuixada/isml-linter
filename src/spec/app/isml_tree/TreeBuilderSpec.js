@@ -17,7 +17,7 @@ describe(targetObjName, () => {
     it('creates a one-level-deep tree with correct number of children', () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
 
-        expect(rootNode.getNumberOfChildren()).toEqual(6);
+        expect(rootNode.getNumberOfChildren()).toEqual(7);
     });
 
     it('creates a one-level-deep tree with node values', () => {
@@ -46,8 +46,6 @@ describe(targetObjName, () => {
 
     it('creates a tree with a self-closed tag grandchild', () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
-
-        rootNode.print();
 
         expect(rootNode.getChild(3).getChild(0).getValue()).toEqual('<isif condition="${true}">');
     });

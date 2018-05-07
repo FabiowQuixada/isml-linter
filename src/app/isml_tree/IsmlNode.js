@@ -4,6 +4,7 @@ class IsmlNode {
         this.value = '(root)';
         this.type = null;
         this.height = 0;
+        this.innerText = null;
         this.children = [];
     }
 
@@ -26,6 +27,8 @@ class IsmlNode {
     }
 
     getHeight() { return this.height; }
+    setInnerText(text) { this.innerText = text; }
+    getInnerText() { return this.innerText; }
 
     addChild(newNode) {
         newNode.height = this.height+1;
@@ -39,6 +42,7 @@ class IsmlNode {
 
     print() {
         const indentSize = this.height*4;
+        const singleIndentation = '    ';
         let indentation = '';
 
         for (let i = 0; i < indentSize; ++i) {
@@ -47,7 +51,11 @@ class IsmlNode {
 
         console.log(this.height + ' :: ' + indentation + this.value);
 
-        this.children.forEach( node => node.print() );
+        if (this.children.length > 0) {
+            this.children.forEach( node => node.print() );
+        } else if (this.innerText) {
+            console.log(this.height+1 + ' ::' + indentation + singleIndentation + '[plain text] ' + this.innerText);
+        }
     }
 }
 

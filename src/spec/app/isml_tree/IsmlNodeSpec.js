@@ -100,4 +100,14 @@ describe(targetObjName, () => {
 
         expect(spy.secondCall.args[0]).toEqual('1 ::     <span class="some_class">');
     });
+
+    it('prints its inner text', () => {
+        const rootNode = new IsmlNode();
+        rootNode.setValue('<span class="some_class">');
+        rootNode.setInnerText('Some text');
+
+        rootNode.print();
+
+        expect(spy.secondCall.args[0]).toEqual('1 ::    [plain text] ' + rootNode.getInnerText());
+    });
 });

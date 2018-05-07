@@ -12,4 +12,5 @@
 </div>
 
 <isset name="lineItem" value="${'some value'}" scope="page" />
+<iscomment>This is a comment</iscomment>
 <isset name="productLineItem" value="${lineItem}" scope="page" />

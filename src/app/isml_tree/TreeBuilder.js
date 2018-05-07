@@ -13,14 +13,18 @@ const build = filePath => {
 const parse = (content, parentNode) => {
     let elementAsString = '';
     let elemInitPosition = 0;
-    let ignoreUntil = null;
+    let ignoreUntil = content.length + 1;
+    let ignoreState = false;
 
     for (let i = 0; i < content.length; i++) {
 
-        if (ignoreUntil && ignoreUntil >= i) {
-            continue;
-        } else if (ignoreUntil && ignoreUntil < i) {
-            ignoreUntil = null;
+        if (ignoreState) {
+            if (i > ignoreUntil && ignoreUntil !== content.length + 1) {
+                ignoreUntil = content.length + 1;
+                ignoreState = false;
+            } else if (ignoreUntil >= i) {
+                continue;
+            }
         }
 
         const c = content.charAt(i);
@@ -38,9 +42,15 @@ const parse = (content, parentNode) => {
 
                 if (!node.isSelfClosing()) {
                     const nodeInnerContent = getInnerContent(content.substring(elemInitPosition, content.length));
-                    ignoreUntil = i + nodeInnerContent.length;
 
-                    parse(nodeInnerContent.trim(), node);
+                    ignoreUntil = i + nodeInnerContent.length;
+                    ignoreState = true;
+
+                    if (nextNonEmptyChar(content, i) === '<') {
+                        parse(nodeInnerContent.trim(), node);
+                    } else {
+                        node.setInnerText(nodeInnerContent);
+                    }
                 }
             }
 
@@ -72,6 +82,10 @@ const getCurrentElementType = elementAsString => {
     }
 
     return result;
+};
+
+const nextNonEmptyChar = (content, pos) => {
+    return content.substring(pos+1, content.length-1).trim()[0];
 };
 
 /**
