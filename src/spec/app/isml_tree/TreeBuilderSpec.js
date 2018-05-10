@@ -17,7 +17,7 @@ describe(targetObjName, () => {
     it('creates a one-level-deep tree with correct number of children', () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
 
-        expect(rootNode.getNumberOfChildren()).toEqual(7);
+        expect(rootNode.getNumberOfChildren()).toEqual(9);
     });
 
     it('creates a one-level-deep tree with node values', () => {

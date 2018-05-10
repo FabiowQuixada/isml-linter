@@ -39,6 +39,7 @@ class IsmlNode {
     getNumberOfChildren() { return this.children.length; }
 
     isSelfClosing() { return this.value.endsWith('/>'); }
+    isScriptNode() { return this.value === '<isscript>'; }
 
     print() {
         const indentSize = this.height*4;
@@ -51,7 +52,9 @@ class IsmlNode {
 
         console.log(this.height + ' :: ' + indentation + this.value);
 
-        if (this.children.length > 0) {
+        if (this.isScriptNode()) {
+            console.log(this.height+1 + ' :: ' + indentation + singleIndentation + '[script] ' + this.innerText);
+        } else if (this.children.length > 0) {
             this.children.forEach( node => node.print() );
         } else if (this.innerText) {
             console.log(this.height+1 + ' ::' + indentation + singleIndentation + '[plain text] ' + this.innerText);

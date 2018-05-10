@@ -14,3 +14,9 @@
 <isset name="lineItem" value="${'some value'}" scope="page" />
 <iscomment>This is a comment</iscomment>
 <isset name="productLineItem" value="${lineItem}" scope="page" />
+
+<isscript>
+    var defaultMethod : dw.order.ShippingMethod = dw.order.ShippingMgr.getDefaultShippingMethod();
+</isscript>
+
+<div/>
