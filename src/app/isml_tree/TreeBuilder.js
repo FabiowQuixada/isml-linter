@@ -49,7 +49,7 @@ const parse = (content, parentNode) => {
                     if (nextNonEmptyChar(content, i) === '<') {
                         parse(nodeInnerContent.trim(), node);
                     } else {
-                        node.setInnerText(nodeInnerContent);
+                        node.setInnerText(nodeInnerContent.trim());
                     }
                 }
             }

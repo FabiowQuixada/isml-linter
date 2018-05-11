@@ -20,3 +20,7 @@
 </isscript>
 
 <div/>
+
+<div class="isml_expression_wrapper">
+    ${3 < 4}
+</div>
