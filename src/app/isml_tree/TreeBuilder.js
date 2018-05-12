@@ -5,66 +5,78 @@ const build = filePath => {
     const fileContent = fs.readFileSync(filePath, 'utf-8').replace(/(\r\n\t|\n|\r\t)/gm, '');
     const rootNode = new IsmlNode();
 
-    parse(fileContent, rootNode);
+    parse(rootNode, fileContent);
 
     return rootNode;
 };
 
-const parse = (content, parentNode) => {
-    let elementAsString = '';
-    let elemInitPosition = 0;
-    let ignoreUntil = content.length + 1;
-    let ignoreState = false;
+const parse = (parentNode, content) => {
+    let currentElementAsString = '';
+    let currentElemInitPosition = 0;
+    let ignoreUntil = null;
 
     for (let i = 0; i < content.length; i++) {
 
-        if (ignoreState) {
+        const currentChar = content.charAt(i);
+        currentElementAsString += currentChar;
+
+        if (ignoreUntil) {
             if (i > ignoreUntil && ignoreUntil !== content.length + 1) {
-                ignoreUntil = content.length + 1;
-                ignoreState = false;
+                ignoreUntil = null;
             } else if (ignoreUntil >= i) {
                 continue;
             }
         }
 
-        const c = content.charAt(i);
-
-        elementAsString += c;
-
-        if (c === '<') {
-            elemInitPosition = i;
-        } else if (c === '>') {
-            if (isOpeningElem(content, elementAsString, elemInitPosition)) {
-
-                const node = new IsmlNode();
-                node.setValue(elementAsString.trim());
-                parentNode.addChild(node);
-
-                if (!node.isSelfClosing()) {
-                    const nodeInnerContent = getInnerContent(content.substring(elemInitPosition, content.length));
-
-                    ignoreUntil = i + nodeInnerContent.length;
-                    ignoreState = true;
-
-                    if (nextNonEmptyChar(content, i) === '<') {
-                        parse(nodeInnerContent.trim(), node);
-                    } else {
-                        const innerTextNode = new IsmlNode();
-                        innerTextNode.setValue(nodeInnerContent.trim());
-                        node.addChild(innerTextNode);
-                    }
-                }
+        if (currentChar === '<') {
+            currentElemInitPosition = i;
+        } else if (currentChar === '>') {
+            if (isOpeningElem(content, currentElementAsString, currentElemInitPosition)) {
+                ignoreUntil = createNode(parentNode, content, i, currentElementAsString, currentElemInitPosition);
             }
 
-            elementAsString = '';
+            currentElementAsString = '';
         }
     }
 };
 
+const createNode = (parentNode, content, currentPos, currentElementAsString, currentElemInitPosition) => {
+    const node = new IsmlNode();
+    node.setValue(currentElementAsString.trim());
+    parentNode.addChild(node);
+
+    if (!node.isSelfClosing()) {
+        return handleInnerContent(node, content, currentPos, currentElemInitPosition);
+    }
+
+    return null;
+};
+
+const handleInnerContent = (node, content, currentPos, currentElemInitPosition) => {
+    const nodeInnerContent = getInnerContent(content.substring(currentElemInitPosition, content.length));
+
+    if (nextElementIsATag(content, currentPos)) {
+        parse(node, nodeInnerContent.trim());
+    } else {
+        addTextToNode(node, nodeInnerContent.trim());
+    }
+
+    return currentPos + nodeInnerContent.length;
+};
+
 const isOpeningElem = (content, elem, currPos) => {
-    const c = content.charAt(currPos);
-    const c2 = content.charAt(currPos+1);
-    return c === '<' && c2 !== '/';
+    const currenChar = content.charAt(currPos);
+    const nextChar = content.charAt(currPos+1);
+
+    return currenChar === '<' && nextChar !== '/';
+};
+
+const nextElementIsATag = (content, currentPos) => nextNonEmptyChar(content, currentPos) === '<';
+
+const addTextToNode = (node, nodeInnerContent) => {
+    const innerTextNode = new IsmlNode();
+    innerTextNode.setValue(nodeInnerContent);
+    node.addChild(innerTextNode);
 };
 
 const getInnerContent = content => {
