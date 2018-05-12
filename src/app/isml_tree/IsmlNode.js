@@ -1,3 +1,5 @@
+const MAX_TEXT_DISPLAY_SIZE = 30;
+
 class IsmlNode {
 
     constructor() {
@@ -46,11 +48,23 @@ class IsmlNode {
             indentation += '    ';
         }
 
-        console.log(this.height + ' :: ' + indentation + this.value);
+        console.log(this.height + ' :: ' + indentation + this.getDisplayText());
 
         if (this.children.length > 0) {
             this.children.forEach( node => node.print() );
         }
+    }
+
+    // === Helper, "private" methods;
+
+    getDisplayText() {
+        let displayText = this.value;
+
+        if (this.value.length > MAX_TEXT_DISPLAY_SIZE - 3) {
+            displayText = this.value.substring(0, MAX_TEXT_DISPLAY_SIZE - 3) + '...';
+        }
+
+        return displayText;
     }
 }
 
