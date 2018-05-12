@@ -49,7 +49,9 @@ const parse = (content, parentNode) => {
                     if (nextNonEmptyChar(content, i) === '<') {
                         parse(nodeInnerContent.trim(), node);
                     } else {
-                        node.setInnerText(nodeInnerContent.trim());
+                        const innerTextNode = new IsmlNode();
+                        innerTextNode.setValue(nodeInnerContent.trim());
+                        node.addChild(innerTextNode);
                     }
                 }
             }

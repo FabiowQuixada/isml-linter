@@ -17,7 +17,7 @@ describe(targetObjName, () => {
     it('creates a one-level-deep tree with correct number of children', () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
 
-        expect(rootNode.getNumberOfChildren()).toEqual(10);
+        expect(rootNode.getNumberOfChildren()).toEqual(11);
     });
 
     it('creates a one-level-deep tree with node values', () => {
@@ -53,7 +53,7 @@ describe(targetObjName, () => {
     it('recognizes a simple, raw isml expression: ${...}', () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
 
-        expect(rootNode.getChild(9).getInnerText()).toEqual('${3 < 4}');
+        expect(rootNode.getChild(9).getChild(0).getValue()).toEqual('${3 < 4}');
     });
 });
 

@@ -24,3 +24,5 @@
 <div class="isml_expression_wrapper">
     ${3 < 4}
 </div>
+
+<iscomment>This is a really, really big comment. OK, not that big.</iscomment>
