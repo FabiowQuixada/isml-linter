@@ -92,7 +92,7 @@ const handleInnerContent = (node, parseState) => {
 
     const nodeInnerContent = getInnerContent(content.substring(currentElemInitPosition, content.length));
 
-    if (nextElementIsATag(parseState)) {
+    if (isNextElementATag(parseState)) {
         parse(node, nodeInnerContent.trim());
     } else {
         addTextToNode(node, nodeInnerContent.trim());
@@ -101,19 +101,6 @@ const handleInnerContent = (node, parseState) => {
     return currentPos + nodeInnerContent.length;
 };
 
-const isOpeningElem = parseState => {
-
-    const content = parseState.content;
-    const currPos = parseState.currentElemInitPosition;
-
-    const currenChar = content.charAt(currPos);
-    const nextChar = content.charAt(currPos+1);
-
-    return currenChar === '<' && nextChar !== '/';
-};
-
-const nextElementIsATag = parseState => nextNonEmptyChar(parseState) === '<';
-
 const addTextToNode = (node, nodeInnerContent) => {
     const innerTextNode = new IsmlNode();
     innerTextNode.setValue(nodeInnerContent);
@@ -121,14 +108,14 @@ const addTextToNode = (node, nodeInnerContent) => {
 };
 
 const getInnerContent = content => {
-    const elemType = getCurrentElementType(content);
+    const elemType = getFirstElementType(content);
     const openingElemPosition = content.indexOf('>');
-    const closingElemPosition = findCorrespondentClosingElementPosition(content, elemType);
+    const closingElemPosition = getCorrespondentClosingElementPosition(content, elemType);
 
     return content.substring(openingElemPosition+1, closingElemPosition);
 };
 
-const getCurrentElementType = elementAsString => {
+const getFirstElementType = elementAsString => {
     let result = elementAsString.substring(elementAsString.indexOf('<') + 1, elementAsString.indexOf('>'));
 
     // In case the tag has attributes;
@@ -139,7 +126,7 @@ const getCurrentElementType = elementAsString => {
     return result;
 };
 
-const nextNonEmptyChar = parseState => {
+const getNextNonEmptyChar = parseState => {
 
     const content = parseState.content;
     const currentPos = parseState.currentPos;
@@ -157,8 +144,8 @@ const nextNonEmptyChar = parseState => {
 
  * The 'depth' variable works as a stack, taking into account only elements of type 'E'
 */
-const findCorrespondentClosingElementPosition = (content, elem) => {
-    return content.indexOf('</' + elem + '>');
+const getCorrespondentClosingElementPosition = (content, elem) => {
+    return content.indexOf(`</${elem}>`);
 };
 
 const isOpeningIsmlExpression = parseState => {
@@ -180,6 +167,19 @@ const isClosingIsmlExpression = parseState => {
 
     return insideExpression && content.charAt(currentPos-1) === '}';
 };
+
+const isOpeningElem = parseState => {
+
+    const content = parseState.content;
+    const currPos = parseState.currentElemInitPosition;
+
+    const currenChar = content.charAt(currPos);
+    const nextChar = content.charAt(currPos+1);
+
+    return currenChar === '<' && nextChar !== '/';
+};
+
+const isNextElementATag = parseState => getNextNonEmptyChar(parseState) === '<';
 
 module.exports = {
     build
