@@ -31,14 +31,14 @@ const parse = (parentNode, content) => {
         }
 
         if (insideTag) {
-            if (openingIsmlExpression(content, i)) {
+            if (isOpeningIsmlExpression(content, i)) {
                 insideExpression = true;
-            } else if (content.charAt(i-1) === '}') {
+            } else if (insideExpression && isClosingIsmlExpression(content, i)) {
                 insideExpression = false;
             }
         }
 
-        if(insideTag && insideExpression) {
+        if (insideTag && insideExpression) {
             continue;
         }
 
@@ -132,12 +132,14 @@ const findCorrespondentClosingElementPosition = (content, elem) => {
     return content.indexOf('</' + elem + '>');
 };
 
-const openingIsmlExpression = (content, currentPos) => {
+const isOpeningIsmlExpression = (content, currentPos) => {
     const currChar = content.charAt(currentPos);
     const nextChar = content.charAt(currentPos+1);
 
     return currChar === '$' && nextChar === '{';
 };
+
+const isClosingIsmlExpression = (content, currentPos) => content.charAt(currentPos-1) === '}';
 
 module.exports = {
     build
