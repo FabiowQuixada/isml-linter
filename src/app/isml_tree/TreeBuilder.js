@@ -11,67 +11,88 @@ const build = filePath => {
 };
 
 const parse = (parentNode, content) => {
-    let currentElementAsString = '';
-    let currentElemInitPosition = 0;
-    let ignoreUntil = null;
-    let insideTag = false;
-    let insideExpression = false;
+    let parseState = {
+        content: content,
+        currentElementAsString: '',
+        currentElemInitPosition: -1,
+        currentChar: null,
+        currentPos: -1,
+        ignoreUntil: null,
+        insideTag: false,
+        insideExpression: false
+    };
 
     for (let i = 0; i < content.length; i++) {
 
-        const currentChar = content.charAt(i);
-        currentElementAsString += currentChar;
+        parseState.currentChar = content.charAt(i);
+        parseState.currentElementAsString += parseState.currentChar;
+        parseState.currentPos = i;
 
-        if (ignoreUntil) {
-            if (i > ignoreUntil && ignoreUntil !== content.length + 1) {
-                ignoreUntil = null;
-            } else if (ignoreUntil >= i) {
+        if (parseState.ignoreUntil) {
+            if (i > parseState.ignoreUntil && parseState.ignoreUntil !== content.length + 1) {
+                parseState.ignoreUntil = null;
+            } else if (parseState.ignoreUntil >= i) {
                 continue;
             }
         }
 
-        if (insideTag) {
-            if (isOpeningIsmlExpression(content, i)) {
-                insideExpression = true;
-            } else if (insideExpression && isClosingIsmlExpression(content, i)) {
-                insideExpression = false;
-            }
-        }
+        parseState = updateParseState(parseState);
 
-        if (insideTag && insideExpression) {
+        if (parseState.insideTag && parseState.insideExpression) {
             continue;
         }
 
-        if (currentChar === '<') {
-            currentElemInitPosition = i;
-            insideTag = true;
-        } else if (currentChar === '>') {
-            insideTag = false;
-            if (isOpeningElem(content, currentElementAsString, currentElemInitPosition)) {
-                ignoreUntil = createNode(parentNode, content, i, currentElementAsString, currentElemInitPosition);
+        if (parseState.currentChar === '<') {
+            parseState.currentElemInitPosition = i;
+            parseState.insideTag = true;
+        } else if (parseState.currentChar === '>') {
+
+            if (isOpeningElem(parseState)) {
+                parseState.ignoreUntil = createNode(parentNode, parseState);
             }
 
-            currentElementAsString = '';
+            parseState.insideTag = false;
+            parseState.currentElementAsString = '';
+            parseState.currentElemInitPosition = -1;
         }
     }
 };
 
-const createNode = (parentNode, content, currentPos, currentElementAsString, currentElemInitPosition) => {
+const updateParseState = oldParseState => {
+    const newParseState = Object.assign({}, oldParseState);
+
+    if (oldParseState.insideTag) {
+        if (isOpeningIsmlExpression(oldParseState)) {
+            newParseState.insideExpression = true;
+        } else if (isClosingIsmlExpression(oldParseState)) {
+            newParseState.insideExpression = false;
+        }
+    }
+
+    return newParseState;
+};
+
+const createNode = (parentNode, parseState) => {
     const node = new IsmlNode();
-    node.setValue(currentElementAsString.trim());
+    node.setValue(parseState.currentElementAsString.trim());
     parentNode.addChild(node);
 
     if (!node.isSelfClosing()) {
-        return handleInnerContent(node, content, currentPos, currentElemInitPosition);
+        return handleInnerContent(node, parseState);
     }
 
     return null;
 };
 
-const handleInnerContent = (node, content, currentPos, currentElemInitPosition) => {
+const handleInnerContent = (node, parseState) => {
+
+    const content = parseState.content;
+    const currentPos = parseState.currentPos;
+    const currentElemInitPosition = parseState.currentElemInitPosition;
+
     const nodeInnerContent = getInnerContent(content.substring(currentElemInitPosition, content.length));
 
-    if (nextElementIsATag(content, currentPos)) {
+    if (nextElementIsATag(parseState)) {
         parse(node, nodeInnerContent.trim());
     } else {
         addTextToNode(node, nodeInnerContent.trim());
@@ -80,14 +101,18 @@ const handleInnerContent = (node, content, currentPos, currentElemInitPosition) 
     return currentPos + nodeInnerContent.length;
 };
 
-const isOpeningElem = (content, elem, currPos) => {
+const isOpeningElem = parseState => {
+
+    const content = parseState.content;
+    const currPos = parseState.currentElemInitPosition;
+
     const currenChar = content.charAt(currPos);
     const nextChar = content.charAt(currPos+1);
 
     return currenChar === '<' && nextChar !== '/';
 };
 
-const nextElementIsATag = (content, currentPos) => nextNonEmptyChar(content, currentPos) === '<';
+const nextElementIsATag = parseState => nextNonEmptyChar(parseState) === '<';
 
 const addTextToNode = (node, nodeInnerContent) => {
     const innerTextNode = new IsmlNode();
@@ -114,8 +139,12 @@ const getCurrentElementType = elementAsString => {
     return result;
 };
 
-const nextNonEmptyChar = (content, pos) => {
-    return content.substring(pos+1, content.length-1).trim()[0];
+const nextNonEmptyChar = parseState => {
+
+    const content = parseState.content;
+    const currentPos = parseState.currentPos;
+
+    return content.substring(currentPos+1, content.length-1).trim()[0];
 };
 
 /**
@@ -132,14 +161,25 @@ const findCorrespondentClosingElementPosition = (content, elem) => {
     return content.indexOf('</' + elem + '>');
 };
 
-const isOpeningIsmlExpression = (content, currentPos) => {
+const isOpeningIsmlExpression = parseState => {
+
+    const content = parseState.content;
+    const currentPos = parseState.currentPos;
+
     const currChar = content.charAt(currentPos);
     const nextChar = content.charAt(currentPos+1);
 
     return currChar === '$' && nextChar === '{';
 };
 
-const isClosingIsmlExpression = (content, currentPos) => content.charAt(currentPos-1) === '}';
+const isClosingIsmlExpression = parseState => {
+
+    const content = parseState.content;
+    const currentPos = parseState.currentPos;
+    const insideExpression = parseState.insideExpression;
+
+    return insideExpression && content.charAt(currentPos-1) === '}';
+};
 
 module.exports = {
     build
