@@ -14,6 +14,8 @@ const parse = (parentNode, content) => {
     let currentElementAsString = '';
     let currentElemInitPosition = 0;
     let ignoreUntil = null;
+    let insideTag = false;
+    let insideExpression = false;
 
     for (let i = 0; i < content.length; i++) {
 
@@ -28,9 +30,23 @@ const parse = (parentNode, content) => {
             }
         }
 
+        if (insideTag) {
+            if (openingIsmlExpression(content, i)) {
+                insideExpression = true;
+            } else if (content.charAt(i-1) === '}') {
+                insideExpression = false;
+            }
+        }
+
+        if(insideTag && insideExpression) {
+            continue;
+        }
+
         if (currentChar === '<') {
             currentElemInitPosition = i;
+            insideTag = true;
         } else if (currentChar === '>') {
+            insideTag = false;
             if (isOpeningElem(content, currentElementAsString, currentElemInitPosition)) {
                 ignoreUntil = createNode(parentNode, content, i, currentElementAsString, currentElemInitPosition);
             }
@@ -114,6 +130,13 @@ const nextNonEmptyChar = (content, pos) => {
 */
 const findCorrespondentClosingElementPosition = (content, elem) => {
     return content.indexOf('</' + elem + '>');
+};
+
+const openingIsmlExpression = (content, currentPos) => {
+    const currChar = content.charAt(currentPos);
+    const nextChar = content.charAt(currentPos+1);
+
+    return currChar === '$' && nextChar === '{';
 };
 
 module.exports = {

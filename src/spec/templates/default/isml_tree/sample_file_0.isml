@@ -26,3 +26,7 @@
 </div>
 
 <iscomment>This is a really, really big comment. OK, not that big.</iscomment>
+
+<isif condition="${opli.bundledProductLineItems < 4}">
+    <isset name="opliID" value="${opli.ID}" scope="page" />
+</isif>
