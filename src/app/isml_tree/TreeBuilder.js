@@ -108,9 +108,8 @@ const addTextToNode = (node, nodeInnerContent) => {
 };
 
 const getInnerContent = content => {
-    const elemType = getFirstElementType(content);
     const openingElemPosition = content.indexOf('>');
-    const closingElemPosition = getCorrespondentClosingElementPosition(content, elemType);
+    const closingElemPosition = getCorrespondentClosingElementPosition(content);
 
     return content.substring(openingElemPosition+1, closingElemPosition);
 };
@@ -144,8 +143,102 @@ const getNextNonEmptyChar = parseState => {
 
  * The 'depth' variable works as a stack, taking into account only elements of type 'E'
 */
-const getCorrespondentClosingElementPosition = (content, elem) => {
-    return content.indexOf(`</${elem}>`);
+const getCorrespondentClosingElementPosition = content => {
+    const elem = getFirstElementType(content);
+    const elemType = getFirstElementType(elem);
+    const stack = [];
+    const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
+    const closingElemRegex = /<\/.[a-zA-Z]*>/;
+    const ismlExpressionRegex = /\$\{.*\}/;
+
+    let tempContent = content;
+    let openingElemPos = -1;
+    let closingElementPos = -1;
+    let result = -1;
+    let currentReadingPos = 0;
+
+    tempContent = replaceIsmlExpressionWithPlaceholder(tempContent);
+
+
+    while (tempContent && openingElemPos !== Number.POSITIVE_INFINITY && closingElementPos !== Number.POSITIVE_INFINITY) {
+
+        const firstClosingElemPos = tempContent.indexOf('>')+1;
+        const isSelfClosingElement = tempContent.charAt(firstClosingElemPos-2) === '/';
+
+        openingElemPos = Number.POSITIVE_INFINITY;
+        closingElementPos = Number.POSITIVE_INFINITY;
+
+        const openingElem = openingElemRegex.exec(tempContent);
+        const closingElement = closingElemRegex.exec(tempContent);
+
+        if (openingElem) {
+            openingElemPos = openingElem.index;
+        }
+
+        if (closingElement) {
+            closingElementPos = closingElement.index;
+        }
+
+        if (tempContent.replace(/\$\{.*\}/, '').trim()[0] === '<') {
+            currentReadingPos += firstClosingElemPos;
+        } else {
+            currentReadingPos += tempContent.indexOf('<');
+            tempContent = tempContent.replace(/\$\{.*\}/, '').substring(tempContent.indexOf('<'), tempContent.length);
+            continue;
+        }
+
+        if (!isSelfClosingElement) {
+            if (openingElemPos < closingElementPos) {
+                stack.push('openingElem[0]');
+            } else {
+                stack.pop();
+            }
+        }
+
+        tempContent = tempContent.substring(firstClosingElemPos, tempContent.length);
+
+        if (!stack.length) {
+            result = currentReadingPos - firstClosingElemPos;
+            break;
+        }
+
+        openingElemRegex.lastIndex = 0;
+        closingElemRegex.lastIndex = 0;
+    }
+
+    return result;
+};
+
+/**
+ * Replaces '${...}' with '======', so it facilites next processes. For Example,
+ * if ${ 3 < 4 } is present, the '<' symbol might be thought as an opening tag
+ * symbol. The same is valid for <isscript> and <iscomment> tags;
+ */
+const replaceIsmlExpressionWithPlaceholder = content => {
+    let result = content;
+
+    result = replaceContent(result, '${', '}');
+
+    return result;
+};
+
+const replaceContent = (content, init, end) => {
+    const placeholderSymbol = '_';
+    let result = content;
+
+    while (result.indexOf(init) !== -1) {
+        let placeholder = '';
+        a = result.indexOf(init);
+        b = result.indexOf(end);
+
+        for (let i = a; i <= b; i++) { placeholder += placeholderSymbol; }
+
+        result = result.substring(0, a) +
+                 placeholder +
+                 result.substring(b+1, result.length+1);
+    }
+
+    return result;
 };
 
 const isOpeningIsmlExpression = parseState => {

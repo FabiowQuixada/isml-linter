@@ -21,7 +21,7 @@
 
 <div/>
 
-<div class="isml_expression_wrapper">
+<div>
     ${3 < 4}
 </div>
 
@@ -30,3 +30,11 @@
 <isif condition="${opli.bundledProductLineItems < 4}">
     <isset name="opliID" value="${opli.ID}" scope="page" />
 </isif>
+
+<div class="outter">
+    <div class="inner"> 
+        <div class="further_in"> 
+
+        </div> 
+    </div> 
+</div>

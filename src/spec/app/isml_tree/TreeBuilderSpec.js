@@ -17,7 +17,7 @@ describe(targetObjName, () => {
     it('creates a one-level-deep tree with correct number of children', () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
 
-        expect(rootNode.getNumberOfChildren()).toEqual(12);
+        expect(rootNode.getNumberOfChildren()).toEqual(13);
     });
 
     it('creates a one-level-deep tree with node values', () => {
@@ -61,6 +61,13 @@ describe(targetObjName, () => {
 
         expect(rootNode.getChild(11).getChild(0).getValue()).toEqual('<isset name="opliID" value="${opli.ID}" scope="page" />');
         expect(rootNode.getChild(11).getChild(0).getNumberOfChildren()).toEqual(0);
+    });
+
+    it('parses recursive elements', () => {
+        const rootNode = TreeBuilder.build(getFilePath(0));
+
+        expect(rootNode.getChild(12).getChild(0).getValue()).toEqual('<div class="inner">');
+        expect(rootNode.getChild(12).getChild(0).getChild(0).getValue()).toEqual('<div class="further_in">');
     });
 });
 
