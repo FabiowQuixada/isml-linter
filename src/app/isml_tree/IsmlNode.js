@@ -14,18 +14,9 @@ class IsmlNode {
     getValue() { return this.value; }
 
     getType() {
+        const regex = /<[a-zA-Z]*(\s|>|\/)/g;
 
-        let pos = this.value.indexOf('>');
-
-        if (this.value.indexOf('/') !== -1) {
-            pos = this.value.indexOf('/');
-        }
-
-        if (this.value.indexOf(' ') !== -1) {
-            pos = this.value.indexOf(' ');
-        }
-
-        return this.value.substring(this.value.indexOf('<') + 1, pos);
+        return this.value.match(regex)[0].slice(1, -1);
     }
 
     getHeight() { return this.height; }
