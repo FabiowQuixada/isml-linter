@@ -1,11 +1,11 @@
 <iscontent type="text/html" charset="UTF-8" compact="true" />
 <isinclude template="util/modules" />
 
-<div>
+<div id="root_elem_2">
     <isprint value="some text" />
 </div>
 
-<div class="wrapper">
+<div id="root_elem_3" class="wrapper">
     <isif condition="${true}">
         <div class="true" />
     </isif>
@@ -21,7 +21,7 @@
 
 <div/>
 
-<div>
+<div id="root_elem_9">
     ${3 < 4}
 </div>
 
@@ -31,10 +31,26 @@
     <isset name="opliID" value="${opli.ID}" scope="page" />
 </isif>
 
-<div class="outter">
+<div id="root_elem_12" class="outter">
     <div class="inner"> 
         <div class="further_in"> 
 
         </div> 
     </div> 
 </div>
+
+<isscript>
+    var condition = someValue < 4;
+</isscript>
+
+<div id="root_elem_14">
+    ${someValue < 3}
+</div>
+
+<isscript>
+    var condition = someValue < 4;
+</isscript>
+
+<iscomment>
+    This comment has a '<' character.
+</iscomment>

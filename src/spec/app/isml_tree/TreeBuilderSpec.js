@@ -17,7 +17,7 @@ describe(targetObjName, () => {
     it('creates a one-level-deep tree with correct number of children', () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
 
-        expect(rootNode.getNumberOfChildren()).toEqual(13);
+        expect(rootNode.getNumberOfChildren()).toEqual(17);
     });
 
     it('creates a one-level-deep tree with node values', () => {
@@ -29,7 +29,7 @@ describe(targetObjName, () => {
     it('creates a tree with non-self-closing tags', () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
 
-        expect(rootNode.getChild(2).getValue()).toEqual('<div>');
+        expect(rootNode.getChild(2).getValue()).toEqual('<div id="root_elem_2">');
     });
 
     it('creates a tree with a self-closed tag attribute-less grandchild', () => {
@@ -69,6 +69,26 @@ describe(targetObjName, () => {
         expect(rootNode.getChild(12).getChild(0).getValue()).toEqual('<div class="inner">');
         expect(rootNode.getChild(12).getChild(0).getChild(0).getValue()).toEqual('<div class="further_in">');
     });
+
+    it('handles "<" charecters in isml expressons', () => {
+        const rootNode = TreeBuilder.build(getFilePath(0));
+
+        expect(rootNode.getChild(13).getChild(0).getValue()).toEqual('var condition = someValue < 4;');
+    });
+
+    it('handles "<" charecters in scripts', () => {
+        const rootNode = TreeBuilder.build(getFilePath(0));
+
+        expect(rootNode.getChild(14).getChild(0).getValue()).toEqual('${someValue < 3}');
+
+    });
+
+    it('handles "<" charecters in comments', () => {
+        const rootNode = TreeBuilder.build(getFilePath(0));
+
+        expect(rootNode.getChild(16).getChild(0).getValue()).toEqual('This comment has a \'<\' character.');
+    });
+
 });
 
 const getFilePath = number => {

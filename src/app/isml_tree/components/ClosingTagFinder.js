@@ -127,27 +127,37 @@ const updateElementStack = oldState => {
 const replaceIsmlExpressionWithPlaceholder = oldState => {
 
     const newState = Object.assign({}, oldState);
+    let content = newState.content;
 
-    newState.content = replaceContent(newState.content, '${', '}');
+    content = replaceContentOfFirstWrappingTag(content, '${', '}');
+    content = replaceContentOfFirstWrappingTag(content, '<isscript>', '</isscript>');
+    content = replaceContentOfFirstWrappingTag(content, '<iscomment>', '</iscomment>');
+
+    newState.content = content;
 
     return newState;
 };
 
-const replaceContent = (content, init, end) => {
+const replaceContentOfFirstWrappingTag = (content, startString, endString) => {
 
     const placeholderSymbol = '_';
     let result = content;
 
-    while (result.indexOf(init) !== -1) {
-        const a = result.indexOf(init);
-        const b = result.indexOf(end);
+    const startStringPos = result.indexOf(startString);
+    const endStringPos = result.indexOf(endString);
+
+    if (startStringPos !== -1 && endStringPos !== -1) {
+        const startStringEndPos = startStringPos + startString.length;
+        const endStringStartPos = endStringPos-1;
         let placeholder = '';
 
-        for (let i = a; i <= b; i++) { placeholder += placeholderSymbol; }
+        for (let i = startStringEndPos; i <= endStringStartPos; i++) {
+            placeholder += placeholderSymbol;
+        }
 
-        result = result.substring(0, a) +
+        result = result.substring(0, startStringEndPos) +
                  placeholder +
-                 result.substring(b+1, result.length+1);
+                 result.substring(endStringStartPos+1, result.length+1);
     }
 
     return result;
