@@ -144,69 +144,112 @@ const getNextNonEmptyChar = parseState => {
  * The 'depth' variable works as a stack, taking into account only elements of type 'E'
 */
 const getCorrespondentClosingElementPosition = content => {
-    const elem = getFirstElementType(content);
-    const elemType = getFirstElementType(elem);
-    const stack = [];
     const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
     const closingElemRegex = /<\/.[a-zA-Z]*>/;
-    const ismlExpressionRegex = /\$\{.*\}/;
 
-    let tempContent = content;
-    let openingElemPos = -1;
-    let closingElementPos = -1;
-    let result = -1;
-    let currentReadingPos = 0;
+    let state = {
+        content: content,
+        openingElemPos: -1,
+        closingElementPos: -1,
+        result: -1,
+        currentReadingPos: 0,
+        elementStack: []
+    };
 
-    tempContent = replaceIsmlExpressionWithPlaceholder(tempContent);
+    state = replaceIsmlExpressionWithPlaceholder(state);
 
+    while (isClosingPositionNotFound(state)) {
 
-    while (tempContent && openingElemPos !== Number.POSITIVE_INFINITY && closingElementPos !== Number.POSITIVE_INFINITY) {
+        state = initializeLoopVariables(state, openingElemRegex, closingElemRegex);
 
-        const firstClosingElemPos = tempContent.indexOf('>')+1;
-        const isSelfClosingElement = tempContent.charAt(firstClosingElemPos-2) === '/';
+        if (isNextElementATag(state)) {
+            state = updateState(state);
 
-        openingElemPos = Number.POSITIVE_INFINITY;
-        closingElementPos = Number.POSITIVE_INFINITY;
-
-        const openingElem = openingElemRegex.exec(tempContent);
-        const closingElement = closingElemRegex.exec(tempContent);
-
-        if (openingElem) {
-            openingElemPos = openingElem.index;
-        }
-
-        if (closingElement) {
-            closingElementPos = closingElement.index;
-        }
-
-        if (tempContent.replace(/\$\{.*\}/, '').trim()[0] === '<') {
-            currentReadingPos += firstClosingElemPos;
-        } else {
-            currentReadingPos += tempContent.indexOf('<');
-            tempContent = tempContent.replace(/\$\{.*\}/, '').substring(tempContent.indexOf('<'), tempContent.length);
-            continue;
-        }
-
-        if (!isSelfClosingElement) {
-            if (openingElemPos < closingElementPos) {
-                stack.push('openingElem[0]');
-            } else {
-                stack.pop();
+            if (!state.elementStack.length) {
+                return state.result;
             }
+        } else {
+            state = removeLeadingNonTagText(state);
         }
-
-        tempContent = tempContent.substring(firstClosingElemPos, tempContent.length);
-
-        if (!stack.length) {
-            result = currentReadingPos - firstClosingElemPos;
-            break;
-        }
-
-        openingElemRegex.lastIndex = 0;
-        closingElemRegex.lastIndex = 0;
     }
 
-    return result;
+    return -1;
+};
+
+const updateState = oldState => {
+    let newState = Object.assign({}, oldState);
+
+    newState.currentReadingPos += newState.firstClosingElemPos;
+    newState = updateElementStack(newState);
+    newState = removeFirstElement(newState);
+
+    newState.result = newState.currentReadingPos - newState.firstClosingElemPos;
+
+    return newState;
+};
+
+const isClosingPositionNotFound = state => {
+    return state.content &&
+           state.openingElemPos !== Number.POSITIVE_INFINITY &&
+           state.closingElementPos !== Number.POSITIVE_INFINITY;
+};
+
+const removeLeadingNonTagText = oldState => {
+    const newState = Object.assign({}, oldState);
+
+    newState.content = oldState.content.substring(oldState.content.indexOf('<'), oldState.content.length);
+    newState.currentReadingPos += oldState.content.indexOf('<');
+
+    return newState;
+};
+
+const removeFirstElement = oldState => {
+    const newState = Object.assign({}, oldState);
+
+    newState.content = newState.content.substring(newState.firstClosingElemPos, newState.content.length);
+
+    return newState;
+};
+
+const initializeLoopVariables = (oldState, openingElemRegex, closingElemRegex) => {
+    const newState = Object.assign({}, oldState);
+
+    openingElemRegex.lastIndex = 0;
+    closingElemRegex.lastIndex = 0;
+
+    newState.firstClosingElemPos = newState.content.indexOf('>')+1;
+    newState.isSelfClosingElement = newState.content.charAt(newState.firstClosingElemPos-2) === '/';
+
+    newState.openingElemPos = Number.POSITIVE_INFINITY;
+    newState.closingElementPos = Number.POSITIVE_INFINITY;
+
+    const openingElem = openingElemRegex.exec(newState.content);
+    const closingElement = closingElemRegex.exec(newState.content);
+
+    if (openingElem) {
+        newState.openingElemPos = openingElem.index;
+    }
+
+    if (closingElement) {
+        newState.closingElementPos = closingElement.index;
+    }
+
+    return newState;
+};
+
+const updateElementStack = oldState => {
+    const newState = Object.assign({}, oldState);
+    const elem = getFirstElementType(newState.content);
+
+    if (!newState.isSelfClosingElement) {
+        if (newState.openingElemPos < newState.closingElementPos) {
+            newState.elementStack.push(elem);
+        } else {
+            newState.elementStack.pop();
+        }
+    }
+
+    return newState;
 };
 
 /**
@@ -214,12 +257,12 @@ const getCorrespondentClosingElementPosition = content => {
  * if ${ 3 < 4 } is present, the '<' symbol might be thought as an opening tag
  * symbol. The same is valid for <isscript> and <iscomment> tags;
  */
-const replaceIsmlExpressionWithPlaceholder = content => {
-    let result = content;
+const replaceIsmlExpressionWithPlaceholder = oldState => {
+    const newState = Object.assign({}, oldState);
 
-    result = replaceContent(result, '${', '}');
+    newState.content = replaceContent(newState.content, '${', '}');
 
-    return result;
+    return newState;
 };
 
 const replaceContent = (content, init, end) => {
@@ -227,9 +270,9 @@ const replaceContent = (content, init, end) => {
     let result = content;
 
     while (result.indexOf(init) !== -1) {
+        const a = result.indexOf(init);
+        const b = result.indexOf(end);
         let placeholder = '';
-        a = result.indexOf(init);
-        b = result.indexOf(end);
 
         for (let i = a; i <= b; i++) { placeholder += placeholderSymbol; }
 
