@@ -62,7 +62,3 @@ $ isml-linter
 - **SpacesOnlyLineRule** - Checks for lines that contain only blank spaces, i.e., unnecessarily indented;
 - **StyleAttributeRule** - Detects use of "style" HTML attribute. Enable this rule if you prefer style to be fully handled via CSS;
 - **TabRule** - Detects use of tabs;
-
-
-### Author
-Fabiow Quixadá <ftquixada@gmail.com>
