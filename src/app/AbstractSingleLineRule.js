@@ -19,7 +19,7 @@ class AbstractSingleLineRule extends AbstractRule {
         return isBroken;
     }
 
-    isEqual(line, string) {
+    isMatch(line, string) {
         const regEx = new RegExp(string + '(\r)*', 'gi');
         return line.match(regEx);
     }
