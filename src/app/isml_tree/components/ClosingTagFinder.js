@@ -12,20 +12,13 @@ const getCorrespondentClosingElementPosition = content => {
     const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
     const closingElemRegex = /<\/.[a-zA-Z]*>/;
 
-    let state = {
-        content: content,
-        openingElemPos: -1,
-        closingElementPos: -1,
-        result: -1,
-        currentReadingPos: 0,
-        elementStack: []
-    };
+    let state = getInitialState(content);
 
-    state = replaceIsmlExpressionWithPlaceholder(state);
+    state = maskIgnorableContent(state);
 
     while (isClosingPositionNotFound(state)) {
 
-        state = initializeLoopVariables(state, openingElemRegex, closingElemRegex);
+        state = initializeLoopState(state, openingElemRegex, closingElemRegex);
 
         if (isNextElementATag(state)) {
             state = updateState(state);
@@ -39,6 +32,17 @@ const getCorrespondentClosingElementPosition = content => {
     }
 
     return -1;
+};
+
+const getInitialState = content => {
+    return {
+        content: content,
+        openingElemPos: -1,
+        closingElementPos: -1,
+        result: -1,
+        currentReadingPos: 0,
+        elementStack: []
+    };
 };
 
 const updateState = oldState => {
@@ -76,7 +80,7 @@ const removeFirstElement = oldState => {
     return newState;
 };
 
-const initializeLoopVariables = (oldState, openingElemRegex, closingElemRegex) => {
+const initializeLoopState = (oldState, openingElemRegex, closingElemRegex) => {
 
     const newState = Object.assign({}, oldState);
 
@@ -120,11 +124,11 @@ const updateElementStack = oldState => {
 };
 
 /**
- * Replaces '${...}' with '======', so it facilites next processes. For Example,
+ * Replaces '${...}' with '______', so it facilites next processes. For Example,
  * if ${ 3 < 4 } is present, the '<' symbol might be thought as an opening tag
  * symbol. The same is valid for <isscript> and <iscomment> tags;
  */
-const replaceIsmlExpressionWithPlaceholder = oldState => {
+const maskIgnorableContent = oldState => {
 
     const newState = Object.assign({}, oldState);
     let content = newState.content;
@@ -163,12 +167,12 @@ const replaceContentOfFirstWrappingTag = (content, startString, endString) => {
     return result;
 };
 
-const isNextElementATag = parseState => getNextNonEmptyChar(parseState) === '<';
+const isNextElementATag = state => getNextNonEmptyChar(state) === '<';
 
-const getNextNonEmptyChar = parseState => {
+const getNextNonEmptyChar = state => {
 
-    const content = parseState.content;
-    const currentPos = parseState.currentPos;
+    const content = state.content;
+    const currentPos = state.currentPos;
 
     return content.substring(currentPos+1, content.length-1).trim()[0];
 };
