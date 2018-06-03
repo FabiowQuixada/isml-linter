@@ -1,0 +1,9 @@
+<isif condition="${true}">
+    <div class="info">
+</isif>
+
+        Some content
+
+<isif condition="${true}">
+    </div>
+</isif>

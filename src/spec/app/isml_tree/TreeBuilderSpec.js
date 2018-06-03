@@ -1,6 +1,7 @@
 const TreeBuilder = require('../../../app/isml_tree/TreeBuilder');
 const SpecHelper = require('../../SpecHelper');
 const Constants = require('../../../app/Constants');
+const ErrorType = require('../../../app/ErrorType');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -94,6 +95,10 @@ describe(targetObjName, () => {
 
         expect(rootNode.getChild(17).getValue()).toEqual('<span id="root_elem_17" <isif condition="${active}">class="active"</isif>>');
         expect(rootNode.getChild(17).getChild(0).getValue()).toEqual('Some content');
+    });
+
+    it('throws an exception upon invalid isml dom', () => {
+        expect( () => { TreeBuilder.build(getFilePath(1)); } ).toThrow(ErrorType.INVALID_DOM);
     });
 
 });

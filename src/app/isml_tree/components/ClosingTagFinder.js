@@ -1,3 +1,5 @@
+const ErrorType = require('./../../ErrorType');
+
 /**
  * The purpose of this function is to find the corresponding closing element of an HTML/ISML element,
  * which we will name 'E'. 'E' is the first element found in the 'content' string.
@@ -35,9 +37,7 @@ const getCorrespondentClosingElementPosition = (content, oldGlobalState) => {
         }
     }
 
-    // TODO: Throw exception;
-    newGlobalState.currentElemClosingTagInitPos = -1;
-    return newGlobalState;
+    throw ErrorType.INVALID_DOM;
 };
 
 const getInitialState = (content, globalState) => {
@@ -122,13 +122,19 @@ const updateElementStack = oldState => {
     if (!newState.isSelfClosingElement) {
         if (newState.openingElemPos < newState.closingElementPos) {
             newState.elementStack.push(elem);
-        } else {
+        } else if (isCorrespondentElement(newState, elem)) {
             newState.elementStack.pop();
+        } else {
+            throw ErrorType.INVALID_DOM;
         }
     }
 
     return newState;
 };
+
+const isCorrespondentElement = (state, elem) =>
+    `/${state.elementStack[state.elementStack.length-1]}` === elem;
+
 
 /**
  * Replaces '${...}' with '______', so it facilites next processes. For Example,
