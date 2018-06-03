@@ -8,34 +8,41 @@
 
  * The 'depth' variable works as a stack, taking into account only elements of type 'E'
 */
-const getCorrespondentClosingElementPosition = content => {
+const getCorrespondentClosingElementPosition = (content, oldGlobalState) => {
+    const newGlobalState = Object.assign({}, oldGlobalState);
     const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
     const closingElemRegex = /<\/.[a-zA-Z]*>/;
 
-    let state = getInitialState(content);
+    let internalState = getInitialState(content, newGlobalState);
 
-    state = maskIgnorableContent(state);
+    internalState = maskIgnorableContent(internalState);
 
-    while (isClosingPositionNotFound(state)) {
+    newGlobalState.currentElemEndPosition = internalState.content.indexOf('>');
 
-        state = initializeLoopState(state, openingElemRegex, closingElemRegex);
+    while (isClosingPositionNotFound(internalState)) {
 
-        if (isNextElementATag(state)) {
-            state = updateState(state);
+        if (isNextElementATag(internalState)) {
 
-            if (!state.elementStack.length) {
-                return state.result;
+            internalState = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
+            internalState = updateState(internalState);
+
+            if (!internalState.elementStack.length) {
+                newGlobalState.currentElemClosingTagInitPos = internalState.result;
+                return newGlobalState;
             }
         } else {
-            state = removeLeadingNonTagText(state);
+            internalState = removeLeadingNonTagText(internalState);
         }
     }
 
-    return -1;
+    // TODO: Throw exception;
+    newGlobalState.currentElemClosingTagInitPos = -1;
+    return newGlobalState;
 };
 
-const getInitialState = content => {
+const getInitialState = (content, globalState) => {
     return {
+        globalState: globalState,
         content: content,
         openingElemPos: -1,
         closingElementPos: -1,
@@ -130,7 +137,7 @@ const updateElementStack = oldState => {
  */
 const maskIgnorableContent = oldState => {
 
-    const newState = Object.assign({}, oldState);
+    let newState = Object.assign({}, oldState);
     let content = newState.content;
 
     content = replaceContentOfFirstWrappingTag(content, '${', '}');
@@ -138,6 +145,50 @@ const maskIgnorableContent = oldState => {
     content = replaceContentOfFirstWrappingTag(content, '<iscomment>', '</iscomment>');
 
     newState.content = content;
+    newState = maskNestedIsmlElements(newState);
+
+    return newState;
+};
+
+/**
+ * Masks nested isml elements so that they don't interfere with the Isml Dom tree building;
+ *
+ * An example, it turns:
+ *      <div <isif ... > class="wrapper">
+ * into:
+ *      <div ___________ class="wrapper">
+ */
+const maskNestedIsmlElements = oldState => {
+
+    const newState = Object.assign({}, oldState);
+    let result = '';
+    let depth = 0;
+    let firstTime = true;
+
+    for (let i = 0; i < newState.content.length; i++) {
+        const currentChar = newState.content.charAt(i);
+
+        if (currentChar === '<') {
+            depth += 1;
+        }
+
+        if (newState.content.charAt(i-1) === '>') {
+            depth -= 1;
+        }
+
+        if (depth > 1) {
+            result += '_';
+        } else {
+            result += newState.content.charAt(i);
+        }
+
+        if (depth === 0 && firstTime) {
+            newState.currentElemEndPosition = i;
+            firstTime = false;
+        }
+    }
+
+    newState.content = result;
 
     return newState;
 };

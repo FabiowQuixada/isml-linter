@@ -17,7 +17,7 @@ describe(targetObjName, () => {
     it('creates a one-level-deep tree with correct number of children', () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
 
-        expect(rootNode.getNumberOfChildren()).toEqual(17);
+        expect(rootNode.getNumberOfChildren()).toEqual(18);
     });
 
     it('creates a one-level-deep tree with node values', () => {
@@ -87,6 +87,13 @@ describe(targetObjName, () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
 
         expect(rootNode.getChild(16).getChild(0).getValue()).toEqual('This comment has a \'<\' character.');
+    });
+
+    it('recognizes an isml element within a html element', () => {
+        const rootNode = TreeBuilder.build(getFilePath(0));
+
+        expect(rootNode.getChild(17).getValue()).toEqual('<span id="root_elem_17" <isif condition="${active}">class="active"</isif>>');
+        expect(rootNode.getChild(17).getChild(0).getValue()).toEqual('Some content');
     });
 
 });

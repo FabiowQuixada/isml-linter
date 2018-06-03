@@ -54,3 +54,7 @@
 <iscomment>
     This comment has a '<' character.
 </iscomment>
+
+<span id="root_elem_17" <isif condition="${active}">class="active"</isif>>
+    Some content
+</span>

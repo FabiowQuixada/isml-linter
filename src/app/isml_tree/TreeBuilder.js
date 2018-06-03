@@ -39,11 +39,13 @@ const getInitialState = content => {
         content: content,
         currentElementAsString: '',
         currentElemInitPosition: -1,
+        currentElemEndPosition: -1,
         currentChar: null,
         currentPos: -1,
         ignoreUntil: null,
         insideTag: false,
-        insideExpression: false
+        insideExpression: false,
+        depth: 0
     };
 };
 
@@ -72,17 +74,26 @@ const processContent = (oldState, parentNode) => {
     const newState = Object.assign({}, oldState);
 
     if (newState.currentChar === '<') {
-        newState.currentElemInitPosition = newState.currentPos;
-        newState.insideTag = true;
-    } else if (newState.currentChar === '>') {
 
-        if (isOpeningElem(newState)) {
-            newState.ignoreUntil = createNode(parentNode, newState);
+        if (newState.depth === 0) {
+            newState.currentElemInitPosition = newState.currentPos;
         }
 
-        newState.insideTag = false;
-        newState.currentElementAsString = '';
-        newState.currentElemInitPosition = -1;
+        newState.insideTag = true;
+        newState.depth +=1;
+    } else if (newState.currentChar === '>') {
+        newState.depth -= 1;
+
+        if (newState.depth === 0) {
+            if (isOpeningElem(newState)) {
+                newState.ignoreUntil = createNode(parentNode, newState);
+            }
+
+            newState.insideTag = false;
+            newState.currentElementAsString = '';
+            newState.currentElemInitPosition = -1;
+            newState.currentElemEndPosition = -1;
+        }
     }
 
     return newState;
@@ -116,11 +127,8 @@ const createNode = (parentNode, state) => {
 
 const handleInnerContent = (node, state) => {
 
-    const content = state.content;
     const currentPos = state.currentPos;
-    const currentElemInitPosition = state.currentElemInitPosition;
-
-    const nodeInnerContent = getInnerContent(content.substring(currentElemInitPosition, content.length));
+    const nodeInnerContent = getInnerContent(state);
 
     if (isNextElementATag(state)) {
         parse(node, nodeInnerContent.trim());
@@ -137,11 +145,26 @@ const addTextToNode = (node, nodeInnerContent) => {
     node.addChild(innerTextNode);
 };
 
-const getInnerContent = content => {
-    const openingElemPosition = content.indexOf('>');
-    const closingElemPosition = ClosingTagFinder.getCorrespondentClosingElementPosition(content);
+const getInnerContent = oldState => {
+    let newState = Object.assign({}, oldState);
+    const content = getUpdateContent(newState);
+    newState = ClosingTagFinder.getCorrespondentClosingElementPosition(content, newState);
 
-    return content.substring(openingElemPosition+1, closingElemPosition);
+    return pickInnerContent(newState, content);
+};
+
+const getUpdateContent = state => {
+    let content = state.content;
+    const currentElemInitPosition = state.currentElemInitPosition;
+    content = content.substring(currentElemInitPosition, content.length);
+    return content;
+};
+
+const pickInnerContent = (state, content) => {
+
+    const innerContentStartPos = state.currentElemEndPosition+1;
+    const innerContentEndPos = state.currentElemClosingTagInitPos;
+    return content.substring(innerContentStartPos, innerContentEndPos);
 };
 
 const getNextNonEmptyChar = state => {
