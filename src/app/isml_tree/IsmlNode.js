@@ -55,7 +55,7 @@ class IsmlNode {
             displayText = this.value.substring(0, MAX_TEXT_DISPLAY_SIZE - 3) + '...';
         }
 
-        return displayText;
+        return displayText.trim();
     }
 }
 

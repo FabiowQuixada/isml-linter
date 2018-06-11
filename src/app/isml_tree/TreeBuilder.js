@@ -115,7 +115,7 @@ const updateStateWhetherItIsInsideExpression = oldState => {
 
 const createNode = (parentNode, state) => {
     const node = new IsmlNode();
-    node.setValue(state.currentElementAsString.trim());
+    node.setValue(state.currentElementAsString);
     parentNode.addChild(node);
 
     if (!node.isSelfClosing()) {
