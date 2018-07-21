@@ -10,7 +10,7 @@ class Rule extends AbstractRule {
     check(fileName, parser) {
         const that = this;
         const lineArray = fs.readFileSync(fileName, 'utf-8').split('\n');
-        const simpleFileName = fileName.substring(fileName.indexOf('default/') + 7);
+        const simpleFileName = this.getProcessedFilePath(fileName);
         const openCloseRegex = /.*<isif .*<\/isif>.*/;
         const openingRegex = /.*<isif .*/;
         const closingRegex = /.*<\/isif>.*/;

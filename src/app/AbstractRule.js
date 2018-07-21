@@ -10,6 +10,10 @@ class AbstractRule {
     isEnabled() {
         return config && config.enabledRules && this.name in config.enabledRules;
     }
+
+    getProcessedFilePath(fileName) {
+        return fileName.substring(fileName.indexOf('default') + 8);
+    }
 }
 
 module.exports = AbstractRule;
