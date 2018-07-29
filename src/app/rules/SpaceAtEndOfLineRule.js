@@ -3,10 +3,10 @@ const AbstractSingleLineRule = require('../AbstractSingleLineRule');
 const ruleName = require('path').basename(__filename).slice(0, -3);
 const description = 'Blank space at the end of the line detected';
 
-class Rule extends AbstractSingleLineRule {
-    constructor() { super(ruleName, description); }
+const Rule = Object.create(AbstractSingleLineRule);
 
-    isBroken(line) { return line.endsWith(' ') && line.replace(/\s/g, '').length; }
-}
+Rule.build(ruleName, description);
 
-module.exports = new Rule;
+Rule.isBroken = function(line) { return line.endsWith(' ') && line.replace(/\s/g, '').length; };
+
+module.exports = Rule;

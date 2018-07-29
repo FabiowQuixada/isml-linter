@@ -3,10 +3,10 @@ const AbstractSingleLineRule = require('../AbstractSingleLineRule');
 const ruleName = require('path').basename(__filename).slice(0, -3);
 const description = 'Wrap expression in <isprint> tag';
 
-class Rule extends AbstractSingleLineRule {
-    constructor() { super(ruleName, description); }
+const Rule = Object.create(AbstractSingleLineRule);
 
-    isBroken(line) { return line.indexOf('>${') !== -1 || line.indexOf(' ${') !== -1; }
-}
+Rule.build(ruleName, description);
 
-module.exports = new Rule;
+Rule.isBroken = function(line) { return line.indexOf('>${') !== -1 || line.indexOf(' ${') !== -1; };
+
+module.exports = Rule;
