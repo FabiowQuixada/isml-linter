@@ -26,7 +26,7 @@
     "to-snake-case": "^1.0.0"
   },
   "scripts": {
-    "start": "node index",
+    "start": "node src/app/LinterRunner",
     "test": "jasmine-node src/spec/",
     "cover": "node ./node_modules/istanbul/lib/cli.js cover node_modules/jasmine-node/bin/jasmine-node src/spec"
   },
