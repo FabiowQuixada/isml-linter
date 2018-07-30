@@ -3,20 +3,21 @@ const RulePrototype = require('./RulePrototype');
 
 const SingleLineRulePrototype = Object.create(RulePrototype);
 
-SingleLineRulePrototype.check = function(fileName, parser) {
+SingleLineRulePrototype.check = function(fileName) {
+
     const that = this;
     const lineArray = fs.readFileSync(fileName, 'utf-8').split('\n');
-    const simpleFileName = this.getProcessedFilePath(fileName);
-    let isBroken = false;
+    this.result = {
+        occurrences: []
+    };
 
     lineArray.forEach( (line, lineNumber) => {
         if (that.isBroken(line)) {
-            parser.addError(that.description, simpleFileName, line, lineNumber);
-            isBroken = true;
+            that.add(line, lineNumber);
         }
     });
 
-    return isBroken;
+    return this.result;
 };
 
 SingleLineRulePrototype.isMatch = function(line, string) {

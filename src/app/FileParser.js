@@ -11,18 +11,36 @@ const ENTRY_TYPES = {
 const outputFileName = Constants.outputFileName;
 const compiledOutputFileName = Constants.compiledOutputFileName;
 
-const formattedLine = (line, lineNumber) => `Line ${lineNumber+1}: ${line.trim()}`;
-
-const add = (parser, type, rule, fileName, line, lineNumber) => {
-    parser.output = parser.output || {};
-    parser.output[type] = parser.output[type] || {};
-    parser.output[type][rule] = parser.output[type][rule] || {};
-    parser.output[type][rule][fileName] = parser.output[type][rule][fileName] || [];
-    parser.output[type][rule][fileName].push(formattedLine(line, lineNumber));
+const getProcessedFilePath = fileName => {
+    return fileName.substring(fileName.indexOf('default') + 8);
 };
 
-const parse = (parser, fileName) => {
-    RulesHolder.getEnabledRules().forEach( rule => rule.check(fileName, FileParser) );
+const add = (parser, type, rule, fileName, result) => {
+    parser.output = parser.output || {};
+    parser.output[type] = parser.output[type] || {};
+    parser.output[type][rule.description] = parser.output[type][rule.description] || {};
+    parser.output[type][rule.description][fileName] = parser.output[type][rule.description][fileName] || [];
+
+    if (result.occurrences) {
+        result.occurrences.forEach( res => {
+            parser.output[type][rule.description][fileName].push(res);
+        });
+    }
+};
+
+const parse = fileName => {
+    const that = this;
+
+    RulesHolder.getEnabledRules().forEach( rule => {
+        const result = rule.check(fileName);
+
+        if (result.occurrences.length) {
+            const processedFilePath = getProcessedFilePath(fileName);
+            add(that, ENTRY_TYPES.ERROR, rule, processedFilePath, result);
+        }
+    });
+
+    return this.output;
 };
 
 const compileOutput = (dir, content) => {
@@ -52,10 +70,6 @@ const compileOutput = (dir, content) => {
     }
 };
 
-const addError = (rule, file, line, lineNumber) => {
-    add(this, ENTRY_TYPES.ERROR, rule, file, line, lineNumber);
-};
-
 const orderOutputByRuleDescription = parser => {
     const orderedOutput = {};
 
@@ -71,13 +85,12 @@ const orderOutputByRuleDescription = parser => {
 };
 
 const FileParser = {
-    parse       : fileName => { parse(this, fileName); },
+    parse,
     cleanOutput : () => this.output = {},
     getOutput   : () => this.output || {},
     saveToFile  : dir => { FileUtils.saveToJsonFile(dir, outputFileName, this.output); },
     compileOutput: dir => { compileOutput(dir, this.output); },
     orderOutputByRuleDescription : () => { orderOutputByRuleDescription(this); },
-    addError,
     ENTRY_TYPES
 };
 

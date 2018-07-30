@@ -8,14 +8,16 @@ const Rule = Object.create(RulePrototype);
 
 Rule.init(ruleName, description);
 
-Rule.check = function(fileName, parser) {
+Rule.check = function(fileName) {
     const that = this;
     const lineArray = fs.readFileSync(fileName, 'utf-8').split('\n');
-    const simpleFileName = this.getProcessedFilePath(fileName);
     const openCloseRegex = /.*<isif .*<\/isif>.*/;
     const openingRegex = /.*<isif .*/;
     const closingRegex = /.*<\/isif>.*/;
     const unbalancedTags = [];
+    this.result = {
+        occurrences: []
+    };
 
     lineArray.forEach( (line, lineNumber) => {
         if (!openCloseRegex.test(line)) {
@@ -31,10 +33,10 @@ Rule.check = function(fileName, parser) {
     });
 
     unbalancedTags.forEach( error => {
-        parser.addError(that.description, simpleFileName, error.line, error.lineNumber);
+        that.add(error.line, error.lineNumber);
     });
 
-    return unbalancedTags.length > 0;
-}
+    return this.result;
+};
 
 module.exports = Rule;
