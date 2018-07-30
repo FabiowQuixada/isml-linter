@@ -1,12 +1,12 @@
 const fs = require('fs');
-const AbstractRule = require('../AbstractRule');
+const RulePrototype = require('./prototypes/RulePrototype');
 
 const ruleName = require('path').basename(__filename).slice(0, -3);
 const description = 'Unbalanced <isif> tag';
 
-const Rule = Object.create(AbstractRule);
+const Rule = Object.create(RulePrototype);
 
-Rule.build(ruleName, description);
+Rule.init(ruleName, description);
 
 Rule.check = function(fileName, parser) {
     const that = this;

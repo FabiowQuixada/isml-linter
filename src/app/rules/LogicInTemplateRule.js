@@ -1,12 +1,12 @@
-const AbstractSingleLineRule = require('../AbstractSingleLineRule');
+const SingleLineRulePrototype = require('./prototypes/SingleLineRulePrototype');
 
 const ruleName = require('path').basename(__filename).slice(0, -3);
 const description = 'Avoid putting logic into ISML';
 
-const Rule = Object.create(AbstractSingleLineRule);
+const Rule = Object.create(SingleLineRulePrototype);
 
-Rule.build(ruleName, description);
+Rule.init(ruleName, description);
 
-Rule.isBroken = function(line) { return line.indexOf('<isscript>') !== -1; }
+Rule.isBroken = function(line) { return line.indexOf('<isscript>') !== -1; };
 
 module.exports = Rule;

@@ -1,8 +1,8 @@
-const config = require('./ConfigLoader').load();
+const config = require('./../../ConfigLoader').load();
 
-const AbstractRule = {
+const RulePrototype = {
 
-    build(name, description) {
+    init(name, description) {
         this.name = name;
         this.description = description;
     },
@@ -16,4 +16,4 @@ const AbstractRule = {
     }
 }
 
-module.exports = AbstractRule;
+module.exports = RulePrototype;

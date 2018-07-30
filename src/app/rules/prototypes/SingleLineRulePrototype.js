@@ -1,9 +1,9 @@
 const fs = require('fs');
-const AbstractRule = require('./AbstractRule');
+const RulePrototype = require('./RulePrototype');
 
-const AbstractSingleLineRule = Object.create(AbstractRule);
+const SingleLineRulePrototype = Object.create(RulePrototype);
 
-AbstractSingleLineRule.check = function(fileName, parser) {
+SingleLineRulePrototype.check = function(fileName, parser) {
     const that = this;
     const lineArray = fs.readFileSync(fileName, 'utf-8').split('\n');
     const simpleFileName = this.getProcessedFilePath(fileName);
@@ -19,9 +19,9 @@ AbstractSingleLineRule.check = function(fileName, parser) {
     return isBroken;
 };
 
-AbstractSingleLineRule.isMatch = function(line, string) {
+SingleLineRulePrototype.isMatch = function(line, string) {
     const regEx = new RegExp(string + '(\r)*', 'gi');
     return line.match(regEx);
 };
 
-module.exports = AbstractSingleLineRule;
+module.exports = SingleLineRulePrototype;

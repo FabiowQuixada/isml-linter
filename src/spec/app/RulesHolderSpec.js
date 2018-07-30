@@ -21,9 +21,12 @@ describe(targetObjName, () => {
 const numberOfRules = () => {
     let result = 0;
 
-    require('fs').readdirSync(Constants.rulesDir).forEach( () => {
-        result += 1;
-    });
+    require('fs')
+        .readdirSync(Constants.rulesDir)
+        .filter( file => file.endsWith('Rule.js'))
+        .forEach( () => {
+            result += 1;
+        });
 
     return result;
 };

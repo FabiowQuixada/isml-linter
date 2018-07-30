@@ -3,10 +3,13 @@ const Constants = require('./Constants');
 
 const rules = [];
 
-require('fs').readdirSync(Constants.rulesDir).forEach( file => {
-    const rulePath = path.join(__dirname, 'rules', file);
-    rules.push(require(rulePath));
-});
+require('fs')
+    .readdirSync(Constants.rulesDir)
+    .filter( file => file.endsWith('Rule.js'))
+    .forEach( file => {
+        const rulePath = path.join(__dirname, 'rules', file);
+        rules.push(require(rulePath));
+    });
 
 module.exports = {
     getAllRules : () => rules,
