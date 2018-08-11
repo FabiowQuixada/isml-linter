@@ -20,13 +20,13 @@ describe(targetObjName, () => {
     });
 
     it('lints ISML files in a given directory', () => {
-        const result = IsmlLinter.lint(ismlSpecDir);
+        const result = IsmlLinter.run(ismlSpecDir);
 
         expect(result).toEqual(expectedResultObj('errors'));
     });
 
     it('ignores files under the node_modules/ directory', () => {
-        IsmlLinter.lint(ismlSpecDir);
+        IsmlLinter.run(ismlSpecDir);
 
         const output = JSON.stringify(IsmlLinter.getOutput());
 
@@ -34,7 +34,7 @@ describe(targetObjName, () => {
     });
 
     it('processes the correct line in result json data', () => {
-        const result = IsmlLinter.lint(ismlSpecDir);
+        const result = IsmlLinter.run(ismlSpecDir);
 
         expect(result).toEqual(expectedResultObj(FileParser.ENTRY_TYPES.ERROR));
     });

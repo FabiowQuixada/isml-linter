@@ -4,7 +4,7 @@ const IsmlLinter = require('./IsmlLinter');
 const ConsoleUtils = require('./ConsoleUtils');
 const ismlDir = Constants.clientAppDir;
 
-IsmlLinter.lint(ismlDir);
+IsmlLinter.run(ismlDir);
 IsmlLinter.export(Constants.clientOutputDir, Constants.clientMetadataDir);
 
 const issueQty = require(path.join(Constants.clientOutputDir, Constants.compiledOutputFileName)).total;

@@ -5,7 +5,7 @@ const LinterResultExporter = require('./LinterResultExporter');
 
 const Linter = {};
 
-Linter.lint = function(dir) {
+Linter.run = function(dir) {
 
     const filesArray = readDir
         .readSync(dir, ['**.isml'])
