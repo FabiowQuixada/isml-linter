@@ -6,6 +6,34 @@ const compiledOutputFileName = Constants.compiledOutputFileName;
 
 const LinterResultExporter = {};
 
+const formatLine = (line, lineNumber) => `Line ${lineNumber+1}: ${line.trim()}`;
+
+const format = jsonData => {
+    const formattedJsonData = {};
+
+    Object.keys(jsonData).sort().forEach( level => {
+        formattedJsonData[level] = {};
+
+        Object.keys(jsonData[level]).sort().forEach( ruleDesc => {
+            formattedJsonData[level][ruleDesc] = {};
+
+            Object.keys(jsonData[level][ruleDesc]).sort().forEach( occurrence => {
+                formattedJsonData[level][ruleDesc][occurrence] = [];
+                const occurrenceObj = jsonData[level][ruleDesc][occurrence];
+
+                occurrenceObj.forEach( occurrenceLine => {
+
+                    const formattedLine = formatLine(occurrenceLine.line, occurrenceLine.lineNumber);
+
+                    formattedJsonData[level][ruleDesc][occurrence].push(formattedLine);
+                });
+            });
+        });
+    });
+
+    return formattedJsonData;
+};
+
 LinterResultExporter.orderOutputByRuleDescription = function(jsonData) {
     const orderedOutput = {};
 
@@ -21,7 +49,8 @@ LinterResultExporter.orderOutputByRuleDescription = function(jsonData) {
 };
 
 LinterResultExporter.export = function(outputDir, jsonData) {
-    const orderedJsonData = this.orderOutputByRuleDescription(jsonData);
+    const formattedJsonData = format(jsonData);
+    const orderedJsonData = this.orderOutputByRuleDescription(formattedJsonData);
 
     this.saveToFile(outputDir, orderedJsonData);
     this.compileOutput(outputDir, orderedJsonData);

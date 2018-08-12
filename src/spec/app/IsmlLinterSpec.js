@@ -50,10 +50,28 @@ const expectedResultObj = type => {
 
     const file0Path = path.join(...'/sample_file_1.isml'.split( '/' ));
     const file1Path = path.join(...'/sample_file_2.isml'.split( '/' ));
-    const line0 = 'Line 1: <div style="display: none;">${addToCartUrl}</div>';
-    const line1 = 'Line 2: ';
-    const line2 = 'Line 1: <div style="display: none;">${addToCartUrl}</div>';
-    const line3 = 'Line 1: ${URLUtils.https(\'Reorder-ListingPage\')}';
+    const line0 = {
+        line: '<div style="display: none;">${addToCartUrl}</div>',
+        lineNumber: 0
+    };
+    const line1 = {
+        line: '   ',
+        lineNumber: 1
+    };
+    const line2 = {
+        line: '<div style="display: none;">${addToCartUrl}</div>',
+        lineNumber: 0
+    };
+    const line3 = {
+        line: ' ${URLUtils.https(\'Reorder-ListingPage\')}',
+        lineNumber: 0
+    };
+
+    result[type][isprintRuleDesc] = {};
+    result[type][isprintRuleDesc][file0Path] = [];
+    result[type][isprintRuleDesc][file0Path].push(line2);
+    result[type][isprintRuleDesc][file1Path] = [];
+    result[type][isprintRuleDesc][file1Path].push(line3);
 
     result[type][inlineStyleRuleDesc] = {};
     result[type][inlineStyleRuleDesc][file0Path] = [];
@@ -62,12 +80,6 @@ const expectedResultObj = type => {
     result[type][blankLineRuleDesc] = {};
     result[type][blankLineRuleDesc][file0Path] = [];
     result[type][blankLineRuleDesc][file0Path].push(line1);
-
-    result[type][isprintRuleDesc] = {};
-    result[type][isprintRuleDesc][file0Path] = [];
-    result[type][isprintRuleDesc][file0Path].push(line2);
-    result[type][isprintRuleDesc][file1Path] = [];
-    result[type][isprintRuleDesc][file1Path].push(line3);
 
     return result;
 };

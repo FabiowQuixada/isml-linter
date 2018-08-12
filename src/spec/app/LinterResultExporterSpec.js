@@ -67,7 +67,10 @@ const getUnorderedJsonData = () => {
     const spacesOnlyLineRuleDesc = SpacesOnlyLineRule.description;
 
     const filePath = path.join(...'/file_parser/sample_file.isml'.split( '/' ));
-    const line = 'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>';
+    const line = {
+        lineNumber: 3,
+        line: ' <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>'
+    };
 
     result[type][spacesOnlyLineRuleDesc] = {};
     result[type][spacesOnlyLineRuleDesc][filePath] = [];
@@ -94,7 +97,10 @@ const getJsonData = () => {
     const isprintRuleDesc = IsprintTagRule.description;
 
     const filePath = path.join(...'/file_parser/sample_file.isml'.split( '/' ));
-    const line = 'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>';
+    const line = {
+        line: ' <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>',
+        lineNumber: 3
+    };
 
     result[type][isprintRuleDesc] = {};
     result[type][isprintRuleDesc][filePath] = [];

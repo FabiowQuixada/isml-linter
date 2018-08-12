@@ -68,7 +68,10 @@ const expectedResultObj = type => {
     const inlineStyleRuleDesc = StyleAttributeRule.description;
     const isprintRuleDesc = IsprintTagRule.description;
 
-    const line = 'Line 3: <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>';
+    const line = {
+        line: '<div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>',
+        lineNumber: 2
+    };
 
     result[type][isprintRuleDesc] = [];
     result[type][isprintRuleDesc].push(line);
