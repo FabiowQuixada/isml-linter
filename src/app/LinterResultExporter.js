@@ -22,7 +22,6 @@ const format = jsonData => {
                 const occurrenceObj = jsonData[level][ruleDesc][occurrence];
 
                 occurrenceObj.forEach( occurrenceLine => {
-
                     const formattedLine = formatLine(occurrenceLine.line, occurrenceLine.lineNumber);
 
                     formattedJsonData[level][ruleDesc][occurrence].push(formattedLine);
@@ -34,7 +33,7 @@ const format = jsonData => {
     return formattedJsonData;
 };
 
-LinterResultExporter.orderOutputByRuleDescription = function(jsonData) {
+const orderOutputByRuleDescription = function(jsonData) {
     const orderedOutput = {};
 
     Object.keys(jsonData).sort().forEach( level => {
@@ -48,17 +47,7 @@ LinterResultExporter.orderOutputByRuleDescription = function(jsonData) {
     return orderedOutput;
 };
 
-LinterResultExporter.export = function(outputDir, jsonData) {
-    const formattedJsonData = format(jsonData);
-    const orderedJsonData = this.orderOutputByRuleDescription(formattedJsonData);
-
-    this.saveToFile(outputDir, orderedJsonData);
-    this.compileOutput(outputDir, orderedJsonData);
-
-    return orderedJsonData;
-};
-
-LinterResultExporter.compileOutput = function(dir, jsonData) {
+const compileOutput = function(dir, jsonData) {
 
     if (jsonData) {
         let total = 0;
@@ -86,6 +75,20 @@ LinterResultExporter.compileOutput = function(dir, jsonData) {
     }
 };
 
-LinterResultExporter.saveToFile = function(dir, jsonData) { FileUtils.saveToJsonFile(dir, outputFileName, jsonData); };
+/*
+ * ================================================================================================
+ *                                Exportable Methods Area
+ * ================================================================================================
+ */
+
+LinterResultExporter.export = function(outputDir, jsonData) {
+    const formattedJsonData = format(jsonData);
+    const orderedJsonData = orderOutputByRuleDescription(formattedJsonData);
+
+    FileUtils.saveToJsonFile(outputDir, outputFileName, jsonData);
+    compileOutput(outputDir, orderedJsonData);
+
+    return orderedJsonData;
+};
 
 module.exports = LinterResultExporter;
