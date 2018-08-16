@@ -24,4 +24,69 @@ describe(rule.name, () => {
 
         expect(result.occurrences).toEqual([]);
     });
+
+    it('detects <br> (no space nor slash) tag within another tag', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
+        const result = rule.check(fileContent);
+        const expectedResult = [{
+            line: '<div><br></div>',
+            lineNumber: 0,
+            columnStart: 5,
+            length: 4
+        }];
+
+        expect(result.occurrences).toEqual(expectedResult);
+    });
+
+    it('detects <br /> (space, slash) tag within another tag', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 3);
+        const result = rule.check(fileContent);
+        const expectedResult = [{
+            line: '<div><br /></div>',
+            lineNumber: 1,
+            columnStart: 6,
+            length: 6
+        }];
+
+        expect(result.occurrences).toEqual(expectedResult);
+    });
+
+    it('detects <br/> (slash only) tag within another tag', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 4);
+        const result = rule.check(fileContent);
+        const expectedResult = [{
+            line: '<div><br/></div>',
+            lineNumber: 0,
+            columnStart: 5,
+            length: 5
+        }];
+
+        expect(result.occurrences).toEqual(expectedResult);
+    });
+
+    it('detects standalone <br> tag (no space nor slash)', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 5);
+        const result = rule.check(fileContent);
+        const expectedResult = [{
+            line: '<br>',
+            lineNumber: 0,
+            columnStart: 0,
+            length: 4
+        }];
+
+        expect(result.occurrences).toEqual(expectedResult);
+    });
+
+    it('detects standalone <br/> tag (slash)', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 6);
+        const result = rule.check(fileContent);
+        const expectedResult = [{
+            line: '<br/>',
+            lineNumber: 1,
+            columnStart: 1,
+            length: 5
+        }];
+
+        expect(result.occurrences).toEqual(expectedResult);
+    });
 });
