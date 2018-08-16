@@ -1,4 +1,5 @@
 const RulesHolder = require('./RulesHolder');
+const fs = require('fs');
 
 const ENTRY_TYPES = {
     ERROR: 'errors',
@@ -6,11 +7,7 @@ const ENTRY_TYPES = {
     INFO: 'info'
 };
 
-const getProcessedFilePath = fileName => {
-    return fileName.substring(fileName.indexOf('default') + 8);
-};
-
-const add = (parser, type, rule, fileName, result) => {
+const add = (parser, type, rule, result) => {
     parser.output = parser.output || {};
     parser.output[type] = parser.output[type] || {};
     parser.output[type][rule.description] = parser.output[type][rule.description] || [];
@@ -30,8 +27,7 @@ const parse = fileName => {
         const result = rule.check(fileName);
 
         if (result.occurrences.length) {
-            const processedFilePath = getProcessedFilePath(fileName);
-            add(that, ENTRY_TYPES.ERROR, rule, processedFilePath, result);
+            add(that, ENTRY_TYPES.ERROR, rule, result);
         }
     });
 
