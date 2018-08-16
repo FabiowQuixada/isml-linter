@@ -26,8 +26,10 @@ module.exports = {
         cleanTempDirectory();
     },
 
-    getRuleSpecTemplate: (rule, fileNumber) => {
-        return `${Constants.specRuleTemplateDir}/${snake(rule.name)}/file_${fileNumber}.isml`;
+    getRuleSpecTemplateContent: (rule, fileNumber) => {
+        const fs = require('fs');
+        const filePath = `${Constants.specRuleTemplateDir}/${snake(rule.name)}/file_${fileNumber}.isml`;
+        return fs.readFileSync(filePath, 'utf-8');
     },
 
     /**

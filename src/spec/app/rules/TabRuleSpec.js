@@ -12,15 +12,15 @@ describe(rule.name, () => {
     });
 
     it('detects inadequate code', () => {
-        const file = SpecHelper.getRuleSpecTemplate(rule, 0);
-        const result = rule.check(file);
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result = rule.check(fileContent);
 
         expect(result.occurrences).not.toEqual([]);
     });
 
     it('accepts code that is not related to the rule', () => {
-        const file = SpecHelper.getRuleSpecTemplate(rule, 1);
-        const result = rule.check(file);
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
+        const result = rule.check(fileContent);
 
         expect(result.occurrences).toEqual([]);
     });

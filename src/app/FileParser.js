@@ -1,5 +1,4 @@
 const RulesHolder = require('./RulesHolder');
-const fs = require('fs');
 
 const ENTRY_TYPES = {
     ERROR: 'errors',
@@ -19,12 +18,12 @@ const add = (parser, type, rule, result) => {
     }
 };
 
-const parse = fileName => {
+const parse = fileContent => {
     const that = this;
     this.output = {};
 
     RulesHolder.getEnabledRules().forEach( rule => {
-        const result = rule.check(fileName);
+        const result = rule.check(fileContent);
 
         if (result.occurrences.length) {
             add(that, ENTRY_TYPES.ERROR, rule, result);

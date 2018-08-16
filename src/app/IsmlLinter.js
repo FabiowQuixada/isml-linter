@@ -7,6 +7,7 @@ const Linter = {};
 
 Linter.run = function(dir) {
 
+    const fs = require('fs');
     const filesArray = readDir
         .readSync(dir, ['**.isml'])
         .filter( file => file.indexOf('node_modules') === -1 );
@@ -16,7 +17,8 @@ Linter.run = function(dir) {
     const that = this;
 
     filesArray.forEach( filePath => {
-        const output = FileParser.parse(path.join(dir, filePath));
+        const fileContent = fs.readFileSync(path.join(dir, filePath), 'utf-8');
+        const output = FileParser.parse(fileContent);
 
         for (const rule in output.errors) {
             that.result.errors[rule] = that.result.errors[rule] || {};

@@ -1,4 +1,3 @@
-const fs = require('fs');
 const RulePrototype = require('./prototypes/RulePrototype');
 
 const ruleName = require('path').basename(__filename).slice(0, -3);
@@ -8,9 +7,10 @@ const Rule = Object.create(RulePrototype);
 
 Rule.init(ruleName, description);
 
-Rule.check = function(fileName) {
+Rule.check = function(fileContent) {
+
     const that = this;
-    const lineArray = fs.readFileSync(fileName, 'utf-8').split('\n');
+    const lineArray = fileContent.split('\n');
     const openCloseRegex = /.*<isif .*<\/isif>.*/;
     const openingRegex = /.*<isif .*/;
     const closingRegex = /.*<\/isif>.*/;

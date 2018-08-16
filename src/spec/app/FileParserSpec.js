@@ -1,11 +1,13 @@
 const path = require('path');
+const fs = require('fs');
 const FileParser = require('../../app/FileParser');
 const SpecHelper = require('../SpecHelper');
 const Constants = require('../../app/Constants');
 const LogicInTemplateRule = require('../../app/rules/LogicInTemplateRule');
 const StyleAttributeRule = require('../../app/rules/StyleAttributeRule');
 
-const fileName = path.join(Constants.fileParserSpecDir, 'sample_file.isml');
+const filePath = path.join(Constants.fileParserSpecDir, 'sample_file.isml');
+const fileContent = fs.readFileSync(filePath, 'utf-8');
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
 describe(targetObjName, () => {
@@ -19,13 +21,13 @@ describe(targetObjName, () => {
     });
 
     it('correctly parses a given ISML file', () => {
-        const result = FileParser.parse(fileName);
+        const result = FileParser.parse(fileContent);
 
         expect(result).not.toEqual({});
     });
 
     it('ignores disabled rules', () => {
-        const result = FileParser.parse(fileName);
+        const result = FileParser.parse(fileContent);
         let ruleWasChecked = false;
 
         Object.keys(result.errors).forEach( rule => {
@@ -38,7 +40,7 @@ describe(targetObjName, () => {
     });
 
     it('checks non-disabled rules', () => {
-        const result = FileParser.parse(fileName);
+        const result = FileParser.parse(fileContent);
         let ruleWasChecked = false;
 
         Object.keys(result.errors).forEach( rule => {
@@ -51,7 +53,7 @@ describe(targetObjName, () => {
     });
 
     it('results in a json file', () => {
-        const actualResult = FileParser.parse(fileName);
+        const actualResult = FileParser.parse(fileContent);
         const expectedResult = expectedResultObj(FileParser.ENTRY_TYPES.ERROR);
 
         expect(actualResult).toEqual(expectedResult);

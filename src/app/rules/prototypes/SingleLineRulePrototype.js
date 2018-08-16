@@ -1,12 +1,11 @@
-const fs = require('fs');
 const RulePrototype = require('./RulePrototype');
 
 const SingleLineRulePrototype = Object.create(RulePrototype);
 
-SingleLineRulePrototype.check = function(fileName) {
+SingleLineRulePrototype.check = function(fileContent) {
 
     const that = this;
-    const lineArray = fs.readFileSync(fileName, 'utf-8').split('\n');
+    const lineArray = fileContent.split('\n');
     this.result = {
         occurrences: []
     };
