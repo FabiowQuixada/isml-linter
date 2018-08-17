@@ -9,4 +9,21 @@ Rule.init(ruleName, description);
 
 Rule.isBroken = function(line) { return line.endsWith(' ') && line.replace(/\s/g, '').length; };
 
+Rule.getFirstOccurrence = function(line) {
+
+    let result = null;
+
+    if (this.isBroken(line)) {
+
+        const matchPos = /(\t|\s)*$/.exec(line).index;
+
+        result = {
+            columnStart: matchPos,
+            length: line.length - matchPos
+        };
+    }
+
+    return result;
+};
+
 module.exports = Rule;

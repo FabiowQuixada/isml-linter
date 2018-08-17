@@ -38,4 +38,17 @@ describe(rule.name, () => {
 
         expect(result.occurrences).toEqual([]);
     });
+
+    it('detects trailing space chain position and length', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result = rule.check(fileContent);
+        const expectedResult = [{
+            line: 'const sum = 0;    ',
+            lineNumber: 0,
+            columnStart: 14,
+            length: 4
+        }];
+
+        expect(result.occurrences).toEqual(expectedResult);
+    });
 });
