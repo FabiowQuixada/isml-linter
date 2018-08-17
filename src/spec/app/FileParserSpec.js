@@ -70,16 +70,27 @@ const expectedResultObj = type => {
     const inlineStyleRuleDesc = StyleAttributeRule.description;
     const isprintRuleDesc = IsprintTagRule.description;
 
-    const line = {
-        line: '<div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>',
-        lineNumber: 2
+    const line = '<div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>';
+
+    const isprintOccurrence = {
+        line,
+        lineNumber: 2,
+        columnStart: 136,
+        length: 15
+    };
+
+    const styleOccurrence = {
+        line,
+        lineNumber: 2,
+        columnStart: 113,
+        length: 5
     };
 
     result[type][isprintRuleDesc] = [];
-    result[type][isprintRuleDesc].push(line);
+    result[type][isprintRuleDesc].push(isprintOccurrence);
 
     result[type][inlineStyleRuleDesc] = [];
-    result[type][inlineStyleRuleDesc].push(line);
+    result[type][inlineStyleRuleDesc].push(styleOccurrence);
 
     return result;
 };

@@ -9,11 +9,15 @@ SingleLineRulePrototype.check = function(fileContent) {
     this.result = {
         occurrences: []
     };
+    let globalPos = 0;
 
     lineArray.forEach( (line, lineNumber) => {
-        if (that.isBroken(line)) {
-            that.add(line, lineNumber);
+        const occurrence = that.getFirstOccurrence(line);
+        if (occurrence) {
+            that.add(line, lineNumber, globalPos + occurrence.columnStart, occurrence.length);
         }
+
+        globalPos += line.length+1;
     });
 
     return this.result;

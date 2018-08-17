@@ -33,7 +33,7 @@ Rule.check = function(fileContent) {
     });
 
     unbalancedTags.forEach( error => {
-        that.add(error.line, error.lineNumber);
+        that.add(error.line, error.lineNumber, 0, error.line.length);
     });
 
     return this.result;
