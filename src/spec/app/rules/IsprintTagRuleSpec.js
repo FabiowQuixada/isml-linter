@@ -38,4 +38,17 @@ describe(rule.name, () => {
 
         expect(result.occurrences).toEqual([]);
     });
+
+    it('detects expression in the beginning of the line', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 4);
+        const result = rule.check(fileContent);
+        const expectedResult = [{
+            line: '${\'some ds code\'}',
+            lineNumber: 0,
+            columnStart: 0,
+            length: 17
+        }];
+
+        expect(result.occurrences).toEqual(expectedResult);
+    });
 });
