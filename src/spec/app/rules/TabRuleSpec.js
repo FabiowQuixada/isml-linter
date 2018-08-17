@@ -24,4 +24,17 @@ describe(rule.name, () => {
 
         expect(result.occurrences).toEqual([]);
     });
+
+    it('detects tab character position', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result = rule.check(fileContent);
+        const expectedResult = [{
+            line: '	',
+            lineNumber: 0,
+            columnStart: 0,
+            length: 1
+        }];
+
+        expect(result.occurrences).toEqual(expectedResult);
+    });
 });
