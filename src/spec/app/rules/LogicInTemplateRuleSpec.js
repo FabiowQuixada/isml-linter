@@ -24,4 +24,17 @@ describe(rule.name, () => {
 
         expect(result.occurrences).toEqual([]);
     });
+
+    it('detects logic in template', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result = rule.check(fileContent);
+        const expectedResult = [{
+            line: '<isscript>',
+            lineNumber: 0,
+            columnStart: 0,
+            length: 10
+        }];
+
+        expect(result.occurrences).toEqual(expectedResult);
+    });
 });
