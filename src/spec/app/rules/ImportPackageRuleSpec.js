@@ -24,4 +24,17 @@ describe(rule.name, () => {
 
         expect(result.occurrences).toEqual([]);
     });
+
+    it('detects "importPackage" usage', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result = rule.check(fileContent);
+        const expectedResult = [{
+            line: 'importPackage( dw.system );',
+            lineNumber: 0,
+            columnStart: 0,
+            length: 13
+        }];
+
+        expect(result.occurrences).toEqual(expectedResult);
+    });
 });
