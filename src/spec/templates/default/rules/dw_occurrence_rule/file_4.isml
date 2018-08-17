@@ -1,0 +1,2 @@
+
+const productLineItem : dw.order.ProductLineItem; // Some comment
