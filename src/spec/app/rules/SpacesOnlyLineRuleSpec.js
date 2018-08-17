@@ -31,4 +31,17 @@ describe(rule.name, () => {
 
         expect(result.occurrences).toEqual([]);
     });
+
+    it('detects position and length of space-only lines', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result = rule.check(fileContent);
+        const expectedResult = [{
+            line: '     ',
+            lineNumber: 0,
+            columnStart: 0,
+            length: 6
+        }];
+
+        expect(result.occurrences).toEqual(expectedResult);
+    });
 });
