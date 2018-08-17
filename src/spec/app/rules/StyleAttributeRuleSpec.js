@@ -24,4 +24,17 @@ describe(rule.name, () => {
 
         expect(result.occurrences).toEqual([]);
     });
+
+    it('detects simple style occurrence', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result = rule.check(fileContent);
+        const expectedResult = [{
+            line: '<div style="display: none;">',
+            lineNumber: 0,
+            columnStart: 5,
+            length: 5
+        }];
+
+        expect(result.occurrences).toEqual(expectedResult);
+    });
 });
