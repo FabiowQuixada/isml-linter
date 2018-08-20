@@ -51,7 +51,7 @@ $ isml-linter
 
 ### Available Rules
 
-- **BalancedIsifTagRule** - Checks if the &lt;isif/> tag is balanced;
+- :exclamation: **BalancedIsifTagRule** - Checks if the &lt;isif/> tag is balanced;
 - **BrTagRule** - Checks for presence of &lt;br/> tags. Enable this rule if you prefer to use CSS to handle horizontal spacing;
 - **DwOccurrenceRule** - Checks if there is a direct call to a DigitalScript class, such as in "var PaymentMgr = dw.order.PaymentMgr". For this case, it is recommended to use require('dw/order/PaymentMgr') instead;
 - **GitConflictRule** - Checks if there are unresolved Git conflicts. If you have been coding for a while, you may have found commited unresolved conflicts. This rule helps preventing that from happening;
@@ -62,3 +62,5 @@ $ isml-linter
 - **SpacesOnlyLineRule** - Checks for lines that contain only blank spaces, i.e., unnecessarily indented;
 - **StyleAttributeRule** - Detects use of "style" HTML attribute. Enable this rule if you prefer style to be fully handled via CSS;
 - **TabRule** - Detects use of tabs;
+
+:exclamation: This rule is now deprecated, as we're working on a AST (abstract syntax tree) to validate the whole document tree validity.
