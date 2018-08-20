@@ -5,7 +5,7 @@
   "dependencies": {
     "app-root-path": "^2.1.0",
     "chalk": "^2.3.2",
-    "readdir": "0.0.13"
+    "readdir": "^0.1.0"
   },
   "devDependencies": {
     "eslint": "^4.18.2",
@@ -19,7 +19,6 @@
     "istanbul": "^0.4.5",
     "jasmine": "^3.1.0",
     "jasmine-node": "^1.14.5",
-    "readdir": "0.0.13",
     "rimraf": "^2.6.2",
     "rmdir": "^1.2.0",
     "sinon": "^5.0.3",
@@ -32,6 +31,10 @@
   },
   "bin": {
     "isml-linter": "./bin/isml-linter.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FabiowQuixada/isml-linter"
   },
   "keywords": [
     "isml",
