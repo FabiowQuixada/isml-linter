@@ -28,8 +28,10 @@ const createConfigFile = () => {
         configContent.enabledRules = {};
 
         require('fs').readdirSync(Constants.rulesDir).forEach( filename => {
-            const ruleName = filename.slice(0, -3);
-            configContent.enabledRules[ruleName] = {};
+            if (filename.endsWith('Rule.js')) {
+                const ruleName = filename.slice(0, -3);
+                configContent.enabledRules[ruleName] = {};
+            }
         });
 
         FileUtils.saveToJsonFile(Constants.clientAppDir, Constants.clientConfigFileName, configContent);
