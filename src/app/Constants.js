@@ -33,6 +33,7 @@ const specSpecificDirLinterTemplate = path.join(specLinterTemplate, 'specific_di
 const specIgnoreDirLinterTemplateDir = path.join(specLinterTemplate, 'ignore_config');
 const specRuleTemplateDir = path.join(specTemplateDir, 'rules');
 const specIsmlTreeTemplateDir = path.join(specTemplateDir, 'isml_tree');
+const specIsifTagParserTemplateDir = path.join(specTemplateDir, 'isml_tree', 'components', 'isif_tag_parser');
 const rulesDir = path.join(linterMainDir, 'src', 'app', 'rules');
 
 // Regex;
@@ -64,6 +65,7 @@ module.exports = {
     rulesDir,
     specRuleTemplateDir,
     specIsmlTreeTemplateDir,
+    specIsifTagParserTemplateDir,
     ismllinterDirName,
     specDir,
 

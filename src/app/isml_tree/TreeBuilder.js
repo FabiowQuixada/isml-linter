@@ -1,5 +1,6 @@
 const IsmlNode = require('./IsmlNode');
 const ClosingTagFinder = require('./components/ClosingTagFinder');
+const IsifTagParser = require('./components/IsifTagParser');
 const fs = require('fs');
 
 const build = filePath => {
@@ -131,7 +132,11 @@ const handleInnerContent = (node, state) => {
     const nodeInnerContent = getInnerContent(state);
 
     if (isNextElementATag(state)) {
-        parse(node, nodeInnerContent.trim());
+        if (state.content.startsWith('<isif')) {
+            IsifTagParser.run(node, nodeInnerContent.trim());
+        } else {
+            parse(node, nodeInnerContent.trim());
+        }
     } else {
         addTextToNode(node, nodeInnerContent.trim());
     }
@@ -215,5 +220,6 @@ const isOpeningElem = state => {
 const isNextElementATag = state => getNextNonEmptyChar(state) === '<';
 
 module.exports = {
-    build
+    build,
+    parse
 };

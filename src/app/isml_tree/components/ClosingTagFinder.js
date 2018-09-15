@@ -122,7 +122,9 @@ const updateElementStack = oldState => {
 
     if (!newState.isSelfClosingElement) {
         if (newState.openingElemPos < newState.closingElementPos) {
-            newState.elementStack.push(elem);
+            if (elem !== 'iselse') {
+                newState.elementStack.push(elem);
+            }
         } else if (isCorrespondentElement(newState, elem)) {
             newState.elementStack.pop();
         } else {
@@ -135,11 +137,6 @@ const updateElementStack = oldState => {
 
 const isCorrespondentElement = (state, elem) =>
     `/${state.elementStack[state.elementStack.length-1]}` === elem;
-
-
-
-
-
 
 const isNextElementATag = state => getNextNonEmptyChar(state) === '<';
 
