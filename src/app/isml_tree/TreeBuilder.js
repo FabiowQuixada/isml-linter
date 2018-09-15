@@ -1,7 +1,10 @@
 const IsmlNode = require('./IsmlNode');
 const ClosingTagFinder = require('./components/ClosingTagFinder');
 const IsifTagParser = require('./components/IsifTagParser');
+const MultiClauseNode = require('./MultiClauseNode');
 const fs = require('fs');
+
+const ISIF = '<isif';
 
 const build = filePath => {
     const fileContent = fs.readFileSync(filePath, 'utf-8').replace(/(\r\n\t|\n|\r\t)/gm, '');
@@ -115,8 +118,16 @@ const updateStateWhetherItIsInsideExpression = oldState => {
 };
 
 const createNode = (parentNode, state) => {
-    const node = new IsmlNode();
-    node.setValue(state.currentElementAsString);
+
+    let node = null;
+
+    if (state.content.startsWith(ISIF)) {
+        node = new MultiClauseNode();
+    } else {
+        node = new IsmlNode();
+        node.setValue(state.currentElementAsString);
+    }
+
     parentNode.addChild(node);
 
     if (!node.isSelfClosing()) {
@@ -132,8 +143,8 @@ const handleInnerContent = (node, state) => {
     const nodeInnerContent = getInnerContent(state);
 
     if (isNextElementATag(state)) {
-        if (state.content.startsWith('<isif')) {
-            IsifTagParser.run(node, nodeInnerContent.trim());
+        if (state.content.startsWith(ISIF)) {
+            IsifTagParser.run(node, nodeInnerContent, state.currentElementAsString);
         } else {
             parse(node, nodeInnerContent.trim());
         }

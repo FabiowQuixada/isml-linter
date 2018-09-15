@@ -1,54 +1,54 @@
-const MultiClauseNode = require('../MultiClauseNode');
 const IsmlNode = require('../IsmlNode');
 const TreeBuilder = require('../TreeBuilder');
+const MultiClauseNode = require('../MultiClauseNode');
 
-const CLOSING_TAG = '</isif',
-    ELSE_TAG = '<iselse',
-    CLOSING_CHAR = '>';
+const ELSE_TAG = '<iselse';
 
-exports.run = function(parentNode, content) {
+exports.run = function(parentNode, content, isifTagContent) {
 
-    const invisibleNode = new MultiClauseNode();
+    const clauseList = content.split(ELSE_TAG);
+    let resultNode = parentNode;
 
-    invisibleNode.setValue('(invisible if)');
-    parentNode.addChild(invisibleNode);
-
-    if (content.indexOf(ELSE_TAG) !== -1) {
-        buildMainClause(invisibleNode, content);
-        buildElseClause(invisibleNode, content);
+    if (!(parentNode instanceof MultiClauseNode)) {
+        resultNode = new MultiClauseNode();
+        parentNode.addChild(resultNode);
     }
+
+    clauseList.forEach( (item, index) => {
+        if (index === 0) {
+            buildMainClause(resultNode, item, isifTagContent);
+        } else {
+            buildElseClause(resultNode, item);
+        }
+    });
 
     return parentNode;
 };
 
-const buildMainClause = (invisibleNode, content) => {
+const buildMainClause = (invisibleNode, content, isifTagContent) => {
 
-    const closingCharPos = content.indexOf(CLOSING_CHAR),
-        isifNodeValue = content.substring(0, closingCharPos + 1),
-        clauseContentNode = new IsmlNode(),
-        clauseContent = content.substring(closingCharPos + 1, content.indexOf(ELSE_TAG));
+    const clauseContentNode = new IsmlNode();
 
-    clauseContentNode.setValue(isifNodeValue);
+    clauseContentNode.setValue(isifTagContent);
     invisibleNode.addClause(clauseContentNode);
-    TreeBuilder.parse(clauseContentNode, clauseContent);
+    TreeBuilder.parse(clauseContentNode, content);
 };
 
 const buildElseClause = (invisibleNode, content) => {
 
-    const closingCharPos = getClosingCharPosition(content) + 1,
-        clauseValue = content.substring(content.indexOf(ELSE_TAG), closingCharPos),
-        clauseContent = content.substring(closingCharPos, content.indexOf(CLOSING_TAG)),
-        clauseContentNode = new IsmlNode();
+    const clauseContentNode = new IsmlNode(),
+        clauseContent = getClauseContent(content),
+        clauseInnerContent = getClauseInnerContent(content);
 
-    clauseContentNode.setValue(clauseValue);
+    clauseContentNode.setValue(clauseContent);
     invisibleNode.addClause(clauseContentNode);
-    TreeBuilder.parse(clauseContentNode, clauseContent);
+    TreeBuilder.parse(clauseContentNode, clauseInnerContent);
 };
 
-const getClosingCharPosition = (content) => {
+function getClauseContent(item) {
+    return ELSE_TAG + item.substring(0, item.indexOf('>') + 1);
+}
 
-    const preIndex = content.indexOf(ELSE_TAG),
-        searchIndex = preIndex + content.substring(preIndex).indexOf(CLOSING_CHAR);
-
-    return searchIndex;
-};
+function getClauseInnerContent(item) {
+    return item.substring(item.indexOf('>') + 1, item.length);
+}

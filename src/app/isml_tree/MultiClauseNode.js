@@ -11,7 +11,7 @@ class MultiClauseNode extends IsmlNode {
     constructor() {
         super();
         this.clauses = [];
-        this.setValue('(invisible if)');
+        this.setValue('(Multiclause node)');
     }
 
     addClause(clause) {

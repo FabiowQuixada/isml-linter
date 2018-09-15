@@ -122,7 +122,7 @@ const updateElementStack = oldState => {
 
     if (!newState.isSelfClosingElement) {
         if (newState.openingElemPos < newState.closingElementPos) {
-            if (elem !== 'iselse') {
+            if (elem !== 'iselse' && elem !== 'iselseif') {
                 newState.elementStack.push(elem);
             }
         } else if (isCorrespondentElement(newState, elem)) {
