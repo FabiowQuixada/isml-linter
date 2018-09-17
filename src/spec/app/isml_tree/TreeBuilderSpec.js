@@ -48,7 +48,7 @@ describe(targetObjName, () => {
     it('creates a tree with a self-closed tag grandchild', () => {
         const rootNode = TreeBuilder.build(getFilePath(0));
 
-        expect(rootNode.getChild(3).getChild(0).getClause(0).getValue()).toEqual('<isif condition="${true}">');
+        expect(rootNode.getChild(3).getChild(0).getChild(0).getValue()).toEqual('<isif condition="${true}">');
     });
 
     it('recognizes a simple, raw isml expression: ${...}', () => {

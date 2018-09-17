@@ -22,23 +22,23 @@ describe(targetObjName, () => {
     it('has no clauses nodes when created', () => {
         const rootNode = new MultiClauseNode();
 
-        expect(rootNode.getNumberOfClauses()).toEqual(0);
+        expect(rootNode.getNumberOfChildren()).toEqual(0);
     });
 
     it('adds a clause to itself', () => {
         const rootNode = new MultiClauseNode();
         const childNode = new IsmlNode();
 
-        rootNode.addClause(childNode);
+        rootNode.addChild(childNode);
 
-        expect(rootNode.getNumberOfClauses()).toEqual(1);
+        expect(rootNode.getNumberOfChildren()).toEqual(1);
     });
 
     it('has the same height as its child-clauses', () => {
         const rootNode = new MultiClauseNode();
         const childNode = new IsmlNode();
 
-        rootNode.addClause(childNode);
+        rootNode.addChild(childNode);
 
         expect(childNode.getHeight()).toEqual(rootNode.getHeight());
     });
@@ -47,7 +47,7 @@ describe(targetObjName, () => {
         const rootNode = new MultiClauseNode();
         const childNode = new IsmlNode();
 
-        rootNode.addClause(childNode);
+        rootNode.addChild(childNode);
         childNode.setValue('<div />');
 
         rootNode.print();
@@ -63,8 +63,8 @@ describe(targetObjName, () => {
         childNode1.setValue('<isif>');
         childNode2.setValue('<iselse>');
 
-        rootNode.addClause(childNode1);
-        rootNode.addClause(childNode2);
+        rootNode.addChild(childNode1);
+        rootNode.addChild(childNode2);
 
         rootNode.print();
 

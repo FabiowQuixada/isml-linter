@@ -10,20 +10,16 @@ class MultiClauseNode extends IsmlNode {
 
     constructor() {
         super();
-        this.clauses = [];
         this.setValue('(Multiclause node)');
     }
 
-    addClause(clause) {
+    addChild(clause) {
         clause.height = this.height;
-        this.clauses.push(clause);
+        this.children.push(clause);
     }
 
-    getClause(number) { return this.clauses[number]; }
-    getNumberOfClauses() { return this.clauses.length; }
-
     print() {
-        this.clauses.forEach( node => {
+        this.children.forEach( node => {
             node.print();
         });
     }

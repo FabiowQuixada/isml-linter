@@ -24,7 +24,7 @@ exports.run = function(multiClauseNode, content, isifTagContent) {
             node = getElseClauseNode(item);
         }
 
-        resultNode.addClause(node);
+        resultNode.addChild(node);
     });
 
     return multiClauseNode;

@@ -20,9 +20,9 @@ describe(targetObjName, () => {
         const rootNode = TreeBuilder.build(filePath);
         const multiClauseNode = rootNode.getChild(0);
 
-        expect(multiClauseNode.getNumberOfClauses()).toEqual(2);
-        expect(multiClauseNode.getClause(0).getValue()).toEqual('<isif condition="${true}">');
-        expect(multiClauseNode.getClause(1).getValue()).toEqual('<iselse>');
+        expect(multiClauseNode.getNumberOfChildren()).toEqual(2);
+        expect(multiClauseNode.getChild(0).getValue()).toEqual('<isif condition="${true}">');
+        expect(multiClauseNode.getChild(1).getValue()).toEqual('<iselse>');
     });
 
     it('parser simple non-empty isif-iselse tag', () => {
@@ -31,9 +31,9 @@ describe(targetObjName, () => {
         const rootNode = TreeBuilder.build(filePath);
         const multiClauseNode = rootNode.getChild(0);
 
-        expect(multiClauseNode.getNumberOfClauses()).toEqual(2);
-        expect(multiClauseNode.getClause(0).getChild(0).getValue()).toEqual('    <hey/>');
-        expect(multiClauseNode.getClause(1).getChild(0).getValue()).toEqual('    <ho/>');
+        expect(multiClauseNode.getNumberOfChildren()).toEqual(2);
+        expect(multiClauseNode.getChild(0).getChild(0).getValue()).toEqual('    <hey/>');
+        expect(multiClauseNode.getChild(1).getChild(0).getValue()).toEqual('    <ho/>');
     });
 
     it('parses a multi-clause isif-iselseif-iselse tag', () => {
@@ -42,10 +42,10 @@ describe(targetObjName, () => {
         const rootNode = TreeBuilder.build(filePath);
         const multiClauseNode = rootNode.getChild(0);
 
-        expect(multiClauseNode.getNumberOfClauses()).toEqual(3);
-        expect(multiClauseNode.getClause(0).getValue()).toEqual('<isif condition="${first}">');
-        expect(multiClauseNode.getClause(1).getValue()).toEqual('<iselseif condition="${second}">');
-        expect(multiClauseNode.getClause(2).getValue()).toEqual('<iselse>');
+        expect(multiClauseNode.getNumberOfChildren()).toEqual(3);
+        expect(multiClauseNode.getChild(0).getValue()).toEqual('<isif condition="${first}">');
+        expect(multiClauseNode.getChild(1).getValue()).toEqual('<iselseif condition="${second}">');
+        expect(multiClauseNode.getChild(2).getValue()).toEqual('<iselse>');
     });
 });
 
