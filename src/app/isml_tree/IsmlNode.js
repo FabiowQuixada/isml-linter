@@ -2,8 +2,8 @@ const MAX_TEXT_DISPLAY_SIZE = 30;
 
 class IsmlNode {
 
-    constructor() {
-        this.value = '(root)';
+    constructor(value) {
+        this.value = value || '(root)';
         this.type = null;
         this.height = 0;
         this.innerText = null;

@@ -124,8 +124,7 @@ const createNode = (parentNode, state) => {
     if (state.content.startsWith(ISIF)) {
         node = new MultiClauseNode();
     } else {
-        node = new IsmlNode();
-        node.setValue(state.currentElementAsString);
+        node = new IsmlNode(state.currentElementAsString);
     }
 
     parentNode.addChild(node);
@@ -156,8 +155,7 @@ const handleInnerContent = (node, state) => {
 };
 
 const addTextToNode = (node, nodeInnerContent) => {
-    const innerTextNode = new IsmlNode();
-    innerTextNode.setValue(nodeInnerContent);
+    const innerTextNode = new IsmlNode(nodeInnerContent);
     node.addChild(innerTextNode);
 };
 

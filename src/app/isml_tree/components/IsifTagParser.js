@@ -32,9 +32,8 @@ exports.run = function(multiClauseNode, content, isifTagContent) {
 
 const getMainClauseNode = (content, isifTagContent) => {
 
-    const clauseContentNode = new IsmlNode();
+    const clauseContentNode = new IsmlNode(isifTagContent);
 
-    clauseContentNode.setValue(isifTagContent);
     TreeBuilder.parse(clauseContentNode, content);
 
     return clauseContentNode;
@@ -42,11 +41,10 @@ const getMainClauseNode = (content, isifTagContent) => {
 
 const getElseClauseNode = (content) => {
 
-    const clauseContentNode = new IsmlNode(),
-        clauseContent = getClauseContent(content),
-        clauseInnerContent = getClauseInnerContent(content);
+    const clauseContent = getClauseContent(content),
+        clauseInnerContent = getClauseInnerContent(content),
+        clauseContentNode = new IsmlNode(clauseContent);
 
-    clauseContentNode.setValue(clauseContent);
     TreeBuilder.parse(clauseContentNode, clauseInnerContent);
 
     return clauseContentNode;
