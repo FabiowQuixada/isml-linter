@@ -4,45 +4,52 @@ const MultiClauseNode = require('../MultiClauseNode');
 
 const ELSE_TAG = '<iselse';
 
-exports.run = function(parentNode, content, isifTagContent) {
+exports.run = function(multiClauseNode, content, isifTagContent) {
 
     const clauseList = content.split(ELSE_TAG);
-    let resultNode = parentNode;
+    let resultNode = multiClauseNode;
 
-    if (!(parentNode instanceof MultiClauseNode)) {
+    if (!(multiClauseNode instanceof MultiClauseNode)) {
         resultNode = new MultiClauseNode();
-        parentNode.addChild(resultNode);
+        multiClauseNode.addChild(resultNode);
     }
 
     clauseList.forEach( (item, index) => {
+
+        let node = null;
+
         if (index === 0) {
-            buildMainClause(resultNode, item, isifTagContent);
+            node = getMainClauseNode(item, isifTagContent);
         } else {
-            buildElseClause(resultNode, item);
+            node = getElseClauseNode(item);
         }
+
+        resultNode.addClause(node);
     });
 
-    return parentNode;
+    return multiClauseNode;
 };
 
-const buildMainClause = (invisibleNode, content, isifTagContent) => {
+const getMainClauseNode = (content, isifTagContent) => {
 
     const clauseContentNode = new IsmlNode();
 
     clauseContentNode.setValue(isifTagContent);
-    invisibleNode.addClause(clauseContentNode);
     TreeBuilder.parse(clauseContentNode, content);
+
+    return clauseContentNode;
 };
 
-const buildElseClause = (invisibleNode, content) => {
+const getElseClauseNode = (content) => {
 
     const clauseContentNode = new IsmlNode(),
         clauseContent = getClauseContent(content),
         clauseInnerContent = getClauseInnerContent(content);
 
     clauseContentNode.setValue(clauseContent);
-    invisibleNode.addClause(clauseContentNode);
     TreeBuilder.parse(clauseContentNode, clauseInnerContent);
+
+    return clauseContentNode;
 };
 
 function getClauseContent(item) {
