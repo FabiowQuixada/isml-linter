@@ -1,21 +1,19 @@
 /**
- * Replaces '${...}' with '______', so it facilites next processes. For Example,
+ * Replaces '${...}' with '${___}', so it facilites next processes. For Example,
  * if ${ 3 < 4 } is present, the '<' symbol might be thought as an opening tag
  * symbol. The same is valid for <isscript> and <iscomment> tags;
  */
-const maskIgnorableContent = oldState => {
 
-    let newState = Object.assign({}, oldState);
-    let content = newState.content;
+const placeholderSymbol = '_';
 
-    content = replaceContentOfFirstWrappingTag(content, '${', '}');
-    content = replaceContentOfFirstWrappingTag(content, '<isscript>', '</isscript>');
-    content = replaceContentOfFirstWrappingTag(content, '<iscomment>', '</iscomment>');
+const maskIgnorableContent = content => {
 
-    newState.content = content;
-    newState = maskNestedIsmlElements(newState);
+    content = maskInBetween(content, '${', '}');
+    content = maskInBetween(content, '<isscript>', '</isscript>');
+    content = maskInBetween(content, '<iscomment>', '</iscomment>');
+    content = maskNestedIsmlElements(content);
 
-    return newState;
+    return content;
 };
 
 /**
@@ -26,67 +24,90 @@ const maskIgnorableContent = oldState => {
  * into:
  *      <div ___________ class="wrapper">
  */
-const maskNestedIsmlElements = oldState => {
+const maskNestedIsmlElements = content => {
 
-    const newState = Object.assign({}, oldState);
     let result = '';
     let depth = 0;
     let firstTime = true;
 
-    for (let i = 0; i < newState.content.length; i++) {
-        const currentChar = newState.content.charAt(i);
+    for (let i = 0; i < content.length; i++) {
+        const currentChar = content.charAt(i);
 
         if (currentChar === '<') {
             depth += 1;
         }
 
-        if (newState.content.charAt(i-1) === '>') {
+        if (content.charAt(i - 1) === '>') {
             depth -= 1;
         }
 
         if (depth > 1) {
             result += '_';
         } else {
-            result += newState.content.charAt(i);
+            result += content.charAt(i);
         }
 
         if (depth === 0 && firstTime) {
-            newState.currentElemEndPosition = i;
             firstTime = false;
         }
-    }
-
-    newState.content = result;
-
-    return newState;
-};
-
-const replaceContentOfFirstWrappingTag = (content, startString, endString) => {
-
-    const placeholderSymbol = '_';
-    let result = content;
-
-    const startStringPos = result.indexOf(startString);
-    const endStringPos = result.indexOf(endString);
-
-    if (startStringPos !== -1 && endStringPos !== -1) {
-        const startStringEndPos = startStringPos + startString.length;
-        const endStringStartPos = endStringPos-1;
-        let placeholder = '';
-
-        for (let i = startStringEndPos; i <= endStringStartPos; i++) {
-            placeholder += placeholderSymbol;
-        }
-
-        result = result.substring(0, startStringEndPos) +
-                 placeholder +
-                 result.substring(endStringStartPos+1, result.length+1);
     }
 
     return result;
 };
 
-module.exports ={
-    maskNestedIsmlElements,
+const getRegex = expression => {
+    return new RegExp(expression.replace('$', '\\$').replace('{', '\\{'), 'g');
+};
+
+const getMatchingIndexList = (content, expression) => {
+
+    const regex = getRegex(expression);
+    const matchingIndexList = [];
+    let match = regex.exec(content);
+
+    while (match !== null) {
+        matchingIndexList.push(match.index);
+        match = regex.exec(content);
+    }
+
+    return matchingIndexList;
+};
+
+const maskInBetween = (content, startString, endString) => {
+
+    const openingMatchList = getMatchingIndexList(content, startString);
+    const closingMatchList = getMatchingIndexList(content, endString);
+    let result = '';
+    let isInBetween = false;
+    let activePos = -1;
+
+    for (let i = 0; i < content.length; ++i) {
+        if (isInBetween) {
+            if (closingMatchList.indexOf(i + 1) !== -1) {
+                activePos = -1;
+                isInBetween = false;
+            }
+
+            result += placeholderSymbol;
+
+        } else {
+            if (openingMatchList.indexOf(i - 1) !== -1) {
+                activePos = i;
+            }
+
+            isInBetween = activePos !== -1 && i >= activePos + startString.length - 1;
+
+            if (isInBetween) {
+                result += placeholderSymbol;
+            } else {
+                result += content[i];
+            }
+        }
+    }
+
+    return result;
+};
+
+module.exports = {
     maskIgnorableContent
 };

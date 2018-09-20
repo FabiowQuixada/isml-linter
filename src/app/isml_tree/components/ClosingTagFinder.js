@@ -18,7 +18,7 @@ const getCorrespondentClosingElementPosition = (content, oldGlobalState) => {
 
     let internalState = getInitialState(content, newGlobalState);
 
-    internalState = MaskUtils.maskIgnorableContent(internalState);
+    internalState.content = MaskUtils.maskIgnorableContent(internalState.content);
 
     newGlobalState.currentElemEndPosition = internalState.content.indexOf('>');
 
