@@ -1,0 +1,1 @@
+<isset name="lineItem" value="${'some value'}" scope="page" />

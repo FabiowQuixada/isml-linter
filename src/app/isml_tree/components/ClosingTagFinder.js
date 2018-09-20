@@ -17,8 +17,10 @@ const getCorrespondentClosingElementPosition = (content, oldGlobalState) => {
     const closingElemRegex = /<\/.[a-zA-Z]*>/;
 
     let internalState = getInitialState(content, newGlobalState);
+    const obj = getPosition(internalState.content);
 
-    internalState.content = MaskUtils.maskIgnorableContent(internalState.content);
+    internalState.currentElemEndPosition = obj.currentElemEndPosition;
+    internalState.content = obj.content;
 
     newGlobalState.currentElemEndPosition = internalState.content.indexOf('>');
 
@@ -157,6 +159,17 @@ const getFirstElementType = elementAsString => {
     }
 
     return result;
+};
+
+const getPosition = content => {
+
+    content = MaskUtils.maskIgnorableContent(content);
+    const currentElemEndPosition = content.indexOf('<');
+
+    return {
+        currentElemEndPosition,
+        content
+    };
 };
 
 module.exports = {

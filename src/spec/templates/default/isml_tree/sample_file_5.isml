@@ -1,0 +1,3 @@
+<isscript>
+    var condition = someValue < 4;
+</isscript>

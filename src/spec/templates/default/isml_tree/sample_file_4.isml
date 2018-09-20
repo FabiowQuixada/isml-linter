@@ -1,0 +1,9 @@
+<span id="root_elem_17" <isif condition="${active}">class="active"</isif>>
+    Some content
+</span>
+
+<isif condition="${true}">
+    <hey/>
+<iselse>    
+    <ho/>
+</isif>

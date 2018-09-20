@@ -1,0 +1,3 @@
+<isif condition="${opli.bundledProductLineItems < 4}">
+    <isset name="opliID" value="${opli.ID}" scope="page" />
+</isif>
