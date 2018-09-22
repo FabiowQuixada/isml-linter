@@ -18,6 +18,7 @@ const compiledOutputFileName = 'compiled_output.json';
 const metadataFileName = 'metadata.json';
 const clientConfigFileName = '.ismllinter.json';
 const specConfigFileName = 'spec_config.json';
+const logFileName = 'isml-linter.log';
 
 
 const clientAppDir = appRoot.toString();
@@ -46,6 +47,10 @@ const specOutputFilePath = path.join(specTempDir, outputFileName);
 const specCompiledOutputFilePath = path.join(specTempDir, compiledOutputFileName);
 const specMetadataFilePath = path.join(specTempDir, metadataFileName);
 const configFilePath = path.join(clientAppDir, clientConfigFileName);
+const errorlogFilePath = path.join(clientIsmlLinterDir, logFileName);
+
+// Links;
+const repositoryUrl = 'https://github.com/FabiowQuixada/isml-linter';
 
 module.exports = {
     // Client directories;
@@ -77,6 +82,7 @@ module.exports = {
     specCompiledOutputFilePath,
     specMetadataFilePath,
     configFilePath,
+    errorlogFilePath,
 
     // Regex;
     srcJsRegex,
@@ -87,4 +93,7 @@ module.exports = {
     ENV_DEV,
     ENV_TEST,
     ENV_PROD,
+
+    // Links
+    repositoryUrl,
 };
