@@ -131,7 +131,7 @@ const updateElementStack = oldState => {
         } else if (isCorrespondentElement(newState, elem)) {
             newState.elementStack.pop();
         } else {
-            throw ErrorType.INVALID_DOM;
+            throw `${ErrorType.INVALID_DOM} :: Unbalanced <${elem.substring(1)}> element`;
         }
     }
 

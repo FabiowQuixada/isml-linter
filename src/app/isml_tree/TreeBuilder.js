@@ -7,12 +7,28 @@ const fs = require('fs');
 const ISIF = '<isif';
 
 const build = filePath => {
-    const fileContent = fs.readFileSync(filePath, 'utf-8').replace(/(\r\n\t|\n|\r\t)/gm, '');
+
+    const ParseStatus = require('../enums/ParseStatus');
+
     const rootNode = new IsmlNode();
+    const result = {
+        rootNode,
+        status: ParseStatus.NO_ERRORS,
+        message: ''
+    };
 
-    parse(rootNode, fileContent);
+    try {
 
-    return rootNode;
+        const fileContent = fs.readFileSync(filePath, 'utf-8').replace(/(\r\n\t|\n|\r\t)/gm, '');
+
+        parse(rootNode, fileContent);
+    } catch (e) {
+        result.rootNode = null;
+        result.status = ParseStatus.INVALID_DOM;
+        result.message = e;
+    }
+
+    return result;
 };
 
 /**
