@@ -16,35 +16,33 @@ const run = function(multiClauseNode, content, isifTagContent) {
     }
 
     clauseList.forEach( (item, index) => {
-
-        let node = null;
-
         if (index === 0) {
-            node = getMainClauseNode(item, isifTagContent);
+            getMainClauseNode(resultNode, item, isifTagContent);
         } else {
-            node = getElseClauseNode(item);
+            getElseClauseNode(resultNode, item);
         }
-
-        resultNode.addChild(node);
     });
 
     return multiClauseNode;
 };
 
-const getMainClauseNode = (content, isifTagContent) => {
+const getMainClauseNode = (resultNode, content, isifTagContent) => {
 
     const clauseContentNode = new IsmlNode(isifTagContent);
+    resultNode.addChild(clauseContentNode);
 
     TreeBuilder.parse(clauseContentNode, content);
 
     return clauseContentNode;
 };
 
-const getElseClauseNode = (content) => {
+const getElseClauseNode = (resultNode, content) => {
 
     const clauseContent = getClauseContent(content),
         clauseInnerContent = getClauseInnerContent(content),
         clauseContentNode = new IsmlNode(clauseContent);
+
+    resultNode.addChild(clauseContentNode);
 
     TreeBuilder.parse(clauseContentNode, clauseInnerContent);
 

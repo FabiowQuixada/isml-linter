@@ -98,6 +98,12 @@ describe(targetObjName, () => {
         expect(rootNode.getChild(0).getChild(0).getValue()).toEqual('Some content');
     });
 
+    it('sets the correct height fo multi-clause children', () => {
+        const rootNode = TreeBuilder.build(getFilePath(12));
+
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getChild(0).getHeight()).toEqual(3);
+    });
+
     it('throws an exception upon invalid isml dom', () => {
         expect( () => { TreeBuilder.build(getFilePath(1)); } ).toThrow(ErrorType.INVALID_DOM);
     });
