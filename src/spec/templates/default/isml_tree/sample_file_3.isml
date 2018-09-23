@@ -1,0 +1,7 @@
+<isif condition="${a < 7}">
+    <div class="clause_1" />
+<iselseif condition="${a < 14}">
+    <div class="clause_2" />
+<iselse>
+    <div class="clause_3" />
+</isif>

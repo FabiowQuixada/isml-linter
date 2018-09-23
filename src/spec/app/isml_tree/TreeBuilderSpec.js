@@ -78,6 +78,13 @@ describe(targetObjName, () => {
 
     });
 
+    it('parses <isif> tag with a "<" character in its condition', () => {
+        const rootNode = TreeBuilder.build(getFilePath(3));
+
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('    <div class="clause_1" />');
+
+    });
+
     it('handles "<" characters in comments', () => {
         const rootNode = TreeBuilder.build(getFilePath(2));
 

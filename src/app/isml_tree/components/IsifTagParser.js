@@ -1,10 +1,11 @@
 const IsmlNode = require('../IsmlNode');
 const TreeBuilder = require('../TreeBuilder');
 const MultiClauseNode = require('../MultiClauseNode');
+const MaskUtils = require('../MaskUtils');
 
 const ELSE_TAG = '<iselse';
 
-exports.run = function(multiClauseNode, content, isifTagContent) {
+const run = function(multiClauseNode, content, isifTagContent) {
 
     const clauseList = content.split(ELSE_TAG);
     let resultNode = multiClauseNode;
@@ -50,10 +51,14 @@ const getElseClauseNode = (content) => {
     return clauseContentNode;
 };
 
-function getClauseContent(item) {
-    return ELSE_TAG + item.substring(0, item.indexOf('>') + 1);
+function getClauseContent(content) {
+    const processedContent = MaskUtils.maskIgnorableContent(content);
+    return ELSE_TAG + content.substring(0, processedContent.indexOf('>') + 1);
 }
 
-function getClauseInnerContent(item) {
-    return item.substring(item.indexOf('>') + 1, item.length);
+function getClauseInnerContent(content) {
+    const processedContent = MaskUtils.maskIgnorableContent(content);
+    return content.substring(content.indexOf('>') + 1, processedContent.length);
 }
+
+module.exports.run = run;

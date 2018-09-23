@@ -21,8 +21,9 @@ const getCorrespondentClosingElementPosition = (content, oldGlobalState) => {
 
     internalState.currentElemEndPosition = obj.currentElemEndPosition;
     internalState.content = obj.content;
+    const maskedContent = obj.content;
 
-    newGlobalState.currentElemEndPosition = internalState.content.indexOf('>');
+    newGlobalState.currentElemEndPosition = maskedContent.indexOf('>');
 
     while (isClosingPositionNotFound(internalState)) {
 

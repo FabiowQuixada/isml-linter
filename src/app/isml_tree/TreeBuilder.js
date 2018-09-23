@@ -121,7 +121,7 @@ const createNode = (parentNode, state) => {
 
     let node = null;
 
-    if (state.content.startsWith(ISIF)) {
+    if (state.currentElementAsString.startsWith(ISIF)) {
         node = new MultiClauseNode();
     } else {
         node = new IsmlNode(state.currentElementAsString);
