@@ -137,7 +137,7 @@ const createNode = (parentNode, state) => {
 
     let node = null;
 
-    if (state.currentElementAsString.startsWith(ISIF)) {
+    if (state.currentElementAsString.trim().startsWith(ISIF)) {
         node = new MultiClauseNode();
     } else {
         node = new IsmlNode(state.currentElementAsString);
@@ -158,7 +158,7 @@ const handleInnerContent = (node, state) => {
     const nodeInnerContent = getInnerContent(state);
 
     if (isNextElementATag(state)) {
-        if (state.content.startsWith(ISIF)) {
+        if (state.content.trim().startsWith(ISIF)) {
             IsifTagParser.run(node, nodeInnerContent, state.currentElementAsString);
         } else {
             parse(node, nodeInnerContent.trim());
@@ -244,7 +244,5 @@ const isOpeningElem = state => {
 
 const isNextElementATag = state => getNextNonEmptyChar(state) === '<';
 
-module.exports = {
-    build,
-    parse
-};
+module.exports.build = build;
+module.exports.parse = parse;

@@ -103,6 +103,12 @@ describe(targetObjName, () => {
         expect(rootNode.getChild(0).getChild(0).getChild(0).getChild(0).getHeight()).toEqual(3);
     });
 
+    it('parses nested <isif> tags', () => {
+        const rootNode = TreeBuilder.build(getFilePath(13)).rootNode;
+
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getChild(1).getChild(0).getHeight()).toEqual(3);
+    });
+
     it('throws an exception upon invalid isml dom', () => {
         expect(TreeBuilder.build(getFilePath(1)).message).toEqual('Invalid ISML DOM :: Unbalanced <isif> element');
     });

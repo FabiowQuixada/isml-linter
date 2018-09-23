@@ -1,0 +1,12 @@
+<isif condition="${condition_1}">
+    <isif condition="${inner_if_1}">
+    <iselseif condition="${inner_elseif_1}">
+        <isprint value="${Resource.msg('some.key.1','file',null)}" />
+    </isif>
+<iselseif condition="${inner_elseif_1}"><div />
+<iselse>
+    <isif condition="${inner_isif_2}">
+    <iselseif condition="${inner_elseif_2}">
+        <isprint value="${Resource.msg('some.key.2','file',null)}" />
+    </isif>
+</isif>
