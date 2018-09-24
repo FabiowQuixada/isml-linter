@@ -4,15 +4,28 @@ const path = require('path');
 const LinterResultExporter = require('./LinterResultExporter');
 const Constants = require('./Constants');
 const appRoot = require('app-root-path');
+const config = require('./ConfigLoader').load();
 
 const Linter = {};
+
+const ignoreFiles = file => {
+    if (file.indexOf('node_modules') !== -1) {
+        return false;
+    }
+
+    if (config.ignore && config.ignore.some( ignorePath => file.indexOf(ignorePath) !== -1)) {
+        return false;
+    }
+
+    return true;
+};
 
 Linter.run = function(dir = appRoot.toString()) {
 
     const fs = require('fs');
     const filesArray = readDir
         .readSync(dir, ['**.isml'])
-        .filter( file => file.indexOf('node_modules') === -1 );
+        .filter(ignoreFiles);
 
     this.result = {};
     this.result.errors = {};
