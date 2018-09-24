@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.2.0] - 2018-10-01
+
+### Added
+- Configuration features: root linting directory and ignorable directories;
+- Increased test coverage;
+
+### Fixed
+- Space at end of line rule for Windows;
+- Output file line number;
+
 ## [2.0.1] - 2018-09-23
 
 ### Fixed
@@ -32,6 +42,7 @@
 ### Added
 - Linter is published;
 
+[2.2.0]: https://github.com/FabiowQuixada/isml-linter/compare/2.0.1...2.2.0
 [2.0.1]: https://github.com/FabiowQuixada/isml-linter/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/1.0.1...2.0.0
 [1.0.1]: https://github.com/FabiowQuixada/isml-linter/compare/1.0.0...1.0.1

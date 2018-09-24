@@ -12,6 +12,7 @@ When run, IsmlLinter will generate two files under "isml-linter/output/" in your
 
 You can use these files to automate error checking in your build process.
 
+
 ### Installation
 
 You can install IsmlLinter either locally or globally:
@@ -48,6 +49,42 @@ $ isml-linter
 
 - Add the 'isml-linter/' directory to your .gitignore file;
 - When you run IsmlLinter for the first time, an .ismllinter.json file will be created in your project root directory. All rules will be listed there (enabled by default) so you can clearly see what this linter can do for you. To disable a rule, simply remove it from the .ismllinter.json file and run IsmlLinter again;
+
+##### Configuration Options
+
+Currently, the following configurations can be set in the .ismllinter.json file:
+
+- **rootDir** - The root directory under which the linter will run. Defaults to the directory where the package.json file is;
+- **ignore** - Array of strings. If a file path contains (as a substring) any string defined here, that file will be ignored by the linter;
+- **enabledRules** - Defines which rules to check. See available rules below;
+
+Example configuration:
+
+```json
+{
+    "rootDir": "./cartridges",
+    "ignore": ["this_directory_is_to_be_ignored"],
+    "enabledRules" : {
+        "BrTagRule" : {}, 
+        "DwOccurrenceRule" : {}
+    }
+}
+```
+
+
+### Build Script
+
+If you want to add Isml Linter to your build process, you can use the following script:
+
+```javascript
+#!/usr/bin/env node
+
+const IsmlLinter = require('isml-linter').IsmlLinter;
+const lintResults = IsmlLinter.run();
+const errorQty = Object.keys(lintResults.errors).length;
+
+process.exit(errorQty);
+```
 
 ### Available Rules
 
