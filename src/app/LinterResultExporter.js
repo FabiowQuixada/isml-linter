@@ -6,7 +6,7 @@ const compiledOutputFileName = Constants.compiledOutputFileName;
 
 const LinterResultExporter = {};
 
-const formatLine = (line, lineNumber) => `Line ${lineNumber+1}: ${line.trim()}`;
+const formatLine = (line, lineNumber) => `Line ${lineNumber + 1}: ${line.trim()}`;
 
 const format = jsonData => {
     const formattedJsonData = {};
@@ -85,6 +85,8 @@ LinterResultExporter.export = function(outputDir, jsonData) {
     const formattedJsonData = format(jsonData);
     const orderedJsonData = orderOutputByRuleDescription(formattedJsonData);
 
+    FileUtils.createDirIfDoesNotExist(Constants.clientIsmlLinterDir);
+    FileUtils.createDirIfDoesNotExist(Constants.clientOutputDir);
     FileUtils.saveToJsonFile(outputDir, outputFileName, jsonData);
     compileOutput(outputDir, orderedJsonData);
 
