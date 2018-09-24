@@ -2,10 +2,12 @@ const readDir = require('readdir');
 const FileParser = require('./FileParser');
 const path = require('path');
 const LinterResultExporter = require('./LinterResultExporter');
+const Constants = require('./Constants');
+const appRoot = require('app-root-path');
 
 const Linter = {};
 
-Linter.run = function(dir) {
+Linter.run = function(dir = appRoot.toString()) {
 
     const fs = require('fs');
     const filesArray = readDir
@@ -29,7 +31,7 @@ Linter.run = function(dir) {
     return this.getOutput();
 };
 
-Linter.export = function(outputDir) {
+Linter.export = function(outputDir = Constants.clientOutputDir) {
     LinterResultExporter.export(outputDir, this.result);
 };
 
