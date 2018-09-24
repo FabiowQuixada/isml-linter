@@ -30,7 +30,7 @@ describe(rule.name, () => {
         const result = rule.check(fileContent);
         const expectedResult = [{
             line: '<div><br></div>',
-            lineNumber: 0,
+            lineNumber: 1,
             columnStart: 5,
             length: 4
         }];
@@ -43,7 +43,7 @@ describe(rule.name, () => {
         const result = rule.check(fileContent);
         const expectedResult = [{
             line: '<div><br /></div>',
-            lineNumber: 1,
+            lineNumber: 2,
             columnStart: 6,
             length: 6
         }];
@@ -56,7 +56,7 @@ describe(rule.name, () => {
         const result = rule.check(fileContent);
         const expectedResult = [{
             line: '<div><br/></div>',
-            lineNumber: 0,
+            lineNumber: 1,
             columnStart: 5,
             length: 5
         }];
@@ -69,7 +69,7 @@ describe(rule.name, () => {
         const result = rule.check(fileContent);
         const expectedResult = [{
             line: '<br>',
-            lineNumber: 0,
+            lineNumber: 1,
             columnStart: 0,
             length: 4
         }];
@@ -82,7 +82,7 @@ describe(rule.name, () => {
         const result = rule.check(fileContent);
         const expectedResult = [{
             line: '<br/>',
-            lineNumber: 1,
+            lineNumber: 2,
             columnStart: 1,
             length: 5
         }];

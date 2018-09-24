@@ -44,7 +44,7 @@ describe(rule.name, () => {
         const result = rule.check(fileContent);
         const expectedResult = [{
             line: 'const sum = 0;    ',
-            lineNumber: 0,
+            lineNumber: 1,
             columnStart: 14,
             length: 4
         }];

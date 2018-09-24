@@ -44,7 +44,7 @@ describe(rule.name, () => {
         const result = rule.check(fileContent);
         const expectedResult = [{
             line: '${\'some ds code\'}',
-            lineNumber: 0,
+            lineNumber: 1,
             columnStart: 0,
             length: 17
         }];

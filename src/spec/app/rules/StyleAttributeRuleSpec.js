@@ -30,7 +30,7 @@ describe(rule.name, () => {
         const result = rule.check(fileContent);
         const expectedResult = [{
             line: '<div style="display: none;">',
-            lineNumber: 0,
+            lineNumber: 1,
             columnStart: 5,
             length: 5
         }];

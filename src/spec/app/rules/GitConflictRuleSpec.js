@@ -30,13 +30,13 @@ describe(rule.name, () => {
         const result = rule.check(fileContent);
         const expectedResult = [{
             line : '<<<<<<< HEAD',
-            lineNumber : 0,
+            lineNumber : 1,
             columnStart : 0,
             length : 12
         },
         {
             line : '=======',
-            lineNumber : 2,
+            lineNumber : 3,
             columnStart : 25,
             length : 7
         }];

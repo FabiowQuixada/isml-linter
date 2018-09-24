@@ -50,7 +50,7 @@ describe(rule.name, () => {
         const result = rule.check(fileContent);
         const expectedResult = [{
             line: 'const productLineItem : dw.order.ProductLineItem; // Some comment',
-            lineNumber: 1,
+            lineNumber: 2,
             columnStart: 25,
             length: 24
         }];

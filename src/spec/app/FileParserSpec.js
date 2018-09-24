@@ -74,14 +74,14 @@ const expectedResultObj = type => {
 
     const isprintOccurrence = {
         line,
-        lineNumber: 2,
+        lineNumber: 3,
         columnStart: 136,
         length: 15
     };
 
     const styleOccurrence = {
         line,
-        lineNumber: 2,
+        lineNumber: 3,
         columnStart: 113,
         length: 5
     };

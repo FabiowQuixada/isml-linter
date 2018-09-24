@@ -52,25 +52,25 @@ const expectedResultObj = type => {
     const file1Path = path.join(...'/sample_file_2.isml'.split( '/' ));
     const inlineStyleLine = {
         line: '<div style="display: none;">${addToCartUrl}</div>',
-        lineNumber: 0,
+        lineNumber: 1,
         columnStart: 5,
         length: 5
     };
     const blankLine = {
         line: '   ',
-        lineNumber: 1,
+        lineNumber: 2,
         columnStart: 50,
         length: 4
     };
     const isprintLine0 = {
         line: '<div style="display: none;">${addToCartUrl}</div>',
-        lineNumber: 0,
+        lineNumber: 1,
         columnStart: 28,
         length: 15
     };
     const isprintLine1 = {
         line: ' ${URLUtils.https(\'Reorder-ListingPage\')}',
-        lineNumber: 0,
+        lineNumber: 1,
         columnStart: 1,
         length: 40
     };
