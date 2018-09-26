@@ -34,6 +34,8 @@ const specTempDir = path.join(specDir, 'temp');
 const specTemplateDir = path.join(specDir, 'templates', 'default');
 const specFileParserTemplate = path.join(specTemplateDir, 'file_parser');
 const specLinterTemplate = path.join(specTemplateDir, 'isml_linter');
+const specSpecificDirLinterTemplate = path.join(specLinterTemplate, 'specific_directory_to_be_linted');
+const specIgnoreDirLinterTemplateDir = path.join(specLinterTemplate, 'ignore_config');
 const specRuleTemplateDir = path.join(specTemplateDir, 'rules');
 const rulesDir = path.join(linterMainDir, 'src', 'app', 'rules');
 
@@ -61,6 +63,8 @@ module.exports = {
 
     // Directories;
     ismlLinterSpecDir: specLinterTemplate,
+    specSpecificDirLinterTemplate,
+    specIgnoreDirLinterTemplateDir,
     fileParserSpecDir: specFileParserTemplate,
     specTempDir,
     outputDir,
