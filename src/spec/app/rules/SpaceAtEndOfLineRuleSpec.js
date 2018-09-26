@@ -33,7 +33,7 @@ describe(rule.name, () => {
     });
 
     it('accepts good code', () => {
-        const fileContent = SpecHelper.getRuleSpegetRuleSpecTemplateContentcTemplate(rule, 3);
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 3);
         const result = rule.check(fileContent);
 
         expect(result.occurrences).toEqual([]);

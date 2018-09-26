@@ -19,7 +19,7 @@ describe(targetObjName, () => {
 
             const first = stdout.split('!')[0];
 
-            expect(temp).toEqual('IsmlLinter run successfully');
+            expect(first).toEqual('IsmlLinter run successfully');
             done();
         });
     });
