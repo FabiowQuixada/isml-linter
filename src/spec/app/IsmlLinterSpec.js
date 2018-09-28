@@ -7,7 +7,7 @@ const StyleAttributeRule = require('../../app/rules/StyleAttributeRule');
 const IsprintTagRule = require('../../app/rules/IsprintTagRule');
 const FileParser = require('../../app/FileParser');
 
-const ismlSpecDir = Constants.ismlLinterSpecDir;
+const specSpecificDirLinterTemplate = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
@@ -22,13 +22,13 @@ describe(targetObjName, () => {
     });
 
     it('lints ISML files in a given directory', () => {
-        const result = IsmlLinter.run(ismlSpecDir);
+        const result = IsmlLinter.run(specSpecificDirLinterTemplate);
 
         expect(result).toEqual(expectedResultObj('errors'));
     });
 
     it('ignores files under the node_modules/ directory', () => {
-        IsmlLinter.run(ismlSpecDir);
+        IsmlLinter.run(specSpecificDirLinterTemplate);
 
         const output = JSON.stringify(IsmlLinter.getOutput());
 
@@ -36,7 +36,7 @@ describe(targetObjName, () => {
     });
 
     it('processes the correct line in result json data', () => {
-        const result = IsmlLinter.run(ismlSpecDir);
+        const result = IsmlLinter.run(specSpecificDirLinterTemplate);
 
         expect(result).toEqual(expectedResultObj(FileParser.ENTRY_TYPES.ERROR));
     });
@@ -52,7 +52,6 @@ describe(targetObjName, () => {
 
         expect(result.indexOf('this_directory_should_be_tested')).not.toEqual(-1);
     });
-
 });
 
 const expectedResultObj = type => {
