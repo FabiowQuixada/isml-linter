@@ -10,6 +10,7 @@
   "devDependencies": {
     "eslint": "^4.18.2",
     "eslint-plugin-jasmine": "^2.9.3",
+    "ghooks": "^2.0.4",
     "gulp": "^4.0.0",
     "gulp-eslint": "^4.0.2",
     "gulp-eslint-if-fixed": "^1.0.0",
@@ -28,6 +29,11 @@
     "start": "node src/app/LinterRunner",
     "test": "jasmine-node src/spec/",
     "cover": "node ./node_modules/istanbul/lib/cli.js cover node_modules/jasmine-node/bin/jasmine-node src/spec"
+  },
+  "config": {
+    "ghooks": {
+      "pre-push": "npm test && npm run cover"
+    }
   },
   "bin": {
     "isml-linter": "./bin/isml-linter.js"
