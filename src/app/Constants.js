@@ -10,12 +10,10 @@ const ENV_PROD = 'prod';
 // Directory names;
 const ismllinterDirName = 'isml-linter';
 const outputDir = 'output';
-const metadataDir = 'metadata';
 
 // File names;
 const outputFileName = 'output.json';
 const compiledOutputFileName = 'compiled_output.json';
-const metadataFileName = 'metadata.json';
 const clientConfigFileName = '.ismllinter.json';
 const specConfigFileName = 'spec_config.json';
 const logFileName = 'isml-linter.log';
@@ -26,7 +24,6 @@ const clientNodeModulesLinterDir = path.join(clientAppDir, 'node_modules', ismll
 const linterMainDir = env === ENV_PROD ? clientNodeModulesLinterDir : clientAppDir;
 const clientIsmlLinterDir = path.join(clientAppDir, ismllinterDirName);
 const clientOutputDir = path.join(clientIsmlLinterDir, outputDir);
-const clientMetadataDir = path.join(clientIsmlLinterDir, metadataDir);
 
 // Directories;
 const specDir = path.join(linterMainDir, 'src', 'spec');
@@ -47,7 +44,6 @@ const specJsRegex = path.join('src', 'spec', '**', '*.js');
 // File paths;
 const specOutputFilePath = path.join(specTempDir, outputFileName);
 const specCompiledOutputFilePath = path.join(specTempDir, compiledOutputFileName);
-const specMetadataFilePath = path.join(specTempDir, metadataFileName);
 const configFilePath = path.join(clientAppDir, clientConfigFileName);
 const errorlogFilePath = path.join(clientIsmlLinterDir, logFileName);
 
@@ -59,7 +55,6 @@ module.exports = {
     clientAppDir,
     clientIsmlLinterDir,
     clientOutputDir,
-    clientMetadataDir,
 
     // Directories;
     ismlLinterSpecDir: specLinterTemplate,
@@ -68,7 +63,6 @@ module.exports = {
     fileParserSpecDir: specFileParserTemplate,
     specTempDir,
     outputDir,
-    metadataDir,
     rulesDir,
     specRuleTemplateDir,
     ismllinterDirName,
@@ -77,14 +71,12 @@ module.exports = {
     // File names;
     outputFileName,
     compiledOutputFileName,
-    metadataFileName,
     clientConfigFileName,
     specConfigFileName,
 
     // File paths;
     specOutputFilePath,
     specCompiledOutputFilePath,
-    specMetadataFilePath,
     configFilePath,
     errorlogFilePath,
 

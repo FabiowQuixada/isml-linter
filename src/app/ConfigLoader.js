@@ -19,7 +19,6 @@ const loadCurrentEnvConfigurationFile = () => {
 const createClientDirectories = () => {
     FileUtils.createClientRootDir();
     FileUtils.createClientDir('output');
-    //FileUtils.createClientDir('metadata');
 };
 
 const createConfigFile = () => {
