@@ -1,5 +1,6 @@
 {
     "env": "test",
+    "rootDir": "./cartridges",
     "ignore": ["this_directory_is_to_be_ignored"],
     "enabledRules" : {
         "BrTagRule" : {}, 

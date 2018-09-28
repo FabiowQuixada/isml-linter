@@ -52,6 +52,13 @@ describe(targetObjName, () => {
 
         expect(result.indexOf('this_directory_should_be_tested')).not.toEqual(-1);
     });
+
+    it('parses files only under a given directory', () => {
+        const result = JSON.stringify(IsmlLinter.run(specIgnoreDirLinterTemplateDir));
+
+        expect(result.indexOf('spec')).toEqual(-1);
+        expect(result.indexOf('isml-linter')).toEqual(-1);
+    });
 });
 
 const expectedResultObj = type => {

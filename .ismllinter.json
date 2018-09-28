@@ -1,4 +1,5 @@
 {
+    "rootDir": "cartridges",
     "ignore": ["app_storefront_base"],
     "enabledRules": {
         "BalancedIsifTagRule": {},

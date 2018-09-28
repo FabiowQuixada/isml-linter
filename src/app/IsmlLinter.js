@@ -20,7 +20,7 @@ const ignoreFiles = file => {
     return true;
 };
 
-Linter.run = function(dir = appRoot.toString()) {
+Linter.run = function(dir = config.rootDir || appRoot.toString()) {
 
     const fs = require('fs');
     const filesArray = readDir
