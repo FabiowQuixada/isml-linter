@@ -21,7 +21,7 @@ const logFileName = 'isml-linter.log';
 
 const clientAppDir = appRoot.toString();
 const clientNodeModulesLinterDir = path.join(clientAppDir, 'node_modules', ismllinterDirName);
-const linterMainDir = env === ENV_PROD ? clientNodeModulesLinterDir : clientAppDir;
+const linterMainDir = env === ENV_DEV || env === ENV_TEST ? clientAppDir : clientNodeModulesLinterDir;
 const clientIsmlLinterDir = path.join(clientAppDir, ismllinterDirName);
 const clientOutputDir = path.join(clientIsmlLinterDir, outputDir);
 
