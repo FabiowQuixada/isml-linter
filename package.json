@@ -27,12 +27,14 @@
   },
   "scripts": {
     "start": "node src/app/LinterRunner",
+    "lint": "./node_modules/.bin/eslint .",
     "test": "jasmine-node src/spec/",
-    "cover": "node ./node_modules/istanbul/lib/cli.js cover node_modules/jasmine-node/bin/jasmine-node src/spec"
+    "cover": "node ./node_modules/istanbul/lib/cli.js cover node_modules/jasmine-node/bin/jasmine-node src/spec",
+    "prepare": "npm run lint && npm test && npm run cover"
   },
   "config": {
     "ghooks": {
-      "pre-push": "npm test && npm run cover"
+      "pre-push": "npm run prepare"
     }
   },
   "bin": {
