@@ -23,9 +23,4 @@ SingleLineRulePrototype.check = function(fileContent) {
     return this.result;
 };
 
-SingleLineRulePrototype.isMatch = function(line, string) {
-    const regEx = new RegExp(string + '(\r)*', 'gi');
-    return line.match(regEx);
-};
-
 module.exports = SingleLineRulePrototype;

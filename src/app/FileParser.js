@@ -7,15 +7,12 @@ const ENTRY_TYPES = {
 };
 
 const add = (parser, type, rule, result) => {
-    parser.output = parser.output || {};
     parser.output[type] = parser.output[type] || {};
     parser.output[type][rule.description] = parser.output[type][rule.description] || [];
 
-    if (result.occurrences) {
-        result.occurrences.forEach( res => {
-            parser.output[type][rule.description].push(res);
-        });
-    }
+    result.occurrences.forEach( res => {
+        parser.output[type][rule.description].push(res);
+    });
 };
 
 const parse = fileContent => {

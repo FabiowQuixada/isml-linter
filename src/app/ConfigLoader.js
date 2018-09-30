@@ -8,7 +8,6 @@ const loadCurrentEnvConfigurationFile = () => {
         return require(path.join(Constants.specDir, Constants.specConfigFileName));
     }
 
-
     if (!FileUtils.fileExists(Constants.configFilePath)) {
         init();
     }
@@ -16,13 +15,14 @@ const loadCurrentEnvConfigurationFile = () => {
     return require(Constants.configFilePath);
 };
 
-const createClientDirectories = () => {
-    FileUtils.createClientRootDir();
-    FileUtils.createClientDir('output');
+const createClientDirectories = dir => {
+    FileUtils.createDirIfDoesNotExist(dir);
+    FileUtils.createClientDir('output', dir);
 };
 
-const createConfigFile = () => {
-    if (!FileUtils.fileExists(Constants.configFilePath)) {
+const createConfigFile = (targetDir = Constants.configFilePath, configFileName) => {
+
+    if (!FileUtils.fileExists(path.join(targetDir, configFileName))) {
         const configContent = {};
         configContent.enabledRules = {};
 
@@ -33,15 +33,24 @@ const createConfigFile = () => {
             }
         });
 
-        FileUtils.saveToJsonFile(Constants.clientAppDir, Constants.clientConfigFileName, configContent);
+        FileUtils.saveToJsonFile(targetDir, configFileName, configContent);
+
+        return true;
     }
+
+    return false;
 };
 
-const init = () => {
-    createClientDirectories();
-    createConfigFile();
+const init = (
+    targetDir = Constants.clientAppDir,
+    configFileName = Constants.clientConfigFileName
+) => {
+
+    createClientDirectories(targetDir);
+    return createConfigFile(targetDir, configFileName);
 };
 
 module.exports = {
+    init,
     load: loadCurrentEnvConfigurationFile
 };

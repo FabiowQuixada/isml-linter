@@ -1,6 +1,7 @@
 const ConfigLoader = require('../../app/ConfigLoader');
 const SpecHelper = require('../SpecHelper');
 const Constants = require('../../app/Constants');
+const FileUtils = require('../../app/FileUtils');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -28,5 +29,25 @@ describe(targetObjName, () => {
         const config = ConfigLoader.load();
 
         expect(config.env).not.toEqual('test');
+    });
+
+    it('creates a config file if it does not exist', () => {
+
+        const specTempDir = Constants.specTempDir;
+
+        ConfigLoader.init(specTempDir);
+
+        expect(FileUtils.fileExists(specTempDir)).toBe(true);
+    });
+
+    it('does not create a config file if it already exists', () => {
+
+        const specTempDir = Constants.specTempDir;
+
+        const firstAttempt = ConfigLoader.init(specTempDir);
+        const secondAttempt = ConfigLoader.init(specTempDir);
+
+        expect(firstAttempt).toBe(true);
+        expect(secondAttempt).toBe(false);
     });
 });

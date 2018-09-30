@@ -49,30 +49,30 @@ const orderOutputByRuleDescription = function(jsonData) {
 
 const compileOutput = function(dir, jsonData) {
 
-    if (jsonData) {
-        let total = 0;
-        const compiledOutput = {};
+    let total = 0;
+    const compiledOutput = {};
 
-        Object.keys(jsonData).forEach( type => {
+    Object.keys(jsonData).forEach( type => {
 
-            compiledOutput[type] = compiledOutput[type] || {};
+        compiledOutput[type] = compiledOutput[type] || {};
 
-            Object.keys(jsonData[type]).forEach( error => {
-                compiledOutput[type][error] = 0;
+        Object.keys(jsonData[type]).forEach( error => {
+            compiledOutput[type][error] = 0;
 
-                Object.keys(jsonData[type][error]).forEach( file => {
-                    Object.keys(jsonData[type][error][file]).forEach( () => {
-                        compiledOutput[type][error] += 1;
-                        total += 1;
-                    });
+            Object.keys(jsonData[type][error]).forEach( file => {
+                Object.keys(jsonData[type][error][file]).forEach( () => {
+                    compiledOutput[type][error] += 1;
+                    total += 1;
                 });
             });
         });
+    });
 
-        compiledOutput.total = total;
+    compiledOutput.total = total;
 
-        FileUtils.saveToJsonFile(dir, compiledOutputFileName, compiledOutput);
-    }
+    FileUtils.saveToJsonFile(dir, compiledOutputFileName, compiledOutput);
+
+    return compiledOutput;
 };
 
 /*
@@ -88,9 +88,8 @@ LinterResultExporter.export = function(outputDir, jsonData) {
     FileUtils.createDirIfDoesNotExist(Constants.clientIsmlLinterDir);
     FileUtils.createDirIfDoesNotExist(Constants.clientOutputDir);
     FileUtils.saveToJsonFile(outputDir, outputFileName, jsonData);
-    compileOutput(outputDir, orderedJsonData);
 
-    return orderedJsonData;
+    return compileOutput(outputDir, orderedJsonData);
 };
 
 module.exports = LinterResultExporter;

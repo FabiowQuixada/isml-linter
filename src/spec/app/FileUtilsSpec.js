@@ -65,4 +65,10 @@ describe(targetObjName, () => {
 
         expect(FileUtils.fileExists(specTempDir)).toBe(false);
     });
+
+    it('does nothing when trying to delete a non-existing directory', () => {
+        const result = FileUtils.deleteDirectoryRecursively('some_nonexisting_directory_name');
+
+        expect(result).toBe(false);
+    });
 });

@@ -22,37 +22,29 @@ const createDirIfDoesNotExist = dirPath => {
     }
 };
 
-const createClientRootDir = () => {
-    if (!fs.existsSync(rootPath)) {
-        fs.mkdirSync(rootPath);
-    }
-};
-
-const createClientDir = dirName => {
-    if (!fs.existsSync(path.join(rootPath, dirName))) {
-        fs.mkdirSync(path.join(rootPath, dirName));
+const createClientDir = (dirName, dirPath = rootPath) => {
+    if (!fs.existsSync(path.join(dirPath, dirName))) {
+        fs.mkdirSync(path.join(dirPath, dirName));
     }
 };
 
 const deleteDirectoryRecursively = dirPath => {
-    if (fs.existsSync(path.join(dirPath))) {
-        deleteDirRecursively(path.join(dirPath));
-    }
-};
-
-const deleteDirRecursively = dirPath => {
     if (fs.existsSync(dirPath)) {
         fs.readdirSync(dirPath).forEach( file => {
             const curPath = path.join(dirPath, file);
             if (fs.lstatSync(curPath).isDirectory()) {
-                deleteDirRecursively(curPath);
+                deleteDirectoryRecursively(curPath);
             } else {
                 fs.unlinkSync(curPath);
             }
         });
 
         fs.rmdirSync(dirPath);
+
+        return true;
     }
+
+    return false;
 };
 
 const fileExists = filePath => fs.existsSync(filePath);
@@ -63,6 +55,5 @@ module.exports = {
     createDirIfDoesNotExist,
     deleteFile,
     deleteDirectoryRecursively,
-    createClientRootDir,
     createClientDir
 };
