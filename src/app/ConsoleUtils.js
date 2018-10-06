@@ -47,7 +47,33 @@ const printExceptionMsg = e => {
     console.log(`\n${Constants.repositoryUrl}\n\n`);
 };
 
+const displayErrors = jsonErrors => {
+
+    let sum = 0;
+
+    for (const rule in jsonErrors.errors) {
+        for (const file in jsonErrors.errors[rule]) {
+            console.log('\n' + file);
+
+            jsonErrors.errors[rule][file].forEach( error => {
+                let displayText = error.line;
+
+                if (displayText.length > 30) {
+                    displayText = displayText.substring(0, 30) + '...';
+                }
+
+                console.log(chalk.gray(error.lineNumber) + '\t' + chalk.red('error') + '\t' + rule);
+
+                sum++;
+            });
+        }
+    }
+
+    console.log('\n' + chalk`{red.bold ${sum} errors found}`);
+};
+
 module.exports = {
+    displayErrors,
     displayResult,
     printNewErrorsMsg,
     printErrorFixesMsg,

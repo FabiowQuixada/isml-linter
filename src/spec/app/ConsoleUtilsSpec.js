@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const ConsoleUtils = require('../../app/ConsoleUtils');
 const SpecHelper = require('../SpecHelper');
 const FileParser = require('../../app/FileParser');
@@ -68,6 +69,20 @@ describe(targetObjName, () => {
         expect(spy.getCall(4).args[0]).toEqual(expectedResult4);
     });
 
+    it('displays build errors', () => {
+        ConsoleUtils.displayErrors(expectedObject);
+
+        const expectedResult1 = chalk.gray('13') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
+        const expectedResult2 = '\na_multi_cartridge_project/int_cartridge_1/templates/default/some_folder/sample_file.isml';
+        const expectedResult3 = chalk.gray('39') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
+        const expectedResult4 = chalk.gray('59') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
+
+        expect(spy.getCall(1).args[0]).toEqual(expectedResult1);
+        expect(spy.getCall(2).args[0]).toEqual(expectedResult2);
+        expect(spy.getCall(3).args[0]).toEqual(expectedResult3);
+        expect(spy.getCall(4).args[0]).toEqual(expectedResult4);
+    });
+
 
     // === Error inserts and fixes ================================================================
 
@@ -95,3 +110,32 @@ describe(targetObjName, () => {
         expect(spy.firstCall.args[0]).toEqual('[errors] Wrap expression in <isprint> tag :: 2 errors were fixed since last run!');
     });
 });
+
+const expectedObject = {
+    'errors': {
+        'Wrap expression in <isprint> tag': {
+            'a_multi_cartridge_project/int_cartridge_1/templates/default/sample_file.isml': [
+                {
+                    'line': '                <a data-pid="${lineItem.productID}" class="button notifyme ${lineItem.productID}-notifyme">',
+                    'lineNumber': 13,
+                    'columnStart': 654,
+                    'length': 21
+                }
+            ],
+            'a_multi_cartridge_project/int_cartridge_1/templates/default/some_folder/sample_file.isml': [
+                {
+                    'line': '        <div class="productLineItemId">${lineItem.getUUID()}</div>',
+                    'lineNumber': 39,
+                    'columnStart': 2565,
+                    'length': 21
+                },
+                {
+                    'line': '            <span class="product_id_label">${Resource.msg("global.itemno", "locale", null)}</span>',
+                    'lineNumber': 59,
+                    'columnStart': 3197,
+                    'length': 48
+                }
+            ]
+        }
+    }
+};
