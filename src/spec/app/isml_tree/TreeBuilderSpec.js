@@ -109,8 +109,17 @@ describe(targetObjName, () => {
         expect(rootNode.getChild(0).getChild(0).getChild(0).getChild(1).getChild(0).getHeight()).toEqual(3);
     });
 
+
     it('throws an exception upon invalid isml dom', () => {
         expect(TreeBuilder.build(getFilePath(1)).message).toEqual('Invalid ISML DOM :: Unbalanced <isif> element');
+    });
+
+    it('parses hard-coded strings', () => {
+        const rootNode = TreeBuilder.build(getFilePath(14)).rootNode;
+
+        expect(rootNode.getChild(0).getValue()).toEqual('<span>');
+        expect(rootNode.getChild(1).getValue()).toEqual('    A hard-coded string');
+        expect(rootNode.getChild(2).getChild(0).getValue()).toEqual('Another hard-coded string');
     });
 
 });

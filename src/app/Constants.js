@@ -1,6 +1,5 @@
 const path = require('path');
 const appRoot = require('app-root-path');
-const env = process.env.NODE_ENV;
 
 // Environments;
 const ENV_DEV = 'dev';
@@ -18,8 +17,7 @@ const clientConfigFileName = '.ismllinter.json';
 const specConfigFileName = 'spec_config.json';
 
 const clientAppDir = appRoot.toString();
-const clientNodeModulesLinterDir = path.join(clientAppDir, 'node_modules', ismllinterDirName);
-const linterMainDir = env === ENV_DEV || env === ENV_TEST ? clientAppDir : clientNodeModulesLinterDir;
+const linterMainDir = clientAppDir;
 const clientIsmlLinterDir = path.join(clientAppDir, ismllinterDirName);
 const clientOutputDir = path.join(clientIsmlLinterDir, outputDir);
 

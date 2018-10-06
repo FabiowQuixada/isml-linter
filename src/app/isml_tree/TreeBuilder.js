@@ -64,6 +64,7 @@ const getInitialState = content => {
         currentPos: -1,
         ignoreUntil: null,
         insideTag: false,
+        nonTagBuffer: '',
         insideExpression: false,
         depth: 0
     };
@@ -95,6 +96,16 @@ const processContent = (oldState, parentNode) => {
 
     if (newState.currentChar === '<') {
 
+        if (newState.nonTagBuffer && newState.nonTagBuffer.replace(/\s/g, '').length) {
+            const node = new IsmlNode(newState.nonTagBuffer);
+
+            parentNode.addChild(node);
+
+            reinitializeState(newState);
+            newState.ignoreUntil += newState.nonTagBuffer.length - 1;
+            newState.currentElementAsString = '<';
+        }
+
         if (newState.depth === 0) {
             newState.currentElemInitPosition = newState.currentPos;
         }
@@ -109,11 +120,10 @@ const processContent = (oldState, parentNode) => {
                 newState.ignoreUntil = createNode(parentNode, newState);
             }
 
-            newState.insideTag = false;
-            newState.currentElementAsString = '';
-            newState.currentElemInitPosition = -1;
-            newState.currentElemEndPosition = -1;
+            reinitializeState(newState);
         }
+    } else if (!newState.insideTag) {
+        newState.nonTagBuffer += newState.currentChar;
     }
 
     return newState;
@@ -243,6 +253,14 @@ const isOpeningElem = state => {
 };
 
 const isNextElementATag = state => getNextNonEmptyChar(state) === '<';
+
+const reinitializeState = newState => {
+    newState.nonTagBuffer = null;
+    newState.insideTag = false;
+    newState.currentElementAsString = '';
+    newState.currentElemInitPosition = -1;
+    newState.currentElemEndPosition = -1;
+};
 
 module.exports.build = build;
 module.exports.parse = parse;
