@@ -58,13 +58,11 @@ describe(targetObjName, () => {
     it('displays exception message', () => {
         ConsoleUtils.printExceptionMsg('an exception');
 
-        const expectedResult1 = 'An error has occurred.';
-        const expectedResult2 = 'Please check /home/fabiow/Development/Projects/isml-linter/isml-linter/isml-linter.log for more info.';
+        const expectedResult1 = 'An error has occurred:';
         const expectedResult3 = 'If you think this is a bug, please open an issue at:';
         const expectedResult4 = '\nhttps://github.com/FabiowQuixada/isml-linter\n\n';
 
         expect(spy.getCall(1).args[0]).toEqual(expectedResult1);
-        expect(spy.getCall(2).args[0]).toEqual(expectedResult2);
         expect(spy.getCall(3).args[0]).toEqual(expectedResult3);
         expect(spy.getCall(4).args[0]).toEqual(expectedResult4);
     });

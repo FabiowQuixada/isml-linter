@@ -34,15 +34,10 @@ const displayResult = issueQty => {
 
 const printExceptionMsg = e => {
     const Constants = require('./Constants');
-    const fs = require('fs');
-
-    const logFilePath = Constants.errorlogFilePath;
-
-    fs.writeFileSync(logFilePath, e);
 
     console.log();
-    console.log('An error has occurred.');
-    console.log(`Please check ${logFilePath} for more info.`);
+    console.log('An error has occurred:');
+    console.log(e.stack);
     console.log('If you think this is a bug, please open an issue at:');
     console.log(`\n${Constants.repositoryUrl}\n\n`);
 };
