@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0] - 2018-10-17
+
+### Added
+- Auto-conversion from old to new rule configuration keywords;
+
+### Changed
+- Configuration file rule definition;
+
+### Removed
+- BalancedIsifTagRule;
+
 ## [2.3.0] - 2018-10-07
 
 ### Added
@@ -53,7 +64,8 @@
 ### Added
 - Linter is published;
 
-[2.3.0]: https://github.com/FabiowQuixada/isml-linter/compare/2.2.0...2.3.0
+[3.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/v2.3.0...v3.0.0
+[2.3.0]: https://github.com/FabiowQuixada/isml-linter/compare/2.2.0...v2.3.0
 [2.2.0]: https://github.com/FabiowQuixada/isml-linter/compare/2.0.1...2.2.0
 [2.0.1]: https://github.com/FabiowQuixada/isml-linter/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/1.0.1...2.0.0

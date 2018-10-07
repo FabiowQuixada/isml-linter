@@ -10,6 +10,51 @@ The linter is still on an early stage, so that some of the groups above may have
 
 When run, Isml Linter will generate two files under "isml-linter/output/" in your project's root directory. One of these files is the main output file, which lists all the enabled broken rules (file by file, line by line), and the other is a compiled version of it, so you have a good overview of the current status of your templates.
 
+## Updating to Version 3.0.0
+
+Please note that this update is automated, i.e., you won't need to do anything, not even run a single command. Of course, you'll still need to add the generated changes to your repository.
+
+This section exists in order for you to know that a minor, but fundamental update will take place in the configuration file:
+
+Changing from:
+
+```json
+{
+    "enabledRules" : {
+        "BrTagRule" : {}, 
+        "DwOccurrenceRule" : {}
+    }
+}
+```
+
+to:
+
+```json
+{
+    "rules" : {
+        "no-br" : {}, 
+        "enforce-require" : {}
+    }
+}
+```
+
+We aim for more self-descriptive rules and to move torwards a naming convention similar to ESlint's. In case you're interested, the old-to-new mapping follows:
+
+| Old                     | New                  |
+| ----------------------- |:---------------------|
+| BrTagRule               | no-br                |
+| DwOccurrenceRule        | no-import-package    |
+| GitConflictRule         | no-git-conflict      |
+| ImportPackageRule       | enforce-require      |
+| IsprintTagRule          | enforce-isprint      |
+| LogicInTemplateRule     | no-isscript          |
+| SpaceAtEndOfLineRule    | no-trailing-spaces   |
+| SpacesOnlyLineRule      | no-space-only-lines  |
+| StyleAttributeRule      | no-inline-style      |
+| TabRule                 | no-tabs              |
+
+This section will destroy itself in the future releases :P
+
 ## Installation
 
 You can install Isml Linter either locally or globally:
@@ -66,9 +111,9 @@ Example configuration:
         "this_directory_is_to_be_ignored"
         "Email.isml"
     ],
-    "enabledRules" : {
-        "BrTagRule" : {}, 
-        "DwOccurrenceRule" : {}
+    "rules" : {
+        "no-br" : {}, 
+        "enforce-require" : {}
     }
 }
 ```
@@ -79,7 +124,6 @@ Note that according to the above configurations, the following files would be ig
 - some/path/welcomeEmail.isml
 - this_directory_is_to_be_ignored/producttile.isml
 - some/path/this_directory_is_to_be_ignored/confirmationpage.isml
-
 
 
 ## Build Script
@@ -97,18 +141,17 @@ process.exit(exitCode);
 
 ## Available Rules
 
-| Rule                              | Description                              |
-| --------------------------------- |:-----------------------------------------|
-| :exclamation: BalancedIsifTagRule | Checks if the &lt;isif/> tag is balanced |
-| BrTagRule                         | Disallows &lt;br/> tags. Enable this rule if you prefer to use CSS to handle horizontal spacing |
-| DwOccurrenceRule                  | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
-| GitConflictRule                   | Disallows unresolved Git conflicts |
-| ImportPackageRule                 | Disallows importPackage() function. It is recommended by SalesForce to use require() instead |
-| IsprintTagRule                    | Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
-| LogicInTemplateRule               | Disallows &lt;isscript/> tag in template. Enable this rule if you prefer logic to be kept in a separate .ds/.js file |
-| SpaceAtEndOfLineRule              | Disallows trailing blank spaces |
-| SpacesOnlyLineRule                | Disallows lines that contain only blank spaces, i.e., unnecessarily indented |
-| StyleAttributeRule                | Disallows use of "style" HTML attribute. Enable this rule if you prefer style to be fully handled via CSS |
-| TabRule                           | Disallows use of tabs |
+| Rule                   | Description                              |
+| ---------------------- |:-----------------------------------------|
+| no-br                  | Disallows &lt;br/> tags. Enable this rule if you prefer to use CSS to handle horizontal spacing |
+| no-git-conflict        | Disallows unresolved Git conflicts |
+| no-import-package      | Disallows importPackage() function. It is recommended by SalesForce to use require() instead |
+| no-isscript            | Disallows &lt;isscript/> tag in template. Enable this rule if you prefer logic to be kept in a separate .ds/.js file |
+| no-trailing-spaces     | Disallows trailing blank spaces |
+| no-space-only-lines    | Disallows lines that contain only blank spaces, i.e., unnecessarily indented |
+| no-inline-style        | Disallows use of "style" HTML attribute. Enable this rule if you prefer style to be fully handled via CSS |
+| no-tabs                | Disallows use of tabs |
+| enforce-isprint        | Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
+| enforce-require        | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
 
-:exclamation: This rule is now deprecated, as we're working on a AST (abstract syntax tree) to validate the whole document tree validity.
+We're working on an AST (abstract syntax tree) to validate the whole document tree structure and expand the power of available rules, so keep an eye on us!

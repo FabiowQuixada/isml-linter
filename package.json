@@ -1,6 +1,6 @@
 {
   "name": "isml-linter",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "main": "index.js",
   "dependencies": {
     "app-root-path": "^2.1.0",
