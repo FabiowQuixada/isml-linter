@@ -1,6 +1,9 @@
 {
     "rootDir": "cartridges",
-    "ignore": ["app_storefront_base"],
+    "ignore": [
+        "app_storefront_base",
+        "Email.isml"
+    ],
     "enabledRules": {
         "BalancedIsifTagRule": {},
         "BrTagRule": {},

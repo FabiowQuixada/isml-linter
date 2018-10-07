@@ -41,10 +41,16 @@ describe(targetObjName, () => {
         expect(result).toEqual(expectedResultObj(FileParser.ENTRY_TYPES.ERROR));
     });
 
-    it('does not consider errors in files defined to be ignored in the config file', () => {
+    it('does not consider errors in directories defined to be ignored in the config file', () => {
         const result = JSON.stringify(IsmlLinter.run(specIgnoreDirLinterTemplateDir));
 
         expect(result.indexOf('this_directory_is_to_be_ignored')).toEqual(-1);
+    });
+
+    it('does not consider errors in files defined to be ignored in the config file', () => {
+        const result = JSON.stringify(IsmlLinter.run(specIgnoreDirLinterTemplateDir));
+
+        expect(result.indexOf('Email.isml')).toEqual(-1);
     });
 
     it('considers errors in files not defined to be ignored in the config file', () => {
