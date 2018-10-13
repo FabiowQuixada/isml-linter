@@ -2,16 +2,18 @@ const MAX_TEXT_DISPLAY_SIZE = 30;
 
 class IsmlNode {
 
-    constructor(value) {
-        this.value = value || '(root)';
+    constructor(value = '(root)', lineNumber = 0) {
+        this.value = value;
         this.type = null;
         this.height = 0;
         this.innerText = null;
+        this.lineNumber = lineNumber;
         this.children = [];
     }
 
     setValue(value) { this.value = value; }
     getValue() { return this.value; }
+    getLineNumber() { return this.lineNumber; }
 
     getType() {
         const regex = /<[a-zA-Z]*(\s|>|\/)/g;
@@ -39,7 +41,7 @@ class IsmlNode {
             indentation += '    ';
         }
 
-        console.log(this.height + ' :: ' + indentation + this.getDisplayText());
+        console.log(this.height + ' :: ' + this.lineNumber + ' :: ' + indentation + this.getDisplayText());
 
         if (this.children.length > 0) {
             this.children.forEach( node => node.print() );

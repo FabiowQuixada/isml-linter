@@ -19,7 +19,7 @@ const build = filePath => {
 
     try {
 
-        const fileContent = fs.readFileSync(filePath, 'utf-8').replace(/(\r\n\t|\n|\r\t)/gm, '');
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
 
         parse(rootNode, fileContent);
     } catch (e) {
@@ -34,10 +34,12 @@ const build = filePath => {
 /**
  * TODO: Further refactoring needed;
  */
-const parse = (parentNode, content) => {
-    let state = getInitialState(content);
+const parse = (parentNode, content, parentState) => {
+
+    let state = getInitialState(content, parentState);
 
     for (let i = 0; i < content.length; i++) {
+        setCurrentElementStartLineNumber(state, i);
         state = iterate(state, parentNode, i);
     }
 };
@@ -54,14 +56,23 @@ const iterate = (state, parentNode, i) => {
     return state;
 };
 
-const getInitialState = content => {
-    return {
-        content: content,
+const getInitialState = (contentAsArray, parentState) => {
+
+    const regex = /\n/gi;
+    let result;
+    let lineBreakPosition = 0;
+    const state = {
+
+        content: contentAsArray.replace(/(\r\n\t|\n|\r\t)/gm, ''),
+        contentAsArray: contentAsArray,
         currentElement: {
             asString: '',
             initPosition: -1,
-            endPosition: -1
+            endPosition: -1,
+            startingLineNumber: -1
         },
+        lineBreakPositionList: [0],
+        currentLineNumber: 0,
         currentChar: null,
         currentPos: -1,
         ignoreUntil: null,
@@ -70,6 +81,18 @@ const getInitialState = content => {
         insideExpression: false,
         depth: 0
     };
+
+    if (parentState) {
+        state.currentLineNumber = parentState.currentLineNumber;
+    }
+
+    while ( result = regex.exec(contentAsArray) ) {
+        lineBreakPosition = result.index - state.lineBreakPositionList.length + 1;
+        state.lineBreakPositionList.push(lineBreakPosition);
+    }
+
+    return state;
+
 };
 
 const initializeLoopState = (oldState, i) => {
@@ -129,7 +152,7 @@ const createNode = (parentNode, state) => {
     if (state.currentElement.asString.trim().startsWith(ISIF)) {
         node = new MultiClauseNode();
     } else {
-        node = new IsmlNode(state.currentElement.asString);
+        node = new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber);
     }
 
     parentNode.addChild(node);
@@ -150,17 +173,17 @@ const handleInnerContent = (node, state) => {
         if (state.content.trim().startsWith(ISIF)) {
             IsifTagParser.run(node, nodeInnerContent, state.currentElement.asString);
         } else {
-            parse(node, nodeInnerContent.trim());
+            parse(node, nodeInnerContent.trim(), state);
         }
     } else {
-        addTextToNode(node, nodeInnerContent.trim());
+        addTextToNode(node, nodeInnerContent.trim(), state);
     }
 
     return currentPos + nodeInnerContent.length;
 };
 
-const addTextToNode = (node, nodeInnerContent) => {
-    const innerTextNode = new IsmlNode(nodeInnerContent);
+const addTextToNode = (node, nodeInnerContent, state) => {
+    const innerTextNode = new IsmlNode(nodeInnerContent, state.currentLineNumber);
     node.addChild(innerTextNode);
 };
 
@@ -241,16 +264,20 @@ const reinitializeState = newState => {
 };
 
 const createNodeForCurrentElement = (newState, parentNode) => {
+
     newState.depth -= 1;
+
     if (newState.depth === 0) {
         if (isOpeningElem(newState)) {
             newState.ignoreUntil = createNode(parentNode, newState);
         }
+
         reinitializeState(newState);
     }
 };
 
 const prepareStateForOpeningElement = (newState, parentNode) => {
+
     if (newState.nonTagBuffer && newState.nonTagBuffer.replace(/\s/g, '').length) {
         const node = new IsmlNode(newState.nonTagBuffer);
         parentNode.addChild(node);
@@ -258,13 +285,39 @@ const prepareStateForOpeningElement = (newState, parentNode) => {
         newState.ignoreUntil += newState.nonTagBuffer.length - 1;
         newState.currentElement.asString = '<';
     }
+
     if (newState.depth === 0) {
         newState.currentElement.initPosition = newState.currentPos;
     }
+
     newState.insideTag = true;
     newState.depth += 1;
 };
 
+const isEmptyLineDetected = (state, index) => state.lineBreakPositionList[index] === state.lineBreakPositionList[index + 1];
+
+const setCurrentElementStartLineNumber = (state, i) => {
+
+    const index = state.lineBreakPositionList.indexOf(i);
+
+    if (index !== -1) {
+        state.currentLineNumber += 1;
+    }
+
+    getNextNonEmptyLine(index, state);
+
+    if (!state.insideTag) {
+        state.currentElement.startingLineNumber = state.currentLineNumber;
+    }
+};
+
+const getNextNonEmptyLine = (index, state) => {
+
+    while (isEmptyLineDetected(state, index)) {
+        state.currentLineNumber += 1;
+        index += 1;
+    }
+};
+
 module.exports.build = build;
 module.exports.parse = parse;
-

@@ -87,7 +87,7 @@ describe(targetObjName, () => {
 
         rootNode.print();
 
-        expect(spy.firstCall.args[0]).toEqual('0 :: (root)');
+        expect(spy.firstCall.args[0]).toEqual('0 :: 0 :: (root)');
     });
 
     it('prints its children', () => {
@@ -98,7 +98,7 @@ describe(targetObjName, () => {
 
         rootNode.print();
 
-        expect(spy.secondCall.args[0]).toEqual('1 ::     <span class="some_class">');
+        expect(spy.secondCall.args[0]).toEqual('1 :: 0 ::     <span class="some_class">');
     });
 
     it('prints its inner text', () => {
@@ -111,6 +111,6 @@ describe(targetObjName, () => {
 
         rootNode.print();
 
-        expect(spy.secondCall.args[0]).toEqual('1 ::     ' + childNode.getValue());
+        expect(spy.secondCall.args[0]).toEqual('1 :: 0 ::     ' + childNode.getValue());
     });
 });

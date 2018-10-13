@@ -1,0 +1,6 @@
+<iscomment>Reorder disponibility</iscomment>
+<div class="reorder_disponibility">
+    <div class="error_message">
+        <isprint value="${Resource.msg('reorder.productdiscontinued','reorder',null)}" />
+    </div>
+</div>
