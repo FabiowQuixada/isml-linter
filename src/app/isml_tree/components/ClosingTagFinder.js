@@ -19,11 +19,11 @@ const getCorrespondentClosingElementPosition = (content, oldGlobalState) => {
     let internalState = getInitialState(content, newGlobalState);
     const obj = getPosition(internalState.content);
 
-    internalState.currentElemEndPosition = obj.currentElemEndPosition;
+    internalState.currentElement.endPosition = obj.currentElemEndPosition;
     internalState.content = obj.content;
     const maskedContent = obj.content;
 
-    newGlobalState.currentElemEndPosition = maskedContent.indexOf('>');
+    newGlobalState.currentElement.endPosition = maskedContent.indexOf('>');
 
     while (internalState.content) {
 
@@ -47,6 +47,7 @@ const getCorrespondentClosingElementPosition = (content, oldGlobalState) => {
 const getInitialState = (content, globalState) => {
     return {
         globalState: globalState,
+        currentElement: {},
         content: content,
         openingElemPos: -1,
         closingElementPos: -1,

@@ -57,9 +57,11 @@ const iterate = (state, parentNode, i) => {
 const getInitialState = content => {
     return {
         content: content,
-        currentElementAsString: '',
-        currentElemInitPosition: -1,
-        currentElemEndPosition: -1,
+        currentElement: {
+            asString: '',
+            initPosition: -1,
+            endPosition: -1
+        },
         currentChar: null,
         currentPos: -1,
         ignoreUntil: null,
@@ -74,7 +76,7 @@ const initializeLoopState = (oldState, i) => {
     let newState = Object.assign({}, oldState);
 
     newState.currentChar = newState.content.charAt(i);
-    newState.currentElementAsString += newState.currentChar;
+    newState.currentElement.asString += newState.currentChar;
     newState.currentPos = i;
 
     newState = updateStateWhetherItIsInsideExpression(newState);
@@ -124,10 +126,10 @@ const createNode = (parentNode, state) => {
 
     let node = null;
 
-    if (state.currentElementAsString.trim().startsWith(ISIF)) {
+    if (state.currentElement.asString.trim().startsWith(ISIF)) {
         node = new MultiClauseNode();
     } else {
-        node = new IsmlNode(state.currentElementAsString);
+        node = new IsmlNode(state.currentElement.asString);
     }
 
     parentNode.addChild(node);
@@ -146,7 +148,7 @@ const handleInnerContent = (node, state) => {
 
     if (isNextElementATag(state)) {
         if (state.content.trim().startsWith(ISIF)) {
-            IsifTagParser.run(node, nodeInnerContent, state.currentElementAsString);
+            IsifTagParser.run(node, nodeInnerContent, state.currentElement.asString);
         } else {
             parse(node, nodeInnerContent.trim());
         }
@@ -172,14 +174,14 @@ const getInnerContent = oldState => {
 
 const getUpdateContent = state => {
     let content = state.content;
-    const currentElemInitPosition = state.currentElemInitPosition;
-    content = content.substring(currentElemInitPosition, content.length);
+    const currentElementInitPosition = state.currentElement.initPosition;
+    content = content.substring(currentElementInitPosition, content.length);
     return content;
 };
 
 const pickInnerContent = (state, content) => {
 
-    const innerContentStartPos = state.currentElemEndPosition+1;
+    const innerContentStartPos = state.currentElement.endPosition+1;
     const innerContentEndPos = state.currentElemClosingTagInitPos;
     return content.substring(innerContentStartPos, innerContentEndPos);
 };
@@ -221,7 +223,7 @@ const isClosingIsmlExpression = state => {
 const isOpeningElem = state => {
 
     const content = state.content;
-    const currPos = state.currentElemInitPosition;
+    const currPos = state.currentElement.initPosition;
 
     const currenChar = content.charAt(currPos);
     const nextChar = content.charAt(currPos+1);
@@ -233,9 +235,9 @@ const isNextElementATag = state => getNextNonEmptyChar(state) === '<';
 
 const reinitializeState = newState => {
     newState.insideTag = false;
-    newState.currentElementAsString = '';
-    newState.currentElemInitPosition = -1;
-    newState.currentElemEndPosition = -1;
+    newState.currentElement.asString = '';
+    newState.currentElement.initPosition = -1;
+    newState.currentElement.endPosition = -1;
 };
 
 const createNodeForCurrentElement = (newState, parentNode) => {
@@ -254,10 +256,10 @@ const prepareStateForOpeningElement = (newState, parentNode) => {
         parentNode.addChild(node);
         reinitializeState(newState);
         newState.ignoreUntil += newState.nonTagBuffer.length - 1;
-        newState.currentElementAsString = '<';
+        newState.currentElement.asString = '<';
     }
     if (newState.depth === 0) {
-        newState.currentElemInitPosition = newState.currentPos;
+        newState.currentElement.initPosition = newState.currentPos;
     }
     newState.insideTag = true;
     newState.depth += 1;
