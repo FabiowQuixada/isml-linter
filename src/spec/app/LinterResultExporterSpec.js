@@ -3,9 +3,9 @@ const FileUtils = require('../../app/FileUtils');
 const SpecHelper = require('../SpecHelper');
 const LinterResultExporter = require('../../app/LinterResultExporter');
 const Constants = require('../../app/Constants');
-const StyleAttributeRule = require('../../app/rules/StyleAttributeRule');
-const IsprintTagRule = require('../../app/rules/IsprintTagRule');
-const SpacesOnlyLineRule = require('../../app/rules/SpacesOnlyLineRule');
+const NoInlineStyleRule = require('../../app/rules/no-inline-style');
+const EnforceIsprintRule = require('../../app/rules/enforce-isprint');
+const NoTrailingSpacesRule = require('../../app/rules/no-trailing-spaces');
 
 const specTempDir = Constants.specTempDir;
 const outputFilePath = Constants.specOutputFilePath;
@@ -34,9 +34,9 @@ describe(targetObjName, () => {
     });
 
     it('orders output errors by rule description', () => {
-        const inlineRuleDesc = StyleAttributeRule.description;
-        const isprintRuleDesc = IsprintTagRule.description;
-        const blankLineRuleDesc = SpacesOnlyLineRule.description;
+        const inlineRuleDesc = NoInlineStyleRule.description;
+        const isprintRuleDesc = EnforceIsprintRule.description;
+        const blankLineRuleDesc = NoTrailingSpacesRule.description;
         const outputErrorArray = [];
         const expectedResult = [inlineRuleDesc, blankLineRuleDesc, isprintRuleDesc];
 
@@ -62,9 +62,9 @@ const getUnorderedJsonData = () => {
     const result = {};
     result[type] = {};
 
-    const inlineStyleRuleDesc = StyleAttributeRule.description;
-    const isprintRuleDesc = IsprintTagRule.description;
-    const spacesOnlyLineRuleDesc = SpacesOnlyLineRule.description;
+    const inlineStyleRuleDesc = NoInlineStyleRule.description;
+    const isprintRuleDesc = EnforceIsprintRule.description;
+    const spacesOnlyLineRuleDesc = NoTrailingSpacesRule.description;
 
     const filePath = path.join(...'/file_parser/sample_file.isml'.split( '/' ));
     const line = {
@@ -93,8 +93,8 @@ const getJsonData = () => {
     const result = {};
     result[type] = {};
 
-    const inlineStyleRuleDesc = StyleAttributeRule.description;
-    const isprintRuleDesc = IsprintTagRule.description;
+    const inlineStyleRuleDesc = NoInlineStyleRule.description;
+    const isprintRuleDesc = EnforceIsprintRule.description;
 
     const filePath = path.join(...'/file_parser/sample_file.isml'.split( '/' ));
     const line = {

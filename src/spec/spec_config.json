@@ -5,15 +5,14 @@
         "this_directory_is_to_be_ignored",
         "Email.isml"
     ],
-    "enabledRules" : {
-        "BrTagRule" : {}, 
-        "DwOccurrenceRule" : {}, 
-        "ImportPackageRule" : {}, 
-        "IsprintTagRule" : {}, 
-        "RequirePreferenceRule" : {}, 
-        "SpaceAtEndOfLineRule" : {}, 
-        "SpacesOnlyLineRule" : {}, 
-        "StyleAttributeRule" : {}, 
-        "TabRule" : {}
+    "rules": {
+        "no-br": {},
+        "enforce-require": {},
+        "no-import-package": {},
+        "enforce-isprint": {},
+        "no-trailing-spaces": {},
+        "no-space-only-lines": {},
+        "no-inline-style": {},
+        "no-tabs": {}
     }
 }

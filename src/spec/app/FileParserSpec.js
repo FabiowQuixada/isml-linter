@@ -3,8 +3,8 @@ const fs = require('fs');
 const FileParser = require('../../app/FileParser');
 const SpecHelper = require('../SpecHelper');
 const Constants = require('../../app/Constants');
-const LogicInTemplateRule = require('../../app/rules/LogicInTemplateRule');
-const StyleAttributeRule = require('../../app/rules/StyleAttributeRule');
+const NoIsscriptRule = require('../../app/rules/no-isscript');
+const NoInlineStyleRule = require('../../app/rules/no-inline-style');
 
 const filePath = path.join(Constants.fileParserSpecDir, 'sample_file.isml');
 const fileContent = fs.readFileSync(filePath, 'utf-8');
@@ -31,7 +31,7 @@ describe(targetObjName, () => {
         let ruleWasChecked = false;
 
         Object.keys(result.errors).forEach( rule => {
-            if (rule === LogicInTemplateRule.description) {
+            if (rule === NoIsscriptRule.description) {
                 ruleWasChecked = true;
             }
         });
@@ -44,7 +44,7 @@ describe(targetObjName, () => {
         let ruleWasChecked = false;
 
         Object.keys(result.errors).forEach( rule => {
-            if (rule === StyleAttributeRule.description) {
+            if (rule === NoInlineStyleRule.description) {
                 ruleWasChecked = true;
             }
         });
@@ -64,11 +64,11 @@ const expectedResultObj = type => {
     const result = {};
     result[type] = {};
 
-    const IsprintTagRule = require('../../app/rules/IsprintTagRule');
-    const StyleAttributeRule = require('../../app/rules/StyleAttributeRule');
+    const EnforceIsprintRule = require('../../app/rules/enforce-isprint');
+    const NoInlineStyleRule = require('../../app/rules/no-inline-style');
 
-    const inlineStyleRuleDesc = StyleAttributeRule.description;
-    const isprintRuleDesc = IsprintTagRule.description;
+    const inlineStyleRuleDesc = NoInlineStyleRule.description;
+    const isprintRuleDesc = EnforceIsprintRule.description;
 
     const line = '<div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>';
 

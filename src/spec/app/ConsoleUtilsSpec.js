@@ -3,7 +3,7 @@ const ConsoleUtils = require('../../app/ConsoleUtils');
 const SpecHelper = require('../SpecHelper');
 const FileParser = require('../../app/FileParser');
 const sinon = require('sinon');
-const rule = require('../../app/rules/IsprintTagRule');
+const EnforceIsprintRule = require('../../app/rules/enforce-isprint');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 const errorType = FileParser.ENTRY_TYPES.ERROR;
@@ -85,25 +85,25 @@ describe(targetObjName, () => {
     // === Error inserts and fixes ================================================================
 
     it('displays "new error found" message for one error', () => {
-        ConsoleUtils.printNewErrorsMsg(errorType, rule, 1);
+        ConsoleUtils.printNewErrorsMsg(errorType, EnforceIsprintRule, 1);
 
         expect(spy.firstCall.args[0]).toEqual('[errors] Wrap expression in <isprint> tag :: There is 1 new error since last run.');
     });
 
     it('displays "new error found" message for more than one error', () => {
-        ConsoleUtils.printNewErrorsMsg(errorType, rule, 2);
+        ConsoleUtils.printNewErrorsMsg(errorType, EnforceIsprintRule, 2);
 
         expect(spy.firstCall.args[0]).toEqual('[errors] Wrap expression in <isprint> tag :: There are 2 new errors since last run.');
     });
 
     it('displays "error fixed" message for one error', () => {
-        ConsoleUtils.printErrorFixesMsg(errorType, rule, 1);
+        ConsoleUtils.printErrorFixesMsg(errorType, EnforceIsprintRule, 1);
 
         expect(spy.firstCall.args[0]).toEqual('[errors] Wrap expression in <isprint> tag :: 1 error was fixed since last run!');
     });
 
     it('displays "error fixed" message for more than one error', () => {
-        ConsoleUtils.printErrorFixesMsg(errorType, rule, 2);
+        ConsoleUtils.printErrorFixesMsg(errorType, EnforceIsprintRule, 2);
 
         expect(spy.firstCall.args[0]).toEqual('[errors] Wrap expression in <isprint> tag :: 2 errors were fixed since last run!');
     });

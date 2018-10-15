@@ -17,7 +17,7 @@ const RulePrototype = {
     },
 
     isEnabled() {
-        return config && config.enabledRules && this.name in config.enabledRules;
+        return config && config.rules && this.name in config.rules;
     },
 };
 

@@ -5,7 +5,7 @@ const rules = [];
 
 require('fs')
     .readdirSync(Constants.rulesDir)
-    .filter( file => file.endsWith('Rule.js'))
+    .filter( file => file.endsWith('.js'))
     .forEach( file => {
         const rulePath = path.join(__dirname, 'rules', file);
         rules.push(require(rulePath));

@@ -1,20 +1,14 @@
 {
-    "rootDir": "cartridges",
-    "ignore": [
-        "app_storefront_base",
-        "Email.isml"
-    ],
-    "enabledRules": {
-        "BalancedIsifTagRule": {},
-        "BrTagRule": {},
-        "DwOccurrenceRule": {},
-        "GitConflictRule": {},
-        "ImportPackageRule": {},
-        "IsprintTagRule": {},
-        "LogicInTemplateRule": {},
-        "SpaceAtEndOfLineRule": {},
-        "SpacesOnlyLineRule": {},
-        "StyleAttributeRule": {},
-        "TabRule": {}
+    "rules": {
+        "enforce-isprint": {},
+        "enforce-require": {},
+        "no-br": {},
+        "no-git-conflict": {},
+        "no-import-package": {},
+        "no-inline-style": {},
+        "no-isscript": {},
+        "no-space-only-lines": {},
+        "no-tabs": {},
+        "no-trailing-spaces": {}
     }
 }

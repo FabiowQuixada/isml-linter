@@ -2,9 +2,9 @@ const path = require('path');
 const IsmlLinter = require('../../app/IsmlLinter');
 const SpecHelper = require('../SpecHelper');
 const Constants = require('../../app/Constants');
-const SpacesOnlyLineRule = require('../../app/rules/SpacesOnlyLineRule');
-const StyleAttributeRule = require('../../app/rules/StyleAttributeRule');
-const IsprintTagRule = require('../../app/rules/IsprintTagRule');
+const NoSpaceOnlyLinesRule = require('../../app/rules/no-space-only-lines');
+const NoInlineStyleRule = require('../../app/rules/no-inline-style');
+const EnforceIsprintRule = require('../../app/rules/enforce-isprint');
 const FileParser = require('../../app/FileParser');
 
 const specSpecificDirLinterTemplate = Constants.specSpecificDirLinterTemplate;
@@ -71,9 +71,9 @@ const expectedResultObj = type => {
     const result = {};
     result[type] = {};
 
-    const inlineStyleRuleDesc = StyleAttributeRule.description;
-    const blankLineRuleDesc = SpacesOnlyLineRule.description;
-    const isprintRuleDesc = IsprintTagRule.description;
+    const inlineStyleRuleDesc = NoInlineStyleRule.description;
+    const blankLineRuleDesc = NoSpaceOnlyLinesRule.description;
+    const isprintRuleDesc = EnforceIsprintRule.description;
 
     const file0Path = path.join(...'/sample_file_1.isml'.split( '/' ));
     const file1Path = path.join(...'/sample_file_2.isml'.split( '/' ));

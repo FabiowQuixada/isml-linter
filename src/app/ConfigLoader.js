@@ -23,13 +23,14 @@ const createClientDirectories = dir => {
 const createConfigFile = (targetDir = Constants.configFilePath, configFileName) => {
 
     if (!FileUtils.fileExists(path.join(targetDir, configFileName))) {
-        const configContent = {};
-        configContent.enabledRules = {};
+        const configContent = {
+            rules: {}
+        };
 
         require('fs').readdirSync(Constants.rulesDir).forEach( filename => {
-            if (filename.endsWith('Rule.js')) {
+            if (filename.endsWith('.js')) {
                 const ruleName = filename.slice(0, -3);
-                configContent.enabledRules[ruleName] = {};
+                configContent.rules[ruleName] = {};
             }
         });
 
