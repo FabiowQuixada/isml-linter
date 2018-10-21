@@ -113,4 +113,12 @@ describe(targetObjName, () => {
 
         expect(spy.secondCall.args[0]).toEqual('1 :: 0 ::     ' + childNode.getValue());
     });
+
+    it('prints its value halted if it is too long', () => {
+        const rootNode = new IsmlNode('<div class="the-value-of-this-element-is-really-really-long"></div>');
+
+        rootNode.print();
+
+        expect(spy.firstCall.args[0]).toEqual('0 :: 0 :: <div class="the-value-of-th...');
+    });
 });
