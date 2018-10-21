@@ -10,9 +10,7 @@ const build = filePath => {
 
     const ParseStatus = require('../enums/ParseStatus');
 
-    const rootNode = new IsmlNode();
     const result = {
-        rootNode,
         status: ParseStatus.NO_ERRORS,
         message: ''
     };
@@ -21,7 +19,7 @@ const build = filePath => {
 
         const fileContent = fs.readFileSync(filePath, 'utf-8');
 
-        parse(rootNode, fileContent);
+        result.rootNode = parse(fileContent);
     } catch (e) {
         result.rootNode = null;
         result.status = ParseStatus.INVALID_DOM;
@@ -31,32 +29,31 @@ const build = filePath => {
     return result;
 };
 
-/**
- * TODO: Further refactoring needed;
- */
-const parse = (parentNode, content, parentState) => {
+const parse = (content, parentState, parentNode = new IsmlNode()) => {
 
-    let state = getInitialState(content, parentState);
+    let state = getInitialState(content, parentState, parentNode);
 
     for (let i = 0; i < content.length; i++) {
         setCurrentElementStartLineNumber(state, i);
-        state = iterate(state, parentNode, i);
+        state = iterate(state);
     }
+
+    return state.parentNode;
 };
 
-const iterate = (state, parentNode, i) => {
-    state = initializeLoopState(state, i);
+const iterate = state => {
+    state = initializeLoopState(state);
 
     if (skipIteraction(state)) {
         return state;
     }
 
-    state = processContent(state, parentNode);
+    state = processContent(state);
 
     return state;
 };
 
-const getInitialState = (contentAsArray, parentState) => {
+const getInitialState = (contentAsArray, parentState, parentNode) => {
 
     const regex = /\n/gi;
     let result;
@@ -79,11 +76,13 @@ const getInitialState = (contentAsArray, parentState) => {
         insideTag: false,
         nonTagBuffer: '',
         insideExpression: false,
-        depth: 0
+        depth: 0,
+        parentNode
     };
 
     if (parentState) {
         state.currentLineNumber = parentState.currentLineNumber;
+        state.node = parentState.parentNode.newestChildNode;
     }
 
     while ( result = regex.exec(contentAsArray) ) {
@@ -95,20 +94,19 @@ const getInitialState = (contentAsArray, parentState) => {
 
 };
 
-const initializeLoopState = (oldState, i) => {
-    let newState = Object.assign({}, oldState);
+const initializeLoopState = oldState => {
+    let state = Object.assign({}, oldState);
 
-    newState.currentChar = newState.content.charAt(i);
-    newState.currentElement.asString += newState.currentChar;
-    newState.currentPos = i;
+    state.currentChar = state.content.charAt(state.currentPos);
+    state.currentElement.asString += state.currentChar;
 
-    newState = updateStateWhetherItIsInsideExpression(newState);
+    state = updateStateWhetherItIsInsideExpression(state);
 
-    if (newState.ignoreUntil && newState.ignoreUntil < i && newState.ignoreUntil !== newState.content.length + 1) {
-        newState.ignoreUntil = null;
+    if (state.ignoreUntil && state.ignoreUntil < state.currentPos && state.ignoreUntil !== state.content.length + 1) {
+        state.ignoreUntil = null;
     }
 
-    return newState;
+    return state;
 };
 
 const skipIteraction = state => {
@@ -116,83 +114,83 @@ const skipIteraction = state => {
            state.insideTag && state.insideExpression;
 };
 
-const processContent = (oldState, parentNode) => {
+const processContent = oldState => {
 
-    const newState = Object.assign({}, oldState);
+    const state = Object.assign({}, oldState);
 
-    if (newState.currentChar === '<') {
-        prepareStateForOpeningElement(newState, parentNode);
-    } else if (newState.currentChar === '>') {
-        createNodeForCurrentElement(newState, parentNode);
-    } else if (!newState.insideTag) {
-        newState.nonTagBuffer += newState.currentChar;
+    if (state.currentChar === '<') {
+        prepareStateForOpeningElement(state);
+    } else if (state.currentChar === '>') {
+        createNodeForCurrentElement(state);
+    } else if (!state.insideTag) {
+        state.nonTagBuffer += state.currentChar;
     }
 
-    return newState;
+    return state;
 };
 
 const updateStateWhetherItIsInsideExpression = oldState => {
-    const newState = Object.assign({}, oldState);
+    const state = Object.assign({}, oldState);
 
-    if (newState.insideTag) {
-        if (isOpeningIsmlExpression(newState)) {
-            newState.insideExpression = true;
-        } else if (isClosingIsmlExpression(newState)) {
-            newState.insideExpression = false;
+    if (state.insideTag) {
+        if (isOpeningIsmlExpression(state)) {
+            state.insideExpression = true;
+        } else if (isClosingIsmlExpression(state)) {
+            state.insideExpression = false;
         }
     }
 
-    return newState;
+    return state;
 };
 
-const createNode = (parentNode, state) => {
+const createNode = state => {
 
-    let node = null;
+    const isIsifNode = state.currentElement.asString.trim().startsWith(ISIF);
+    const node = isIsifNode ?
+        new MultiClauseNode() :
+        new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber);
 
-    if (state.currentElement.asString.trim().startsWith(ISIF)) {
-        node = new MultiClauseNode();
-    } else {
-        node = new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber);
-    }
-
-    parentNode.addChild(node);
+    state.parentNode.addChild(node);
 
     if (!node.isSelfClosing()) {
-        return handleInnerContent(node, state);
+        return processNewNodeInnerContent(state);
     }
 
     return null;
 };
 
-const handleInnerContent = (node, state) => {
+const processNewNodeInnerContent = state => {
 
+    // TODO Couldn't simplify this;
+    const node = state.parentNode.children[state.parentNode.children.length-1];
     const currentPos = state.currentPos;
     const nodeInnerContent = getInnerContent(state);
 
     if (isNextElementATag(state)) {
         if (state.content.trim().startsWith(ISIF)) {
-            IsifTagParser.run(node, nodeInnerContent, state.currentElement.asString);
+            IsifTagParser.run(nodeInnerContent, state);
         } else {
-            parse(node, nodeInnerContent.trim(), state);
+            parse(nodeInnerContent.trim(), state, node);
         }
     } else {
-        addTextToNode(node, nodeInnerContent.trim(), state);
+        addTextToNode(nodeInnerContent.trim(), state);
     }
 
     return currentPos + nodeInnerContent.length;
 };
 
-const addTextToNode = (node, nodeInnerContent, state) => {
+const addTextToNode = (nodeInnerContent, state) => {
+    const node = state.parentNode.newestChildNode;
     const innerTextNode = new IsmlNode(nodeInnerContent, state.currentLineNumber);
     node.addChild(innerTextNode);
 };
 
 const getInnerContent = oldState => {
-    let newState = Object.assign({}, oldState);
-    const content = getUpdateContent(newState);
-    newState = ClosingTagFinder.getCorrespondentClosingElementPosition(content, newState);
+    let state = Object.assign({}, oldState);
+    const content = getUpdateContent(state);
+    state = ClosingTagFinder.getCorrespondentClosingElementPosition(content, state);
 
-    return pickInnerContent(newState, content);
+    return pickInnerContent(state, content);
 };
 
 const getUpdateContent = state => {
@@ -256,42 +254,42 @@ const isOpeningElem = state => {
 
 const isNextElementATag = state => getNextNonEmptyChar(state) === '<';
 
-const reinitializeState = newState => {
-    newState.insideTag = false;
-    newState.currentElement.asString = '';
-    newState.currentElement.initPosition = -1;
-    newState.currentElement.endPosition = -1;
+const reinitializeState = state => {
+    state.insideTag = false;
+    state.currentElement.asString = '';
+    state.currentElement.initPosition = -1;
+    state.currentElement.endPosition = -1;
 };
 
-const createNodeForCurrentElement = (newState, parentNode) => {
+const createNodeForCurrentElement = state => {
 
-    newState.depth -= 1;
+    state.depth -= 1;
 
-    if (newState.depth === 0) {
-        if (isOpeningElem(newState)) {
-            newState.ignoreUntil = createNode(parentNode, newState);
+    if (state.depth === 0) {
+        if (isOpeningElem(state)) {
+            state.ignoreUntil = createNode(state, state);
         }
 
-        reinitializeState(newState);
+        reinitializeState(state);
     }
 };
 
-const prepareStateForOpeningElement = (newState, parentNode) => {
+const prepareStateForOpeningElement = state => {
 
-    if (newState.nonTagBuffer && newState.nonTagBuffer.replace(/\s/g, '').length) {
-        const node = new IsmlNode(newState.nonTagBuffer);
-        parentNode.addChild(node);
-        reinitializeState(newState);
-        newState.ignoreUntil += newState.nonTagBuffer.length - 1;
-        newState.currentElement.asString = '<';
+    if (state.nonTagBuffer && state.nonTagBuffer.replace(/\s/g, '').length) {
+        const node = new IsmlNode(state.nonTagBuffer);
+        state.parentNode.addChild(node);
+        reinitializeState(state);
+        state.ignoreUntil += state.nonTagBuffer.length - 1;
+        state.currentElement.asString = '<';
     }
 
-    if (newState.depth === 0) {
-        newState.currentElement.initPosition = newState.currentPos;
+    if (state.depth === 0) {
+        state.currentElement.initPosition = state.currentPos;
     }
 
-    newState.insideTag = true;
-    newState.depth += 1;
+    state.insideTag = true;
+    state.depth += 1;
 };
 
 const isEmptyLineDetected = (state, index) => state.lineBreakPositionList[index] === state.lineBreakPositionList[index + 1];
@@ -300,18 +298,20 @@ const setCurrentElementStartLineNumber = (state, i) => {
 
     const index = state.lineBreakPositionList.indexOf(i);
 
+    state.currentPos = i;
+
     if (index !== -1) {
         state.currentLineNumber += 1;
     }
 
-    getNextNonEmptyLine(index, state);
+    getNextNonEmptyLine(state, index);
 
     if (!state.insideTag) {
         state.currentElement.startingLineNumber = state.currentLineNumber;
     }
 };
 
-const getNextNonEmptyLine = (index, state) => {
+const getNextNonEmptyLine = (state, index) => {
 
     while (isEmptyLineDetected(state, index)) {
         state.currentLineNumber += 1;

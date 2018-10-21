@@ -26,6 +26,7 @@ class IsmlNode {
     addChild(newNode) {
         newNode.height = this.height+1;
         this.children.push(newNode);
+        this.newestChildNode = newNode;
     }
 
     getChild(number) { return this.children[number]; }

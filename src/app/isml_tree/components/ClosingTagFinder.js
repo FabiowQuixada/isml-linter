@@ -58,79 +58,79 @@ const getInitialState = (content, globalState) => {
 };
 
 const updateState = oldState => {
-    let newState = Object.assign({}, oldState);
+    let state = Object.assign({}, oldState);
 
-    newState.currentReadingPos += newState.firstClosingElemPos;
-    newState = updateElementStack(newState);
-    newState = removeFirstElement(newState);
+    state.currentReadingPos += state.firstClosingElemPos;
+    state = updateElementStack(state);
+    state = removeFirstElement(state);
 
-    newState.result = newState.currentReadingPos - newState.firstClosingElemPos;
+    state.result = state.currentReadingPos - state.firstClosingElemPos;
 
-    return newState;
+    return state;
 };
 
 const removeLeadingNonTagText = oldState => {
-    const newState = Object.assign({}, oldState);
+    const state = Object.assign({}, oldState);
 
-    newState.content = oldState.content.substring(oldState.content.indexOf('<'), oldState.content.length);
-    newState.currentReadingPos += oldState.content.indexOf('<');
+    state.content = oldState.content.substring(oldState.content.indexOf('<'), oldState.content.length);
+    state.currentReadingPos += oldState.content.indexOf('<');
 
-    return newState;
+    return state;
 };
 
 const removeFirstElement = oldState => {
-    const newState = Object.assign({}, oldState);
+    const state = Object.assign({}, oldState);
 
-    newState.content = newState.content.substring(newState.firstClosingElemPos, newState.content.length);
+    state.content = state.content.substring(state.firstClosingElemPos, state.content.length);
 
-    return newState;
+    return state;
 };
 
 const initializeLoopState = (oldState, openingElemRegex, closingElemRegex) => {
 
-    const newState = Object.assign({}, oldState);
+    const state = Object.assign({}, oldState);
 
     openingElemRegex.lastIndex = 0;
     closingElemRegex.lastIndex = 0;
 
-    newState.firstClosingElemPos = newState.content.indexOf('>')+1;
-    newState.isSelfClosingElement = newState.content.charAt(newState.firstClosingElemPos-2) === '/';
+    state.firstClosingElemPos = state.content.indexOf('>')+1;
+    state.isSelfClosingElement = state.content.charAt(state.firstClosingElemPos-2) === '/';
 
-    newState.openingElemPos = Number.POSITIVE_INFINITY;
-    newState.closingElementPos = Number.POSITIVE_INFINITY;
+    state.openingElemPos = Number.POSITIVE_INFINITY;
+    state.closingElementPos = Number.POSITIVE_INFINITY;
 
-    const openingElem = openingElemRegex.exec(newState.content);
-    const closingElement = closingElemRegex.exec(newState.content);
+    const openingElem = openingElemRegex.exec(state.content);
+    const closingElement = closingElemRegex.exec(state.content);
 
     if (openingElem) {
-        newState.openingElemPos = openingElem.index;
+        state.openingElemPos = openingElem.index;
     }
 
     if (closingElement) {
-        newState.closingElementPos = closingElement.index;
+        state.closingElementPos = closingElement.index;
     }
 
-    return newState;
+    return state;
 };
 
 const updateElementStack = oldState => {
 
-    const newState = Object.assign({}, oldState);
-    const elem = getFirstElementType(newState.content);
+    const state = Object.assign({}, oldState);
+    const elem = getFirstElementType(state.content);
 
-    if (!newState.isSelfClosingElement) {
+    if (!state.isSelfClosingElement) {
         if (!elem.startsWith('/')) {
             if(elem !== 'iselse' && elem !== 'iselseif') {
-                newState.elementStack.push(elem);
+                state.elementStack.push(elem);
             }
-        } else if (isCorrespondentElement(newState, elem)) {
-            newState.elementStack.pop();
+        } else if (isCorrespondentElement(state, elem)) {
+            state.elementStack.pop();
         } else {
             throw `${ErrorType.INVALID_DOM} :: Unbalanced <${elem.substring(1)}> element`;
         }
     }
 
-    return newState;
+    return state;
 };
 
 const isCorrespondentElement = (state, elem) =>

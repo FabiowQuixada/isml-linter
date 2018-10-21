@@ -3,9 +3,11 @@ const TreeBuilder = require('../TreeBuilder');
 const MultiClauseNode = require('../MultiClauseNode');
 const MaskUtils = require('../MaskUtils');
 
-const run = function(multiClauseNode, content, isifTagContent) {
+const run = function(content, state) {
 
-    const clauseList = getClauseList(multiClauseNode, content, isifTagContent);
+    const multiClauseNode = state.parentNode.newestChildNode;
+
+    const clauseList = getClauseList(content, state);
     let resultNode = multiClauseNode;
 
     if (!(multiClauseNode instanceof MultiClauseNode)) {
@@ -14,41 +16,41 @@ const run = function(multiClauseNode, content, isifTagContent) {
     }
 
     clauseList.forEach( (item, index) => {
-        if (index === 0) {
-            getMainClauseNode(resultNode, item, isifTagContent);
-        } else {
-            getElseClauseNode(resultNode, item);
-        }
+        index === 0 ?
+            getMainClauseNode(resultNode, item, state) :
+            getElseClauseNode(resultNode, item, state);
     });
 
     return multiClauseNode;
 };
 
-const getMainClauseNode = (resultNode, content, isifTagContent) => {
+const getMainClauseNode = (resultNode, content, state) => {
 
-    const clauseContentNode = new IsmlNode(isifTagContent);
+    const isifTagContent = state.currentElement.asString;
+    const clauseContentNode = new IsmlNode(isifTagContent, state.currentElement.startingLineNumber);
     resultNode.addChild(clauseContentNode);
 
-    TreeBuilder.parse(clauseContentNode, content);
+    TreeBuilder.parse(content, state, clauseContentNode);
 
     return clauseContentNode;
 };
 
-const getElseClauseNode = (resultNode, content) => {
+const getElseClauseNode = (resultNode, content, state) => {
 
     const clauseContent = getClauseContent(content),
         clauseInnerContent = getClauseInnerContent(content),
-        clauseContentNode = new IsmlNode(clauseContent);
+        clauseContentNode = new IsmlNode(clauseContent, state.currentElement.startingLineNumber);
 
     resultNode.addChild(clauseContentNode);
 
-    TreeBuilder.parse(clauseContentNode, clauseInnerContent);
+    TreeBuilder.parse(clauseInnerContent, state, clauseContentNode);
 
     return clauseContentNode;
 };
 
-const getClauseList = (multiClauseNode, content, isifTagContent) => {
+const getClauseList = (content, state) => {
 
+    const isifTagContent = state.currentElement.asString;
     const clauseStringList = [];
 
     let tagList = getAllConditionalTags(content);
@@ -80,7 +82,7 @@ const getClauseList = (multiClauseNode, content, isifTagContent) => {
             node.setValue(substring);
         }
 
-        TreeBuilder.parse(node, innerContent);
+        TreeBuilder.parse(innerContent, state, node);
 
         result.push(node);
     });
