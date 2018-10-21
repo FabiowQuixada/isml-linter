@@ -29,25 +29,25 @@ describe(targetObjName, () => {
     it('creates a tree with a self-closed tag attribute-less grandchild', () => {
         const rootNode = TreeBuilder.build(getFilePath(0)).rootNode;
 
-        expect(rootNode.getChild(0).getChild(0).getValue()).toEqual('<isprint value="some text" />');
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('<isprint value="some text" />');
     });
 
     it('creates a tree with a self-closed tag grandchild with attribute', () => {
         const rootNode = TreeBuilder.build(getFilePath(0)).rootNode;
 
-        expect(rootNode.getChild(0).getChild(0).getValue()).toEqual('<isprint value="some text" />');
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('<isprint value="some text" />');
     });
 
     it('creates a tree with a self-closed tag grandchild', () => {
         const rootNode = TreeBuilder.build(getFilePath(11)).rootNode;
 
-        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('<isif condition="${true}">');
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue().trim()).toEqual('<isif condition="${true}">');
     });
 
     it('recognizes a simple, raw isml expression: ${...}', () => {
         const rootNode = TreeBuilder.build(getFilePath(9)).rootNode;
 
-        expect(rootNode.getChild(0).getChild(0).getValue()).toEqual('${3 < 4}');
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('${3 < 4}');
     });
 
     it('recognizes an isml expression within an isml/html tag', () => {
@@ -60,21 +60,20 @@ describe(targetObjName, () => {
     it('parses recursive elements', () => {
         const rootNode = TreeBuilder.build(getFilePath(7)).rootNode;
 
-        expect(rootNode.getChild(0).getChild(0).getValue()).toEqual('<div class="inner">');
-        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('<div class="further_in">');
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('<div class="inner">');
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue().trim()).toEqual('<div class="further_in">');
     });
 
     it('handles "<" charecters in isml expressons', () => {
         const rootNode = TreeBuilder.build(getFilePath(6)).rootNode;
 
-        expect(rootNode.getChild(0).getChild(0).getValue()).toEqual('${someValue < 3}');
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('${someValue < 3}');
     });
 
     it('handles "<" charecters in scripts', () => {
         const rootNode = TreeBuilder.build(getFilePath(5)).rootNode;
 
-        expect(rootNode.getChild(0).getChild(0).getValue()).toEqual('var condition = someValue < 4;');
-
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('var condition = someValue < 4;');
     });
 
     it('parses <isif> tag with a "<" character in its condition', () => {
@@ -86,14 +85,14 @@ describe(targetObjName, () => {
     it('handles "<" characters in comments', () => {
         const rootNode = TreeBuilder.build(getFilePath(2)).rootNode;
 
-        expect(rootNode.getChild(0).getChild(0).getValue()).toEqual('This comment has a \'<\' character.');
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('This comment has a \'<\' character.');
     });
 
     it('recognizes an isml element within a html element', () => {
         const rootNode = TreeBuilder.build(getFilePath(4)).rootNode;
 
         expect(rootNode.getChild(0).getValue()).toEqual('<span id="root_elem_17" <isif condition="${active}">class="active"</isif>>');
-        expect(rootNode.getChild(0).getChild(0).getValue()).toEqual('Some content');
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('Some content');
     });
 
     it('sets the correct height fo multi-clause children', () => {
@@ -116,8 +115,8 @@ describe(targetObjName, () => {
         const rootNode = TreeBuilder.build(getFilePath(14)).rootNode;
 
         expect(rootNode.getChild(0).getValue()).toEqual('<span>');
-        expect(rootNode.getChild(1).getValue()).toEqual('    A hard-coded string');
-        expect(rootNode.getChild(2).getChild(0).getValue()).toEqual('Another hard-coded string');
+        expect(rootNode.getChild(1).getValue().trim()).toEqual('A hard-coded string');
+        expect(rootNode.getChild(2).getChild(0).getValue().trim()).toEqual('Another hard-coded string');
     });
 
 });

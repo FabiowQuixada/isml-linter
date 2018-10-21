@@ -170,10 +170,10 @@ const processNewNodeInnerContent = state => {
         if (state.content.trim().startsWith(ISIF)) {
             IsifTagParser.run(nodeInnerContent, state);
         } else {
-            parse(nodeInnerContent.trim(), state, node);
+            parse(nodeInnerContent, state, node);
         }
     } else {
-        addTextToNode(nodeInnerContent.trim(), state);
+        addTextToNode(nodeInnerContent, state);
     }
 
     return currentPos + nodeInnerContent.length;
