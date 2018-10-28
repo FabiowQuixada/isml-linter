@@ -2,7 +2,6 @@
 /.vscode/
 coverage/
 isml-linter/
-cartridges/
 src/spec/temp/
 
 *.log

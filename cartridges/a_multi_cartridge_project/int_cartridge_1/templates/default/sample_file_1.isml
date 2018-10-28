@@ -1,0 +1,85 @@
+<iscontent type="text/html" charset="UTF-8" compact="true" />
+<isinclude template="util/modules" />
+
+<iscomment>
+    This template renders something
+</iscomment>
+
+<isset name="property" value="${(productLineItem.custom.someProperty ? productLineItem.custom.someProperty.toUpperCase() : '')}" scope="page"/>
+<isset name="aValue" value="${require('someFile').getValue('someValue') && (!empty(lineItem.product.custom.someValue)}" scope="page"/>
+<isset name="targetUrl" value="${URLUtils.url('Controller-EndPoint')}" scope="page" />
+
+<tr class="cart_row lineItem-${lineItem.getUUID()} product-${productLineItem.productID}">
+
+    <iscomment>Request information</iscomment>
+    <td style="display:none;">
+        <div class="productLineItemId">${lineItem.getUUID()}</div>
+        <div class="orderNumber">${lineItem.getLineItemCtnr().orderNo}</div>
+    </td>
+    
+
+    <iscomment>Image</iscomment>
+    <td class="item_image">
+        <isproductimage product="${lineItem.product}" type="medium" mode="link" />
+    </td>
+
+    <td class="item_details">
+        
+        <iscomment>Name</iscomment>
+        <div class="product_name">
+            <isproductname product="${productLineItem.product}" mode="link" />
+        </div>
+
+
+        <iscomment>Some comment</iscomment>
+        <div class="some-class">
+            <isif condition="${this || that}">
+                <div class="error_message">
+                    <isprint value="${Resource.msg('key','filename',null)}" />
+                </div>
+                <isif condition="${otherCondition}">
+                    <div class="error_message">
+                        <isprint value="${Resource.msg('key','fileName',null)}" />
+                    </div>
+                    <iscomment>Button</iscomment>
+                    <div class="product_button">
+                        <a data-pid="${lineItem.productID}" class="button property-${lineItem.productID}">
+                            <isprint value="${Resource.msg('key','fileName',null)}" />
+                        </a>
+                    </div>
+                <iselseif condition="${yetAnotherCondition}">
+                    <div class="error_message">
+                        <isprint value="${Resource.msg('key','fileName',null)}" />
+                    </div>
+                </isif>
+            <iselse>
+                <isif condition="${yetYetAnotherCondition}">
+                    <iscomment>A button</iscomment>
+                    <div class="product_add_to_cart">
+                        <a data-pid="${lineItem.productID}" data-href="${targetUrl}" class="button">
+                            <isprint value="${Resource.msg('key','fileName',null)}" />
+                        </a>
+                    </div>
+                    <div class="some-class hidden">
+                        <isset name="value" value="${require('file').get('property')}" scope="page" />
+                        <isprint value="${Resource.msgf('key','fileName',null, value)}" />
+                    </div>
+                </isif>
+            </isif>
+        </div>
+    </td>
+
+
+    <iscomment>A comment</iscomment>
+    <td class="generic-class">
+        <isif condition="${pdict.condition}">
+            <div class="a-class">
+                 <isprint value="${Resource.msg('key','fileName',null)}" />: <isprint value="${pdict.aValue}" />
+            </div>
+        <iselse>
+            <div class="other-class">
+                    <isprint value="${Resource.msg('key','fileName',null)}" />: <isprint value="${lineItem.quantity}" encoding="off" />
+            </div>
+        </isif>
+    </td>
+</tr>
