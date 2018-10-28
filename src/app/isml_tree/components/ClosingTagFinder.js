@@ -25,7 +25,7 @@ const getCorrespondentClosingElementPosition = (content, oldGlobalState) => {
 
     newGlobalState.currentElemEndPosition = maskedContent.indexOf('>');
 
-    while (isClosingPositionNotFound(internalState)) {
+    while (internalState.content) {
 
         if (isNextElementATag(internalState)) {
 
@@ -66,12 +66,6 @@ const updateState = oldState => {
     newState.result = newState.currentReadingPos - newState.firstClosingElemPos;
 
     return newState;
-};
-
-const isClosingPositionNotFound = state => {
-    return state.content &&
-           state.openingElemPos !== Number.POSITIVE_INFINITY &&
-           state.closingElementPos !== Number.POSITIVE_INFINITY;
 };
 
 const removeLeadingNonTagText = oldState => {
@@ -124,8 +118,8 @@ const updateElementStack = oldState => {
     const elem = getFirstElementType(newState.content);
 
     if (!newState.isSelfClosingElement) {
-        if (newState.openingElemPos < newState.closingElementPos) {
-            if (elem !== 'iselse' && elem !== 'iselseif') {
+        if (!elem.startsWith('/')) {
+            if(elem !== 'iselse' && elem !== 'iselseif') {
                 newState.elementStack.push(elem);
             }
         } else if (isCorrespondentElement(newState, elem)) {
