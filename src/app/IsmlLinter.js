@@ -32,12 +32,21 @@ Linter.run = function(dir = config.rootDir || appRoot.toString()) {
     const that = this;
 
     filesArray.forEach( filePath => {
-        const fileContent = fs.readFileSync(path.join(dir, filePath), 'utf-8');
-        const output = FileParser.parse(fileContent);
 
-        for (const rule in output.errors) {
-            that.result.errors[rule] = that.result.errors[rule] || {};
-            that.result.errors[rule][filePath] = output.errors[rule];
+        try {
+            const fileContent = fs.readFileSync(path.join(dir, filePath), 'utf-8');
+            const output = FileParser.parse(fileContent);
+
+            for (const rule in output.errors) {
+                that.result.errors[rule] = that.result.errors[rule] || {};
+                that.result.errors[rule][filePath] = output.errors[rule];
+            }
+        } catch (e) {
+            const UNPARSEABLE = Constants.UNPARSEABLE;
+            that.result[UNPARSEABLE] = that.result[UNPARSEABLE] || [];
+            const invalidTemplate = {};
+            invalidTemplate[filePath] = e;
+            that.result[UNPARSEABLE].push(invalidTemplate);
         }
     });
 

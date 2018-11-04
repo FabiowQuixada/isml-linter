@@ -1,4 +1,5 @@
 const RulesHolder = require('./RulesHolder');
+const TreeBuilder = require('./isml_tree/TreeBuilder');
 
 const ENTRY_TYPES = {
     ERROR: 'errors',
@@ -18,6 +19,8 @@ const add = (parser, type, rule, result) => {
 const parse = fileContent => {
     const that = this;
     this.output = {};
+
+    TreeBuilder.parse(fileContent);
 
     RulesHolder.getEnabledRules().forEach( rule => {
         const result = rule.check(fileContent);

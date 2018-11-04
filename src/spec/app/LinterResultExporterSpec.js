@@ -11,6 +11,7 @@ const specTempDir = Constants.specTempDir;
 const outputFilePath = Constants.specOutputFilePath;
 const compiledOutputFilePath = Constants.specCompiledOutputFilePath;
 const targetObjName = SpecHelper.getTargetObjName(__filename);
+const UNPARSEABLE = Constants.UNPARSEABLE;
 
 describe(targetObjName, () => {
     beforeEach(() => {
@@ -53,6 +54,12 @@ describe(targetObjName, () => {
         const compiledOutputFile = require(path.join(compiledOutputFilePath)).total;
 
         expect(compiledOutputFile).toEqual(2);
+    });
+
+    it('lists unparseable templates separately', () => {
+        const result = LinterResultExporter.export(specTempDir, getJsonData());
+
+        expect(result[UNPARSEABLE]).toEqual(1);
     });
 });
 
@@ -102,6 +109,10 @@ const getJsonData = () => {
         lineNumber: 3
     };
 
+    const invalidTemplate = {
+        'sample_file_0.isml': 'Invalid ISML DOM :: Unbalanced <isif> element'
+    };
+
     result[type][isprintRuleDesc] = {};
     result[type][isprintRuleDesc][filePath] = [];
     result[type][isprintRuleDesc][filePath].push(line);
@@ -109,6 +120,9 @@ const getJsonData = () => {
     result[type][inlineStyleRuleDesc] = {};
     result[type][inlineStyleRuleDesc][filePath] = [];
     result[type][inlineStyleRuleDesc][filePath].push(line);
+
+    result[UNPARSEABLE] = [];
+    result[UNPARSEABLE].push(invalidTemplate);
 
     return result;
 };

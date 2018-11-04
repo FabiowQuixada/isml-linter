@@ -48,6 +48,9 @@ const configFilePath = path.join(clientAppDir, clientConfigFileName);
 // Links;
 const repositoryUrl = 'https://github.com/FabiowQuixada/isml-linter';
 
+// Others;
+const UNPARSEABLE = 'nonparseable';
+
 module.exports = {
     // Client directories;
     clientAppDir,
@@ -92,4 +95,7 @@ module.exports = {
 
     // Links
     repositoryUrl,
+
+    // Others;
+    UNPARSEABLE,
 };

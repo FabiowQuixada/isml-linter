@@ -96,11 +96,14 @@ $ isml-linter
 
 Currently, the following configurations can be set in the .ismllinter.json file:
 
-| Config  | Description                              |
-| ------- |:-----------------------------------------|
-| rootDir | The root directory under which the linter will run. Defaults to the directory where the package.json file is |
-| ignore  | If a file path contains (as a substring) any string defined here, that file will be ignored by the linter |
-| rules   | Defines which rules to check. See available rules below |
+| Config            | Description                              |
+| ----------------- |:-----------------------------------------|
+| rootDir           | The root directory under which the linter will run. Defaults to the directory where the package.json file is |
+| ignoreUnparseable | Does not raise an error if an unparseable file is found. Default: false |
+| ignore            | If a file path contains (as a substring) any string defined here, that file will be ignored by the linter |
+| rules             | Defines which rules to check. See available rules below |
+
+**Note:** If you explicitly set "ignoreUnparseable" config to true, unparseable files may contain errors that will not be detected by Isml Linter.
 
 Example configuration:
 

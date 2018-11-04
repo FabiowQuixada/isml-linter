@@ -9,6 +9,7 @@ const FileParser = require('../../app/FileParser');
 
 const specSpecificDirLinterTemplate = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
+const UNPARSEABLE = Constants.UNPARSEABLE;
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -65,6 +66,14 @@ describe(targetObjName, () => {
         expect(result.indexOf('spec')).toEqual(-1);
         expect(result.indexOf('isml-linter')).toEqual(-1);
     });
+
+    it('lists invalid templates as "unparseable"', () => {
+        const result = IsmlLinter.run(specSpecificDirLinterTemplate);
+
+        expect(result[UNPARSEABLE][0]).toEqual({
+            'sample_file_0.isml': 'Invalid ISML DOM :: Unbalanced <isif> element'
+        });
+    });
 });
 
 const expectedResultObj = type => {
@@ -115,6 +124,8 @@ const expectedResultObj = type => {
     result[type][blankLineRuleDesc] = {};
     result[type][blankLineRuleDesc][file0Path] = [];
     result[type][blankLineRuleDesc][file0Path].push(blankLine);
+
+    result[Constants.UNPARSEABLE] = [ { 'sample_file_0.isml' : 'Invalid ISML DOM :: Unbalanced <isif> element' } ];
 
     return result;
 };
