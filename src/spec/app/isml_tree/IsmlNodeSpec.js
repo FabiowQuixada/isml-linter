@@ -121,4 +121,20 @@ describe(targetObjName, () => {
 
         expect(spy.firstCall.args[0]).toEqual('0 :: 0 :: <div class="the-value-of-th...');
     });
+
+    it('prints value without duplicated spaces', () => {
+        const rootNode = new IsmlNode('<div      class="some_class"></div>');
+
+        rootNode.print();
+
+        expect(spy.firstCall.args[0]).toEqual('0 :: 0 :: <div class="some_class"></d...');
+    });
+
+    it('prints multi-line elements in a single line', () => {
+        const rootNode = new IsmlNode('<div     \n    class="some_class"></div>');
+
+        rootNode.print();
+
+        expect(spy.firstCall.args[0]).toEqual('0 :: 0 :: <div class="some_class"></d...');
+    });
 });

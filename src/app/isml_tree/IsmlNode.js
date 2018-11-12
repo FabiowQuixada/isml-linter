@@ -54,8 +54,12 @@ class IsmlNode {
     getDisplayText() {
         let displayText = this.value;
 
+        displayText = displayText
+            .replace(/\n/g, '')
+            .replace(/ +(?= )/g, '');
+
         if (this.value.length > MAX_TEXT_DISPLAY_SIZE - 3) {
-            displayText = this.value.substring(0, MAX_TEXT_DISPLAY_SIZE - 3) + '...';
+            displayText = displayText.substring(0, MAX_TEXT_DISPLAY_SIZE - 3) + '...';
         }
 
         return displayText.trim();
