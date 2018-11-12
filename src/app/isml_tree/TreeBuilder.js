@@ -69,7 +69,7 @@ const getInitialState = (contentAsArray, parentState, parentNode) => {
             startingLineNumber: -1
         },
         lineBreakPositionList: [0],
-        currentLineNumber: 0,
+        currentLineNumber: 1,
         currentChar: null,
         currentPos: -1,
         ignoreUntil: null,
@@ -77,6 +77,7 @@ const getInitialState = (contentAsArray, parentState, parentNode) => {
         nonTagBuffer: '',
         insideExpression: false,
         depth: 0,
+        parentState,
         parentNode
     };
 
@@ -97,7 +98,7 @@ const getInitialState = (contentAsArray, parentState, parentNode) => {
 const initializeLoopState = oldState => {
     let state = Object.assign({}, oldState);
 
-    state.currentChar = state.content.charAt(state.currentPos);
+    state.currentChar = state.contentAsArray.charAt(state.currentPos);
     state.currentElement.asString += state.currentChar;
 
     state = updateStateWhetherItIsInsideExpression(state);
@@ -144,6 +145,9 @@ const updateStateWhetherItIsInsideExpression = oldState => {
 };
 
 const createNode = state => {
+
+    const emptyLinesQty = processPrecedingEmptyLines(state.currentElement.asString);
+    updateStateLinesData(state, emptyLinesQty);
 
     const isIsifNode = state.currentElement.asString.trim().startsWith(ISIF);
     const node = isIsifNode ?
@@ -194,7 +198,7 @@ const getInnerContent = oldState => {
 };
 
 const getUpdateContent = state => {
-    let content = state.content;
+    let content = state.contentAsArray;
     const currentElementInitPosition = state.currentElement.initPosition;
     content = content.substring(currentElementInitPosition, content.length);
     return content;
@@ -243,7 +247,7 @@ const isClosingIsmlExpression = state => {
  */
 const isOpeningElem = state => {
 
-    const content = state.content;
+    const content = state.contentAsArray;
     const currPos = state.currentElement.initPosition;
 
     const currenChar = content.charAt(currPos);
@@ -264,6 +268,10 @@ const reinitializeState = state => {
 const createNodeForCurrentElement = state => {
 
     state.depth -= 1;
+
+    const lineBreakQty = (state.currentElement.asString.match(/\n/g) || []).length;
+
+    state.currentLineNumber += lineBreakQty;
 
     if (state.depth === 0) {
         if (isOpeningElem(state)) {
@@ -292,30 +300,37 @@ const prepareStateForOpeningElement = state => {
     state.depth += 1;
 };
 
-const isEmptyLineDetected = (state, index) => state.lineBreakPositionList[index] === state.lineBreakPositionList[index + 1];
-
 const setCurrentElementStartLineNumber = (state, i) => {
 
-    const index = state.lineBreakPositionList.indexOf(i);
-
     state.currentPos = i;
-
-    if (index !== -1) {
-        state.currentLineNumber += 1;
-    }
-
-    getNextNonEmptyLine(state, index);
 
     if (!state.insideTag) {
         state.currentElement.startingLineNumber = state.currentLineNumber;
     }
 };
 
-const getNextNonEmptyLine = (state, index) => {
+const processPrecedingEmptyLines = content => {
 
-    while (isEmptyLineDetected(state, index)) {
-        state.currentLineNumber += 1;
-        index += 1;
+    const temp = content.split('\n');
+    let lineBreakQty = 0;
+
+    temp.some( line => {
+        if (!line.trim()) {
+            lineBreakQty++;
+            return false;
+        }
+        return true;
+    });
+
+    return lineBreakQty;
+};
+
+const updateStateLinesData = (state, emptyLinesQty) => {
+
+    state.currentElement.startingLineNumber += emptyLinesQty;
+
+    if (state.parentState) {
+        state.parentState.currentElement.startingLineNumber += emptyLinesQty;
     }
 };
 

@@ -53,7 +53,7 @@ describe(targetObjName, () => {
     it('recognizes an isml expression within an isml/html tag', () => {
         const rootNode = TreeBuilder.build(getFilePath(8)).rootNode;
 
-        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('    <isset name="opliID" value="${opli.ID}" scope="page" />');
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('\n    <isset name="opliID" value="${opli.ID}" scope="page" />');
         expect(rootNode.getChild(0).getChild(0).getChild(0).getNumberOfChildren()).toEqual(0);
     });
 
@@ -79,7 +79,7 @@ describe(targetObjName, () => {
     it('parses <isif> tag with a "<" character in its condition', () => {
         const rootNode = TreeBuilder.build(getFilePath(3)).rootNode;
 
-        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('    <div class="clause_1" />');
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('\n    <div class="clause_1" />');
     });
 
     it('handles "<" characters in comments', () => {

@@ -32,8 +32,8 @@ describe(targetObjName, () => {
         const multiClauseNode = rootNode.getChild(0);
 
         expect(multiClauseNode.getNumberOfChildren()).toEqual(2);
-        expect(multiClauseNode.getChild(0).getChild(0).getValue()).toEqual('    <hey/>');
-        expect(multiClauseNode.getChild(1).getChild(0).getValue()).toEqual('    <ho/>');
+        expect(multiClauseNode.getChild(0).getChild(0).getValue()).toEqual('\n    <hey/>');
+        expect(multiClauseNode.getChild(1).getChild(0).getValue()).toEqual('\n    <ho/>');
     });
 
     it('parses a multi-clause isif-iselseif-iselse tag', () => {

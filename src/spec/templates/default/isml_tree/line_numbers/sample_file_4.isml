@@ -1,7 +1,6 @@
 <div 
     class="reorder_disponibility"
     id="disp"
-    style="very_stylish">
-    <div class="error_message" />
+    style="very_stylish"><div class="error_message" />
 </div>
 
