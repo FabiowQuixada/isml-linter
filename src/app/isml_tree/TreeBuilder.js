@@ -1,6 +1,7 @@
 const IsmlNode = require('./IsmlNode');
-const ClosingTagFinder = require('./components/ClosingTagFinder');
 const IsifTagParser = require('./components/IsifTagParser');
+const StateUtils = require('./components/StateUtils');
+const ParseUtils = require('./components/ParseUtils');
 const MultiClauseNode = require('./MultiClauseNode');
 const fs = require('fs');
 
@@ -16,9 +17,7 @@ const build = filePath => {
     };
 
     try {
-
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-
         result.rootNode = parse(fileContent);
     } catch (e) {
         result.rootNode = null;
@@ -31,7 +30,7 @@ const build = filePath => {
 
 const parse = (content, parentState, parentNode = new IsmlNode()) => {
 
-    let state = getInitialState(content, parentState, parentNode);
+    let state = StateUtils.getInitialState(content, parentState, parentNode);
 
     for (let i = 0; i < content.length; i++) {
         setCurrentElementStartLineNumber(state, i);
@@ -44,55 +43,13 @@ const parse = (content, parentState, parentNode = new IsmlNode()) => {
 const iterate = state => {
     state = initializeLoopState(state);
 
-    if (skipIteraction(state)) {
+    if (ParseUtils.isSkipIteraction(state)) {
         return state;
     }
 
-    state = processContent(state);
+    state = parseState(state);
 
     return state;
-};
-
-const getInitialState = (contentAsArray, parentState, parentNode) => {
-
-    const regex = /\n/gi;
-    let result;
-    let lineBreakPosition = 0;
-    const state = {
-
-        content: contentAsArray.replace(/(\r\n\t|\n|\r\t)/gm, ''),
-        contentAsArray: contentAsArray,
-        currentElement: {
-            asString: '',
-            initPosition: -1,
-            endPosition: -1,
-            startingLineNumber: -1
-        },
-        lineBreakPositionList: [0],
-        currentLineNumber: 1,
-        currentChar: null,
-        currentPos: -1,
-        ignoreUntil: null,
-        insideTag: false,
-        nonTagBuffer: '',
-        insideExpression: false,
-        depth: 0,
-        parentState,
-        parentNode
-    };
-
-    if (parentState) {
-        state.currentLineNumber = parentState.currentLineNumber;
-        state.node = parentState.parentNode.newestChildNode;
-    }
-
-    while ( result = regex.exec(contentAsArray) ) {
-        lineBreakPosition = result.index - state.lineBreakPositionList.length + 1;
-        state.lineBreakPositionList.push(lineBreakPosition);
-    }
-
-    return state;
-
 };
 
 const initializeLoopState = oldState => {
@@ -103,19 +60,14 @@ const initializeLoopState = oldState => {
 
     state = updateStateWhetherItIsInsideExpression(state);
 
-    if (state.ignoreUntil && state.ignoreUntil < state.currentPos && state.ignoreUntil !== state.content.length + 1) {
+    if (ParseUtils.isStopIgnoring(state)) {
         state.ignoreUntil = null;
     }
 
     return state;
 };
 
-const skipIteraction = state => {
-    return state.ignoreUntil && state.ignoreUntil >= state.currentPos ||
-           state.insideTag && state.insideExpression;
-};
-
-const processContent = oldState => {
+const parseState = oldState => {
 
     const state = Object.assign({}, oldState);
 
@@ -134,9 +86,9 @@ const updateStateWhetherItIsInsideExpression = oldState => {
     const state = Object.assign({}, oldState);
 
     if (state.insideTag) {
-        if (isOpeningIsmlExpression(state)) {
+        if (ParseUtils.isOpeningIsmlExpression(state)) {
             state.insideExpression = true;
-        } else if (isClosingIsmlExpression(state)) {
+        } else if (ParseUtils.isClosingIsmlExpression(state)) {
             state.insideExpression = false;
         }
     }
@@ -146,7 +98,7 @@ const updateStateWhetherItIsInsideExpression = oldState => {
 
 const createNode = state => {
 
-    const emptyLinesQty = processPrecedingEmptyLines(state.currentElement.asString);
+    const emptyLinesQty = ParseUtils.getNumberOfPrecedingEmptyLines(state.currentElement.asString);
     updateStateLinesData(state, emptyLinesQty);
 
     const isIsifNode = state.currentElement.asString.trim().startsWith(ISIF);
@@ -156,21 +108,21 @@ const createNode = state => {
 
     state.parentNode.addChild(node);
 
-    if (!node.isSelfClosing()) {
-        return processNewNodeInnerContent(state);
+    if (node.isSelfClosing()) {
+        return null;
     }
 
-    return null;
+    return parseNewNodeInnerContent(state);
 };
 
-const processNewNodeInnerContent = state => {
+const parseNewNodeInnerContent = state => {
 
     // TODO Couldn't simplify this;
     const node = state.parentNode.children[state.parentNode.children.length-1];
     const currentPos = state.currentPos;
-    const nodeInnerContent = getInnerContent(state);
+    const nodeInnerContent = ParseUtils.getInnerContent(state);
 
-    if (isNextElementATag(state)) {
+    if (ParseUtils.isNextElementATag(state)) {
         if (state.content.trim().startsWith(ISIF)) {
             IsifTagParser.run(nodeInnerContent, state);
         } else {
@@ -189,82 +141,6 @@ const addTextToNode = (nodeInnerContent, state) => {
     node.addChild(innerTextNode);
 };
 
-const getInnerContent = oldState => {
-    let state = Object.assign({}, oldState);
-    const content = getUpdateContent(state);
-    state = ClosingTagFinder.getCorrespondentClosingElementPosition(content, state);
-
-    return pickInnerContent(state, content);
-};
-
-const getUpdateContent = state => {
-    let content = state.contentAsArray;
-    const currentElementInitPosition = state.currentElement.initPosition;
-    content = content.substring(currentElementInitPosition, content.length);
-    return content;
-};
-
-const pickInnerContent = (state, content) => {
-
-    const innerContentStartPos = state.currentElement.endPosition+1;
-    const innerContentEndPos = state.currentElemClosingTagInitPos;
-    return content.substring(innerContentStartPos, innerContentEndPos);
-};
-
-const getNextNonEmptyChar = state => {
-
-    const content = state.content;
-    const currentPos = state.currentPos;
-
-    return content.substring(currentPos+1, content.length-1).trim()[0];
-};
-
-/**
- * TODO: Use regex;
- */
-const isOpeningIsmlExpression = state => {
-
-    const content = state.content;
-    const currentPos = state.currentPos;
-
-    const currChar = content.charAt(currentPos);
-    const nextChar = content.charAt(currentPos+1);
-
-    return currChar === '$' && nextChar === '{';
-};
-
-const isClosingIsmlExpression = state => {
-
-    const content = state.content;
-    const currentPos = state.currentPos;
-    const insideExpression = state.insideExpression;
-
-    return insideExpression && content.charAt(currentPos-1) === '}';
-};
-
-/**
- * TODO: Use regex;
- */
-const isOpeningElem = state => {
-
-    const content = state.contentAsArray;
-    const currPos = state.currentElement.initPosition;
-
-    const currenChar = content.charAt(currPos);
-    const nextChar = content.charAt(currPos+1);
-
-    return currenChar === '<' && nextChar !== '/';
-};
-
-const isNextElementATag = state => getNextNonEmptyChar(state) === '<';
-
-const reinitializeState = state => {
-    state.insideTag = false;
-    state.currentElement.asString = '';
-    state.currentElement.initPosition = -1;
-    state.currentElement.endPosition = -1;
-};
-
 const createNodeForCurrentElement = state => {
 
     state.depth -= 1;
@@ -274,11 +150,11 @@ const createNodeForCurrentElement = state => {
     state.currentLineNumber += lineBreakQty;
 
     if (state.depth === 0) {
-        if (isOpeningElem(state)) {
-            state.ignoreUntil = createNode(state, state);
+        if (ParseUtils.isOpeningElem(state)) {
+            state.ignoreUntil = createNode(state);
         }
 
-        reinitializeState(state);
+        StateUtils.reinitializeState(state);
     }
 };
 
@@ -287,7 +163,7 @@ const prepareStateForOpeningElement = state => {
     if (state.nonTagBuffer && state.nonTagBuffer.replace(/\s/g, '').length) {
         const node = new IsmlNode(state.nonTagBuffer);
         state.parentNode.addChild(node);
-        reinitializeState(state);
+        StateUtils.reinitializeState(state);
         state.ignoreUntil += state.nonTagBuffer.length - 1;
         state.currentElement.asString = '<';
     }
@@ -307,22 +183,6 @@ const setCurrentElementStartLineNumber = (state, i) => {
     if (!state.insideTag) {
         state.currentElement.startingLineNumber = state.currentLineNumber;
     }
-};
-
-const processPrecedingEmptyLines = content => {
-
-    const temp = content.split('\n');
-    let lineBreakQty = 0;
-
-    temp.some( line => {
-        if (!line.trim()) {
-            lineBreakQty++;
-            return false;
-        }
-        return true;
-    });
-
-    return lineBreakQty;
 };
 
 const updateStateLinesData = (state, emptyLinesQty) => {

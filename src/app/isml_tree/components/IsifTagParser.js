@@ -1,6 +1,7 @@
 const IsmlNode = require('../IsmlNode');
 const TreeBuilder = require('../TreeBuilder');
 const MultiClauseNode = require('../MultiClauseNode');
+const ParseUtils = require('./ParseUtils');
 const MaskUtils = require('../MaskUtils');
 
 const run = function(content, state) {
@@ -17,14 +18,14 @@ const run = function(content, state) {
 
     clauseList.forEach( (item, index) => {
         index === 0 ?
-            getMainClauseNode(resultNode, item, state) :
-            getElseClauseNode(resultNode, item, state);
+            parseMainClause(resultNode, item, state) :
+            parseElseClause(resultNode, item, state);
     });
 
     return multiClauseNode;
 };
 
-const getMainClauseNode = (resultNode, content, state) => {
+const parseMainClause = (resultNode, content, state) => {
 
     const isifTagContent = state.currentElement.asString;
     const clauseContentNode = new IsmlNode(isifTagContent, state.currentElement.startingLineNumber);
@@ -35,10 +36,10 @@ const getMainClauseNode = (resultNode, content, state) => {
     return clauseContentNode;
 };
 
-const getElseClauseNode = (resultNode, content, state) => {
+const parseElseClause = (resultNode, content, state) => {
 
-    const clauseContent = getClauseContent(content),
-        clauseInnerContent = getClauseInnerContent(content),
+    const clauseContent = ParseUtils.getClauseContent(content),
+        clauseInnerContent = ParseUtils.getClauseInnerContent(content),
         clauseContentNode = new IsmlNode(clauseContent, state.currentElement.startingLineNumber);
 
     resultNode.addChild(clauseContentNode);
@@ -53,8 +54,8 @@ const getClauseList = (content, state) => {
     const isifTagContent = state.currentElement.asString;
     const clauseStringList = [];
 
-    let tagList = getAllConditionalTags(content);
-    tagList = getOutterTagList(tagList);
+    let tagList = ParseUtils.getAllConditionalTags(content);
+    tagList = ParseUtils.getOutterConditionalTagList(tagList);
 
     let lastIndex = 0;
     tagList.forEach( tagObj => {
@@ -89,62 +90,5 @@ const getClauseList = (content, state) => {
 
     return clauseStringList;
 };
-
-const getAllConditionalTags = content => {
-
-    const tagList = [];
-    const maskedContent = MaskUtils.maskIgnorableContent(content);
-
-    for (let i = 0; i < maskedContent.length; i++) {
-        if (content.charAt(i - 1) === '<') {
-            let end = Math.min(maskedContent.substring(i).indexOf(' '), maskedContent.substring(i).indexOf('>'));
-            if (end === -1) {
-                end = Math.max(maskedContent.substring(i).indexOf(' '), maskedContent.substring(i).indexOf('>'));
-            }
-            const tag = content.substring(i, i + end);
-            if (['isif', 'iselse', 'iselseif', '/isif'].indexOf(tag) !== -1) {
-                tagList.push({
-                    tag,
-                    startPos: i - 1
-                });
-            }
-        }
-    }
-
-    return tagList;
-};
-
-const getOutterTagList = tagList => {
-
-    let depth = 0;
-
-    tagList = tagList.filter(tagObj => {
-        if (tagObj.tag.startsWith('isif')) {
-            depth += 1;
-        }
-
-        if (depth === 0) {
-            return true;
-        }
-
-        if (tagObj.tag === '/isif') {
-            depth -= 1;
-        }
-
-        return false;
-    });
-
-    return tagList;
-};
-
-function getClauseContent(content) {
-    const processedContent = MaskUtils.maskIgnorableContent(content);
-    return content.substring(0, processedContent.indexOf('>') + 1);
-}
-
-function getClauseInnerContent(content) {
-    const processedContent = MaskUtils.maskIgnorableContent(content);
-    return content.substring(content.indexOf('>') + 1, processedContent.length);
-}
 
 module.exports.run = run;
