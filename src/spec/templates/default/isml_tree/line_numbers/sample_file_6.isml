@@ -1,0 +1,7 @@
+<div class="product_tile">
+    <isif condition="${pdict.someCondition}">
+        <iscustomtagone p_product="${pdict.product}" />
+    <iselse>
+        <iscustomtagtwo p_product="${pdict.otherProduct}" />
+    </isif>
+</div>

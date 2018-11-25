@@ -1,25 +1,21 @@
 const IsmlNode = require('../IsmlNode');
 const TreeBuilder = require('../TreeBuilder');
-const MultiClauseNode = require('../MultiClauseNode');
 const ParseUtils = require('./ParseUtils');
-const MaskUtils = require('../MaskUtils');
 
 const run = function(content, state) {
 
     const multiClauseNode = state.parentNode.newestChildNode;
+    const clauseList = getClauseList(content);
+    let lineNumber = 0;
 
-    const clauseList = getClauseList(content, state);
-    let resultNode = multiClauseNode;
-
-    if (!(multiClauseNode instanceof MultiClauseNode)) {
-        resultNode = new MultiClauseNode();
-        multiClauseNode.addChild(resultNode);
-    }
-
-    clauseList.forEach( (item, index) => {
+    clauseList.forEach( (clauseContent, index) => {
         index === 0 ?
-            parseMainClause(resultNode, item, state) :
-            parseElseClause(resultNode, item, state);
+            parseMainClause(multiClauseNode, clauseContent, state) :
+            parseElseClause(multiClauseNode, clauseContent, state);
+
+        lineNumber += (clauseContent.match(/\n/g) || []).length;
+        state.currentLineNumber += lineNumber;
+        state.currentElement.startingLineNumber += lineNumber;
     });
 
     return multiClauseNode;
@@ -29,8 +25,8 @@ const parseMainClause = (resultNode, content, state) => {
 
     const isifTagContent = state.currentElement.asString;
     const clauseContentNode = new IsmlNode(isifTagContent, state.currentElement.startingLineNumber);
-    resultNode.addChild(clauseContentNode);
 
+    resultNode.addChild(clauseContentNode);
     TreeBuilder.parse(content, state, clauseContentNode);
 
     return clauseContentNode;
@@ -49,9 +45,8 @@ const parseElseClause = (resultNode, content, state) => {
     return clauseContentNode;
 };
 
-const getClauseList = (content, state) => {
+const getClauseList = content => {
 
-    const isifTagContent = state.currentElement.asString;
     const clauseStringList = [];
 
     let tagList = ParseUtils.getAllConditionalTags(content);
@@ -64,29 +59,6 @@ const getClauseList = (content, state) => {
     });
 
     clauseStringList.push(content.substring(lastIndex, content.length));
-
-    const result = [];
-
-    clauseStringList.forEach( (clauseString, index) => {
-        const node = new IsmlNode();
-        let innerContent = '';
-
-        if (index === 0) {
-            node.setValue(isifTagContent);
-            innerContent = clauseString;
-
-        } else {
-            const maskedClauseString = MaskUtils.maskIgnorableContent(clauseString);
-            const pos = maskedClauseString.indexOf('>');
-            const substring = clauseString.substring(0, pos+1);
-            innerContent = clauseString.substring(pos+2, clauseString.length);
-            node.setValue(substring);
-        }
-
-        TreeBuilder.parse(innerContent, state, node);
-
-        result.push(node);
-    });
 
     return clauseStringList;
 };

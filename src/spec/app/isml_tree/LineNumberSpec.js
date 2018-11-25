@@ -66,6 +66,23 @@ describe('TreeBuilder', () => {
         expect(customNode.getLineNumber()).toEqual(3);
     });
 
+    it('sets line number for a simple "iselse" tag', () => {
+        const rootNode   = TreeBuilder.build(getFilePath(6)).rootNode;
+        const divNode    = rootNode.getChild(0);
+        const isifNode   = divNode.getChild(0).getChild(0);
+        const iselseNode = divNode.getChild(0).getChild(1);
+        const customNode = isifNode.getChild(0);
+
+        expect(divNode.getHeight()).toEqual(1);
+        expect(divNode.getLineNumber()).toEqual(1);
+        expect(isifNode.getHeight()).toEqual(2);
+        expect(isifNode.getLineNumber()).toEqual(2);
+        expect(customNode.getHeight()).toEqual(3);
+        expect(customNode.getLineNumber()).toEqual(3);
+        expect(iselseNode.getHeight()).toEqual(2);
+        expect(iselseNode.getLineNumber()).toEqual(4);
+    });
+
 });
 
 const getFilePath = number => {
