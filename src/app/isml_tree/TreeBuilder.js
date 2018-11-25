@@ -189,7 +189,7 @@ const updateStateLinesData = (state, emptyLinesQty) => {
 
     state.currentElement.startingLineNumber += emptyLinesQty;
 
-    if (state.parentState) {
+    if (state.parentState && !(state.node instanceof MultiClauseNode)) {
         state.parentState.currentElement.startingLineNumber += emptyLinesQty;
     }
 };
