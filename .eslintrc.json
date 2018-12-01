@@ -1,6 +1,7 @@
 {
     "plugins": [
-        "jasmine"
+        "jasmine",
+        "varspacing"
     ],
     "env": {
         "browser": true,
@@ -10,6 +11,7 @@
     },
     "extends": [
         "eslint:recommended",
+        "plugin:varspacing/recommended",
         "plugin:jasmine/recommended"
     ],
     "parserOptions": {

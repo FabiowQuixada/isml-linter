@@ -9,8 +9,9 @@
   },
   "devDependencies": {
     "eslint": "^4.19.1",
-    "eslint-plugin-jasmine": "^2.10.1",
     "flatted": "^2.0.0",
+    "eslint-plugin-jasmine": "^2.9.3",
+    "eslint-plugin-varspacing": "^1.2.1",
     "ghooks": "^2.0.4",
     "grunt": "^1.0.3",
     "gulp": "^4.0.0",
@@ -29,7 +30,7 @@
   },
   "scripts": {
     "start": "node src/app/LinterRunner",
-    "lint": "./node_modules/.bin/eslint .",
+    "lint": "./node_modules/.bin/eslint . --fix",
     "test": "jasmine-node src/spec/",
     "cover": "node ./node_modules/istanbul/lib/cli.js cover node_modules/jasmine-node/bin/jasmine-node src/spec --statements 100",
     "check-coverage": "istanbul check-coverage --statements 95 --functions 95 --branches 95 --lines 95",
