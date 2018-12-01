@@ -190,5 +190,31 @@ module.exports = {
 
     isStopIgnoring : function(state) {
         return state.ignoreUntil && state.ignoreUntil < state.currentPos && state.ignoreUntil !== state.content.length + 1;
-    }
+    },
+
+    getClauseList : function(content) {
+
+        const clauseStringList = [];
+
+        let tagList = this.getAllConditionalTags(content);
+        tagList = this.getOutterConditionalTagList(tagList);
+
+        let lastIndex = 0;
+        tagList.forEach( tagObj => {
+            clauseStringList.push(content.substring(lastIndex, tagObj.startPos));
+            lastIndex = tagObj.startPos;
+        });
+
+        clauseStringList.push(content.substring(lastIndex, content.length));
+
+        return clauseStringList;
+    },
+
+    /**
+     * Checks if the parsing process is in the following state:
+     * <div ... <isif ...> > </div>
+     */
+    isIsmlTagInsideHtmlTag(state) {
+        return state.depth !== 0;
+    },
 };

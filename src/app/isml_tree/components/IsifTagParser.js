@@ -5,7 +5,7 @@ const ParseUtils = require('./ParseUtils');
 const run = function(content, state) {
 
     const multiClauseNode = state.parentNode.newestChildNode;
-    const clauseList = getClauseList(content);
+    const clauseList = ParseUtils.getClauseList(content);
     let lineNumber = 0;
 
     clauseList.forEach( (clauseContent, index) => {
@@ -39,28 +39,9 @@ const parseElseClause = (resultNode, content, state) => {
         clauseContentNode = new IsmlNode(clauseContent, state.currentElement.startingLineNumber);
 
     resultNode.addChild(clauseContentNode);
-
     TreeBuilder.parse(clauseInnerContent, state, clauseContentNode);
 
     return clauseContentNode;
-};
-
-const getClauseList = content => {
-
-    const clauseStringList = [];
-
-    let tagList = ParseUtils.getAllConditionalTags(content);
-    tagList = ParseUtils.getOutterConditionalTagList(tagList);
-
-    let lastIndex = 0;
-    tagList.forEach( tagObj => {
-        clauseStringList.push(content.substring(lastIndex, tagObj.startPos));
-        lastIndex = tagObj.startPos;
-    });
-
-    clauseStringList.push(content.substring(lastIndex, content.length));
-
-    return clauseStringList;
 };
 
 module.exports.run = run;

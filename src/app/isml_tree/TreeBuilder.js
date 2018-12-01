@@ -149,7 +149,7 @@ const createNodeForCurrentElement = state => {
 
     state.currentLineNumber += lineBreakQty;
 
-    if (state.depth === 0) {
+    if (!ParseUtils.isIsmlTagInsideHtmlTag(state)) {
         if (ParseUtils.isOpeningElem(state)) {
             state.ignoreUntil = createNode(state);
         }
