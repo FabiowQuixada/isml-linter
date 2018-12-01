@@ -13,7 +13,7 @@ const run = function(content, state) {
             parseMainClause(multiClauseNode, clauseContent, state) :
             parseElseClause(multiClauseNode, clauseContent, state);
 
-        lineNumber += (clauseContent.match(/\n/g) || []).length;
+        lineNumber = (clauseContent.match(/\n/g) || []).length;
         state.currentLineNumber += lineNumber;
         state.currentElement.startingLineNumber += lineNumber;
     });
