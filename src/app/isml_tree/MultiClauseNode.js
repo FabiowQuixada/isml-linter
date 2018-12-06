@@ -16,6 +16,7 @@ class MultiClauseNode extends IsmlNode {
     addChild(clause) {
         clause.height = this.height;
         this.children.push(clause);
+        this.newestChildNode = clause;
     }
 
     print() {

@@ -119,6 +119,19 @@ describe(targetObjName, () => {
         expect(rootNode.getChild(2).getChild(0).getValue().trim()).toEqual('Another hard-coded string');
     });
 
+    it('parses a child "isif" tag', () => {
+        const rootNode    = TreeBuilder.build(getFilePath(16)).rootNode;
+        const trNode      = rootNode.getChild(0);
+        const commentNode = rootNode.getChild(1);
+
+        expect(trNode.getValue()).toEqual('\n<tr class="cart_row lineItem-${lineItem.getUUID()} product-${productLineItem.productID}">');
+        expect(trNode.getLineNumber()).toEqual(2);
+        expect(trNode.getNumberOfChildren()).toEqual(1);
+
+        expect(commentNode.getValue()).toEqual('\n\n\n<iscomment>');
+        expect(commentNode.getLineNumber()).toEqual(23);
+        expect(commentNode.getHeight()).toEqual(1);
+    });
 });
 
 const getFilePath = number => {

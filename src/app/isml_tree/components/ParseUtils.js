@@ -20,10 +20,8 @@ const getUpdateContent = state => {
     return content;
 };
 
-const getNextNonEmptyChar = state => {
-    const content = state.content;
-    const currentPos = state.currentPos;
-    return content.substring(currentPos + 1, content.length - 1).trim()[0];
+const getNextNonEmptyChar = content => {
+    return content.replace(/\n/g, '').trim()[0];
 };
 
 module.exports = {
