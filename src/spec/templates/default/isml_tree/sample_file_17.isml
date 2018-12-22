@@ -1,0 +1,5 @@
+<isif condition="${c1}">
+    <isif condition="${c2}">
+        <isprint value="${v1}" />
+    </isif>
+</isif>

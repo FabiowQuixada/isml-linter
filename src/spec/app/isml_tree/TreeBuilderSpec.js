@@ -132,6 +132,34 @@ describe(targetObjName, () => {
         expect(commentNode.getLineNumber()).toEqual(23);
         expect(commentNode.getHeight()).toEqual(1);
     });
+
+    it('identifies ISML expressions I', () => {
+        const rootNode  = TreeBuilder.build(getFilePath(18)).rootNode;
+        const availNode = rootNode.getChild(2);
+
+        expect(availNode.getValue()).toEqual('\n<div class="product-availability">');
+        expect(availNode.getLineNumber()).toEqual(23);
+        expect(availNode.getNumberOfChildren()).toEqual(1);
+    });
+
+    it('identifies ISML expressions II', () => {
+        const rootNode     = TreeBuilder.build(getFilePath(17)).rootNode;
+        const ifNode       = rootNode.getChild(0).getChild(0);
+        const nestedIfNode = ifNode.getChild(0).getChild(0);
+
+        expect(nestedIfNode.getValue()).toEqual('\n    <isif condition="${c2}">');
+        expect(nestedIfNode.getLineNumber()).toEqual(2);
+        expect(nestedIfNode.getNumberOfChildren()).toEqual(1);
+    });
+
+    it('identifies ISML expressions III', () => {
+        const rootNode = TreeBuilder.build(getFilePath(19)).rootNode;
+        const setNode  = rootNode.getChild(2);
+
+        expect(setNode.getValue()).toEqual('\n<isset value="${abc}" />');
+        expect(setNode.getLineNumber()).toEqual(7);
+        expect(setNode.getNumberOfChildren()).toEqual(0);
+    });
 });
 
 const getFilePath = number => {

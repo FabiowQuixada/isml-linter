@@ -57,7 +57,7 @@ module.exports = {
 
     isOpeningIsmlExpression : function(state) {
 
-        const content = state.content;
+        const content = state.contentAsArray;
         const currentPos = state.currentPos;
         const currChar = content.charAt(currentPos);
         const nextChar = content.charAt(currentPos + 1);
@@ -67,7 +67,7 @@ module.exports = {
 
     isClosingIsmlExpression : function(state) {
 
-        const content = state.content;
+        const content = state.contentAsArray;
         const currentPos = state.currentPos;
         const insideExpression = state.insideExpression;
 
