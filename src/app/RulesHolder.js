@@ -1,17 +1,18 @@
 const path      = require('path');
+const fs        = require('fs');
 const Constants = require('./Constants');
 
-const rules = [];
+const lineByLineRules = [];
 
-require('fs')
-    .readdirSync(Constants.lineByLineRulesDir)
+fs.readdirSync(Constants.lineByLineRulesDir)
     .filter( file => file.endsWith('.js'))
     .forEach( file => {
         const rulePath = path.join(__dirname, 'rules', 'line_by_line', file);
-        rules.push(require(rulePath));
+        lineByLineRules.push(require(rulePath));
     });
 
+
 module.exports = {
-    getAllRules : () => rules,
-    getEnabledRules : () => rules.filter( rule => rule.isEnabled() )
+    getAllLineRules     : () => lineByLineRules,
+    getEnabledLineRules : () => lineByLineRules.filter( rule => rule.isEnabled() )
 };

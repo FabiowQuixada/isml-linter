@@ -14,7 +14,7 @@ describe(targetObjName, () => {
     });
 
     it('holds the correct number of rules', () => {
-        expect(RulesHolder.getAllRules().length).toBe(numberOfRules());
+        expect(RulesHolder.getAllLineRules().length).toBe(numberOfRules());
     });
 });
 

@@ -7,7 +7,7 @@ const ENTRY_TYPES = {
     INFO: 'info'
 };
 
-const add = (parser, type, rule, result) => {
+const addLineError = (parser, type, rule, result) => {
     parser.output[type]                   = parser.output[type] || {};
     parser.output[type][rule.description] = parser.output[type][rule.description] || [];
 
@@ -16,19 +16,22 @@ const add = (parser, type, rule, result) => {
     });
 };
 
+const checkLineByLineRules = (fileContent, parser) => {
+    RulesHolder.getEnabledLineRules().forEach(rule => {
+        const result = rule.check(fileContent);
+        if (result.occurrences.length) {
+            addLineError(parser, ENTRY_TYPES.ERROR, rule, result);
+        }
+    });
+};
+
 const parse = fileContent => {
     const that  = this;
     this.output = {};
 
+    checkLineByLineRules(fileContent, that);
+    // TODO: Run only if at least one tree rule is enabled;
     TreeBuilder.parse(fileContent);
-
-    RulesHolder.getEnabledRules().forEach( rule => {
-        const result = rule.check(fileContent);
-
-        if (result.occurrences.length) {
-            add(that, ENTRY_TYPES.ERROR, rule, result);
-        }
-    });
 
     return this.output;
 };

@@ -37,6 +37,7 @@ const specComplexTemplatesDir        = path.join(specIsmlTreeTemplateDir, 'compl
 const specIsifTagParserTemplateDir   = path.join(specTemplateDir, 'isml_tree', 'components', 'isif_tag_parser');
 const rulesDir                       = path.join(linterMainDir, 'src', 'app', 'rules');
 const lineByLineRulesDir             = path.join(linterMainDir, 'src', 'app', 'rules', 'line_by_line');
+const treeRulesDir                   = path.join(rulesDir, 'tree');
 
 // Regex;
 const srcJsRegex  = path.join('src', '**', '*.js');
@@ -69,6 +70,7 @@ module.exports = {
     outputDir,
     rulesDir,
     lineByLineRulesDir,
+    treeRulesDir,
     specRuleTemplateDir,
     specIsmlTreeTemplateDir,
     specIsifTagParserTemplateDir,
