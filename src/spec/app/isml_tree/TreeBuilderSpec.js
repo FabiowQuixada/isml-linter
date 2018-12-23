@@ -163,5 +163,5 @@ describe(targetObjName, () => {
 });
 
 const getFilePath = number => {
-    return `${Constants.specIsmlTreeTemplateDir}/sample_file_${number}.isml`;
+    return `${Constants.specIsmlTreeTemplateDir}/template_${number}.isml`;
 };

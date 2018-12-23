@@ -6,7 +6,7 @@ const Constants = require('../../app/Constants');
 const NoIsscriptRule = require('../../app/rules/no-isscript');
 const NoInlineStyleRule = require('../../app/rules/no-inline-style');
 
-const filePath = path.join(Constants.fileParserSpecDir, 'sample_file.isml');
+const filePath = path.join(Constants.fileParserSpecDir, 'template_0.isml');
 const fileContent = fs.readFileSync(filePath, 'utf-8');
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 

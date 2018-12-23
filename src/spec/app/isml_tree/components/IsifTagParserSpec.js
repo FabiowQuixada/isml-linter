@@ -50,5 +50,5 @@ describe(targetObjName, () => {
 });
 
 const getFilePath = number => {
-    return `${Constants.specIsifTagParserTemplateDir}/sample_file_${number}.isml`;
+    return `${Constants.specIsifTagParserTemplateDir}/template_${number}.isml`;
 };

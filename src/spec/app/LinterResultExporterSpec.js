@@ -110,7 +110,7 @@ const getJsonData = () => {
     };
 
     const invalidTemplate = {
-        'sample_file_0.isml': 'Invalid ISML DOM :: Unbalanced <isif> element'
+        'template_0.isml': 'Invalid ISML DOM :: Unbalanced <isif> element'
     };
 
     result[type][isprintRuleDesc] = {};

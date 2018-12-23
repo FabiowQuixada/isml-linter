@@ -71,7 +71,7 @@ describe(targetObjName, () => {
         const result = IsmlLinter.run(specSpecificDirLinterTemplate);
 
         expect(result[UNPARSEABLE][0]).toEqual({
-            'sample_file_0.isml': 'Invalid ISML DOM :: Unbalanced <isif> element'
+            'template_0.isml': 'Invalid ISML DOM :: Unbalanced <isif> element'
         });
     });
 });
@@ -84,8 +84,8 @@ const expectedResultObj = type => {
     const blankLineRuleDesc = NoSpaceOnlyLinesRule.description;
     const isprintRuleDesc = EnforceIsprintRule.description;
 
-    const file0Path = path.join(...'/sample_file_1.isml'.split( '/' ));
-    const file1Path = path.join(...'/sample_file_2.isml'.split( '/' ));
+    const file0Path = path.join(...'/template_1.isml'.split( '/' ));
+    const file1Path = path.join(...'/template_2.isml'.split( '/' ));
     const inlineStyleLine = {
         line: '<div style="display: none;">${addToCartUrl}</div>',
         lineNumber: 1,
@@ -125,7 +125,7 @@ const expectedResultObj = type => {
     result[type][blankLineRuleDesc][file0Path] = [];
     result[type][blankLineRuleDesc][file0Path].push(blankLine);
 
-    result[Constants.UNPARSEABLE] = [ { 'sample_file_0.isml' : 'Invalid ISML DOM :: Unbalanced <isif> element' } ];
+    result[Constants.UNPARSEABLE] = [ { 'template_0.isml' : 'Invalid ISML DOM :: Unbalanced <isif> element' } ];
 
     return result;
 };

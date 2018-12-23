@@ -66,5 +66,5 @@ describe(targetObjName, () => {
 });
 
 const getFilePath = number => {
-    return `${Constants.specComplexTemplatesDir}/sample_file_${number}.isml`;
+    return `${Constants.specComplexTemplatesDir}/template_${number}.isml`;
 };
