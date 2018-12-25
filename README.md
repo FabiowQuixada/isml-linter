@@ -57,10 +57,7 @@ This section will destroy itself in the future releases :P
 
 ## Installation
 
-You can install Isml Linter either locally or globally:
-
-#### Local Installation (Recommended)
-If you choose to install it locally, simply run:
+Simply run in your project's root directory:
 
 ```sh
 $ npm install isml-linter --save-dev
@@ -74,18 +71,6 @@ $ ./node_modules/.bin/isml-linter
 
 As a suggestion, add this command to you package.json file as a script with a custom name, so that it may be easier to remember how to run Isml Linter.
 
-#### Global Installation
-If you prefer to install it globally, run:
-
-```sh
-$ npm install -g isml-linter
-```
-
-and then, from you project root directory, run:
-
-```sh
-$ isml-linter
-```
 
 #### Configuration Notes
 
