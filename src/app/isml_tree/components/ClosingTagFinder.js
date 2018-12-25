@@ -11,43 +11,47 @@ const MaskUtils = require('../MaskUtils');
 
  * The 'depth' variable works as a stack, taking into account only elements of type 'E'
 */
-const getCorrespondentClosingElementPosition = (content, oldGlobalState) => {
-    const newGlobalState = Object.assign({}, oldGlobalState);
+const getCorrespondentClosingElementPosition = (content, oldParentState) => {
+    const newParentState = Object.assign({}, oldParentState);
     const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
     const closingElemRegex = /<\/.[a-zA-Z]*>/;
 
-    let internalState = getInitialState(content, newGlobalState);
+    let internalState = getInitialState(content, newParentState);
     const obj = getPosition(internalState.content);
 
     internalState.currentElement.endPosition = obj.currentElemEndPosition;
     internalState.content = obj.content;
     const maskedContent = obj.content;
 
-    newGlobalState.currentElement.endPosition = maskedContent.indexOf('>');
+    newParentState.currentElement.endPosition = maskedContent.indexOf('>');
 
     while (internalState.content) {
 
         if (isNextElementATag(internalState)) {
+            const closingCharPosition           = internalState.content.indexOf('>');
+            const contentUpToCurrentPosition    = internalState.content.substring(0, closingCharPosition);
+            const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(/\n/g) || []).length + 1;
 
             internalState = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
-            internalState = updateState(internalState);
+            internalState = updateState(internalState, currentElemStartingLineNumber);
 
             if (!internalState.elementStack.length) {
-                newGlobalState.currentElemClosingTagInitPos = internalState.result;
-                return newGlobalState;
+                newParentState.currentElemClosingTagInitPos = internalState.result;
+                return newParentState;
             }
         } else {
             internalState = removeLeadingNonTagText(internalState);
         }
     }
 
-    throw ErrorType.INVALID_DOM;
+    return newParentState;
 };
 
-const getInitialState = (content, globalState) => {
+const getInitialState = (content, parentState) => {
     return {
-        globalState: globalState,
+        parentState: parentState,
         currentElement: {},
+        currentLineNumber: parentState.currentLineNumber,
         content: content,
         openingElemPos: -1,
         closingElementPos: -1,
@@ -57,11 +61,11 @@ const getInitialState = (content, globalState) => {
     };
 };
 
-const updateState = oldState => {
+const updateState = (oldState, currentElementStartingLineNumber) => {
     let state = Object.assign({}, oldState);
 
     state.currentReadingPos += state.firstClosingElemPos;
-    state = updateElementStack(state);
+    state = updateElementStack(state, currentElementStartingLineNumber);
     state = removeFirstElement(state);
 
     state.result = state.currentReadingPos - state.firstClosingElemPos;
@@ -71,9 +75,14 @@ const updateState = oldState => {
 
 const removeLeadingNonTagText = oldState => {
     const state = Object.assign({}, oldState);
+    let splitPosition = oldState.content.indexOf('<');
 
-    state.content = oldState.content.substring(oldState.content.indexOf('<'), oldState.content.length);
-    state.currentReadingPos += oldState.content.indexOf('<');
+    if (splitPosition === -1) {
+        splitPosition = oldState.content.length;
+    }
+
+    state.content = oldState.content.substring(splitPosition, oldState.content.length);
+    state.currentReadingPos += splitPosition;
 
     return state;
 };
@@ -113,7 +122,7 @@ const initializeLoopState = (oldState, openingElemRegex, closingElemRegex) => {
     return state;
 };
 
-const updateElementStack = oldState => {
+const updateElementStack = (oldState, currentElementStartingLineNumber) => {
 
     const state = Object.assign({}, oldState);
     const elem = getFirstElementType(state.content);
@@ -121,12 +130,16 @@ const updateElementStack = oldState => {
     if (!state.isSelfClosingElement) {
         if (!elem.startsWith('/')) {
             if(elem !== 'iselse' && elem !== 'iselseif') {
-                state.elementStack.push(elem);
+                state.elementStack.push({
+                    elem,
+                    lineNumber: currentElementStartingLineNumber
+                });
             }
         } else if (isCorrespondentElement(state, elem)) {
             state.elementStack.pop();
         } else {
-            throw `${ErrorType.INVALID_DOM} :: Unbalanced <${elem.substring(1)}> element`;
+            const stackTopElement = state.elementStack.pop();
+            throw `${ErrorType.INVALID_DOM} :: Unbalanced <${stackTopElement.elem}> element at line ` + stackTopElement.lineNumber;
         }
     }
 
@@ -134,7 +147,7 @@ const updateElementStack = oldState => {
 };
 
 const isCorrespondentElement = (state, elem) =>
-    `/${state.elementStack[state.elementStack.length-1]}` === elem;
+    `/${state.elementStack[state.elementStack.length-1].elem}` === elem;
 
 const isNextElementATag = state => getNextNonEmptyChar(state) === '<';
 

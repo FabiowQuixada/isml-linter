@@ -108,7 +108,7 @@ describe(targetObjName, () => {
     });
 
     it('throws an exception upon invalid isml dom', () => {
-        expect(TreeBuilder.build(getFilePath(1)).message).toEqual('Invalid ISML DOM :: Unbalanced <isif> element');
+        expect(TreeBuilder.build(getFilePath(1)).message).toEqual('Invalid ISML DOM :: Unbalanced <div> element at line 2');
     });
 
     it('parses hard-coded strings', () => {

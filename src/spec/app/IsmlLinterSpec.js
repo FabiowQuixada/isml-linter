@@ -71,7 +71,7 @@ describe(targetObjName, () => {
         const result = IsmlLinter.run(specSpecificDirLinterTemplate);
 
         expect(result[UNPARSEABLE][0]).toEqual({
-            'template_0.isml': 'Invalid ISML DOM :: Unbalanced <isif> element'
+            'template_0.isml': 'Invalid ISML DOM :: Unbalanced <div> element at line 2'
         });
     });
 });
@@ -125,7 +125,7 @@ const expectedResultObj = type => {
     result[type][blankLineRuleDesc][file0Path] = [];
     result[type][blankLineRuleDesc][file0Path].push(blankLine);
 
-    result[Constants.UNPARSEABLE] = [ { 'template_0.isml' : 'Invalid ISML DOM :: Unbalanced <isif> element' } ];
+    result[Constants.UNPARSEABLE] = [ { 'template_0.isml' : 'Invalid ISML DOM :: Unbalanced <div> element at line 2' } ];
 
     return result;
 };
