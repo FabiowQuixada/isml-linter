@@ -101,6 +101,7 @@ Currently, the following configurations can be set in the .ismllinter.json file:
 | rootDir           | The root directory under which the linter will run. Defaults to the directory where the package.json file is |
 | ignoreUnparseable | Does not raise an error if an unparseable file is found. Default: false |
 | ignore            | If a file path contains (as a substring) any string defined here, that file will be ignored by the linter |
+| parseMode         | Accepts two possible values: 'tree' and 'lineByLine'. Check below when each mode is recommended. Default: 'tree' |
 | rules             | Defines which rules to check. See available rules below |
 
 **Note:** If you explicitly set "ignoreUnparseable" config to true, unparseable files may contain errors that will not be detected by Isml Linter.
@@ -128,6 +129,47 @@ Note that according to the above configurations, the following files would be ig
 - this_directory_is_to_be_ignored/producttile.isml
 - some/path/this_directory_is_to_be_ignored/confirmationpage.isml
 
+## Parse Modes
+
+### Tree
+
+This is the default, and most powerful mode. It analyses the template and tries to build an "ISML-DOM" tree to then apply the enabled rules. It is required that the template is parseable.
+
+For example, if a template contains a snippet like the following, IT IS NOT considered a parseable template:
+
+```html
+<isif condition="${aCondtion}">
+    <div class="info">
+</isif>
+        Some content
+<isif condition="${aCondtion}">
+    </div>
+</isif>
+```
+
+since the linter is not able to make an associatio between the opening an dclosing 'div' element. This is the only known limitation for this parse mode. One possible solution to turn such templates into parseable is to replace that snipet by:
+
+```html
+<isif condition="${aCondtion}">
+    <div class="info">
+        <isinclude template="myTemplate" />
+    </div>
+<iselse/>
+    <isinclude template="myTemplate" />
+</isif>
+```
+
+There are other possible, potentially more "best-practice" approaches, but it goes beyond the scope of this article.
+
+And, to avoid possible doubts, here is an extra piece of information: it is allowed to have isml tags within html tags, such as:
+
+```html
+<div <isif ...> </isif> />
+```
+
+### Line by Line
+
+This is a more robust, less powerful mode. It only has a few set of rules available and is indicated for cases where there are many, many lint errors and you want fix them gradually. It is also recommended in cases you don't want to force templates to be parseable (see previous session). This mode is ideally temporary, as it cannot take advantages of even some simple rules, such as indentation enforcement.
 
 ## Build Script
 
