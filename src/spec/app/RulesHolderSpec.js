@@ -22,7 +22,7 @@ const numberOfRules = () => {
     let result = 0;
 
     require('fs')
-        .readdirSync(Constants.rulesDir)
+        .readdirSync(Constants.lineByLineRulesDir)
         .filter( file => file.endsWith('.js'))
         .forEach( () => {
             result += 1;

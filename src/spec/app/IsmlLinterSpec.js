@@ -2,9 +2,9 @@ const path                 = require('path');
 const IsmlLinter           = require('../../app/IsmlLinter');
 const SpecHelper           = require('../SpecHelper');
 const Constants            = require('../../app/Constants');
-const NoSpaceOnlyLinesRule = require('../../app/rules/no-space-only-lines');
-const NoInlineStyleRule    = require('../../app/rules/no-inline-style');
-const EnforceIsprintRule   = require('../../app/rules/enforce-isprint');
+const NoSpaceOnlyLinesRule = require('../../app/rules/line_by_line/no-space-only-lines');
+const NoInlineStyleRule    = require('../../app/rules/line_by_line/no-inline-style');
+const EnforceIsprintRule   = require('../../app/rules/line_by_line/enforce-isprint');
 const FileParser           = require('../../app/FileParser');
 
 const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;

@@ -3,8 +3,8 @@ const fs                = require('fs');
 const FileParser        = require('../../app/FileParser');
 const SpecHelper        = require('../SpecHelper');
 const Constants         = require('../../app/Constants');
-const NoIsscriptRule    = require('../../app/rules/no-isscript');
-const NoInlineStyleRule = require('../../app/rules/no-inline-style');
+const NoIsscriptRule    = require('../../app/rules/line_by_line/no-isscript');
+const NoInlineStyleRule = require('../../app/rules/line_by_line/no-inline-style');
 
 const filePath      = path.join(Constants.fileParserSpecDir, 'template_0.isml');
 const fileContent   = fs.readFileSync(filePath, 'utf-8');
@@ -64,8 +64,8 @@ const expectedResultObj = type => {
     const result = {};
     result[type] = {};
 
-    const EnforceIsprintRule = require('../../app/rules/enforce-isprint');
-    const NoInlineStyleRule  = require('../../app/rules/no-inline-style');
+    const EnforceIsprintRule = require('../../app/rules/line_by_line/enforce-isprint');
+    const NoInlineStyleRule  = require('../../app/rules/line_by_line/no-inline-style');
 
     const inlineStyleRuleDesc = NoInlineStyleRule.description;
     const isprintRuleDesc     = EnforceIsprintRule.description;

@@ -1,8 +1,8 @@
-const SingleLineRulePrototype = require('./prototypes/SingleLineRulePrototype');
+const SingleLineRulePrototype = require('../prototypes/SingleLineRulePrototype');
 
 const ruleName       = require('path').basename(__filename).slice(0, -3);
-const description    = 'Avoid using inline style';
-const occurrenceText = 'style="';
+const description    = 'Avoid using importPackage()';
+const occurrenceText = 'importPackage';
 
 const Rule = Object.create(SingleLineRulePrototype);
 
@@ -20,7 +20,7 @@ Rule.getFirstOccurrence = function(line) {
 
         result = {
             columnStart: matchPos,
-            length: occurrenceText.length - 2
+            length: occurrenceText.length
         };
     }
 

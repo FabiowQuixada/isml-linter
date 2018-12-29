@@ -3,9 +3,9 @@ const FileUtils            = require('../../app/FileUtils');
 const SpecHelper           = require('../SpecHelper');
 const LinterResultExporter = require('../../app/LinterResultExporter');
 const Constants            = require('../../app/Constants');
-const NoInlineStyleRule    = require('../../app/rules/no-inline-style');
-const EnforceIsprintRule   = require('../../app/rules/enforce-isprint');
-const NoTrailingSpacesRule = require('../../app/rules/no-trailing-spaces');
+const NoInlineStyleRule    = require('../../app/rules/line_by_line/no-inline-style');
+const EnforceIsprintRule   = require('../../app/rules/line_by_line/enforce-isprint');
+const NoTrailingSpacesRule = require('../../app/rules/line_by_line/no-trailing-spaces');
 
 const specTempDir            = Constants.specTempDir;
 const outputFilePath         = Constants.specOutputFilePath;

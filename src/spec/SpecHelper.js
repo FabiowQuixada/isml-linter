@@ -12,7 +12,7 @@ const cleanTempDirectory = () => {
 module.exports = {
     getRule: specFileName => {
         const ruleName = specFileName.substr(0, specFileName.indexOf('-Spec'));
-        const rule     = require(`../app/rules/${ruleName}`);
+        const rule     = require(`../app/rules/line_by_line/${ruleName}`);
         return rule;
     },
 
@@ -28,7 +28,7 @@ module.exports = {
 
     getRuleSpecTemplateContent: (rule, fileNumber) => {
         const fs       = require('fs');
-        const filePath = `${Constants.specRuleTemplateDir}/${snake(rule.name)}/template_${fileNumber}.isml`;
+        const filePath = `${Constants.specRuleTemplateDir}/line_by_line/${snake(rule.name)}/template_${fileNumber}.isml`;
         return fs.readFileSync(filePath, 'utf-8');
     },
 

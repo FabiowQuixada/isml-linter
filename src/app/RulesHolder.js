@@ -4,10 +4,10 @@ const Constants = require('./Constants');
 const rules = [];
 
 require('fs')
-    .readdirSync(Constants.rulesDir)
+    .readdirSync(Constants.lineByLineRulesDir)
     .filter( file => file.endsWith('.js'))
     .forEach( file => {
-        const rulePath = path.join(__dirname, 'rules', file);
+        const rulePath = path.join(__dirname, 'rules', 'line_by_line', file);
         rules.push(require(rulePath));
     });
 

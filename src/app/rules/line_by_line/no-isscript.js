@@ -1,8 +1,8 @@
-const SingleLineRulePrototype = require('./prototypes/SingleLineRulePrototype');
+const SingleLineRulePrototype = require('../prototypes/SingleLineRulePrototype');
 
 const ruleName       = require('path').basename(__filename).slice(0, -3);
-const description    = 'Avoid using <br/> tags, use css instead';
-const occurrenceText = '<br';
+const description    = 'Avoid putting logic into ISML';
+const occurrenceText = '<isscript>';
 
 const Rule = Object.create(SingleLineRulePrototype);
 
@@ -16,13 +16,11 @@ Rule.getFirstOccurrence = function(line) {
 
     if (this.isBroken(line)) {
 
-        const matchPos    = line.indexOf(occurrenceText);
-        const temp        = line.substring(line.indexOf(occurrenceText));
-        const matchLength = temp.indexOf('>') + 1;
+        const matchPos = line.indexOf(occurrenceText);
 
         result = {
             columnStart: matchPos,
-            length: matchLength
+            length: occurrenceText.length
         };
     }
 
