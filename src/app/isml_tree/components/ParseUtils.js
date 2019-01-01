@@ -57,6 +57,10 @@ module.exports = {
         return getNextNonEmptyChar(state) === '<';
     },
 
+    isNextElementIsifTag : function(content) {
+        return content.trim().startsWith(ISIF);
+    },
+
     isCurrentElementIsifTag : function(state) {
         return state.currentElement.asString.trim().startsWith(ISIF);
     },

@@ -21,24 +21,24 @@ const run = function(content, state) {
     return multiClauseNode;
 };
 
-const parseMainClause = (resultNode, content, state) => {
+const parseMainClause = (multiClauseNode, content, state) => {
 
     const isifTagContent    = state.currentElement.asString;
     const clauseContentNode = new IsmlNode(isifTagContent, state.currentElement.startingLineNumber);
 
-    resultNode.addChild(clauseContentNode);
+    multiClauseNode.addChild(clauseContentNode);
     TreeBuilder.parse(content, state, clauseContentNode);
 
     return clauseContentNode;
 };
 
-const parseElseClause = (resultNode, content, state) => {
+const parseElseClause = (multiClauseNode, content, state) => {
 
-    const clauseContent    = ParseUtils.getClauseContent(content),
-        clauseInnerContent = ParseUtils.getClauseInnerContent(content),
-        clauseContentNode  = new IsmlNode(clauseContent, state.currentElement.startingLineNumber);
+    const clauseContent      = ParseUtils.getClauseContent(content);
+    const clauseInnerContent = ParseUtils.getClauseInnerContent(content);
+    const clauseContentNode  = new IsmlNode(clauseContent, state.currentElement.startingLineNumber);
 
-    resultNode.addChild(clauseContentNode);
+    multiClauseNode.addChild(clauseContentNode);
     TreeBuilder.parse(clauseInnerContent, state, clauseContentNode);
 
     return clauseContentNode;
