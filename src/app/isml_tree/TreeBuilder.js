@@ -5,8 +5,6 @@ const ParseUtils = require('./components/ParseUtils');
 const MultiClauseNode = require('./MultiClauseNode');
 const fs = require('fs');
 
-const ISIF = '<isif';
-
 const build = filePath => {
 
     const ParseStatus = require('../enums/ParseStatus');
@@ -101,7 +99,7 @@ const createNode = state => {
     const emptyLinesQty = ParseUtils.getNumberOfPrecedingEmptyLines(state.currentElement.asString);
     updateStateLinesData(state, emptyLinesQty);
 
-    const isIsifNode = state.currentElement.asString.trim().replace(/\n/g, '').startsWith(ISIF);
+    const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
     const node = isIsifNode ?
         new MultiClauseNode() :
         new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber);
@@ -123,7 +121,7 @@ const parseNewNodeInnerContent = state => {
     const nodeInnerContent = ParseUtils.getInnerContent(state);
 
     if (ParseUtils.isNextElementATag(nodeInnerContent)) {
-        if (state.currentElement.asString.trim().startsWith(ISIF)) {
+        if (ParseUtils.isCurrentElementIsifTag(state)) {
             IsifTagParser.run(nodeInnerContent, state);
         } else {
             parse(nodeInnerContent, state, node);

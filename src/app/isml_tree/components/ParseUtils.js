@@ -7,6 +7,8 @@
 const MaskUtils = require('../MaskUtils');
 const ClosingTagFinder = require('./ClosingTagFinder');
 
+const ISIF = '<isif';
+
 const pickInnerContent  = (state, content) => {
     const innerContentStartPos = state.currentElement.endPosition + 1;
     const innerContentEndPos = state.currentElemClosingTagInitPos;
@@ -53,6 +55,10 @@ module.exports = {
 
     isNextElementATag : function(state) {
         return getNextNonEmptyChar(state) === '<';
+    },
+
+    isCurrentElementIsifTag : function(state) {
+        return state.currentElement.asString.trim().startsWith(ISIF);
     },
 
     isOpeningIsmlExpression : function(state) {
