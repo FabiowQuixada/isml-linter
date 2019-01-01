@@ -1,7 +1,7 @@
-const IsmlNode = require('../../../app/isml_tree/IsmlNode');
+const IsmlNode        = require('../../../app/isml_tree/IsmlNode');
 const MultiClauseNode = require('../../../app/isml_tree/MultiClauseNode');
-const SpecHelper = require('../../SpecHelper');
-const sinon = require('sinon');
+const SpecHelper      = require('../../SpecHelper');
+const sinon           = require('sinon');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -26,7 +26,7 @@ describe(targetObjName, () => {
     });
 
     it('adds a clause to itself', () => {
-        const rootNode = new MultiClauseNode();
+        const rootNode  = new MultiClauseNode();
         const childNode = new IsmlNode();
 
         rootNode.addChild(childNode);
@@ -35,7 +35,7 @@ describe(targetObjName, () => {
     });
 
     it('has the same height as its child-clauses', () => {
-        const rootNode = new MultiClauseNode();
+        const rootNode  = new MultiClauseNode();
         const childNode = new IsmlNode();
 
         rootNode.addChild(childNode);
@@ -44,7 +44,7 @@ describe(targetObjName, () => {
     });
 
     it('does NOT print itself', () => {
-        const rootNode = new MultiClauseNode();
+        const rootNode  = new MultiClauseNode();
         const childNode = new IsmlNode();
 
         rootNode.addChild(childNode);
@@ -56,7 +56,7 @@ describe(targetObjName, () => {
     });
 
     it('prints its clauses', () => {
-        const rootNode = new MultiClauseNode();
+        const rootNode   = new MultiClauseNode();
         const childNode1 = new IsmlNode();
         const childNode2 = new IsmlNode();
 

@@ -1,7 +1,7 @@
 const SingleLineRulePrototype = require('./prototypes/SingleLineRulePrototype');
 
-const ruleName = require('path').basename(__filename).slice(0, -3);
-const description = 'Avoid putting logic into ISML';
+const ruleName       = require('path').basename(__filename).slice(0, -3);
+const description    = 'Avoid putting logic into ISML';
 const occurrenceText = '<isscript>';
 
 const Rule = Object.create(SingleLineRulePrototype);

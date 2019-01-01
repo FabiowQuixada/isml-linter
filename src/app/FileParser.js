@@ -8,7 +8,7 @@ const ENTRY_TYPES = {
 };
 
 const add = (parser, type, rule, result) => {
-    parser.output[type] = parser.output[type] || {};
+    parser.output[type]                   = parser.output[type] || {};
     parser.output[type][rule.description] = parser.output[type][rule.description] || [];
 
     result.occurrences.forEach( res => {
@@ -17,7 +17,7 @@ const add = (parser, type, rule, result) => {
 };
 
 const parse = fileContent => {
-    const that = this;
+    const that  = this;
     this.output = {};
 
     TreeBuilder.parse(fileContent);

@@ -26,8 +26,8 @@ const maskIgnorableContent = content => {
  */
 const maskNestedIsmlElements = content => {
 
-    let result = '';
-    let depth = 0;
+    let result    = '';
+    let depth     = 0;
     let firstTime = true;
 
     for (let i = 0; i < content.length; i++) {
@@ -61,9 +61,9 @@ const getRegex = expression => {
 
 const getMatchingIndexList = (content, expression) => {
 
-    const regex = getRegex(expression);
+    const regex             = getRegex(expression);
     const matchingIndexList = [];
-    let match = regex.exec(content);
+    let match               = regex.exec(content);
 
     while (match !== null) {
         matchingIndexList.push(match.index);
@@ -77,14 +77,14 @@ const maskInBetween = (content, startString, endString) => {
 
     const openingMatchList = getMatchingIndexList(content, startString);
     const closingMatchList = getMatchingIndexList(content, endString);
-    let result = '';
-    let isInBetween = false;
-    let activePos = -1;
+    let result             = '';
+    let isInBetween        = false;
+    let activePos          = -1;
 
     for (let i = 0; i < content.length; ++i) {
         if (isInBetween) {
             if (closingMatchList.indexOf(i + 1) !== -1) {
-                activePos = -1;
+                activePos   = -1;
                 isInBetween = false;
             }
 

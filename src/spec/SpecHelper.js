@@ -1,7 +1,7 @@
 const FileUtils = require('../app/FileUtils');
 const Constants = require('../app/Constants');
-const snake = require('to-snake-case');
-const path = require('path');
+const snake     = require('to-snake-case');
+const path      = require('path');
 
 const specTempDir = Constants.specTempDir;
 
@@ -12,7 +12,7 @@ const cleanTempDirectory = () => {
 module.exports = {
     getRule: specFileName => {
         const ruleName = specFileName.substr(0, specFileName.indexOf('-Spec'));
-        const rule = require(`../app/rules/${ruleName}`);
+        const rule     = require(`../app/rules/${ruleName}`);
         return rule;
     },
 
@@ -27,7 +27,7 @@ module.exports = {
     },
 
     getRuleSpecTemplateContent: (rule, fileNumber) => {
-        const fs = require('fs');
+        const fs       = require('fs');
         const filePath = `${Constants.specRuleTemplateDir}/${snake(rule.name)}/template_${fileNumber}.isml`;
         return fs.readFileSync(filePath, 'utf-8');
     },

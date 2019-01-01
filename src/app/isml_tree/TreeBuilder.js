@@ -1,9 +1,9 @@
-const IsmlNode = require('./IsmlNode');
-const IsifTagParser = require('./components/IsifTagParser');
-const StateUtils = require('./components/StateUtils');
-const ParseUtils = require('./components/ParseUtils');
+const IsmlNode        = require('./IsmlNode');
+const IsifTagParser   = require('./components/IsifTagParser');
+const StateUtils      = require('./components/StateUtils');
+const ParseUtils      = require('./components/ParseUtils');
 const MultiClauseNode = require('./MultiClauseNode');
-const fs = require('fs');
+const fs              = require('fs');
 
 const build = filePath => {
 
@@ -16,11 +16,11 @@ const build = filePath => {
 
     try {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-        result.rootNode = parse(fileContent);
+        result.rootNode   = parse(fileContent);
     } catch (e) {
         result.rootNode = null;
-        result.status = ParseStatus.INVALID_DOM;
-        result.message = e;
+        result.status   = ParseStatus.INVALID_DOM;
+        result.message  = e;
     }
 
     return result;
@@ -53,7 +53,7 @@ const iterate = state => {
 const initializeLoopState = oldState => {
     let state = Object.assign({}, oldState);
 
-    state.currentChar = state.contentAsArray.charAt(state.currentPos);
+    state.currentChar             = state.contentAsArray.charAt(state.currentPos);
     state.currentElement.asString += state.currentChar;
 
     state = updateStateWhetherItIsInsideExpression(state);
@@ -100,7 +100,7 @@ const createNode = state => {
     updateStateLinesData(state, emptyLinesQty);
 
     const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
-    const node = isIsifNode ?
+    const node       = isIsifNode ?
         new MultiClauseNode() :
         new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber);
 
@@ -116,8 +116,8 @@ const createNode = state => {
 const parseNewNodeInnerContent = state => {
 
     // TODO Couldn't simplify this;
-    const node = state.parentNode.children[state.parentNode.children.length-1];
-    const currentPos = state.currentPos;
+    const node             = state.parentNode.children[state.parentNode.children.length-1];
+    const currentPos       = state.currentPos;
     const nodeInnerContent = ParseUtils.getInnerContent(state);
 
     if (ParseUtils.isNextElementATag(nodeInnerContent)) {
@@ -134,7 +134,7 @@ const parseNewNodeInnerContent = state => {
 };
 
 const addTextToNode = (nodeInnerContent, state) => {
-    const node = state.parentNode.newestChildNode;
+    const node          = state.parentNode.newestChildNode;
     const innerTextNode = new IsmlNode(nodeInnerContent, state.currentLineNumber);
     node.addChild(innerTextNode);
 };
@@ -159,10 +159,10 @@ const createNodeForCurrentElement = state => {
 const prepareStateForOpeningElement = state => {
 
     if (state.nonTagBuffer && state.nonTagBuffer.replace(/\s/g, '').length) {
-        const node = new IsmlNode(state.nonTagBuffer);
+        const node                    = new IsmlNode(state.nonTagBuffer);
         state.parentNode.addChild(node);
         StateUtils.reinitializeState(state);
-        state.ignoreUntil += state.nonTagBuffer.length - 1;
+        state.ignoreUntil             += state.nonTagBuffer.length - 1;
         state.currentElement.asString = '<';
     }
 
@@ -171,7 +171,7 @@ const prepareStateForOpeningElement = state => {
     }
 
     state.insideTag = true;
-    state.depth += 1;
+    state.depth     += 1;
 };
 
 const setCurrentElementStartLineNumber = (state, i) => {

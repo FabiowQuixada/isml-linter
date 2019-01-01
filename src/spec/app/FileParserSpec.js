@@ -1,13 +1,13 @@
-const path = require('path');
-const fs = require('fs');
-const FileParser = require('../../app/FileParser');
-const SpecHelper = require('../SpecHelper');
-const Constants = require('../../app/Constants');
-const NoIsscriptRule = require('../../app/rules/no-isscript');
+const path              = require('path');
+const fs                = require('fs');
+const FileParser        = require('../../app/FileParser');
+const SpecHelper        = require('../SpecHelper');
+const Constants         = require('../../app/Constants');
+const NoIsscriptRule    = require('../../app/rules/no-isscript');
 const NoInlineStyleRule = require('../../app/rules/no-inline-style');
 
-const filePath = path.join(Constants.fileParserSpecDir, 'template_0.isml');
-const fileContent = fs.readFileSync(filePath, 'utf-8');
+const filePath      = path.join(Constants.fileParserSpecDir, 'template_0.isml');
+const fileContent   = fs.readFileSync(filePath, 'utf-8');
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
 describe(targetObjName, () => {
@@ -27,7 +27,7 @@ describe(targetObjName, () => {
     });
 
     it('ignores disabled rules', () => {
-        const result = FileParser.parse(fileContent);
+        const result       = FileParser.parse(fileContent);
         let ruleWasChecked = false;
 
         Object.keys(result.errors).forEach( rule => {
@@ -40,7 +40,7 @@ describe(targetObjName, () => {
     });
 
     it('checks non-disabled rules', () => {
-        const result = FileParser.parse(fileContent);
+        const result       = FileParser.parse(fileContent);
         let ruleWasChecked = false;
 
         Object.keys(result.errors).forEach( rule => {
@@ -53,7 +53,7 @@ describe(targetObjName, () => {
     });
 
     it('results in a json file', () => {
-        const actualResult = FileParser.parse(fileContent);
+        const actualResult   = FileParser.parse(fileContent);
         const expectedResult = expectedResultObj(FileParser.ENTRY_TYPES.ERROR);
 
         expect(actualResult).toEqual(expectedResult);
@@ -65,10 +65,10 @@ const expectedResultObj = type => {
     result[type] = {};
 
     const EnforceIsprintRule = require('../../app/rules/enforce-isprint');
-    const NoInlineStyleRule = require('../../app/rules/no-inline-style');
+    const NoInlineStyleRule  = require('../../app/rules/no-inline-style');
 
     const inlineStyleRuleDesc = NoInlineStyleRule.description;
-    const isprintRuleDesc = EnforceIsprintRule.description;
+    const isprintRuleDesc     = EnforceIsprintRule.description;
 
     const line = '<div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>';
 

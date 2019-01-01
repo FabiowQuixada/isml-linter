@@ -1,4 +1,4 @@
-const path = require('path');
+const path      = require('path');
 const Constants = require('./Constants');
 const FileUtils = require('./FileUtils');
 
@@ -24,7 +24,7 @@ const createClientDirectories = dir => {
 
 const updateRulesConfigKeys = () => {
     const configFileContent = require(Constants.configFilePath);
-    const mapping = {
+    const mapping           = {
         'BrTagRule'             : 'no-br',
         'DwOccurrenceRule'      : 'no-import-package',
         'GitConflictRule'       : 'no-git-conflict',
@@ -63,7 +63,7 @@ const createConfigFile = (targetDir = Constants.configFilePath, configFileName) 
 
         require('fs').readdirSync(Constants.rulesDir).forEach( filename => {
             if (filename.endsWith('.js')) {
-                const ruleName = filename.slice(0, -3);
+                const ruleName                = filename.slice(0, -3);
                 configContent.rules[ruleName] = {};
             }
         });

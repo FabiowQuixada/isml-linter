@@ -2,10 +2,10 @@
 module.exports = {
     getInitialState : function(contentAsArray, parentState, parentNode) {
 
-        const regex = /\n/gi;
-        let result = regex.exec(contentAsArray);
+        const regex           = /\n/gi;
+        let result            = regex.exec(contentAsArray);
         let lineBreakPosition = 0;
-        const state = {
+        const state           = {
 
             content: contentAsArray.replace(/(\r\n\t|\n|\r\t)/gm, ''),
             contentAsArray: contentAsArray,
@@ -30,22 +30,22 @@ module.exports = {
 
         if (parentState) {
             state.currentLineNumber = parentState.currentLineNumber;
-            state.node = parentState.parentNode.newestChildNode;
+            state.node              = parentState.parentNode.newestChildNode;
         }
 
         while (result) {
             lineBreakPosition = result.index - state.lineBreakPositionList.length + 1;
             state.lineBreakPositionList.push(lineBreakPosition);
-            result = regex.exec(contentAsArray);
+            result            = regex.exec(contentAsArray);
         }
 
         return state;
     },
 
     reinitializeState : function(state) {
-        state.insideTag = false;
-        state.currentElement.asString = '';
+        state.insideTag                   = false;
+        state.currentElement.asString     = '';
         state.currentElement.initPosition = -1;
-        state.currentElement.endPosition = -1;
+        state.currentElement.endPosition  = -1;
     }
 };

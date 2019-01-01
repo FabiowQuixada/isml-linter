@@ -1,6 +1,6 @@
 const TreeBuilder = require('../../../app/isml_tree/TreeBuilder');
-const SpecHelper = require('../../SpecHelper');
-const Constants = require('../../../app/Constants');
+const SpecHelper  = require('../../SpecHelper');
+const Constants   = require('../../../app/Constants');
 
 describe('TreeBuilder', () => {
 
@@ -54,8 +54,8 @@ describe('TreeBuilder', () => {
     it('sets line number for a simple "isif" tag', () => {
         const rootNode = TreeBuilder.build(getFilePath(5)).rootNode;
 
-        const divNode = rootNode.getChild(0);
-        const isifNode = divNode.getChild(0).getChild(0);
+        const divNode    = rootNode.getChild(0);
+        const isifNode   = divNode.getChild(0).getChild(0);
         const customNode = isifNode.getChild(0);
 
         expect(divNode.getHeight()).toEqual(1);

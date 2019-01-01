@@ -1,5 +1,5 @@
-const SpecHelper = require('../../../SpecHelper');
-const Constants = require('../../../../app/Constants');
+const SpecHelper  = require('../../../SpecHelper');
+const Constants   = require('../../../../app/Constants');
 const TreeBuilder = require('../../../../app/isml_tree/TreeBuilder');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
@@ -16,8 +16,8 @@ describe(targetObjName, () => {
 
     it('parses an simple empty isif-iselse tag', () => {
 
-        const filePath = getFilePath(0);
-        const rootNode = TreeBuilder.build(filePath).rootNode;
+        const filePath        = getFilePath(0);
+        const rootNode        = TreeBuilder.build(filePath).rootNode;
         const multiClauseNode = rootNode.getChild(0);
 
         expect(multiClauseNode.getNumberOfChildren()).toEqual(2);
@@ -27,8 +27,8 @@ describe(targetObjName, () => {
 
     it('parser simple non-empty isif-iselse tag', () => {
 
-        const filePath = getFilePath(1);
-        const rootNode = TreeBuilder.build(filePath).rootNode;
+        const filePath        = getFilePath(1);
+        const rootNode        = TreeBuilder.build(filePath).rootNode;
         const multiClauseNode = rootNode.getChild(0);
 
         expect(multiClauseNode.getNumberOfChildren()).toEqual(2);
@@ -38,8 +38,8 @@ describe(targetObjName, () => {
 
     it('parses a multi-clause isif-iselseif-iselse tag', () => {
 
-        const filePath = getFilePath(2);
-        const rootNode = TreeBuilder.build(filePath).rootNode;
+        const filePath        = getFilePath(2);
+        const rootNode        = TreeBuilder.build(filePath).rootNode;
         const multiClauseNode = rootNode.getChild(0);
 
         expect(multiClauseNode.getNumberOfChildren()).toEqual(3);

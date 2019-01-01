@@ -4,21 +4,21 @@
  * simply analyze it and return relevant information;
  */
 
-const MaskUtils = require('../MaskUtils');
+const MaskUtils        = require('../MaskUtils');
 const ClosingTagFinder = require('./ClosingTagFinder');
 
 const ISIF = '<isif';
 
 const pickInnerContent  = (state, content) => {
     const innerContentStartPos = state.currentElement.endPosition + 1;
-    const innerContentEndPos = state.currentElemClosingTagInitPos;
+    const innerContentEndPos   = state.currentElemClosingTagInitPos;
     return content.substring(innerContentStartPos, innerContentEndPos);
 };
 
 const getUpdateContent = state => {
-    let content = state.contentAsArray;
+    let content                      = state.contentAsArray;
     const currentElementInitPosition = state.currentElement.initPosition;
-    content = content.substring(currentElementInitPosition, content.length);
+    content                          = content.substring(currentElementInitPosition, content.length);
     return content;
 };
 
@@ -45,10 +45,10 @@ module.exports = {
 
     isOpeningElem : function(state) {
 
-        const content = state.contentAsArray;
-        const currPos = state.currentElement.initPosition;
+        const content    = state.contentAsArray;
+        const currPos    = state.currentElement.initPosition;
         const currenChar = content.charAt(currPos);
-        const nextChar = content.charAt(currPos + 1);
+        const nextChar   = content.charAt(currPos + 1);
 
         return currenChar === '<' && nextChar !== '/';
     },
@@ -63,34 +63,34 @@ module.exports = {
 
     isOpeningIsmlExpression : function(state) {
 
-        const content = state.contentAsArray;
+        const content    = state.contentAsArray;
         const currentPos = state.currentPos;
-        const currChar = content.charAt(currentPos);
-        const nextChar = content.charAt(currentPos + 1);
+        const currChar   = content.charAt(currentPos);
+        const nextChar   = content.charAt(currentPos + 1);
 
         return currChar === '$' && nextChar === '{';
     },
 
     isClosingIsmlExpression : function(state) {
 
-        const content = state.contentAsArray;
-        const currentPos = state.currentPos;
+        const content          = state.contentAsArray;
+        const currentPos       = state.currentPos;
         const insideExpression = state.insideExpression;
 
         return insideExpression && content.charAt(currentPos - 1) === '}';
     },
 
     getInnerContent : function(oldState) {
-        let state = Object.assign({}, oldState);
+        let state     = Object.assign({}, oldState);
         const content = getUpdateContent(state);
-        state = ClosingTagFinder.getCorrespondentClosingElementPosition(content, state);
+        state         = ClosingTagFinder.getCorrespondentClosingElementPosition(content, state);
 
         return pickInnerContent(state, content);
     },
 
     getNumberOfPrecedingEmptyLines : function(content) {
 
-        const lineArray = content.split('\n');
+        const lineArray  = content.split('\n');
         let lineBreakQty = 0;
 
         lineArray.some( line => {
@@ -126,7 +126,7 @@ module.exports = {
 
     getCurrentElementEndPosition : function(content) {
 
-        content = MaskUtils.maskIgnorableContent(content);
+        content                      = MaskUtils.maskIgnorableContent(content);
         const currentElemEndPosition = content.indexOf('<');
 
         return {
@@ -147,7 +147,7 @@ module.exports = {
 
     getAllConditionalTags : function(content) {
 
-        const tagList = [];
+        const tagList       = [];
         const maskedContent = MaskUtils.maskIgnorableContent(content);
 
         for (let i = 0; i < maskedContent.length; i++) {
@@ -201,7 +201,7 @@ module.exports = {
         const clauseStringList = [];
 
         let tagList = this.getAllConditionalTags(content);
-        tagList = this.getOutterConditionalTagList(tagList);
+        tagList     = this.getOutterConditionalTagList(tagList);
 
         let lastIndex = 0;
         tagList.forEach( tagObj => {

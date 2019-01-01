@@ -1,15 +1,15 @@
-const path = require('path');
-const IsmlLinter = require('../../app/IsmlLinter');
-const SpecHelper = require('../SpecHelper');
-const Constants = require('../../app/Constants');
+const path                 = require('path');
+const IsmlLinter           = require('../../app/IsmlLinter');
+const SpecHelper           = require('../SpecHelper');
+const Constants            = require('../../app/Constants');
 const NoSpaceOnlyLinesRule = require('../../app/rules/no-space-only-lines');
-const NoInlineStyleRule = require('../../app/rules/no-inline-style');
-const EnforceIsprintRule = require('../../app/rules/enforce-isprint');
-const FileParser = require('../../app/FileParser');
+const NoInlineStyleRule    = require('../../app/rules/no-inline-style');
+const EnforceIsprintRule   = require('../../app/rules/enforce-isprint');
+const FileParser           = require('../../app/FileParser');
 
-const specSpecificDirLinterTemplate = Constants.specSpecificDirLinterTemplate;
+const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
-const UNPARSEABLE = Constants.UNPARSEABLE;
+const UNPARSEABLE                    = Constants.UNPARSEABLE;
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -81,47 +81,47 @@ const expectedResultObj = type => {
     result[type] = {};
 
     const inlineStyleRuleDesc = NoInlineStyleRule.description;
-    const blankLineRuleDesc = NoSpaceOnlyLinesRule.description;
-    const isprintRuleDesc = EnforceIsprintRule.description;
+    const blankLineRuleDesc   = NoSpaceOnlyLinesRule.description;
+    const isprintRuleDesc     = EnforceIsprintRule.description;
 
-    const file0Path = path.join(...'/template_1.isml'.split( '/' ));
-    const file1Path = path.join(...'/template_2.isml'.split( '/' ));
+    const file0Path       = path.join(...'/template_1.isml'.split( '/' ));
+    const file1Path       = path.join(...'/template_2.isml'.split( '/' ));
     const inlineStyleLine = {
         line: '<div style="display: none;">${addToCartUrl}</div>',
         lineNumber: 1,
         columnStart: 5,
         length: 5
     };
-    const blankLine = {
+    const blankLine       = {
         line: '   ',
         lineNumber: 2,
         columnStart: 50,
         length: 4
     };
-    const isprintLine0 = {
+    const isprintLine0    = {
         line: '<div style="display: none;">${addToCartUrl}</div>',
         lineNumber: 1,
         columnStart: 28,
         length: 15
     };
-    const isprintLine1 = {
+    const isprintLine1    = {
         line: ' ${URLUtils.https(\'Reorder-ListingPage\')}',
         lineNumber: 1,
         columnStart: 1,
         length: 40
     };
 
-    result[type][isprintRuleDesc] = {};
+    result[type][isprintRuleDesc]            = {};
     result[type][isprintRuleDesc][file0Path] = [];
     result[type][isprintRuleDesc][file0Path].push(isprintLine0);
     result[type][isprintRuleDesc][file1Path] = [];
     result[type][isprintRuleDesc][file1Path].push(isprintLine1);
 
-    result[type][inlineStyleRuleDesc] = {};
+    result[type][inlineStyleRuleDesc]            = {};
     result[type][inlineStyleRuleDesc][file0Path] = [];
     result[type][inlineStyleRuleDesc][file0Path].push(inlineStyleLine);
 
-    result[type][blankLineRuleDesc] = {};
+    result[type][blankLineRuleDesc]            = {};
     result[type][blankLineRuleDesc][file0Path] = [];
     result[type][blankLineRuleDesc][file0Path].push(blankLine);
 

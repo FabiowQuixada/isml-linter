@@ -1,6 +1,6 @@
-const path = require('path');
-const Constants = require('./Constants');
-const IsmlLinter = require('./IsmlLinter');
+const path         = require('path');
+const Constants    = require('./Constants');
+const IsmlLinter   = require('./IsmlLinter');
 const ConsoleUtils = require('./ConsoleUtils');
 
 IsmlLinter.run();

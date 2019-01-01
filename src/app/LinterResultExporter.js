@@ -1,8 +1,8 @@
 const FileUtils = require('./FileUtils');
 const Constants = require('./Constants');
-const config = require('./ConfigLoader').load();
+const config    = require('./ConfigLoader').load();
 
-const outputFileName = Constants.outputFileName;
+const outputFileName         = Constants.outputFileName;
 const compiledOutputFileName = Constants.compiledOutputFileName;
 
 const LinterResultExporter = {};
@@ -21,7 +21,7 @@ const format = jsonData => {
 
                 Object.keys(jsonData[level][ruleDesc]).sort().forEach( occurrence => {
                     formattedJsonData[level][ruleDesc][occurrence] = [];
-                    const occurrenceObj = jsonData[level][ruleDesc][occurrence];
+                    const occurrenceObj                            = jsonData[level][ruleDesc][occurrence];
 
                     occurrenceObj.forEach( occurrenceLine => {
                         const formattedLine = formatLine(occurrenceLine.line, occurrenceLine.lineNumber);
@@ -63,19 +63,19 @@ const orderOutputByRuleDescription = function(jsonData) {
 const compileOutput = function(dir, jsonData) {
 
     const compiledOutput = {};
-    let total = 0;
+    let total            = 0;
 
     Object.keys(jsonData).forEach( type => {
 
         Object.keys(jsonData[type]).forEach( error => {
-            compiledOutput[type] = compiledOutput[type] || {};
+            compiledOutput[type]        = compiledOutput[type] || {};
             compiledOutput[type][error] = 0;
 
             if (type !== Constants.UNPARSEABLE) {
                 Object.keys(jsonData[type][error]).forEach( file => {
                     Object.keys(jsonData[type][error][file]).forEach( () => {
                         compiledOutput[type][error] += 1;
-                        total += 1;
+                        total                       += 1;
                     });
                 });
             } else {
@@ -107,7 +107,7 @@ const compileOutput = function(dir, jsonData) {
 
 LinterResultExporter.export = function(outputDir, jsonData) {
     const formattedJsonData = format(jsonData);
-    const orderedJsonData = orderOutputByRuleDescription(formattedJsonData);
+    const orderedJsonData   = orderOutputByRuleDescription(formattedJsonData);
 
     FileUtils.createDirIfDoesNotExist(Constants.clientIsmlLinterDir);
     FileUtils.createDirIfDoesNotExist(Constants.clientOutputDir);

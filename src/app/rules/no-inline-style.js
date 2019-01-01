@@ -1,7 +1,7 @@
 const SingleLineRulePrototype = require('./prototypes/SingleLineRulePrototype');
 
-const ruleName = require('path').basename(__filename).slice(0, -3);
-const description = 'Avoid using inline style';
+const ruleName       = require('path').basename(__filename).slice(0, -3);
+const description    = 'Avoid using inline style';
 const occurrenceText = 'style="';
 
 const Rule = Object.create(SingleLineRulePrototype);

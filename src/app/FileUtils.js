@@ -1,7 +1,7 @@
-const path = require('path');
+const path      = require('path');
 const Constants = require('./Constants');
-const rootPath = Constants.clientIsmlLinterDir;
-const fs = require('fs');
+const rootPath  = Constants.clientIsmlLinterDir;
+const fs        = require('fs');
 
 const saveToJsonFile = (filePath, fileName, content) => {
     createDirIfDoesNotExist(filePath);

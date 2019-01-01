@@ -1,17 +1,17 @@
-const path = require('path');
-const FileUtils = require('../../app/FileUtils');
-const SpecHelper = require('../SpecHelper');
+const path                 = require('path');
+const FileUtils            = require('../../app/FileUtils');
+const SpecHelper           = require('../SpecHelper');
 const LinterResultExporter = require('../../app/LinterResultExporter');
-const Constants = require('../../app/Constants');
-const NoInlineStyleRule = require('../../app/rules/no-inline-style');
-const EnforceIsprintRule = require('../../app/rules/enforce-isprint');
+const Constants            = require('../../app/Constants');
+const NoInlineStyleRule    = require('../../app/rules/no-inline-style');
+const EnforceIsprintRule   = require('../../app/rules/enforce-isprint');
 const NoTrailingSpacesRule = require('../../app/rules/no-trailing-spaces');
 
-const specTempDir = Constants.specTempDir;
-const outputFilePath = Constants.specOutputFilePath;
+const specTempDir            = Constants.specTempDir;
+const outputFilePath         = Constants.specOutputFilePath;
 const compiledOutputFilePath = Constants.specCompiledOutputFilePath;
-const targetObjName = SpecHelper.getTargetObjName(__filename);
-const UNPARSEABLE = Constants.UNPARSEABLE;
+const targetObjName          = SpecHelper.getTargetObjName(__filename);
+const UNPARSEABLE            = Constants.UNPARSEABLE;
 
 describe(targetObjName, () => {
     beforeEach(() => {
@@ -35,11 +35,11 @@ describe(targetObjName, () => {
     });
 
     it('orders output errors by rule description', () => {
-        const inlineRuleDesc = NoInlineStyleRule.description;
-        const isprintRuleDesc = EnforceIsprintRule.description;
+        const inlineRuleDesc    = NoInlineStyleRule.description;
+        const isprintRuleDesc   = EnforceIsprintRule.description;
         const blankLineRuleDesc = NoTrailingSpacesRule.description;
-        const outputErrorArray = [];
-        const expectedResult = [inlineRuleDesc, blankLineRuleDesc, isprintRuleDesc];
+        const outputErrorArray  = [];
+        const expectedResult    = [inlineRuleDesc, blankLineRuleDesc, isprintRuleDesc];
 
         const orderedResult = LinterResultExporter.export(specTempDir, getUnorderedJsonData());
 
@@ -65,29 +65,29 @@ describe(targetObjName, () => {
 
 const getUnorderedJsonData = () => {
 
-    const type = require('../../app/FileParser').ENTRY_TYPES.ERROR;
+    const type   = require('../../app/FileParser').ENTRY_TYPES.ERROR;
     const result = {};
     result[type] = {};
 
-    const inlineStyleRuleDesc = NoInlineStyleRule.description;
-    const isprintRuleDesc = EnforceIsprintRule.description;
+    const inlineStyleRuleDesc    = NoInlineStyleRule.description;
+    const isprintRuleDesc        = EnforceIsprintRule.description;
     const spacesOnlyLineRuleDesc = NoTrailingSpacesRule.description;
 
     const filePath = path.join(...'/file_parser/sample_file.isml'.split( '/' ));
-    const line = {
+    const line     = {
         lineNumber: 3,
         line: ' <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>'
     };
 
-    result[type][spacesOnlyLineRuleDesc] = {};
+    result[type][spacesOnlyLineRuleDesc]           = {};
     result[type][spacesOnlyLineRuleDesc][filePath] = [];
     result[type][spacesOnlyLineRuleDesc][filePath].push(line);
 
-    result[type][isprintRuleDesc] = {};
+    result[type][isprintRuleDesc]           = {};
     result[type][isprintRuleDesc][filePath] = [];
     result[type][isprintRuleDesc][filePath].push(line);
 
-    result[type][inlineStyleRuleDesc] = {};
+    result[type][inlineStyleRuleDesc]           = {};
     result[type][inlineStyleRuleDesc][filePath] = [];
     result[type][inlineStyleRuleDesc][filePath].push(line);
 
@@ -96,15 +96,15 @@ const getUnorderedJsonData = () => {
 
 const getJsonData = () => {
 
-    const type = require('../../app/FileParser').ENTRY_TYPES.ERROR;
+    const type   = require('../../app/FileParser').ENTRY_TYPES.ERROR;
     const result = {};
     result[type] = {};
 
     const inlineStyleRuleDesc = NoInlineStyleRule.description;
-    const isprintRuleDesc = EnforceIsprintRule.description;
+    const isprintRuleDesc     = EnforceIsprintRule.description;
 
     const filePath = path.join(...'/file_parser/sample_file.isml'.split( '/' ));
-    const line = {
+    const line     = {
         line: ' <div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>',
         lineNumber: 3
     };
@@ -113,11 +113,11 @@ const getJsonData = () => {
         'template_0.isml': 'Invalid ISML DOM :: Unbalanced <isif> element'
     };
 
-    result[type][isprintRuleDesc] = {};
+    result[type][isprintRuleDesc]           = {};
     result[type][isprintRuleDesc][filePath] = [];
     result[type][isprintRuleDesc][filePath].push(line);
 
-    result[type][inlineStyleRuleDesc] = {};
+    result[type][inlineStyleRuleDesc]           = {};
     result[type][inlineStyleRuleDesc][filePath] = [];
     result[type][inlineStyleRuleDesc][filePath].push(line);
 

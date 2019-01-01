@@ -1,6 +1,6 @@
-const IsmlNode = require('../../../app/isml_tree/IsmlNode');
+const IsmlNode   = require('../../../app/isml_tree/IsmlNode');
 const SpecHelper = require('../../SpecHelper');
-const sinon = require('sinon');
+const sinon      = require('sinon');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -25,7 +25,7 @@ describe(targetObjName, () => {
     });
 
     it('adds a child to itself', () => {
-        const rootNode = new IsmlNode();
+        const rootNode  = new IsmlNode();
         const childNode = new IsmlNode();
 
         rootNode.addChild(childNode);
@@ -74,7 +74,7 @@ describe(targetObjName, () => {
     });
 
     it('has a height one unit above its parent', () => {
-        const rootNode = new IsmlNode();
+        const rootNode  = new IsmlNode();
         const childNode = new IsmlNode();
 
         rootNode.addChild(childNode);
@@ -91,7 +91,7 @@ describe(targetObjName, () => {
     });
 
     it('prints its children', () => {
-        const rootNode = new IsmlNode();
+        const rootNode  = new IsmlNode();
         const childNode = new IsmlNode();
         childNode.setValue('<span class="some_class">');
         rootNode.addChild(childNode);
@@ -102,7 +102,7 @@ describe(targetObjName, () => {
     });
 
     it('prints its inner text', () => {
-        const rootNode = new IsmlNode();
+        const rootNode  = new IsmlNode();
         const childNode = new IsmlNode();
         rootNode.addChild(childNode);
 

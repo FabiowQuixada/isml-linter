@@ -1,7 +1,7 @@
 const ConfigLoader = require('../../app/ConfigLoader');
-const SpecHelper = require('../SpecHelper');
-const Constants = require('../../app/Constants');
-const FileUtils = require('../../app/FileUtils');
+const SpecHelper   = require('../SpecHelper');
+const Constants    = require('../../app/Constants');
+const FileUtils    = require('../../app/FileUtils');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -44,7 +44,7 @@ describe(targetObjName, () => {
 
         const specTempDir = Constants.specTempDir;
 
-        const firstAttempt = ConfigLoader.init(specTempDir);
+        const firstAttempt  = ConfigLoader.init(specTempDir);
         const secondAttempt = ConfigLoader.init(specTempDir);
 
         expect(firstAttempt).toBe(true);

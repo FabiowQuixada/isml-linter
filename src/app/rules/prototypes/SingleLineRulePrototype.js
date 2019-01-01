@@ -4,12 +4,12 @@ const SingleLineRulePrototype = Object.create(RulePrototype);
 
 SingleLineRulePrototype.check = function(fileContent) {
 
-    const that = this;
+    const that      = this;
     const lineArray = fileContent.split('\n');
-    this.result = {
+    this.result     = {
         occurrences: []
     };
-    let globalPos = 0;
+    let globalPos   = 0;
 
     lineArray.forEach( (line, lineNumber) => {
         const occurrence = that.getFirstOccurrence(line);

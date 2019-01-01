@@ -1,14 +1,14 @@
-const path = require('path');
+const path       = require('path');
 const SpecHelper = require('../SpecHelper');
-const Constants = require('../../app/Constants');
-const FileUtils = require('../../app/FileUtils');
+const Constants  = require('../../app/Constants');
+const FileUtils  = require('../../app/FileUtils');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
 describe(targetObjName, () => {
-    const specTempDir = Constants.specTempDir;
-    const fileName = 'sample.json';
-    const content = {'key': 'some value'};
+    const specTempDir  = Constants.specTempDir;
+    const fileName     = 'sample.json';
+    const content      = {'key': 'some value'};
     const fileFullPath = path.join(specTempDir, fileName);
 
     beforeEach(() => {

@@ -3,12 +3,12 @@ const MAX_TEXT_DISPLAY_SIZE = 30;
 class IsmlNode {
 
     constructor(value = '(root)', lineNumber = 0) {
-        this.value = value;
-        this.type = null;
-        this.height = 0;
-        this.innerText = null;
+        this.value      = value;
+        this.type       = null;
+        this.height     = 0;
+        this.innerText  = null;
         this.lineNumber = lineNumber;
-        this.children = [];
+        this.children   = [];
     }
 
     setValue(value) { this.value = value; }
@@ -24,7 +24,7 @@ class IsmlNode {
     getHeight() { return this.height; }
 
     addChild(newNode) {
-        newNode.height = this.height+1;
+        newNode.height       = this.height+1;
         this.children.push(newNode);
         this.newestChildNode = newNode;
     }
@@ -36,7 +36,7 @@ class IsmlNode {
 
     print() {
         const indentSize = this.height;
-        let indentation = '';
+        let indentation  = '';
 
         for (let i = 0; i < indentSize; ++i) {
             indentation += '    ';

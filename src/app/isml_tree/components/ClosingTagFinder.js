@@ -12,16 +12,16 @@ const MaskUtils = require('../MaskUtils');
  * The 'depth' variable works as a stack, taking into account only elements of type 'E'
 */
 const getCorrespondentClosingElementPosition = (content, oldParentState) => {
-    const newParentState = Object.assign({}, oldParentState);
+    const newParentState   = Object.assign({}, oldParentState);
     const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
     const closingElemRegex = /<\/.[a-zA-Z]*>/;
 
     let internalState = getInitialState(content, newParentState);
-    const obj = getPosition(internalState.content);
+    const obj         = getPosition(internalState.content);
 
     internalState.currentElement.endPosition = obj.currentElemEndPosition;
-    internalState.content = obj.content;
-    const maskedContent = obj.content;
+    internalState.content                    = obj.content;
+    const maskedContent                      = obj.content;
 
     newParentState.currentElement.endPosition = maskedContent.indexOf('>');
 
@@ -65,8 +65,8 @@ const updateState = (oldState, currentElementStartingLineNumber) => {
     let state = Object.assign({}, oldState);
 
     state.currentReadingPos += state.firstClosingElemPos;
-    state = updateElementStack(state, currentElementStartingLineNumber);
-    state = removeFirstElement(state);
+    state                   = updateElementStack(state, currentElementStartingLineNumber);
+    state                   = removeFirstElement(state);
 
     state.result = state.currentReadingPos - state.firstClosingElemPos;
 
@@ -74,14 +74,14 @@ const updateState = (oldState, currentElementStartingLineNumber) => {
 };
 
 const removeLeadingNonTagText = oldState => {
-    const state = Object.assign({}, oldState);
+    const state       = Object.assign({}, oldState);
     let splitPosition = oldState.content.indexOf('<');
 
     if (splitPosition === -1) {
         splitPosition = oldState.content.length;
     }
 
-    state.content = oldState.content.substring(splitPosition, oldState.content.length);
+    state.content           = oldState.content.substring(splitPosition, oldState.content.length);
     state.currentReadingPos += splitPosition;
 
     return state;
@@ -102,13 +102,13 @@ const initializeLoopState = (oldState, openingElemRegex, closingElemRegex) => {
     openingElemRegex.lastIndex = 0;
     closingElemRegex.lastIndex = 0;
 
-    state.firstClosingElemPos = state.content.indexOf('>')+1;
+    state.firstClosingElemPos  = state.content.indexOf('>')+1;
     state.isSelfClosingElement = state.content.charAt(state.firstClosingElemPos-2) === '/';
 
-    state.openingElemPos = Number.POSITIVE_INFINITY;
+    state.openingElemPos    = Number.POSITIVE_INFINITY;
     state.closingElementPos = Number.POSITIVE_INFINITY;
 
-    const openingElem = openingElemRegex.exec(state.content);
+    const openingElem    = openingElemRegex.exec(state.content);
     const closingElement = closingElemRegex.exec(state.content);
 
     if (openingElem) {
@@ -125,7 +125,7 @@ const initializeLoopState = (oldState, openingElemRegex, closingElemRegex) => {
 const updateElementStack = (oldState, currentElementStartingLineNumber) => {
 
     const state = Object.assign({}, oldState);
-    const elem = getFirstElementType(state.content);
+    const elem  = getFirstElementType(state.content);
 
     if (!state.isSelfClosingElement) {
         if (!elem.startsWith('/')) {
@@ -153,7 +153,7 @@ const isNextElementATag = state => getNextNonEmptyChar(state) === '<';
 
 const getNextNonEmptyChar = state => {
 
-    const content = state.content;
+    const content    = state.content;
     const currentPos = state.currentPos;
 
     return content.substring(currentPos+1, content.length-1).trim()[0];
@@ -172,7 +172,7 @@ const getFirstElementType = elementAsString => {
 
 const getPosition = content => {
 
-    content = MaskUtils.maskIgnorableContent(content);
+    content                      = MaskUtils.maskIgnorableContent(content);
     const currentElemEndPosition = content.indexOf('<');
 
     return {

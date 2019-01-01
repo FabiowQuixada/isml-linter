@@ -3,7 +3,7 @@ const config = require('./../../ConfigLoader').load();
 const RulePrototype = {
 
     init(name, description) {
-        this.name = name;
+        this.name        = name;
         this.description = description;
     },
 

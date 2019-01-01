@@ -1,7 +1,7 @@
-const chalk = require('chalk');
+const chalk        = require('chalk');
 const ConsoleUtils = require('../../app/ConsoleUtils');
-const SpecHelper = require('../SpecHelper');
-const sinon = require('sinon');
+const SpecHelper   = require('../SpecHelper');
+const sinon        = require('sinon');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 

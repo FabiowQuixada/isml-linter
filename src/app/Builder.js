@@ -1,10 +1,10 @@
 
 const run = () => {
-    const IsmlLinter = require('./IsmlLinter');
+    const IsmlLinter   = require('./IsmlLinter');
     const ConsoleUtils = require('./ConsoleUtils');
 
     const lintResults = IsmlLinter.run();
-    const errorQty = Object.keys(lintResults.errors).length;
+    const errorQty    = Object.keys(lintResults.errors).length;
 
     ConsoleUtils.displayErrors(lintResults);
 

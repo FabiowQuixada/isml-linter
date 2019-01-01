@@ -1,6 +1,6 @@
 const SingleLineRulePrototype = require('./prototypes/SingleLineRulePrototype');
 
-const ruleName = require('path').basename(__filename).slice(0, -3);
+const ruleName    = require('path').basename(__filename).slice(0, -3);
 const description = 'Tab detected';
 
 const Rule = Object.create(SingleLineRulePrototype);
