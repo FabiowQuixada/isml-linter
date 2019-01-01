@@ -1,0 +1,7 @@
+
+<isif condition="${type == 'radio'}">
+
+
+        <input type="radio">
+
+</isif>
