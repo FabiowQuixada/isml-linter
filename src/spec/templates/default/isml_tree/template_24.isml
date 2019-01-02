@@ -1,0 +1,4 @@
+<!-- This is an HTML comment -->
+<isif condition="${condition}">
+    <isprint value="${variable}" encoding="off" />
+</isif>

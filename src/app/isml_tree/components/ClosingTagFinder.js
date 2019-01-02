@@ -1,5 +1,6 @@
-const ErrorType = require('./../../ErrorType');
-const MaskUtils = require('../MaskUtils');
+const ErrorType  = require('./../../ErrorType');
+const MaskUtils  = require('../MaskUtils');
+const ParseUtils = require('./ParseUtils');
 
 /**
  * The purpose of this function is to find the corresponding closing element of an HTML/ISML element,
@@ -129,7 +130,7 @@ const updateElementStack = (oldState, currentElementStartingLineNumber) => {
 
     if (!state.isSelfClosingElement) {
         if (!elem.startsWith('/')) {
-            if(elem !== 'iselse' && elem !== 'iselseif') {
+            if(ParseUtils.isStackable(elem)) {
                 state.elementStack.push({
                     elem,
                     lineNumber: currentElementStartingLineNumber

@@ -32,7 +32,12 @@ class IsmlNode {
     getChild(number) { return this.children[number]; }
     getNumberOfChildren() { return this.children.length; }
 
-    isSelfClosing() { return this.value.endsWith('/>'); }
+    isHtmlComment() {
+        return this.value.startsWith('<!--') &&
+        this.value.endsWith('-->');
+    }
+
+    isSelfClosing() { return this.isHtmlComment() || this.value.endsWith('/>'); }
 
     print() {
         const indentSize = this.height;

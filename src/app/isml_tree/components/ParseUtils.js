@@ -26,203 +26,211 @@ const getNextNonEmptyChar = content => {
     return content.replace(/\n/g, '').trim()[0];
 };
 
-module.exports = {
-    getPostClosingTagContentUpToLneBreak : function(content, startPos) {
-        let postContent = '';
+module.exports.getPostClosingTagContentUpToLneBreak = function(content, startPos) {
+    let postContent = '';
 
-        for (let i = startPos + 1; i < content.length; i++) {
-            const currentChar = content.charAt(i);
+    for (let i = startPos + 1; i < content.length; i++) {
+        const currentChar = content.charAt(i);
 
-            if (currentChar !== '\n' && currentChar !== '\t') {
-                break;
-            }
-
-            postContent += currentChar;
+        if (currentChar !== '\n' && currentChar !== '\t') {
+            break;
         }
 
-        return postContent;
-    },
+        postContent += currentChar;
+    }
 
-    isOpeningElem : function(state) {
+    return postContent;
+};
 
-        const content    = state.contentAsArray;
-        const currPos    = state.currentElement.initPosition;
-        const currenChar = content.charAt(currPos);
-        const nextChar   = content.charAt(currPos + 1);
+module.exports.isOpeningElem = function(state) {
 
-        return currenChar === '<' && nextChar !== '/';
-    },
+    const content    = state.contentAsArray;
+    const currPos    = state.currentElement.initPosition;
+    const currenChar = content.charAt(currPos);
+    const nextChar   = content.charAt(currPos + 1);
 
-    isNextElementATag : function(state) {
-        return getNextNonEmptyChar(state) === '<';
-    },
+    return currenChar === '<' && nextChar !== '/';
+};
 
-    isNextElementIsifTag : function(content) {
-        return content.trim().startsWith(ISIF);
-    },
+module.exports.isStackable = function(elem) {
+    return !elem.startsWith('!--') &&
+            elem !== 'iselse' &&
+            elem !== 'iselseif';
+};
 
-    isCurrentElementIsifTag : function(state) {
-        return state.currentElement.asString.trim().startsWith(ISIF);
-    },
+module.exports.isNextElementATag = function(state) {
+    return getNextNonEmptyChar(state) === '<';
+};
 
-    isOpeningIsmlExpression : function(state) {
+module.exports.isNextElementIsifTag = function(content) {
+    return content.trim().startsWith(ISIF);
+};
 
-        const content    = state.contentAsArray;
-        const currentPos = state.currentPos;
-        const currChar   = content.charAt(currentPos);
-        const nextChar   = content.charAt(currentPos + 1);
+module.exports.isNextElementHtmlComment = function(content) {
+    return content.trim().startsWith('<!--');
+};
 
-        return currChar === '$' && nextChar === '{';
-    },
+module.exports.isCurrentElementIsifTag = function(state) {
+    return state.currentElement.asString.trim().startsWith(ISIF);
+};
 
-    isClosingIsmlExpression : function(state) {
+module.exports.isOpeningIsmlExpression = function(state) {
 
-        const content          = state.contentAsArray;
-        const currentPos       = state.currentPos;
-        const insideExpression = state.insideExpression;
+    const content    = state.contentAsArray;
+    const currentPos = state.currentPos;
+    const currChar   = content.charAt(currentPos);
+    const nextChar   = content.charAt(currentPos + 1);
 
-        return insideExpression && content.charAt(currentPos - 1) === '}';
-    },
+    return currChar === '$' && nextChar === '{';
+};
 
-    getInnerContent : function(oldState) {
-        let state     = Object.assign({}, oldState);
-        const content = getUpdateContent(state);
-        state         = ClosingTagFinder.getCorrespondentClosingElementPosition(content, state);
+module.exports.isClosingIsmlExpression = function(state) {
 
-        return pickInnerContent(state, content);
-    },
+    const content          = state.contentAsArray;
+    const currentPos       = state.currentPos;
+    const insideExpression = state.insideExpression;
 
-    getNumberOfPrecedingEmptyLines : function(content) {
+    return insideExpression && content.charAt(currentPos - 1) === '}';
+};
 
-        const lineArray  = content.split('\n');
-        let lineBreakQty = 0;
+module.exports.getInnerContent = function(oldState) {
+    let state     = Object.assign({}, oldState);
+    const content = getUpdateContent(state);
+    state         = ClosingTagFinder.getCorrespondentClosingElementPosition(content, state);
 
-        lineArray.some( line => {
-            if (!line.trim()) {
-                lineBreakQty++;
-                return false;
-            }
-            return true;
-        });
+    return pickInnerContent(state, content);
+};
 
-        return lineBreakQty;
-    },
+module.exports.getNumberOfPrecedingEmptyLines = function(content) {
 
-    isSkipIteraction : function(state) {
-        return state.ignoreUntil && state.ignoreUntil >= state.currentPos ||
-            state.insideTag && state.insideExpression;
-    },
+    const lineArray  = content.split('\n');
+    let lineBreakQty = 0;
 
-    isCorrespondentElement : function(state, elem) {
-        return `/${state.elementStack[state.elementStack.length-1]}` === elem;
-    },
-
-    getFirstElementType : function(elementAsString) {
-        let result = elementAsString.substring(elementAsString.indexOf('<') + 1, elementAsString.indexOf('>'));
-
-        // In case the tag has attributes;
-        if (result.indexOf(' ') !== -1) {
-            result = result.split(' ')[0];
-        }
-
-        return result;
-    },
-
-    getCurrentElementEndPosition : function(content) {
-
-        content                      = MaskUtils.maskIgnorableContent(content);
-        const currentElemEndPosition = content.indexOf('<');
-
-        return {
-            currentElemEndPosition,
-            content
-        };
-    },
-
-    getClauseContent : function(content) {
-        const processedContent = MaskUtils.maskIgnorableContent(content);
-        return content.substring(0, processedContent.indexOf('>') + 1);
-    },
-
-    getClauseInnerContent : function(content) {
-        const processedContent = MaskUtils.maskIgnorableContent(content);
-        return content.substring(content.indexOf('>') + 1, processedContent.length);
-    },
-
-    getAllConditionalTags : function(content) {
-
-        const tagList       = [];
-        const maskedContent = MaskUtils.maskIgnorableContent(content);
-
-        for (let i = 0; i < maskedContent.length; i++) {
-            if (content.charAt(i - 1) === '<') {
-                let end = Math.min(maskedContent.substring(i).indexOf(' '), maskedContent.substring(i).indexOf('>'));
-                if (end === -1) {
-                    end = Math.max(maskedContent.substring(i).indexOf(' '), maskedContent.substring(i).indexOf('>'));
-                }
-                const tag = content.substring(i, i + end);
-                if (['isif', 'iselse', 'iselseif', '/isif'].indexOf(tag) !== -1) {
-                    tagList.push({
-                        tag,
-                        startPos: i - 1
-                    });
-                }
-            }
-        }
-
-        return tagList;
-    },
-
-    getOutterConditionalTagList : function(tagList) {
-
-        let depth = 0;
-
-        tagList = tagList.filter(tagObj => {
-            if (tagObj.tag.startsWith('isif')) {
-                depth += 1;
-            }
-
-            if (depth === 0) {
-                return true;
-            }
-
-            if (tagObj.tag === '/isif') {
-                depth -= 1;
-            }
-
+    lineArray.some( line => {
+        if (!line.trim()) {
+            lineBreakQty++;
             return false;
-        });
+        }
+        return true;
+    });
 
-        return tagList;
-    },
+    return lineBreakQty;
+};
 
-    isStopIgnoring : function(state) {
-        return state.ignoreUntil && state.ignoreUntil < state.currentPos && state.ignoreUntil !== state.content.length + 1;
-    },
+module.exports.isSkipIteraction = function(state) {
+    return state.ignoreUntil && state.ignoreUntil >= state.currentPos ||
+            state.insideTag && state.insideExpression;
+};
 
-    getClauseList : function(content) {
+module.exports.isCorrespondentElement = function(state, elem) {
+    return `/${state.elementStack[state.elementStack.length-1]}` === elem;
+};
 
-        const clauseStringList = [];
+module.exports.getFirstElementType = function(elementAsString) {
+    let result = elementAsString.substring(elementAsString.indexOf('<') + 1, elementAsString.indexOf('>'));
 
-        let tagList = this.getAllConditionalTags(content);
-        tagList     = this.getOutterConditionalTagList(tagList);
+    // In case the tag has attributes;
+    if (result.indexOf(' ') !== -1) {
+        result = result.split(' ')[0];
+    }
 
-        let lastIndex = 0;
-        tagList.forEach( tagObj => {
-            clauseStringList.push(content.substring(lastIndex, tagObj.startPos));
-            lastIndex = tagObj.startPos;
-        });
+    return result;
+};
 
-        clauseStringList.push(content.substring(lastIndex, content.length));
+module.exports.getCurrentElementEndPosition = function(content) {
 
-        return clauseStringList;
-    },
+    content                      = MaskUtils.maskIgnorableContent(content);
+    const currentElemEndPosition = content.indexOf('<');
 
-    /**
+    return {
+        currentElemEndPosition,
+        content
+    };
+};
+
+module.exports.getClauseContent = function(content) {
+    const processedContent = MaskUtils.maskIgnorableContent(content);
+    return content.substring(0, processedContent.indexOf('>') + 1);
+};
+
+module.exports.getClauseInnerContent = function(content) {
+    const processedContent = MaskUtils.maskIgnorableContent(content);
+    return content.substring(content.indexOf('>') + 1, processedContent.length);
+};
+
+module.exports.getAllConditionalTags = function(content) {
+
+    const tagList       = [];
+    const maskedContent = MaskUtils.maskIgnorableContent(content);
+
+    for (let i = 0; i < maskedContent.length; i++) {
+        if (content.charAt(i - 1) === '<') {
+            let end = Math.min(maskedContent.substring(i).indexOf(' '), maskedContent.substring(i).indexOf('>'));
+            if (end === -1) {
+                end = Math.max(maskedContent.substring(i).indexOf(' '), maskedContent.substring(i).indexOf('>'));
+            }
+            const tag = content.substring(i, i + end);
+            if (['isif', 'iselse', 'iselseif', '/isif'].indexOf(tag) !== -1) {
+                tagList.push({
+                    tag,
+                    startPos: i - 1
+                });
+            }
+        }
+    }
+
+    return tagList;
+};
+
+module.exports.getOutterConditionalTagList = function(tagList) {
+
+    let depth = 0;
+
+    tagList = tagList.filter(tagObj => {
+        if (tagObj.tag.startsWith('isif')) {
+            depth += 1;
+        }
+
+        if (depth === 0) {
+            return true;
+        }
+
+        if (tagObj.tag === '/isif') {
+            depth -= 1;
+        }
+
+        return false;
+    });
+
+    return tagList;
+};
+
+module.exports.isStopIgnoring = function(state) {
+    return state.ignoreUntil && state.ignoreUntil < state.currentPos && state.ignoreUntil !== state.content.length + 1;
+};
+
+module.exports.getClauseList = function(content) {
+
+    const clauseStringList = [];
+
+    let tagList = this.getAllConditionalTags(content);
+    tagList     = this.getOutterConditionalTagList(tagList);
+
+    let lastIndex = 0;
+    tagList.forEach( tagObj => {
+        clauseStringList.push(content.substring(lastIndex, tagObj.startPos));
+        lastIndex = tagObj.startPos;
+    });
+
+    clauseStringList.push(content.substring(lastIndex, content.length));
+
+    return clauseStringList;
+};
+
+/**
      * Checks if the parsing process is in the following state:
      * <div ... <isif ...> > </div>
      */
-    isIsmlTagInsideHtmlTag(state) {
-        return state.depth !== 0;
-    },
+module.exports.isIsmlTagInsideHtmlTag = function(state) {
+    return state.depth !== 0;
 };

@@ -160,6 +160,20 @@ describe(targetObjName, () => {
         expect(setNode.getLineNumber()).toEqual(7);
         expect(setNode.getNumberOfChildren()).toEqual(0);
     });
+
+    it('identifies HTML comments', () => {
+        const rootNode        = TreeBuilder.build(getFilePath(24)).rootNode;
+        const htmlCommentNode = rootNode.getChild(0);
+        const ifNode          = rootNode.getChild(1).getChild(0);
+
+        expect(htmlCommentNode.getValue()).toEqual('<!-- This is an HTML comment -->');
+        expect(htmlCommentNode.getLineNumber()).toEqual(1);
+        expect(htmlCommentNode.getNumberOfChildren()).toEqual(0);
+
+        expect(ifNode.getValue()).toEqual('\n<isif condition="${condition}">');
+        expect(ifNode.getLineNumber()).toEqual(2);
+        expect(ifNode.getNumberOfChildren()).toEqual(1);
+    });
 });
 
 const getFilePath = number => {
