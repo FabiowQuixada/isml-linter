@@ -174,6 +174,21 @@ describe(targetObjName, () => {
         expect(ifNode.getLineNumber()).toEqual(2);
         expect(ifNode.getNumberOfChildren()).toEqual(1);
     });
+
+    it('handles empty "isif" tag', () => {
+        const result   = TreeBuilder.build(getFilePath(20));
+        const rootNode = result.rootNode;
+        const divNode  = rootNode.getChild(0);
+        const ifNode   = divNode.getChild(0).getChild(0);
+
+        expect(divNode.getValue()).toEqual('<div <isif condition="${condition1}"></isif>>');
+        expect(divNode.getLineNumber()).toEqual(1);
+        expect(divNode.getNumberOfChildren()).toEqual(1);
+
+        expect(ifNode.getValue()).toEqual('\n    <isif condition="${condition2}">');
+        expect(ifNode.getLineNumber()).toEqual(2);
+        expect(ifNode.getNumberOfChildren()).toEqual(0);
+    });
 });
 
 const getFilePath = number => {

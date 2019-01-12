@@ -116,7 +116,7 @@ const createNode = state => {
 const parseNewNodeInnerContent = state => {
 
     // TODO Couldn't simplify this;
-    const node             = state.parentNode.children[state.parentNode.children.length-1];
+    const parentNode       = state.parentNode.children[state.parentNode.children.length-1];
     const currentPos       = state.currentPos;
     const nodeInnerContent = ParseUtils.getInnerContent(state);
 
@@ -124,19 +124,29 @@ const parseNewNodeInnerContent = state => {
         if (ParseUtils.isCurrentElementIsifTag(state)) {
             IsifTagParser.run(nodeInnerContent, state);
         } else {
-            parse(nodeInnerContent, state, node);
+            parse(nodeInnerContent, state, parentNode);
         }
-    } else if (nodeInnerContent) {
-        addTextToNode(nodeInnerContent, state);
+    } else {
+        let textNodeParent = state.parentNode.newestChildNode;
+
+        if (parentNode instanceof MultiClauseNode) {
+            const node     = new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber);
+            textNodeParent = node;
+            parentNode.addChild(node);
+        }
+        if (nodeInnerContent) {
+            addTextToNode(nodeInnerContent, state, textNodeParent);
+        }
     }
 
     return currentPos + nodeInnerContent.length;
 };
 
-const addTextToNode = (nodeInnerContent, state) => {
-    const node          = state.parentNode.newestChildNode;
+const addTextToNode = (nodeInnerContent, state, parentNode) => {
     const innerTextNode = new IsmlNode(nodeInnerContent, state.currentLineNumber);
-    node.addChild(innerTextNode);
+    if (innerTextNode) {
+        parentNode.addChild(innerTextNode);
+    }
 };
 
 const createNodeForCurrentElement = state => {

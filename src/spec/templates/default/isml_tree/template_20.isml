@@ -1,0 +1,4 @@
+<div <isif condition="${condition1}"></isif>>
+    <isif condition="${condition2}">
+    </isif>
+</div>
