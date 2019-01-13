@@ -33,8 +33,10 @@ class IsmlNode {
     getNumberOfChildren() { return this.children.length; }
 
     isHtmlComment() {
-        return this.value.startsWith('<!--') &&
-        this.value.endsWith('-->');
+        const value = this.value.trim();
+
+        return value.startsWith('<!--') &&
+            value.endsWith('-->');
     }
 
     isSelfClosing() { return this.isHtmlComment() || this.value.endsWith('/>'); }

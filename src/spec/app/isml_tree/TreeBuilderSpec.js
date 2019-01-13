@@ -189,6 +189,27 @@ describe(targetObjName, () => {
         expect(ifNode.getLineNumber()).toEqual(2);
         expect(ifNode.getNumberOfChildren()).toEqual(0);
     });
+
+    it('identifies a html comment as self-closing tag', () => {
+        const rootNode        = TreeBuilder.build(getFilePath(25)).rootNode;
+        const htmlCommentNode = rootNode.getChild(0);
+        const mainDivNode     = rootNode.getChild(1);
+        const childDivNode    = mainDivNode.getChild(0);
+
+        expect(rootNode.getNumberOfChildren()).toEqual(2);
+
+        expect(htmlCommentNode.getValue()).toEqual('\n<!--- make drop down -->');
+        expect(htmlCommentNode.getLineNumber()).toEqual(2);
+        expect(htmlCommentNode.getNumberOfChildren()).toEqual(0);
+
+        expect(mainDivNode.getValue()).toEqual('\n<div class="row">');
+        expect(mainDivNode.getLineNumber()).toEqual(3);
+        expect(mainDivNode.getNumberOfChildren()).toEqual(1);
+
+        expect(childDivNode.getValue()).toEqual('\n    <div class="col-sm-6">');
+        expect(childDivNode.getLineNumber()).toEqual(4);
+        expect(childDivNode.getNumberOfChildren()).toEqual(0);
+    });
 });
 
 const getFilePath = number => {
