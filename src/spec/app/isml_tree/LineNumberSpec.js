@@ -105,6 +105,24 @@ describe('TreeBuilder', () => {
         expect(customNode2.getHeight()).toEqual(3);
         expect(customNode2.getLineNumber()).toEqual(7);
     });
+
+    it('sets correct line number when there is a nested isml element', () => {
+        const rootNode     = TreeBuilder.build(getFilePath(8)).rootNode;
+        const selectNode   = rootNode.getChild(0);
+        const errorMsgNode = rootNode.getChild(1);
+        const selectValue  = '' +
+        '<select class="form-control billingState custom-select" id="billingState"\n' +
+        '    <isprint value=${billingFields.states.stateCode.attributes} encoding="off"/>\n' +
+        '    autocomplete="billing address-level1">';
+
+        expect(selectNode.getValue()).toEqual(selectValue);
+        expect(selectNode.getLineNumber()).toEqual(1);
+        expect(selectNode.getNumberOfChildren()).toEqual(0);
+
+        expect(errorMsgNode.getValue()).toEqual('\n<div class="invalid-feedback">');
+        expect(errorMsgNode.getLineNumber()).toEqual(9);
+        expect(errorMsgNode.getNumberOfChildren()).toEqual(0);
+    });
 });
 
 const getFilePath = number => {

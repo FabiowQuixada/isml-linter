@@ -153,9 +153,11 @@ const createNodeForCurrentElement = state => {
 
     state.depth -= 1;
 
-    const lineBreakQty = (state.currentElement.asString.match(/\n/g) || []).length;
+    if (state.depth === 0) {
+        const lineBreakQty = (state.currentElement.asString.match(/\n/g) || []).length;
 
-    state.currentLineNumber += lineBreakQty;
+        state.currentLineNumber += lineBreakQty;
+    }
 
     if (!ParseUtils.isIsmlTagInsideHtmlTag(state)) {
         if (ParseUtils.isOpeningElem(state)) {

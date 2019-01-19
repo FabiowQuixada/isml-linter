@@ -1,0 +1,10 @@
+<select class="form-control billingState custom-select" id="billingState"
+    <isprint value=${billingFields.states.stateCode.attributes} encoding="off"/>
+    autocomplete="billing address-level1">
+
+
+
+
+</select>
+<div class="invalid-feedback"></div>
+
