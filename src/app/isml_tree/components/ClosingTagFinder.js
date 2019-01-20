@@ -13,39 +13,39 @@ const ParseUtils = require('./ParseUtils');
  * The 'depth' variable works as a stack, taking into account only elements of type 'E'
 */
 const getCorrespondentClosingElementPosition = (content, oldParentState) => {
-    const newParentState   = Object.assign({}, oldParentState);
+    const parentState      = Object.assign({}, oldParentState);
     const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
     const closingElemRegex = /<\/.[a-zA-Z]*>/;
 
-    let internalState = getInitialState(content, newParentState);
+    let internalState = getInitialState(content, parentState);
     const obj         = getPosition(internalState.content);
 
     internalState.currentElement.endPosition = obj.currentElemEndPosition;
     internalState.content                    = obj.content;
     const maskedContent                      = obj.content;
 
-    newParentState.currentElement.endPosition = maskedContent.indexOf('>');
+    parentState.currentElement.endPosition = maskedContent.indexOf('>');
 
     while (internalState.content) {
 
         if (isNextElementATag(internalState)) {
             const closingCharPosition           = internalState.content.indexOf('>');
             const contentUpToCurrentPosition    = internalState.content.substring(0, closingCharPosition);
-            const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(/\n/g) || []).length + newParentState.currentLineNumber;
+            const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(/\n/g) || []).length + parentState.currentLineNumber;
 
             internalState = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
             internalState = updateState(internalState, currentElemStartingLineNumber);
 
             if (!internalState.elementStack.length) {
-                newParentState.currentElemClosingTagInitPos = internalState.result;
-                return newParentState;
+                parentState.currentElemClosingTagInitPos = internalState.result;
+                return parentState;
             }
         } else {
             internalState = removeLeadingNonTagText(internalState);
         }
     }
 
-    return newParentState;
+    return parentState;
 };
 
 const getInitialState = (content, parentState) => {

@@ -86,6 +86,7 @@ const updateStateWhetherItIsInsideExpression = oldState => {
     if (state.insideTag) {
         if (ParseUtils.isOpeningIsmlExpression(state)) {
             state.insideExpression = true;
+            state.ignoreUntil      = state.currentPos + state.contentAsArray.substring(state.currentPos).indexOf('}');
         } else if (ParseUtils.isClosingIsmlExpression(state)) {
             state.insideExpression = false;
         }

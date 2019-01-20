@@ -190,6 +190,21 @@ describe(targetObjName, () => {
         expect(ifNode.getNumberOfChildren()).toEqual(0);
     });
 
+    it('handle one-char condition "if" tag', () => {
+        const result   = TreeBuilder.build(getFilePath(21));
+        const rootNode = result.rootNode;
+        const divNode  = rootNode.getChild(0);
+        const ifNode   = divNode.getChild(0).getChild(0);
+
+        expect(divNode.getValue()).toEqual('<div <isif condition="${c}"></isif>>');
+        expect(divNode.getLineNumber()).toEqual(1);
+        expect(divNode.getNumberOfChildren()).toEqual(1);
+
+        expect(ifNode.getValue()).toEqual('\n    <isif condition="${c2}">');
+        expect(ifNode.getLineNumber()).toEqual(2);
+        expect(ifNode.getNumberOfChildren()).toEqual(0);
+    });
+
     it('identifies a html comment as self-closing tag', () => {
         const rootNode        = TreeBuilder.build(getFilePath(25)).rootNode;
         const htmlCommentNode = rootNode.getChild(0);

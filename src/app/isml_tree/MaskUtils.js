@@ -83,13 +83,13 @@ const maskInBetween = (content, startString, endString) => {
 
     for (let i = 0; i < content.length; ++i) {
         if (isInBetween) {
-            if (closingMatchList.indexOf(i + 1) !== -1) {
+            if (closingMatchList.indexOf(i) !== -1) {
                 activePos   = -1;
                 isInBetween = false;
+                result      += content[i];
+            } else {
+                result      += placeholderSymbol;
             }
-
-            result += placeholderSymbol;
-
         } else {
             if (openingMatchList.indexOf(i - 1) !== -1) {
                 activePos = i;
