@@ -1,6 +1,7 @@
-const ErrorType  = require('./../../ErrorType');
-const MaskUtils  = require('../MaskUtils');
-const ParseUtils = require('./ParseUtils');
+const ErrorType      = require('./../../ErrorType');
+const MaskUtils      = require('../MaskUtils');
+const ParseUtils     = require('./ParseUtils');
+const ExceptionUtils = require('../../ExceptionUtils');
 
 /**
  * The purpose of this function is to find the corresponding closing element of an HTML/ISML element,
@@ -16,6 +17,10 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
     const parentState      = Object.assign({}, oldParentState);
     const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
     const closingElemRegex = /<\/.[a-zA-Z]*>/;
+    const currentElement   = {
+        type       : ParseUtils.getFirstElementType(content),
+        lineNumber : parentState.currentLineNumber
+    };
 
     let internalState = getInitialState(content, parentState);
     const obj         = getPosition(internalState.content);
@@ -45,7 +50,7 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
         }
     }
 
-    return parentState;
+    throw ExceptionUtils.getUnbalancedMessage(currentElement.type, currentElement.lineNumber);
 };
 
 const getInitialState = (content, parentState) => {

@@ -1,0 +1,6 @@
+<isset name="creditFields" value="${pdict.forms.billingForm.creditCardFields}" scope="page"/>
+
+<div class="div-class" id="div-id">
+
+<div class="row">
+</div>
