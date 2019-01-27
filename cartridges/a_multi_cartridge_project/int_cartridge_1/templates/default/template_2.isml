@@ -1,0 +1,376 @@
+<iscontent type="text/html" charset="UTF-8" compact="true" />
+
+<isscript>
+    // This template renders a product tile using a product. The following parameters
+    // must be passed into the template module:  
+
+    // product                 : the product to render the tile for
+    // showswatches         : check, whether to render the color swatches (default is false)
+    // enableswatches        : flag indicating whether to enable the swatch links (default is false)
+    // showpricing            : check, whether to render the pricing (default is false)
+    // showpromotion        : check, whether to render the promotional messaging (default is false)
+    // showrating            : check, whether to render the review rating (default is false)
+    // showaddtocart    : check, whether to render the add to cart button (default is false)
+    // showselectedsize        : check, whether to render the selected size (default is false)
+    // productimagemode        : parameter for render image of product (default is "link")
+    // showdefaultvariationurl : show default variation url for master product (default is false)
+    // showremovebutton : remove button for tile
+    // productlistltemid : list item id, used for removing item from favorites
+    // defaultbadge : default badge if necessery
+    // urlprotocol : product link protocol
+    // showtileaction : if the product action is shown on the top of the tile
+    // abtestaffected: if the product tile should be affected by the A/B Testing (add to bag form instead of quick buy CTA)
+
+    importScript("...");
+
+    // set the product for local reuse
+    var Product = pdict.product;
+    var OrgProduct = null;
+
+    // set default values
+    var productUrl : dw.web.URL = null;
+    var showswatches : Boolean = !empty(pdict.showswatches) ? pdict.showswatches : true;
+    var showselectedswatchonly : Boolean = !empty(pdict.showselectedswatchonly) ? pdict.showselectedswatchonly : false;
+    var showpricing : Boolean = !empty(pdict.showpricing) ? pdict.showpricing : false;
+    var showpromotion : Boolean = !empty(pdict.showpromotion) ? pdict.showpromotion : false;
+    var showrating : Boolean = !empty(pdict.showrating) ? pdict.showrating : false;
+    var showhostedratings = !empty(pdict.showhostedratings) ? pdict.showhostedratings : false;
+    var showtooltip : Boolean = !empty(pdict.showtooltip) ? pdict.showtooltip : false;
+    var showremovebutton : Boolean = !empty(pdict.showremovebutton) ? pdict.showremovebutton : false;
+    var showseedetailslink : Boolean = !empty(pdict.showseedetailslink) ? pdict.showseedetailslink : false;
+    var productListItem : dw.customer.ProductListItem = pdict.productlistitem;
+    var enableswatches : Boolean = !empty(pdict.enableswatches) ? pdict.enableswatches : false;
+    var imagesize : String = !empty(pdict.producttilecustomimagetypes) ? pdict.producttilecustomimagetypes : 'grid';
+    var showaddtocart : Boolean = !empty(pdict.showaddtocart) ? pdict.showaddtocart : false;
+    var showselectedsize : Boolean = !empty(pdict.showselectedsize) ? pdict.showselectedsize : false;
+    var productimagemode : String =  !empty(pdict.productimagemode) ? pdict.productimagemode : "link";
+    var protocol : String = pdict.urlprotocol || request.httpProtocol;
+    var producttilecustomcssclasses : String = pdict.producttilecustomcssclasses || "";
+    var productImageCustomCssClasses = pdict.productimagecustomcssclasses || "" ;
+    var productImageContainerCustomCssClasses = pdict.productimagecontainercustomcssclasses || "" ;
+    var customImageMode = pdict.customimagemode || "" ;
+    var productcustomimagealloweddevices : String = pdict.productcustomimagealloweddevices || "";
+    var disablename : Boolean = !empty(pdict.disablename) ? pdict.disablename : false;
+    var disablesubtitle : Boolean = !empty(pdict.disablesubtitle) ? pdict.disablesubtitle : false;
+    var disablepromotion : Boolean = !empty(pdict.disablepromotion) ? pdict.disablepromotion : false;
+    var disablepricing : Boolean = !empty(pdict.disablepricing) ? pdict.disablepricing : false;
+    var disableswatches : Boolean = !empty(pdict.disableswatches) ? pdict.disableswatches : false;
+    var disablerating : Boolean = !empty(pdict.disablerating) ? pdict.disablerating : false;
+    var disableimages  = !empty(pdict.disableimages) ? pdict.disableimages : false;
+    var disableaddtocart : Boolean = !empty(pdict.disableaddtocart) ? pdict.disableaddtocart : false;
+    var showdefaultvariationurl : Boolean = !empty(pdict.showdefaultvariationurl) ? pdict.showdefaultvariationurl : false;
+    var productnameclasses : String = !empty(pdict.productnameclasses) ? pdict.productnameclasses : '';
+    var showproductquantity : Boolean = !empty(pdict.showproductquantity) ? pdict.showproductquantity : false;
+    var isShowTile : Boolean = !empty(Product);
+    var productListItemID = pdict.productlistltemid;
+    var isSampleProduct : Boolean = Product && require('product').get(Product).isSample();
+    var defaultbadge : String = pdict.defaultbadge || '';
+    var productnamelink : Boolean = true;
+    var showtileaction = !empty(pdict.showtileaction) ? pdict.showtileaction : false;
+    var showquickviewbutton = !empty(pdict.showquickviewbutton) ? pdict.showquickviewbutton : false;
+    var zone = request.httpParameterMap.isParameterSubmitted("zone") ? request.httpParameterMap.zone.stringValue.toLowerCase() : "";
+    var viewtype = request.httpParameterMap.isParameterSubmitted("viewtype") ? request.httpParameterMap.viewtype.stringValue : "default";
+    var showAddToBagVariations = false;
+    var showAddToBagProductSet = typeof IsProductSet !== "undefined" && IsProductSet;
+    var abTestAffected = !empty(pdict.abtestaffected) ? pdict.abtestaffected : true;
+    var showAddToBagArmaniGlow = typeof pageContext !== "undefined" && typeof pageContext.currentPage !== "undefined" && pageContext.currentPage === "armaniglow";
+
+    if (isSampleProduct) {
+        var sampleFullProduct = require('utils/sample').getFullProduct(Product);
+        if (sampleFullProduct) {
+            var sampleProduct = Product;
+            Product = sampleFullProduct.isMaster() ? ProductUtils.getDefaultOrFirstVariant(sampleFullProduct, false, false) : sampleFullProduct;
+        } else {
+            var sampleProduct = Product;
+        }
+        if (!sampleFullProduct || !Product.online) {
+            productimagemode = 'image';
+            disablerating = true;
+            showseedetailslink = false;
+            producttilecustomcssclasses += Resource.msg('samples.unavailable.master', 'product', '');
+        }
+    }
+    if (isShowTile && !empty(Product)) {
+        // Get the colors selectable from the current product master.
+        var masterProduct = Product.isMaster() || !Product.isVariant() ? Product : require('product').get(Product).getMasterProduct();
+        var selectableColors : dw.util.Collection = ProductUtils.getSelectableColors(masterProduct);
+
+        // Generate link to product detail page. If a color variation is available, the first color is used as link url.
+        productUrl = protocol == "http" ? URLUtils.http('Product-Show', 'pid', Product.ID) : URLUtils.https('Product-Show', 'pid', Product.ID);
+        var imgProduct : dw.catalog.Product = isSampleProduct ? sampleProduct : Product;
+        var firstProduct : dw.catalog.Product = ProductUtils.getDefaultOrFirstVariant(Product);
+        if (Product.variant || (Product.master && !require('pref').is('product.tile.usemasterproductlinks'))) {
+            if (showdefaultvariationurl == true && !empty(firstProduct)) {
+                productUrl = ProductUtils.getDefaultProductUrl(Product, protocol);
+                imgProduct = firstProduct;
+            } else if (!empty(selectableColors) && !selectableColors.isEmpty()) {
+                var colorVarAttr = Product.variationModel.getProductVariationAttribute('color');
+                var selectedAttributeValue = Product.variationModel.getSelectedValue(colorVarAttr);
+                productUrl = Product.variationModel.urlSelectVariationValue('Product-Show', colorVarAttr, selectedAttributeValue || selectableColors.get(0));
+                imgProduct = selectedAttributeValue || selectableColors.get(0);
+            }
+        }
+        var productClass="product_tile";
+        if (showtooltip) {
+            productClass += " tooltip";
+        }
+    }
+    var showAddProductVariantToCart = Product.isVariant() && pdict.productimagemode === 'recommendationimage' && pdict.zone === 'CART';
+    var isCartRecommendation = (viewtype == 'recommendation' && zone == 'cart');
+
+    // homepage iconic slot
+    var showShopNow = 'hpmosaicproduct'.equals(imagesize);
+
+    // determine if we should display the QV overlay
+    var hasQVOverlay = abTestAffected && require('pref').is('product.tile.quickview.overlay') && !'hpcarouselproduct'.equals(imagesize);
+    if (hasQVOverlay) {
+        disableaddtocart = true;
+        showShopNow = true;
+    }
+
+    var firstColorVariation;
+
+    if (Product.variant) {
+        firstColorVariation = ProductUtils.getSelectedAttribute(Product, Product.variationModel, 'color');
+    } else {
+        firstColorVariation = ProductUtils.getSelectedAttribute(firstProduct, firstProduct.variationModel, 'color');
+    }
+
+    var productNameLinkType = 'hpmosaicproduct'.equals(imagesize) ? 'iconiclink' : 'link';
+
+</isscript>
+
+<isif condition="${isShowTile && !empty(Product)}">
+    <isinclude template="util/modules"/>
+    <isset name="isABTest" value="${dw.campaign.ABTestMgr.isParticipant('productTile', 'addToBag')}" scope="page" />
+    <isset name="disableQuickView" value="${require('configuration').getValue('disableQuickView')}" scope="page" />
+    <isif condition="${isABTest}">
+        <isset name="Product" value="${!empty(selectableColors) ? ProductUtils.getVariantForColor(Product, selectableColors.get(0).ID) : firstProduct}" scope="page" />
+    </isif>
+    <div class="${productClass} ${producttilecustomcssclasses}" <isif condition="${isSampleProduct}">data-sample-full-product="${!!sampleFullProduct?sampleFullProduct.ID:''}"</isif> id="${Product.UUID}" data-itemid="${Product.ID}" data-producturl="${productUrl}"><!-- dwMarker="product" dwContentID="${Product.UUID}" -->
+
+      <isif condition="${!disableimages}">
+        <iscomment>Product image</iscomment>
+        <isinclude template="product/containers/producttileimagecustom" />
+       </isif>
+        <iscomment>Product engrave badge label</iscomment>
+        <div class="product_engraving_label">
+            <isif condition="${require('configuration').getValue('enablePersonalEngraving') && Product.custom.enablePersonalEngraving}">
+                <isset name="customEngravingTextBadge" value="${require('product').get(Product.ID).getValue('jsonData.customEngravingTextBadge')}" scope="page" />
+                <isprint value="${empty(customEngravingTextBadge) ? Resource.msg('product.engraving.badge.label','product',null) : customEngravingTextBadge}" />
+            </isif>
+        </div>
+
+        <iscomment>Product Label</iscomment>
+        <isif condition="${require('pref').is('plp.tile.label.show') && !empty(Product.custom.productLabel)}">
+            <span class="product_label">${Product.custom.productLabel}</span>
+        </isif>
+
+        <iscomment>Product name mobile only</iscomment>
+        <isif condition="${!disablename}">
+            <isif condition="${!showseedetailslink && productnamelink}">
+                <isproductname product="${Product}" wrapper="${('undefined' != typeof productnamewrapper) ? productnamewrapper : ''}" mode="${productNameLinkType}" url="${productUrl}" cssclass="${productnameclasses + ' mobile_content'}"  />
+            <iselse>
+                <isproductname product="${Product}" wrapper="${('undefined' != typeof productnamewrapper) ? productnamewrapper : 'span'}" cssclass="${productnameclasses + ' mobile_content'}" />
+            </isif>
+        </isif>
+
+        <div class="variation_wrapper">
+            <iscomment>Variant size</iscomment>
+            <isif condition="${showselectedsize}">
+                <isset name="selectedSize" value="${ProductUtils.getSelectedAttribute(Product, Product.variationModel, 'size')}" scope="page"/>
+                <isif condition="${selectedSize != null}">
+                    <div class="variant_swatch">
+                        <isif condition="${!empty(Resource.msg('product.size.title','product',null))}" >
+                            <span class="product_size_title">${Resource.msg('product.size.title','product',null)}</span>
+                        </isif>
+                        <span class="selected_value">${selectedSize.displayValue}</span>
+                    </div>
+                </isif>
+            </isif>
+            <iscomment>Swatches</iscomment>
+            <iscomment>
+                Render the color swatch section for a product. We show color swatches for color variations
+                known to the product master.
+            </iscomment>
+
+            <isif condition="${showswatches && !disableswatches}">
+                <isif condition="${!empty(selectableColors) && !selectableColors.isEmpty()}">
+                    <iscomment>Render the palette, the first swatch is always preselected</iscomment>
+                    <div class="value swatches_wrap jcarousel-swatches-wrap" >
+                        <div class="jcarousel-clip-swatches">
+                            <ul class="product_swatch_list shades_carousel js_swatches">
+                                <isproductswatchli colorvalue="${firstColorVariation}" selected="${true}" imagesize="${imagesize}" />
+                                <isloop items="${selectableColors}" var="colorValue" status="loopCounter">
+                                    <isif condition="${!colorValue.equals(firstColorVariation)}">
+                                        <isproductswatchli colorvalue="${colorValue}" imagesize="${imagesize}" />
+                                    </isif>
+                                </isloop>
+                            </ul>
+                        </div>
+                    <div class="jcarousel-prev jcarousel-control disabled"></div>
+                    <div class="jcarousel-next jcarousel-control"><span class="remaining_items"></span></div>
+                    </div>
+                </isif>
+            </isif>
+
+            <iscomment>Variant swatch</iscomment>
+            <isif condition="${!empty(showselectedswatchonly) && showselectedswatchonly}">
+                <isif condition="${'undefined' != typeof selectedColor && selectedColor != null}">
+                    <div class="variant_swatch">
+                        <isproductimage product="${selectedColor}" type="swatch" />
+                        <span class="swatch_name">${selectedColor.displayValue}</span>
+                    </div>
+                </isif>
+            </isif>
+        </div>
+
+        <iscomment>Product custom attribute size, needed for brands which don't have size variations</iscomment>
+        <isif condition="${require('pref').is('plp.tile.sizecustomattribute.show') && !empty(Product.custom.size)}">
+            <span class="product_size">${Product.custom.size}</span>
+        </isif>
+
+        <iscomment>Product name</iscomment>
+        <isif condition="${!disablename}">
+            <isif condition="${!showseedetailslink && productnamelink}">
+                <isproductname product="${Product}" wrapper="${('undefined' != typeof productnamewrapper) ? productnamewrapper : ''}" mode="${productNameLinkType}" url="${productUrl}" cssclass="${productnameclasses}"  />
+            <iselse>
+                <isproductname product="${Product}" wrapper="${('undefined' != typeof productnamewrapper) ? productnamewrapper : 'span'}" cssclass="${productnameclasses + ' product_name'}" />
+            </isif>
+        </isif>
+
+        <iscomment>Product subtitle</iscomment>
+        <div class="product_description">
+            <isif condition="${!disablesubtitle && 'productSubtitle' in Product.custom && !empty(Product.custom.productSubtitle) && pdict.producttilecustomimagetypes == 'hpcarouselproduct'}">
+                <a href="${productUrl}" class="js-product-link">
+                    <isprint value="${Product.custom.productSubtitle}" encoding="off"/>
+                </a>
+            <iselseif condition="${!disablesubtitle && 'productSubtitle' in Product.custom && !empty(Product.custom.productSubtitle)}">
+                <a href="${productUrl}" class="js-product-link">
+                    <isprint value="${Product.custom.productSubtitle.length > 45 ? dw.util.StringUtils.truncate(Product.custom.productSubtitle, 45, 'TRUNCATE_SENTENCE', ' (...)') : Product.custom.productSubtitle}" encoding="off"/>
+                </a>
+            </isif>
+        </div>
+
+        <iscomment>Variant size (only for home page main carousel)</iscomment>
+        <isif condition="${showselectedsize}">
+            <isset name="selectedSize" value="${ProductUtils.getSelectedAttribute(Product, Product.variationModel, 'size')}" scope="page"/>
+            <isif condition="${selectedSize != null}">
+                <div class="variant_swatch hp_variant_swatch js-product-link">
+                    <isif condition="${!empty(Resource.msg('product.size.title','product',null))}" >
+                        <span class="product_size_title">${Resource.msg('product.size.title','product',null)}</span>
+                    </isif>
+                    <span class="selected_value">${selectedSize.displayValue}</span>
+                </div>
+            </isif>
+        </isif>
+
+        <iscomment>Promotion</iscomment>
+        <isif condition="${showpromotion && !disablepromotion}">
+            <div class="product_promo">
+                <iscomment>Render information on active product promotions</iscomment>
+                <isset name="promos" value="${dw.campaign.PromotionMgr.activeCustomerPromotions.getProductPromotions(Product)}" scope="page"/>
+
+                <isif condition="${!empty(promos)}">
+                    <iscomment>TODO: Regarding to the logic from searchhittile, if we have identical calloutMessage for all promotions, remove this loop</iscomment>
+                    <isloop items="${promos}" alias="promo" status="promoloopstate">
+                        <div class="promotional_message <isif condition="${promoloopstate.first}"> first <iselseif condition="${promoloopstate.last}"> last</isif>">
+                            <isprint value="${promo.calloutMsg}" encoding="off"/>
+                        </div>
+                    </isloop>
+                </isif>
+            </div>
+        </isif>
+
+        <iscomment>Product price</iscomment>
+        <div class="price-variation">
+            <isinclude template="product/components/producttilemaininfoprice" />
+        </div>
+
+        <iscomment>Product Rating</iscomment>
+        <isif condition="${!disablerating}">
+            <isif condition="${!(condition || otherCondition || anotherCondition) && yetAnotherCondition}"><div class="rating_hold"></isif>
+                 <isproductratingandreviews product="${Product}" mode="rating" showhostedratings="${showhostedratings}">
+            <isif condition="${(condition || otherCondition || anotherCondition) && yetAnotherCondition}"></div></isif>
+        </isif>
+
+        <isif condition="${require('configuration').getValue('disableCommerce')}">
+            <div class="tile_priceshop_wrapper" class="js-product-link">
+                <a class="button button_shop_now ${dw.web.Resource.msg('class.buttonshopnow.a','_classes',null)}" href="${productUrl}">${dw.web.Resource.msg('product.shopnow.editorial','product',null)}</a>
+            </div>
+        <iselse>
+            <isif condition="${(isABTest && abTestAffected) || showAddToBagVariations || showAddToBagProductSet}">
+                <div class="product_add_to_cart">
+                    <iscomment>Content of Add to cart form</iscomment>
+                    <isinclude template="product/containers/productaddtocartform" />
+                </div>
+            <iselseif condition="${showAddProductVariantToCart || showAddToBagArmaniGlow}">
+                <isset name="ArmaniGlowDescription" value="${require('product').get(Product).getValue('moreAboutProductContent')}" scope="page" />
+                <isif condition="${!empty(ArmaniGlowDescription)}">
+                    <div class="foundation_product_content">
+                        <isprint value="${ArmaniGlowDescription}" encoding="off" />
+                    </div>
+                </isif>
+                <div class="tile_priceshop_wrapper">
+                    <isif condition="${showAddToBagArmaniGlow && !empty(ProductUtils.getAvailabilityModel(Product).availabilityStatus) && ProductUtils.getAvailabilityModel(Product).availabilityStatus == dw.catalog.ProductAvailabilityModel.AVAILABILITY_STATUS_NOT_AVAILABLE && ('emailWhenBack' in Product.custom && Product.custom.emailWhenBack)}">
+                        <isinclude template="product/components/productaddtocartnotifyme" />
+                    <iselse>
+                        <isif condition="${showAddToBagArmaniGlow}">
+                            <a class="button ${Resource.msg('class.buttonshopnow.a','_classes',null)}" href="${productUrl}">${Resource.msg('product.shop.now','product',null)}</a>
+                            <a class="button js_add_to_cart hidden ${Resource.msg('class.buttonshopnow.a','_classes',null)}" data-pid="${Product.ID}" href="${productUrl}">${Resource.msg('global.addtobag','locale',null)}</a>
+                        <iselse/>
+                            <a class="button js_add_to_cart ${Resource.msg('class.buttonshopnow.a','_classes',null)}" data-pid="${Product.ID}" href="${productUrl}">${Resource.msg('global.addtobag','locale',null)}</a>
+                        </isif>
+                        <a class="button quickviewbutton hidden ${Resource.msg('class.buttonshopnow.a','_classes',null)}" href="${productUrl}">${Resource.msg('product.shopnow','product',null)}</a>
+                    </isif>
+                </div>
+             <iselse>
+                <div class="tile_priceshop_wrapper">
+                    <iscomment>Product price</iscomment>
+                    <a href="${URLUtils.http('Product-Show', 'pid', Product.getID())}" class="js-product-link">
+                        <isinclude template="product/components/producttilemaininfoprice" />
+                    </a>
+
+                    <iscomment>"Add to Bag" button</iscomment>
+                    <isif condition="${showaddtocart && !disableaddtocart}">
+                        <isif condition="${require('pref').is('producttile.sample.pdplinkinsteadofaddtobag.enabled') && isSampleProduct}">
+                            <a class="button <isif condition="${!disableQuickView}"> quickviewbutton </isif> ${Resource.msg('class.buttonshopnow.a','_classes',null)}" href="${productUrl}">${Resource.msg('product.shop.now','product',null)}</a>
+                        <iselse>
+                            <a class="button ${Resource.msg('class.buttonshopnow.a','_classes',null)}" href="${productUrl}">${Resource.msg('product.shopnow','product',null)}</a>
+                        </isif>
+                        <isinclude template="tracking/productdynamictracking"/>
+                    </isif>
+                    <isif condition="${showShopNow}">
+                        <a class="button js-product-link ${Resource.msg('product.iconic.shop.now','product',null)}" href="${productUrl}">${Resource.msg('product.iconic.shop.now','product',null)}</a>
+                        <isif condition="${isCartRecommendation}">
+                            <a class="button <isif condition="${!disableQuickView}"> quickviewbutton </isif>" href="${productUrl}">${Resource.msg('product.shopnow','product',null)}</a>
+                        </isif>
+                    </isif>
+                </div>
+            </isif>
+        </isif>
+
+        <iscomment>Img of full size product for sample tile</iscomment>
+        <isif condition="${isSampleProduct && viewtype !== 'recommendation' && zone !== 'cart'}">
+            <div class="fullsize_productimage_for_sample" >
+                <isproductimage
+                    product="${(!empty(selectableColors) && !selectableColors.isEmpty()) ? selectableColors.get(0) : Product}"
+                    type="small"
+                    mode="${productimagemode}"
+                    linkurl="${productUrl}"
+                    responsive="${true}"
+                />
+            </div>
+        </isif>
+    </div>
+
+    <isif condition="${require('configuration').getValue('enableGoogleTagManagement')}">
+        <script type="text/javascript">
+            jQuery(function(){
+                if (app && app.page){
+                    app.page.setEeProductsOnPage(<isprint value="${JSON.stringify(require('tools/gtm').addEeProductOnPage(new Object(), Product))}" encoding="off" />);
+                }
+            });
+        </script>
+    </isif>
+</isif>

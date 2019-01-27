@@ -1,0 +1,411 @@
+<iscontent type="text/html" charset="UTF-8" compact="true" />
+<isif condition="${pdict.formfield}">
+    <isscript>
+        importScript("app_lora:checkout/CheckoutHelper.ds");
+    </isscript>
+
+    <isscript>
+        // @TODO Update description of the availible paramaters
+        //
+        // Displays a input field for templates, such as registration and editprofile.
+        // Parameters:
+        //
+        // formfield        : form field to be displayed
+        // type             : input type
+        // fakeinput        : hidden input field title which need to be rendered
+        // maxlength        : maximum length of field input
+        // minlength        : minimum length of field input
+        // characterlimit    : if exist, set data-character-limit attribute
+        // cssclass         : the class to set additionally to the default classes
+        // validationcssclass : the CSS class which will be added directly to formfield
+        // required         : used for required field validation. Adds css class 'required' for input
+        // requiredtext     :
+        // label            : if set to true or not existing, the label will be rendered
+        // label_class      : additional label classes
+        // value            : if set to true or not existing, the value input will be rendered,
+        //                    if set to false, value input will not be rendered
+        // noprefilling     : if given and not empty the name of the resulting input element
+        //                    is unique (to avoid prefilling by the browser)
+        // mandatory        : boolean value which overrides value from default formfield object
+        // simplify         : {boolean} simplify formfield providing part of template for creation complex formfields, like phone number or shipping method
+        // tooltipaid       : {string} tooltip asset id
+        // tooltiplabel     : {string} label text for tooltip
+        // assetcontent     : {string} asset id for custom content
+
+        // autocomplete     : {string} if set to "off", html attribute autocomplete='off' will be added
+        // customselectoptions :
+        // attributes       : custom attributes array
+        // values           : custom values array
+        // ccnumber         : {boolean} check if field is Credit Card Number
+
+        var tooltipLabel : String = pdict.tooltiplabel;
+        var tooltipAID : String = pdict.tooltipaid;
+        var tooltipHref : String = URLUtils.url('Page-Show', 'cid', tooltipAID);
+        var assetContent = pdict.assetcontent;
+
+        var togglePassword : String = !!pdict.togglepassword;
+        var togglePasswordText = !empty(pdict.togglepasswordtext) ? pdict.togglepasswordtext : '';
+        var togglePasswordTextActive = !empty(pdict.togglepasswordtextactive) ? pdict.togglepasswordtextactive : '';
+
+        var ccnumber  : Boolean = !!pdict.ccnumber;
+
+        var disableLabel  : Boolean = !!pdict.disablelabel;
+        var labelResource = pdict.label || pdict.formfield.label;
+        var disablePlaceholder : Boolean = !!pdict.disableplaceholder;
+        var placeholder = !disablePlaceholder && disableLabel && empty(pdict.placeholder) && !empty(labelResource)
+                            ? Resource.msg(labelResource,'forms',null)
+                            : pdict.placeholder;
+        var formElementPlaceholder = !disablePlaceholder && !empty(placeholder) ? ' placeholder="' + placeholder + '"' : "";
+        var formElementNameValue : String = !empty(pdict.noprefilling) ? pdict.formfield.dynamicHtmlName : pdict.formfield.htmlName;
+        var formElementIdValue : String = !empty(pdict.id) ? pdict.id : formElementNameValue;
+        var type : String = (pdict.type === 'input') ? 'textinput' : pdict.type;
+        var labelValue : String = disableLabel ? "" : labelResource;
+        var autoCompleteAttribute : String = (!empty(pdict.autocomplete) && pdict.autocomplete == "off") ? "autocomplete='off'" : "";
+        var characterLimitAttribute : String = !empty(pdict.characterlimit) ? ("data-character-limit="+pdict.characterlimit) : "";
+        var aTag : String = ''; // for isprints to prevent encoding
+        var isFormfieldValid : Boolean = !!pdict.formfield.valid;
+        var isSimplify : Boolean = !!pdict.simplify;
+        var isMandatory : Boolean = !empty(pdict.mandatory) ? pdict.mandatory : pdict.formfield.mandatory;
+        var CustomCssClass : String = 'formfield formfield_' + type;
+        var cutomAttributes : String = !empty(pdict.attributes) && !empty(pdict.values) ? function(){
+            var attrStr : String = "";
+            for (let key in pdict.attributes) {
+                if(pdict.values[key]) {
+                    attrStr += ' '+pdict.attributes[key]+'="'+pdict.values[key]+'"';
+                } else {
+                    break;
+                }
+            }
+            return attrStr;
+        }() : "";
+        cutomAttributes = cutomAttributes ? ' ' + cutomAttributes : cutomAttributes;
+        var proccessedFieldTypes : Array = ['select', 'password', 'date', 'textinput', 'textarea', 'email', 'search', 'checkbox', 'hidden','radio-slider', 'radio-list', 'radio', 'number', 'color', 'datetime', 'datetime-local', 'month', 'range', 'tel', 'time', 'url', 'week', 'nospecialcharacterstext'];
+
+        CustomCssClass += !empty(pdict.cssclass) ? " " + pdict.cssclass : "";
+        CustomCssClass += isMandatory ? " required" : "";
+        CustomCssClass += !isFormfieldValid ? " f_state_error": "";
+
+        var validationCssClass : String = ' ' + (!empty(pdict.validationcssclass) ? pdict.validationcssclass : '');
+
+        // if it is a phone, country field then add these as css class names as well
+        // so that client side validation can work
+        // please note this is kind of hack (to hard code ids) to avoid mass changes in the templates wherever phone/country is used
+        // [TODO: this should be  described in dynamic form json]
+        if (pdict.formfield.formId == 'phone' || pdict.formfield.formId == 'country') {
+            validationCssClass += ' ' + pdict.formfield.formId;
+        }
+
+        // used for client side validation DO NOT remove it! otherwise client side validation won't work!!!
+        validationCssClass += (pdict.required || isMandatory == true) ? " required": "";
+        var disableEncodingForLabel = Resource.msg('form.label.encoding.disable','_preferences','false').equalsIgnoreCase('true');
+        var enableClickOnLabel = require('pref').is('form.label.click.enable');
+        var errorContainerTag = require('pref').get('global.htmltag.errorcontainer');
+    </isscript>
+    <isif condition="${typeof type != 'undefined' && proccessedFieldTypes.indexOf(type) != -1}">
+        <div class="f_field f_field_${type} ${isSimplify ? 'f_field_simplify' : ''} ${CustomCssClass}"<isif condition="${pdict.requiredtext}"> data-required-text="<isprint value="${pdict.requiredtext}" encoding="on"/>"</isif>>
+
+            <isif condition="${['select', 'password', 'date', 'textinput', 'textarea', 'email', 'radio-slider', 'radio-list', 'radio', 'search', 'number', 'color', 'datetime', 'datetime-local', 'month', 'range', 'tel', 'time', 'url', 'week', 'nospecialcharacterstext'].indexOf(type) !== -1}">
+
+                <iscomment>Formfield label element rendering</iscomment>
+                <isif condition="${!empty(labelValue)}">
+                    <islabel for_field="${formElementIdValue}" label_class="${pdict.label_class}" required_field="${isMandatory}" label_value="${Resource.msg(labelValue,'forms',null)}" disable_encoding="${disableEncodingForLabel}" />
+                </isif>
+
+                <iscomment>Select element rendering</iscomment>
+                <isif condition="${type == 'select'}">
+                    <isscript>
+                        aTag = '<select class="select f_' + type + ' ' + validationCssClass + '" id="' + formElementIdValue + '" name="' + formElementNameValue + '"' + cutomAttributes + '>';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+                        <isif condition="${!disablePlaceholder && !empty(placeholder)}">
+                            <option disabled="disabled" value="">${placeholder}</option>
+                        </isif>
+                        <isif condition="${empty(pdict.customselectoptions)}">
+                            <isloop items="${pdict.formfield.options}" var="option">
+                                <isscript>
+                                    // code to avoid empty option tags, because this causes an XHTML warning
+                                    var label = Resource.msg(option.label,'forms',null);
+                                    var displayValue = empty(option.label) ? "<!-- Empty -->" : StringUtils.stringToHtml(label);
+                                </isscript>
+                                <option value="${!empty(option.value) ? option.value : ''}" ${pdict.formfield.value == option.value || option.selected ? 'selected=selected' : ''}><isprint value="${displayValue}" encoding="off"/></option>
+                            </isloop>
+                        <iselse>
+                            <isloop items="${pdict.customselectoptions}" var="option">
+                                <isscript>
+                                    var label = Resource.msg(option.label,'forms',null);
+                                    if (option.label == label) { label=option.label }
+                                </isscript>
+                                <option class="select_option" value="${!empty(option.value) && option.value != 0 ? option.value : ''}"
+                                    <isif condition="${(('viewLabelInOptionTag' in option) && option.viewLabelInOptionTag)}">
+                                        label="${option.label}"
+                                    </isif>
+                                    <isif condition="${pdict.formfield.value == option.value || option.selected}">
+                                        selected="selected"
+                                    </isif>
+                                ><isprint value="${label}" encoding="off"/></option>
+                            </isloop>
+                        </isif>
+                    </select>
+
+                <iscomment>Input with type "password"</iscomment>
+                <iselseif condition="${type == 'password'}">
+                    <isscript>
+                        aTag = '<input type="password" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' ' + (!empty(pdict.minlength) ? 'minlength=' + pdict.minlength : '') + cutomAttributes + ' />';
+                        if(togglePassword){
+                            aTag += '<a href="#" class="toggle-password" data-for="' + formElementIdValue + '"><span class="show">' + togglePasswordText + '</span> <span class="hide">' + togglePasswordTextActive + '</span></a>';
+                        }
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "date"</iscomment>
+                <iselseif condition="${type == 'date'}">
+                    <isscript>
+                        aTag = '<input type="date" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "text"</iscomment>
+                <iselseif condition="${type == 'textinput'}">
+                    <isscript>
+                        aTag = '<input type="text" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? ' maxlength=' + pdict.maxlength : '') + ' ' + (!empty(pdict.minlength) ? ' minlength=' + pdict.minlength : '') + ' value="' + (ccnumber ? CheckoutHelper.getMaskedCCNumber(pdict.CurrentForms, StringUtils.stringToHtml(pdict.formfield.htmlValue)) : StringUtils.stringToHtml(pdict.formfield.htmlValue)) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "nospecialcharacterstext"</iscomment>
+                <iselseif condition="${type === 'nospecialcharacterstext'}">
+                    <isscript>
+                        aTag = '<input type="text" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="noSpecialCharacters textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? ' maxlength=' + pdict.maxlength : '') + ' ' + (!empty(pdict.minlength) ? ' minlength=' + pdict.minlength : '') + ' value="' + (ccnumber ? CheckoutHelper.getMaskedCCNumber(pdict.CurrentForms, StringUtils.stringToHtml(pdict.formfield.htmlValue)) : StringUtils.stringToHtml(pdict.formfield.htmlValue)) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "email"</iscomment>
+                <iselseif condition="${type == 'email'}">
+                    <isscript>
+                        aTag = '<input type="email" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' value="' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "number"</iscomment>
+                <iselseif condition="${type == 'number'}">
+                    <isscript>
+                        aTag = '<input type="number" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' value="' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "search"</iscomment>
+                <iselseif condition="${type == 'search'}">
+                    <isscript>
+                        aTag = '<input type="search" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' value="' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+
+                <iscomment>Input with type "color"</iscomment>
+                <iselseif condition="${type == 'color'}">
+                    <isscript>
+                        aTag = '<input type="color" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' value="' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "datetime"</iscomment>
+                <iselseif condition="${type == 'datetime'}">
+                    <isscript>
+                        aTag = '<input type="datetime" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' value="' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "datetime-local"</iscomment>
+                <iselseif condition="${type == 'datetime-local'}">
+                    <isscript>
+                        aTag = '<input type="datetime-local" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' value="' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "month"</iscomment>
+                <iselseif condition="${type == 'month'}">
+                    <isscript>
+                        aTag = '<input type="month" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' value="' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "range"</iscomment>
+                <iselseif condition="${type == 'range'}">
+                    <isscript>
+                        aTag = '<input type="range" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' value="' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "tel"</iscomment>
+                <iselseif condition="${type == 'tel'}">
+                    <isscript>
+                        aTag = '<input type="tel" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' value="' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "time"</iscomment>
+                <iselseif condition="${type == 'time'}">
+                    <isscript>
+                        aTag = '<input type="time" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' value="' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "url"</iscomment>
+                <iselseif condition="${type == 'url'}">
+                    <isscript>
+                        aTag = '<input type="url" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' value="' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type "week"</iscomment>
+                <iselseif condition="${type == 'week'}">
+                    <isscript>
+                        aTag = '<input type="week" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textinput f_' + type + ' ' + validationCssClass + '" ' + autoCompleteAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + ' value="' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '"' + cutomAttributes + ' />';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Textarea element rendering</iscomment>
+                <iselseif condition="${type == 'textarea'}">
+                    <isscript>
+                        aTag = '<textarea id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="textarea f_' + type + ' ' + validationCssClass + '" ' + characterLimitAttribute + formElementPlaceholder + ' ' + (!empty(pdict.maxlength) ? 'maxlength=' + pdict.maxlength : '') + cutomAttributes + '>' + StringUtils.stringToHtml(pdict.formfield.htmlValue) + '</textarea>';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+
+                <iscomment>Input with type radio. Regular rendering</iscomment>
+                <iselseif condition="${type == 'radio'}">
+                    <isloop items="${empty(pdict.customselectoptions) ? pdict.formfield.options : pdict.customselectoptions}" var="option">
+                        <input type="radio" class="radio f_radio ${validationCssClass}" label="${option.label}" value="${option.value || ''}" name="${pdict.formfield.htmlName}" id="${formElementIdValue}${option.value || ''}" ${option.checked ? "checked" : ""} ${cutomAttributes}>
+                        <isif condition="${!empty(labelValue)}">
+                            <islabel for_field="${formElementIdValue + (enableClickOnLabel ? '' : '_') + (option.value || '')}" label_value="${Resource.msg(option.label, 'forms' ,null)}"/>
+                        </isif>
+                    </isloop>
+
+                <iscomment>
+                    Special type of radio inputs. Use case review needed.
+                    I think it can be replaced with regular radio inoput rendering.
+                    @TODO This input type used *only* in PS on contact us page.
+                          Need to switch from this vewtype to the regular *radio* viewtype
+                          Review and fix from E. del Rosario needed
+                    @Update:
+                        This type of radio inputs used in UrbanDecay project
+                </iscomment>
+                <iselseif condition="${type == 'radio-list'}">
+                    <ul class="f_field_radio_group">
+                        <isloop items="${empty(pdict.customselectoptions) ? pdict.formfield.options : pdict.customselectoptions}" var="option">
+                            <li class="f_field f_field_radio">
+                                    <input
+                                        type="radio"
+                                        class="f_radio radio ${validationCssClass}"
+                                        label="${option.label}"
+                                        value="${option.value || ''}"
+                                        name="${pdict.formfield.htmlName}"
+                                        id="${formElementIdValue}_${option.value || ''}"
+                                        ${(option.checked || option.value === pdict.formfield.value) ? "checked" : ""}
+                                        <isprint value="${cutomAttributes}" encoding="off"/>
+                                    />
+                                    <isif condition="${!empty(labelValue)}">
+                                        <islabel for_field="${formElementIdValue+'_'+(option.value || '')}" label_value="${Resource.msg(option.label, 'forms' ,null)}" disable_encoding="${disableEncodingForLabel}"/>
+                                    </isif>
+                            </li>
+                        </isloop>
+                    </ul>
+
+                <iscomment>
+                    Special type of radio inputs. Use case review needed.
+                    I think it can be replaced with regular radio inoput rendering.
+                    @TODO This input type used *only* in bazarvoice cartridge.
+                          Need to switch from this vewtype to the regular *radio* viewtype
+                          Need assitance from A. Hodzevich
+                </iscomment>
+                <iselseif condition="${type == 'radio-slider'}">
+                    <isscript>/* to prevent HTML encoding */
+                        //if(type == 'radio-slider') aTag = aTag + '<div id="slider ' + pdict.formfield.htmlName + '"></div>';
+                    </isscript>
+                    <isprint value="${aTag}" encoding="off"/>
+                    <isloop items="${pdict.formfield.options}" var="option">
+                        <isscript>
+                            // code to avoid empty option tags, because this causes an XHTML warning
+                            var label = Resource.msg(option.label,'forms',null);
+                            var displayValue = label;
+                            if (displayValue == null || displayValue == '') {
+                                displayValue = "<!-- Empty -->";
+                            } else {
+                                // encode it already, because in case of empty, we want to
+                                // avoid encoding
+                                displayValue = StringUtils.stringToHtml(displayValue);
+                            }
+                        </isscript>
+                        <isif condition="${option.checked}">
+                            <input type="radio" class="radio_button ${validationCssClass} ${CustomCssClass}" label="${label}" value="${option.value||''}" id="${pdict.formfield.htmlName}_${option.value||''}" checked="checked" name="${pdict.formfield.htmlName}" ${cutomAttributes}>
+                        <iselse>
+                            <input type="radio" class="radio_button ${validationCssClass} ${CustomCssClass}" label="${label}" value="${option.value||''}" id="${pdict.formfield.htmlName}_${option.value||''}" name="${pdict.formfield.htmlName}" ${cutomAttributes}>
+                        </isif>
+                    </isloop>
+                </isif>
+
+            <iscomment>
+                Input type checkbox element rendering.
+                The specific place for label related to checkbox field. Besides this,
+                it is completly the same structure as for the other form controls.
+            </iscomment>
+            <iselseif condition="${type == 'checkbox'}">
+                <isscript>
+                    aTag = '<input type="checkbox" id="' + formElementIdValue + '" name="' + formElementNameValue + '" class="checkbox f_' + type + validationCssClass + '" value="' + StringUtils.stringToHtml(pdict.value || pdict.formfield.htmlValue) + '"' + (pdict.formfield.checked ? ' checked="checked"' : '') + cutomAttributes + '/>';
+                </isscript>
+                <isprint value="${aTag}" encoding="off"/>
+                <iscomment>Checkbox label element rendering</iscomment>
+                <islabel for_field="${formElementIdValue}" required_field="${isMandatory}" label_value="${Resource.msg(labelValue,'forms',null)}" disable_encoding="${disableEncodingForLabel}"/>
+
+            <iscomment>
+                Hidden input element rendering.
+                Field label, description and error message element container not needed
+            </iscomment>
+            <iselseif condition="${type == 'hidden'}">
+                <isif condition="${!empty(pdict.fakeinput)}">
+                    <iscomment>Formfield label element rendering</iscomment>
+                    <isif condition="${!empty(labelValue)}">
+                    <islabel for_field="${formElementIdValue}" required_field="${isMandatory}" label_value="${Resource.msg(labelValue,'forms',null)}"/>
+                    </isif>
+                    <div class="f_fake_input">
+                        <span class="f_fake_input_text">
+                            ${Resource.msg(pdict.fakeinput, 'forms', null)}
+                        </span>
+                    </div>
+                </isif>
+                <isscript>
+                    aTag = '<input type="hidden" name="' + formElementNameValue + '" class="f_' + type + ' ' + validationCssClass + '" id="' + formElementIdValue + '" value="' + StringUtils.stringToHtml(pdict.value != null ? pdict.value : pdict.formfield.htmlValue) + '" />';
+                </isscript>
+                <isprint value="${aTag}" encoding="off"/>
+            </isif>
+
+            <iscomment>If rendering in simplify mode - we don't need description and erorr placeholders</iscomment>
+            <isif condition="${!isSimplify}">
+                <iscomment>Description element will be rendered if description is availible</iscomment>
+                <isif condition="${!empty(pdict.formfield.description)}">
+                    <span class="formfield_description f_field_description"><isprint value="${Resource.msg(pdict.formfield.description,'forms',null)}"/></span>
+                </isif>
+                <iscomment>Error message element is always present in each formfield</iscomment>
+                <${errorContainerTag} class="error_message f_error_message" data-for="${formElementIdValue}" data-generated="true">
+                    <isif condition="${!pdict.formfield.valid && !empty(pdict.formfield.error)}">
+                        <isprint value="${Resource.msg(pdict.formfield.error,'forms',null)}"/>
+                    </isif>
+                </${errorContainerTag}>
+                <iscomment>
+                    FormField Tooltip placeholder will be rendered only
+                    if asset ID and label has been provided
+                </iscomment>
+                <isif condition="${!empty(tooltipLabel) && !empty(tooltipAID)}">
+                    <a class="f_field_tooltip" href="${tooltipHref}">
+                        <span class="f_field_tooltip_label">${tooltipLabel}</span>
+                        <div class="f_field_tooltip_content" data-content-asset-id="${tooltipAID}">
+                            <iscontentasset aid="${tooltipAID}">
+                        </div>
+                    </a>
+                </isif>
+                <isif condition="${!empty(assetContent)}">
+                    <iscontentasset aid="${assetContent}">
+                </isif>
+            </isif>
+
+        </div>
+    </isif>
+</isif>
