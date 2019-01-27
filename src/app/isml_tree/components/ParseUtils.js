@@ -26,6 +26,10 @@ const getNextNonEmptyChar = content => {
     return content.replace(/\n/g, '').trim()[0];
 };
 
+module.exports.getLineBreakQty = function(string) {
+    return (string.match(/\n/g) || []).length;
+};
+
 module.exports.getPostClosingTagContentUpToLneBreak = function(content, startPos) {
     let postContent = '';
 

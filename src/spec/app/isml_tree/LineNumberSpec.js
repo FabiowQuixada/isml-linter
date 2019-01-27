@@ -123,6 +123,20 @@ describe('TreeBuilder', () => {
         expect(errorMsgNode.getLineNumber()).toEqual(9);
         expect(errorMsgNode.getNumberOfChildren()).toEqual(0);
     });
+
+    it('identifies a single-child non-tag element line number', () => {
+        const rootNode   = TreeBuilder.build(getFilePath(9)).rootNode;
+        const ifNode     = rootNode.getChild(0).getChild(0).getChild(0).getChild(0);
+        const nonTagNode = ifNode.getChild(0).getChild(1).getChild(0);
+
+        expect(ifNode.getValue()).toEqual('\n        <isif condition="${pdict.customer.registeredUser}">');
+        expect(ifNode.getLineNumber()).toEqual(4);
+        expect(ifNode.getNumberOfChildren()).toEqual(1);
+
+        expect(nonTagNode.getValue()).toEqual('\n                    ${creditFields.saveCard.label}\n                ');
+        expect(nonTagNode.getLineNumber()).toEqual(8);
+        expect(nonTagNode.getNumberOfChildren()).toEqual(0);
+    });
 });
 
 const getFilePath = number => {

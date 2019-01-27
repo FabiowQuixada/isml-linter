@@ -144,7 +144,10 @@ const parseNewNodeInnerContent = state => {
 };
 
 const addTextToNode = (nodeInnerContent, state, parentNode) => {
-    const innerTextNode = new IsmlNode(nodeInnerContent, state.currentLineNumber);
+
+    const lineBreakQty  = ParseUtils.getNumberOfPrecedingEmptyLines(nodeInnerContent);
+    const innerTextNode = new IsmlNode(nodeInnerContent, state.currentLineNumber + lineBreakQty);
+
     if (innerTextNode) {
         parentNode.addChild(innerTextNode);
     }
@@ -155,7 +158,7 @@ const createNodeForCurrentElement = state => {
     state.depth -= 1;
 
     if (state.depth === 0) {
-        const lineBreakQty = (state.currentElement.asString.match(/\n/g) || []).length;
+        const lineBreakQty = ParseUtils.getLineBreakQty(state.currentElement.asString);
 
         state.currentLineNumber += lineBreakQty;
     }
