@@ -6,6 +6,7 @@ const NoSpaceOnlyLinesRule = require('../../app/rules/line_by_line/no-space-only
 const NoInlineStyleRule    = require('../../app/rules/line_by_line/no-inline-style');
 const EnforceIsprintRule   = require('../../app/rules/line_by_line/enforce-isprint');
 const FileParser           = require('../../app/FileParser');
+const ExceptionUtils       = require('../../app/ExceptionUtils');
 
 const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
@@ -68,10 +69,11 @@ describe(targetObjName, () => {
     });
 
     it('lists invalid templates as "unparseable"', () => {
-        const result = IsmlLinter.run(specSpecificDirLinterTemplate);
+        const result          = IsmlLinter.run(specSpecificDirLinterTemplate);
+        const expectedMessage = ExceptionUtils.getUnbalancedMessage('div', 2);
 
         expect(result[UNPARSEABLE][0]).toEqual({
-            'template_0.isml': 'Invalid ISML DOM :: Unbalanced <div> element at line 2'
+            'template_0.isml': expectedMessage
         });
     });
 });
@@ -124,8 +126,9 @@ const expectedResultObj = type => {
     result[type][blankLineRuleDesc]            = {};
     result[type][blankLineRuleDesc][file0Path] = [];
     result[type][blankLineRuleDesc][file0Path].push(blankLine);
+    const expectedMessage                      = ExceptionUtils.getUnbalancedMessage('div', 2);
 
-    result[Constants.UNPARSEABLE] = [ { 'template_0.isml' : 'Invalid ISML DOM :: Unbalanced <div> element at line 2' } ];
+    result[Constants.UNPARSEABLE] = [ { 'template_0.isml' : expectedMessage } ];
 
     return result;
 };

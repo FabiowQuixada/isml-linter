@@ -1,6 +1,7 @@
-const TreeBuilder = require('../../../app/isml_tree/TreeBuilder');
-const SpecHelper  = require('../../SpecHelper');
-const Constants   = require('../../../app/Constants');
+const TreeBuilder    = require('../../../app/isml_tree/TreeBuilder');
+const SpecHelper     = require('../../SpecHelper');
+const Constants      = require('../../../app/Constants');
+const ExceptionUtils = require('../../../app/ExceptionUtils');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -108,7 +109,9 @@ describe(targetObjName, () => {
     });
 
     it('throws an exception upon invalid isml dom', () => {
-        expect(TreeBuilder.build(getFilePath(1)).message).toEqual('Invalid ISML DOM :: Unbalanced <div> element at line 2');
+        const expectedMessage = ExceptionUtils.getUnbalancedMessage('div', 2);
+
+        expect(TreeBuilder.build(getFilePath(1)).message).toEqual(expectedMessage);
     });
 
     it('parses hard-coded strings', () => {

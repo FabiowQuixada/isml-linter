@@ -95,10 +95,11 @@ const getUnorderedJsonData = () => {
 };
 
 const getJsonData = () => {
-
-    const type   = require('../../app/FileParser').ENTRY_TYPES.ERROR;
-    const result = {};
-    result[type] = {};
+    const ExceptionUtils  = require('../../app/ExceptionUtils');
+    const type            = require('../../app/FileParser').ENTRY_TYPES.ERROR;
+    const expectedMessage = ExceptionUtils.getUnbalancedMessage('isif', 8);
+    const result          = {};
+    result[type]          = {};
 
     const inlineStyleRuleDesc = NoInlineStyleRule.description;
     const isprintRuleDesc     = EnforceIsprintRule.description;
@@ -110,7 +111,7 @@ const getJsonData = () => {
     };
 
     const invalidTemplate = {
-        'template_0.isml': 'Invalid ISML DOM :: Unbalanced <isif> element'
+        'template_0.isml': expectedMessage
     };
 
     result[type][isprintRuleDesc]           = {};
