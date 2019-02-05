@@ -4,10 +4,12 @@ class IsmlNode {
 
     constructor(value = '(root)', lineNumber = 0) {
         this.value      = value;
+        this.lineNumber = lineNumber;
         this.type       = null;
         this.height     = 0;
+        this.type       = null;
         this.innerText  = null;
-        this.lineNumber = lineNumber;
+        this.parent     = null;
         this.children   = [];
     }
 
@@ -22,15 +24,39 @@ class IsmlNode {
     }
 
     getHeight() { return this.height; }
+    getParent() { return this.parent; }
 
     addChild(newNode) {
         newNode.height       = this.height+1;
+        newNode.parent       = this;
         this.children.push(newNode);
         this.newestChildNode = newNode;
     }
 
     getChild(number) { return this.children[number]; }
     getNumberOfChildren() { return this.children.length; }
+
+    isRoot() { return !this.parent; }
+
+    isTag() {
+        const value = this.value.trim();
+
+        return value.startsWith('<') &&
+            value.endsWith('>');
+    }
+
+    isExpression() {
+        const value = this.value.trim();
+
+        return value.startsWith('${') &&
+            value.endsWith('}');
+    }
+
+    isIsmlComment() {
+        const value = this.value.trim();
+
+        return value === '<iscomment>';
+    }
 
     isHtmlComment() {
         const value = this.value.trim();
@@ -39,7 +65,11 @@ class IsmlNode {
             value.endsWith('-->');
     }
 
-    isSelfClosing() { return this.isHtmlComment() || this.value.endsWith('/>'); }
+    isCommentContent() {
+        return this.parent && this.parent.isIsmlComment();
+    }
+
+    isSelfClosing() { return this.isHtmlComment() || this.isTag() && this.value.endsWith('/>'); }
 
     print() {
         const indentSize = this.height;

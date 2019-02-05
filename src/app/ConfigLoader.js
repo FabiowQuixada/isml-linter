@@ -61,12 +61,7 @@ const createConfigFile = (targetDir = Constants.configFilePath, configFileName) 
             rules: {}
         };
 
-        require('fs').readdirSync(Constants.rulesDir).forEach( filename => {
-            if (filename.endsWith('.js')) {
-                const ruleName                = filename.slice(0, -3);
-                configContent.rules[ruleName] = {};
-            }
-        });
+        addDefaultRules(configContent);
 
         FileUtils.saveToJsonFile(targetDir, configFileName, configContent);
 
@@ -84,6 +79,25 @@ const init = (
     createClientDirectories(targetDir);
     return createConfigFile(targetDir, configFileName);
 };
+
+function addDefaultRules(configContent) {
+
+    const fs = require('fs');
+
+    fs.readdirSync(Constants.lineByLineRulesDir)
+        .forEach(addRuleTo(configContent));
+    fs.readdirSync(Constants.treeRulesDir)
+        .forEach(addRuleTo(configContent));
+}
+
+function addRuleTo(configContent) {
+    return filename => {
+        if (filename.endsWith('.js')) {
+            const ruleName                = filename.slice(0, -3);
+            configContent.rules[ruleName] = {};
+        }
+    };
+}
 
 module.exports = {
     init,
