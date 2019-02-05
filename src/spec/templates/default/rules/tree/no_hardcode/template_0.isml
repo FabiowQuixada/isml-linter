@@ -1,0 +1,9 @@
+<iscomment>Price</iscomment>
+<td class="dv_wrapper">
+    <div class="some_class">
+        I'm a hardcoded-text
+    </div>
+    <div class="another_class">
+        I'm another hardcoded-text
+    </div>
+</td>
