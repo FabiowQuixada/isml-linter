@@ -1,0 +1,3 @@
+<div class="form-group">
+    <label class="form-control-label">${Resource.msg('field.billing.address.last.name','address',null)}</label>
+</div>

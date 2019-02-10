@@ -30,6 +30,11 @@ module.exports.getLineBreakQty = function(string) {
     return (string.match(/\n/g) || []).length;
 };
 
+module.exports.getNextNonEmptyCharPos = content => {
+    const firstNonEmptyChar = getNextNonEmptyChar(content);
+    return content.indexOf(firstNonEmptyChar);
+};
+
 module.exports.getPostClosingTagContentUpToLneBreak = function(content, startPos) {
     let postContent = '';
 

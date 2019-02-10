@@ -57,6 +57,9 @@ const UNPARSEABLE = 'nonparseable';
 
 // Rules configuration default values;
 const rules = {
+    'indent': {
+        size: 4
+    },
 };
 
 module.exports = {
