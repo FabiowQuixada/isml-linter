@@ -55,6 +55,10 @@ const repositoryUrl = 'https://github.com/FabiowQuixada/isml-linter';
 // Others;
 const UNPARSEABLE = 'nonparseable';
 
+// Rules configuration default values;
+const rules = {
+};
+
 module.exports = {
     // Client directories;
     clientAppDir,
@@ -106,4 +110,7 @@ module.exports = {
 
     // Others;
     UNPARSEABLE,
+
+    // Rules;
+    rules,
 };

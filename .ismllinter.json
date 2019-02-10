@@ -1,6 +1,7 @@
 {
     "rootDir": "./cartridges",
     "ignoreUnparseable": true,
+    "disableTreeParse": false,
     "rules": {
         "enforce-isprint": {},
         "enforce-require": {},

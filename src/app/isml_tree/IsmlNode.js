@@ -25,6 +25,7 @@ class IsmlNode {
 
     getHeight() { return this.height; }
     getParent() { return this.parent; }
+    getGlobalPos() { return -1; }
 
     addChild(newNode) {
         newNode.height       = this.height+1;
