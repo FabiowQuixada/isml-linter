@@ -1,0 +1,3 @@
+<div>
+    <isset name="basket" value="${require('dw.order.Basket')}" scope="page"/>
+</div>

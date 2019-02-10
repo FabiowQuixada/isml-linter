@@ -1,0 +1,5 @@
+<div>
+    <isloop items=${billingFields.country.options} var="country">
+        <td></td>
+    </isloop>
+</div>

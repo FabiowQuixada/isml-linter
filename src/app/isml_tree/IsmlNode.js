@@ -72,6 +72,10 @@ class IsmlNode {
 
     isSelfClosing() { return this.isHtmlComment() || this.isTag() && this.value.endsWith('/>'); }
 
+    isOfType(type) {
+        return !this.isRoot() && this.getType() === type;
+    }
+
     print() {
         const indentSize = this.height;
         let indentation  = '';

@@ -1,0 +1,5 @@
+<div>
+    <isloop items=${billingFields.country.options} var="country">
+        <isset name="basket" value="${require('dw.order.Basket')}" scope="page"/>
+    </isloop>
+</div>
