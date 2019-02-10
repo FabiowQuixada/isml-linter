@@ -1,0 +1,21 @@
+<div class="lvl-1">
+    <div class="lvl-2">
+        <div class="lvl-3">
+            <div class="lvl-4">
+                <div class="lvl-5">
+                    <div class="lvl-6">
+                        <div class="lvl-7">
+                            <select class="lvl-8">
+                                <isloop class="lvl-9" items=${billingFields.states.stateCode.options} var="state">
+                                    <option class="lvl-10">
+                                        <isprint class="lvl-11" />
+                                    </option>
+                                </isloop>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

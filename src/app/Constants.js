@@ -60,6 +60,9 @@ const rules = {
     'indent': {
         size: 4
     },
+    'max-depth': {
+        value: 10
+    }
 };
 
 module.exports = {
