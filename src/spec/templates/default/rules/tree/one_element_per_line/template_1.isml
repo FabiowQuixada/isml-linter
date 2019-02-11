@@ -1,0 +1,20 @@
+<isset name="billingFields" value="${pdict.forms.billingForm.addressFields}" scope="page"/>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group
+            ${billingFields.lastName.mandatory === true ? 'required' : ''}
+            ${billingFields.lastName.htmlName}">
+            <label class="form-control-label" for="billingLastName">
+                ${Resource.msg('field.billing.address.last.name','address',null)}
+            </label>
+            <input type="text" class="form-control billingLastName" id="billingLastName"
+                value="${pdict.order.billing.billingAddress.address
+                    && pdict.order.billing.billingAddress.address.lastName
+                    ? pdict.order.billing.billingAddress.address.lastName
+                    : ''}"
+                <isprint value=${billingFields.lastName.attributes} encoding="off"/>
+                autocomplete="family-name" />
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+</div>
