@@ -1,0 +1,5 @@
+<input
+    type="text"
+    class="form-control <isif condition="${condition}">billingAddressCity</isif>"
+    id="billingAddressCity"
+    autocomplete="billing address-level2"/>

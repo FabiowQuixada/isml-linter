@@ -46,6 +46,14 @@ class IsmlNode {
             value.endsWith('>');
     }
 
+    isHtmlTag() {
+        const value = this.value.trim();
+
+        return value.startsWith('<') &&
+            !value.startsWith('<is') &&
+            value.endsWith('>');
+    }
+
     isExpression() {
         const value = this.value.trim();
 

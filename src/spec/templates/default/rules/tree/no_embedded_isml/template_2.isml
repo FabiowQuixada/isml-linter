@@ -1,0 +1,9 @@
+<input 
+    type="text" 
+    class="form-control billingAddressCity" 
+    id="billingAddressCity"
+    value="${pdict.order.billing.billingAddress.address
+        && pdict.order.billing.billingAddress.address.city
+        ? pdict.order.billing.billingAddress.address.city
+        : ''}"
+    autocomplete="billing address-level2"/>

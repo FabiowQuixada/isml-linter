@@ -1,0 +1,6 @@
+<input
+    type="text"
+    class="form-control billingAddressCity"
+    id="billingAddressCity"
+    <isprint value=${billingFields.city.attributes} encoding="off"/>
+    autocomplete="billing address-level2" />
