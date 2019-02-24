@@ -10,9 +10,9 @@ The linter is still on an early stage, so that some of the groups above may have
 
 When run, Isml Linter will generate two files under "isml-linter/output/" in your project's root directory. One of these files is the main output file, which lists all the enabled broken rules (file by file, line by line), and the other is a compiled version of it, so you have a good overview of the current status of your templates.
 
-## Updating to Version 3.0.0
+## Updating to Version 3+
 
-Please note that this update is automated, i.e., you won't need to do anything, not even run a single command. Of course, you'll still need to add the generated changes to your repository.
+Please note that the following update is automated if you're upgrading from versions older than 3.0.0. You won't need to do anything, not even run a single command. Of course, you'll still need to add the generated changes to your repository.
 
 This section exists in order for you to know that a minor, but fundamental update will take place in the configuration file:
 
@@ -86,7 +86,7 @@ Currently, the following configurations can be set in the .ismllinter.json file:
 | rootDir           | The root directory under which the linter will run. Defaults to the directory where the package.json file is |
 | ignoreUnparseable | Does not raise an error if an unparseable file is found. Default: false |
 | ignore            | If a file path contains (as a substring) any string defined here, that file will be ignored by the linter |
-| parseMode         | Accepts two possible values: 'tree' and 'lineByLine'. Check below when each mode is recommended. Default: 'tree' |
+| disableTreeParse | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: 'false' |
 | rules             | Defines which rules to check. See available rules below |
 
 **Note:** If you explicitly set "ignoreUnparseable" config to true, unparseable files may contain errors that will not be detected by Isml Linter.
@@ -116,7 +116,7 @@ Note that according to the above configurations, the following files would be ig
 
 ## Parse Modes
 
-### Tree
+### Tree (disableTreeParse : true)
 
 This is the default, and most powerful mode. It analyses the template and tries to build an "ISML-DOM" tree to then apply the enabled rules. It is required that the template is parseable.
 
@@ -132,10 +132,10 @@ For example, if a template contains a snippet like the following, IT IS NOT cons
 </isif>
 ```
 
-since the linter is not able to make an associatio between the opening an dclosing 'div' element. This is the only known limitation for this parse mode. One possible solution to turn such templates into parseable is to replace that snipet by:
+since the linter is not able to make an association between the opening and the corresponding closing 'div' elements. This is the only known limitation for this parse mode. One possible solution to turn such templates into parseable is to replace that snipet by:
 
 ```html
-<isif condition="${aCondtion}">
+<isif condition="${aCondition}">
     <div class="info">
         <isinclude template="myTemplate" />
     </div>
@@ -152,7 +152,7 @@ And, to avoid possible doubts, here is an extra piece of information: it is allo
 <div <isif ...> </isif> />
 ```
 
-### Line by Line
+### Line by Line (disableTreeParse : true)
 
 This is a more robust, less powerful mode. It only has a few set of rules available and is indicated for cases where there are many, many lint errors and you want fix them gradually. It is also recommended in cases you don't want to force templates to be parseable (see previous session). This mode is ideally temporary, as it cannot take advantages of even some simple rules, such as indentation enforcement.
 
@@ -171,17 +171,49 @@ process.exit(exitCode);
 
 ## Available Rules
 
+Rules marked with :small_orange_diamond: require "disableTreeParse" configuraton to be false.
+
 | Rule                   | Description                              |
 | ---------------------- |:-----------------------------------------|
-| no-br                  | Disallows &lt;br/> tags. Enable this rule if you prefer to use CSS to handle horizontal spacing |
-| no-git-conflict        | Disallows unresolved Git conflicts |
-| no-import-package      | Disallows importPackage() function. It is recommended by SalesForce to use require() instead |
-| no-isscript            | Disallows &lt;isscript/> tag in template. Enable this rule if you prefer logic to be kept in a separate .ds/.js file |
-| no-trailing-spaces     | Disallows trailing blank spaces |
-| no-space-only-lines    | Disallows lines that contain only blank spaces, i.e., unnecessarily indented |
-| no-inline-style        | Disallows use of "style" HTML attribute. Enable this rule if you prefer style to be fully handled via CSS |
-| no-tabs                | Disallows use of tabs |
-| enforce-isprint        | Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
-| enforce-require        | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
+| [no-br][no-br-readme]  | Disallows &lt;br/> tags. Enable this rule if you prefer to use CSS to handle vertical spacing |
+| [no-git-conflict][no-git-conflict-readme]        | Disallows unresolved Git conflicts |
+| [no-import-package][no-import-package-readme]      | Disallows importPackage() function. It is recommended by SalesForce to use require() instead |
+| [no-isscript][no-isscript-readme]            | Disallows &lt;isscript/> tag in template. Enable this rule if you prefer logic to be kept in a separate .ds/.js file |
+| [no-trailing-spaces][no-isscript-readme]     | Disallows trailing blank spaces |
+| [no-space-only-lines][no-space-only-lines-readme]    | Disallows lines that contain only blank spaces, i.e., unnecessarily indented |
+| [no-inline-style][no-inline-style-readme]        | Disallows use of "style" HTML attribute. Enable this rule if you prefer style to be fully handled via CSS |
+| [no-tabs][no-tabs-readme]                | Disallows use of tabs |
+| [enforce-isprint][enforce-isprint-readme]        | Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
+| [enforce-require][enforce-require-readme]        | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
+| [max-lines][max-lines-readme]              | Sets the max number of lines a template can have |
+| [empty-eof-line][empty-eof-line-readme]         | Enforces last teplate line to be empty |
+| [complexity][complexity-readme]             | Sets max cyclomatic complexity for a template |
+| :small_orange_diamond: [no-hardcode][no-hardcode-readme]            | Disallows hardcoded strings outside ISML expressions |
+| :small_orange_diamond: [indent][indent-readme]                 | Sets indentation size |
+| :small_orange_diamond: [no-require-in-loop][no-require-in-loop-readme]     | No `require()` calls from within a loop in the template |
+| :small_orange_diamond: [no-embedded-isml][no-embedded-isml-readme]       | Disallows embedded isml tags, such as in <div &lt;isif /> />, except for &lt;isprint /> |
+| :small_orange_diamond: [max-depth][max-depth-readme]               | Sets the maximum of nested elements in a template |
+| :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]   | One element per line |
+| :small_orange_diamond: [enforce-var-definition][enforce-var-definition-readme] | Enforce variable definition in the template, to avoid undesired log errors. |
 
-We're working on an AST (abstract syntax tree) to validate the whole document tree structure and expand the power of available rules, so keep an eye on us!
+
+[no-br-readme]:                  <FabiowQuixada/isml-linter/blob/master/docs/rules/no-br.md>
+[no-git-conflict-readme]:        <FabiowQuixada/isml-linter/blob/master/docs/rules/no-git-conflict.md>
+[no-import-package-readme]:      <FabiowQuixada/isml-linter/blob/master/docs/rules/no-import-package.md>
+[no-isscript-readme]:            <FabiowQuixada/isml-linter/blob/master/docs/rules/no-isscript.md>
+[no-trailing-spaces-readme]:     <FabiowQuixada/isml-linter/blob/master/docs/rules/no-trailing-spaces.md>
+[no-space-only-lines-readme]:    <FabiowQuixada/isml-linter/blob/master/docs/rules/no-space-only-lines.md>
+[no-inline-style-readme]:        <FabiowQuixada/isml-linter/blob/master/docs/rules/no-inline-style.md>
+[no-tabs-readme]:                <FabiowQuixada/isml-linter/blob/master/docs/rules/no-tabs.md>
+[enforce-isprint-readme]:        <FabiowQuixada/isml-linter/blob/master/docs/rules/enforce-isprint.md>
+[enforce-require-readme]:        <FabiowQuixada/isml-linter/blob/master/docs/rules/enforce-require.md>
+[max-lines-readme]:              <FabiowQuixada/isml-linter/blob/master/docs/rules/max-lines.md>
+[empty-eof-line-readme]:         <FabiowQuixada/isml-linter/blob/master/docs/rules/empty-eof-line.md>
+[complexity-readme]:             <FabiowQuixada/isml-linter/blob/master/docs/rules/complexity.md>
+[no-hardcode-readme]:            <FabiowQuixada/isml-linter/blob/master/docs/rules/no-hardcode.md>
+[indent-readme]:                 <FabiowQuixada/isml-linter/blob/master/docs/rules/indent.md>
+[no-require-in-loop-readme]:     <FabiowQuixada/isml-linter/blob/master/docs/rules/no-require-in-loop.md>
+[no-embedded-isml-readme]:       <FabiowQuixada/isml-linter/blob/master/docs/rules/no-embedded-isml.md>
+[max-depth-readme]:              <FabiowQuixada/isml-linter/blob/master/docs/rules/max-depth.md>
+[enforce-var-definition-readme]: <FabiowQuixada/isml-linter/blob/master/docs/rules/enforce-var-definition.md>
+[one-element-per-line-readme]:   <FabiowQuixada/isml-linter/blob/master/docs/rules/one-element-per-line.md>
