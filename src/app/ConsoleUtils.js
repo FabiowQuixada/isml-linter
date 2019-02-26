@@ -21,7 +21,7 @@ const printExceptionMsg = e => {
 
     console.log();
     console.log('An error has occurred:');
-    console.log(e.stack);
+    console.log(e.stack || e);
     console.log('If you think this is a bug, please open an issue at:');
     console.log(`\n${Constants.repositoryUrl}\n\n`);
 };
