@@ -1,5 +1,23 @@
 # Changelog
 
+## [4.0.0] - 2019-03-03
+
+### Added
+ - AST build;
+ - New rules:
+   - Indentation;
+   - Max depth;
+   - No Require in Loop;
+   - No hardcode;
+   - One Element per Line;
+   - No Embedded Isml Tag;
+    
+### Removed
+- Global installation support;
+    
+### Deprecated
+ - Output directory and json file;
+
 ## [3.0.0] - 2018-10-17
 
 ### Added
@@ -64,6 +82,7 @@
 ### Added
 - Linter is published;
 
+[4.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/v2.3.0...v3.0.0
 [2.3.0]: https://github.com/FabiowQuixada/isml-linter/compare/2.2.0...v2.3.0
 [2.2.0]: https://github.com/FabiowQuixada/isml-linter/compare/2.0.1...2.2.0

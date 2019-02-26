@@ -17,6 +17,7 @@ const clientConfigFileName   = '.ismllinter.json';
 const specConfigFileName     = 'spec_config.json';
 
 const clientAppDir        = appRoot.toString();
+const linterModuleDir     = path.join(clientAppDir, 'node_modules', 'isml-linter');
 const linterMainDir       = clientAppDir;
 const clientIsmlLinterDir = path.join(clientAppDir, ismllinterDirName);
 const clientOutputDir     = path.join(clientIsmlLinterDir, outputDir);
@@ -35,8 +36,8 @@ const specLineNumberTemplateDir      = path.join(specIsmlTreeTemplateDir, 'line_
 const specInvalidTemplateDir         = path.join(specIsmlTreeTemplateDir, 'invalid_templates');
 const specComplexTemplatesDir        = path.join(specIsmlTreeTemplateDir, 'complex_templates');
 const specIsifTagParserTemplateDir   = path.join(specTemplateDir, 'isml_tree', 'components', 'isif_tag_parser');
-const rulesDir                       = path.join(linterMainDir, 'src', 'app', 'rules');
-const lineByLineRulesDir             = path.join(linterMainDir, 'src', 'app', 'rules', 'line_by_line');
+const rulesDir                       = path.join(linterModuleDir, 'src', 'app', 'rules');
+const lineByLineRulesDir             = path.join(rulesDir, 'line_by_line');
 const treeRulesDir                   = path.join(rulesDir, 'tree');
 
 // Regex;
