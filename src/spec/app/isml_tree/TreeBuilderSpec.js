@@ -228,6 +228,13 @@ describe(targetObjName, () => {
         expect(childDivNode.getLineNumber()).toEqual(4);
         expect(childDivNode.getNumberOfChildren()).toEqual(0);
     });
+
+    it('handles unknown errors', () => {
+        const filePath        = getFilePath(26);
+        const expectedMessage = ExceptionUtils.getParseErrorMessage(filePath);
+
+        expect(TreeBuilder.build(filePath).message).toEqual(expectedMessage);
+    });
 });
 
 const getFilePath = number => {

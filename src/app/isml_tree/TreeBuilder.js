@@ -3,6 +3,7 @@ const IsifTagParser   = require('./components/IsifTagParser');
 const StateUtils      = require('./components/StateUtils');
 const ParseUtils      = require('./components/ParseUtils');
 const MultiClauseNode = require('./MultiClauseNode');
+const ExceptionUtils  = require('../ExceptionUtils');
 const fs              = require('fs');
 
 const build = filePath => {
@@ -10,6 +11,7 @@ const build = filePath => {
     const ParseStatus = require('../enums/ParseStatus');
 
     const result = {
+        filePath,
         status: ParseStatus.NO_ERRORS,
         message: ''
     };
@@ -20,7 +22,9 @@ const build = filePath => {
     } catch (e) {
         result.rootNode = null;
         result.status   = ParseStatus.INVALID_DOM;
-        result.message  = e;
+        result.message  = e === ExceptionUtils.types.UNKNOWN_ERROR ?
+            ExceptionUtils.getParseErrorMessage(filePath) :
+            e;
     }
 
     return result;

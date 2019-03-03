@@ -1,0 +1,42 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--[if !mso]><!-- -->
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+<!--<![endif]-->
+<style type="text/css">
+/* CLIENT-SPECIFIC STYLES */
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; }
+
+/* RESET STYLES */
+    img { border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+    table { border-collapse: collapse !important; }
+    body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
+
+/* iOS BLUE LINKS */
+    a[x-apple-data-detectors] {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+    }
+
+/* ANDROID CENTER FIX */
+    div[style*="margin: 16px 0;"] { margin: 0 !important; }
+
+/* Reset Anchor Style */
+    a:link { color:#cb1126; text-decoration: none; }
+    a:visited { color:#cb1127; text-decoration: none; }
+    a:hover { color:#ff2f2f; text-decoration: none; }
+    a:active { color:#cb1127; text-decoration: underline; }
+
+/* Reset text elements*/
+    h1, h2, h3, p, a {
+        margin: 0;
+        padding: 0;
+        line-height: normal;
+    }
+
+</style>

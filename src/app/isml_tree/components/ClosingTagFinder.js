@@ -31,6 +31,8 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
 
     parentState.currentElement.endPosition = maskedContent.indexOf('>');
 
+    let previousContent = null;
+
     while (internalState.content) {
 
         if (isNextElementATag(internalState)) {
@@ -48,6 +50,12 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
         } else {
             internalState = removeLeadingNonTagText(internalState);
         }
+
+        if (previousContent === internalState.content) {
+            throw ExceptionUtils.types.UNKNOWN_ERROR;
+        }
+
+        previousContent = internalState.content;
     }
 
     throw ExceptionUtils.getUnbalancedMessage(currentElement.type, currentElement.lineNumber);
