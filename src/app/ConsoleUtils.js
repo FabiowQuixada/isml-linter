@@ -1,5 +1,6 @@
-const chalk     = require('chalk');
-const Constants = require('./Constants');
+const chalk          = require('chalk');
+const Constants      = require('./Constants');
+const ExceptionUtils = require('./ExceptionUtils');
 
 const displayResult = issueQty => {
     console.log('IsmlLinter run successfully!');
@@ -28,6 +29,8 @@ const printExceptionMsg = e => {
 
 const displayErrors = jsonErrors => {
 
+    displayUnknownErrors(jsonErrors);
+
     let sum = 0;
 
     for (const rule in jsonErrors.errors) {
@@ -49,6 +52,20 @@ const displayErrors = jsonErrors => {
     }
 
     console.log('\n' + chalk`{red.bold ${sum} errors found}`);
+};
+
+const displayUnknownErrors = jsonErrors => {
+    const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
+
+    if (jsonErrors[UNKNOWN_ERROR]) {
+        console.log(chalk`{red.bold \nAn unexpected error happened while parsing the following files:}`);
+
+        jsonErrors[UNKNOWN_ERROR].forEach( (filePath, i) => {
+            console.log(chalk.gray(i) + '\t' + filePath);
+        });
+
+        console.log(`\nPlease report this to ${chalk.cyan(Constants.repositoryUrl)} and add these files to the ignore list while a fix is not available.`);
+    }
 };
 
 module.exports = {

@@ -130,5 +130,7 @@ const expectedResultObj = type => {
 
     result[Constants.UNPARSEABLE] = [ { 'template_0.isml' : expectedMessage } ];
 
+    result.issueQty = 5;
+
     return result;
 };

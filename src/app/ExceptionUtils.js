@@ -1,8 +1,8 @@
 const Constants = require('./Constants');
 
 const types = {
-    UNKNOWN_ERROR    : 0,
-    INVALID_TEMPLATE : 1
+    UNKNOWN_ERROR    : 'UNKNOWN_ERROR',
+    INVALID_TEMPLATE : 'INVALID_TEMPLATE'
 };
 
 const getUnbalancedMessage = (elementType, lineNumber) => {
