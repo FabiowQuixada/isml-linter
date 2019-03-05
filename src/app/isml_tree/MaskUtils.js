@@ -10,6 +10,7 @@ const maskIgnorableContent = content => {
 
     content = maskInBetween(content, '${', '}');
     content = maskInBetween(content, '<isscript>', '</isscript>');
+    content = maskInBetweenForTagWithAttributes(content, '<style', '</style>');
     content = maskInBetween(content, '<iscomment>', '</iscomment>');
     content = maskNestedIsmlElements(content);
 
@@ -73,9 +74,33 @@ const getMatchingIndexList = (content, expression) => {
     return matchingIndexList;
 };
 
-const maskInBetween = (content, startString, endString) => {
+const getMatchingIndexListForTagWithAtrributes = (content, expression) => {
 
+    const regex             = getRegex(expression);
+    const matchingIndexList = [];
+    let match               = regex.exec(content);
+
+    while (match !== null) {
+        const substring     = content.substring(match.index);
+        const closingTagPos = substring.indexOf('>');
+        matchingIndexList.push(match.index + closingTagPos - expression.length + 1);
+        match               = regex.exec(content);
+    }
+
+    return matchingIndexList;
+};
+
+const maskInBetween = (content, startString, endString) => {
     const openingMatchList = getMatchingIndexList(content, startString);
+    return getMatchingIndexes(content, endString, openingMatchList, startString);
+};
+
+const maskInBetweenForTagWithAttributes = (content, startString, endString) => {
+    const openingMatchList = getMatchingIndexListForTagWithAtrributes(content, startString);
+    return getMatchingIndexes(content, endString, openingMatchList, startString);
+};
+
+const getMatchingIndexes = (content, endString, openingMatchList, startString) => {
     const closingMatchList = getMatchingIndexList(content, endString);
     let result             = '';
     let isInBetween        = false;

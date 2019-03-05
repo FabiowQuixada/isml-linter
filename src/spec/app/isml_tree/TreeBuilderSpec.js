@@ -229,11 +229,14 @@ describe(targetObjName, () => {
         expect(childDivNode.getNumberOfChildren()).toEqual(0);
     });
 
-    it('handles unknown errors', () => {
-        const filePath        = getFilePath(26);
-        const expectedMessage = ExceptionUtils.getParseErrorMessage(filePath);
+    it('identifies style tags', () => {
+        const filePath = getFilePath(26);
+        const rootNode = TreeBuilder.build(filePath).rootNode;
+        const styleTag = rootNode.getChild(4);
 
-        expect(TreeBuilder.build(filePath).message).toEqual(expectedMessage);
+        expect(styleTag.getValue()).toEqual('<style type="text/css">');
+        expect(styleTag.getLineNumber()).toEqual(5);
+        expect(styleTag.getNumberOfChildren()).toEqual(1);
     });
 });
 
