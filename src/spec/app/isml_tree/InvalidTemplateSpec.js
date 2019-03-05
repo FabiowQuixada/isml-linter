@@ -37,6 +37,14 @@ describe('Invalid Template', () => {
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
         expect(result.message).toEqual(expectedMessage);
     });
+
+    it('identifies the line number of an unbalanced element II', () => {
+        const result          = TreeBuilder.build(getFilePath(3));
+        const expectedMessage = ExceptionUtils.getUnbalancedMessage('select', 4);
+
+        expect(result.status).toEqual(ParseStatus.INVALID_DOM);
+        expect(result.message).toEqual(expectedMessage);
+    });
 });
 
 const getFilePath = number => {

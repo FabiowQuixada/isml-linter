@@ -27,17 +27,18 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
 
     internalState.currentElement.endPosition = obj.currentElemEndPosition;
     internalState.content                    = obj.content;
+    internalState.initialContent             = obj.content;
     const maskedContent                      = obj.content;
+    let previousContent                      = null;
 
     parentState.currentElement.endPosition = maskedContent.indexOf('>');
-
-    let previousContent = null;
 
     while (internalState.content) {
 
         if (isNextElementATag(internalState)) {
-            const closingCharPosition           = internalState.content.indexOf('>');
-            const contentUpToCurrentPosition    = internalState.content.substring(0, closingCharPosition);
+            const nextOpeningCharPosition       = internalState.content.indexOf('<');
+            const pastContentLength             = internalState.initialContent.indexOf( internalState.content);
+            const contentUpToCurrentPosition    = internalState.initialContent.substring(0, pastContentLength + nextOpeningCharPosition);
             const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(/\n/g) || []).length + parentState.currentLineNumber;
 
             internalState = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
