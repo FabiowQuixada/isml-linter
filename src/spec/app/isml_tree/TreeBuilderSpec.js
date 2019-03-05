@@ -238,6 +238,31 @@ describe(targetObjName, () => {
         expect(styleTag.getLineNumber()).toEqual(5);
         expect(styleTag.getNumberOfChildren()).toEqual(1);
     });
+
+    it('handles conditional HTML comments', () => {
+        const filePath            = getFilePath(26);
+        const rootNode            = TreeBuilder.build(filePath).rootNode;
+        const conditionTag        = rootNode.getChild(1);
+        const metaTag             = rootNode.getChild(2);
+        const closingConditionTag = rootNode.getChild(3);
+        const afterTag            = rootNode.getChild(4);
+
+        expect(conditionTag.getValue()).toEqual('\n<!--[if !mso]><!-- -->\n');
+        expect(conditionTag.getLineNumber()).toEqual(2);
+        expect(conditionTag.getNumberOfChildren()).toEqual(0);
+
+        expect(metaTag.getValue()).toEqual('    <meta content="IE=edge" http-equiv="X-UA-Compatible" />');
+        expect(metaTag.getLineNumber()).toEqual(3);
+        expect(metaTag.getNumberOfChildren()).toEqual(0);
+
+        expect(closingConditionTag.getValue()).toEqual('\n<!--<![endif]-->\n');
+        expect(closingConditionTag.getLineNumber()).toEqual(4);
+        expect(closingConditionTag.getNumberOfChildren()).toEqual(0);
+
+        expect(afterTag.getValue()).toEqual('<style type="text/css">');
+        expect(afterTag.getLineNumber()).toEqual(5);
+        expect(afterTag.getNumberOfChildren()).toEqual(1);
+    });
 });
 
 const getFilePath = number => {

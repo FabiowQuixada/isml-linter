@@ -12,6 +12,7 @@ const maskIgnorableContent = content => {
     content = maskInBetween(content, '<isscript>', '</isscript>');
     content = maskInBetweenForTagWithAttributes(content, '<style', '</style>');
     content = maskInBetween(content, '<iscomment>', '</iscomment>');
+    content = maskInBetween(content, '<!--', '-->');
     content = maskNestedIsmlElements(content);
 
     return content;

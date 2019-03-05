@@ -73,9 +73,12 @@ const parseState = oldState => {
 
     const state = Object.assign({}, oldState);
 
+    const currentElement = state.currentElement.asString.trim();
+    const isHtmlComment  = currentElement.startsWith('<!--') && currentElement.endsWith('-->');
+
     if (state.currentChar === '<') {
         prepareStateForOpeningElement(state);
-    } else if (state.currentChar === '>') {
+    } else if (state.currentChar === '>' && !currentElement.startsWith('<!--') || isHtmlComment) {
         createNodeForCurrentElement(state);
     } else if (!state.insideTag) {
         state.nonTagBuffer += state.currentChar;
