@@ -7,6 +7,7 @@ class IsmlNode {
         this.lineNumber = lineNumber;
         this.type       = null;
         this.height     = 0;
+        this.suffix     = '';
         this.type       = null;
         this.innerText  = null;
         this.parent     = null;
@@ -35,9 +36,11 @@ class IsmlNode {
     }
 
     getChild(number) { return this.children[number]; }
+    getLastChild() { return this.children[this.children.length - 1];}
     getNumberOfChildren() { return this.children.length; }
 
     isRoot() { return !this.parent; }
+    isMulticlause() { return false; }
 
     isTag() {
         const value = this.value.trim();
@@ -97,6 +100,20 @@ class IsmlNode {
         if (this.children.length > 0) {
             this.children.forEach( node => node.print() );
         }
+    }
+
+    getFullContent(stream = '') {
+        if (!this.isRoot() && !this.isMulticlause()) {
+            stream += this.value;
+        }
+
+        this.children.forEach( node => stream = node.getFullContent(stream) );
+
+        if (!this.isRoot() && !this.isMulticlause()) {
+            stream += this.suffix;
+        }
+
+        return stream;
     }
 
     // === Helper, "private" methods;

@@ -35,6 +35,7 @@ const specIsmlTreeTemplateDir        = path.join(specTemplateDir, 'isml_tree');
 const specLineNumberTemplateDir      = path.join(specIsmlTreeTemplateDir, 'line_numbers');
 const specInvalidTemplateDir         = path.join(specIsmlTreeTemplateDir, 'invalid_templates');
 const specComplexTemplatesDir        = path.join(specIsmlTreeTemplateDir, 'complex_templates');
+const specAutofixTemplatesDir        = path.join(specTemplateDir, 'autofix');
 const specIsifTagParserTemplateDir   = path.join(specTemplateDir, 'isml_tree', 'components', 'isif_tag_parser');
 const rulesDir                       = path.join(linterModuleDir, 'src', 'app', 'rules');
 const lineByLineRulesDir             = path.join(rulesDir, 'line_by_line');
@@ -89,6 +90,7 @@ module.exports = {
     specLineNumberTemplateDir,
     specInvalidTemplateDir,
     specComplexTemplatesDir,
+    specAutofixTemplatesDir,
     specDir,
 
     // File names;

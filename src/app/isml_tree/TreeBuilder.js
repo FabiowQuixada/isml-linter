@@ -118,7 +118,13 @@ const createNode = state => {
         return null;
     }
 
-    return parseNewNodeInnerContent(state);
+    const nodeInnerConent = parseNewNodeInnerContent(state);
+
+    isIsifNode ?
+        node.getLastChild().suffix = state.closingElementsStack.pop() :
+        node.suffix = state.closingElementsStack.pop();
+
+    return nodeInnerConent;
 };
 
 const parseNewNodeInnerContent = state => {

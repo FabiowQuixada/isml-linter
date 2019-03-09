@@ -16,6 +16,7 @@ module.exports = {
                 startingLineNumber: -1
             },
             lineBreakPositionList: [0],
+            closingElementsStack: [],
             currentLineNumber: 1,
             currentChar: null,
             currentPos: -1,

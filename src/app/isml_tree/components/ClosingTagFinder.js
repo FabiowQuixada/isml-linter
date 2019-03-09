@@ -42,7 +42,7 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
             const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(/\n/g) || []).length + parentState.currentLineNumber;
 
             internalState = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
-            internalState = updateState(internalState, currentElemStartingLineNumber);
+            internalState = updateState(internalState, currentElemStartingLineNumber, parentState);
 
             if (!internalState.elementStack.length) {
                 parentState.currentElemClosingTagInitPos = internalState.result;
@@ -76,11 +76,11 @@ const getInitialState = (content, parentState) => {
     };
 };
 
-const updateState = (oldState, currentElementStartingLineNumber) => {
+const updateState = (oldState, currentElementStartingLineNumber, parentState) => {
     let state = Object.assign({}, oldState);
 
     state.currentReadingPos += state.firstClosingElemPos;
-    state                   = updateElementStack(state, currentElementStartingLineNumber);
+    state                   = updateElementStack(state, currentElementStartingLineNumber, parentState);
     state                   = removeFirstElement(state);
 
     state.result = state.currentReadingPos - state.firstClosingElemPos;
@@ -137,7 +137,7 @@ const initializeLoopState = (oldState, openingElemRegex, closingElemRegex) => {
     return state;
 };
 
-const updateElementStack = (oldState, currentElementStartingLineNumber) => {
+const updateElementStack = (oldState, currentElementStartingLineNumber, parentState) => {
 
     const state = Object.assign({}, oldState);
     const elem  = getFirstElementType(state.content);
@@ -151,6 +151,15 @@ const updateElementStack = (oldState, currentElementStartingLineNumber) => {
                 });
             }
         } else if (isCorrespondentElement(state, elem)) {
+            const prevElementPosition = state.content.indexOf('>') + 1;
+            let currentElementContent = state.content.substring(0, prevElementPosition);
+            const remainingContent    = state.content.substring(prevElementPosition, state.content.length);
+
+            if (remainingContent.indexOf('>') === -1) {
+                currentElementContent += remainingContent;
+            }
+
+            parentState.closingElementsStack.push(currentElementContent);
             state.elementStack.pop();
         } else {
             const stackTopElement = state.elementStack.pop();

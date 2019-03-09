@@ -13,10 +13,13 @@ class MultiClauseNode extends IsmlNode {
         this.setValue('(Multiclause node)');
     }
 
+    isMulticlause() { return true; }
+
     addChild(clause) {
         clause.height        = this.height;
-        this.children.push(clause);
+        clause.parent        = this;
         this.newestChildNode = clause;
+        this.children.push(clause);
     }
 
     print() {
