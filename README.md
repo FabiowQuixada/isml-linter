@@ -8,8 +8,6 @@ Isml Linter is a tool for examing if your project's templates follow a specified
 
 The linter is still on an early stage, so that some of the groups above may have room for improvement. Please feel free to make suggestions and help make this linter better. :) The set of currently available rules can be found below.
 
-:exclamation: When run, Isml Linter will generate two files under "isml-linter/output/" in your project's root directory. One of these files is the main output file, which lists all the enabled broken rules (file by file, line by line), and the other is a compiled version of it, so you have a good overview of the current status of your templates.
-
 ## Installation
 
 Simply run in your project's root directory:
@@ -32,7 +30,6 @@ The first script simply lists the broken rules in the console, while second rais
 
 #### Configuration Notes
 
-- :exclamation: Add the 'isml-linter/' directory to your .gitignore file;
 - When you run Isml Linter for the first time, an .ismllinter.json file will be created in your project root directory. All rules will be listed there (enabled by default) so you can clearly see what this linter can do for you. To disable a rule, simply remove it from the .ismllinter.json file and run Isml Linter again;
 
 #### Configuration Options
