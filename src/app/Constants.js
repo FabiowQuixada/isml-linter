@@ -6,21 +6,13 @@ const ENV_DEV  = 'dev';
 const ENV_TEST = 'test';
 const ENV_PROD = 'prod';
 
-// Directory names;
-const ismllinterDirName = 'isml-linter';
-const outputDir         = 'output';
-
 // File names;
-const outputFileName         = 'output.json';
-const compiledOutputFileName = 'compiled_output.json';
-const clientConfigFileName   = '.ismllinter.json';
-const specConfigFileName     = 'spec_config.json';
+const clientConfigFileName = '.ismllinter.json';
+const specConfigFileName   = 'spec_config.json';
 
-const clientAppDir        = appRoot.toString();
-const linterModuleDir     = path.join(clientAppDir, 'node_modules', 'isml-linter');
-const linterMainDir       = clientAppDir;
-const clientIsmlLinterDir = path.join(clientAppDir, ismllinterDirName);
-const clientOutputDir     = path.join(clientIsmlLinterDir, outputDir);
+const clientAppDir    = appRoot.toString();
+const linterModuleDir = path.join(clientAppDir, 'node_modules', 'isml-linter');
+const linterMainDir   = clientAppDir;
 
 // Directories;
 const specDir                        = path.join(linterMainDir, 'src', 'spec');
@@ -47,9 +39,7 @@ const appJsRegex  = path.join('src', 'app', '**', '*.js');
 const specJsRegex = path.join('src', 'spec', '**', '*.js');
 
 // File paths;
-const specOutputFilePath         = path.join(specTempDir, outputFileName);
-const specCompiledOutputFilePath = path.join(specTempDir, compiledOutputFileName);
-const configFilePath             = path.join(clientAppDir, clientConfigFileName);
+const configFilePath = path.join(clientAppDir, clientConfigFileName);
 
 // Links;
 const repositoryUrl = 'https://github.com/FabiowQuixada/isml-linter';
@@ -70,8 +60,6 @@ const rules = {
 module.exports = {
     // Client directories;
     clientAppDir,
-    clientIsmlLinterDir,
-    clientOutputDir,
 
     // Directories;
     ismlLinterSpecDir: specLinterTemplate,
@@ -79,14 +67,12 @@ module.exports = {
     specIgnoreDirLinterTemplateDir,
     fileParserSpecDir: specFileParserTemplate,
     specTempDir,
-    outputDir,
     rulesDir,
     lineByLineRulesDir,
     treeRulesDir,
     specRuleTemplateDir,
     specIsmlTreeTemplateDir,
     specIsifTagParserTemplateDir,
-    ismllinterDirName,
     specLineNumberTemplateDir,
     specInvalidTemplateDir,
     specComplexTemplatesDir,
@@ -94,14 +80,10 @@ module.exports = {
     specDir,
 
     // File names;
-    outputFileName,
-    compiledOutputFileName,
     clientConfigFileName,
     specConfigFileName,
 
     // File paths;
-    specOutputFilePath,
-    specCompiledOutputFilePath,
     configFilePath,
 
     // Regex;

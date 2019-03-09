@@ -46,12 +46,6 @@ describe(targetObjName, () => {
         expect(spy.secondCall.args[0]).toEqual('\u001b[31mThere were 3 issues found.\u001b[39m');
     });
 
-    it('displays "check output file" message in in blue on linter run when errors are found', () => {
-        ConsoleUtils.displayResult(3);
-
-        expect(spy.thirdCall.args[0]).toEqual('Check \u001b[34misml-linter/output/output.json\u001b[39m in your project root directory for further info.');
-    });
-
     it('displays exception message', () => {
         ConsoleUtils.printExceptionMsg('an exception');
 

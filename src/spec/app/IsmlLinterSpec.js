@@ -30,11 +30,10 @@ describe(targetObjName, () => {
     });
 
     it('ignores files under the node_modules/ directory', () => {
-        IsmlLinter.run(specSpecificDirLinterTemplate);
+        const result       = IsmlLinter.run(specSpecificDirLinterTemplate);
+        const stringResult = JSON.stringify(result);
 
-        const output = JSON.stringify(IsmlLinter.getOutput());
-
-        expect(output.indexOf('node_modules')).toBe(-1);
+        expect(stringResult.indexOf('node_modules')).toBe(-1);
     });
 
     it('processes the correct line in result json data', () => {

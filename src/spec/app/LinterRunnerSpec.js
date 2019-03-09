@@ -15,6 +15,6 @@ describe(targetObjName, () => {
     it('lints ISML files in a given directory', () => {
         const issueQty = require('../../app/LinterRunner');
 
-        expect(issueQty).toEqual(7);
+        expect(issueQty).toEqual(9);
     });
 });

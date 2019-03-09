@@ -1,11 +1,10 @@
-const readDir              = require('readdir');
-const FileParser           = require('./FileParser');
-const path                 = require('path');
-const LinterResultExporter = require('./LinterResultExporter');
-const Constants            = require('./Constants');
-const appRoot              = require('app-root-path');
-const config               = require('./ConfigLoader').load();
-const ExceptionUtils       = require('./ExceptionUtils');
+const readDir        = require('readdir');
+const FileParser     = require('./FileParser');
+const path           = require('path');
+const Constants      = require('./Constants');
+const appRoot        = require('app-root-path');
+const config         = require('./ConfigLoader').load();
+const ExceptionUtils = require('./ExceptionUtils');
 
 const Linter = {};
 
@@ -62,13 +61,7 @@ Linter.run = function(dir = config.rootDir || appRoot.toString()) {
 
     that.result.issueQty = issueQty;
 
-    return this.getOutput();
+    return that.result;
 };
-
-Linter.export = function(outputDir = Constants.clientOutputDir) {
-    LinterResultExporter.export(outputDir, this.result);
-};
-
-Linter.getOutput = function() { return this.result; };
 
 module.exports = Linter;

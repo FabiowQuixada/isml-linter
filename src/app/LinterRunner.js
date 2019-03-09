@@ -1,12 +1,7 @@
-const path         = require('path');
-const Constants    = require('./Constants');
 const IsmlLinter   = require('./IsmlLinter');
 const ConsoleUtils = require('./ConsoleUtils');
 
-IsmlLinter.run();
-IsmlLinter.export();
-
-const issueQty = require(path.join(Constants.clientOutputDir, Constants.compiledOutputFileName)).total;
+const issueQty = IsmlLinter.run().issueQty;
 
 ConsoleUtils.displayResult(issueQty);
 
