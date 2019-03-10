@@ -184,7 +184,6 @@ process.exit(exitCode);
 | [enforce-isprint][enforce-isprint-readme]        | Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
 | [enforce-require][enforce-require-readme]        | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
 | [max-lines][max-lines-readme]              | Sets the max number of lines a template can have |
-| [empty-eof-line][empty-eof-line-readme]         | Enforces last teplate line to be empty |
 | [complexity][complexity-readme]             | Sets max cyclomatic complexity for a template |
 | :small_orange_diamond: [no-hardcode][no-hardcode-readme]            | Disallows hardcoded strings outside ISML expressions |
 | :small_orange_diamond: [indent][indent-readme]                 | Sets indentation size |
@@ -204,7 +203,6 @@ process.exit(exitCode);
 [enforce-isprint-readme]:        <docs/rules/enforce-isprint.md>
 [enforce-require-readme]:        <docs/rules/enforce-require.md>
 [max-lines-readme]:              <docs/rules/max-lines.md>
-[empty-eof-line-readme]:         <docs/rules/empty-eof-line.md>
 [complexity-readme]:             <docs/rules/complexity.md>
 [no-hardcode-readme]:            <docs/rules/no-hardcode.md>
 [indent-readme]:                 <docs/rules/indent.md>
@@ -213,6 +211,7 @@ process.exit(exitCode);
 [max-depth-readme]:              <docs/rules/max-depth.md>
 [one-element-per-line-readme]:   <docs/rules/one-element-per-line.md>
 
+## Iconography
 :exclamation: Deprecated feature<br/>
 :boom: New feature<br/>
 :small_orange_diamond: Rules that require "disableTreeParse" configuration not to be true.

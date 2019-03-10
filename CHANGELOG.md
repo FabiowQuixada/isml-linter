@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.0.1] - 2019-03-10
+
+### Fixed
+ - Unbalanced tag message fix;
+ - Issue related to &lt;style> tag;
+
+### Removed
+  - 'empty-eof-line' rule from docs, as it is not implemented yet;
+
 ## [4.0.0] - 2019-03-03
 
 ### Added
@@ -82,6 +91,7 @@
 ### Added
 - Linter is published;
 
+[4.0.1]: https://github.com/FabiowQuixada/isml-linter/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/v2.3.0...v3.0.0
 [2.3.0]: https://github.com/FabiowQuixada/isml-linter/compare/2.2.0...v2.3.0
