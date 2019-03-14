@@ -1,5 +1,10 @@
 # Changelog
 
+## [4.0.2] - 2019-03-13
+
+### Fixed
+ - npm / github code sync;
+
 ## [4.0.1] - 2019-03-10
 
 ### Fixed
@@ -91,6 +96,7 @@
 ### Added
 - Linter is published;
 
+[4.0.2]: https://github.com/FabiowQuixada/isml-linter/compare/v4.0.1...v4.0.2
 [4.0.1]: https://github.com/FabiowQuixada/isml-linter/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/v2.3.0...v3.0.0
