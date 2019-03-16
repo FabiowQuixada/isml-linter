@@ -21,7 +21,8 @@ and add the following to package.json:
 ```js
 "scripts": {
     "lint-isml":  "./node_modules/.bin/isml-linter",
-    "build-isml": "./node_modules/.bin/isml-linter --build"
+    "build-isml": "./node_modules/.bin/isml-linter --build",
+    "fix-isml":   "./node_modules/.bin/isml-linter --autofix"
 }
 ```
 
@@ -41,6 +42,7 @@ Currently, the following configurations can be set in the .ismllinter.json file:
 | rootDir           | The root directory under which the linter will run. Defaults to the directory where the package.json file is |
 | :boom: ignoreUnparseable | Does not raise an error if an unparseable file is found. Default: false |
 | ignore            | If a file path contains (as a substring) any string defined here, that file will be ignored by the linter |
+| :boom: autoFix    | Applies fixes for enabled rules |
 | :boom: disableTreeParse | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: 'false' |
 | rules             | Defines which rules to check. See available rules below |
 
@@ -120,10 +122,10 @@ This is a more robust, less powerful mode. It only has a few set of rules availa
 | [no-git-conflict][no-git-conflict-readme]        | Disallows unresolved Git conflicts |
 | [no-import-package][no-import-package-readme]      | Disallows `importPackage()` function. It is recommended by SalesForce to use require() instead |
 | [no-isscript][no-isscript-readme]            | Disallows &lt;isscript/> tag in template. Enable this rule if you prefer logic to be kept in a separate .ds/.js file |
-| [no-trailing-spaces][no-isscript-readme]     | Disallows trailing blank spaces |
-| [no-space-only-lines][no-space-only-lines-readme]    | Disallows lines that contain only blank spaces, i.e., unnecessarily indented |
+| :wrench: [no-trailing-spaces][no-isscript-readme]     | Disallows trailing blank spaces |
+| :wrench: [no-space-only-lines][no-space-only-lines-readme]    | Disallows lines that contain only blank spaces, i.e., unnecessarily indented |
 | [no-inline-style][no-inline-style-readme]        | Disallows use of "style" HTML attribute. Enable this rule if you prefer style to be fully handled via CSS |
-| [no-tabs][no-tabs-readme]                | Disallows use of tabs |
+| :wrench: [no-tabs][no-tabs-readme]                | Disallows use of tabs |
 | [enforce-isprint][enforce-isprint-readme]        | Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
 | [enforce-require][enforce-require-readme]        | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
 | :small_orange_diamond: [no-hardcode][no-hardcode-readme]            | Disallows hardcoded strings outside ISML expressions |
@@ -153,4 +155,5 @@ This is a more robust, less powerful mode. It only has a few set of rules availa
 ## Iconography
 :exclamation: Deprecated feature<br/>
 :boom: New feature<br/>
-:small_orange_diamond: Rules that require "disableTreeParse" configuration not to be true.
+:small_orange_diamond: Rules that require "disableTreeParse" configuration not to be true.<br/>
+:wrench: Auto-fix available<br/>
