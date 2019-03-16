@@ -1,6 +1,8 @@
-const RulesHolder = require('./RulesHolder');
-const TreeBuilder = require('./isml_tree/TreeBuilder');
+const RulesHolder  = require('./RulesHolder');
+const TreeBuilder  = require('./isml_tree/TreeBuilder');
+const ConfigLoader = require('./ConfigLoader');
 
+const config      = ConfigLoader.load();
 const ENTRY_TYPES = {
     ERROR: 'errors',
     WARNING: 'warnings',
@@ -30,8 +32,10 @@ const parse = fileContent => {
     this.output = {};
 
     checkLineByLineRules(fileContent, that);
-    // TODO: Run only if at least one tree rule is enabled;
-    TreeBuilder.parse(fileContent);
+
+    if (!config.disableTreeParse) {
+        TreeBuilder.parse(fileContent);
+    }
 
     return this.output;
 };
