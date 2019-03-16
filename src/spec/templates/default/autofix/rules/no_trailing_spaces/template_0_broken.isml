@@ -1,0 +1,6 @@
+<div class="outer_div">
+    <isif condition="${condition}">
+        <div class="inner_div">     
+        </div>
+    </isif>
+</div>

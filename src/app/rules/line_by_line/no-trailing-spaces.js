@@ -9,6 +9,13 @@ Rule.init(ruleName, description);
 
 Rule.isBroken = function(line) { return (line.endsWith(' ') || line.endsWith(' \r')) && line.replace(/\s/g, '').length; };
 
+Rule.getFixedContent = function(fileContent) {
+    return fileContent
+        .split('\n')
+        .map( line => line.replace(/\s+$/g, ''))
+        .join('\n');
+};
+
 Rule.getFirstOccurrence = function(line) {
 
     let result = null;
