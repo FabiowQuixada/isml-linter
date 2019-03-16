@@ -1,0 +1,28 @@
+
+<tr class="cart_row lineItem-${lineItem.getUUID()} product-${productLineItem.productID}">
+
+	<isif condition="${isOutOfStock}">
+		<div class="error_message">
+			<isprint value="${Resource.msg('labal.productoutofstock','properties',null)}" />
+		</div>
+		<iscomment>'Notify me' button</iscomment>
+		<div class="product_button_notify">
+			<a data-pid="${lineItem.productID}" class="button notifyme ${lineItem.productID}-notifyme">
+				<isprint value="${Resource.msg('some.label','properties',null)}" />
+			</a>
+		</div>
+	<iselseif condition="${isDiscontinued}">
+		<div class="error_message"><isprint value="${Resource.msg('some.label','properties',null)}" />
+		</div>
+	</isif>
+
+</tr>
+
+
+<iscomment>Price</iscomment>
+<td class="item_total">
+		<div class="price_sale single_product_price">
+			<isproductprice p_product="${productLineItem.product}" />
+		</div>
+</td>
+
