@@ -10,51 +10,6 @@ The linter is still on an early stage, so that some of the groups above may have
 
 :exclamation: When run, Isml Linter will generate two files under "isml-linter/output/" in your project's root directory. One of these files is the main output file, which lists all the enabled broken rules (file by file, line by line), and the other is a compiled version of it, so you have a good overview of the current status of your templates.
 
-## Updating to Version 3+
-
-Please note that the following update is automated if you're upgrading from versions older than 3.0.0. You won't need to do anything, not even run a single command. Of course, you'll still need to add the generated changes to your repository.
-
-This section exists in order for you to know that a minor, but fundamental update will take place in the configuration file:
-
-Changing from:
-
-```json
-{
-    "enabledRules" : {
-        "BrTagRule" : {}, 
-        "DwOccurrenceRule" : {}
-    }
-}
-```
-
-to:
-
-```json
-{
-    "rules" : {
-        "no-br" : {}, 
-        "enforce-require" : {}
-    }
-}
-```
-
-We aim for more self-descriptive rules and to move torwards a naming convention similar to ESlint's. In case you're interested, the old-to-new mapping follows:
-
-| Old                     | New                  |
-| ----------------------- |:---------------------|
-| BrTagRule               | no-br                |
-| DwOccurrenceRule        | no-import-package    |
-| GitConflictRule         | no-git-conflict      |
-| ImportPackageRule       | enforce-require      |
-| IsprintTagRule          | enforce-isprint      |
-| LogicInTemplateRule     | no-isscript          |
-| SpaceAtEndOfLineRule    | no-trailing-spaces   |
-| SpacesOnlyLineRule      | no-space-only-lines  |
-| StyleAttributeRule      | no-inline-style      |
-| TabRule                 | no-tabs              |
-
-This section will destroy itself in the future releases :P
-
 ## Installation
 
 Simply run in your project's root directory:

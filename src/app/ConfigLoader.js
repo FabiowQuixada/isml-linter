@@ -12,46 +12,12 @@ const loadCurrentEnvConfigurationFile = () => {
         init();
     }
 
-    updateRulesConfigKeys();
-
     return require(Constants.configFilePath);
 };
 
 const createClientDirectories = dir => {
     FileUtils.createDirIfDoesNotExist(dir);
     FileUtils.createClientDir('output', dir);
-};
-
-const updateRulesConfigKeys = () => {
-    const configFileContent = require(Constants.configFilePath);
-    const mapping           = {
-        'BrTagRule'             : 'no-br',
-        'DwOccurrenceRule'      : 'no-import-package',
-        'GitConflictRule'       : 'no-git-conflict',
-        'ImportPackageRule'     : 'enforce-require',
-        'IsprintTagRule'        : 'enforce-isprint',
-        'LogicInTemplateRule'   : 'no-isscript',
-        'SpaceAtEndOfLineRule'  : 'no-trailing-spaces',
-        'SpacesOnlyLineRule'    : 'no-space-only-lines',
-        'StyleAttributeRule'    : 'no-inline-style',
-        'TabRule'               : 'no-tabs'
-    };
-
-    if (configFileContent.enabledRules) {
-
-        configFileContent.rules = {};
-
-        for (const oldRuleKey in configFileContent.enabledRules) {
-            if (mapping[oldRuleKey]) {
-                configFileContent.rules[mapping[oldRuleKey]] = {};
-            }
-        }
-
-        delete configFileContent.enabledRules;
-
-        FileUtils.saveToJsonFile(Constants.clientAppDir, Constants.clientConfigFileName, configFileContent);
-    }
-
 };
 
 const createConfigFile = (targetDir = Constants.configFilePath, configFileName) => {
