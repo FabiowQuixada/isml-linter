@@ -44,4 +44,16 @@ describe(rule.name, () => {
 
         expect(result.occurrences).toEqual(expectedResult);
     });
+
+    it('fixes a simple template', () => {
+        const results = SpecHelper.getLineRuleFixData(rule, 0);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('fixes a complex template', () => {
+        const results = SpecHelper.getLineRuleFixData(rule, 1);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
