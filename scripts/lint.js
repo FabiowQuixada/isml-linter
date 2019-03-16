@@ -3,4 +3,6 @@
 const Builder  = require('../index').Builder;
 const exitCode = Builder.run();
 
-process.exit(exitCode);
+process.argv.forEach( val => {
+    val === '--build' && process.exit(exitCode);
+});

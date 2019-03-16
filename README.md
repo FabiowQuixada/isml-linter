@@ -18,13 +18,16 @@ Simply run in your project's root directory:
 $ npm install isml-linter --save-dev
 ```
 
-and then, from you project root directory, run:
+and add the following to package.json:
 
-```sh
-$ ./node_modules/.bin/isml-linter
+```js
+"scripts": {
+    "lint-isml":  "./node_modules/.bin/isml-linter",
+    "build-isml": "./node_modules/.bin/isml-linter --build"
+}
 ```
 
-As a suggestion, add this command to you package.json file as a script with a custom name, so that it may be easier to remember how to run Isml Linter.
+The first script simply lists the broken rules in the console, while second raises an error if there is any broken rule, thus can be used in your build process.
 
 
 #### Configuration Notes
@@ -111,18 +114,6 @@ And, to avoid possible doubts, here is an extra piece of information: it is allo
 
 This is a more robust, less powerful mode. It only has a few set of rules available and is indicated for cases where there are many, many lint errors and you want fix them gradually. It is also recommended in cases you don't want to force templates to be parseable (see previous session). This mode is ideally temporary, as it cannot take advantages of even some simple rules, such as indentation checking.
 
-## Build Script
-
-If you want to add Isml Linter to your build process, you can use the following script:
-
-```javascript
-#!/usr/bin/env node
-
-const Builder = require('isml-linter').Builder;
-const exitCode = Builder.run();
-
-process.exit(exitCode);
-```
 
 ## Available Rules
 
