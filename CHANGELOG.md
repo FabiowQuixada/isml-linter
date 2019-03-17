@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.0.3] - 2019-03-17
+
+### Fixed
+ - 'disableTreeParse' config flag;
+
+### Removed
+ - 'max-line' and 'complexity' rules from docs, as they are is not implemented yet;
+
 ## [4.0.2] - 2019-03-13
 
 ### Fixed
@@ -96,6 +104,7 @@
 ### Added
 - Linter is published;
 
+[4.0.3]: https://github.com/FabiowQuixada/isml-linter/compare/v4.0.2...v4.0.3
 [4.0.2]: https://github.com/FabiowQuixada/isml-linter/compare/v4.0.1...v4.0.2
 [4.0.1]: https://github.com/FabiowQuixada/isml-linter/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/v3.0.0...v4.0.0
