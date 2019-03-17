@@ -183,8 +183,6 @@ process.exit(exitCode);
 | [no-tabs][no-tabs-readme]                | Disallows use of tabs |
 | [enforce-isprint][enforce-isprint-readme]        | Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
 | [enforce-require][enforce-require-readme]        | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
-| [max-lines][max-lines-readme]              | Sets the max number of lines a template can have |
-| [complexity][complexity-readme]             | Sets max cyclomatic complexity for a template |
 | :small_orange_diamond: [no-hardcode][no-hardcode-readme]            | Disallows hardcoded strings outside ISML expressions |
 | :small_orange_diamond: [indent][indent-readme]                 | Sets indentation size |
 | :small_orange_diamond: [no-require-in-loop][no-require-in-loop-readme]     | No `require()` calls from within a loop in the template |
@@ -202,8 +200,6 @@ process.exit(exitCode);
 [no-tabs-readme]:                <docs/rules/no-tabs.md>
 [enforce-isprint-readme]:        <docs/rules/enforce-isprint.md>
 [enforce-require-readme]:        <docs/rules/enforce-require.md>
-[max-lines-readme]:              <docs/rules/max-lines.md>
-[complexity-readme]:             <docs/rules/complexity.md>
 [no-hardcode-readme]:            <docs/rules/no-hardcode.md>
 [indent-readme]:                 <docs/rules/indent.md>
 [no-require-in-loop-readme]:     <docs/rules/no-require-in-loop.md>
