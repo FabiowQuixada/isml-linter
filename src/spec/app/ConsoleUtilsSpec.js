@@ -22,30 +22,6 @@ describe(targetObjName, () => {
 
     // === Basic Linter run message ===============================================================
 
-    it('displays linter "successful run" message when errors are not found', () => {
-        ConsoleUtils.displayResult(0);
-
-        expect(spy.firstCall.args[0]).toEqual('IsmlLinter run successfully!');
-    });
-
-    it('displays linter "successful run" message when errors are found', () => {
-        ConsoleUtils.displayResult(3);
-
-        expect(spy.firstCall.args[0]).toEqual('IsmlLinter run successfully!');
-    });
-
-    it('displays "no errors" message in green on linter run', () => {
-        ConsoleUtils.displayResult(0);
-
-        expect(spy.secondCall.args[0]).toEqual('\u001b[32mNo issues found, congrats!\u001b[39m');
-    });
-
-    it('displays "there were errors" message in red on linter run', () => {
-        ConsoleUtils.displayResult(3);
-
-        expect(spy.secondCall.args[0]).toEqual('\u001b[31mThere were 3 issues found.\u001b[39m');
-    });
-
     it('displays exception message', () => {
         ConsoleUtils.printExceptionMsg('an exception');
 

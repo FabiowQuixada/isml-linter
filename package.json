@@ -5,7 +5,6 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "start": "node src/app/LinterRunner",
     "lint": "./node_modules/.bin/eslint . --fix",
     "test": "jasmine-node src/spec/",
     "cover": "node ./node_modules/istanbul/lib/cli.js cover node_modules/jasmine-node/bin/jasmine-node src/spec --statements 100",
