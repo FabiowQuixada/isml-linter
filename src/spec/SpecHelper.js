@@ -1,3 +1,4 @@
+require('../app/NativeExtensionUtils');
 const FileUtils   = require('../app/FileUtils');
 const Constants   = require('../app/Constants');
 const TreeBuilder = require('../app/isml_tree/TreeBuilder');
