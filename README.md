@@ -6,7 +6,7 @@ Isml Linter is a tool for examing if your project's templates follow a specified
  - Coding conventions recommended by SalesForce;
  - Git conflicts that may accidentally be left unresolved;
 
-The linter is still on an early stage, so that some of the groups above may have room for improvement. Please feel free to make suggestions and help make this linter better. :) The set of currently available rules can be found below.
+Please feel free to make suggestions and help make this linter better. :) The set of currently available rules can be found below.
 
 ## Installation
 
@@ -26,27 +26,25 @@ and add the following to package.json:
 }
 ```
 
-The first script simply lists the broken rules in the console, while second raises an error if there is any broken rule, thus can be used in your build process.
+The first script simply lists the broken rules in the console, while second raises an error if there is any broken rule, thus can be used in your build process. The "fix-isml" script applies fixes for the enabled rules. Please check below which rules are auto-fixable.
 
 
-#### Configuration Notes
+### Configuration
 
-- When you run Isml Linter for the first time, an .ismllinter.json file will be created in your project root directory. All rules will be listed there (enabled by default) so you can clearly see what this linter can do for you. To disable a rule, simply remove it from the .ismllinter.json file and run Isml Linter again;
+When you run Isml Linter for the first time, an .ismllinter.json file will be created in your project root directory. All rules will be listed there (enabled by default) so you can clearly see what this linter can do for you. To disable a rule, simply remove it from the .ismllinter.json file and run Isml Linter again;
 
-#### Configuration Options
-
-Currently, the following configurations can be set in the .ismllinter.json file:
+The following configurations can be set in the .ismllinter.json file:
 
 | Config            | Description                              |
 | ----------------- |:-----------------------------------------|
 | rootDir           | The root directory under which the linter will run. Defaults to the directory where the package.json file is |
-| :boom: ignoreUnparseable | Does not raise an error if an unparseable file is found. Default: false |
-| ignore            | If a file path contains (as a substring) any string defined here, that file will be ignored by the linter |
-| :boom: autoFix    | Applies fixes for enabled rules |
+| :boom: ignoreUnparseable | Does not raise an error if an unparseable template is found. Default: false. Please check "Parse Modes - Tree" section below |
+| ignore            | If a template path contains (as a substring) any string defined here, that template will be ignored by the linter |
+| :boom: autoFix    | Applies fixes for enabled rules. Default: 'false' |
 | :boom: disableTreeParse | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: 'false' |
 | rules             | Defines which rules to check. See available rules below |
 
-**Note:** If you explicitly set "ignoreUnparseable" config to true, unparseable files may contain errors that will not be detected by Isml Linter.
+**Note:** If you explicitly set "ignoreUnparseable" config to true, unparseable templates may contain errors that will not be detected by Isml Linter.
 
 Example configuration:
 
@@ -64,7 +62,7 @@ Example configuration:
 }
 ```
 
-Note that according to the above configurations, the following files would be ignored by Isml Linter:
+Note that according to the above configurations, the following templates would be ignored by Isml Linter:
 
 - registerEmail.isml
 - some/path/welcomeEmail.isml
@@ -89,7 +87,7 @@ For example, if a template contains a snippet like the following, IT IS NOT cons
 </isif>
 ```
 
-since the linter is not able to make an association between the opening and the corresponding closing &lt;div> elements. This is the only known limitation for this parse mode. One possible solution to turn such templates into parseable is to replace that snipet by:
+since the linter is not able to make an association between the opening and the corresponding closing &lt;div> elements. This is the only known limitation for this parse mode. One possible solution to turn such templates into parseable is to replace that snippet by:
 
 ```html
 <isif condition="${aCondition}">
@@ -111,7 +109,7 @@ And, to avoid possible doubts, here is an extra piece of information: it is allo
 
 ### Line by Line (disableTreeParse : true)
 
-This is a more robust, less powerful mode. It only has a few set of rules available and is indicated for cases where there are many, many lint errors and you want fix them gradually. It is also recommended in cases you don't want to force templates to be parseable (see previous session). This mode is ideally temporary, as it cannot take advantages of even some simple rules, such as indentation checking.
+This is a more robust, less powerful mode. It only has a few set of rules available and is indicated for cases where there are many, many lint errors and you want fix them gradually. It is also recommended in cases you don't want to force templates to be parseable (see previous secton). This mode is ideally temporary, as it cannot take advantages of even some simple rules, such as indentation checking.
 
 
 ## Available Rules
