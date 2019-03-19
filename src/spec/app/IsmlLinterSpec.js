@@ -63,8 +63,7 @@ describe(targetObjName, () => {
     it('parses files only under a given directory', () => {
         const result = JSON.stringify(IsmlLinter.run(specIgnoreDirLinterTemplateDir));
 
-        expect(result.indexOf('spec')).toEqual(-1);
-        expect(result.indexOf('isml-linter')).toEqual(-1);
+        expect(result.indexOf('this_directory_is_to_be_ignored')).toEqual(-1);
     });
 
     it('lists invalid templates as "unparseable"', () => {
@@ -85,8 +84,8 @@ const expectedResultObj = type => {
     const blankLineRuleDesc   = NoSpaceOnlyLinesRule.description;
     const isprintRuleDesc     = EnforceIsprintRule.description;
 
-    const file0Path       = path.join(...'/template_1.isml'.split( '/' ));
-    const file1Path       = path.join(...'/template_2.isml'.split( '/' ));
+    const file0Path       = path.join(specSpecificDirLinterTemplate, 'template_1.isml');
+    const file1Path       = path.join(specSpecificDirLinterTemplate, 'template_2.isml');
     const inlineStyleLine = {
         line: '<div style="display: none;">${addToCartUrl}</div>',
         lineNumber: 1,

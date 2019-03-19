@@ -1,6 +1,7 @@
 const RulesHolder  = require('./RulesHolder');
 const TreeBuilder  = require('./isml_tree/TreeBuilder');
 const ConfigLoader = require('./ConfigLoader');
+const fs           = require('fs');
 
 const config      = ConfigLoader.load();
 const ENTRY_TYPES = {
@@ -18,24 +19,50 @@ const addLineError = (parser, type, rule, result) => {
     });
 };
 
-const checkLineByLineRules = (fileContent, parser) => {
+const checkLineByLineRules = (filePath, parser) => {
+
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+
     RulesHolder.getEnabledLineRules().forEach(rule => {
         const result = rule.check(fileContent);
-        if (result.occurrences.length) {
+
+        if (config.autoFix && result.fixedContent) {
+            fs.writeFile(filePath, result.fixedContent, function (err) {
+                // TODO
+                if (err) console.log(err);
+            });
+        } else if (result.occurrences && result.occurrences.length) {
             addLineError(parser, ENTRY_TYPES.ERROR, rule, result);
         }
     });
 };
 
-const parse = fileContent => {
-    const that  = this;
+const checkTreeRules = (filePath, parser) => {
+    if (!config.disableTreeParse) {
+        const tree = TreeBuilder.build(filePath);
+
+        if (!tree.rootNode) {
+            throw tree.message;
+        }
+
+        RulesHolder.getEnabledTreeRules().forEach(rule => {
+            const result = rule.check(tree);
+            if (config.autoFix && result.fixedContent) {
+                fs.writeFile(filePath, result.fixedContent);
+            }
+            else if (result.occurrences && result.occurrences.length) {
+                addLineError(parser, ENTRY_TYPES.ERROR, rule, result);
+            }
+        });
+    }
+};
+
+const parse = filePath => {
+
     this.output = {};
 
-    checkLineByLineRules(fileContent, that);
-
-    if (!config.disableTreeParse) {
-        TreeBuilder.parse(fileContent);
-    }
+    checkLineByLineRules(filePath, this);
+    checkTreeRules(filePath, this);
 
     return this.output;
 };
