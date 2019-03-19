@@ -3,7 +3,7 @@ const Constants = require('./Constants');
 const FileUtils = require('./FileUtils');
 
 const loadCurrentEnvConfigurationFile = () => {
-
+    
     if (process.env.NODE_ENV === Constants.ENV_TEST) {
         return require(path.join(Constants.specDir, Constants.specConfigFileName));
     }
@@ -12,7 +12,11 @@ const loadCurrentEnvConfigurationFile = () => {
         init();
     }
 
-    return require(Constants.configFilePath);
+    const config = require(Constants.configFilePath);
+
+    addParamsToConfig(config);
+
+    return config;
 };
 
 const createClientDirectories = dir => {
@@ -45,6 +49,14 @@ const init = (
     createClientDirectories(targetDir);
     return createConfigFile(targetDir, configFileName);
 };
+
+const addParamsToConfig = config => {
+    process.argv.forEach(val => {
+        if (val === '--autofix') {
+            config.autoFix = true;
+        }
+    });
+}
 
 function addDefaultRules(configContent) {
 
