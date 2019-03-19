@@ -23,4 +23,23 @@ TreeRulePrototype.check = function(node, result) {
     return this.result;
 };
 
+TreeRulePrototype.fix = function(stream = '') {
+
+    if (!this.isRoot() && !this.isMulticlause()) {
+        stream += this.value;
+    }
+
+    this.children.forEach( node =>
+        stream = node.isBroken() ?
+            node.getFullContent(stream) :
+            this.getFixedContent(node, stream)
+    );
+
+    if (!this.isRoot() && !this.isMulticlause()) {
+        stream += this.suffix;
+    }
+
+    return stream;
+};
+
 module.exports = TreeRulePrototype;

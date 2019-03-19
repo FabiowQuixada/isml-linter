@@ -1,11 +1,23 @@
 require('../app/NativeExtensionUtils');
+// TODO: Find a better way to set this;
+process.env.NODE_ENV = 'test';
+
 const FileUtils   = require('../app/FileUtils');
 const Constants   = require('../app/Constants');
 const TreeBuilder = require('../app/isml_tree/TreeBuilder');
 const snake       = require('to-snake-case');
 const path        = require('path');
+const fs          = require('fs');
 
 const specTempDir = Constants.specTempDir;
+
+const getBrokenTemplatePath = (ruleDirName, number) => {
+    return `${Constants.specAutofixTemplatesDir}/rules/${ruleDirName}/template_${number}_broken.isml`;
+};
+
+const getFixedTemplatePath = (ruleDirName, number) => {
+    return `${Constants.specAutofixTemplatesDir}/rules/${ruleDirName}/template_${number}_fixed.isml`;
+};
 
 const cleanTempDirectory = () => {
     FileUtils.deleteDirectoryRecursively(specTempDir);
@@ -51,6 +63,34 @@ module.exports = {
         const tree        = TreeBuilder.parse(fileContent);
 
         return rule.check(tree).occurrences;
+    },
+
+    getLineRuleFixData: (rule, templateNumber) => {
+        const ruleDirName           = rule.name.replaceAll('-', '_');
+        const brokenTemplatePath    = getBrokenTemplatePath(ruleDirName, templateNumber);
+        const fixedTemplatePath     = getFixedTemplatePath(ruleDirName, templateNumber);
+        const fixedTemplateContent  = fs.readFileSync(fixedTemplatePath, 'utf-8');
+        const brokenTemplateContent = fs.readFileSync(brokenTemplatePath, 'utf-8');
+        const actualContent         = rule.getFixedContent(brokenTemplateContent);
+
+        return {
+            actualContent,
+            fixedTemplateContent
+        };
+    },
+
+    getTreeRuleFixData: (rule, templateNumber) => {
+        const ruleDirName          = rule.name.replaceAll('-', '_');
+        const brokenTemplatePath   = getBrokenTemplatePath(ruleDirName, templateNumber);
+        const fixedTemplatePath    = getFixedTemplatePath(ruleDirName, templateNumber);
+        const fixedTemplateContent = fs.readFileSync(fixedTemplatePath, 'utf-8');
+        const rootNode             = TreeBuilder.build(brokenTemplatePath).rootNode;
+        const actualContent        = rule.getFixedContent(rootNode);
+
+        return {
+            actualContent,
+            fixedTemplateContent
+        };
     },
 
     /**

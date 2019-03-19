@@ -1,6 +1,8 @@
 const RulePrototype = require('./RulePrototype');
+const ConfigLoader  = require('../../ConfigLoader');
 
 const SingleLineRulePrototype = Object.create(RulePrototype);
+const config                  = ConfigLoader.load();
 
 SingleLineRulePrototype.check = function(fileContent) {
 
@@ -19,6 +21,12 @@ SingleLineRulePrototype.check = function(fileContent) {
 
         globalPos += line.length+1;
     });
+
+    if (this.result.occurrences.length &&
+         config.autoFix &&
+         this.getFixedContent) {
+        this.result.fixedContent = this.getFixedContent(fileContent);
+    }
 
     return this.result;
 };

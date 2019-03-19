@@ -17,6 +17,18 @@ function getActualIndentationSize(node) {
 
 Rule.init(ruleName, description);
 
+// TODO: Move to Config;
+Rule.getIndentation = function(depth = 1) {
+    const indentationSize = this.getConfigs().size * depth;
+    let indentation       = '';
+
+    for (let i = 0; i < indentationSize; ++i) {
+        indentation += ' ';
+    }
+
+    return indentation;
+};
+
 Rule.isBroken = function(node) {
 
     const configIndentSize     = this.getConfigs().size;
