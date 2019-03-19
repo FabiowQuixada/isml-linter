@@ -3,7 +3,7 @@ const Constants = require('./Constants');
 const FileUtils = require('./FileUtils');
 
 const loadCurrentEnvConfigurationFile = () => {
-    
+
     if (process.env.NODE_ENV === Constants.ENV_TEST) {
         return require(path.join(Constants.specDir, Constants.specConfigFileName));
     }
@@ -56,7 +56,7 @@ const addParamsToConfig = config => {
             config.autoFix = true;
         }
     });
-}
+};
 
 function addDefaultRules(configContent) {
 

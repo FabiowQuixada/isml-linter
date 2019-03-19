@@ -35,7 +35,7 @@ Linter.run = function(dir = config.rootDir || appRoot.toString()) {
 
         try {
             const filePath = path.join(dir, fileProjectPath);
-            const output       = FileParser.parse(filePath);
+            const output   = FileParser.parse(filePath);
 
             for (const rule in output.errors) {
                 that.result.errors[rule]           = that.result.errors[rule] || {};
