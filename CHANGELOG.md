@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.0.1] - 2019-03-25
+
+### Fixed
+- Autofix was not applied to all files;
+
+### Security
+- Updated vulnerable dependencies;
+
 ## [5.0.0] - 2019-03-19
 
 ### Added
@@ -121,6 +129,7 @@
 ### Added
 - Linter is published;
 
+[5.0.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/v4.0.3...v5.0.0
 [4.0.3]: https://github.com/FabiowQuixada/isml-linter/compare/v4.0.2...v4.0.3
 [4.0.2]: https://github.com/FabiowQuixada/isml-linter/compare/v4.0.1...v4.0.2

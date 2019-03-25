@@ -1,6 +1,6 @@
 {
   "name": "isml-linter",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "author": "Fabio Tavora Quixadá <ftquixada@gmail.com>",
   "license": "ISC",
   "main": "index.js",
@@ -43,7 +43,7 @@
     "eslint-plugin-varspacing": "^1.2.1",
     "flatted": "^2.0.0",
     "ghooks": "^2.0.4",
-    "grunt": "^1.0.3",
+    "grunt": "^1.0.4",
     "gulp": "^4.0.0",
     "gulp-eslint": "^4.0.2",
     "gulp-eslint-if-fixed": "^1.0.0",
