@@ -1,14 +1,14 @@
 
 module.exports = {
-    getInitialState : function(contentAsArray, parentState, parentNode) {
+    getInitialState : function(contentAsArray, parentState, parentNode, filePath) {
 
         const regex           = /\n/gi;
         let result            = regex.exec(contentAsArray);
         let lineBreakPosition = 0;
         const state           = {
-
             content: contentAsArray.replace(/(\r\n\t|\n|\r\t)/gm, ''),
             contentAsArray: contentAsArray,
+            filePath: filePath,
             currentElement: {
                 asString: '',
                 initPosition: -1,

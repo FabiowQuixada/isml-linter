@@ -23,10 +23,8 @@ const cleanTempDirectory = () => {
     FileUtils.deleteDirectoryRecursively(specTempDir);
 };
 
-const getTreeRuleSpecTemplateContent = (rule, fileNumber) => {
-    const fs       = require('fs');
-    const filePath = `${Constants.specRuleTemplateDir}/tree/${snake(rule.name)}/template_${fileNumber}.isml`;
-    return fs.readFileSync(filePath, 'utf-8');
+const getTreeRuleSpecTemplatePath = (rule, fileNumber) => {
+    return `${Constants.specRuleTemplateDir}/tree/${snake(rule.name)}/template_${fileNumber}.isml`;
 };
 
 module.exports = {
@@ -59,8 +57,9 @@ module.exports = {
     },
 
     parseAndApplyRuleToTemplate: (rule, fileNumber) => {
-        const fileContent = getTreeRuleSpecTemplateContent(rule, fileNumber);
-        const tree        = TreeBuilder.parse(fileContent);
+        const filePath    = getTreeRuleSpecTemplatePath(rule, fileNumber);
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const tree        = TreeBuilder.parse(fileContent, undefined, undefined, filePath);
 
         return rule.check(tree).occurrences;
     },

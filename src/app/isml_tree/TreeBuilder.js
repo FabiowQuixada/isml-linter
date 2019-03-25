@@ -18,7 +18,7 @@ const build = filePath => {
 
     try {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-        result.rootNode   = parse(fileContent);
+        result.rootNode   = parse(fileContent, undefined, undefined, filePath);
     } catch (e) {
         result.rootNode = null;
         result.status   = ParseStatus.INVALID_DOM;
@@ -30,9 +30,9 @@ const build = filePath => {
     return result;
 };
 
-const parse = (content, parentState, parentNode = new IsmlNode()) => {
+const parse = (content, parentState, parentNode = new IsmlNode(), filePath) => {
 
-    let state = StateUtils.getInitialState(content, parentState, parentNode);
+    let state = StateUtils.getInitialState(content, parentState, parentNode, filePath);
 
     for (let i = 0; i < content.length; i++) {
         setCurrentElementStartLineNumber(state, i);
