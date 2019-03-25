@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+require('../src/app/NativeExtensionUtils');
 
 try {
     const Builder  = require('isml-linter').Builder;
