@@ -1,7 +1,6 @@
 const readDir        = require('readdir');
 const FileParser     = require('./FileParser');
 const path           = require('path');
-const Constants      = require('./Constants');
 const appRoot        = require('app-root-path');
 const config         = require('./ConfigLoader').load();
 const ExceptionUtils = require('./ExceptionUtils');
@@ -43,12 +42,16 @@ Linter.run = function(dir = config.rootDir || appRoot.toString()) {
                 issueQty++;
             }
         } catch (e) {
+            if (!e.type || e.type === ExceptionUtils.LINTER_EXCEPTION) {
+                throw e;
+            }
+
             const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
             if (e === UNKNOWN_ERROR) {
                 that.result[UNKNOWN_ERROR] = that.result[UNKNOWN_ERROR] || [];
                 that.result[UNKNOWN_ERROR].push(path.join(appRoot.toString(), fileProjectPath));
             } else {
-                const UNPARSEABLE                = Constants.UNPARSEABLE;
+                const UNPARSEABLE                = ExceptionUtils.INVALID_TEMPLATE;
                 that.result[UNPARSEABLE]         = that.result[UNPARSEABLE] || [];
                 const invalidTemplate            = {};
                 invalidTemplate[fileProjectPath] = e;

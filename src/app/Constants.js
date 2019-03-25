@@ -44,9 +44,6 @@ const configFilePath = path.join(clientAppDir, clientConfigFileName);
 // Links;
 const repositoryUrl = 'https://github.com/FabiowQuixada/isml-linter';
 
-// Others;
-const UNPARSEABLE = 'nonparseable';
-
 // Rules configuration default values;
 const rules = {
     'indent': {
@@ -98,9 +95,6 @@ module.exports = {
 
     // Links
     repositoryUrl,
-
-    // Others;
-    UNPARSEABLE,
 
     // Rules;
     rules,

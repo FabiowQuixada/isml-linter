@@ -10,7 +10,7 @@ const ExceptionUtils       = require('../../app/ExceptionUtils');
 
 const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
-const UNPARSEABLE                    = Constants.UNPARSEABLE;
+const UNPARSEABLE                    = ExceptionUtils.INVALID_TEMPLATE;
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -68,7 +68,7 @@ describe(targetObjName, () => {
 
     it('lists invalid templates as "unparseable"', () => {
         const result          = IsmlLinter.run(specSpecificDirLinterTemplate);
-        const expectedMessage = ExceptionUtils.getUnbalancedMessage('div', 2);
+        const expectedMessage = ExceptionUtils.unbalancedElementError('div', 2).message;
 
         expect(result[UNPARSEABLE][0]).toEqual({
             'template_0.isml': expectedMessage
@@ -124,9 +124,9 @@ const expectedResultObj = type => {
     result[type][blankLineRuleDesc]            = {};
     result[type][blankLineRuleDesc][file0Path] = [];
     result[type][blankLineRuleDesc][file0Path].push(blankLine);
-    const expectedMessage                      = ExceptionUtils.getUnbalancedMessage('div', 2);
+    const expectedMessage                      = ExceptionUtils.unbalancedElementError('div', 2).message;
 
-    result[Constants.UNPARSEABLE] = [ { 'template_0.isml' : expectedMessage } ];
+    result[UNPARSEABLE] = [ { 'template_0.isml' : expectedMessage } ];
 
     result.issueQty = 5;
 

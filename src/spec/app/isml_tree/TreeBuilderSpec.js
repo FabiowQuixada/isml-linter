@@ -109,7 +109,7 @@ describe(targetObjName, () => {
     });
 
     it('throws an exception upon invalid isml dom', () => {
-        const expectedMessage = ExceptionUtils.getUnbalancedMessage('div', 2);
+        const expectedMessage = ExceptionUtils.unbalancedElementError('div', 2).message;
 
         expect(TreeBuilder.build(getFilePath(1)).message).toEqual(expectedMessage);
     });

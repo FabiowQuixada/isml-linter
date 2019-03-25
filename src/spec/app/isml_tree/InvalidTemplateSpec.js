@@ -16,7 +16,7 @@ describe('Invalid Template', () => {
 
     it('detects simple unclosed <input> tag', () => {
         const result          = TreeBuilder.build(getFilePath(0));
-        const expectedMessage = ExceptionUtils.getUnbalancedMessage('input', 8);
+        const expectedMessage = ExceptionUtils.unbalancedElementError('input', 8).message;
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
         expect(result.message).toEqual(expectedMessage);
@@ -24,7 +24,7 @@ describe('Invalid Template', () => {
 
     it('detects simple unclosed <input> tag II', () => {
         const result          = TreeBuilder.build(getFilePath(1));
-        const expectedMessage = ExceptionUtils.getUnbalancedMessage('input', 5);
+        const expectedMessage = ExceptionUtils.unbalancedElementError('input', 5).message;
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
         expect(result.message).toEqual(expectedMessage);
@@ -32,7 +32,7 @@ describe('Invalid Template', () => {
 
     it('identifies the line number of an unbalanced element', () => {
         const result          = TreeBuilder.build(getFilePath(2));
-        const expectedMessage = ExceptionUtils.getUnbalancedMessage('div', 3);
+        const expectedMessage = ExceptionUtils.unbalancedElementError('div', 3);
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
         expect(result.message).toEqual(expectedMessage);
@@ -40,7 +40,7 @@ describe('Invalid Template', () => {
 
     it('identifies the line number of an unbalanced element II', () => {
         const result          = TreeBuilder.build(getFilePath(3));
-        const expectedMessage = ExceptionUtils.getUnbalancedMessage('select', 4);
+        const expectedMessage = ExceptionUtils.unbalancedElementError('select', 4).message;
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
         expect(result.message).toEqual(expectedMessage);

@@ -53,13 +53,13 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
         }
 
         if (previousContent === internalState.content) {
-            throw ExceptionUtils.types.UNKNOWN_ERROR;
+            throw ExceptionUtils.parseError(oldParentState.filePath);
         }
 
         previousContent = internalState.content;
     }
 
-    throw ExceptionUtils.getUnbalancedMessage(currentElement.type, currentElement.lineNumber);
+    throw ExceptionUtils.unbalancedElementError(currentElement.type, currentElement.lineNumber);
 };
 
 const getInitialState = (content, parentState) => {
