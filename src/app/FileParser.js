@@ -27,7 +27,7 @@ const checkLineByLineRules = (filePath, parser) => {
         const result = rule.check(fileContent);
 
         if (config.autoFix && result.fixedContent) {
-            fs.writeFile(filePath, result.fixedContent, function (err) {
+            fs.writeFileSync(filePath, result.fixedContent, function (err) {
                 // TODO
                 if (err) console.log(err);
             });
