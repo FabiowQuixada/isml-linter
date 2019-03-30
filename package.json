@@ -1,7 +1,6 @@
 {
   "name": "isml-linter",
-  "version": "5.0.1",
-  "author": "Fabio Tavora Quixadá <ftquixada@gmail.com>",
+  "author": "Fabiow Quixadá <ftquixada@gmail.com>",
   "license": "ISC",
   "main": "index.js",
   "scripts": {

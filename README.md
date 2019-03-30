@@ -20,9 +20,9 @@ and add the following to package.json:
 
 ```js
 "scripts": {
-    "lint-isml":  "./node_modules/.bin/isml-linter",
-    "build-isml": "./node_modules/.bin/isml-linter --build",
-    "fix-isml":   "./node_modules/.bin/isml-linter --autofix"
+    "lint:isml":  "./node_modules/.bin/isml-linter",
+    "build:isml": "./node_modules/.bin/isml-linter --build",
+    "fix:isml":   "./node_modules/.bin/isml-linter --autofix"
 }
 ```
 
@@ -78,11 +78,11 @@ This is the default, and most powerful mode. It analyses the template and tries 
 For example, if a template contains a snippet like the following, IT IS NOT considered a parseable template:
 
 ```html
-<isif condition="${aCondtion}">
+<isif condition="${aCondition}">
     <div class="info">
 </isif>
         Some content
-<isif condition="${aCondtion}">
+<isif condition="${aCondition}">
     </div>
 </isif>
 ```
@@ -145,6 +145,12 @@ To prevent new errors to be introduced in next pushes, we recommend using some g
 | :small_orange_diamond: [max-depth][max-depth-readme]               | Sets the maximum of nested elements in a template |
 | :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]   | One element per line |
 
+## Iconography
+:exclamation: Deprecated feature<br/>
+:boom: New feature<br/>
+:small_orange_diamond: Rules that require "disableTreeParse" configuration not to be true.<br/>
+:wrench: Auto-fix available<br/>
+
 [no-br-readme]:                  <docs/rules/no-br.md>
 [no-git-conflict-readme]:        <docs/rules/no-git-conflict.md>
 [no-import-package-readme]:      <docs/rules/no-import-package.md>
@@ -164,9 +170,3 @@ To prevent new errors to be introduced in next pushes, we recommend using some g
 
 [npm-husky]: <https://www.npmjs.com/package/husky>
 [npm-ghooks]: <https://www.npmjs.com/package/ghooks>
-
-## Iconography
-:exclamation: Deprecated feature<br/>
-:boom: New feature<br/>
-:small_orange_diamond: Rules that require "disableTreeParse" configuration not to be true.<br/>
-:wrench: Auto-fix available<br/>
