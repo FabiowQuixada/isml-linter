@@ -111,6 +111,18 @@ And, to avoid possible doubts, here is an extra piece of information: it is allo
 
 This is a more robust, less powerful mode. It only has a few set of rules available and is indicated for cases where there are many, many lint errors and you want fix them gradually. It is also recommended in cases you don't want to force templates to be parseable (see previous secton). This mode is ideally temporary, as it cannot take advantages of even some simple rules, such as indentation checking.
 
+### Git Hooks (Optional)
+
+To prevent new errors to be introduced in next pushes, we recommend using some git hook npm package, such as [husky][npm-husky] or [ghooks][npm-ghooks]. The following example works for ghook:
+
+```js
+"config": {
+    "ghooks": {
+      "pre-push": "npm run build:isml"
+    }
+}
+```
+
 
 ## Available Rules
 
@@ -149,6 +161,9 @@ This is a more robust, less powerful mode. It only has a few set of rules availa
 [no-embedded-isml-readme]:       <docs/rules/no-embedded-isml.md>
 [max-depth-readme]:              <docs/rules/max-depth.md>
 [one-element-per-line-readme]:   <docs/rules/one-element-per-line.md>
+
+[npm-husky]: <https://www.npmjs.com/package/husky>
+[npm-ghooks]: <https://www.npmjs.com/package/ghooks>
 
 ## Iconography
 :exclamation: Deprecated feature<br/>
