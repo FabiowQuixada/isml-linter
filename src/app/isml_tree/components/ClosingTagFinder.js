@@ -1,4 +1,3 @@
-const ErrorType      = require('./../../ErrorType');
 const MaskUtils      = require('../MaskUtils');
 const ParseUtils     = require('./ParseUtils');
 const ExceptionUtils = require('../../ExceptionUtils');
@@ -163,7 +162,7 @@ const updateElementStack = (oldState, currentElementStartingLineNumber, parentSt
             state.elementStack.pop();
         } else {
             const stackTopElement = state.elementStack.pop();
-            throw `${ErrorType.INVALID_DOM} :: Unbalanced <${stackTopElement.elem}> element at line ` + stackTopElement.lineNumber;
+            throw ExceptionUtils.unbalancedElementError(stackTopElement.elem, stackTopElement.lineNumber);
         }
     }
 
