@@ -19,11 +19,6 @@ const loadCurrentEnvConfigurationFile = () => {
     return config;
 };
 
-const createClientDirectories = dir => {
-    FileUtils.createDirIfDoesNotExist(dir);
-    FileUtils.createClientDir('output', dir);
-};
-
 const createConfigFile = (targetDir = Constants.configFilePath, configFileName) => {
 
     if (!FileUtils.fileExists(path.join(targetDir, configFileName))) {
@@ -44,11 +39,7 @@ const createConfigFile = (targetDir = Constants.configFilePath, configFileName) 
 const init = (
     targetDir = Constants.clientAppDir,
     configFileName = Constants.clientConfigFileName
-) => {
-
-    createClientDirectories(targetDir);
-    return createConfigFile(targetDir, configFileName);
-};
+) => createConfigFile(targetDir, configFileName);
 
 const addParamsToConfig = config => {
     process.argv.forEach(val => {
