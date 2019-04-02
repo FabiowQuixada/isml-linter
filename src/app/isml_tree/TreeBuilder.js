@@ -12,17 +12,16 @@ const build = filePath => {
 
     const result = {
         filePath,
-        status: ParseStatus.NO_ERRORS,
-        message: ''
+        status: ParseStatus.NO_ERRORS
     };
 
     try {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         result.rootNode   = parse(fileContent, undefined, undefined, filePath);
     } catch (e) {
-        result.rootNode = null;
-        result.status   = ParseStatus.INVALID_DOM;
-        result.message  = e === ExceptionUtils.types.UNKNOWN_ERROR ?
+        result.rootNode  = null;
+        result.status    = ParseStatus.INVALID_DOM;
+        result.exception = e === ExceptionUtils.types.UNKNOWN_ERROR ?
             ExceptionUtils.getParseErrorMessage(filePath) :
             e;
     }

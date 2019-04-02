@@ -15,11 +15,11 @@ describe('Invalid Template', () => {
     });
 
     it('detects simple unclosed <input> tag', () => {
-        const result          = TreeBuilder.build(getFilePath(0));
-        const expectedMessage = ExceptionUtils.unbalancedElementError('input', 8).message;
+        const result       = TreeBuilder.build(getFilePath(0));
+        const exceptionObj = ExceptionUtils.unbalancedElementError('input', 8);
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
-        expect(result.message).toEqual(expectedMessage);
+        expect(result.exception).toEqual(exceptionObj);
     });
 
     it('detects simple unclosed <input> tag II', () => {
@@ -27,15 +27,16 @@ describe('Invalid Template', () => {
         const expectedMessage = ExceptionUtils.unbalancedElementError('input', 5).message;
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
-        expect(result.message).toEqual(expectedMessage);
+        expect(result.exception.message).toEqual(expectedMessage);
     });
 
     it('identifies the line number of an unbalanced element', () => {
-        const result          = TreeBuilder.build(getFilePath(2));
-        const expectedMessage = ExceptionUtils.unbalancedElementError('div', 3);
+        const templatePath = getFilePath(2);
+        const result       = TreeBuilder.build(templatePath);
+        const exceptionObj = ExceptionUtils.unbalancedElementError('div', 3, templatePath);
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
-        expect(result.message).toEqual(expectedMessage);
+        expect(result.exception).toEqual(exceptionObj);
     });
 
     it('identifies the line number of an unbalanced element II', () => {
@@ -43,7 +44,7 @@ describe('Invalid Template', () => {
         const expectedMessage = ExceptionUtils.unbalancedElementError('select', 4).message;
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
-        expect(result.message).toEqual(expectedMessage);
+        expect(result.exception.message).toEqual(expectedMessage);
     });
 });
 

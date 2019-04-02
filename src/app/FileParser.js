@@ -42,11 +42,11 @@ const checkTreeRules = (filePath, parser) => {
         const tree = TreeBuilder.build(filePath);
 
         if (!tree.rootNode) {
-            throw tree.message;
+            throw tree.exception;
         }
 
         RulesHolder.getEnabledTreeRules().forEach(rule => {
-            const result = rule.check(tree);
+            const result = rule.check(tree.rootNode);
             if (config.autoFix && result.fixedContent) {
                 fs.writeFile(filePath, result.fixedContent);
             }

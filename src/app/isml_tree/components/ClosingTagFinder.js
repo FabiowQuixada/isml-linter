@@ -58,7 +58,7 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
         previousContent = internalState.content;
     }
 
-    throw ExceptionUtils.unbalancedElementError(currentElement.type, currentElement.lineNumber);
+    throw ExceptionUtils.unbalancedElementError(currentElement.type, currentElement.lineNumber, oldParentState.filePath);
 };
 
 const getInitialState = (content, parentState) => {
@@ -162,7 +162,7 @@ const updateElementStack = (oldState, currentElementStartingLineNumber, parentSt
             state.elementStack.pop();
         } else {
             const stackTopElement = state.elementStack.pop();
-            throw ExceptionUtils.unbalancedElementError(stackTopElement.elem, stackTopElement.lineNumber);
+            throw ExceptionUtils.unbalancedElementError(stackTopElement.elem, stackTopElement.lineNumber, state.filePath);
         }
     }
 

@@ -10,7 +10,7 @@ const ExceptionUtils       = require('../../app/ExceptionUtils');
 
 const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
-const UNPARSEABLE                    = ExceptionUtils.INVALID_TEMPLATE;
+const UNPARSEABLE                    = ExceptionUtils.types.INVALID_TEMPLATE;
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -24,9 +24,10 @@ describe(targetObjName, () => {
     });
 
     it('lints ISML files in a given directory', () => {
-        const result = IsmlLinter.run(specSpecificDirLinterTemplate);
+        const result         = IsmlLinter.run(specSpecificDirLinterTemplate);
+        const expectedResult = expectedResultObj('errors');
 
-        expect(result).toEqual(expectedResultObj('errors'));
+        expect(result.errors).toEqual(expectedResult.errors);
     });
 
     it('ignores files under the node_modules/ directory', () => {
@@ -37,9 +38,10 @@ describe(targetObjName, () => {
     });
 
     it('processes the correct line in result json data', () => {
-        const result = IsmlLinter.run(specSpecificDirLinterTemplate);
+        const result         = IsmlLinter.run(specSpecificDirLinterTemplate);
+        const expectedResult = expectedResultObj(FileParser.ENTRY_TYPES.ERROR);
 
-        expect(result).toEqual(expectedResultObj(FileParser.ENTRY_TYPES.ERROR));
+        expect(result).toEqual(expectedResult);
     });
 
     it('does not consider errors in directories defined to be ignored in the config file', () => {
@@ -69,8 +71,9 @@ describe(targetObjName, () => {
     it('lists invalid templates as "unparseable"', () => {
         const result          = IsmlLinter.run(specSpecificDirLinterTemplate);
         const expectedMessage = ExceptionUtils.unbalancedElementError('div', 2).message;
+        const actualResult    = result[UNPARSEABLE][0];
 
-        expect(result[UNPARSEABLE][0]).toEqual({
+        expect(actualResult).toEqual({
             'template_0.isml': expectedMessage
         });
     });

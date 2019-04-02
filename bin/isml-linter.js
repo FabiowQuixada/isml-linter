@@ -11,5 +11,5 @@ try {
 
 } catch(e) {
     const ConsoleUtils = require('../src/app/ConsoleUtils');
-    ConsoleUtils.printExceptionMsg(e.stack);
+    ConsoleUtils.printExceptionMsg(e.stack || e);
 }

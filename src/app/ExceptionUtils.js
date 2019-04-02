@@ -2,14 +2,15 @@ const Constants = require('./Constants');
 
 const LINTER_EXCEPTION = 'Linter Exception';
 const types            = {
-    UNKNOWN_ERROR    : 'UNKNOWN_ERROR',
-    INVALID_TEMPLATE : 'INVALID_TEMPLATE'
+    UNKNOWN_ERROR      : 'UNKNOWN_ERROR',
+    INVALID_TEMPLATE   : 'INVALID_TEMPLATE',
 };
 
-const unbalancedElementError = (elementType, lineNumber) => {
+const unbalancedElementError = (elementType, lineNumber, templatePath) => {
     return {
-        message : `Invalid ISML DOM :: Unbalanced <${elementType}> element at line ${lineNumber}`,
-        type    : LINTER_EXCEPTION
+        message      : `Invalid ISML DOM :: Unbalanced <${elementType}> element at line ${lineNumber}`,
+        templatePath : templatePath,
+        type         : LINTER_EXCEPTION
     };
 };
 
@@ -20,9 +21,14 @@ const parseError = fileName => {
     };
 };
 
+const isLinterException = e => {
+    return e.type && e.type === LINTER_EXCEPTION;
+};
+
 module.exports = {
-    parseError             : parseError,
-    unbalancedElementError : unbalancedElementError,
+    parseError,
+    unbalancedElementError,
+    isLinterException,
     types,
     LINTER_EXCEPTION
 };

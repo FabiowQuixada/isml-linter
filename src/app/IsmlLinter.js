@@ -42,19 +42,17 @@ Linter.run = function(dir = config.rootDir || appRoot.toString()) {
                 issueQty++;
             }
         } catch (e) {
-            if (!e.type || e.type === ExceptionUtils.LINTER_EXCEPTION) {
-                throw e;
-            }
 
             const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
-            if (e === UNKNOWN_ERROR) {
+            const UNPARSEABLE   = ExceptionUtils.types.INVALID_TEMPLATE;
+
+            if (!ExceptionUtils.isLinterException(e) || e === UNKNOWN_ERROR) {
                 that.result[UNKNOWN_ERROR] = that.result[UNKNOWN_ERROR] || [];
                 that.result[UNKNOWN_ERROR].push(path.join(appRoot.toString(), fileProjectPath));
             } else {
-                const UNPARSEABLE                = ExceptionUtils.INVALID_TEMPLATE;
                 that.result[UNPARSEABLE]         = that.result[UNPARSEABLE] || [];
                 const invalidTemplate            = {};
-                invalidTemplate[fileProjectPath] = e;
+                invalidTemplate[fileProjectPath] = e.message;
                 that.result[UNPARSEABLE].push(invalidTemplate);
             }
             issueQty++;
