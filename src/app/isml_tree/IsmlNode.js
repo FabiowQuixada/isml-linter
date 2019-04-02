@@ -19,9 +19,15 @@ class IsmlNode {
     getLineNumber() { return this.lineNumber; }
 
     getType() {
-        const regex = /<[a-zA-Z]*(\s|>|\/)/g;
+        const value = this.value.trim();
 
-        return this.value.match(regex)[0].slice(1, -1);
+        if (value.startsWith('<!--')) {
+            return 'html_comment';
+        }
+
+        const regex = /<[a-zA-Z\d]*(\s|>|\/)/g;
+
+        return value.match(regex)[0].slice(1, -1);
     }
 
     getHeight() { return this.height; }

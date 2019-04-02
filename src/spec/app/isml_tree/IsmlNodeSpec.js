@@ -82,6 +82,24 @@ describe(targetObjName, () => {
         expect(childNode.getHeight()).toEqual(rootNode.getHeight() + 1);
     });
 
+    it('gets the correct type for isml tag', () => {
+        const rootNode  = new IsmlNode('<isif condition"${}">');
+
+        expect(rootNode.getType()).toEqual('isif');
+    });
+
+    it('gets the correct type for elements that contain numbers', () => {
+        const node = new IsmlNode('<h1>');
+
+        expect(node.getType()).toEqual('h1');
+    });
+
+    it('gets the correct type for html comments', () => {
+        const node = new IsmlNode('<!-- Im a comment -->');
+
+        expect(node.getType()).toEqual('html_comment');
+    });
+
     it('prints itself', () => {
         const rootNode = new IsmlNode();
 
