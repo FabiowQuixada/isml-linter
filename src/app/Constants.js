@@ -1,5 +1,6 @@
 const path    = require('path');
 const appRoot = require('app-root-path');
+const fs      = require('fs');
 
 // Environments;
 const ENV_DEV  = 'dev';
@@ -11,7 +12,8 @@ const clientConfigFileName = '.ismllinter.json';
 const specConfigFileName   = 'spec_config.json';
 
 const clientAppDir    = appRoot.toString();
-const linterModuleDir = path.join(clientAppDir, 'node_modules', 'isml-linter');
+const productionDir   = path.join(clientAppDir, 'node_modules', 'isml-linter');
+const linterModuleDir = fs.existsSync(productionDir) ? productionDir : clientAppDir;
 const linterMainDir   = clientAppDir;
 
 // Directories;
