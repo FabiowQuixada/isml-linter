@@ -27,12 +27,9 @@ const printExceptionMsg = e => {
     console.log(`\n${Constants.repositoryUrl}\n\n`);
 };
 
-const displayErrors = jsonErrors => {
+const displayLintingErrors = jsonErrors => {
 
-    displayUnknownErrors(jsonErrors);
-
-    let sum = 0;
-
+    let partialSum = 0;
     for (const rule in jsonErrors.errors) {
         for (const file in jsonErrors.errors[rule]) {
             console.log('\n' + file);
@@ -46,25 +43,41 @@ const displayErrors = jsonErrors => {
 
                 console.log(chalk.gray(error.lineNumber) + '\t' + chalk.red('error') + '\t' + rule);
 
-                sum++;
+                partialSum++;
             });
         }
     }
 
-    console.log('\n' + chalk`{red.bold ${sum} errors found}`);
+    return partialSum;
 };
 
 const displayUnknownErrors = jsonErrors => {
     const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
+    let partialSum      = 0;
 
     if (jsonErrors[UNKNOWN_ERROR]) {
         console.log(chalk`{red.bold \nAn unexpected error happened while parsing the following files:}`);
 
         jsonErrors[UNKNOWN_ERROR].forEach( (filePath, i) => {
             console.log(chalk.gray(i) + '\t' + filePath);
+            partialSum++;
         });
 
         console.log(`\nPlease report this to ${chalk.cyan(Constants.repositoryUrl)} and add these files to the ignore list while a fix is not available.`);
+    }
+
+    return partialSum;
+};
+
+const displayErrors = jsonErrors => {
+
+    let errorQty = 0;
+
+    errorQty += displayUnknownErrors(jsonErrors);
+    errorQty += displayLintingErrors(jsonErrors);
+
+    if (errorQty > 0) {
+        console.log('\n' + chalk`{red.bold ${errorQty} errors found in templates.}`);
     }
 };
 
