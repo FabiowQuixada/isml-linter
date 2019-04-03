@@ -11,7 +11,8 @@
     "check-coverage": "istanbul check-coverage --statements 95 --functions 95 --branches 95 --lines 95",
     "build": "node scripts/lint.js --build",
     "fix": "node scripts/lint.js --autofix",
-    "prepush": "npm run lint && npm test && npm run check-coverage"
+    "prepush": "npm run lint && npm test && npm run check-coverage",
+    "release": "npm run scripts/release"
   },
   "config": {
     "ghooks": {
@@ -27,6 +28,7 @@
   },
   "keywords": [
     "isml",
+    "lint",
     "linter",
     "demandware",
     "salesforce",
