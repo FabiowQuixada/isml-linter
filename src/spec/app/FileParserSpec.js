@@ -1,11 +1,15 @@
-const path              = require('path');
-const FileParser        = require('../../app/FileParser');
-const SpecHelper        = require('../SpecHelper');
-const Constants         = require('../../app/Constants');
-const NoIsscriptRule    = require('../../app/rules/line_by_line/no-isscript');
-const NoInlineStyleRule = require('../../app/rules/line_by_line/no-inline-style');
+const path                 = require('path');
+const FileParser           = require('../../app/FileParser');
+const SpecHelper           = require('../SpecHelper');
+const Constants            = require('../../app/Constants');
+const NoIsscriptRule       = require('../../app/rules/line_by_line/no-isscript');
+const NoSpaceOnlyLinesRule = require('../../app/rules/line_by_line/no-space-only-lines');
+const NoInlineStyleRule    = require('../../app/rules/line_by_line/no-inline-style');
+const NoRequireInLoopRule  = require('../../app/rules/tree/no-require-in-loop');
+const NoHardcodeRule       = require('../../app/rules/tree/no-hardcode');
 
 const filePath      = path.join(Constants.fileParserSpecDir, 'template_0.isml');
+const ptFilePath    = path.join(Constants.fileParserSpecDir, 'pt_template_0.isml');
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
 describe(targetObjName, () => {
@@ -55,6 +59,20 @@ describe(targetObjName, () => {
         const expectedResult = expectedResultObj(FileParser.ENTRY_TYPES.ERROR);
 
         expect(actualResult).toEqual(expectedResult);
+    });
+
+    it('ignores "pt_"-named templates for no-isscript (line) rule', () => {
+        const actualResult = FileParser.parse(ptFilePath);
+
+        expect(actualResult.errors[NoIsscriptRule.description]).toEqual(undefined);
+        expect(actualResult.errors[NoSpaceOnlyLinesRule.description]).not.toEqual(undefined);
+    });
+
+    it('ignores "pt_"-named templates for no-require-in-loop (tree) rule', () => {
+        const actualResult = FileParser.parse(ptFilePath);
+
+        expect(actualResult.errors[NoRequireInLoopRule.description]).toEqual(undefined);
+        expect(actualResult.errors[NoHardcodeRule.description]).not.toEqual(undefined);
     });
 });
 

@@ -1,0 +1,23 @@
+<iscontent type="text/html" charset="UTF-8" compact="true"/>
+   
+<html>
+    <head>
+        <isscript>
+            var pageContext = {
+                title: 'My Account',
+                type: 'MyAccount',
+                ns: 'account'
+            };
+        </isscript>
+    </head>
+
+    <body>
+        <isloop>
+            ${require()}
+        </isloop>
+
+        <div>
+            hardcode
+        </div>
+    </body>
+</html>

@@ -21,6 +21,18 @@ const RulePrototype = {
         return config && config.rules && this.name in config.rules;
     },
 
+    isIgnore(templatePath) {
+        const ignoreArray = this.getConfigs().ignore;
+
+        if(ignoreArray) {
+            return ignoreArray.some( ignore => {
+                return templatePath.includes(ignore);
+            });
+        }
+
+        return false;
+    },
+
     getConfigs() {
         if (config && config.rules && config.rules[this.name]) {
             return config.rules[this.name];

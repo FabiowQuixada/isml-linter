@@ -14,6 +14,13 @@
         "no-trailing-spaces": {},
         "no-space-only-lines": {},
         "no-inline-style": {},
+        "no-isscript": {
+            "ignore": ["pt_"]
+        },
+        "no-hardcode": {},
+        "no-require-in-loop": {
+            "ignore": ["pt_"]
+        },
         "no-tabs": {}
     }
 }

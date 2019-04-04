@@ -23,18 +23,21 @@ const checkLineByLineRules = (filePath, parser) => {
 
     const fileContent = fs.readFileSync(filePath, 'utf-8');
 
-    RulesHolder.getEnabledLineRules().forEach(rule => {
-        const result = rule.check(fileContent);
+    RulesHolder
+        .getEnabledLineRules()
+        .filter( rule => !rule.isIgnore(filePath))
+        .forEach(rule => {
+            const result = rule.check(fileContent);
 
-        if (config.autoFix && result.fixedContent) {
-            fs.writeFileSync(filePath, result.fixedContent, function (err) {
-                // TODO
-                if (err) console.log(err);
-            });
-        } else if (result.occurrences && result.occurrences.length) {
-            addLineError(parser, ENTRY_TYPES.ERROR, rule, result);
-        }
-    });
+            if (config.autoFix && result.fixedContent) {
+                fs.writeFileSync(filePath, result.fixedContent, function (err) {
+                    // TODO
+                    if (err) console.log(err);
+                });
+            } else if (result.occurrences && result.occurrences.length) {
+                addLineError(parser, ENTRY_TYPES.ERROR, rule, result);
+            }
+        });
 };
 
 const checkTreeRules = (filePath, parser) => {
@@ -45,15 +48,18 @@ const checkTreeRules = (filePath, parser) => {
             throw tree.exception;
         }
 
-        RulesHolder.getEnabledTreeRules().forEach(rule => {
-            const result = rule.check(tree.rootNode);
-            if (config.autoFix && result.fixedContent) {
-                fs.writeFile(filePath, result.fixedContent);
-            }
-            else if (result.occurrences && result.occurrences.length) {
-                addLineError(parser, ENTRY_TYPES.ERROR, rule, result);
-            }
-        });
+        RulesHolder
+            .getEnabledTreeRules()
+            .filter( rule => !rule.isIgnore(filePath))
+            .forEach( rule => {
+                const result = rule.check(tree.rootNode);
+                if (config.autoFix && result.fixedContent) {
+                    fs.writeFile(filePath, result.fixedContent);
+                }
+                else if (result.occurrences && result.occurrences.length) {
+                    addLineError(parser, ENTRY_TYPES.ERROR, rule, result);
+                }
+            });
     }
 };
 
