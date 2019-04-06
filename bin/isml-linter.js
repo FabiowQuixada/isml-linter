@@ -12,4 +12,5 @@ try {
 } catch(e) {
     const ConsoleUtils = require('../src/app/util/ConsoleUtils');
     ConsoleUtils.printExceptionMsg(e.stack || e);
+    process.exit(1);
 }
