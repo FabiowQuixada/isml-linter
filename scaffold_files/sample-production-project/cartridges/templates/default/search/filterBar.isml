@@ -1,0 +1,15 @@
+<ul>
+    <isloop items="${pdict.productSearch.selectedFilters}" var="refinement">
+        <isif condition="${refinement.type === 'color'}">
+            <li class="swatch-filter swatch-filter-${refinement.presentationId}" title="${refinement.title}">
+                <a href="${refinement.url}"></a>
+            </li>
+        <iselse>
+            <li class="filter-value" title="${refinement.title}">
+                <a href="${refinement.url}">
+                    ${refinement.displayValue}
+                </a>
+            </li>
+        </isif>
+    </isloop>
+</ul>

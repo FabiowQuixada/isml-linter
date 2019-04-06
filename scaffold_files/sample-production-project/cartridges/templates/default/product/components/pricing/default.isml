@@ -1,0 +1,29 @@
+<span>
+    <isset name="finalOrigPrice" value="${price}" scope="page" />
+
+    <isif condition="${finalOrigPrice.list !== null}">
+        <isset name="price" value="${finalOrigPrice.list}" scope="page" />
+        <meta itemprop="priceCurrency" content="${price.currency}" />
+        <span class="strike-through list">
+            <span class="value" itemprop="price" content="${price.decimalPrice}">
+                <isinclude template="/product/components/pricing/formatted" />
+            </span>
+        </span>
+    </isif>
+
+    <isset name="price" value="${finalOrigPrice.sales}" scope="page" />
+    <meta itemprop="priceCurrency" content="${price.currency}" />
+    <span class="sales">
+        <isif condition="${isLowPrice == 'range-low'}">
+            <span class="value" itemprop="lowprice" content="${price.decimalPrice}">
+        </isif>
+        <isif condition="${isLowPrice == 'range-high'}">
+            <span class="value" itemprop="highprice" content="${price.decimalPrice}">
+        </isif>
+        <isif condition="${isLowPrice == null}">
+            <span class="value" itemprop="price" content="${price.decimalPrice}">
+        </isif>
+        <isinclude template="/product/components/pricing/formatted" />
+        </span>
+    </span>
+</span>

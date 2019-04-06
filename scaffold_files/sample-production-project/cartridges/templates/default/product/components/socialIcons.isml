@@ -1,0 +1,8 @@
+<div class="col-12 social-container hidden-sm-down">
+	<span class="social-icons">
+	    <i class="fa fa-pinterest" title="Pinterest"></i>
+	    <i class="fa fa-instagram" title="Instagram"></i>
+	    <i class="fa fa-facebook-official" title="Facebook"></i>
+	    <i class="fa fa-twitter" title="Twitter"></i>
+	</span>
+</div>

@@ -1,0 +1,39 @@
+<isif condition="${pdict.productSearch.isCategorySearch}">
+    <span>
+        ${Resource.msgf('label.results', 'search', null, pdict.productSearch.count)}
+    </span>
+<iselse>
+    <p>
+        <span>
+            <isif condition="${pdict.productSearch.productIds.length > 0}">
+                ${Resource.msgf('label.resultsfor', 'search', null, pdict.productSearch.count)}
+            <iselse>
+                ${Resource.msg('label.noresultsfor', 'search', null)}
+            </isif>
+        </span>
+        <span class="search-keywords">
+            ${pdict.productSearch.searchKeywords ? pdict.productSearch.searchKeywords : ''}
+        </span>
+    </p>
+    <isif condition="${pdict.productSearch.isSearchSuggestionsAvailable}">
+        <isloop items="${pdict.productSearch.suggestionPhrases}" alias="phrase" status="loopState" >
+            <isif condition="${loopState.first}">
+                <p>
+                    <span>${Resource.msg('label.didyoumean', 'search', null)}</span>
+                    <a class ="link" title="${phrase.value}" href="${phrase.url}">${phrase.value}</a>
+                </p>
+            <isif condition="${!loopState.last}">
+                <p>
+                    <span>${Resource.msg('label.ormaybe', 'search', null)}</span>
+            </isif>
+            <iselse>
+                <a class ="link" title="${phrase.value}" href="${phrase.url}">${phrase.value}</a>
+                <isif condition="${loopState.last}">
+                </p><iselse>,&nbsp;</isif>
+            </isif>
+        </isloop>
+    </isif>
+</isif>
+<isif condition="${!pdict.productSearch.productIds.length}">
+    <isinclude template="search/noResultsProduct" />
+</isif>

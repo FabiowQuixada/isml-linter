@@ -1,0 +1,51 @@
+<form action="${URLUtils.url('Order-Track')}" class="trackorder" method="GET" name="trackorder-form">
+    <h3 class="card-header track-order-header">${Resource.msg('header.form.trackorder', 'login', null)}</h3>
+    <div class="card-body">
+        <isif condition="${pdict.orderTrackFormError}">
+            <div class="form-group">
+                <div class="alert alert-danger " role="alert">
+                    <strong>${Resource.msg('error.message.trackorder.form', 'login', null)}</strong>
+                </div>
+            </div>
+        </isif>
+        <p class="track-order-header-text">${Resource.msg('header.form.trackorder.text', 'login', null)}</p>
+
+        <div class="form-group required">
+            <label class="form-control-label" for="trackorder-form-number">
+                ${Resource.msg('label.input.trackorder.ordernumber', 'login', null)}
+            </label>
+            <input
+                type="text"
+                required
+                class="form-control"
+                id="trackorder-form-number"
+                name="trackOrderNumber">
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group required">
+            <label class="form-control-label" for="trackorder-form-email">
+                ${Resource.msg('label.input.trackorder.orderemail', 'login', null)}
+            </label>
+            <input
+                type="text"
+                required
+                class="form-control"
+                id="trackorder-form-email"
+                name="trackOrderEmail"
+                pattern="^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$"
+                maxlength="50">
+            <div class="invalid-feedback"></div>
+        </div>
+        <!-- Billing Zip Code -->
+        <isinclude template="account/components/trackOrderFormBillingZipCode"/>
+
+        <input type="hidden" name="${pdict.csrf.tokenName}" value="${pdict.csrf.token}"/>
+
+        <div class="form-group">
+            <button class="btn btn-block btn-primary" type="submit" name="submit" value="submit">
+                ${Resource.msg('button.text.trackorderform', 'login', null)}
+            </button>
+        </div>
+    </div>
+</form>

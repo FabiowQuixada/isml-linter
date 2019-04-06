@@ -1,0 +1,4 @@
+<!--- Edit product --->
+<div class="product-edit">
+    <a href="${URLUtils.url('Cart-GetProduct', 'uuid', lineItem.UUID)}" class="edit" title="${Resource.msg('link.edit.item', 'cart',null)}">${Resource.msg('link.edit.item', 'cart', null)}</a>
+</div>

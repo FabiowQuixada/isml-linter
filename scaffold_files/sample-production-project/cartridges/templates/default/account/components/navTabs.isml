@@ -1,0 +1,24 @@
+<ul class="nav nav-tabs nav-fill">
+    <li class="nav-item">
+        <a
+            <isif condition="${pdict.navTabValue === 'login'}">
+                class="nav-link active"
+            <iselse>
+                class="nav-link"
+            </isif>
+            href="#login" data-toggle="tab" role="tab">
+            ${Resource.msg('link.header.login.module', 'login', null)}
+         </a>
+    </li>
+    <li class="nav-item">
+        <a
+            <isif condition="${pdict.navTabValue === 'register'}">
+                class="nav-link active"
+            <iselse>
+                class="nav-link"
+            </isif>
+            href="#register" data-toggle="tab" role="tab">
+            ${Resource.msg('link.header.register.module', 'login', null)}
+         </a>
+    </li>
+</ul>

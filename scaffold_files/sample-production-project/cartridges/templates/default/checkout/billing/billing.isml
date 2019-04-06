@@ -1,0 +1,51 @@
+<div class="card ghost payment">
+    <div class="card-header">
+        <span class="checkout-card-header">${Resource.msg('heading.payment', 'checkout', null)}</span>
+    </div>
+</div>
+
+<div class="card payment-form">
+    <div class="card-header">
+        <h4>${Resource.msg('heading.payment', 'checkout', null)}</h4>
+    </div>
+    <div class="card-body">
+        <form autocomplete="on" method="POST" action="${URLUtils.url('CheckoutServices-SubmitPayment')}"
+            data-address-mode="${!pdict.order.billing.billingAddress.address ? 'new' : 'edit'}"
+            <isprint value=${pdict.forms.billingForm.attributes} encoding="off" /> novalidate>
+
+            <!-------------------------------------------------------------------------->
+            <!-- Billing Address Selector                                             -->
+            <!-------------------------------------------------------------------------->
+            <fieldset class="address-selector-block">
+                <div class="form-group">
+                    <label class="form-control-label" for="shipmentSelector">
+                        ${Resource.msg('heading.billing.address', 'checkout', null)}
+                    </label>
+
+                    <isinclude template="checkout/billing/addressSelector" />
+                    <div class="invalid-feedback"></div>
+                    <div class="row">
+                        <a class="col-6 text-center btn-show-details">${Resource.msg('action.update.address', 'checkout', null)}</a>
+                        <a class="col-6 text-center btn-add-new">${Resource.msg('action.add.new', 'checkout', null)}</a>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-------------------------------------------------------------------------->
+            <!-- Billing Address                                                      -->
+            <!-------------------------------------------------------------------------->
+            <fieldset class="billing-address">
+                <isinclude template="checkout/billing/billingAddress" />
+            </fieldset>
+
+            <!-------------------------------------------------------------------------->
+            <!-- Payment Options                                                      -->
+            <!-------------------------------------------------------------------------->
+            <fieldset>
+                <isinclude template="checkout/billing/paymentOptions" />
+            </fieldset>
+
+            <input type="hidden" name="${pdict.csrf.tokenName}" value="${pdict.csrf.token}"/>
+        </form>
+    </div>
+</div>

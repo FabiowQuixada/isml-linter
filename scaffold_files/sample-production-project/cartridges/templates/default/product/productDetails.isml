@@ -1,0 +1,119 @@
+<isdecorate template="common/layout/page">
+
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets');
+        assets.addJs('/js/productDetail.js');
+        assets.addCss('/css/product/detail.css');
+    </isscript>
+
+    <isset name="product" value="${pdict.product}" scope="page" />
+    <isset name="isQuickView" value="${false}" scope="page" />
+    <isset name="isProductSet" value="${pdict.product.productType === 'set'}" scope="page" />
+    <isobject object="${product.raw}" view="detail" />
+        <div class="container product-detail product-wrapper"
+            data-pid="${product.id}"
+            itemscope itemtype="http://schema.org/Product">
+            <div class="row">
+                <div class="col-12">
+                    <!---Breadcrumbs--->
+                    <div class="product-breadcrumb d-md-none">
+                        <isinclude template="components/breadcrumbs/pageBreadcrumbs"/>
+                    </div>
+
+                    <!-- Product Name -->
+                    <div class="row">
+                        <div class="d-md-none col-sm-12">
+                            <h1 class="product-name" itemprop="name">${product.productName}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Product Images Carousel -->
+                <isinclude template="product/components/imageCarousel" />
+
+                <div class="col-12 col-sm-6">
+                    <!---Breadcrumbs--->
+                    <div class="product-breadcrumb hidden-sm-down">
+                        <isinclude template="components/breadcrumbs/pageBreadcrumbs"/>
+                    </div>
+
+                    <!-- Product Name -->
+                    <h1 class="product-name hidden-sm-down">${product.productName}</h1>
+
+                    <isinclude template="product/components/pidRating" />
+
+                    <div class="row justify-content-center">
+                        <!-- Attributes and Quantity -->
+                        <div class="col-md-10 col-12">
+                            <isinclude template="product/components/mainAttributes" />
+
+                            <isset name="isBundle" value="${false}" scope="page" />
+                            <isloop items="${product.variationAttributes}" var="attr" status="attributeStatus">
+                                <div data-attr="${attr.id}">
+                                    <isif condition="${attributeStatus.last && !isBundle && product.options.length === 0}">
+                                        <!-- Quantity Drop Down Menu -->
+                                        <div class="quantity col-sm-6">
+                                            <isinclude template="product/components/quantity" />
+                                        </div>
+                                    </isif>
+                                    <isinclude template="product/components/variationAttribute" />
+                                </div>
+                            </isloop>
+
+                            <isif condition="${!product.variationAttributes && product.options.length === 0}">
+                                <div class="simple-quantity">
+                                    <isinclude template="product/components/quantity" />
+                                </div>
+                            </isif>
+                        </div>
+
+                        <isif condition="${product.options && product.options.length > 0}">
+                            <isinclude template="product/components/options" />
+                        </isif>
+
+                        <!-- Size Chart -->
+                        <isif condition="${product.variationAttributes && product.sizeChartId}">
+                            <div class="size-chart col-md-10 col-12">
+                                <isinclude template="product/components/sizeChart" />
+                            </div>
+                        </isif>
+
+                        <!-- Product Availability -->
+                        <isinclude template="product/components/productAvailability" />
+
+                        <!-- Applicable Promotions -->
+                        <div class="col-md-10 col-12 promotions">
+                            <isinclude template="product/components/promotions" />
+                        </div>
+
+                        <div class="col-md-10 col-12">
+                            <hr>
+                        </div>
+
+                        <div class="col-12 prices-add-to-cart-actions">
+                            <!-- Prices -->
+                            <div class="prices">
+                                <isset name="price" value="${product.price}" scope="page" />
+                                <isinclude template="product/components/pricing/main" />
+                            </div>
+
+                            <!-- Cart and [Optionally] Apple Pay -->
+                            <isinclude template="product/components/addToCartProduct" />
+                        </div>
+
+                        <!-- Social Sharing Icons -->
+                        <isinclude template="product/components/socialIcons" />
+                    </div>
+                </div>
+            </div>
+
+            <isinclude template="product/components/descriptionAndDetails" />
+
+            <div class="recommendations">
+                <isslot id="product-recommendations-m" description="Recommended products" context="global" />
+            </div>
+        </div>
+    </isobject>
+</isdecorate>

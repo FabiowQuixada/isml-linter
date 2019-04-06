@@ -1,0 +1,12 @@
+<div class="row cart-and-ipay">
+    <div class="col-sm-12">
+        <input type="hidden" class="update-cart-url" value="${pdict.updateCartUrl}"
+               data-selected-quantity="${pdict.selectedQuantity}" data-uuid="${pdict.uuid}">
+        <button class="update-cart-product-global btn btn-primary"
+                data-pid="${product.id}"
+                ${!product.readyToOrder || !product.available ? "disabled" : ""}>
+            <i class="fa fa-shopping-bag"></i>
+            ${Resource.msg('button.update', 'common', null)}
+        </button>
+    </div>
+</div>

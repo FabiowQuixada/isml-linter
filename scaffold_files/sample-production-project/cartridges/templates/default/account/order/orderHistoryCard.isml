@@ -1,0 +1,49 @@
+<div class="card">
+    <isif condition="${pdict.accountlanding}">
+        <div class="card-header clearfix">
+            <h4 class="pull-left">${Resource.msg('label.orderhistory','account',null)}</h4>
+            <a href="${URLUtils.url('Order-History')}" class="pull-right">${Resource.msg('link.view','account',null)}</a>
+        </div>
+    <iselse/>
+        <div class="card-header clearfix">
+            <h4 class="pull-left">${Resource.msg('label.orderhistory.orderno','account',null)} ${order.orderNumber}</h4>
+            <a href="${URLUtils.url('Order-Details', 'orderID', order.orderNumber, 'orderFilter', pdict.orderFilter)}" class="pull-right">${Resource.msg('link.view','account',null)}</a>
+        </div>
+    </isif>
+    <div class="card-body card-info-group">
+        <div class="row">
+            <isif condition="${pdict.accountlanding}">
+                <div class="col-12">
+                    ${Resource.msg('label.orderhistory.mostrecentorder','account',null)}
+                </div>
+            </isif>
+            <div class="col-4 hidden-xs-down">
+                <img class="img-fluid" src="${order.firstLineItem.imageURL}" alt="${order.firstLineItem.alt}" title="${order.firstLineItem.title}">
+            </div>
+            <div class="col-sm-8 col-12">
+                <isif condition="${pdict.accountlanding}">
+                    <p>${Resource.msg('label.orderhistory.ordernumber','account',null)} <isprint value="${order.orderNumber}"/></p>
+                </isif>
+                <p>${Resource.msg('label.orderhistory.dateordered','account',null)} <isprint value="${order.creationDate}"/></p>
+                <p>${Resource.msg('label.orderhistory.orderstatus','account',null)} <span class="dashboard-order-card-status">${order.orderStatus}</span></p>
+                <isinclude template="account/order/shippingTitle"/>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-7 dashboard-order-card-footer-columns card-info-group">
+                <p>${Resource.msg('label.orderhistory.totalitems','account',null)}</p>
+                <p class="dashboard-order-card-footer-value">
+                    <isprint value="${order.productQuantityTotal}" formatter="#"/>
+                </p>
+            </div>
+            <div class="col-5 dashboard-order-card-footer-columns card-info-group">
+                <p>${Resource.msg('label.orderhistory.ordertotal','account',null)} </p>
+                <p class="dashboard-order-card-footer-value">
+                    ${order.priceTotal}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

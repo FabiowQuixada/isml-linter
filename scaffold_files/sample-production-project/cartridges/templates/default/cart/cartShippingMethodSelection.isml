@@ -1,0 +1,16 @@
+<div class="col-12">
+    <div class="form-group">
+        <label for="shippingMethods">${Resource.msg('field.selectshippingmethod','cart',null)}</label>
+        <select class="custom-select form-control shippingMethods"
+                id="shippingMethods" name="shippingMethods"
+                data-actionUrl="${pdict.actionUrls.selectShippingUrl}">
+            <isloop items="${pdict.shipments[0].shippingMethods}" var="option">
+                <isif condition="${pdict.shipments[0].selectedShippingMethod === option.ID}">
+                    <option selected data-shipping-id="${option.ID}">${option.displayName} <isif condition="${option.estimatedArrivalTime}">( ${option.estimatedArrivalTime} )</isif></option>
+                    <iselse/>
+                    <option data-shipping-id="${option.ID}">${option.displayName} <isif condition="${option.estimatedArrivalTime}">( ${option.estimatedArrivalTime} )</isif></option>
+                </isif>
+            </isloop>
+        </select>
+    </div>
+</div>

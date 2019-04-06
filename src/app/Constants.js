@@ -34,7 +34,7 @@ const rulesDir                       = path.join(linterModuleDir, 'src', 'app', 
 const lineByLineRulesDir             = path.join(rulesDir, 'line_by_line');
 const treeRulesDir                   = path.join(rulesDir, 'tree');
 const sampleProductionProjectName    = 'sample-production-project';
-const sampleProductionProjectDir     = path.join(clientAppDir, 'spec', sampleProductionProjectName);
+const sampleProductionProjectDir     = path.join(clientAppDir, 'scaffold_files', sampleProductionProjectName);
 
 // Regex;
 const srcJsRegex  = path.join('src', '**', '*.js');

@@ -1,0 +1,10 @@
+<isif condition="${shippingModel.selectedShippingMethod && shippingMethod.ID === shippingModel.selectedShippingMethod.ID}">
+     <input
+         id="shippingMethod-${shippingMethod.ID}"
+         name="${shippingAddress.shippingMethodID.htmlName}"
+         type="radio" class="form-check-input"
+         value="${shippingMethod.ID}"
+         checked>
+     <iselse/>
+     <input id="shippingMethod-${shippingMethod.ID}" name="${shippingAddress.shippingMethodID.htmlName}" type="radio" value="${shippingMethod.ID}" class="form-check-input">
+ </isif> 

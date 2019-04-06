@@ -1,0 +1,25 @@
+<isdecorate template="common/layout/page">
+
+    <div class="hero slant-down error-hero">
+        <h1 class="page-title">${Resource.msg('heading.error.general','error',null)}</h1>
+    </div>
+
+    <div class="container">
+        <h2 class='text-center error-message'>${pdict.message}</h2>
+        <isif condition="${pdict.showError}">
+            <pre><code>
+            <isprint value=${pdict.error.errorText} encoding="htmlcontent" />
+            <isif condition="${pdict.error.controllerName}">
+                in controller ${pdict.error.controllerName}
+            </isif>
+            </code></pre>
+        </isif>
+        <div class="row">
+            <div class="col-sm-6 offset-sm-3">
+                <a href="${URLUtils.url('Home-Show')}" class="btn btn-primary btn-block error continue-shopping" role="button" aria-pressed="true">
+                    ${Resource.msg('button.continue.shopping','confirmation',null)}
+                </a>
+            </div>
+        </div>
+    </div>
+</isdecorate>

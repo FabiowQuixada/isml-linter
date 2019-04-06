@@ -1,0 +1,17 @@
+<isif condition="${pdict.name === null}">
+    <div class="user hidden-md-down">
+        <a href="${URLUtils.https('Login-Show')}">
+            <i class="fa fa-sign-in" aria-hidden="true"></i>
+            <span class="user-message">${Resource.msg('link.header.login', 'account', null)}</span>
+        </a>
+    </div>
+<iselse/>
+    <div class="user hidden-md-down" tabindex="0">
+        <i class="fa fa-sign-in" aria-hidden="true"></i>
+        <span class="user-message">${pdict.name}</span>
+        <div class="popover popover-bottom">
+            <a href="${URLUtils.https('Account-Show')}">${Resource.msg('link.header.myaccount', 'account', null)}</a>
+            <a href="${URLUtils.url('Login-Logout')}">${Resource.msg('link.header.logout', 'account', null)}</a>
+        </div>
+    </div>
+</isif>

@@ -1,0 +1,90 @@
+<div class="product-line-item" data-product-line-item="${lineItem.UUID}">
+    <div class="line-item-header">
+        <isif condition=${miniCart}>
+            <isinclude template="checkout/productCard/productCardProductNameAndRemove" />
+        <iselse>
+            <isinclude template="checkout/productCard/productCardProductName" />
+        </isif>
+    </div>
+
+    <isif condition="${lineItem.productType === 'bundle'}">
+        <div class="bundle-includes">${Resource.msg('msg.bundle.includes','cart',null)}</div>
+        <!--- individual bundled line items --->
+        <isinclude template="cart/productCard/cartProductCardBundledItems" />
+    <iselse/>
+        <div class="product-line-item-details d-flex flex-row">
+            <div class="item-image">
+                <img class="product-image"
+                    src="${lineItem.images.small[0].url}"
+                    alt="${lineItem.images.small[0].alt}"
+                    title="${lineItem.images.small[0].title}">
+            </div>
+            <div class="item-attributes">
+                <isloop items="${lineItem.variationAttributes}" var="attribute">
+                    <p class="line-item-attributes">${attribute.displayName}: ${attribute.displayValue}</p>
+                </isloop>
+
+                <div class="item-options">
+                    <isloop items="${lineItem.options}" var="option">
+                        <div class="line-item-option">${option}</div>
+                    </isloop>
+                </div>
+
+                <isif condition="${(pdict.order && !pdict.order.orderStatus) || miniCart}">
+                    <isinclude template="cart/productCard/cartProductCardAvailability" />
+                </isif>
+            </div>
+        </div>
+    </isif>
+
+    <div><hr class="line-item-divider"></div>
+    <isif condition="${lineItem.productType === 'bundle' && ((pdict.order && !pdict.order.orderStatus) || miniCart)}">
+        <isinclude template="cart/productCard/cartProductCardAvailability" />
+    </isif>
+    <div class="row align-items-start">
+        <!--- item price --->
+        <div class="col-4 line-item-unit-price">
+            <isif condition="${lineItem.price}">
+                <p class="line-item-pricing-info">
+                    <span class="line-item-total-text unit-price-label">
+                        ${Resource.msg('label.each.item.price','cart',null)}
+                    </span><br/>
+                    <isset name="price" value="${lineItem.price}" scope="page"/>
+                    <isinclude template="/product/components/pricing/main.isml" />
+                </p>
+            </isif>
+        </div>
+        <!--- quantity --->
+        <div class="col-4 line-item-quantity justify-content-center flex">
+            <isif condition=${miniCart}>
+                <isinclude template="checkout/productCard/productCardQuantitySelector" />
+            <iselse>
+                <isinclude template="checkout/productCard/productCardQuantityDisplay" />
+            </isif>
+        </div>
+        <!--- line item total price --->
+        <div class="col-4 line-item-total-price justify-content-end">
+            <p class="line-item-pricing-info">
+                <span class="line-item-total-text line-item-total-price-label">
+                    ${Resource.msg('label.total.price','cart',null)}
+                </span>
+            </p>
+            <div class="item-total-${lineItem.UUID} price">
+                <isinclude template="checkout/productCard/productCardProductTotalPrice" />
+            </div>
+        </div>
+    </div>
+    <isif condition=${miniCart}>
+        <div class="line-item-promo item-${lineItem.UUID}">
+            <isinclude template="checkout/productCard/productCardProductPromotions" />
+        </div>
+    </isif>
+
+    <isloop items="${lineItem.bonusProducts}" var="nestedLineItem" status="loopState">
+        <isif condition="${loopState.first}">
+            ${Resource.msg('text.lineitem.bonus.msg', 'cart', null)}:
+        </isif>
+        <isinclude template="checkout/productCard/embeddedBonusProduct" />
+    </isloop>
+
+</div>

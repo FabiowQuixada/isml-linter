@@ -1,0 +1,3 @@
+<isloop items="${pdict.reportingURLs}" var="URL">
+    <isinclude url="${URL}" />
+</isloop>

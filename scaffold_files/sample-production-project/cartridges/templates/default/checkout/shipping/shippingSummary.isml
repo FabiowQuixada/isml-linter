@@ -1,0 +1,43 @@
+<!--- Shipping Address --->
+<isloop var="shippingModel" items="${pdict.order.shipping}" status="shippingLoop">
+    <isif condition="${shippingLoop.first}">
+        <div class="single-shipping" data-shipment-summary="${shippingModel.UUID}">
+            <isinclude template="checkout/shipping/shippingTitle"/>
+            <isif condition="${shippingModel.shippingAddress !== null}">
+                <isset name="address" value="${shippingModel.shippingAddress}" scope="page"/>
+            <iselse>
+                <isset name="address" value="{}" scope="page"/>
+            </isif>
+            <div class="summary-details shipping">
+                <isinclude template="checkout/addressSummary" />
+                <div class="shipping-phone">
+                    ${shippingModel.shippingAddress && shippingModel.shippingAddress.phone ? shippingModel.shippingAddress.phone : ''}
+                </div>
+            </div>
+
+            <!--- Shipping information --->
+            <p class="summary-section-label shipping-method-label">${Resource.msg('label.order.shipping.method', 'confirmation', null)}</p>
+            <div class="row summary-details leading-lines">
+                <div class="col-8 start-lines">
+                    <p class="shipping-method">
+                        <span class="shipping-method-title">${shippingModel.selectedShippingMethod.displayName}</span>
+                        <span class="shipping-method-arrival-time">
+                            <isif condition="${shippingModel.selectedShippingMethod.estimatedArrivalTime}">
+                                ( ${shippingModel.selectedShippingMethod.estimatedArrivalTime} )
+                            </isif>
+                        </span>
+                    </p>
+                </div>
+                <div class="col-4 end-lines">
+                    <p class="text-right pricing shipping-method-price">
+                        ${shippingModel.selectedShippingMethod.shippingCost}
+                    </p>
+                </div>
+            </div>
+            <isinclude template="checkout/shipping/giftMessageSummary" />
+        </div>
+    </isif>
+</isloop>
+<p class="summary-section-label shipping-addr-label multi-shipping">
+    ${Resource.msg('order.summery.section.text', 'order', null)}
+</p>

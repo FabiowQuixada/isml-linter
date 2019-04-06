@@ -1,0 +1,93 @@
+<isdecorate template="common/layout/page">
+
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets');
+        assets.addJs('/js/productDetail.js');
+        assets.addCss('/css/product/detail.css');
+    </isscript>
+
+    <iscomment>
+        It is necessary to set both "bundle" and "product" to pdict.product here as the downstream,
+        reusable templates expect "product" for certain properties.  "product" can be the "bundle"
+        or a bundle product item.  We need to set "product" back to equal "bundle" in the
+        .bundle-footer section below.
+    </iscomment>
+    <isset name="bundle" value="${pdict.product}" scope="page" />
+    <isset name="product" value="${pdict.product}" scope="page" />
+    <isobject object="${product.raw}" view="detail" />
+
+    <div class="container product-detail" data-pid="${product.id}" itemscope itemtype="http://schema.org/Product">
+        <div class="row">
+            <div class="col-12">
+                <!---Breadcrumbs--->
+                <div class="product-breadcrumb">
+                    <isinclude template="components/breadcrumbs/pageBreadcrumbs"/>
+                </div>
+
+                <!-- Product Name -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h1 class="product-name" itemprop="name">${product.productName}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row product-bundle">
+            <!-- Product Images Carousel -->
+            <isinclude template="product/components/imageCarousel" />
+
+            <div class="col-12 col-sm-6">
+                <div class="row">
+                    <div class="col-12">
+                        <isinclude template="product/components/pidRating" />
+                    </div>
+                </div>
+
+                <!-- Applicable Promotions -->
+                <div class="row promotions">
+                    <div class="col-12 align-self-center">
+                        <isinclude template="product/components/promotions" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <isinclude template="product/components/bundleItems" />
+
+        <hr>
+
+        <div class="col-12 col-sm-6 offset-sm-6 bundle-footer">
+            <!-- Quantity -->
+            <isset name="product" value="${bundle}" scope="page" />
+            <isinclude template="product/components/quantity" />
+
+            <!-- Availability -->
+            <div class="availability clearfix global-availability" data-ready-to-order="${bundle.readyToOrder}">
+                <isinclude template="product/components/availabilityBundleContainer" />
+            </div>
+
+            <div class="col-12 prices-add-to-cart-actions">
+                <!-- Prices -->
+                <div class="prices">
+                    <isset name="price" value="${product.price}" scope="page" />
+                    <isinclude template="product/components/pricing/main" />
+                </div>
+
+                <!-- Cart and [Optionally] Apple Pay -->
+                <isinclude template="product/components/addToCartGlobal" />
+            </div>
+
+            <!-- Social Sharing Icons -->
+            <isinclude template="product/components/socialIcons" />
+        </div>
+
+        <isinclude template="product/components/descriptionAndDetails" />
+
+        <div class="recommendations">
+            <isslot id="product-recommendations-m" description="Recommended products" context="global" />
+        </div>
+    </div>
+</isdecorate>

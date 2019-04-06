@@ -1,0 +1,67 @@
+<div>
+    <div class="line-item-header">
+        <isif condition=${miniCart}>
+            <div class="line-item-name">
+                <span>${nestedLineItem.productName}</span>
+            </div>
+        </isif>
+    </div>
+    <div class="product-line-item-details d-flex flex-row">
+        <div class="item-image">
+            <img class="product-image"
+                src="${nestedLineItem.images.small[0].url}"
+                alt="${nestedLineItem.images.small[0].alt}"
+                title="${nestedLineItem.images.small[0].title}">
+        </div>
+        <div class="item-attributes">
+            <isloop items="${nestedLineItem.variationAttributes}" var="attribute">
+                <p class="line-item-attributes">${attribute.displayName}: ${attribute.displayValue}</p>
+            </isloop>
+
+            <div class="item-options">
+                <isloop items="${nestedLineItem.options}" var="option">
+                    <div class="line-item-option">${option}</div>
+                </isloop>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-start">
+        <!--- item price --->
+        <div class="col-4 line-item-unit-price">
+            <isif condition="${lineItem.price}">
+            <p class="line-item-pricing-info">
+                <span class="line-item-total-text unit-price-label">
+                    ${Resource.msg('label.each.item.price','cart',null)}
+                </span><br/>
+                <div class="price">
+                    <span>
+                        <span class="sales">
+                            <span class="value">${nestedLineItem.bonusUnitPrice}</span>
+                        </span>
+                    </span>
+                </div>
+            </p>
+            </isif>
+        </div>
+        <!--- quantity --->
+        <div class="col-4 line-item-quantity justify-content-center flex">
+            <p class="line-item-pricing-info">
+                <span class="line-item-total-text qty-card-quantity-label">
+                ${Resource.msg('field.selectquantity','cart',null)}
+                </span><br/>
+                <span class="pricing qty-card-quantity-count"><isprint value="${nestedLineItem.quantity}" formatter="##" /></span>
+            </p>
+        </div>
+        <!--- line item total price --->
+        <div class="col-4 line-item-total-price justify-content-end">
+            <p class="line-item-pricing-info">
+                <span class="line-item-total-text line-item-total-price-label">
+                    ${Resource.msg('label.total.price','cart',null)}
+                </span>
+            </p>
+            <div class="item-total-${nestedLineItem.UUID} price">
+                <div class="pricing line-item-total-price-amount item-total-${nestedLineItem.UUID}">${nestedLineItem.priceTotal.price}</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,160 @@
+<div class="suggestions">
+    <div class="container">
+
+        <isif condition="${pdict.suggestions.product && pdict.suggestions.product.phrases.length > 0}">
+            <div class="row justify-content-end header">
+                <div class="col-xs-12 col-sm-10 do-you-mean">${Resource.msg('label.suggest.doyoumean', 'search', null)}</div>
+            </div>
+            <div class="row items">
+                <isloop items="${pdict.suggestions.product.phrases}" var="phrase">
+                    <div class="col-12 item term">
+                        <div class="row justify-content-end">
+                            <div class="col-xs-12 col-sm-10">
+                                <a href="${URLUtils.url('Search-Show', 'q', phrase.value)}">
+                                    ${phrase.value}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </isloop>
+            </div>
+        </isif>
+
+        <isif condition="${pdict.suggestions.product && pdict.suggestions.product.available}">
+            <div class="row justify-content-end header">
+                <div class="col-xs-12 col-sm-10">${Resource.msg('label.suggest.products', 'search', null)}</div>
+            </div>
+
+            <div class="row justify-content-end items">
+                <isloop items="${pdict.suggestions.product.products}" var="product">
+                    <div class="col-12 item">
+                        <div class="row">
+                            <div class="col-sm-2 hidden-xs-down">
+                                <a href="${product.url}">
+                                    <img class="swatch-circle" alt="${product.name}" src="${product.imageUrl}" />
+                                </a>
+                            </div>
+                            <div class="col-xs-12 col-sm-10 name">
+                                <a href="${product.url}">${product.name}</a>
+                            </div>
+                        </div>
+                    </div>
+                </isloop>
+            </div>
+        </isif>
+
+        <isif condition="${pdict.suggestions.category && pdict.suggestions.category.available}">
+            <div class="row justify-content-end header">
+                <div class="col-xs-12 col-sm-10">
+                    ${Resource.msg('label.suggest.categories', 'search', null)}
+                </div>
+            </div>
+
+            <div class="row items">
+                <isloop items="${pdict.suggestions.category.categories}" var="category">
+                    <div class="col-12 item">
+                        <div class="row">
+                            <div class="hidden-xs-down col-sm-2">
+                                <isif condition="${category.imageUrl != ''}">
+                                    <a href="${category.url}">
+                                        <img class="swatch-circle" alt="${category.name}" src="${category.imageUrl}" />
+                                    </a>
+                                </isif>
+                            </div>
+                            <div class="col-xs-12 col-sm-10 name">
+                                <a href="${category.url}">${category.name}
+                                    <isif condition="${category.parentID !== 'root'}">
+                                        <span class="category-parent"> ${Resource.msg('label.suggest.in', 'search', null)} ${category.parentName}</span>
+                                    </isif>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </isloop>
+            </div>
+        </isif>
+
+        <isif condition="${pdict.suggestions.recent && pdict.suggestions.recent.available}">
+            <div class="row justify-content-end header">
+                <div class="col-xs-12 col-sm-10">
+                    ${Resource.msg('label.suggest.recent', 'search', null)}
+                </div>
+            </div>
+
+            <div class="row items">
+                <isloop items="${pdict.suggestions.recent.phrases}" var="phrase">
+                    <div class="col-12 item">
+                        <div class="row">
+                            <div class="col-xs-12 offset-sm-2 col-sm-10 name">
+                                <a href="${phrase.url}">${phrase.value}</a>
+                            </div>
+                        </div>
+                    </div>
+                </isloop>
+            </div>
+        </isif>
+
+        <isif condition="${pdict.suggestions.popular && pdict.suggestions.popular.available}">
+            <div class="row justify-content-end header">
+                <div class="col-xs-12 col-sm-10">
+                    ${Resource.msg('label.suggest.popular', 'search', null)}
+                </div>
+            </div>
+
+            <div class="row items">
+                <isloop items="${pdict.suggestions.popular.phrases}" var="phrase">
+                    <div class="col-12 item">
+                        <div class="row">
+                            <div class="col-xs-12 offset-sm-2 col-sm-10 name">
+                                <a href="${phrase.url}">${phrase.value}</a>
+                            </div>
+                        </div>
+                    </div>
+                </isloop>
+            </div>
+        </isif>
+        <isif condition="${pdict.suggestions.brand && pdict.suggestions.brand.available}">
+            <div class="row justify-content-end header">
+                <div class="col-xs-12 col-sm-10">
+                    ${Resource.msg('label.suggest.brand', 'search', null)}
+                </div>
+            </div>
+
+            <div class="row items">
+                <isloop items="${pdict.suggestions.brand.phrases}" var="phrase">
+                    <div class="col-12 item">
+                        <div class="row">
+                            <div class="col-xs-12 offset-sm-2 col-sm-10 name">
+                                <a href="${phrase.url}">${phrase.value}</a>
+                            </div>
+                        </div>
+                    </div>
+                </isloop>
+            </div>
+        </isif>
+
+        <isif condition="${pdict.suggestions.content && pdict.suggestions.content.available}">
+            <div class="row justify-content-end header">
+                <div class="col-xs-12 col-sm-10">
+                    ${Resource.msg('label.suggest.content', 'search', null)}
+                </div>
+            </div>
+
+            <div class="row items">
+                <isloop items="${pdict.suggestions.content.contents}" var="content">
+                    <div class="col-12 item">
+                        <div class="row">
+                            <div class="col-xs-12 offset-sm-2 col-sm-10 name">
+                                <a href="${content.url}">${content.name}</a>
+                            </div>
+                        </div>
+                    </div>
+                </isloop>
+            </div>
+        </isif>
+
+        <span class="d-sm-none more-below">
+            <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+        </span>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+<form
+    action="${pdict.createAccountUrl}"
+    class="registration"
+    method="POST"
+    name="${pdict.profileForm.htmlName}">
+    <div class="form-group
+        <isif condition="${!!pdict.profileForm.customer.firstname.mandatory === true}">required</isif>">
+        <label class="form-control-label" for="registration-form-fname">
+            <isprint value="${pdict.profileForm.customer.firstname.label}" encoding="htmlcontent" />
+        </label>
+        <input
+            type="text"
+            class="form-control"
+            id="registration-form-fname"
+            <isprint value=${pdict.profileForm.customer.firstname.attributes} encoding="off" />>
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="form-group
+        <isif condition="${!!pdict.profileForm.customer.lastname.mandatory === true}">required</isif>">
+        <label class="form-control-label" for="registration-form-lname">
+            <isprint value="${pdict.profileForm.customer.lastname.label}" encoding="htmlcontent" />
+        </label>
+        <input
+            type="text"
+            class="form-control"
+            id="registration-form-lname"
+            <isprint value=${pdict.profileForm.customer.lastname.attributes} encoding="off" />>
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="form-group
+        <isif condition="${!!pdict.profileForm.customer.phone.mandatory === true}">required</isif>">
+        <label class="form-control-label" for="registration-form-phone">
+            <isprint value="${pdict.profileForm.customer.phone.label}" encoding="htmlcontent" />
+        </label>
+        <input
+            type="text"
+            class="form-control"
+            id="registration-form-phone"
+            <isprint value=${pdict.profileForm.customer.phone.attributes} encoding="off" />
+            placeholder="${Resource.msg('example.phone','forms',null)}">
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="form-group
+        <isif condition="${!!pdict.profileForm.customer.email.mandatory === true}">required</isif>">
+        <label class="form-control-label" for="registration-form-email">
+             <isprint value="${pdict.profileForm.customer.email.label}" encoding="htmlcontent" />
+        </label>
+        <input
+            type="text"
+            class="form-control"
+            id="registration-form-email"
+            <isprint value=${pdict.profileForm.customer.email.attributes} encoding="off" />>
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="form-group
+        <isif condition="${!!pdict.profileForm.customer.emailconfirm.mandatory === true}">required</isif>">
+        <label class="form-control-label" for="registration-form-email-confirm">
+            <isprint value="${pdict.profileForm.customer.emailconfirm.label}" encoding="htmlcontent" />
+        </label>
+        <input
+            type="text"
+            class="form-control"
+            id="registration-form-email-confirm"
+            <isprint value=${pdict.profileForm.customer.emailconfirm.attributes} encoding="off" />>
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="form-group
+        <isif condition="${!!pdict.profileForm.login.password.mandatory === true}">required</isif>">
+        <label class="form-control-label" for="registration-form-password">
+            <isprint value="${pdict.profileForm.login.password.label}" encoding="htmlcontent" />
+        </label>
+        <input
+            type="password"
+            class="form-control"
+            id="registration-form-password"
+            autocomplete="off"
+            <isprint value=${pdict.profileForm.login.password.attributes} encoding="off" />>
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="form-group
+        <isif condition="${!!pdict.profileForm.login.passwordconfirm.mandatory === true}">required</isif>">
+        <label class="form-control-label" for="registration-form-password-confirm">
+            <isprint value="${pdict.profileForm.login.passwordconfirm.label}" encoding="htmlcontent" />
+        </label>
+        <input
+            type="password"
+            class="form-control"
+            id="registration-form-password-confirm"
+            autocomplete="off"
+            <isprint value=${pdict.profileForm.login.passwordconfirm.attributes} encoding="off" />>
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="form-group custom-control custom-checkbox">
+        <input
+            type="checkbox"
+            class="custom-control-input" id="add-to-email-list"
+            <isprint value=${pdict.profileForm.customer.addtoemaillist.attributes} encoding="off" />
+        >
+        <label class="custom-control-label" for="add-to-email-list">
+            <isprint value="${pdict.profileForm.customer.addtoemaillist.label}" encoding="htmlcontent" />
+        </label>
+    </div>
+
+    <input type="hidden" name="${pdict.csrf.tokenName}" value="${pdict.csrf.token}"/>
+
+    <button type="submit" class="btn btn-block btn-primary">
+        ${Resource.msg('button.createaccount.registration', 'registration', null)}
+    </button>
+    <div class="privacy-policy">
+        ${Resource.msg('description.privacypolicy.registration', 'registration', null)}
+        <a href="${'#'}">
+            ${Resource.msg('link.privacypolicy.registration', 'registration', null)}
+        </a>
+    </div>
+</form>

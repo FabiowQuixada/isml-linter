@@ -1,0 +1,30 @@
+<isif condition="${lineItem.isBonusProductLineItem}" />
+	<div>${Resource.msg('msg.bonus.product','cart',null)}</div>
+</isif>
+<div class="line-item-header">
+    <div class="line-item-name">
+        ${lineItem.productName}
+    </div>
+    <isif condition="${!lineItem.isBonusProductLineItem}"/>
+        <div class="remove-line-item d-lg-none">
+            <button type="button" class="remove-btn remove-product btn btn-light" data-toggle="modal"
+                    data-target="#removeProductModal" data-pid="${lineItem.id}"
+                    data-name="${lineItem.productName}"
+                    data-action="${pdict.actionUrls.removeProductLineItemUrl}"
+                    data-uuid="${lineItem.UUID}"
+                    aria-label="remove">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="hidden-md-down">
+            <button type="button" class="remove-btn-lg remove-product btn btn-light" data-toggle="modal"
+                    data-target="#removeProductModal" data-pid="${lineItem.id}"
+                    data-name="${lineItem.productName}"
+                    data-action="${pdict.actionUrls.removeProductLineItemUrl}"
+                    data-uuid="${lineItem.UUID}"
+                    aria-label="remove">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </isif>
+</div>

@@ -1,0 +1,29 @@
+<isif condition="${shippingModel.shippingAddress}">
+    <h5>${Resource.msg('heading.shipping.to', 'checkout', null)}</h5>
+    <isinclude template="checkout/shipping/shippingCardShippingAddress" />
+</isif>
+
+<isif condition="${shippingModel.selectedShippingMethod}">
+    <h5>${pdict.order.resources.shippingMethod}
+        <span>
+            <isif condition="${shippingModel.productLineItems.items && shippingModel.productLineItems.items.length > 1}">
+                - ${shippingModel.productLineItems.items.length.toFixed(0)} ${pdict.order.resources.items}
+            </isif>
+        </span>
+    </h5>
+    <div class="row leading-lines">
+        <p class="col-8 start-lines">
+            <span class="display-name">${shippingModel.selectedShippingMethod.displayName}</span>
+            <isif condition="${shippingModel.selectedShippingMethod.estimatedArrivalTime}">
+                <span class="text-muted arrival-time">(${shippingModel.selectedShippingMethod.estimatedArrivalTime})</span>
+            </isif>
+        </p>
+        <p class="col-4 end-lines text-right">
+            <span class="price">
+                ${shippingModel.selectedShippingMethod.shippingCost}
+            </span>
+        </p>
+    </div>
+</isif>
+
+<isinclude template="checkout/shipping/giftMessageSummary" />

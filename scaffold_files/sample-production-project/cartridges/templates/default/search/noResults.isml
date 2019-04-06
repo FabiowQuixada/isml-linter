@@ -1,0 +1,8 @@
+<div class="search-tips">
+    <h5>${Resource.msg('label.searchtips', 'search', null)}</h5>
+    <ul>
+        <li>${Resource.msg('label.searchtip1', 'search', null)}</li>
+        <li>${Resource.msg('label.searchtip2', 'search', null)}</li>
+        <li>${Resource.msg('label.searchtip3', 'search', null)}</li>
+    </ul>
+</div>

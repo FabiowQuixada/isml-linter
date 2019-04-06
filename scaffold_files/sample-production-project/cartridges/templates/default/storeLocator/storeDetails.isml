@@ -1,0 +1,29 @@
+<div class="store-details" data-store-id="${store.ID}">
+    <div class="store-name">${store.name}</div>
+    <address>
+        <a class="store-map" target='_blank' href="https://maps.google.com/?daddr=${store.latitude},${store.longitude}">
+            ${store.address1}
+            <isif condition="${store.address2}">
+                ${store.address2}
+            </isif>
+            <isif condition="${store.city}">
+                ${store.city},
+            </isif>
+            <isif condition="${store.stateCode}">
+                ${store.stateCode}
+            </isif>
+            ${store.postalCode}
+        </a>
+        <div class="store-hours">
+            <isif condition="${store.storeHours}">
+                <isprint value="${store.storeHours}" encoding="off"/>
+            </isif>
+        </div>
+        <p>
+            <isif condition="${store.phone}">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <span><a class="storelocator-phone" href="tel:${store.phone}">${store.phone}</a></span>
+            </isif>
+        </p>
+    </address>
+</div>

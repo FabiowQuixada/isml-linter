@@ -1,0 +1,11 @@
+<body>
+
+    <h1>${Resource.msg('email.msg.edited.dear', 'account', null)}&nbsp;${pdict.firstName}&nbsp;${pdict.lastName},</h1>
+
+    <p>${Resource.msg('email.msg.edited.body1','account',null)}</p>
+
+    <p><a href="${pdict.url}">${pdict.url}</a></p>
+
+    <p>${Resource.msg('email.msg.edited.body2','account',null)}</p>
+
+</body>

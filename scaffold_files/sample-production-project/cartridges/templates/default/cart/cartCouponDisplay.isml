@@ -1,0 +1,32 @@
+<isloop items="${pdict.totals.discounts}" var="discount">
+    <isif condition="${discount.type === 'coupon'}">
+        <div class="coupon-price-adjustment coupon-uuid-${discount.UUID}"
+             data-uuid="${discount.UUID}">
+            <div class="coupon-code">${discount.couponCode} -
+                <isif condition="${discount.applied}">
+                    <span class="coupon-applied">${Resource.msg('msg.coupon.applied','cart',null)}</span>
+                <iselse/>
+                    <span class="coupon-not-applied">${Resource.msg('msg.coupon.not.applied','cart',null)}</span>
+                </isif>
+                <button type="button" class="float-right remove-coupon"
+                        data-code="${discount.couponCode}"
+                        aria-label="Close"
+                        data-toggle="modal"
+                        data-target="#removeCouponModal"
+                        data-uuid="${discount.UUID}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <ul class="coupon-promotion-relationship">
+                <isloop items="${discount.relationship}" var="relatedPromotion">
+                    <li>${relatedPromotion.callOutMsg}</li>
+                </isloop>
+            </ul>
+        </div>
+    <iselse/>
+        <div class="promotion-information">
+            <span class="promotion-name">${discount.lineItemText}</span>
+            <span class="applied-promotion-discount">${discount.price}</span>
+        </div>
+    </isif>
+</isloop>

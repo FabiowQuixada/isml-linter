@@ -1,0 +1,52 @@
+<!--- Close button --->
+<div class="filter-header">
+    <div class="header-bar d-md-none clearfix">
+        <div class="pull-left d-md-none result-count">
+            <isinclude template="search/resultsCount" />
+        </div>
+        <button class="pull-right close">
+            <span>${Resource.msg('button.close', 'search', null)}</span>
+            <i class="fa fa-close"></i>
+        </button>
+    </div>
+</div>
+
+<!--- Results count and Reset button --->
+<isif condition="${pdict.productSearch.productIds.length > 0}">
+    <div>
+        <div class="secondary-bar col-12 offset-sm-4 offset-md-0 col-sm-4 col-md-12">
+            <a class="reset btn btn-block btn-outline-primary" href="${pdict.productSearch.resetLink}">
+                ${Resource.msg('link.reset', 'search', null)}
+            </a>
+        </div>
+    </div>
+</isif>
+
+<div>
+    <div class="refinements">
+        <isloop items="${pdict.productSearch.refinements}" var="refinement">
+            <div class="card collapsible-sm refinement refinement-${refinement.displayName.toLowerCase().replace(/ /g, '-')}">
+                <div class="card-header">
+                    ${refinement.displayName}
+                </div>
+                <div class="card-body">
+                    <!--- CATEGORY REFINEMENTS --->
+                    <isif condition="${refinement.isCategoryRefinement}">
+                        <isset name="categories" value="${refinement.values}" scope="page" />
+                        <isinclude template="search/refinements/categories" />
+                    </isif>
+
+                    <!--- ATTRIBUTE REFINEMENTS --->
+                    <isif condition="${refinement.isAttributeRefinement}">
+                        <isinclude template="search/refinements/attributes" />
+                    </isif>
+
+                    <!--- PRICE REFINEMENTS --->
+                    <isif condition="${refinement.isPriceRefinement}">
+                        <isinclude template="search/refinements/prices" />
+                    </isif>
+                </div>
+            </div>
+        </isloop>
+    </div>
+</div>

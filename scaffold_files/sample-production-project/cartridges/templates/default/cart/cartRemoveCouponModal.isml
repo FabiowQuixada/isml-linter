@@ -1,0 +1,22 @@
+<div class="modal fade" id="removeCouponModal" tabindex="-1" role="dialog" aria-labelledby="removeCouponLineItemModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header delete-coupon-confirmation-header">
+                <h4 class="modal-title" id="removeCouponLineItemModal">${Resource.msg('heading.remove.coupon.confirmation.modal','cart',null)}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body delete-coupon-confirmation-body">
+                ${Resource.msg('msg.remove.coupon.confirmation.modal','cart',null)}
+                <p class="coupon-to-remove"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">${Resource.msg('button.cancel','cart',null)}</button>
+                <button type="button" class="btn btn-primary delete-coupon-confirmation-btn"
+                        data-dismiss="modal"
+                        data-action="${pdict.actionUrls.removeCouponLineItem}">
+                    ${Resource.msg('button.confirm','cart',null)}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,154 @@
+<isset name="addressFields" value="${pdict.forms.shippingForm.shippingAddress.addressFields}" scope="page"/>
+<isif condition="${shippingModel.shippingAddress}">
+    <isset name="shippingAddress" value="${shippingModel.shippingAddress}" scope="page" />
+<iselse/>
+    <isset name="shippingAddress" value="${{}}" scope="page" />
+</isif>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group
+            ${addressFields.firstName.mandatory === true ? 'required' : ''}
+            ${addressFields.firstName.htmlName}">
+            <label class="form-control-label" for="shippingFirstName"  >
+                ${Resource.msg('field.shipping.address.first.name','address',null)}
+            </label>
+            <input autofocus type="text" class="form-control shippingFirstName" id="shippingFirstName"
+                value="${shippingAddress.firstName||''}" <isprint value="${addressFields.firstName.attributes}" encoding="off"/>
+                autocomplete="given-name" >
+            <div class="invalid-feedback"><isprint value="${addressFields.firstName.error}" ></div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group
+            ${addressFields.lastName.mandatory === true ? 'required' : ''}
+            ${addressFields.lastName.htmlName}">
+            <label class="form-control-label" for="shippingLastName">
+                ${Resource.msg('field.shipping.address.last.name','address',null)}
+            </label>
+            <input type="text" class="form-control shippingLastName" id="shippingLastName"
+                value="${shippingAddress.lastName||''}" <isprint value="${addressFields.lastName.attributes}" encoding="off"/>
+                autocomplete="family-name">
+            <div class="invalid-feedback"><isprint value="${addressFields.lastName.error}" ></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group
+            ${addressFields.address1.mandatory === true ? 'required' : ''}
+            ${addressFields.address1.htmlName}">
+            <label class="form-control-label" for="shippingAddressOne">
+                ${Resource.msg('field.shipping.address.one','address',null)}
+            </label>
+            <input type="text" class="form-control shippingAddressOne" id="shippingAddressOne"
+                value="${shippingAddress.address1||''}" <isprint value="${addressFields.address1.attributes}" encoding="off"/>
+                autocomplete="shipping address-line1">
+            <div class="invalid-feedback"><isprint value="${addressFields.address1.error}" ></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group
+            ${addressFields.address2.mandatory === true ? 'required' : ''}
+            ${addressFields.address2.htmlName}">
+            <label class="form-control-label" for="shippingAddressTwo">
+                ${Resource.msg('field.shipping.address.two','address',null)}
+            </label>
+            <input type="text" class="form-control shippingAddressTwo" id="shippingAddressTwo"
+                value="${shippingAddress.address2||''}" <isprint value="${addressFields.address2.attributes}" encoding="off"/>
+                autocomplete="shipping address-line2">
+            <div class="invalid-feedback"><isprint value="${addressFields.address2.error}" ></div>
+        </div>
+    </div>
+</div>
+
+<!--- make drop down--->
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group
+            ${addressFields.country.mandatory === true ? 'required' : ''}
+            ${addressFields.country.htmlName}">
+            <label class="form-control-label" for="shippingCountry">
+                ${Resource.msg('field.shipping.address.country','address',null)}
+            </label>
+            <select class="form-control shippingCountry custom-select" id="shippingCountry"
+                <isprint value=${addressFields.country.attributes} encoding="off"/>
+                autocomplete="shipping country">
+                    <option label=" "></option>
+                    <isloop items=${addressFields.country.options} var="country">
+                        <option id="${country.id}" value="${country.htmlValue}" ${shippingAddress.countryCode && country.id === shippingAddress.countryCode.value ? 'selected' : ''}>${country.label}</option>
+                    </isloop>
+            </select>
+            <div class="invalid-feedback"><isprint value="${addressFields.country.error}" ></div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group
+            ${addressFields.states.stateCode.mandatory === true ? 'required' : ''}
+            ${addressFields.states.stateCode.htmlName}">
+            <label class="form-control-label" for="shippingState">
+                ${Resource.msg('field.shipping.address.state','address',null)}
+            </label>
+            <select class="form-control shippingState custom-select" id="shippingState"
+                <isprint value=${addressFields.states.stateCode.attributes} encoding="off"/>
+                autocomplete="shipping address-level1">
+                <isloop items=${addressFields.states.stateCode.options} var="state">
+                    <option id="${state.id}" value="${state.htmlValue}" ${state.id===shippingAddress.stateCode ? 'selected' : ''}>${state.label || ' '}</option>
+                </isloop>
+            </select>
+            <div class="invalid-feedback"><isprint value="${addressFields.states.stateCode.error}" ></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group
+            ${addressFields.city.mandatory === true ? 'required' : ''}
+            ${addressFields.city.htmlName}">
+            <label class="form-control-label" for="shippingAddressCity">
+                ${Resource.msg('field.shipping.address.city','address',null)}
+            </label>
+            <input type="text" class="form-control shippingAddressCity" id="shippingAddressCity"
+                value="${shippingAddress.city||''}" <isprint value="${addressFields.city.attributes}" encoding="off"/>
+                autocomplete="shipping address-level2">
+            <div class="invalid-feedback"><isprint value="${addressFields.city.error}" ></div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group
+            ${addressFields.postalCode.mandatory === true ? 'required' : ''}
+            ${addressFields.postalCode.htmlName}">
+            <label class="form-control-label" for="shippingZipCode">
+                ${Resource.msg('field.shipping.address.zip.code','address',null)}
+            </label>
+            <input type="text" class="form-control shippingZipCode" id="shippingZipCode"
+                value="${shippingAddress.postalCode||''}" <isprint value="${addressFields.postalCode.attributes}" encoding="off"/>
+                autocomplete="shipping postal-code">
+            <div class="invalid-feedback"><isprint value="${addressFields.postalCode.error}" ></div>
+            <span>${Resource.msg('example.postalcode','forms',null)}</span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group
+            ${addressFields.phone.mandatory === true ? 'required' : ''}
+            ${addressFields.phone.htmlName}">
+            <label class="form-control-label" for="shippingPhoneNumber">
+                ${Resource.msg('field.shipping.address.phone','address',null)}
+            </label>
+            <input type="tel" class="form-control shippingPhoneNumber" id="shippingPhoneNumber"
+                value="${shippingAddress.phone||''}" <isprint value="${addressFields.phone.attributes}" encoding="off"/>
+                   autocomplete="tel">
+            <div class="invalid-feedback"><isprint value="${addressFields.phone.error}" ></div>
+            <span>${Resource.msg('example.phone','forms',null)}</span>
+        </div>
+    </div>
+</div>

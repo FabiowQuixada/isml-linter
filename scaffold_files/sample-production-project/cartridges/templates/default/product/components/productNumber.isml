@@ -1,0 +1,2 @@
+${Resource.msg('label.item', 'product', null)}
+<span class="product-id" itemprop="productID" >${product.id}</span>

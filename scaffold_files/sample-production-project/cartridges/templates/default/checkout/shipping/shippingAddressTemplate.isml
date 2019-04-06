@@ -1,0 +1,29 @@
+<!---------------------------------------------------------------------------------->
+<!-- Template used by client to redraw shipping methods                           -->
+<!---------------------------------------------------------------------------------->
+<div id="pli-shipping-summary-template" class="d-none" >
+    <h5 class="shipping-header-text">${Resource.msg('heading.shipping.to', 'checkout', null)}</h5>
+    <p>
+        <span class="ship-to-message"></span>
+        <span class="ship-to-name"></span>
+        <span class="ship-to-address1"></span>
+        <span class="ship-to-address2"></span>
+        <span class="ship-to-city-st-zip"><span class="ship-to-city"></span> <span class="ship-to-st"></span> <span class="ship-to-zip"></span> </span>
+        <span class="ship-to-phone"></span>
+    </p>
+    <h5>${Resource.msg('heading.shipping.method', 'checkout', null)}<span></span></h5>
+    <div class="row leading-lines">
+        <p class="col-8 start-lines">
+            <span class="display-name"></span>
+            <span class="text-muted arrival-time"></span>
+        </p>
+        <p class="col-4 end-lines text-right">
+            <span class="price"></span>
+        </p>
+    </div>
+
+    <div class="summary-details gift-summary">
+        <h5>${Resource.msg('heading.gift.message', 'checkout', null)}</h5>
+        <div class="gift-message-summary"></div>
+    </div>
+</div>

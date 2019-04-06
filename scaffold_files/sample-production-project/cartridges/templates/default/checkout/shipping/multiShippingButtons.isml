@@ -1,0 +1,24 @@
+<div class="multi-ship-action-buttons">
+    <button class="btn btn-outline-primary col-12 btn-enter-multi-ship ${shippingModel.shippingAddress ? 'd-none' : '' }"
+            data-action="enter">
+        ${Resource.msg('button.enter.address', 'checkout', null)}
+    </button>
+
+    <div class="row multi-ship-address-actions d-none">
+        <button class="btn btn-outline-primary offset-1 col-5 btn-cancel-multi-ship-address" data-action="cancel">
+            ${Resource.msg('button.cancel', 'checkout', null)}
+        </button>
+        <button class="btn btn-outline-primary col-5 btn-save-multi-ship" data-action="save">
+            ${Resource.msg('button.save', 'checkout', null)}
+        </button>
+    </div>
+
+    <button class="btn btn-outline-primary col-12 btn-save-multi-ship save-shipment d-none" data-action="save">
+        ${Resource.msg('button.save', 'checkout', null)}
+    </button>
+
+    <button class="btn btn-outline-primary btn-edit-multi-ship col-12 ${shippingModel.shippingAddress ? '' : 'd-none' }"
+            data-action="edit">
+        ${Resource.msg('button.edit', 'checkout', null)}
+    </button>
+</div>

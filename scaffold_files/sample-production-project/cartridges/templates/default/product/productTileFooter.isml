@@ -1,0 +1,5 @@
+<div class="row tile-body-footer">
+    <div class="ratings col-xs-12 col-sm-6">
+        <isinclude template="product/components/ratings" />
+    </div>
+</div>

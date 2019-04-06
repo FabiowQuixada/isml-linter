@@ -1,0 +1,66 @@
+<iscomment>
+
+Template Notes:
+
+- This template is intended to be referenced from an <isinclude> tag within an <isloop> in another
+  source template.  This template is only used with choice of bonus products promotions
+</iscomment>
+
+<div class="attribute">
+    <!-- Select <Attribute> Label -->
+    <label class="${attr.id}">
+        ${Resource.msg('label.select', 'common', null)} ${attr.displayName}
+    </label>
+
+    <isif condition="${attr.swatchable}">
+        <!-- Circular Swatch Image Attribute Values -->
+        <isloop items="${attr.values}" var="attrValue">
+            <isif condition="${product.productType === 'variant' && attrValue.selected}">
+                    <span data-attr-value="${attrValue.value}"
+                          class="
+                              ${attr.id}-value
+                              swatch-circle
+                              swatch-value
+                              ${attrValue.selected ? 'selected' : ''}
+                              ${attrValue.selectable ? 'selectable' : 'unselectable'}
+                          "
+                          style="background-image: url(${attrValue.images['swatch'][0].url})"
+                    >
+                    </span>
+            </isif>
+            <isif condition="${product.productType === 'master' && !attrValue.selected}">
+                <a href="${attrValue.url}" ${ product.productType === "master"}>
+                    <span data-attr-value="${attrValue.value}"
+                          class="
+                              ${attr.id}-value
+                              swatch-circle
+                              swatch-value
+                              ${attrValue.selected ? 'selected' : ''}
+                              ${attrValue.selectable ? 'selectable' : 'unselectable'}
+                          "
+                          style="background-image: url(${attrValue.images['swatch'][0].url})"
+                    >
+                    </span>
+                </a>
+            </isif>
+        </isloop>
+
+    <iselse>
+    
+        <!-- Attribute Values Drop Down Menu -->
+        <select class="custom-select form-control select-${attr.id}" ${ product.productType === "variant" ? "disabled" : "" }>
+            <option value="${attr.resetUrl}">
+                ${Resource.msg('label.select', 'common', null)} ${attr.displayName}
+            </option>
+            <isloop items="${attr.values}" var="attrValue">
+                <option value="${attrValue.url}" data-attr-value="${attrValue.value}"
+                    ${!attrValue.selectable ? 'disabled' : ''}
+                    ${attrValue.selected ? 'selected' : ''}
+                >
+                    ${attrValue.displayValue}
+                </option>
+            </isloop>
+        </select>
+
+    </isif>
+</div>

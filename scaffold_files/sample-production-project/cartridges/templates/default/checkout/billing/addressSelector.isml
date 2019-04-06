@@ -1,0 +1,49 @@
+<isset name="billingAddress" scope="page" value="${pdict.order.billing.billingAddress.address}">
+<select name="addressSelector"
+        class="addressSelector form-control"
+        data-create-shipment-url="${URLUtils.https('Checkout-SetBillingAddress')}">
+    <isif condition="${pdict.order.billing.matchingAddressId || !billingAddress}">
+        <option value="new"
+            data-first-name="" data-last-name=""
+            data-address1="" data-address2=""
+            data-city="" data-state-code=""
+            data-country-code="" data-postal-code=""
+            data-phone="">
+            ${Resource.msg('msg.new.address', 'checkout', null)}
+        </option>
+    <iselse/>
+        <option value="manual-entry"
+            data-first-name="${billingAddress.firstName||''}"
+            data-last-name="${billingAddress.lastName||''}"
+            data-address1="${billingAddress.address1||''}"
+            data-address2="${billingAddress.address2||''}"
+            data-city="${billingAddress.city||''}"
+            data-state-code="${billingAddress.stateCode}"
+            data-country-code="${billingAddress.countryCode ? billingAddress.countryCode.value : ''}"
+            data-postal-code="${billingAddress.postalCode}"
+            data-phone="${billingAddress.phone}">
+         ${billingAddress.firstName || ''}
+         ${billingAddress.lastName || ''}
+         ${billingAddress.address1 || ''}
+         ${billingAddress.city || ''}${!billingAddress.city || ','}
+         ${billingAddress.stateCode||''}
+         ${billingAddress.postalCode||''}
+        </option>
+    </isif>
+    <isinclude template="checkout/billing/addressSelectorShipping">
+    <isif condition="${pdict.customer.addresses && pdict.customer.addresses.length > 1}">
+        <option disabled>${Resource.msg('msg.account.addresses', 'checkout', null)}</option>
+        <isloop items="${pdict.customer.addresses}" var="address">
+            <option value="${address.ID}"
+                ${address.ID === pdict.order.billing.matchingAddressId ? 'selected' : ''}
+                data-first-name="${address.firstName||''}" data-last-name="${address.lastName||''}"
+                data-address1="${address.address1||''}" data-address2="${address.address2||''}"
+                data-city="${address.city||''}" data-state-code="${address.stateCode||''}"
+                data-country-code="${address.countryCode.value||''}" data-postal-code="${address.postalCode||''}"
+                data-phone="${address.phone||''}">
+                ${address.ID || ''} - ${address.firstName || ''} ${address.lastName || ''} ${address.address1 || ''} ${address.city || ''}${!address.city || ','} ${address.stateCode||''} ${address.postalCode||''}
+            </option>
+        </isloop>
+    </isif>
+</select>
+

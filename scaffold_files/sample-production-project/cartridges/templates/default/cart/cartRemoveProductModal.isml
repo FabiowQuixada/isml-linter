@@ -1,0 +1,21 @@
+<div class="modal fade" id="removeProductModal" tabindex="-1" role="dialog" aria-labelledby="removeProductLineItemModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header delete-confirmation-header">
+                <h4 class="modal-title" id="removeProductLineItemModal">${Resource.msg('heading.remove.product.confirmation.modal','cart',null)}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body delete-confirmation-body">
+                ${Resource.msg('msg.remove.product.confirmation.modal','cart',null)}
+                <p class="product-to-remove"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">${Resource.msg('button.cancel','cart',null)}</button>
+                <button type="button" class="btn btn-primary cart-delete-confirmation-btn"
+                        data-dismiss="modal">
+                    ${Resource.msg('button.confirm','cart',null)}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

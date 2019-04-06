@@ -1,0 +1,31 @@
+<div class="card product-info uuid-${lineItem.UUID}">
+    <!--- name and remove buttons --->
+    <isinclude template="cart/productCard/cartProductCardHeader" />
+
+    <div class="bundle-includes">${Resource.msg('msg.bundle.includes','cart',null)}</div>
+
+    <!--- individual bundled line items --->
+    <isinclude template="cart/productCard/cartProductCardBundledItems" />
+
+    <div class="clearfix"><hr class="line-item-divider"></div>
+    <div class="row bundle-card-footer">
+        <div class="col-lg-5 d-flex flex-column align-items-lg-center justify-content-lg-center bundle-misc">
+            <div class="line-item-availability availability-${lineItem.UUID}">
+                <isloop items="${lineItem.availability.messages}" var="message">
+                    ${message}
+                </isloop>
+                <isif condition="${lineItem.availability.inStockDate}">
+                    <div class="line-item-instock-date">
+                        ${lineItem.availability.inStockDate}
+                    </div>
+                </isif>
+            </div>
+            <div class="bundle-edit">
+                <a href="${URLUtils.url('Cart-GetProduct', 'uuid', lineItem.UUID)}" class="edit" title="${Resource.msg('link.edit.item','cart',null)}">${Resource.msg('link.edit.item','cart',null)}</a>
+            </div>
+        </div>
+
+        <isinclude template="cart/productCard/cartProductCardProductPrice" />
+    </div>
+
+</div>

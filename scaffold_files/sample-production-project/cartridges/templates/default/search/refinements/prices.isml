@@ -1,0 +1,17 @@
+<ul class="values content">
+    <isloop items="${refinement.values}" var="refinementValue">
+        <li class="col-sm-4 col-md-12" title="${refinementValue.title}">
+            <a href="${refinementValue.url}">
+                <isif condition="${refinementValue.selected}">
+                    <i class="fa fa-check-circle"></i>
+                <iselse>
+                    <i class="fa fa-circle-o"></i>
+                </isif>
+
+                <span>
+                    ${refinementValue.displayValue}
+                </span>
+            </a>
+        </li>
+    </isloop>
+</ul>

@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input gift" type="checkbox" id="isGift-${lineItem ? lineItem.UUID : 'default'}-${shippingModel.UUID}"
+                    <isif condition="${shippingModel.isGift}">
+                        checked
+                    </isif>
+                    <isprint value="${pdict.forms.shippingForm.shippingAddress.isGift.attributes}" encoding="off" />
+                >
+                <label for="isGift-${lineItem ? lineItem.UUID : 'default'}-${shippingModel.UUID}" class="custom-control-label checkout-checkbox">
+                    ${Resource.msg('check.gift', 'checkout', null)}
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row gift-message ${shippingModel.isGift ? '' : 'd-none'}">
+    <div class="col-12">
+        <div class="form-group">
+            <label for="giftMessage">${Resource.msg('label.input.giftmessage', 'forms', null)}</label>
+            <textarea class="form-control gift-message-${shippingModel.UUID}" id="giftMessage" rows="3"
+            <isprint value="${pdict.forms.shippingForm.shippingAddress.giftMessage.attributes}" encoding="off" />
+            >${shippingModel.isGift && shippingModel.giftMessage ? shippingModel.giftMessage: '' }</textarea>
+        </div>
+    </div>
+</div>

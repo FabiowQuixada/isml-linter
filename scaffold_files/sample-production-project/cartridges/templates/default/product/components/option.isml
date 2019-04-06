@@ -1,0 +1,12 @@
+<label>${option.name}</label>
+
+<select class="options-select custom-select form-control">
+    <isloop items="${option.values}" var="value">
+        <option data-value-id="${value.id}"
+            value="${value.url}"
+            <isif condition="${value.id === option.selectedValueId}">selected</isif>
+        >
+            [${value.price}] ${value.displayValue}
+        </option>
+    </isloop>
+</select>

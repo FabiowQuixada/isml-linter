@@ -1,0 +1,16 @@
+<form action="" class="login-oauth" method="post" name="login-oauth-form">
+    <div class="form-group">
+        <a href="${URLUtils.https('Login-OAuthLogin', 'oauthProvider', 'Google', 'oauthLoginTargetEndPoint', pdict.oAuthReentryEndpoint)}" class="btn btn-block btn-primary btn-outline-primary oauth-google"
+           role="button" aria-pressed="true">
+            <i class="fa fa-google" aria-hidden="true"></i>
+            ${Resource.msg('button.text.oauth.google', 'login', null)}
+        </a>
+    </div>
+    <div class="form-group">
+        <a href="${URLUtils.https('Login-OAuthLogin', 'oauthProvider', 'Facebook', 'oauthLoginTargetEndPoint', pdict.oAuthReentryEndpoint)}" class="btn btn-block btn-primary btn-outline-primary oauth-facebook"
+           role="button" aria-pressed="true">
+                <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                ${Resource.msg('button.text.oauth.facebook', 'login', null)}
+        </a>
+    </div>
+</form>

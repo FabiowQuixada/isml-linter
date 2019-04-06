@@ -1,0 +1,47 @@
+<isdecorate template="common/layout/page">
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets.js');
+        assets.addJs('/js/orderHistory.js');
+        assets.addCss('/css/account/profile.css');
+    </isscript>
+
+    <div class="hero slant-down account-image">
+        <h1 class="page-title">${Resource.msg('page.title.myaccount','account',null)}</h1>
+    </div>
+    <div class="container">
+        <!---Breadcrumbs--->
+        <isinclude template="components/breadcrumbs/pageBreadcrumbs"/>
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-4 col-md-3">
+                <h4>${Resource.msg('label.orderhistory','account',null)}</h4>
+            </div>
+            <div class="col-12 col-sm-4 col-md-3">
+                <div class="form-group">
+                    <select class="form-control custom-select order-history-select">
+                        <isloop items="${pdict.filterValues}" var="filterValue">
+                            <option
+                                value="${filterValue.optionValue}"
+                                <isif condition="${pdict.orderFilter === filterValue.displayValue 
+                                    || pdict.filterValues === Resource.msg('orderhistory.sixmonths.option','order',null)
+                                    || pdict.filterValues === Resource.msg('orderhistory.twelvemonths.option','order',null)}"> selected</isif>>
+                                    ${filterValue.displayValue}
+                            </option>
+                        </isloop>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="container order-list-container">
+                <isinclude template="account/order/orderList"/>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-8 col-md-6 text-center">
+                <a href="${URLUtils.url('Account-Show')}" class="normal">
+                    ${Resource.msg('link.profile.backtomyaccount','account',null)}
+                </a>
+            </div>
+        </div>
+    </div>
+</isdecorate>

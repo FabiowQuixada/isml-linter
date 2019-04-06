@@ -1,0 +1,96 @@
+<isif condition="${pdict.reportingURLs && pdict.reportingURLs.length}">
+    <isinclude template="reporting/reportingUrls" />
+</isif>
+
+<div class="hero slant-down search-banner"
+    <!--- If no image, default is specified in search.scss > .search-banner --->
+    <isif condition="${pdict.productSearch.bannerImageUrl}">
+        style="background-image: url(${pdict.productSearch.bannerImageUrl})"
+    </isif>
+>
+    <h1 class="header page-title">
+        <isif condition="${pdict.productSearch.isCategorySearch}">
+            ${pdict.productSearch.category.name}
+        <iselse>
+            ${Resource.msg('label.header.banner', 'search', null)}
+        </isif>
+    </h1>
+</div>
+<div class="container search-results">
+    <div class="row search-nav">
+        <isif condition="${!pdict.productSearch.isCategorySearch}">
+            <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs nav-fill" role="tablist">
+
+                    <li class="nav-item">
+                        <a class="nav-link active product-search" href="#product-search-results" data-toggle="tab" role="tab" aria-expanded="true">
+                            ${Resource.msg('tab.nav.search.productsresults', 'search', null)}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link content-search" href="#content-search-results-pane" data-toggle="tab" role="tab" aria-expanded="false"
+                            data-url="${URLUtils.url('Search-Content', 'q', pdict.productSearch.searchKeywords, 'startingPage', 0)}">
+                            ${Resource.msg('tab.nav.search.artclesresults', 'search', null)}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </isif>
+    </div>
+    <div class="row">
+        <div class="tab-content col-12">
+            <div class="tab-pane container active" id="product-search-results" role="tabpanel" aria-expanded="true">
+
+                    <isif condition="${pdict.productSearch.productIds.length > 0}">
+                        <div class="row grid-header">
+                            <div class="result-count text-center col-12 col-md-9 col-sm-6 order-sm-2">
+                    <iselse>
+                        <div class="row grid-header justify-content-center">
+                            <div class="result-count col">
+                    </isif>
+                        <isinclude template="search/resultsCount" />
+                    </div>
+                    <isif condition="${pdict.productSearch.productIds.length > 0}">
+                        <div class="col-6 col-sm-3 order-sm-1">
+                            <isinclude template="search/sortOrderMenu" />
+                        </div>
+
+                        <div class="col-6 col-sm-3 text-right d-md-none order-sm-3">
+                            <button type="button" class="btn btn-primary filter-results col-12">
+                                ${Resource.msg('button.filter', 'search', null)}
+                            </button>
+                        </div>
+                    </isif>
+                </div>
+
+                <isif condition="${pdict.productSearch.productIds.length > 0}">
+                    <!--- Refinement bar --->
+                    <div class="row">
+                        <div class="refinement-bar col-md-3">
+                            <isinclude url="${pdict.refineurl}"/>
+                        </div>
+
+                        <div class="col-sm-12 col-md-9">
+                            <div class="container">
+                                <!--- Selected filters bar --->
+                                <div class="row filter-bar d-md-none">
+                                    <isinclude template="search/filterBar" />
+                                </div>
+
+                                <!--- Product Grid --->
+                                <div class="row product-grid" itemtype="http://schema.org/SomeProducts" itemid="#product">
+                                    <isinclude template="search/productGrid" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </isif>
+            </div>
+            <!--- Content Grid --->
+            <div class="tab-pane container" id="content-search-results-pane" role="tabpanel" aria-expanded="false">
+                <div id="content-search-results" class="row content-grid-header justify-content-center"></div>
+            </div>
+
+        </div>
+    </div>
+</div>

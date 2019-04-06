@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-12 col-sm-4">
+        <label class="availability">
+            ${Resource.msg('label.availability', 'common', null)}:
+        </label>
+    </div>
+    <div class="col-12 col-sm-8">
+        <ul class="list-unstyled availability-msg">
+            <li>
+                <isif condition="${!product.readyToOrder}">
+                    ${Resource.msg('info.selectforstock', 'product', 'Select Styles for Availability')}
+                <iselse>
+                    <isloop items="${product.availability.messages}" var="message">
+                        <div>${message}</div>
+                    </isloop>
+                </isif>
+            </li>
+        </ul>
+    </div>
+</div>

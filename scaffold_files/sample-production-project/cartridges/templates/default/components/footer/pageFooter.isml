@@ -1,0 +1,33 @@
+<footer>
+    <div class="container">
+        <div class="footer-container row">
+            <div class="footer-item col-sm-3 store">
+                <iscontentasset aid="footer-locate-store" />
+            </div>
+            <div class="footer-item col-sm-3 collapsible-xs">
+                <iscontentasset aid="footer-account" />
+            </div>
+            <div class="footer-item col-sm-3 collapsible-xs">
+                <iscontentasset aid="footer-support" />
+            </div>
+            <div class="footer-item col-sm-3 collapsible-xs">
+                <iscontentasset aid="footer-about" />
+            </div>
+        </div>
+        <hr class="hidden-xs-down" />
+        <div class="row">
+            <div class="col-lg-4 col-sm-5 push-sm-7 push-lg-8 social">
+                <isslot id="footer-column-m" description="Content in column 1 of the Footer" context="global" />
+                <button class="back-to-top" title="${Resource.msg('button.back_to_top', 'common', null)}" aria-hidden="true">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle fa-inverse fa-stack-2x"></i>
+                        <i class="fa fa-arrow-up fa-stack-1x"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="col-lg-8 col-sm-7 pull-sm-5 pull-lg-4 copyright-notice">
+                <iscontentasset aid="footer-copy" />
+            </div>
+        </div>
+    </div>
+</footer>

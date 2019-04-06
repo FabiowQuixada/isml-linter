@@ -1,0 +1,36 @@
+<isdecorate template="common/layout/page">
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets.js');
+        assets.addCss('/css/checkout/checkout.css');
+        assets.addJs('/js/checkoutRegistration.js');
+    </isscript>
+
+    <isif condition="${pdict.reportingURLs && pdict.reportingURLs.length}">
+        <isinclude template="reporting/reportingUrls" />
+    </isif>
+
+    <div class="hero slant-down hero-confirmation">
+        <h1 class="page-title">${Resource.msg('title.thank.you.page','confirmation',null)}</h1>
+    </div>
+    <div class="container receipt <isif condition="${pdict.order.shipping.length > 1}">multi-ship</isif>">
+        <div class="row">
+            <div class="${pdict.returningCustomer ? 'col-sm-6 offset-sm-3' : 'col-sm-6 offset-sm-3 offset-md-0'}">
+                <h2 class="order-thank-you-msg">${Resource.msg('msg.placed.order.thank.you','confirmation',null)}</h2>
+                <p class="order-thank-you-email-msg"><isprint value="${Resource.msgf('info.receive.email.confirmation', 'confirmation', null, pdict.order.orderEmail)}" encoding="htmlcontent" /></p>
+            </div>
+        </div>
+        <div class="row">
+            <isif condition="${pdict.returningCustomer === false}">
+                <div class="col-sm-6 offset-sm-3 offset-md-0 push-md-6">
+                    <isinclude template="checkout/confirmation/confirmationCreateAccount" />
+                </div>
+            </isif>
+            <div class="${pdict.returningCustomer ? 'col-sm-6 offset-sm-3' : 'col-sm-6 offset-sm-3 offset-md-0 pull-md-6' }">
+                <isinclude template="checkout/confirmation/confirmationDetails" />
+                <a href="${URLUtils.url('Home-Show')}" class="btn btn-primary btn-block order-confirmation-continue-shopping" role="button" aria-pressed="true">
+                    ${Resource.msg('button.continue.shopping','confirmation',null)}
+                </a>
+            </div>
+        </div>
+    </div>
+</isdecorate>

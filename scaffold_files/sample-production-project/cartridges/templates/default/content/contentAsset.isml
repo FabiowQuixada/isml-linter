@@ -1,0 +1,14 @@
+<isdecorate template="common/layout/page">
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets.js');
+        assets.addCss('/css/content.css');
+    </isscript>
+    <div class="hero slant-down content-page-image">
+        <h1 class="page-title">${pdict.content.name}</h1>
+    </div>
+    <div class="container content-asset-container">
+        <!-- dwMarker="content" dwContentID="${pdict.content.UUID}" -->
+        <isprint value="${pdict.content.body}" encoding="off" />
+        <!-- END_dwmarker -->
+    </div>
+</isdecorate>

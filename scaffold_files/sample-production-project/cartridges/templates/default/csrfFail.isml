@@ -1,0 +1,24 @@
+<isdecorate template="common/layout/page">
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets.js');
+        assets.addCss('/css/csrf.css');
+    </isscript>
+
+    <div class="hero slant-down sorry-hero">
+        <h1 class="page-title">${Resource.msg('heading.error.general','error',null)}</h1>
+    </div>
+    <div class="container error-page-content">
+        <div class="row">
+            <div class="col-sm-6 offset-sm-3 text-center">
+                <h2 class="error-message">${Resource.msg('error.csrf.token.mismatch', 'common', null)}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 offset-sm-3">
+                <a href="${URLUtils.url('Home-Show')}" class="btn btn-primary btn-block continue-shopping" role="button" aria-pressed="true">
+                    ${Resource.msg('button.continue.shopping','confirmation',null)}
+                </a>
+            </div>
+        </div>
+    </div>
+</isdecorate>

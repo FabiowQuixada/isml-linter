@@ -1,0 +1,2 @@
+<isset name="store" value="${pdict.store}" scope="page"/>
+<isinclude template="storeLocator/storeDetails" />

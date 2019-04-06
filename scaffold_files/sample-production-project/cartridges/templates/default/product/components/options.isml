@@ -1,0 +1,21 @@
+<div class="col-md-10 col-12 product-options">
+    <isloop items="${product.options}" var="option" status="loopStatus">
+        <div class="row product-option" data-option-id="${option.id}">
+            <div class="
+                <isif condition="${loopStatus.last && !isQuickView || isProductSet}">
+                    col-8
+                <iselse>
+                    col-12
+                </isif>">
+                <isinclude template="product/components/option" />
+            </div>
+
+            <!-- Quantity Drop Down Menu -->
+            <isif condition="${loopStatus.last && (!isQuickView || isProductSet)}">
+                <div class="col-4 quantity">
+                    <isinclude template="product/components/quantity" />
+                </div>
+            </isif>
+        </div>
+    </isloop>
+</div>

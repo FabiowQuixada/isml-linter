@@ -1,0 +1,15 @@
+<ul class="dropdown-menu" role="menu" aria-hidden="true">
+    <isloop items="${menuItem.subCategories}" var="category">
+        <isif condition="${category.subCategories}">
+            <li class="dropdown-item dropdown" role="menuitem">
+                <a href="${category.url}" id="${category.id}" class="dropdown-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${category.name}</a>
+                <isset name="menuItem" value="${category}" scope="page" />
+                <isinclude template="components/header/menuItem" />
+            </li>
+        <iselse/>
+            <li class="dropdown-item" role="menuitem">
+                <a href="${category.url}" id="${category.id}" role="button" class="dropdown-link">${category.name}</a>
+            </li>
+        </isif>
+    </isloop>
+</ul>

@@ -1,0 +1,48 @@
+<form action="${pdict.actionUrl}" class="login" method="POST" name="login-form">
+    <div class="form-group required">
+        <label class="form-control-label" for="login-form-email">
+            ${Resource.msg('label.input.login.email', 'login', null)}
+        </label>
+        <input type="email" id="login-form-email" class="form-control" name="loginEmail" value="${pdict.userName}">
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="form-group required">
+        <label class="form-control-label" for="login-form-password">
+                ${Resource.msg('label.input.login.password', 'login', null)}
+        </label>
+        <input type="password" id="login-form-password" class="form-control" name="loginPassword">
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div class="clearfix">
+        <div class="form-group custom-control custom-checkbox pull-left remember-me">
+            <input type="checkbox" class="custom-control-input" id="rememberMe" name="loginRememberMe" value="true"
+                <isif condition="${pdict.rememberMe}">checked</isif>
+            >
+            <label class="custom-control-label" for="rememberMe">
+                ${Resource.msg('label.checkbox.login.rememberme', 'login', null)}
+            </label>
+        </div>
+
+        <div class="pull-right forgot-password text-right">
+            <a class="d-sm-none" href="${URLUtils.url('Account-PasswordReset')}" title="${Resource.msg('link.login.forgotpassword', 'login', null)}">
+                ${Resource.msg('link.login.forgotpassword', 'login', null)}
+            </a>
+
+            <a
+                id="password-reset"
+                class="hidden-xs-down"
+                title="${Resource.msg('link.login.forgotpassword', 'login', null)}"
+                data-toggle="modal"
+                href="${URLUtils.url('Account-PasswordResetDialogForm')}"
+                data-target="#requestPasswordResetModal">
+                ${Resource.msg('link.login.forgotpassword', 'login', null)}
+            </a>
+        </div>
+    </div>
+
+    <input type="hidden" name="${pdict.csrf.tokenName}" value="${pdict.csrf.token}"/>
+
+    <button type="submit" class="btn btn-block btn-primary">${Resource.msg('button.text.loginform', 'login', null)}</button>
+</form>

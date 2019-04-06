@@ -1,0 +1,15 @@
+<isloop items="${pdict.stores.stores}" var="store" status="loopState">
+    <isif condition="${pdict.showMap === 'true'}">
+        <div class="card-body" id="${store.ID}">
+            <div class="map-marker"><span>${loopState.count}</span></div>
+            <isinclude template="storeLocator/storeDetails" />
+        </div>
+    <iselse>
+        <div class="card-body" id="${store.ID}">
+            <div class="form-check">
+                <input type="radio" id="input-${store.ID}" class="form-check-input select-store-input" name="store" value="${store.ID}" data-store-info="${JSON.stringify(store)}"/>
+                <label class="form-check-label" for="input-${store.ID}"><isinclude template="storeLocator/storeDetails" /></label>
+            </div>
+        </div>
+    </isif>
+</isloop>

@@ -1,0 +1,14 @@
+<isif condition="${pdict.order.shipping[0].shippingAddress}">
+    <option disabled>${Resource.msg('msg.shipping.addresses', 'checkout', null)}</option>
+    <isloop items="${pdict.order.shipping}" var="aShippingModel">
+        <option value="${aShippingModel.UUID}"
+            ${aShippingModel.UUID === pdict.order.billing.matchingAddressId ? selected="selected" : ''}
+            data-first-name="${aShippingModel.shippingAddress.firstName||''}" data-last-name="${aShippingModel.shippingAddress.lastName||''}"
+            data-address1="${aShippingModel.shippingAddress.address1||''}" data-address2="${aShippingModel.shippingAddress.address2||''}"
+            data-city="${aShippingModel.shippingAddress.city}" data-state-code="${aShippingModel.shippingAddress.stateCode}"
+            data-country-code="${aShippingModel.shippingAddress.countryCode.value}" data-postal-code="${aShippingModel.shippingAddress.postalCode}"
+            data-phone="${aShippingModel.shippingAddress.phone}">
+            ${aShippingModel.shippingAddress.firstName || ''} ${aShippingModel.shippingAddress.lastName || ''} ${aShippingModel.shippingAddress.address1 || ''} ${aShippingModel.shippingAddress.city || ''}${!aShippingModel.shippingAddress.city || ','} ${aShippingModel.shippingAddress.stateCode||''} ${aShippingModel.shippingAddress.postalCode||''}
+        </option>
+    </isloop>
+</isif>

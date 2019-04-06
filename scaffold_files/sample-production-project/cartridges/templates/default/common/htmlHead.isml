@@ -1,0 +1,47 @@
+<meta charset=UTF-8>
+
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<iscomment>The page meta data will be replaced by rule based content if it's available</iscomment>
+<isif condition="${dw.system.System.getInstanceType() != dw.system.System.PRODUCTION_SYSTEM}">
+	<title>${pdict.CurrentPageMetaData.title} | ${Resource.msg('global.site.name', 'version', null)} | ${Resource.msg('global.version.number', 'version', null)}</title>
+<iselse/>
+  <title><isprint value="${pdict.CurrentPageMetaData.title}" encoding="htmlcontent" /></title>
+</isif>
+
+<meta name="description" content="${pdict.CurrentPageMetaData.description ? pdict.CurrentPageMetaData.description : Resource.msg('global.storename','common',null)}"/>
+<meta name="keywords" content="${pdict.CurrentPageMetaData.keywords ? pdict.CurrentPageMetaData.keywords : Resource.msg('global.storename','common',null)}"/>
+
+<iscomment>Additional Rule based page meta tags</iscomment>
+<isloop items="${pdict.CurrentPageMetaData.pageMetaTags}" var="pageMetaTag">
+    <isif condition="${pageMetaTag.name}">
+        <meta name="<isprint value="${pageMetaTag.ID}">" content="<isprint value="${pageMetaTag.content}">">
+    <iselseif condition="${pageMetaTag.property}">
+        <meta property="<isprint value="${pageMetaTag.ID}">" content="<isprint value="${pageMetaTag.content}">">
+    </isif>
+</isloop>
+
+<link rel="icon" type="image/png" href="${URLUtils.staticURL('/images/favicons/favicon-196x196.png')}" sizes="196x196" />
+<link rel="icon" type="image/png" href="${URLUtils.staticURL('/images/favicons/favicon-96x96.png')}" sizes="96x96" />
+<link rel="icon" type="image/png" href="${URLUtils.staticURL('/images/favicons/favicon-32x32.png')}" sizes="32x32" />
+<link rel="icon" type="image/png" href="${URLUtils.staticURL('/images/favicons/favicon-16x16.png')}" sizes="16x16" />
+<link rel="icon" type="image/png" href="${URLUtils.staticURL('/images/favicons/favicon-128.png')}" sizes="128x128" />
+
+<link rel="stylesheet" href="${URLUtils.staticURL('/css/global.css')}" />
+<isloop items="${ require('*/cartridge/scripts/assets.js').styles }" var="style">
+    <link rel="stylesheet" href="${style}" />
+</isloop>
+
+<isif condition="${'GoogleVerificationTag' in dw.system.Site.current.preferences.custom && dw.system.Site.current.preferences.custom.GoogleVerificationTag!=''}">
+    <meta name="google-site-verification" content="<isprint value="${dw.system.Site.current.preferences.custom.GoogleVerificationTag}"/>" />
+</isif>
+
+<iscomment>
+    hook for Marketing Cloud connector & other integration which need to inject
+    logic or markup into the page header
+    IMPORTANT: Note that this hook will be called to cached as well as uncached pages
+               which means you need to put privacy information into another remote include
+</iscomment>
+${dw.system.HookMgr.callHook('app.template.htmlHead', 'htmlHead') || ''}

@@ -1,0 +1,17 @@
+<div class="site-search">
+    <form role="search" action="${URLUtils.url('Search-Show')}" method="get" name="simpleSearch">
+        <span class="fa fa-search"></span>
+        <input class="form-control search-field"
+               type="search"
+               name="q"
+               value=""
+               placeholder="${Resource.msg('label.header.searchwatermark', 'common', null)}"
+               autocomplete="off"
+               aria-label="${Resource.msg('label.header.searchwatermark', 'common', null)}" />
+        <div class="suggestions-wrapper" data-url="${URLUtils.url('SearchServices-GetSuggestions', 'q')}"></div>
+        <input type="hidden" value="${pdict.locale}" name="lang">
+    </form>
+</div>
+<div class="search-button">
+    <i class="fa fa-search"></i>
+</div>

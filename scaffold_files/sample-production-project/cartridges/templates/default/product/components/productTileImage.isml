@@ -1,0 +1,17 @@
+<div class="image-container">
+    <a href="${pdict.urls.product}">
+        <img class="tile-image"
+             src="${product.images.medium[0].url}"
+             alt="${product.productName}"
+             title="${product.images.medium[0].title}"
+             itemprop="image"/>
+    </a>
+    <isif condition="${pdict.display.showQuickView !== false}">
+        <a class="quickview hidden-sm-down" href="${pdict.urls.quickView}" title="${Resource.msg('button.quickview', 'common', null)}">
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-inverse fa-stack-2x"></i>
+                <i class="fa fa-expand fa-stack-1x"></i>
+            </span>
+        </a>
+    </isif>
+</div>

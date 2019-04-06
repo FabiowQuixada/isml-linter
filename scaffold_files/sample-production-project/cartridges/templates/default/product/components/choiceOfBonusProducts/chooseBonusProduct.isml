@@ -1,0 +1,46 @@
+<div class="choice-of-bonus-product product-wrapper">
+    <div class="bonus-products-step1 ">
+        <!-- Product Item -->
+        <isloop items="${pdict.potentialProducts}" var="potentialProduct">
+            <div class="selectable-bonus-product-line-item row">
+                <div class="col-1 select-cbp-container">
+                    <input type="checkbox" class="select-bonus-product-cb" data-pid=${potentialProduct.id}>
+                </div>
+                <div class="col-4 col-sm-2">
+                    <div class="item-image"><img class="product-image" src="${potentialProduct.images.medium[0].url}" alt="${potentialProduct.images.medium[0].alt}" title="${potentialProduct.images.medium[0].title}"></div>
+                </div>
+                <div class="col-7 col-sm-9"
+                    <p class="line-item-attributes">${potentialProduct.productName}</p>
+                </div>
+            </div>
+        </isloop>
+    </div>
+    <div class="row bonus-products-step2 configure-bonus-product-attributes hidden-xl-down">
+        <!-- product attribute selections -->
+    </div>
+    <div class="error-choice-of-bonus-products alert-danger"></div>
+</div>
+<div class="modal-footer">
+<div class="container">
+	<div class="row align-items-end">
+		<div class="col-sm-3 hidden-xs-down"></div>
+        <div class="col-6 col-sm-3">
+            <button class="btn btn-block bonus-products-step1 btn-primary cancel-bonus-products">
+                ${Resource.msg('button.choiceofbonus.cancel', 'product', null)}
+            </button>
+            <button class="bonus-products-back btn btn-block btn-primary bonus-products-step2 hidden-xl-down">
+                ${Resource.msg('button.choiceofbonus.back', 'product', null)}
+            </button>
+        </div>
+        <div class="col-6 col-sm-3">
+            <button class="next-bonus-products btn btn-block btn-primary bonus-products-step1" data-selected-pids="" disabled="true">
+                ${Resource.msg('button.choiceofbonus.next', 'product', null)}
+            </button>
+            <button class="select-bonus-products btn btn-block btn-primary bonus-products-step2 hidden-xl-down">
+                ${Resource.msg('button.choiceofbonus.select', 'product', null)}
+            </button>
+        </div>
+        <div class="col-sm-3 hidden-xs-down"></div>
+	</div>
+</div>
+</div>

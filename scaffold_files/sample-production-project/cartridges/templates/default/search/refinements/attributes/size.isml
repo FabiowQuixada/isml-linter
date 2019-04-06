@@ -1,0 +1,10 @@
+<li title="${refinementValue.title}" class="col-sm-2 col-md-12 ${!refinementValue.selectable ? 'disabled' : ''}">
+    <a href="${refinementValue.url}" class="${!refinementValue.selectable ? 'disabled' : ''}" <isif condition="${!refinementValue.selectable}">disabled</isif>>
+        <isif condition="${refinementValue.selected && refinementValue.selectable}">
+            <i class="fa fa-check-square"></i>
+        <iselse>
+            <i class="fa fa-square-o"></i>
+        </isif>
+        <span class="${refinementValue.swatchId}<isif condition="${refinementValue.selected && refinementValue.selectable}">selected</isif>">${refinementValue.displayValue}</span>
+    </a>
+</li>

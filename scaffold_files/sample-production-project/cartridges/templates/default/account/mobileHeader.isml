@@ -1,0 +1,23 @@
+<isif condition="${pdict.name === null}">
+    <li class="nav-item d-lg-none" role="menuitem">
+        <a href="${URLUtils.https('Login-Show')}" class="nav-link">
+            <i class="fa fa-sign-in" aria-hidden="true"></i>
+            <span class="user-message">${Resource.msg('link.header.login', 'account', null)}</span>
+        </a>
+    </li>
+<iselse/>
+    <li class="nav-item d-lg-none dropdown" role="menuitem">
+        <span class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">
+            <i class="fa fa-sign-in" aria-hidden="true"></i>
+            <span class="user-message">${pdict.name}</span>
+        </span>
+        <ul class="dropdown-menu" role="menu" aria-hidden="true">
+            <li class="dropdown-item" role="menuitem">
+                <a href="${URLUtils.https('Account-Show')}" class="dropdown-link" role="button">${Resource.msg('link.header.myaccount', 'account', null)}</a>
+            </li>
+            <li class="dropdown-item" role="menuitem">
+                <a href="${URLUtils.url('Login-Logout')}" class="dropdown-link" role="button">${Resource.msg('link.header.logout', 'account', null)}</a>
+            </li>
+        </ul>
+    </li>
+</isif>

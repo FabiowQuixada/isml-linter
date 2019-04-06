@@ -1,0 +1,25 @@
+<iscontent type="text/html" charset="UTF-8" compact="true"/>
+
+<isinclude template="/components/modules" sf-toolkit="off" />
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--[if gt IE 9]><!-->
+            <isinclude sf-toolkit="off" template="/common/scripts" />
+        <!--<![endif]-->
+        <isinclude template="/common/htmlHead" />
+        <isactivedatahead/>
+    </head>
+    <body>
+        <div class="page">
+            <isinclude template="/components/header/pageHeaderNomenu" />
+            <isreplace/>
+            <isinclude template="/components/footer/pageFooter" />
+        </div>
+        <!--[if lt IE 10]>
+            <isinclude sf-toolkit="off" template="/common/scripts" />
+        <![endif]-->
+        <isinclude url="${URLUtils.url('ConsentTracking-Check')}"/>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+<isdecorate template="common/layout/page">
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets.js');
+        assets.addJs('/js/paymentInstruments.js');
+        assets.addCss('/css/account/payment.css');
+    </isscript>
+    <isinclude template="account/payment/deletePaymentModal"/>
+    <div class="hero slant-down account-image">
+        <h1 class="page-title">${Resource.msg('page.heading.payments','payment',null)}</h1>
+    </div>
+    <div class="container">
+        <!---Breadcrumbs--->
+        <isinclude template="components/breadcrumbs/pageBreadcrumbs"/>
+        <isif condition="${!pdict.paymentInstruments}">
+            <div class="row justify-content-center">
+                <div class="col">
+                    <h3>${Resource.msg('msg.no.saved.payments','payment',null)}</h3>
+                </div>
+            </div>
+        </isif>
+        <!-- Rows for Credit Cards -->
+        <isloop items="${pdict.paymentInstruments}" var="paymentInstrument">
+            <div class="row justify-content-center" id="uuid-${paymentInstrument.UUID}">
+                <div class="col-sm-8 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="pull-left">${paymentInstrument.creditCardHolder}</h4>
+                        </div>
+                        <div class="card-body card-body-positioning">
+                            <div class="card-info-group">
+                                <p>${Resource.msg('label.payment.credit','account',null)} ${paymentInstrument.creditCardType}</p>
+                                <p>${paymentInstrument.maskedCreditCardNumber}</p>
+                                <p>${Resource.msg('label.payment.ending','account',null)} ${paymentInstrument.creditCardExpirationMonth}/${paymentInstrument.creditCardExpirationYear}</p>
+                            </div>
+                            <button
+                                type="button"
+                                class="remove-btn remove-payment btn-light"
+                                data-toggle="modal"
+                                data-target="#deletePaymentModal"
+                                data-id="${paymentInstrument.UUID}"
+                                data-card="${paymentInstrument.maskedCreditCardNumber}"
+                                data-url="${pdict.actionUrl}">
+                                &times;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </isloop>
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col">
+                        <a href="${URLUtils.url('Account-Show')}">
+                            <p class="text-center back-to-account-link">${Resource.msg('link.profile.backtomyaccount','account',null)}</p>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="${URLUtils.url('PaymentInstruments-AddPayment')}" class="btn btn-save btn-block btn-primary">${Resource.msg('button.addnew','payment',null)}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</isdecorate>
