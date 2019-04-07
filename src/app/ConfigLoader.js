@@ -2,14 +2,25 @@ const path      = require('path');
 const Constants = require('./Constants');
 const FileUtils = require('./FileUtils');
 
-const loadCurrentEnvConfigurationFile = () => {
+const ConfigLoader = {};
+
+ConfigLoader.load = configParam => {
+
+    if (configParam) {
+        this.config = configParam;
+        return configParam;
+    }
+
+    if (this.config) {
+        return this.config;
+    }
 
     if (process.env.NODE_ENV === Constants.ENV_TEST) {
         return require(path.join(Constants.specDir, Constants.specConfigFileName));
     }
 
     if (!FileUtils.fileExists(Constants.configFilePath)) {
-        init();
+        this.init();
     }
 
     const config = require(Constants.configFilePath);
@@ -36,7 +47,7 @@ const createConfigFile = (targetDir = Constants.configFilePath, configFileName) 
     return false;
 };
 
-const init = (
+ConfigLoader.init = (
     targetDir = Constants.clientAppDir,
     configFileName = Constants.clientConfigFileName
 ) => createConfigFile(targetDir, configFileName);
@@ -68,7 +79,8 @@ function addRuleTo(configContent) {
     };
 }
 
-module.exports = {
-    init,
-    load: loadCurrentEnvConfigurationFile
+ConfigLoader.clear = () => {
+    this.config = null;
 };
+
+module.exports = ConfigLoader;

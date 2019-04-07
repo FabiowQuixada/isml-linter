@@ -1,3 +1,4 @@
+const path         = require('path');
 const ConfigLoader = require('../../app/ConfigLoader');
 const SpecHelper   = require('../SpecHelper');
 const Constants    = require('../../app/Constants');
@@ -49,5 +50,37 @@ describe(targetObjName, () => {
 
         expect(firstAttempt).toBe(true);
         expect(secondAttempt).toBe(false);
+    });
+
+    it('loads a given, temporary configuration', () => {
+
+        const expectedConfig = {
+            rules: {
+                'enforce-isprint': {},
+                'no-inline-style': {}
+            }
+        };
+        ConfigLoader.load(expectedConfig);
+
+        const actualConfig = ConfigLoader.load();
+
+        expect(actualConfig).toBe(expectedConfig);
+    });
+
+    it('clears given, temporary configuration', () => {
+
+        ConfigLoader.load({
+            rules: {
+                'enforce-isprint': {},
+                'no-inline-style': {}
+            }
+        });
+        ConfigLoader.clear();
+
+        const specConfigPath = path.join(Constants.specDir, Constants.specConfigFileName);
+        const expectedConfig = require(specConfigPath);
+        const actualConfig   = ConfigLoader.load();
+
+        expect(actualConfig).toBe(expectedConfig);
     });
 });

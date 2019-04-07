@@ -2,11 +2,11 @@ const RulePrototype = require('./RulePrototype');
 const ConfigLoader  = require('../../ConfigLoader');
 
 const SingleLineRulePrototype = Object.create(RulePrototype);
-const config                  = ConfigLoader.load();
 
 SingleLineRulePrototype.check = function(fileContent) {
 
     const that      = this;
+    const config    = ConfigLoader.load();
     const lineArray = fileContent.split('\n');
     this.result     = {
         occurrences: []
@@ -23,8 +23,8 @@ SingleLineRulePrototype.check = function(fileContent) {
     });
 
     if (this.result.occurrences.length &&
-         config.autoFix &&
-         this.getFixedContent) {
+        config.autoFix &&
+        this.getFixedContent) {
         this.result.fixedContent = this.getFixedContent(fileContent);
     }
 

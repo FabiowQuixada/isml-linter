@@ -1,3 +1,4 @@
+const ConfigLoader         = require('../../app/ConfigLoader');
 const path                 = require('path');
 const FileParser           = require('../../app/FileParser');
 const SpecHelper           = require('../SpecHelper');
@@ -29,6 +30,14 @@ describe(targetObjName, () => {
     });
 
     it('ignores disabled rules', () => {
+
+        ConfigLoader.load({
+            rules: {
+                'enforce-isprint': {},
+                'no-inline-style': {}
+            }
+        });
+
         const result       = FileParser.parse(filePath);
         let ruleWasChecked = false;
 
@@ -42,6 +51,14 @@ describe(targetObjName, () => {
     });
 
     it('checks non-disabled rules', () => {
+
+        ConfigLoader.load({
+            rules: {
+                'enforce-isprint': {},
+                'no-inline-style': {}
+            }
+        });
+
         const result       = FileParser.parse(filePath);
         let ruleWasChecked = false;
 
@@ -55,6 +72,14 @@ describe(targetObjName, () => {
     });
 
     it('results in a json file', () => {
+
+        ConfigLoader.load({
+            rules: {
+                'enforce-isprint': {},
+                'no-inline-style': {}
+            }
+        });
+
         const actualResult   = FileParser.parse(filePath);
         const expectedResult = expectedResultObj(FileParser.ENTRY_TYPES.ERROR);
 
