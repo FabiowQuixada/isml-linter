@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.1.0] - 2019-04-07
+
+### Added
+ - [Issue #2, item 1][issue#2] Rule-level ignore config;
+
+### Fixed
+ - [Issue #2, item 2][issue#2] "Enforce Isprint" rule;
+ - "No hardcode" rule;
+ - List unparseable templates;
+ - Allowed slashy "isif" opening tag: &lt;isif />
+
 ## [5.0.3] - 2019-04-02
 
 ### Fixed
@@ -140,6 +151,7 @@
 ### Added
 - Linter is published;
 
+[5.1.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.0.3...v5.1.0
 [5.0.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.0.2...v5.0.3
 [5.0.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.0.1...v5.0.2
 [5.0.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.0.0...v5.0.1
@@ -154,3 +166,5 @@
 [2.0.1]: https://github.com/FabiowQuixada/isml-linter/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/1.0.1...2.0.0
 [1.0.1]: https://github.com/FabiowQuixada/isml-linter/compare/1.0.0...1.0.1
+
+[issue#2]: https://github.com/FabiowQuixada/isml-linter/issues/2
