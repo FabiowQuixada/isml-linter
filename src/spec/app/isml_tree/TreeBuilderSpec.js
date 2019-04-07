@@ -264,6 +264,21 @@ describe(targetObjName, () => {
         expect(afterTag.getLineNumber()).toEqual(5);
         expect(afterTag.getNumberOfChildren()).toEqual(1);
     });
+
+    it('allows opening "isif" tags with slash: <isif />', () => {
+        const filePath = getFilePath(28);
+        const rootNode = TreeBuilder.build(filePath).rootNode;
+        const isifNode = rootNode.getChild(0).getChild(0);
+        const divNode  = isifNode.getChild(0);
+
+        expect(isifNode.getValue()).toEqual('<isif condition="${true}"/>');
+        expect(isifNode.getLineNumber()).toEqual(1);
+        expect(isifNode.getNumberOfChildren()).toEqual(1);
+
+        expect(divNode.getValue()).toEqual('\n    <div/>');
+        expect(divNode.getLineNumber()).toEqual(2);
+        expect(divNode.getNumberOfChildren()).toEqual(0);
+    });
 });
 
 const getFilePath = number => {

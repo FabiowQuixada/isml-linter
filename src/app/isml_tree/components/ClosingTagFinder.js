@@ -36,7 +36,7 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
 
         if (isNextElementATag(internalState)) {
             const nextOpeningCharPosition       = internalState.content.indexOf('<');
-            const pastContentLength             = internalState.initialContent.indexOf( internalState.content);
+            const pastContentLength             = internalState.initialContent.indexOf(internalState.content);
             const contentUpToCurrentPosition    = internalState.initialContent.substring(0, pastContentLength + nextOpeningCharPosition);
             const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(/\n/g) || []).length + parentState.currentLineNumber;
 
@@ -117,7 +117,9 @@ const initializeLoopState = (oldState, openingElemRegex, closingElemRegex) => {
     closingElemRegex.lastIndex = 0;
 
     state.firstClosingElemPos  = state.content.indexOf('>')+1;
-    state.isSelfClosingElement = state.content.charAt(state.firstClosingElemPos-2) === '/';
+    state.isSelfClosingElement =
+        state.content.charAt(state.firstClosingElemPos - 2) === '/' &&
+        !state.content.startsWith('<isif');
 
     state.openingElemPos    = Number.POSITIVE_INFINITY;
     state.closingElementPos = Number.POSITIVE_INFINITY;
