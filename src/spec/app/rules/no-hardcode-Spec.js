@@ -26,4 +26,10 @@ describe(rule.name, () => {
             length      : 40
         }]);
     });
+
+    it('ignores multiclause nodes', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+
+        expect(result.length).toEqual(0);
+    });
 });

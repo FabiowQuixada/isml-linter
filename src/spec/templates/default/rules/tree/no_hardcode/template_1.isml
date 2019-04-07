@@ -1,0 +1,3 @@
+<isif condition="${!empty(pdict.p_address.address2)}">
+    <isprint value="${pdict.p_address.address2}"/>
+</isif>

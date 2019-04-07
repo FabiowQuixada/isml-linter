@@ -9,6 +9,7 @@ Rule.init(ruleName, description);
 
 Rule.isBroken = function(node) {
     return !node.isRoot() &&
+        !node.isMulticlause() &&
         !node.isTag() &&
         !node.isExpression() &&
         !node.isCommentContent();
