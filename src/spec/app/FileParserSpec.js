@@ -111,24 +111,32 @@ const expectedResultObj = type => {
     const inlineStyleRuleDesc = NoInlineStyleRule.description;
     const isprintRuleDesc     = EnforceIsprintRule.description;
 
-    const line = '<div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>';
+    const line0 = '<isset name="pageUrl" value="${URLUtils.https(\'Reorder-ListingPage\')}" scope="page"/>';
+    const line1 = '<div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>';
 
-    const isprintOccurrence = {
-        line,
-        lineNumber: 3,
-        columnStart: 136,
-        length: 15
+    const isprintOccurrence0 = {
+        line        : line0,
+        lineNumber  : 2,
+        columnStart : 30,
+        length      : 40
+    };
+    const isprintOccurrence1 = {
+        line        : line1,
+        lineNumber  : 3,
+        columnStart : 136,
+        length      : 15
     };
 
     const styleOccurrence = {
-        line,
-        lineNumber: 3,
-        columnStart: 113,
-        length: 5
+        line        : line1,
+        lineNumber  : 3,
+        columnStart : 113,
+        length      : 5
     };
 
     result[type][isprintRuleDesc] = [];
-    result[type][isprintRuleDesc].push(isprintOccurrence);
+    result[type][isprintRuleDesc].push(isprintOccurrence0);
+    result[type][isprintRuleDesc].push(isprintOccurrence1);
 
     result[type][inlineStyleRuleDesc] = [];
     result[type][inlineStyleRuleDesc].push(styleOccurrence);

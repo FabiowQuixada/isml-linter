@@ -25,6 +25,13 @@ describe(rule.name, () => {
         expect(result.occurrences).not.toEqual([]);
     });
 
+    it('detects unwraped expressions inside HTML elements', () => {
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 5);
+        const result      = rule.check(fileContent);
+
+        expect(result.occurrences).not.toEqual([]);
+    });
+
     it('accepts good code', () => {
         const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
         const result      = rule.check(fileContent);
