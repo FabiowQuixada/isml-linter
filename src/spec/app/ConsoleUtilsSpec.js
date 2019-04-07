@@ -48,6 +48,36 @@ describe(targetObjName, () => {
         expect(spy.getCall(4).args[0]).toEqual(expectedResult4);
     });
 
+    it('displays invalid template errors when config is enabled', () => {
+
+        const ConfigLoader = require('../../app/ConfigLoader');
+        ConfigLoader.load({
+            'ignoreUnparseable' : false
+        });
+        ConsoleUtils.displayErrors(expectedObject);
+
+        const expectedResult1 = `${chalk.grey(0)} cartridges/a_multi_cartridge_project/int_cartridge_1/templates/default/template_2.isml`;
+        const expectedResult2 = '\t' + chalk`{red.bold >> }` + 'Unbalanced <div> element at line 289\n';
+
+        expect(spy.getCall(1).args[0]).toEqual(expectedResult1);
+        expect(spy.getCall(2).args[0]).toEqual(expectedResult2);
+    });
+
+    it('does not display invalid template errors when config is disabled', () => {
+
+        ConsoleUtils.displayErrors(expectedObject);
+
+        const expectedResult1 = chalk.gray('13') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
+        const expectedResult2 = '\na_multi_cartridge_project/int_cartridge_1/templates/default/some_folder/sample_file.isml';
+        const expectedResult3 = chalk.gray('39') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
+        const expectedResult4 = chalk.gray('59') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
+
+        expect(spy.getCall(1).args[0]).toEqual(expectedResult1);
+        expect(spy.getCall(2).args[0]).toEqual(expectedResult2);
+        expect(spy.getCall(3).args[0]).toEqual(expectedResult3);
+        expect(spy.getCall(4).args[0]).toEqual(expectedResult4);
+    });
+
 });
 
 const expectedObject = {
@@ -76,5 +106,9 @@ const expectedObject = {
                 }
             ]
         }
-    }
+    },
+    'INVALID_TEMPLATE': [{
+        filePath : 'cartridges/a_multi_cartridge_project/int_cartridge_1/templates/default/template_2.isml',
+        message  : 'Unbalanced <div> element at line 289'
+    }]
 };

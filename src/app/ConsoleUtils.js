@@ -1,6 +1,7 @@
 const chalk          = require('chalk');
 const Constants      = require('./Constants');
 const ExceptionUtils = require('./ExceptionUtils');
+const ConfigLoader   = require('./ConfigLoader');
 
 const displayResult = issueQty => {
     console.log('IsmlLinter run successfully!');
@@ -51,12 +52,35 @@ const displayLintingErrors = jsonErrors => {
     return partialSum;
 };
 
+const displayUnparseableErrors = jsonErrors => {
+
+    const config   = ConfigLoader.load();
+    let partialSum = 0;
+
+    if (!config.ignoreUnparseable) {
+
+        const INVALID_TEMPLATE = ExceptionUtils.types.INVALID_TEMPLATE;
+
+        if (jsonErrors[INVALID_TEMPLATE]) {
+            console.log(chalk`{red.bold \nAn Isml abstract syntax tree could not be built for the following templates:}`);
+
+            jsonErrors[INVALID_TEMPLATE].forEach( (error, i) => {
+                console.log(chalk.gray(i) + ' ' + error.filePath);
+                console.log('\t' + chalk`{red.bold >> }` + `${error.message}\n`);
+                partialSum++;
+            });
+        }
+    }
+
+    return partialSum;
+};
+
 const displayUnknownErrors = jsonErrors => {
     const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
     let partialSum      = 0;
 
     if (jsonErrors[UNKNOWN_ERROR]) {
-        console.log(chalk`{red.bold \nAn unexpected error happened while parsing the following files:}`);
+        console.log(chalk`{red.bold \nAn unexpected error happened while parsing the following templates:}`);
 
         jsonErrors[UNKNOWN_ERROR].forEach( (filePath, i) => {
             console.log(chalk.gray(i) + '\t' + filePath);
@@ -73,6 +97,7 @@ const displayErrors = jsonErrors => {
 
     let errorQty = 0;
 
+    errorQty += displayUnparseableErrors(jsonErrors);
     errorQty += displayUnknownErrors(jsonErrors);
     errorQty += displayLintingErrors(jsonErrors);
 

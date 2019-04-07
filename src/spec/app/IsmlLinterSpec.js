@@ -72,9 +72,11 @@ describe(targetObjName, () => {
         const result          = IsmlLinter.run(specSpecificDirLinterTemplate);
         const expectedMessage = ExceptionUtils.unbalancedElementError('div', 2).message;
         const actualResult    = result[UNPARSEABLE][0];
+        const filePath        = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
 
         expect(actualResult).toEqual({
-            'template_0.isml': expectedMessage
+            filePath : filePath,
+            message  : expectedMessage
         });
     });
 });
@@ -128,8 +130,12 @@ const expectedResultObj = type => {
     result[type][blankLineRuleDesc][file0Path] = [];
     result[type][blankLineRuleDesc][file0Path].push(blankLine);
     const expectedMessage                      = ExceptionUtils.unbalancedElementError('div', 2).message;
+    const filePath                             = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
 
-    result[UNPARSEABLE] = [ { 'template_0.isml' : expectedMessage } ];
+    result[UNPARSEABLE] = [ {
+        filePath : filePath,
+        message  : expectedMessage
+    } ];
 
     result.issueQty = 5;
 

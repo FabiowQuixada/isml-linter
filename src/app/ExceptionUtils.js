@@ -8,7 +8,7 @@ const types            = {
 
 const unbalancedElementError = (elementType, lineNumber, templatePath) => {
     return {
-        message      : `Invalid ISML DOM :: Unbalanced <${elementType}> element at line ${lineNumber}`,
+        message      : `Unbalanced <${elementType}> element at line ${lineNumber}`,
         templatePath : templatePath,
         type         : LINTER_EXCEPTION
     };

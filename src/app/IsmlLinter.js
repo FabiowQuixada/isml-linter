@@ -45,15 +45,17 @@ Linter.run = function(dir = config.rootDir || appRoot.toString()) {
 
             const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
             const UNPARSEABLE   = ExceptionUtils.types.INVALID_TEMPLATE;
+            const fullPath      = path.join(dir, fileProjectPath);
 
             if (!ExceptionUtils.isLinterException(e) || e === UNKNOWN_ERROR) {
                 that.result[UNKNOWN_ERROR] = that.result[UNKNOWN_ERROR] || [];
-                that.result[UNKNOWN_ERROR].push(path.join(appRoot.toString(), fileProjectPath));
+                that.result[UNKNOWN_ERROR].push(fullPath);
             } else {
-                that.result[UNPARSEABLE]         = that.result[UNPARSEABLE] || [];
-                const invalidTemplate            = {};
-                invalidTemplate[fileProjectPath] = e.message;
-                that.result[UNPARSEABLE].push(invalidTemplate);
+                that.result[UNPARSEABLE] = that.result[UNPARSEABLE] || [];
+                that.result[UNPARSEABLE].push({
+                    filePath : fullPath,
+                    message  : e.message
+                });
             }
             issueQty++;
         }
