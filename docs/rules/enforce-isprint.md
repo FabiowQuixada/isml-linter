@@ -8,7 +8,7 @@ Enforces any hardcoded string or ISML expression to be wrapped in a &lt;isprint 
 
 ## Configuration
 
-No configuration is available for this rule.
+No configuration is available for this rule. Check the [Generic Configurations for Rules][generic-config].
 
 ## Examples
 
@@ -29,3 +29,5 @@ For the above configuration, the following scenarios may happen:
     <isprint value="${price}" ... /> // Valid;
 </div>
 ```
+
+[generic-config]: <../generic-rule-config.md>

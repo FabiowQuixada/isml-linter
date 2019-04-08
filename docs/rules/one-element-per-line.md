@@ -7,7 +7,8 @@ Enforces nodes that compose the ISML tree to not start at the same line number a
 
 ## Configuration
 
-No configuration is available for this rule.
+No configuration is available for this rule. Check the [Generic Configurations for Rules][generic-config].
+
 
 ## Examples
 
@@ -26,3 +27,5 @@ For the above configuration, the following scenarios may happen:
     ${value}        // Valid;
 </div>
 ```
+
+[generic-config]: <../generic-rule-config.md>

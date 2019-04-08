@@ -16,6 +16,8 @@ Following are the available configurations for this rule, with default values:
 }
 ```
 
+Check the [Generic Configurations for Rules][generic-config].
+
 ## Examples
 
 ```js
@@ -41,3 +43,5 @@ For the above configuration, the following scenarios may happen:
     ${isTrue ? price : 'Free!'} // Depth: 2;
 </div>
 ```
+
+[generic-config]: <../generic-rule-config.md>

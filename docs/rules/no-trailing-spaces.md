@@ -8,7 +8,7 @@ Disallow trailning spaces.
 
 ## Configuration
 
-No configuration is available for this rule.
+No configuration is available for this rule. Check the [Generic Configurations for Rules][generic-config].
 
 ## Examples
 
@@ -23,3 +23,5 @@ For the above configuration, the following scenarios may happen. A dot "." notat
 ........<br/>. // Invalid;
 ....</div>...  // Invalid;
 ```
+
+[generic-config]: <../generic-rule-config.md>

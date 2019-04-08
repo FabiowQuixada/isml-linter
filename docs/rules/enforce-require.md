@@ -8,7 +8,7 @@ Enforces API classes to be called through `require()` function, which means it d
 
 ## Configuration
 
-No configuration is available for this rule.
+No configuration is available for this rule. Check the [Generic Configurations for Rules][generic-config].
 
 ## Examples
 
@@ -27,3 +27,5 @@ For the above configuration, the following scenarios may happen:
 // Valid;
 <isset name="basket" value="${require('dw/order/Basket')}" scope="page"/>
 ```
+
+[generic-config]: <../generic-rule-config.md>

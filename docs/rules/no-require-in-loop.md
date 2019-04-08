@@ -7,7 +7,7 @@ Disallows `require()` calls within loops in the same template.
 
 ## Configuration
 
-No configuration is available for this rule.
+No configuration is available for this rule. Check the [Generic Configurations for Rules][generic-config].
 
 ## Examples
 
@@ -32,3 +32,5 @@ For the above configuration, the following scenarios may happen:
     ...
 </isloop>
 ```
+
+[generic-config]: <../generic-rule-config.md>

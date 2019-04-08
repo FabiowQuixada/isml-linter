@@ -8,7 +8,7 @@ Detects unresolved Git conflicts.
 
 ## Configuration
 
-No configuration is available for this rule.
+No configuration is available for this rule. Check the [Generic Configurations for Rules][generic-config].
 
 ## Examples
 
@@ -27,3 +27,5 @@ For the above configuration, the following scenarios may happen:
  >>>>>>> branch-a
  </div>
 ```
+
+[generic-config]: <../generic-rule-config.md>

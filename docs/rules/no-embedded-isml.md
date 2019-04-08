@@ -8,7 +8,7 @@ Disallows ISML tags within HTML tags.
 
 ## Configuration
 
-No configuration is available for this rule.
+No configuration is available for this rule. Check the [Generic Configurations for Rules][generic-config].
 
 ## Examples
 
@@ -32,3 +32,5 @@ For the above configuration, the following scenarios may happen:
     <div <isprint ... /> > // Valid! "isprint" is an exception;
     </div>
 ```
+
+[generic-config]: <../generic-rule-config.md>

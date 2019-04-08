@@ -8,7 +8,7 @@ Disallows &lt;br/> tags. Use this rule if you want to handle vertical spacing vi
 
 ## Configuration
 
-No configuration is available for this rule.
+No configuration is available for this rule. Check the [Generic Configurations for Rules][generic-config].
 
 ## Examples
 
@@ -23,3 +23,5 @@ For the above configuration, the following scenarios may happen:
     <br/> // Invalid;
 </div>
 ```
+
+[generic-config]: <../generic-rule-config.md>
