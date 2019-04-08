@@ -4,7 +4,14 @@ const FileUtils = require('./FileUtils');
 
 const ConfigLoader = {};
 
-ConfigLoader.load = configParam => {
+ConfigLoader.init = function(
+    targetDir = Constants.clientAppDir,
+    configFileName = Constants.clientConfigFileName
+) {
+    return createConfigFile(targetDir, configFileName);
+};
+
+ConfigLoader.load = function(configParam) {
 
     if (configParam) {
         this.config = configParam;
@@ -30,6 +37,10 @@ ConfigLoader.load = configParam => {
     return config;
 };
 
+ConfigLoader.clear = function() {
+    this.config = null;
+};
+
 const createConfigFile = (targetDir = Constants.configFilePath, configFileName) => {
 
     if (!FileUtils.fileExists(path.join(targetDir, configFileName))) {
@@ -46,11 +57,6 @@ const createConfigFile = (targetDir = Constants.configFilePath, configFileName) 
 
     return false;
 };
-
-ConfigLoader.init = (
-    targetDir = Constants.clientAppDir,
-    configFileName = Constants.clientConfigFileName
-) => createConfigFile(targetDir, configFileName);
 
 const addParamsToConfig = config => {
     process.argv.forEach(val => {
@@ -79,8 +85,5 @@ function addRuleTo(configContent) {
     };
 }
 
-ConfigLoader.clear = () => {
-    this.config = null;
-};
 
 module.exports = ConfigLoader;
