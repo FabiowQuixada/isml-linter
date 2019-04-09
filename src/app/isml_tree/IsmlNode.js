@@ -47,6 +47,9 @@ class IsmlNode {
 
     isRoot() { return !this.parent; }
     isMulticlause() { return false; }
+    isScriptContent() {
+        return this.parent && this.parent.isOfType('isscript');
+    }
 
     isTag() {
         const value = this.value.trim();

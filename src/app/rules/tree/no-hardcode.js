@@ -11,6 +11,7 @@ Rule.isBroken = function(node) {
     return !node.isRoot() &&
         !node.isMulticlause() &&
         !node.isTag() &&
+        !node.isScriptContent() &&
         !node.isExpression() &&
         !node.isCommentContent();
 };

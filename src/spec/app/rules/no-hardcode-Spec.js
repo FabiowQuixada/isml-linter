@@ -32,4 +32,10 @@ describe(rule.name, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('ignores isscript node content', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2);
+
+        expect(result.length).toEqual(0);
+    });
 });
