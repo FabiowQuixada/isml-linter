@@ -10,6 +10,7 @@ const maskIgnorableContent = content => {
 
     content = maskInBetween(content, '${', '}');
     content = maskInBetween(content, '<isscript>', '</isscript>');
+    content = maskInBetweenForTagWithAttributes(content, '<script', '</script>');
     content = maskInBetweenForTagWithAttributes(content, '<style', '</style>');
     content = maskInBetween(content, '<iscomment>', '</iscomment>');
     content = maskInBetween(content, '<!--', '-->');

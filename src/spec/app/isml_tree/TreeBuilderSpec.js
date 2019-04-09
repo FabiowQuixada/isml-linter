@@ -279,6 +279,14 @@ describe(targetObjName, () => {
         expect(divNode.getLineNumber()).toEqual(2);
         expect(divNode.getNumberOfChildren()).toEqual(0);
     });
+
+    it('parses script tag with attributes', () => {
+        const filePath   = getFilePath(29);
+        const rootNode   = TreeBuilder.build(filePath).rootNode;
+        const scriptNode = rootNode.getChild(0);
+
+        expect(scriptNode.getValue()).toEqual('<script type="text/javascript">');
+    });
 });
 
 const getFilePath = number => {
