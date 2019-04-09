@@ -26,11 +26,17 @@ class IsmlNode {
 
         if (value.startsWith('<!--')) {
             return 'html_comment';
+        } else if (this.isDocType()) {
+            return 'doctype';
         }
 
         const regex = /<[a-zA-Z\d]*(\s|>|\/)/g;
 
         return value.match(regex)[0].slice(1, -1);
+    }
+
+    isDocType() {
+        return this.value.toLowerCase().trim().startsWith('<!doctype ');
     }
 
     getHeight() { return this.height; }
@@ -100,8 +106,11 @@ class IsmlNode {
     }
 
     isSelfClosing() {
-        const isDocTypeNode = this.value.toLowerCase().startsWith('<!doctype html');
-        return !this.isMulticlause() && (isDocTypeNode || this.isVoidElement() || this.isHtmlComment() || this.isTag() && this.value.endsWith('/>'));
+        return !this.isMulticlause() && (
+            this.isDocType() ||
+            this.isVoidElement() ||
+            this.isHtmlComment() ||
+            this.isTag() && this.value.endsWith('/>'));
     }
 
     isOfType(type) {

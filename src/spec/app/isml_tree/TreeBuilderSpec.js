@@ -288,6 +288,14 @@ describe(targetObjName, () => {
         expect(scriptNode.getValue()).toEqual('<script type="text/javascript">');
     });
 
+    it('parses DOCTYPE tag', () => {
+        const filePath   = getFilePath(30);
+        const rootNode   = TreeBuilder.build(filePath).rootNode;
+        const scriptNode = rootNode.getChild(0);
+
+        expect(scriptNode.getValue()).toEqual('<!DOCTYPE html>');
+    });
+
     it('allows void element if HTML 5 config is not disabled', () => {
         const filePath = getFilePath(31);
         const rootNode = TreeBuilder.build(filePath).rootNode;
