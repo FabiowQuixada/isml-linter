@@ -56,6 +56,14 @@ const rules = {
     }
 };
 
+// Other;
+const voidElementsArray = [
+    'area', 'base', 'br', 'col',
+    'command', 'embed', 'hr', 'img',
+    'input', 'keygen', 'link', 'meta',
+    'param', 'source', 'track', 'wbr'
+];
+
 module.exports = {
     // Client directories;
     clientAppDir,
@@ -100,4 +108,7 @@ module.exports = {
 
     // Rules;
     rules,
+
+    // Other;
+    voidElementsArray,
 };

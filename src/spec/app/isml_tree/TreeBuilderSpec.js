@@ -287,6 +287,14 @@ describe(targetObjName, () => {
 
         expect(scriptNode.getValue()).toEqual('<script type="text/javascript">');
     });
+
+    it('allows void element if HTML 5 config is not disabled', () => {
+        const filePath = getFilePath(31);
+        const rootNode = TreeBuilder.build(filePath).rootNode;
+        const metaNode = rootNode.getChild(0).getChild(0);
+
+        expect(metaNode.getValue()).toEqual('\n    <meta http-equiv="refresh" content="2;url=${pdict.Location}">');
+    });
 });
 
 const getFilePath = number => {

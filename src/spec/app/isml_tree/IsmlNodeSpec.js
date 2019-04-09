@@ -1,6 +1,7 @@
-const IsmlNode   = require('../../../app/isml_tree/IsmlNode');
-const SpecHelper = require('../../SpecHelper');
-const sinon      = require('sinon');
+const IsmlNode     = require('../../../app/isml_tree/IsmlNode');
+const SpecHelper   = require('../../SpecHelper');
+const ConfigLoader = require('../../../app/ConfigLoader');
+const sinon        = require('sinon');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -154,5 +155,32 @@ describe(targetObjName, () => {
         rootNode.print();
 
         expect(spy.firstCall.args[0]).toEqual('0 :: 0 :: <div class="some_class"></d...');
+    });
+
+    it('sets doctype node as self-closing', () => {
+        const rootNode = new IsmlNode('<!DOCTYPE html>');
+
+        expect(rootNode.isSelfClosing()).toEqual(true);
+    });
+
+    it('knows if it is a void element', () => {
+        const rootNode = new IsmlNode('<img>');
+
+        expect(rootNode.isVoidElement()).toEqual(true);
+    });
+
+    it('knows if it is a non-void element if HTML 5 parsing is disabled', () => {
+        ConfigLoader.load({
+            disableHtml5: true
+        });
+        const rootNode = new IsmlNode('<img>');
+
+        expect(rootNode.isVoidElement()).toEqual(false);
+    });
+
+    it('knows if it is a non-void element', () => {
+        const rootNode = new IsmlNode('<table>');
+
+        expect(rootNode.isVoidElement()).toEqual(false);
     });
 });

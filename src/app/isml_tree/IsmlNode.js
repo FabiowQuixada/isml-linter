@@ -1,5 +1,8 @@
 const MAX_TEXT_DISPLAY_SIZE = 30;
 
+const ConfigLoader = require('../ConfigLoader');
+const Constants    = require('../Constants');
+
 class IsmlNode {
 
     constructor(value = '(root)', lineNumber = 0) {
@@ -90,7 +93,16 @@ class IsmlNode {
         return this.parent && this.parent.isIsmlComment();
     }
 
-    isSelfClosing() { return this.isHtmlComment() || this.isTag() && this.value.endsWith('/>'); }
+    isVoidElement() {
+        const config = ConfigLoader.load();
+
+        return !config.disableHtml5 && Constants.voidElementsArray.indexOf(this.getType()) !== -1;
+    }
+
+    isSelfClosing() {
+        const isDocTypeNode = this.value.toLowerCase().startsWith('<!doctype html');
+        return !this.isMulticlause() && (isDocTypeNode || this.isVoidElement() || this.isHtmlComment() || this.isTag() && this.value.endsWith('/>'));
+    }
 
     isOfType(type) {
         return !this.isRoot() && this.getType() === type;

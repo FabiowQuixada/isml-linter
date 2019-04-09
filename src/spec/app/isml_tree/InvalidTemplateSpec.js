@@ -3,6 +3,7 @@ const SpecHelper     = require('../../SpecHelper');
 const Constants      = require('../../../app/Constants');
 const ParseStatus    = require('../../../app/enums/ParseStatus');
 const ExceptionUtils = require('../../../app/ExceptionUtils');
+const ConfigLoader   = require('../../../app/ConfigLoader');
 
 describe('Invalid Template', () => {
 
@@ -15,6 +16,9 @@ describe('Invalid Template', () => {
     });
 
     it('detects simple unclosed <input> tag', () => {
+        ConfigLoader.load({
+            disableHtml5: true
+        });
         const result       = TreeBuilder.build(getFilePath(0));
         const exceptionObj = ExceptionUtils.unbalancedElementError('input', 8);
 
@@ -23,6 +27,9 @@ describe('Invalid Template', () => {
     });
 
     it('detects simple unclosed <input> tag II', () => {
+        ConfigLoader.load({
+            disableHtml5: true
+        });
         const result          = TreeBuilder.build(getFilePath(1));
         const expectedMessage = ExceptionUtils.unbalancedElementError('input', 5).message;
 
