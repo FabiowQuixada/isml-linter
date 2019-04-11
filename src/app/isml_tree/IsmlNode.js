@@ -30,7 +30,7 @@ class IsmlNode {
             return 'doctype';
         }
 
-        const regex = /<[a-zA-Z\d]*(\s|>|\/)/g;
+        const regex = /<[a-zA-Z\d_]*(\s|>|\/)/g;
 
         return value.match(regex)[0].slice(1, -1);
     }

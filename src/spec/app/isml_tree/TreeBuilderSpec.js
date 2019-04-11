@@ -303,6 +303,15 @@ describe(targetObjName, () => {
 
         expect(metaNode.getValue()).toEqual('\n    <meta http-equiv="refresh" content="2;url=${pdict.Location}">');
     });
+
+    it('parses custom module with "_" char in its name', () => {
+        const filePath         = getFilePath(33);
+        const newLocal         = TreeBuilder.build(filePath);
+        const rootNode         = newLocal.rootNode;
+        const customModuleNode = rootNode.getChild(0);
+
+        expect(customModuleNode.getValue()).toEqual('<ismycustom_module p_attribute="${\'value\'}"/>');
+    });
 });
 
 const getFilePath = number => {
