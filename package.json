@@ -13,7 +13,7 @@
     "build:isml": "node scripts/lint.js --build",
     "fix:isml": "node scripts/lint.js --autofix",
     "prepush": "npm run lint && npm test && npm run check-coverage",
-    "release": "npm run scripts/release"
+    "release": "node scripts/release"
   },
   "config": {
     "ghooks": {
