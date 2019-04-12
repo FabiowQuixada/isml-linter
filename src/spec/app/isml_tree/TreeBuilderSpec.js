@@ -312,6 +312,15 @@ describe(targetObjName, () => {
 
         expect(customModuleNode.getValue()).toEqual('<ismycustom_module p_attribute="${\'value\'}"/>');
     });
+
+    it('allows tags within iscomment tags', () => {
+        const filePath    = getFilePath(34);
+        const newLocal    = TreeBuilder.build(filePath);
+        const rootNode    = newLocal.rootNode;
+        const commentNode = rootNode.getChild(0);
+
+        expect(commentNode.getValue()).toEqual('<iscomment>');
+    });
 });
 
 const getFilePath = number => {
