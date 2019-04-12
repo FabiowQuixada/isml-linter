@@ -1,5 +1,25 @@
 # Changelog
 
+## [5.2.0] - 2019-04-14
+
+### Added
+ - "disableHtml5" config;
+
+### Changed
+ - Improved error listing messages;
+
+### Fixed
+ - "No-hardcode" rule;
+ - Various bugs on tree build:
+   - Allowed void elements;
+   - Allowed DOCTYPE tag;
+   - Ignored script tag content for isml parsing; 
+   - Custom tags with "_" character;
+   - Allowed multile elements;
+   - Dynamic elements: &lt;${elem} />;
+   - Allowed empty isml expression: ${};
+   - &lt;iscomment> element;
+
 ## [5.1.0] - 2019-04-07
 
 ### Added
@@ -151,6 +171,7 @@
 ### Added
 - Linter is published;
 
+[5.2.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.1.0...v5.2.0
 [5.1.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.0.3...v5.1.0
 [5.0.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.0.2...v5.0.3
 [5.0.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.0.1...v5.0.2

@@ -38,10 +38,11 @@ The following configurations can be set in the .ismllinter.json file:
 | Config            | Description                              |
 | ----------------- |:-----------------------------------------|
 | rootDir           | The root directory under which the linter will run. Defaults to the directory where the package.json file is |
-| :boom: ignoreUnparseable | Does not raise an error if an unparseable template is found. Default: false. Please check "Parse Modes - Tree" section below |
+| :boom: disableHtml5 | Disallows HTML5-defined unclosed tags, such as input, img and meta. Default: false |
+| ignoreUnparseable | Does not raise an error if an unparseable template is found. Default: false. Please check "Parse Modes - Tree" section below |
 | ignore            | If a template path contains (as a substring) any string defined here, that template will be ignored by the linter |
 | :boom: autoFix    | Applies fixes for enabled rules. Default: 'false' |
-| :boom: disableTreeParse | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: 'false' |
+| disableTreeParse | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: 'false' |
 | rules             | Defines which rules to check. See available rules below |
 
 **Note:** If you explicitly set "ignoreUnparseable" config to true, unparseable templates may contain errors that will not be detected by Isml Linter.
