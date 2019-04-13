@@ -330,6 +330,15 @@ describe(targetObjName, () => {
 
         expect(spanNode.getValue()).toEqual('\n    <span\n        class="required-indicator">');
     });
+
+    it('allows dynamic elements', () => {
+        const filePath    = getFilePath(36);
+        const result      = TreeBuilder.build(filePath);
+        const rootNode    = result.rootNode;
+        const dynamicNode = rootNode.getChild(0);
+
+        expect(dynamicNode.getValue()).toEqual('<${pdict.isForm === \'true\' ? \'form\' : \'div\'}>');
+    });
 });
 
 const getFilePath = number => {

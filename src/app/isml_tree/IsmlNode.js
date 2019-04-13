@@ -28,6 +28,8 @@ class IsmlNode {
             return 'html_comment';
         } else if (this.isDocType()) {
             return 'doctype';
+        } else if (this.isDynamicElement()) {
+            return 'dynamic_element';
         }
 
         const regex = /<[a-zA-Z\d_]*(\s|>|\/)/g;
@@ -37,6 +39,10 @@ class IsmlNode {
 
     isDocType() {
         return this.value.toLowerCase().trim().startsWith('<!doctype ');
+    }
+
+    isDynamicElement() {
+        return this.value.trim().startsWith('<${');
     }
 
     getHeight() { return this.height; }
