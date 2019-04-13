@@ -75,8 +75,9 @@ describe(targetObjName, () => {
         const filePath        = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
 
         expect(actualResult).toEqual({
-            filePath : filePath,
-            message  : expectedMessage
+            filePath   : filePath,
+            message    : expectedMessage,
+            lineNumber : 2
         });
     });
 });
@@ -133,8 +134,9 @@ const expectedResultObj = type => {
     const filePath                             = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
 
     result[UNPARSEABLE] = [ {
-        filePath : filePath,
-        message  : expectedMessage
+        filePath   : filePath,
+        message    : expectedMessage,
+        lineNumber : 2
     } ];
 
     result.issueQty = 5;

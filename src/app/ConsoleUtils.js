@@ -65,7 +65,7 @@ const displayUnparseableErrors = jsonErrors => {
             console.log(chalk`{red.bold \nAn Isml abstract syntax tree could not be built for the following templates:}`);
 
             jsonErrors[INVALID_TEMPLATE].forEach( (error, i) => {
-                console.log(chalk.gray(i) + ' ' + error.filePath);
+                console.log(chalk.gray(i) + ' ' + error.filePath + ':' + error.lineNumber);
                 console.log('\t' + chalk`{red.bold >> }` + `${error.message}\n`);
                 partialSum++;
             });

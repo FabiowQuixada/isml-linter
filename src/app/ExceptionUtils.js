@@ -8,8 +8,9 @@ const types            = {
 
 const unbalancedElementError = (elementType, lineNumber, templatePath) => {
     return {
-        message      : `Unbalanced <${elementType}> element at line ${lineNumber}`,
+        message      : `Unbalanced <${elementType}> element`,
         templatePath : templatePath,
+        lineNumber   : lineNumber,
         type         : LINTER_EXCEPTION
     };
 };

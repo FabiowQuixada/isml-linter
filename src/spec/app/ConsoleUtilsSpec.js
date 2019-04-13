@@ -56,8 +56,8 @@ describe(targetObjName, () => {
         });
         ConsoleUtils.displayErrors(expectedObject);
 
-        const expectedResult1 = `${chalk.grey(0)} cartridges/a_multi_cartridge_project/int_cartridge_1/templates/default/template_2.isml`;
-        const expectedResult2 = '\t' + chalk`{red.bold >> }` + 'Unbalanced <div> element at line 289\n';
+        const expectedResult1 = `${chalk.grey(0)} cartridges/a_multi_cartridge_project/int_cartridge_1/templates/default/template_2.isml:289`;
+        const expectedResult2 = '\t' + chalk`{red.bold >> }` + 'Unbalanced <div> element\n';
 
         expect(spy.getCall(1).args[0]).toEqual(expectedResult1);
         expect(spy.getCall(2).args[0]).toEqual(expectedResult2);
@@ -108,7 +108,7 @@ const expectedObject = {
         }
     },
     'INVALID_TEMPLATE': [{
-        filePath : 'cartridges/a_multi_cartridge_project/int_cartridge_1/templates/default/template_2.isml',
-        message  : 'Unbalanced <div> element at line 289'
+        filePath : 'cartridges/a_multi_cartridge_project/int_cartridge_1/templates/default/template_2.isml:289',
+        message  : 'Unbalanced <div> element'
     }]
 };

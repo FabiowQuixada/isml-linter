@@ -53,8 +53,9 @@ Linter.run = function(dir = config.rootDir || appRoot.toString()) {
             } else {
                 that.result[UNPARSEABLE] = that.result[UNPARSEABLE] || [];
                 that.result[UNPARSEABLE].push({
-                    filePath : fullPath,
-                    message  : e.message
+                    filePath   : fullPath,
+                    message    : e.message,
+                    lineNumber : e.lineNumber
                 });
             }
             issueQty++;
