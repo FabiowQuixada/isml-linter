@@ -11,14 +11,16 @@ const unbalancedElementError = (elementType, lineNumber, templatePath) => {
         message      : `Unbalanced <${elementType}> element`,
         templatePath : templatePath,
         lineNumber   : lineNumber,
-        type         : LINTER_EXCEPTION
+        type         : LINTER_EXCEPTION,
+        subtype      : types.INVALID_TEMPLATE
     };
 };
 
 const parseError = fileName => {
     return {
         message : `An unexpected error happenned while parsing ${fileName}. Please report it to ${Constants.repositoryUrl} and add the file to the ignore list while a fix is not available.`,
-        type    : LINTER_EXCEPTION
+        type    : LINTER_EXCEPTION,
+        subtype : types.UNKNOWN_ERROR
     };
 };
 
