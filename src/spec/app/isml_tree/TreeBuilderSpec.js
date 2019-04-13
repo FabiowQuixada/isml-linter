@@ -321,6 +321,15 @@ describe(targetObjName, () => {
 
         expect(commentNode.getValue()).toEqual('<iscomment>');
     });
+
+    it('parses multiline elements', () => {
+        const filePath = getFilePath(35);
+        const result   = TreeBuilder.build(filePath);
+        const rootNode = result.rootNode;
+        const spanNode = rootNode.getChild(0).getChild(0);
+
+        expect(spanNode.getValue()).toEqual('\n    <span\n        class="required-indicator">');
+    });
 });
 
 const getFilePath = number => {

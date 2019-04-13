@@ -143,7 +143,7 @@ const initializeLoopState = (oldState, openingElemRegex, closingElemRegex) => {
 const updateElementStack = (oldState, currentElementStartingLineNumber, parentState) => {
 
     const state = Object.assign({}, oldState);
-    const elem  = getFirstElementType(state.content);
+    const elem  = getFirstElementType(state.content).trim();
 
     const config        = ConfigLoader.load();
     const isVoidElement = !config.disableHtml5 && Constants.voidElementsArray.indexOf(elem) !== -1;
