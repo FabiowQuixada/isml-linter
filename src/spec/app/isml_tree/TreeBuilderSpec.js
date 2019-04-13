@@ -339,6 +339,15 @@ describe(targetObjName, () => {
 
         expect(dynamicNode.getValue()).toEqual('<${pdict.isForm === \'true\' ? \'form\' : \'div\'}>');
     });
+
+    it('allows empty ISML expressions: ${}', () => {
+        const filePath  = getFilePath(38);
+        const result    = TreeBuilder.build(filePath);
+        const rootNode  = result.rootNode;
+        const issetNode = rootNode.getChild(0).getChild(0);
+
+        expect(issetNode.getValue()).toEqual('\n    <isset name="isLowPrice" value="${}" scope="page" />');
+    });
 });
 
 const getFilePath = number => {

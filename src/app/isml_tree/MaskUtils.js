@@ -62,14 +62,21 @@ const getRegex = expression => {
     return new RegExp(expression.replace('$', '\\$').replace('{', '\\{'), 'g');
 };
 
-const getMatchingIndexList = (content, expression) => {
+const getMatchingIndexList = (content, expression, openingMatchList) => {
 
     const regex             = getRegex(expression);
     const matchingIndexList = [];
     let match               = regex.exec(content);
+    let i                   = 0;
 
     while (match !== null) {
-        matchingIndexList.push(match.index);
+        const matchIndex = match.index;
+
+        if (!openingMatchList || openingMatchList[i] < matchIndex && (!openingMatchList[i + 1] || matchIndex < openingMatchList[i + 1])) {
+            matchingIndexList.push(matchIndex);
+            ++i;
+        }
+
         match = regex.exec(content);
     }
 
@@ -102,11 +109,40 @@ const maskInBetweenForTagWithAttributes = (content, startString, endString) => {
     return getMatchingIndexes(content, endString, openingMatchList, startString);
 };
 
+const removeEmptyIsmlExpressionFromIndexes = (startString, endString, openingMatchList, closingMatchList) => {
+
+    let result1 = [];
+    let result2 = [];
+    if (startString === '${' && endString === '}') {
+        const matchQty = openingMatchList.length;
+
+        for (let i = 0; i < matchQty; i++) {
+            if (openingMatchList[i] !== closingMatchList[i] - 2) {
+                result1.push(openingMatchList[i]);
+                result2.push(closingMatchList[i]);
+            }
+        }
+    } else {
+        result1 = openingMatchList;
+        result2 = closingMatchList;
+    }
+
+    return [
+        result1,
+        result2
+    ];
+};
+
 const getMatchingIndexes = (content, endString, openingMatchList, startString) => {
-    const closingMatchList = getMatchingIndexList(content, endString);
-    let result             = '';
-    let isInBetween        = false;
-    let activePos          = -1;
+    let closingMatchList = getMatchingIndexList(content, endString, openingMatchList);
+    let result           = '';
+    let isInBetween      = false;
+    let activePos        = -1;
+
+    const a = removeEmptyIsmlExpressionFromIndexes(startString, endString, openingMatchList, closingMatchList);
+
+    openingMatchList = a[0];
+    closingMatchList = a[1];
 
     for (let i = 0; i < content.length; ++i) {
         if (isInBetween) {
