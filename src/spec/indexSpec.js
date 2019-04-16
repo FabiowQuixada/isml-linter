@@ -18,7 +18,6 @@ describe(targetObjName, () => {
         expect(indexObj.IsmlLinter).not.toBeNull();
     });
 
-
     it('exports File Parser Linter', () => {
         const indexObj = require('../../index');
 

@@ -16,107 +16,107 @@ describe(targetObjName, () => {
     });
 
     it('creates a one-level-deep tree with node values', () => {
-        const rootNode = TreeBuilder.build(getFilePath(10)).rootNode;
+        const rootNode = getRootNodeFromTemplate(10);
 
         expect(rootNode.getChild(0).getValue()).toEqual('<isset name="lineItem" value="${\'some value\'}" scope="page" />');
     });
 
     it('creates a tree with non-self-closing tags', () => {
-        const rootNode = TreeBuilder.build(getFilePath(0)).rootNode;
+        const rootNode = getRootNodeFromTemplate(0);
 
         expect(rootNode.getChild(0).getValue()).toEqual('<div id="root_elem_2">');
     });
 
     it('creates a tree with a self-closed tag attribute-less grandchild', () => {
-        const rootNode = TreeBuilder.build(getFilePath(0)).rootNode;
+        const rootNode = getRootNodeFromTemplate(0);
 
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('<isprint value="some text" />');
     });
 
     it('creates a tree with a self-closed tag grandchild with attribute', () => {
-        const rootNode = TreeBuilder.build(getFilePath(0)).rootNode;
+        const rootNode = getRootNodeFromTemplate(0);
 
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('<isprint value="some text" />');
     });
 
     it('creates a tree with a self-closed tag grandchild', () => {
-        const rootNode = TreeBuilder.build(getFilePath(11)).rootNode;
+        const rootNode = getRootNodeFromTemplate(11);
 
         expect(rootNode.getChild(0).getChild(0).getChild(0).getValue().trim()).toEqual('<isif condition="${true}">');
     });
 
     it('recognizes a simple, raw isml expression: ${...}', () => {
-        const rootNode = TreeBuilder.build(getFilePath(9)).rootNode;
+        const rootNode = getRootNodeFromTemplate(9);
 
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('${3 < 4}');
     });
 
     it('recognizes an isml expression within an isml/html tag', () => {
-        const rootNode = TreeBuilder.build(getFilePath(8)).rootNode;
+        const rootNode = getRootNodeFromTemplate(8);
 
         expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('\n    <isset name="opliID" value="${opli.ID}" scope="page" />');
         expect(rootNode.getChild(0).getChild(0).getChild(0).getNumberOfChildren()).toEqual(0);
     });
 
     it('parses recursive elements', () => {
-        const rootNode = TreeBuilder.build(getFilePath(7)).rootNode;
+        const rootNode = getRootNodeFromTemplate(7);
 
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('<div class="inner">');
         expect(rootNode.getChild(0).getChild(0).getChild(0).getValue().trim()).toEqual('<div class="further_in">');
     });
 
     it('handles "<" charecters in isml expressons', () => {
-        const rootNode = TreeBuilder.build(getFilePath(6)).rootNode;
+        const rootNode = getRootNodeFromTemplate(6);
 
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('${someValue < 3}');
     });
 
     it('handles "<" charecters in scripts', () => {
-        const rootNode = TreeBuilder.build(getFilePath(5)).rootNode;
+        const rootNode = getRootNodeFromTemplate(5);
 
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('var condition = someValue < 4;');
     });
 
     it('parses <isif> tag with a "<" character in its condition', () => {
-        const rootNode = TreeBuilder.build(getFilePath(3)).rootNode;
+        const rootNode = getRootNodeFromTemplate(3);
 
         expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('\n    <div class="clause_1" />');
     });
 
     it('handles "<" characters in comments', () => {
-        const rootNode = TreeBuilder.build(getFilePath(2)).rootNode;
+        const rootNode = getRootNodeFromTemplate(2);
 
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('This comment has a \'<\' character.');
     });
 
     it('recognizes an isml element within a html element', () => {
-        const rootNode = TreeBuilder.build(getFilePath(4)).rootNode;
+        const rootNode = getRootNodeFromTemplate(4);
 
         expect(rootNode.getChild(0).getValue()).toEqual('<span id="root_elem_17" <isif condition="${active}">class="active"</isif>>');
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('Some content');
     });
 
     it('sets the correct depth fo multi-clause children', () => {
-        const rootNode = TreeBuilder.build(getFilePath(12)).rootNode;
+        const rootNode = getRootNodeFromTemplate(12);
 
         expect(rootNode.getChild(0).getChild(0).getChild(0).getChild(0).getDepth()).toEqual(3);
     });
 
     it('parses nested <isif> tags', () => {
-        const rootNode = TreeBuilder.build(getFilePath(13)).rootNode;
+        const rootNode = getRootNodeFromTemplate(13);
 
         expect(rootNode.getChild(0).getChild(0).getChild(0).getChild(1).getChild(0).getDepth()).toEqual(3);
     });
 
     it('throws an exception upon invalid isml dom', () => {
         const expectedMessage = ExceptionUtils.unbalancedElementError('div', 2).message;
-        const tree            = TreeBuilder.build(getFilePath(1));
+        const tree            = getTreeFromTemplate(1);
 
         expect(tree.exception.message).toEqual(expectedMessage);
     });
 
     it('parses hard-coded strings', () => {
-        const rootNode = TreeBuilder.build(getFilePath(14)).rootNode;
+        const rootNode = getRootNodeFromTemplate(14);
 
         expect(rootNode.getChild(0).getValue()).toEqual('<span>');
         expect(rootNode.getChild(1).getValue().trim()).toEqual('A hard-coded string');
@@ -124,7 +124,7 @@ describe(targetObjName, () => {
     });
 
     it('parses a child "isif" tag', () => {
-        const rootNode    = TreeBuilder.build(getFilePath(16)).rootNode;
+        const rootNode    = getRootNodeFromTemplate(16);
         const trNode      = rootNode.getChild(0);
         const commentNode = rootNode.getChild(1);
 
@@ -138,7 +138,7 @@ describe(targetObjName, () => {
     });
 
     it('identifies ISML expressions I', () => {
-        const rootNode  = TreeBuilder.build(getFilePath(18)).rootNode;
+        const rootNode  = getRootNodeFromTemplate(18);
         const availNode = rootNode.getChild(2);
 
         expect(availNode.getValue()).toEqual('\n<div class="product-availability">');
@@ -147,7 +147,7 @@ describe(targetObjName, () => {
     });
 
     it('identifies ISML expressions II', () => {
-        const rootNode     = TreeBuilder.build(getFilePath(17)).rootNode;
+        const rootNode     = getRootNodeFromTemplate(17);
         const ifNode       = rootNode.getChild(0).getChild(0);
         const nestedIfNode = ifNode.getChild(0).getChild(0);
 
@@ -157,7 +157,7 @@ describe(targetObjName, () => {
     });
 
     it('identifies ISML expressions III', () => {
-        const rootNode = TreeBuilder.build(getFilePath(19)).rootNode;
+        const rootNode = getRootNodeFromTemplate(19);
         const setNode  = rootNode.getChild(2);
 
         expect(setNode.getValue()).toEqual('\n<isset value="${abc}" />');
@@ -166,7 +166,7 @@ describe(targetObjName, () => {
     });
 
     it('identifies HTML comments', () => {
-        const rootNode        = TreeBuilder.build(getFilePath(24)).rootNode;
+        const rootNode        = getRootNodeFromTemplate(24);
         const htmlCommentNode = rootNode.getChild(0);
         const ifNode          = rootNode.getChild(1).getChild(0);
 
@@ -180,8 +180,7 @@ describe(targetObjName, () => {
     });
 
     it('handles empty "isif" tag', () => {
-        const result   = TreeBuilder.build(getFilePath(20));
-        const rootNode = result.rootNode;
+        const rootNode = getRootNodeFromTemplate(20);
         const divNode  = rootNode.getChild(0);
         const ifNode   = divNode.getChild(0).getChild(0);
 
@@ -195,8 +194,7 @@ describe(targetObjName, () => {
     });
 
     it('handle one-char condition "if" tag', () => {
-        const result   = TreeBuilder.build(getFilePath(21));
-        const rootNode = result.rootNode;
+        const rootNode = getRootNodeFromTemplate(21);
         const divNode  = rootNode.getChild(0);
         const ifNode   = divNode.getChild(0).getChild(0);
 
@@ -210,7 +208,7 @@ describe(targetObjName, () => {
     });
 
     it('identifies a html comment as self-closing tag', () => {
-        const rootNode        = TreeBuilder.build(getFilePath(25)).rootNode;
+        const rootNode        = getRootNodeFromTemplate(25);
         const htmlCommentNode = rootNode.getChild(0);
         const mainDivNode     = rootNode.getChild(1);
         const childDivNode    = mainDivNode.getChild(0);
@@ -231,8 +229,7 @@ describe(targetObjName, () => {
     });
 
     it('identifies style tags', () => {
-        const filePath = getFilePath(26);
-        const rootNode = TreeBuilder.build(filePath).rootNode;
+        const rootNode = getRootNodeFromTemplate(26);
         const styleTag = rootNode.getChild(4);
 
         expect(styleTag.getValue()).toEqual('<style type="text/css">');
@@ -241,8 +238,7 @@ describe(targetObjName, () => {
     });
 
     it('handles conditional HTML comments', () => {
-        const filePath            = getFilePath(26);
-        const rootNode            = TreeBuilder.build(filePath).rootNode;
+        const rootNode            = getRootNodeFromTemplate(26);
         const conditionTag        = rootNode.getChild(1);
         const metaTag             = rootNode.getChild(2);
         const closingConditionTag = rootNode.getChild(3);
@@ -266,8 +262,7 @@ describe(targetObjName, () => {
     });
 
     it('allows opening "isif" tags with slash: <isif />', () => {
-        const filePath = getFilePath(28);
-        const rootNode = TreeBuilder.build(filePath).rootNode;
+        const rootNode = getRootNodeFromTemplate(28);
         const isifNode = rootNode.getChild(0).getChild(0);
         const divNode  = isifNode.getChild(0);
 
@@ -281,69 +276,56 @@ describe(targetObjName, () => {
     });
 
     it('parses script tag with attributes', () => {
-        const filePath   = getFilePath(29);
-        const rootNode   = TreeBuilder.build(filePath).rootNode;
+        const rootNode   = getRootNodeFromTemplate(29);
         const scriptNode = rootNode.getChild(0);
 
         expect(scriptNode.getValue()).toEqual('<script type="text/javascript">');
     });
 
     it('parses DOCTYPE tag', () => {
-        const filePath   = getFilePath(30);
-        const rootNode   = TreeBuilder.build(filePath).rootNode;
+        const rootNode   = getRootNodeFromTemplate(30);
         const scriptNode = rootNode.getChild(0);
 
         expect(scriptNode.getValue()).toEqual('<!DOCTYPE html>');
     });
 
     it('allows void element if HTML 5 config is not disabled', () => {
-        const filePath = getFilePath(31);
-        const rootNode = TreeBuilder.build(filePath).rootNode;
+        const rootNode = getRootNodeFromTemplate(31);
         const metaNode = rootNode.getChild(0).getChild(0);
 
         expect(metaNode.getValue()).toEqual('\n    <meta http-equiv="refresh" content="2;url=${pdict.Location}">');
     });
 
     it('parses custom module with "_" char in its name', () => {
-        const filePath         = getFilePath(33);
-        const newLocal         = TreeBuilder.build(filePath);
-        const rootNode         = newLocal.rootNode;
+        const rootNode         = getRootNodeFromTemplate(33);
         const customModuleNode = rootNode.getChild(0);
 
         expect(customModuleNode.getValue()).toEqual('<ismycustom_module p_attribute="${\'value\'}"/>');
     });
 
     it('allows tags within iscomment tags', () => {
-        const filePath    = getFilePath(34);
-        const newLocal    = TreeBuilder.build(filePath);
-        const rootNode    = newLocal.rootNode;
+        const rootNode    = getRootNodeFromTemplate(34);
         const commentNode = rootNode.getChild(0);
 
         expect(commentNode.getValue()).toEqual('<iscomment>');
     });
 
     it('parses multiline elements', () => {
-        const filePath = getFilePath(35);
-        const result   = TreeBuilder.build(filePath);
-        const rootNode = result.rootNode;
+        const rootNode = getRootNodeFromTemplate(35);
         const spanNode = rootNode.getChild(0).getChild(0);
 
         expect(spanNode.getValue()).toEqual('\n    <span\n        class="required-indicator">');
     });
 
     it('allows dynamic elements', () => {
-        const filePath    = getFilePath(36);
-        const result      = TreeBuilder.build(filePath);
-        const rootNode    = result.rootNode;
+        const rootNode    = getRootNodeFromTemplate(36);
         const dynamicNode = rootNode.getChild(0);
 
         expect(dynamicNode.getValue()).toEqual('<${pdict.isForm === \'true\' ? \'form\' : \'div\'}>');
     });
 
     it('allows empty ISML expressions: ${}', () => {
-        const filePath  = getFilePath(38);
-        const result    = TreeBuilder.build(filePath);
-        const rootNode  = result.rootNode;
+        const rootNode  = getRootNodeFromTemplate(38);
         const issetNode = rootNode.getChild(0).getChild(0);
 
         expect(issetNode.getValue()).toEqual('\n    <isset name="isLowPrice" value="${}" scope="page" />');
@@ -352,4 +334,13 @@ describe(targetObjName, () => {
 
 const getFilePath = number => {
     return `${Constants.specIsmlTreeTemplateDir}/template_${number}.isml`;
+};
+
+const getTreeFromTemplate = number => {
+    const filePath  = getFilePath(number);
+    return TreeBuilder.build(filePath);
+};
+
+const getRootNodeFromTemplate = number => {
+    return getTreeFromTemplate(number).rootNode;
 };
