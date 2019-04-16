@@ -48,8 +48,6 @@ const createConfigFile = (targetDir = Constants.configFilePath, configFileName) 
             rules: {}
         };
 
-        addDefaultRules(configContent);
-
         FileUtils.saveToJsonFile(targetDir, configFileName, configContent);
 
         return true;
@@ -65,25 +63,5 @@ const addParamsToConfig = config => {
         }
     });
 };
-
-function addDefaultRules(configContent) {
-
-    const fs = require('fs');
-
-    fs.readdirSync(Constants.lineByLineRulesDir)
-        .forEach(addRuleTo(configContent));
-    fs.readdirSync(Constants.treeRulesDir)
-        .forEach(addRuleTo(configContent));
-}
-
-function addRuleTo(configContent) {
-    return filename => {
-        if (filename.endsWith('.js')) {
-            const ruleName                = filename.slice(0, -3);
-            configContent.rules[ruleName] = {};
-        }
-    };
-}
-
 
 module.exports = ConfigLoader;

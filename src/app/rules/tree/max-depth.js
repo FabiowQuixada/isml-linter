@@ -7,6 +7,12 @@ const Rule = Object.create(TreeRulePrototype);
 
 Rule.init(ruleName, description);
 
+Rule.getDefaultAttrs = () => {
+    return {
+        value: 10
+    };
+};
+
 Rule.isBroken = function(node) {
     const configMaxDepth = this.getConfigs().value;
     return node.getHeight() > configMaxDepth;

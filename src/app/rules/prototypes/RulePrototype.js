@@ -1,7 +1,5 @@
 const ConfigLoader = require('./../../ConfigLoader');
 
-const Constants = require('../../Constants');
-
 const RulePrototype = {
 
     init(name, description) {
@@ -35,13 +33,17 @@ const RulePrototype = {
         return false;
     },
 
+    getDefaultAttrs() {
+        return {};
+    },
+
     getConfigs() {
         const config = ConfigLoader.load();
         if (config && config.rules && config.rules[this.name]) {
             return config.rules[this.name];
         }
 
-        return Constants.rules[this.name];
+        return this.getDefaultAttrs();
     },
 };
 

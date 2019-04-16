@@ -46,16 +46,6 @@ const configFilePath = path.join(clientAppDir, clientConfigFileName);
 // Links;
 const repositoryUrl = 'https://github.com/FabiowQuixada/isml-linter';
 
-// Rules configuration default values;
-const rules = {
-    'indent': {
-        size: 4
-    },
-    'max-depth': {
-        value: 10
-    }
-};
-
 // Other;
 const voidElementsArray = [
     'area', 'base', 'br', 'col',
@@ -105,9 +95,6 @@ module.exports = {
 
     // Links
     repositoryUrl,
-
-    // Rules;
-    rules,
 
     // Other;
     voidElementsArray,

@@ -6,18 +6,23 @@ const description = 'Line incorrectly indented';
 
 const Rule = Object.create(TreeRulePrototype);
 
-function getActualIndentationSize(node) {
+const getActualIndentationSize = node => {
     const firstNonEmptyCharPos = ParseUtils.getNextNonEmptyCharPos(node.getValue()) - 1;
     const sub                  = node.getValue().substring(0, firstNonEmptyCharPos);
     const sub2                 = sub.lastIndexOf('\n');
     const actualIndentation    = sub.substring(sub2, firstNonEmptyCharPos).length;
 
     return actualIndentation;
-}
+};
 
 Rule.init(ruleName, description);
 
-// TODO: Move to Config;
+Rule.getDefaultAttrs = () => {
+    return {
+        size: 4
+    };
+};
+
 Rule.getIndentation = function(depth = 1) {
     const indentationSize = this.getConfigs().size * depth;
     let indentation       = '';
