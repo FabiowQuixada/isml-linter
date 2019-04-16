@@ -58,11 +58,11 @@ describe('TreeBuilder', () => {
         const isifNode   = divNode.getChild(0).getChild(0);
         const customNode = isifNode.getChild(0);
 
-        expect(divNode.getHeight()).toEqual(1);
+        expect(divNode.getDepth()).toEqual(1);
         expect(divNode.getLineNumber()).toEqual(1);
-        expect(isifNode.getHeight()).toEqual(2);
+        expect(isifNode.getDepth()).toEqual(2);
         expect(isifNode.getLineNumber()).toEqual(2);
-        expect(customNode.getHeight()).toEqual(3);
+        expect(customNode.getDepth()).toEqual(3);
         expect(customNode.getLineNumber()).toEqual(3);
     });
 
@@ -73,13 +73,13 @@ describe('TreeBuilder', () => {
         const iselseNode = divNode.getChild(0).getChild(1);
         const customNode = isifNode.getChild(0);
 
-        expect(divNode.getHeight()).toEqual(1);
+        expect(divNode.getDepth()).toEqual(1);
         expect(divNode.getLineNumber()).toEqual(1);
-        expect(isifNode.getHeight()).toEqual(2);
+        expect(isifNode.getDepth()).toEqual(2);
         expect(isifNode.getLineNumber()).toEqual(2);
-        expect(customNode.getHeight()).toEqual(3);
+        expect(customNode.getDepth()).toEqual(3);
         expect(customNode.getLineNumber()).toEqual(3);
-        expect(iselseNode.getHeight()).toEqual(2);
+        expect(iselseNode.getDepth()).toEqual(2);
         expect(iselseNode.getLineNumber()).toEqual(4);
     });
 
@@ -92,17 +92,17 @@ describe('TreeBuilder', () => {
         const customNode   = isifNode.getChild(0);
         const customNode2  = iselseNode.getChild(0);
 
-        expect(divNode.getHeight()).toEqual(1);
+        expect(divNode.getDepth()).toEqual(1);
         expect(divNode.getLineNumber()).toEqual(1);
-        expect(isifNode.getHeight()).toEqual(2);
+        expect(isifNode.getDepth()).toEqual(2);
         expect(isifNode.getLineNumber()).toEqual(2);
-        expect(customNode.getHeight()).toEqual(3);
+        expect(customNode.getDepth()).toEqual(3);
         expect(customNode.getLineNumber()).toEqual(3);
-        expect(iselseifNode.getHeight()).toEqual(2);
+        expect(iselseifNode.getDepth()).toEqual(2);
         expect(iselseifNode.getLineNumber()).toEqual(4);
-        expect(iselseNode.getHeight()).toEqual(2);
+        expect(iselseNode.getDepth()).toEqual(2);
         expect(iselseNode.getLineNumber()).toEqual(6);
-        expect(customNode2.getHeight()).toEqual(3);
+        expect(customNode2.getDepth()).toEqual(3);
         expect(customNode2.getLineNumber()).toEqual(7);
     });
 

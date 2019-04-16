@@ -74,13 +74,13 @@ describe(targetObjName, () => {
         expect(rootNode.isSelfClosing()).toEqual(false);
     });
 
-    it('has a height one unit above its parent', () => {
+    it('has a depth one unit above its parent', () => {
         const rootNode  = new IsmlNode();
         const childNode = new IsmlNode();
 
         rootNode.addChild(childNode);
 
-        expect(childNode.getHeight()).toEqual(rootNode.getHeight() + 1);
+        expect(childNode.getDepth()).toEqual(rootNode.getDepth() + 1);
     });
 
     it('gets the correct type for isml tag', () => {

@@ -34,13 +34,13 @@ describe(targetObjName, () => {
         expect(rootNode.getNumberOfChildren()).toEqual(1);
     });
 
-    it('has the same height as its child-clauses', () => {
+    it('has the same depth as its child-clauses', () => {
         const rootNode  = new MultiClauseNode();
         const childNode = new IsmlNode();
 
         rootNode.addChild(childNode);
 
-        expect(childNode.getHeight()).toEqual(rootNode.getHeight());
+        expect(childNode.getDepth()).toEqual(rootNode.getDepth());
     });
 
     it('does NOT print itself', () => {

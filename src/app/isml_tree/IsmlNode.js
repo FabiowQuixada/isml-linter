@@ -9,7 +9,7 @@ class IsmlNode {
         this.value      = value;
         this.lineNumber = lineNumber;
         this.type       = null;
-        this.height     = 0;
+        this.depth      = 0;
         this.suffix     = '';
         this.type       = null;
         this.innerText  = null;
@@ -45,12 +45,12 @@ class IsmlNode {
         return this.value.trim().startsWith('<${');
     }
 
-    getHeight() { return this.height; }
+    getDepth() { return this.depth; }
     getParent() { return this.parent; }
     getGlobalPos() { return -1; }
 
     addChild(newNode) {
-        newNode.height       = this.height+1;
+        newNode.depth        = this.depth+1;
         newNode.parent       = this;
         this.children.push(newNode);
         this.newestChildNode = newNode;
@@ -124,14 +124,14 @@ class IsmlNode {
     }
 
     print() {
-        const indentSize = this.height;
+        const indentSize = this.depth;
         let indentation  = '';
 
         for (let i = 0; i < indentSize; ++i) {
             indentation += '    ';
         }
 
-        console.log(this.height + ' :: ' + this.lineNumber + ' :: ' + indentation + this.getDisplayText());
+        console.log(this.depth + ' :: ' + this.lineNumber + ' :: ' + indentation + this.getDisplayText());
 
         if (this.children.length > 0) {
             this.children.forEach( node => node.print() );

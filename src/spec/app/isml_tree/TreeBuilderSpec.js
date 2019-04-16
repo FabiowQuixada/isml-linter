@@ -96,16 +96,16 @@ describe(targetObjName, () => {
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('Some content');
     });
 
-    it('sets the correct height fo multi-clause children', () => {
+    it('sets the correct depth fo multi-clause children', () => {
         const rootNode = TreeBuilder.build(getFilePath(12)).rootNode;
 
-        expect(rootNode.getChild(0).getChild(0).getChild(0).getChild(0).getHeight()).toEqual(3);
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getChild(0).getDepth()).toEqual(3);
     });
 
     it('parses nested <isif> tags', () => {
         const rootNode = TreeBuilder.build(getFilePath(13)).rootNode;
 
-        expect(rootNode.getChild(0).getChild(0).getChild(0).getChild(1).getChild(0).getHeight()).toEqual(3);
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getChild(1).getChild(0).getDepth()).toEqual(3);
     });
 
     it('throws an exception upon invalid isml dom', () => {
@@ -134,7 +134,7 @@ describe(targetObjName, () => {
 
         expect(commentNode.getValue()).toEqual('\n\n\n<iscomment>');
         expect(commentNode.getLineNumber()).toEqual(23);
-        expect(commentNode.getHeight()).toEqual(1);
+        expect(commentNode.getDepth()).toEqual(1);
     });
 
     it('identifies ISML expressions I', () => {

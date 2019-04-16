@@ -37,7 +37,7 @@ Rule.getIndentation = function(depth = 1) {
 Rule.isBroken = function(node) {
 
     const configIndentSize     = this.getConfigs().size;
-    const expectedIndentation  = (node.getHeight() - 1) * configIndentSize;
+    const expectedIndentation  = (node.getDepth() - 1) * configIndentSize;
     const actualIndentation    = getActualIndentationSize(node);
     const isInSameLineAsParent = node.getParent() && node.getParent().getLineNumber() === node.getLineNumber();
 
