@@ -8,6 +8,12 @@ Isml Linter is a tool for examing if your project's templates follow a specified
 
 Please feel free to make suggestions and help make this linter better. :) The set of currently available rules can be found below.
 
+### Donations
+
+If you think Isml Linter is useful and has helped improving and speeding up your project development, please consider making a donation!
+
+[![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=M22U4NRUFHELS&currency_code=USD&source=url)
+
 ## Installation
 
 Simply run in your project's root directory:
