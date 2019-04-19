@@ -1,5 +1,5 @@
 const RulePrototype = require('./RulePrototype');
-const ConfigUtils  = require('../../ConfigUtils');
+const ConfigUtils   = require('../../util/ConfigUtils');
 
 const SingleLineRulePrototype = Object.create(RulePrototype);
 

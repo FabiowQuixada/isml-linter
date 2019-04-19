@@ -6,7 +6,7 @@ const NoSpaceOnlyLinesRule = require('../../app/rules/line_by_line/no-space-only
 const NoInlineStyleRule    = require('../../app/rules/line_by_line/no-inline-style');
 const EnforceIsprintRule   = require('../../app/rules/line_by_line/enforce-isprint');
 const FileParser           = require('../../app/FileParser');
-const ExceptionUtils       = require('../../app/ExceptionUtils');
+const ExceptionUtils       = require('../../app/util/ExceptionUtils');
 
 const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;

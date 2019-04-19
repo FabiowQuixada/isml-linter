@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-require('../src/app/NativeExtensionUtils');
+require('../src/app/util/NativeExtensionUtils');
 
 try {
     const Builder  = require('isml-linter').Builder;
@@ -10,6 +10,6 @@ try {
     });
 
 } catch(e) {
-    const ConsoleUtils = require('../src/app/ConsoleUtils');
+    const ConsoleUtils = require('../src/app/util/ConsoleUtils');
     ConsoleUtils.printExceptionMsg(e.stack || e);
 }

@@ -1,6 +1,6 @@
-const SpecHelper = require('../SpecHelper');
-const RuleUtils  = require('../../app/RuleUtils');
-const Constants  = require('../../app/Constants');
+const SpecHelper = require('../../SpecHelper');
+const RuleUtils  = require('../../../app/util/RuleUtils');
+const Constants  = require('../../../app/Constants');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 

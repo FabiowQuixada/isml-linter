@@ -1,7 +1,7 @@
 
 const run = () => {
     const IsmlLinter   = require('./IsmlLinter');
-    const ConsoleUtils = require('./ConsoleUtils');
+    const ConsoleUtils = require('./util/ConsoleUtils');
 
     const lintResults = IsmlLinter.run();
 

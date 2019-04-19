@@ -1,14 +1,14 @@
-require('../app/NativeExtensionUtils');
+require('../app/util/NativeExtensionUtils');
 // TODO: Find a better way to set this;
 process.env.NODE_ENV = 'test';
 
-const FileUtils         = require('../app/FileUtils');
-const Constants         = require('../app/Constants');
-const TreeBuilder       = require('../app/isml_tree/TreeBuilder');
-const ConfigUtils = require('../app/ConfigUtils');
-const snake             = require('to-snake-case');
-const path              = require('path');
-const fs                = require('fs');
+const FileUtils   = require('../app/util/FileUtils');
+const Constants   = require('../app/Constants');
+const TreeBuilder = require('../app/isml_tree/TreeBuilder');
+const ConfigUtils = require('../app/util/ConfigUtils');
+const snake       = require('to-snake-case');
+const path        = require('path');
+const fs          = require('fs');
 
 const specTempDir = Constants.specTempDir;
 

@@ -1,8 +1,8 @@
-const MaskUtils         = require('../MaskUtils');
-const ParseUtils        = require('./ParseUtils');
-const ExceptionUtils    = require('../../ExceptionUtils');
-const Constants         = require('../../Constants');
-const ConfigUtils = require('../../ConfigUtils');
+const MaskUtils      = require('../MaskUtils');
+const ParseUtils     = require('./ParseUtils');
+const ExceptionUtils = require('../../util/ExceptionUtils');
+const Constants      = require('../../Constants');
+const ConfigUtils    = require('../../util/ConfigUtils');
 
 /**
  * The purpose of this function is to find the corresponding closing element of an HTML/ISML element,

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('../src/app/NativeExtensionUtils');
+require('../src/app/util/NativeExtensionUtils');
 
 const Builder  = require('../index').Builder;
 const exitCode = Builder.run();

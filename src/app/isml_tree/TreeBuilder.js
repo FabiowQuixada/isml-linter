@@ -3,7 +3,7 @@ const IsifTagParser   = require('./components/IsifTagParser');
 const StateUtils      = require('./components/StateUtils');
 const ParseUtils      = require('./components/ParseUtils');
 const MultiClauseNode = require('./MultiClauseNode');
-const ExceptionUtils  = require('../ExceptionUtils');
+const ExceptionUtils  = require('../util/ExceptionUtils');
 const fs              = require('fs');
 
 const build = filePath => {

@@ -1,5 +1,5 @@
 const path      = require('path');
-const Constants = require('./Constants');
+const Constants = require('../Constants');
 const FileUtils = require('./FileUtils');
 
 const ConfigUtils = {};

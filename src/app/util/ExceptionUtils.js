@@ -1,4 +1,4 @@
-const Constants = require('./Constants');
+const Constants = require('../Constants');
 
 const types = {
     UNKNOWN_ERROR    : 'UNKNOWN_ERROR',

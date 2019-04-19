@@ -1,5 +1,5 @@
 const chalk          = require('chalk');
-const Constants      = require('./Constants');
+const Constants      = require('../Constants');
 const ExceptionUtils = require('./ExceptionUtils');
 const ConfigUtils    = require('./ConfigUtils');
 
@@ -19,7 +19,7 @@ const displayResult = issueQty => {
 };
 
 const printExceptionMsg = e => {
-    const Constants = require('./Constants');
+    const Constants = require('../Constants');
 
     console.log();
     console.log('An error has occurred:');

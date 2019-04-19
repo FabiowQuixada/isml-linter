@@ -1,4 +1,4 @@
-const ConfigUtils          = require('../../app/ConfigUtils');
+const ConfigUtils          = require('../../app/util/ConfigUtils');
 const path                 = require('path');
 const FileParser           = require('../../app/FileParser');
 const SpecHelper           = require('../SpecHelper');

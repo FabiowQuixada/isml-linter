@@ -1,6 +1,6 @@
 const chalk        = require('chalk');
-const ConsoleUtils = require('../../app/ConsoleUtils');
-const SpecHelper   = require('../SpecHelper');
+const ConsoleUtils = require('../../../app/util/ConsoleUtils');
+const SpecHelper   = require('../../SpecHelper');
 const sinon        = require('sinon');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
@@ -50,7 +50,7 @@ describe(targetObjName, () => {
 
     it('displays invalid template errors when config is enabled', () => {
 
-        const ConfigUtils = require('../../app/ConfigUtils');
+        const ConfigUtils = require('../../../app/util/ConfigUtils');
         ConfigUtils.load({
             'ignoreUnparseable' : false
         });

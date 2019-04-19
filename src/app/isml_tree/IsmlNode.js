@@ -1,7 +1,7 @@
 const MAX_TEXT_DISPLAY_SIZE = 30;
 
-const ConfigUtils = require('../ConfigUtils');
-const Constants         = require('../Constants');
+const ConfigUtils = require('../util/ConfigUtils');
+const Constants   = require('../Constants');
 
 class IsmlNode {
 

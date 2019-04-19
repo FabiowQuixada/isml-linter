@@ -1,4 +1,4 @@
-const ConfigUtils = require('./../../ConfigUtils');
+const ConfigUtils = require('../../util/ConfigUtils');
 
 const RulePrototype = {
 

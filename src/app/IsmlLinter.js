@@ -2,8 +2,8 @@ const readDir        = require('readdir');
 const FileParser     = require('./FileParser');
 const path           = require('path');
 const appRoot        = require('app-root-path');
-const config         = require('./ConfigUtils').load();
-const ExceptionUtils = require('./ExceptionUtils');
+const config         = require('./util/ConfigUtils').load();
+const ExceptionUtils = require('./util/ExceptionUtils');
 
 const Linter = {};
 

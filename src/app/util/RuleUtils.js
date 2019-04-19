@@ -1,6 +1,6 @@
 const path      = require('path');
 const fs        = require('fs');
-const Constants = require('./Constants');
+const Constants = require('../Constants');
 
 const lineByLineRules = [];
 const treeRules       = [];
@@ -8,14 +8,14 @@ const treeRules       = [];
 fs.readdirSync(Constants.lineByLineRulesDir)
     .filter( file => file.endsWith('.js'))
     .forEach( file => {
-        const rulePath = path.join(__dirname, 'rules', 'line_by_line', file);
+        const rulePath = path.join(__dirname, '..', 'rules', 'line_by_line', file);
         lineByLineRules.push(require(rulePath));
     });
 
 fs.readdirSync(Constants.treeRulesDir)
     .filter( file => file.endsWith('.js'))
     .forEach( file => {
-        const rulePath = path.join(__dirname, 'rules', 'tree', file);
+        const rulePath = path.join(__dirname, '..', 'rules', 'tree', file);
         treeRules.push(require(rulePath));
     });
 

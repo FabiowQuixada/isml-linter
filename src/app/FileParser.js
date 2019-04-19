@@ -1,6 +1,6 @@
-const RuleUtils   = require('./RuleUtils');
+const RuleUtils   = require('./util/RuleUtils');
 const TreeBuilder = require('./isml_tree/TreeBuilder');
-const ConfigUtils = require('./ConfigUtils');
+const ConfigUtils = require('./util/ConfigUtils');
 const fs          = require('fs');
 
 const config      = ConfigUtils.load();
