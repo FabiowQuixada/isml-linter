@@ -1,6 +1,6 @@
-const SpecHelper  = require('../SpecHelper');
-const RulesHolder = require('../../app/RulesHolder');
-const Constants   = require('../../app/Constants');
+const SpecHelper = require('../SpecHelper');
+const RuleUtils  = require('../../app/RuleUtils');
+const Constants  = require('../../app/Constants');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -14,7 +14,7 @@ describe(targetObjName, () => {
     });
 
     it('holds the correct number of rules', () => {
-        expect(RulesHolder.getAllLineRules().length).toBe(numberOfRules());
+        expect(RuleUtils.getAllLineRules().length).toBe(numberOfRules());
     });
 });
 

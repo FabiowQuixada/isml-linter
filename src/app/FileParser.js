@@ -1,4 +1,4 @@
-const RulesHolder  = require('./RulesHolder');
+const RuleUtils    = require('./RuleUtils');
 const TreeBuilder  = require('./isml_tree/TreeBuilder');
 const ConfigLoader = require('./ConfigLoader');
 const fs           = require('fs');
@@ -23,7 +23,7 @@ const checkLineByLineRules = (filePath, parser) => {
 
     const fileContent = fs.readFileSync(filePath, 'utf-8');
 
-    RulesHolder
+    RuleUtils
         .getEnabledLineRules()
         .filter( rule => !rule.isIgnore(filePath))
         .forEach(rule => {
@@ -48,7 +48,7 @@ const checkTreeRules = (filePath, parser) => {
             throw tree.exception;
         }
 
-        RulesHolder
+        RuleUtils
             .getEnabledTreeRules()
             .filter( rule => !rule.isIgnore(filePath))
             .forEach( rule => {
