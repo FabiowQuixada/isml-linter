@@ -1,13 +1,13 @@
 
 module.exports = {
-    getInitialState : function(contentAsArray, parentState, parentNode, filePath) {
+    getInitialState : function(originalContent, parentState, parentNode, filePath) {
 
         const regex           = /\n/gi;
-        let result            = regex.exec(contentAsArray);
+        let result            = regex.exec(originalContent);
         let lineBreakPosition = 0;
         const state           = {
-            content: contentAsArray.replace(/(\r\n\t|\n|\r\t)/gm, ''),
-            contentAsArray: contentAsArray,
+            content: originalContent.replace(/(\r\n\t|\n|\r\t)/gm, ''),
+            originalContent: originalContent,
             filePath: filePath,
             currentElement: {
                 asString: '',
@@ -37,7 +37,7 @@ module.exports = {
         while (result) {
             lineBreakPosition = result.index - state.lineBreakPositionList.length + 1;
             state.lineBreakPositionList.push(lineBreakPosition);
-            result            = regex.exec(contentAsArray);
+            result            = regex.exec(originalContent);
         }
 
         return state;

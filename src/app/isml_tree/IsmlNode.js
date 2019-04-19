@@ -120,7 +120,9 @@ class IsmlNode {
     }
 
     isOfType(type) {
-        return !this.isRoot() && this.getType() === type;
+        return typeof type === 'string' ?
+            !this.isRoot() && this.getType() === type :
+            type.some( elem => elem === this.getType());
     }
 
     print() {
