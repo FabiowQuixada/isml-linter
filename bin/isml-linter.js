@@ -2,8 +2,8 @@
 require('../src/app/util/NativeExtensionUtils');
 
 try {
-    const Builder  = require('isml-linter').Builder;
-    const exitCode = Builder.run();
+    const IsmlLinter = require('isml-linter');
+    const exitCode   = IsmlLinter.build();
 
     process.argv.forEach( val => {
         val === '--build' && process.exit(exitCode);

@@ -3,7 +3,7 @@
   "version": "5.2.0",
   "author": "Fabiow Quixadá <ftquixada@gmail.com>",
   "license": "ISC",
-  "main": "index.js",
+  "main": "src/app/publicApi.js",
   "scripts": {
     "lint": "./node_modules/.bin/eslint . --fix",
     "test": "jasmine-node src/spec/",

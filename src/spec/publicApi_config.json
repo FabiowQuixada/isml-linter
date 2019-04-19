@@ -1,0 +1,19 @@
+{
+    "env": "test",
+    "ignoreUnparseable": true,
+    "rootDir": "./cartridges",
+    "ignore": [
+        "this_directory_is_to_be_ignored",
+        "Email.isml"
+    ],
+    "rules": {
+        "no-br": {},
+        "enforce-require": {},
+        "no-import-package": {},
+        "no-hardcode": {},
+        "no-require-in-loop": {
+            "ignore": ["pt_"]
+        },
+        "no-tabs": {}
+    }
+}

@@ -2,7 +2,7 @@
 
 require('../src/app/util/NativeExtensionUtils');
 
-const Builder  = require('../index').Builder;
+const Builder  = require('../publicApi').Builder;
 const exitCode = Builder.run();
 
 process.argv.forEach( val => {
