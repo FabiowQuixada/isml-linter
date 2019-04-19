@@ -1,9 +1,9 @@
-const RuleUtils    = require('./RuleUtils');
-const TreeBuilder  = require('./isml_tree/TreeBuilder');
-const ConfigLoader = require('./ConfigLoader');
-const fs           = require('fs');
+const RuleUtils   = require('./RuleUtils');
+const TreeBuilder = require('./isml_tree/TreeBuilder');
+const ConfigUtils = require('./ConfigUtils');
+const fs          = require('fs');
 
-const config      = ConfigLoader.load();
+const config      = ConfigUtils.load();
 const ENTRY_TYPES = {
     ERROR: 'errors',
     WARNING: 'warnings',

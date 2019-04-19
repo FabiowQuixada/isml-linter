@@ -2,13 +2,13 @@ require('../app/NativeExtensionUtils');
 // TODO: Find a better way to set this;
 process.env.NODE_ENV = 'test';
 
-const FileUtils    = require('../app/FileUtils');
-const Constants    = require('../app/Constants');
-const TreeBuilder  = require('../app/isml_tree/TreeBuilder');
-const ConfigLoader = require('../app/ConfigLoader');
-const snake        = require('to-snake-case');
-const path         = require('path');
-const fs           = require('fs');
+const FileUtils         = require('../app/FileUtils');
+const Constants         = require('../app/Constants');
+const TreeBuilder       = require('../app/isml_tree/TreeBuilder');
+const ConfigUtils = require('../app/ConfigUtils');
+const snake             = require('to-snake-case');
+const path              = require('path');
+const fs                = require('fs');
 
 const specTempDir = Constants.specTempDir;
 
@@ -49,7 +49,7 @@ module.exports = {
     afterEach: () => {
         process.env.NODE_ENV = Constants.ENV_DEV;
         cleanTempDirectory();
-        ConfigLoader.clear();
+        ConfigUtils.clear();
     },
 
     getRuleSpecTemplateContent: (rule, fileNumber) => {

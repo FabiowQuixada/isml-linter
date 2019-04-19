@@ -1,6 +1,6 @@
 const IsmlNode     = require('../../../app/isml_tree/IsmlNode');
 const SpecHelper   = require('../../SpecHelper');
-const ConfigLoader = require('../../../app/ConfigLoader');
+const ConfigUtils = require('../../../app/ConfigUtils');
 const sinon        = require('sinon');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
@@ -170,7 +170,7 @@ describe(targetObjName, () => {
     });
 
     it('knows if it is a non-void element if HTML 5 parsing is disabled', () => {
-        ConfigLoader.load({
+        ConfigUtils.load({
             disableHtml5: true
         });
         const rootNode = new IsmlNode('<img>');

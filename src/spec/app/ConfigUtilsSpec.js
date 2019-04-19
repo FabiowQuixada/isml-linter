@@ -1,8 +1,8 @@
-const path         = require('path');
-const ConfigLoader = require('../../app/ConfigLoader');
-const SpecHelper   = require('../SpecHelper');
-const Constants    = require('../../app/Constants');
-const FileUtils    = require('../../app/FileUtils');
+const path        = require('path');
+const ConfigUtils = require('../../app/ConfigUtils');
+const SpecHelper  = require('../SpecHelper');
+const Constants   = require('../../app/Constants');
+const FileUtils   = require('../../app/FileUtils');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -19,7 +19,7 @@ describe(targetObjName, () => {
     it('loads test config', () => {
         process.env.NODE_ENV = Constants.ENV_TEST;
 
-        const config = ConfigLoader.load();
+        const config = ConfigUtils.load();
 
         expect(config.env).toEqual('test');
     });
@@ -27,7 +27,7 @@ describe(targetObjName, () => {
     it('loads dev config', () => {
         process.env.NODE_ENV = Constants.ENV_DEV;
 
-        const config = ConfigLoader.load();
+        const config = ConfigUtils.load();
 
         expect(config.env).not.toEqual('test');
     });
@@ -36,7 +36,7 @@ describe(targetObjName, () => {
 
         const specTempDir = Constants.specTempDir;
 
-        ConfigLoader.init(specTempDir);
+        ConfigUtils.init(specTempDir);
 
         expect(FileUtils.fileExists(specTempDir)).toBe(true);
     });
@@ -45,8 +45,8 @@ describe(targetObjName, () => {
 
         const specTempDir = Constants.specTempDir;
 
-        const firstAttempt  = ConfigLoader.init(specTempDir);
-        const secondAttempt = ConfigLoader.init(specTempDir);
+        const firstAttempt  = ConfigUtils.init(specTempDir);
+        const secondAttempt = ConfigUtils.init(specTempDir);
 
         expect(firstAttempt).toBe(true);
         expect(secondAttempt).toBe(false);
@@ -60,26 +60,26 @@ describe(targetObjName, () => {
                 'no-inline-style': {}
             }
         };
-        ConfigLoader.load(expectedConfig);
+        ConfigUtils.load(expectedConfig);
 
-        const actualConfig = ConfigLoader.load();
+        const actualConfig = ConfigUtils.load();
 
         expect(actualConfig).toBe(expectedConfig);
     });
 
     it('clears given, temporary configuration', () => {
 
-        ConfigLoader.load({
+        ConfigUtils.load({
             rules: {
                 'enforce-isprint': {},
                 'no-inline-style': {}
             }
         });
-        ConfigLoader.clear();
+        ConfigUtils.clear();
 
         const specConfigPath = path.join(Constants.specDir, Constants.specConfigFileName);
         const expectedConfig = require(specConfigPath);
-        const actualConfig   = ConfigLoader.load();
+        const actualConfig   = ConfigUtils.load();
 
         expect(actualConfig).toBe(expectedConfig);
     });

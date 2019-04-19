@@ -1,4 +1,4 @@
-const ConfigLoader         = require('../../app/ConfigLoader');
+const ConfigUtils          = require('../../app/ConfigUtils');
 const path                 = require('path');
 const FileParser           = require('../../app/FileParser');
 const SpecHelper           = require('../SpecHelper');
@@ -31,7 +31,7 @@ describe(targetObjName, () => {
 
     it('ignores disabled rules', () => {
 
-        ConfigLoader.load({
+        ConfigUtils.load({
             rules: {
                 'enforce-isprint': {},
                 'no-inline-style': {}
@@ -52,7 +52,7 @@ describe(targetObjName, () => {
 
     it('checks non-disabled rules', () => {
 
-        ConfigLoader.load({
+        ConfigUtils.load({
             rules: {
                 'enforce-isprint': {},
                 'no-inline-style': {}
@@ -73,7 +73,7 @@ describe(targetObjName, () => {
 
     it('results in a json file', () => {
 
-        ConfigLoader.load({
+        ConfigUtils.load({
             rules: {
                 'enforce-isprint': {},
                 'no-inline-style': {}

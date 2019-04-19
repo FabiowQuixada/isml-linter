@@ -1,7 +1,7 @@
 const MAX_TEXT_DISPLAY_SIZE = 30;
 
-const ConfigLoader = require('../ConfigLoader');
-const Constants    = require('../Constants');
+const ConfigUtils = require('../ConfigUtils');
+const Constants         = require('../Constants');
 
 class IsmlNode {
 
@@ -106,7 +106,7 @@ class IsmlNode {
     }
 
     isVoidElement() {
-        const config = ConfigLoader.load();
+        const config = ConfigUtils.load();
 
         return !config.disableHtml5 && Constants.voidElementsArray.indexOf(this.getType()) !== -1;
     }

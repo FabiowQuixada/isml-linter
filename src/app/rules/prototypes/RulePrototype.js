@@ -1,4 +1,4 @@
-const ConfigLoader = require('./../../ConfigLoader');
+const ConfigUtils = require('./../../ConfigUtils');
 
 const RulePrototype = {
 
@@ -17,7 +17,7 @@ const RulePrototype = {
     },
 
     isEnabled() {
-        const config = ConfigLoader.load();
+        const config = ConfigUtils.load();
         return config && config.rules && this.name in config.rules;
     },
 
@@ -38,7 +38,7 @@ const RulePrototype = {
     },
 
     getConfigs() {
-        const config = ConfigLoader.load();
+        const config = ConfigUtils.load();
         if (config && config.rules && config.rules[this.name]) {
             return config.rules[this.name];
         }

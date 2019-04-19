@@ -50,8 +50,8 @@ describe(targetObjName, () => {
 
     it('displays invalid template errors when config is enabled', () => {
 
-        const ConfigLoader = require('../../app/ConfigLoader');
-        ConfigLoader.load({
+        const ConfigUtils = require('../../app/ConfigUtils');
+        ConfigUtils.load({
             'ignoreUnparseable' : false
         });
         ConsoleUtils.displayErrors(expectedObject);

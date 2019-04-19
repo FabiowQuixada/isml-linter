@@ -1,8 +1,8 @@
-const MaskUtils      = require('../MaskUtils');
-const ParseUtils     = require('./ParseUtils');
-const ExceptionUtils = require('../../ExceptionUtils');
-const Constants      = require('../../Constants');
-const ConfigLoader   = require('../../ConfigLoader');
+const MaskUtils         = require('../MaskUtils');
+const ParseUtils        = require('./ParseUtils');
+const ExceptionUtils    = require('../../ExceptionUtils');
+const Constants         = require('../../Constants');
+const ConfigUtils = require('../../ConfigUtils');
 
 /**
  * The purpose of this function is to find the corresponding closing element of an HTML/ISML element,
@@ -145,7 +145,7 @@ const updateElementStack = (oldState, currentElementStartingLineNumber, parentSt
     const state = Object.assign({}, oldState);
     const elem  = getFirstElementType(state.content).trim();
 
-    const config        = ConfigLoader.load();
+    const config        = ConfigUtils.load();
     const isVoidElement = !config.disableHtml5 && Constants.voidElementsArray.indexOf(elem) !== -1;
 
     if (!state.isSelfClosingElement && !isVoidElement) {

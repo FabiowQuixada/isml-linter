@@ -1,7 +1,7 @@
 const chalk          = require('chalk');
 const Constants      = require('./Constants');
 const ExceptionUtils = require('./ExceptionUtils');
-const ConfigLoader   = require('./ConfigLoader');
+const ConfigUtils    = require('./ConfigUtils');
 
 const displayResult = issueQty => {
     console.log('IsmlLinter run successfully!');
@@ -54,7 +54,7 @@ const displayLintingErrors = jsonErrors => {
 
 const displayUnparseableErrors = jsonErrors => {
 
-    const config   = ConfigLoader.load();
+    const config   = ConfigUtils.load();
     let partialSum = 0;
 
     if (!config.ignoreUnparseable) {

@@ -2,16 +2,16 @@ const path      = require('path');
 const Constants = require('./Constants');
 const FileUtils = require('./FileUtils');
 
-const ConfigLoader = {};
+const ConfigUtils = {};
 
-ConfigLoader.init = function(
+ConfigUtils.init = function(
     targetDir = Constants.clientAppDir,
     configFileName = Constants.clientConfigFileName
 ) {
     return createConfigFile(targetDir, configFileName);
 };
 
-ConfigLoader.load = function(configParam) {
+ConfigUtils.load = function(configParam) {
 
     if (configParam) {
         this.config = configParam;
@@ -37,7 +37,7 @@ ConfigLoader.load = function(configParam) {
     return config;
 };
 
-ConfigLoader.clear = function() {
+ConfigUtils.clear = function() {
     this.config = null;
 };
 
@@ -64,4 +64,4 @@ const addParamsToConfig = config => {
     });
 };
 
-module.exports = ConfigLoader;
+module.exports = ConfigUtils;
