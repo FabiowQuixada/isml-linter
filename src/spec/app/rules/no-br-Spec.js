@@ -29,10 +29,10 @@ describe(rule.name, () => {
         const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 2);
         const result         = rule.check(fileContent);
         const expectedResult = [{
-            line: '<div><br></div>',
-            lineNumber: 1,
-            columnStart: 5,
-            length: 4
+            line        : '<div><br></div>',
+            lineNumber  : 1,
+            columnStart : 5,
+            length      : 4
         }];
 
         expect(result.occurrences).toEqual(expectedResult);
@@ -42,10 +42,10 @@ describe(rule.name, () => {
         const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 3);
         const result         = rule.check(fileContent);
         const expectedResult = [{
-            line: '<div><br /></div>',
-            lineNumber: 2,
-            columnStart: 6,
-            length: 6
+            line        : '<div><br /></div>',
+            lineNumber  : 2,
+            columnStart : 6,
+            length      : 6
         }];
 
         expect(result.occurrences).toEqual(expectedResult);
@@ -55,10 +55,10 @@ describe(rule.name, () => {
         const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 4);
         const result         = rule.check(fileContent);
         const expectedResult = [{
-            line: '<div><br/></div>',
-            lineNumber: 1,
-            columnStart: 5,
-            length: 5
+            line        : '<div><br/></div>',
+            lineNumber  : 1,
+            columnStart : 5,
+            length      : 5
         }];
 
         expect(result.occurrences).toEqual(expectedResult);
@@ -68,10 +68,10 @@ describe(rule.name, () => {
         const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 5);
         const result         = rule.check(fileContent);
         const expectedResult = [{
-            line: '<br>',
-            lineNumber: 1,
-            columnStart: 0,
-            length: 4
+            line        : '<br>',
+            lineNumber  : 1,
+            columnStart : 0,
+            length      : 4
         }];
 
         expect(result.occurrences).toEqual(expectedResult);
@@ -81,10 +81,10 @@ describe(rule.name, () => {
         const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 6);
         const result         = rule.check(fileContent);
         const expectedResult = [{
-            line: '<br/>',
-            lineNumber: 2,
-            columnStart: 1,
-            length: 5
+            line        : '<br/>',
+            lineNumber  : 2,
+            columnStart : 1,
+            length      : 5
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

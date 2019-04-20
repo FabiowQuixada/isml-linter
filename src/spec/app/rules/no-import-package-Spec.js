@@ -29,10 +29,10 @@ describe(rule.name, () => {
         const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 0);
         const result         = rule.check(fileContent);
         const expectedResult = [{
-            line: 'importPackage( dw.system );',
-            lineNumber: 1,
-            columnStart: 0,
-            length: 13
+            line        : 'importPackage( dw.system );',
+            lineNumber  : 1,
+            columnStart : 0,
+            length      : 13
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

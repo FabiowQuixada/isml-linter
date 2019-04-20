@@ -45,7 +45,7 @@ const createConfigFile = (targetDir = Constants.configFilePath, configFileName) 
 
     if (!FileUtils.fileExists(path.join(targetDir, configFileName))) {
         const configContent = {
-            rules: {}
+            rules : {}
         };
 
         FileUtils.saveToJsonFile(targetDir, configFileName, configContent);

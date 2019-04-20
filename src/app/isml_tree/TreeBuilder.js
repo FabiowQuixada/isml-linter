@@ -12,7 +12,7 @@ const build = filePath => {
 
     const result = {
         filePath,
-        status: ParseStatus.NO_ERRORS
+        status : ParseStatus.NO_ERRORS
     };
 
     try {

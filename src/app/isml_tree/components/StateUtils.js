@@ -6,25 +6,25 @@ module.exports = {
         let result            = regex.exec(originalContent);
         let lineBreakPosition = 0;
         const state           = {
-            content: originalContent.replace(/(\r\n\t|\n|\r\t)/gm, ''),
-            originalContent: originalContent,
-            filePath: filePath,
-            currentElement: {
-                asString: '',
-                initPosition: -1,
-                endPosition: -1,
-                startingLineNumber: -1
+            content               : originalContent.replace(/(\r\n\t|\n|\r\t)/gm, ''),
+            originalContent       : originalContent,
+            filePath              : filePath,
+            currentElement        : {
+                asString           : '',
+                initPosition       : -1,
+                endPosition        : -1,
+                startingLineNumber : -1
             },
-            lineBreakPositionList: [0],
-            closingElementsStack: [],
-            currentLineNumber: 1,
-            currentChar: null,
-            currentPos: -1,
-            ignoreUntil: null,
-            insideTag: false,
-            nonTagBuffer: '',
-            insideExpression: false,
-            depth: 0,
+            lineBreakPositionList : [0],
+            closingElementsStack  : [],
+            currentLineNumber     : 1,
+            currentChar           : null,
+            currentPos            : -1,
+            ignoreUntil           : null,
+            insideTag             : false,
+            nonTagBuffer          : '',
+            insideExpression      : false,
+            depth                 : 0,
             parentState,
             parentNode
         };

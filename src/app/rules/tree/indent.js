@@ -19,7 +19,7 @@ Rule.init(ruleName, description);
 
 Rule.getDefaultAttrs = () => {
     return {
-        size: 4
+        size : 4
     };
 };
 
@@ -50,7 +50,7 @@ Rule.check = function(node, result) {
 
     const that  = this;
     this.result = result || {
-        occurrences: []
+        occurrences : []
     };
 
     node.children.forEach( child => this.check(child, this.result));

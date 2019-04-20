@@ -182,7 +182,7 @@ module.exports.getAllConditionalTags = function(content) {
             if (['isif', 'iselse', 'iselseif', '/isif'].indexOf(tag) !== -1) {
                 tagList.push({
                     tag,
-                    startPos: i - 1
+                    startPos : i - 1
                 });
             }
         }

@@ -20,8 +20,8 @@ Rule.getFirstOccurrence = function(line) {
         const matchPos = temp.index;
 
         result = {
-            columnStart: matchPos,
-            length: temp[0].length -  1
+            columnStart : matchPos,
+            length      : temp[0].length -  1
         };
     }
 

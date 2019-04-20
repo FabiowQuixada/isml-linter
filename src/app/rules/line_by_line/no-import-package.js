@@ -19,8 +19,8 @@ Rule.getFirstOccurrence = function(line) {
         const matchPos = line.indexOf(occurrenceText);
 
         result = {
-            columnStart: matchPos,
-            length: occurrenceText.length
+            columnStart : matchPos,
+            length      : occurrenceText.length
         };
     }
 

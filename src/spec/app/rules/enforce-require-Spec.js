@@ -22,10 +22,10 @@ describe(rule.name, () => {
         const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 1);
         const result         = rule.check(fileContent);
         const expectedResult = [{
-            line: '<a href="${dw.catalog.ProductSearchModel.urlForCategory(\'Search-Show\',cat.ID)}"',
-            lineNumber: 0,
-            columnStart: 11,
-            length: 29
+            line        : '<a href="${dw.catalog.ProductSearchModel.urlForCategory(\'Search-Show\',cat.ID)}"',
+            lineNumber  : 0,
+            columnStart : 11,
+            length      : 29
         }];
 
         expect(result.occurrences).not.toEqual(expectedResult);
@@ -49,10 +49,10 @@ describe(rule.name, () => {
         const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 4);
         const result         = rule.check(fileContent);
         const expectedResult = [{
-            line: 'const productLineItem : dw.order.ProductLineItem; // Some comment',
-            lineNumber: 2,
-            columnStart: 25,
-            length: 24
+            line        : 'const productLineItem : dw.order.ProductLineItem; // Some comment',
+            lineNumber  : 2,
+            columnStart : 25,
+            length      : 24
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

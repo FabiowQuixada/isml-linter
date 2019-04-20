@@ -9,7 +9,7 @@ Rule.init(ruleName, description);
 
 Rule.getDefaultAttrs = () => {
     return {
-        value: 10
+        value : 10
     };
 };
 

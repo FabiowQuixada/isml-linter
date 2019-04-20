@@ -5,9 +5,9 @@ const fs          = require('fs');
 
 const config      = ConfigUtils.load();
 const ENTRY_TYPES = {
-    ERROR: 'errors',
-    WARNING: 'warnings',
-    INFO: 'info'
+    ERROR   : 'errors',
+    WARNING : 'warnings',
+    INFO    : 'info'
 };
 
 const addLineError = (parser, type, rule, result) => {

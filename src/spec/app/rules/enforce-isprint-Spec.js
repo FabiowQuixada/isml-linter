@@ -50,10 +50,10 @@ describe(rule.name, () => {
         const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 4);
         const result         = rule.check(fileContent);
         const expectedResult = [{
-            line: '${\'some ds code\'}',
-            lineNumber: 1,
-            columnStart: 0,
-            length: 17
+            line        : '${\'some ds code\'}',
+            lineNumber  : 1,
+            columnStart : 0,
+            length      : 17
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

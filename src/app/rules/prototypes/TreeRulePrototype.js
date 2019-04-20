@@ -6,7 +6,7 @@ TreeRulePrototype.check = function(node, result) {
 
     const that  = this;
     this.result = result || {
-        occurrences: []
+        occurrences : []
     };
 
     node.children.forEach( child => this.check(child, this.result));

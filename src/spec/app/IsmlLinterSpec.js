@@ -93,28 +93,28 @@ const expectedResultObj = type => {
     const file0Path       = path.join(specSpecificDirLinterTemplate, 'template_1.isml');
     const file1Path       = path.join(specSpecificDirLinterTemplate, 'template_2.isml');
     const inlineStyleLine = {
-        line: '<div style="display: none;">${addToCartUrl}</div>',
-        lineNumber: 1,
-        columnStart: 5,
-        length: 5
+        line        : '<div style="display: none;">${addToCartUrl}</div>',
+        lineNumber  : 1,
+        columnStart : 5,
+        length      : 5
     };
     const blankLine       = {
-        line: '   ',
-        lineNumber: 2,
-        columnStart: 50,
-        length: 4
+        line        : '   ',
+        lineNumber  : 2,
+        columnStart : 50,
+        length      : 4
     };
     const isprintLine0    = {
-        line: '<div style="display: none;">${addToCartUrl}</div>',
-        lineNumber: 1,
-        columnStart: 28,
-        length: 15
+        line        : '<div style="display: none;">${addToCartUrl}</div>',
+        lineNumber  : 1,
+        columnStart : 28,
+        length      : 15
     };
     const isprintLine1    = {
-        line: ' ${URLUtils.https(\'Reorder-ListingPage\')}',
-        lineNumber: 1,
-        columnStart: 1,
-        length: 40
+        line        : ' ${URLUtils.https(\'Reorder-ListingPage\')}',
+        lineNumber  : 1,
+        columnStart : 1,
+        length      : 40
     };
 
     result[type][isprintRuleDesc]            = {};

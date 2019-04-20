@@ -29,10 +29,10 @@ describe(rule.name, () => {
         const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 0);
         const result         = rule.check(fileContent);
         const expectedResult = [{
-            line: '<div style="display: none;">',
-            lineNumber: 1,
-            columnStart: 5,
-            length: 5
+            line        : '<div style="display: none;">',
+            lineNumber  : 1,
+            columnStart : 5,
+            length      : 5
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

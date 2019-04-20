@@ -9,7 +9,7 @@ SingleLineRulePrototype.check = function(fileContent) {
     const config    = ConfigUtils.load();
     const lineArray = fileContent.split('\n');
     this.result     = {
-        occurrences: []
+        occurrences : []
     };
     let globalPos   = 0;
 

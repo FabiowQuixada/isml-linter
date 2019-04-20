@@ -43,10 +43,10 @@ describe(rule.name, () => {
         const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 0);
         const result         = rule.check(fileContent);
         const expectedResult = [{
-            line: 'const sum = 0;    ',
-            lineNumber: 1,
-            columnStart: 14,
-            length: 4
+            line        : 'const sum = 0;    ',
+            lineNumber  : 1,
+            columnStart : 14,
+            length      : 4
         }];
 
         expect(result.occurrences).toEqual(expectedResult);
