@@ -81,7 +81,7 @@ const parseState = oldState => {
         prepareStateForOpeningElement(state);
     } else if (isClosingTagChar) {
         createNodeForCurrentElement(state);
-    } else if (!state.insideTag) {
+    } else if (ParseUtils.isWhite(state)) {
         state.nonTagBuffer += state.currentChar;
     }
 
@@ -91,7 +91,7 @@ const parseState = oldState => {
 const updateStateWhetherItIsInsideExpression = oldState => {
     const state = Object.assign({}, oldState);
 
-    if (state.insideTag) {
+    if (!ParseUtils.isWhite(state)) {
         if (ParseUtils.isOpeningIsmlExpression(state)) {
             state.insideExpression = true;
             state.ignoreUntil      = state.currentPos + state.originalContent.substring(state.currentPos).indexOf('}');
@@ -169,15 +169,13 @@ const addTextToNode = (text, state, parentNode) => {
 
 const createNodeForCurrentElement = state => {
 
-    state.depth -= 1;
+    ParseUtils.lighten(state);
 
-    if (state.depth === 0) {
+    if (ParseUtils.isWhite(state)) {
         const lineBreakQty = ParseUtils.getLineBreakQty(state.currentElement.asString);
 
         state.currentLineNumber += lineBreakQty;
-    }
 
-    if (!ParseUtils.isIsmlTagInsideHtmlTag(state)) {
         if (ParseUtils.isOpeningElem(state)) {
             state.ignoreUntil = createNode(state);
         }
@@ -196,19 +194,18 @@ const prepareStateForOpeningElement = state => {
         state.currentElement.asString = '<';
     }
 
-    if (state.depth === 0) {
+    if (ParseUtils.isWhite(state)) {
         state.currentElement.initPosition = state.currentPos;
     }
 
-    state.insideTag = true;
-    state.depth     += 1;
+    ParseUtils.darken(state);
 };
 
 const setCurrentElementStartLineNumber = (state, i) => {
 
     state.currentPos = i;
 
-    if (!state.insideTag) {
+    if (ParseUtils.isWhite(state)) {
         state.currentElement.startingLineNumber = state.currentLineNumber;
     }
 };

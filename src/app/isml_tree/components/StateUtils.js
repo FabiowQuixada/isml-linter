@@ -1,3 +1,4 @@
+const ParseUtils = require('./ParseUtils');
 
 module.exports = {
     getInitialState : function(originalContent, parentState, parentNode, filePath) {
@@ -21,10 +22,9 @@ module.exports = {
             currentChar           : null,
             currentPos            : -1,
             ignoreUntil           : null,
-            insideTag             : false,
             nonTagBuffer          : '',
             insideExpression      : false,
-            depth                 : 0,
+            depthColor            : ParseUtils.DEPTH_COLOR.WHITE,
             parentState,
             parentNode
         };
@@ -44,7 +44,6 @@ module.exports = {
     },
 
     reinitializeState : function(state) {
-        state.insideTag                   = false;
         state.currentElement.asString     = '';
         state.currentElement.initPosition = -1;
         state.currentElement.endPosition  = -1;

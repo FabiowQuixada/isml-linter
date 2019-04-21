@@ -236,10 +236,30 @@ module.exports.getClauseList = function(content) {
     return clauseStringList;
 };
 
-/**
-     * Checks if the parsing process is in the following state:
-     * <div ... <isif ...> > </div>
-     */
-module.exports.isIsmlTagInsideHtmlTag = function(state) {
-    return state.depth !== 0;
+const DEPTH_COLOR = {
+    WHITE : 0,
+    GRAY  : 1,
+    BLACK : 2
+};
+
+module.exports.DEPTH_COLOR = DEPTH_COLOR;
+
+module.exports.isWhite = function(state) {
+    return state.depthColor === DEPTH_COLOR.WHITE;
+};
+
+module.exports.isGray = function(state) {
+    return state.depthColor === DEPTH_COLOR.GRAY;
+};
+
+module.exports.isBlack = function(state) {
+    return state.depthColor === DEPTH_COLOR.BLACK;
+};
+
+module.exports.darken = function(state) {
+    state.depthColor++;
+};
+
+module.exports.lighten = function(state) {
+    state.depthColor--;
 };
