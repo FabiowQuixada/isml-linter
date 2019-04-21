@@ -1,21 +1,14 @@
 const ParseUtils = require('./ParseUtils');
 
 module.exports = {
-    getInitialState : function(originalContent, parentState, parentNode, filePath) {
+    getInitialState(content, parentState, parentNode, filePath) {
 
-        const regex           = /\n/gi;
-        let result            = regex.exec(originalContent);
-        let lineBreakPosition = 0;
-        const state           = {
-            content               : originalContent.replace(/(\r\n\t|\n|\r\t)/gm, ''),
-            originalContent       : originalContent,
-            filePath              : filePath,
-            currentElement        : {
-                asString           : '',
-                initPosition       : -1,
-                endPosition        : -1,
-                startingLineNumber : -1
-            },
+        const state = {
+            content,
+            parentState,
+            parentNode,
+            filePath,
+            currentElement        : {},
             lineBreakPositionList : [0],
             closingElementsStack  : [],
             currentLineNumber     : 1,
@@ -24,28 +17,31 @@ module.exports = {
             ignoreUntil           : null,
             nonTagBuffer          : '',
             insideExpression      : false,
-            depthColor            : ParseUtils.DEPTH_COLOR.WHITE,
-            parentState,
-            parentNode
+            depthColor            : ParseUtils.DEPTH_COLOR.WHITE
         };
+
+        this.initializeCurrentElement(state);
 
         if (parentState) {
             state.currentLineNumber = parentState.currentLineNumber;
             state.node              = parentState.parentNode.newestChildNode;
         }
 
-        while (result) {
-            lineBreakPosition = result.index - state.lineBreakPositionList.length + 1;
+        const regex        = /\n/gi;
+        let lineBreakMatch = regex.exec(content);
+        while (lineBreakMatch) {
+            const lineBreakPosition = lineBreakMatch.index - state.lineBreakPositionList.length + 1;
             state.lineBreakPositionList.push(lineBreakPosition);
-            result            = regex.exec(originalContent);
+            lineBreakMatch          = regex.exec(content);
         }
 
         return state;
     },
 
-    reinitializeState : function(state) {
-        state.currentElement.asString     = '';
-        state.currentElement.initPosition = -1;
-        state.currentElement.endPosition  = -1;
+    initializeCurrentElement(state) {
+        state.currentElement.asString           = '';
+        state.currentElement.initPosition       = -1;
+        state.currentElement.endPosition        = -1;
+        state.currentElement.startingLineNumber = -1;
     }
 };

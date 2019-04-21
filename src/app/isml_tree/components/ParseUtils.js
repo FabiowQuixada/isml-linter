@@ -16,7 +16,7 @@ const pickInnerContent  = (state, content) => {
 };
 
 const getUpdateContent = state => {
-    let content                      = state.originalContent;
+    let content                      = state.content;
     const currentElementInitPosition = state.currentElement.initPosition;
     content                          = content.substring(currentElementInitPosition, content.length);
     return content;
@@ -53,7 +53,7 @@ module.exports.getPostClosingTagContentUpToLneBreak = function(content, startPos
 
 module.exports.isOpeningElem = function(state) {
 
-    const content    = state.originalContent;
+    const content    = state.content;
     const currPos    = state.currentElement.initPosition;
     const currenChar = content.charAt(currPos);
     const nextChar   = content.charAt(currPos + 1);
@@ -85,7 +85,7 @@ module.exports.isCurrentElementIsifTag = function(state) {
 
 module.exports.isOpeningIsmlExpression = function(state) {
 
-    const content    = state.originalContent;
+    const content    = state.content;
     const currentPos = state.currentPos;
     const currChar   = content.charAt(currentPos);
     const nextChar   = content.charAt(currentPos + 1);
@@ -95,7 +95,7 @@ module.exports.isOpeningIsmlExpression = function(state) {
 
 module.exports.isClosingIsmlExpression = function(state) {
 
-    const content          = state.originalContent;
+    const content          = state.content;
     const currentPos       = state.currentPos;
     const insideExpression = state.insideExpression;
 
@@ -110,7 +110,7 @@ module.exports.getInnerContent = function(oldState) {
     return pickInnerContent(state, content);
 };
 
-module.exports.getNumberOfPrecedingEmptyLines = function(content) {
+module.exports.getPrecedingEmptyLinesQty = function(content) {
 
     const lineArray  = content.split('\n');
     let lineBreakQty = 0;
