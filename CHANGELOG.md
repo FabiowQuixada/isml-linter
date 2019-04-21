@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.3.0] - 2019-04-28
+
+### Added
+ - API docs;
+ - Project-level path to linter result;
+ - Donation button;
+
+### Changed
+ - Heavy code refactoring;
+
+### Fixed
+ - Hardcode-related parse bug;
+
 ## [5.2.0] - 2019-04-14
 
 ### Added
@@ -171,6 +184,7 @@
 ### Added
 - Linter is published;
 
+[5.3.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.2.0...v5.3.0
 [5.2.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.1.0...v5.2.0
 [5.1.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.0.3...v5.1.0
 [5.0.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.0.2...v5.0.3
