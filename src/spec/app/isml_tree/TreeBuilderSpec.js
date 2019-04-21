@@ -15,11 +15,6 @@ describe(targetObjName, () => {
         SpecHelper.afterEach();
     });
 
-    it('creates a one-level-deep tree with node values', () => {
-        const rootNode = getRootNodeFromTemplate(10);
-
-        expect(rootNode.getChild(0).getValue()).toEqual('<isset name="lineItem" value="${\'some value\'}" scope="page" />');
-    });
 
     it('creates a tree with non-self-closing tags', () => {
         const rootNode = getRootNodeFromTemplate(0);
@@ -39,23 +34,42 @@ describe(targetObjName, () => {
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('<isprint value="some text" />');
     });
 
-    it('creates a tree with a self-closed tag grandchild', () => {
-        const rootNode = getRootNodeFromTemplate(11);
+    it('throws an exception upon invalid isml dom', () => {
+        const expectedMessage = ExceptionUtils.unbalancedElementError('div', 2).message;
+        const tree            = getTreeFromTemplate(1);
 
-        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue().trim()).toEqual('<isif condition="${true}">');
+        expect(tree.exception.message).toEqual(expectedMessage);
     });
 
-    it('recognizes a simple, raw isml expression: ${...}', () => {
-        const rootNode = getRootNodeFromTemplate(9);
+    it('handles "<" characters in comments', () => {
+        const rootNode = getRootNodeFromTemplate(2);
 
-        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('${3 < 4}');
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('This comment has a \'<\' character.');
     });
 
-    it('recognizes an isml expression within an isml/html tag', () => {
-        const rootNode = getRootNodeFromTemplate(8);
+    it('parses <isif> tag with a "<" character in its condition', () => {
+        const rootNode = getRootNodeFromTemplate(3);
 
-        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('\n    <isset name="opliID" value="${opli.ID}" scope="page" />');
-        expect(rootNode.getChild(0).getChild(0).getChild(0).getNumberOfChildren()).toEqual(0);
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('\n    <div class="clause_1" />');
+    });
+
+    it('recognizes an isml element within a html element', () => {
+        const rootNode = getRootNodeFromTemplate(4);
+
+        expect(rootNode.getChild(0).getValue()).toEqual('<span id="root_elem_17" <isif condition="${active}">class="active"</isif>>');
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('Some content');
+    });
+
+    it('handles "<" charecters in scripts', () => {
+        const rootNode = getRootNodeFromTemplate(5);
+
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('var condition = someValue < 4;');
+    });
+
+    it('handles "<" charecters in isml expressons', () => {
+        const rootNode = getRootNodeFromTemplate(6);
+
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('${someValue < 3}');
     });
 
     it('parses recursive elements', () => {
@@ -65,35 +79,29 @@ describe(targetObjName, () => {
         expect(rootNode.getChild(0).getChild(0).getChild(0).getValue().trim()).toEqual('<div class="further_in">');
     });
 
-    it('handles "<" charecters in isml expressons', () => {
-        const rootNode = getRootNodeFromTemplate(6);
+    it('recognizes an isml expression within an isml/html tag', () => {
+        const rootNode = getRootNodeFromTemplate(8);
 
-        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('${someValue < 3}');
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('\n    <isset name="opliID" value="${opli.ID}" scope="page" />');
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getNumberOfChildren()).toEqual(0);
     });
 
-    it('handles "<" charecters in scripts', () => {
-        const rootNode = getRootNodeFromTemplate(5);
+    it('recognizes a simple, raw isml expression: ${...}', () => {
+        const rootNode = getRootNodeFromTemplate(9);
 
-        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('var condition = someValue < 4;');
+        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('${3 < 4}');
     });
 
-    it('parses <isif> tag with a "<" character in its condition', () => {
-        const rootNode = getRootNodeFromTemplate(3);
+    it('creates a one-level-deep tree with node values', () => {
+        const rootNode = getRootNodeFromTemplate(10);
 
-        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual('\n    <div class="clause_1" />');
+        expect(rootNode.getChild(0).getValue()).toEqual('<isset name="lineItem" value="${\'some value\'}" scope="page" />');
     });
 
-    it('handles "<" characters in comments', () => {
-        const rootNode = getRootNodeFromTemplate(2);
+    it('creates a tree with a self-closed tag grandchild', () => {
+        const rootNode = getRootNodeFromTemplate(11);
 
-        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('This comment has a \'<\' character.');
-    });
-
-    it('recognizes an isml element within a html element', () => {
-        const rootNode = getRootNodeFromTemplate(4);
-
-        expect(rootNode.getChild(0).getValue()).toEqual('<span id="root_elem_17" <isif condition="${active}">class="active"</isif>>');
-        expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('Some content');
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue().trim()).toEqual('<isif condition="${true}">');
     });
 
     it('sets the correct depth fo multi-clause children', () => {
@@ -106,13 +114,6 @@ describe(targetObjName, () => {
         const rootNode = getRootNodeFromTemplate(13);
 
         expect(rootNode.getChild(0).getChild(0).getChild(0).getChild(1).getChild(0).getDepth()).toEqual(3);
-    });
-
-    it('throws an exception upon invalid isml dom', () => {
-        const expectedMessage = ExceptionUtils.unbalancedElementError('div', 2).message;
-        const tree            = getTreeFromTemplate(1);
-
-        expect(tree.exception.message).toEqual(expectedMessage);
     });
 
     it('parses hard-coded strings', () => {
@@ -138,15 +139,6 @@ describe(targetObjName, () => {
     });
 
     it('identifies ISML expressions I', () => {
-        const rootNode  = getRootNodeFromTemplate(18);
-        const availNode = rootNode.getChild(2);
-
-        expect(availNode.getValue()).toEqual('\n<div class="product-availability">');
-        expect(availNode.getLineNumber()).toEqual(23);
-        expect(availNode.getNumberOfChildren()).toEqual(1);
-    });
-
-    it('identifies ISML expressions II', () => {
         const rootNode     = getRootNodeFromTemplate(17);
         const ifNode       = rootNode.getChild(0).getChild(0);
         const nestedIfNode = ifNode.getChild(0).getChild(0);
@@ -156,6 +148,15 @@ describe(targetObjName, () => {
         expect(nestedIfNode.getNumberOfChildren()).toEqual(1);
     });
 
+    it('identifies ISML expressions II', () => {
+        const rootNode  = getRootNodeFromTemplate(18);
+        const availNode = rootNode.getChild(2);
+
+        expect(availNode.getValue()).toEqual('\n<div class="product-availability">');
+        expect(availNode.getLineNumber()).toEqual(23);
+        expect(availNode.getNumberOfChildren()).toEqual(1);
+    });
+
     it('identifies ISML expressions III', () => {
         const rootNode = getRootNodeFromTemplate(19);
         const setNode  = rootNode.getChild(2);
@@ -163,20 +164,6 @@ describe(targetObjName, () => {
         expect(setNode.getValue()).toEqual('\n<isset value="${abc}" />');
         expect(setNode.getLineNumber()).toEqual(7);
         expect(setNode.getNumberOfChildren()).toEqual(0);
-    });
-
-    it('identifies HTML comments', () => {
-        const rootNode        = getRootNodeFromTemplate(24);
-        const htmlCommentNode = rootNode.getChild(0);
-        const ifNode          = rootNode.getChild(1).getChild(0);
-
-        expect(htmlCommentNode.getValue()).toEqual('<!-- This is an HTML comment -->');
-        expect(htmlCommentNode.getLineNumber()).toEqual(1);
-        expect(htmlCommentNode.getNumberOfChildren()).toEqual(0);
-
-        expect(ifNode.getValue()).toEqual('\n<isif condition="${condition}">');
-        expect(ifNode.getLineNumber()).toEqual(2);
-        expect(ifNode.getNumberOfChildren()).toEqual(1);
     });
 
     it('handles empty "isif" tag', () => {
@@ -205,6 +192,20 @@ describe(targetObjName, () => {
         expect(ifNode.getValue()).toEqual('\n    <isif condition="${c2}">');
         expect(ifNode.getLineNumber()).toEqual(2);
         expect(ifNode.getNumberOfChildren()).toEqual(0);
+    });
+
+    it('identifies HTML comments', () => {
+        const rootNode        = getRootNodeFromTemplate(24);
+        const htmlCommentNode = rootNode.getChild(0);
+        const ifNode          = rootNode.getChild(1).getChild(0);
+
+        expect(htmlCommentNode.getValue()).toEqual('<!-- This is an HTML comment -->');
+        expect(htmlCommentNode.getLineNumber()).toEqual(1);
+        expect(htmlCommentNode.getNumberOfChildren()).toEqual(0);
+
+        expect(ifNode.getValue()).toEqual('\n<isif condition="${condition}">');
+        expect(ifNode.getLineNumber()).toEqual(2);
+        expect(ifNode.getNumberOfChildren()).toEqual(1);
     });
 
     it('identifies a html comment as self-closing tag', () => {
