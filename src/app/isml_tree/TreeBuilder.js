@@ -135,14 +135,9 @@ const parseNewNodeInnerContent = state => {
 
     const parentNode       = state.parentNode.newestChildNode;
     const nodeInnerContent = ParseUtils.getInnerContent(state);
+    let content            = nodeInnerContent;
 
-    if (ParseUtils.isNextElementATag(nodeInnerContent)) {
-        if (ParseUtils.isCurrentElementIsifTag(state)) {
-            IsifTagParser.run(nodeInnerContent, state);
-        } else {
-            parse(nodeInnerContent, state, parentNode);
-        }
-    } else {
+    if (!ParseUtils.isNextElementATag(nodeInnerContent)) {
         let textNodeParent = state.parentNode.newestChildNode;
 
         if (parentNode.isMulticlause()) {
@@ -151,7 +146,26 @@ const parseNewNodeInnerContent = state => {
             parentNode.addChild(node);
         }
 
-        createTextNodeFromInnerContent(nodeInnerContent, state, textNodeParent);
+        let textNodeValue = nodeInnerContent;
+
+        if (!parentNode.isOfType(['iscomment', 'isscript'])) {
+            const MaskUtils = require('./MaskUtils');
+
+            const maskedText = MaskUtils.maskIgnorableContent(textNodeValue);
+            textNodeValue    = maskedText.substring(0, maskedText.indexOf('<')) || textNodeValue;
+        }
+
+        createTextNodeFromInnerContent(textNodeValue, state, textNodeParent);
+
+        content = content.substring(textNodeValue.length);
+    }
+
+    if (content) {
+        if (ParseUtils.isCurrentElementIsifTag(state)) {
+            IsifTagParser.run(content, state);
+        } else {
+            parse(content, state, parentNode);
+        }
     }
 
     return state.currentPos + nodeInnerContent.length;
@@ -172,10 +186,10 @@ const createTextNodeFromMainLoop = oldState => {
 };
 
 const createTextNodeFromInnerContent = (text, state, parentNode) => {
-
     if (text) {
-        const lineBreakQty  = ParseUtils.getPrecedingEmptyLinesQty(text);
-        const innerTextNode = new IsmlNode(text, state.currentLineNumber + lineBreakQty);
+        const lineBreakQty      = ParseUtils.getPrecedingEmptyLinesQty(text);
+        const innerTextNode     = new IsmlNode(text, state.currentLineNumber + lineBreakQty);
+        state.currentLineNumber += ParseUtils.getLineBreakQty(text);
 
         parentNode.addChild(innerTextNode);
     }

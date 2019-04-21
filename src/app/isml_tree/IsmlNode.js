@@ -30,6 +30,8 @@ class IsmlNode {
             return 'doctype';
         } else if (this.isDynamicElement()) {
             return 'dynamic_element';
+        } else if (this.isMulticlause()) {
+            return 'multi_clause';
         }
 
         const regex = /<[a-zA-Z\d_]*(\s|>|\/)/g;

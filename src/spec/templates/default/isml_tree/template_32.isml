@@ -1,0 +1,5 @@
+<div class="error_message">
+
+a
+    <isprint value="${Resource.msg('reorder.productdiscontinued','reorder',null)}" />
+</div>

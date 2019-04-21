@@ -297,6 +297,25 @@ describe(targetObjName, () => {
         expect(metaNode.getValue()).toEqual('\n    <meta http-equiv="refresh" content="2;url=${pdict.Location}">');
     });
 
+    it('parses content with hardcoded string as first child', () => {
+        const rootNode     = getRootNodeFromTemplate(32);
+        const divNode      = rootNode.getChild(0);
+        const hardcodeNode = divNode.getChild(0);
+        const isprintNode  = divNode.getChild(1);
+
+        expect(divNode.getValue()).toEqual('<div class="error_message">');
+        expect(divNode.getLineNumber()).toEqual(1);
+        expect(divNode.getNumberOfChildren()).toEqual(2);
+
+        expect(hardcodeNode.getValue()).toEqual('\n\na\n    ');
+        expect(hardcodeNode.getLineNumber()).toEqual(3);
+        expect(hardcodeNode.getNumberOfChildren()).toEqual(0);
+
+        expect(isprintNode.getValue()).toEqual('<isprint value="${Resource.msg(\'reorder.productdiscontinued\',\'reorder\',null)}" />');
+        expect(isprintNode.getLineNumber()).toEqual(4);
+        expect(isprintNode.getNumberOfChildren()).toEqual(0);
+    });
+
     it('parses custom module with "_" char in its name', () => {
         const rootNode         = getRootNodeFromTemplate(33);
         const customModuleNode = rootNode.getChild(0);
