@@ -4,6 +4,7 @@ const path           = require('path');
 const appRoot        = require('app-root-path');
 const config         = require('./util/ConfigUtils').load();
 const ExceptionUtils = require('./util/ExceptionUtils');
+const FileUtils      = require('./util/FileUtils');
 
 const Linter = {};
 
@@ -30,22 +31,23 @@ Linter.run = function(dir = config.rootDir || appRoot.toString()) {
     const that         = this;
     let issueQty       = 0;
 
-    filesArray.forEach( fileProjectPath => {
+    filesArray.forEach( templateName => {
+        const absoluteFilePath = path.join(dir, templateName);
+        const relativeFilePath = FileUtils.getRelativePath(dir, templateName);
 
         try {
-            const filePath = path.join(dir, fileProjectPath);
-            const output   = FileParser.parse(filePath);
+            const output = FileParser.parse(absoluteFilePath);
 
             for (const rule in output.errors) {
-                that.result.errors[rule]           = that.result.errors[rule] || {};
-                that.result.errors[rule][filePath] = output.errors[rule];
+                that.result.errors[rule]                   = that.result.errors[rule] || {};
+                that.result.errors[rule][absoluteFilePath] = output.errors[rule];
                 issueQty++;
             }
         } catch (e) {
 
             const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
             const UNPARSEABLE   = ExceptionUtils.types.INVALID_TEMPLATE;
-            const fullPath      = path.join(dir, fileProjectPath);
+            const fullPath      = path.join(dir, templateName);
 
             if (!ExceptionUtils.isLinterException(e) || e.type === UNKNOWN_ERROR) {
                 that.result[UNKNOWN_ERROR] = that.result[UNKNOWN_ERROR] || [];
@@ -53,11 +55,13 @@ Linter.run = function(dir = config.rootDir || appRoot.toString()) {
             } else {
                 that.result[UNPARSEABLE] = that.result[UNPARSEABLE] || [];
                 that.result[UNPARSEABLE].push({
-                    filePath   : fullPath,
-                    message    : e.message,
-                    lineNumber : e.lineNumber
+                    filePath     : fullPath,
+                    relativePath : relativeFilePath,
+                    message      : e.message,
+                    lineNumber   : e.lineNumber
                 });
             }
+
             issueQty++;
         }
     });

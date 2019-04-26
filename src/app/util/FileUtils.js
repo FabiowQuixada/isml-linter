@@ -49,11 +49,19 @@ const deleteDirectoryRecursively = dirPath => {
 
 const fileExists = filePath => fs.existsSync(filePath);
 
+const getRelativePath = (dir, templateName) => {
+    const rootDirLength = Constants.clientAppDir.length;
+    const relativePath  = dir.substring(rootDirLength);
+
+    return path.join(relativePath, templateName);
+};
+
 module.exports = {
     saveToJsonFile,
     fileExists,
     createDirIfDoesNotExist,
     deleteFile,
     deleteDirectoryRecursively,
-    createClientDir
+    createClientDir,
+    getRelativePath
 };

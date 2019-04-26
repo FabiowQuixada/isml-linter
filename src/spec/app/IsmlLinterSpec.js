@@ -7,6 +7,7 @@ const NoInlineStyleRule    = require('../../app/rules/line_by_line/no-inline-sty
 const EnforceIsprintRule   = require('../../app/rules/line_by_line/enforce-isprint');
 const FileParser           = require('../../app/FileParser');
 const ExceptionUtils       = require('../../app/util/ExceptionUtils');
+const FileUtils            = require('../../app/util/FileUtils');
 
 const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
@@ -72,12 +73,14 @@ describe(targetObjName, () => {
         const result          = IsmlLinter.run(specSpecificDirLinterTemplate);
         const expectedMessage = ExceptionUtils.unbalancedElementError('div', 2).message;
         const actualResult    = result[UNPARSEABLE][0];
-        const filePath        = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
+        const fullPath        = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
+        const relativePath    = FileUtils.getRelativePath(specSpecificDirLinterTemplate, 'template_0.isml');
 
         expect(actualResult).toEqual({
-            filePath   : filePath,
-            message    : expectedMessage,
-            lineNumber : 2
+            filePath     : fullPath,
+            relativePath : relativePath,
+            message      : expectedMessage,
+            lineNumber   : 2
         });
     });
 });
@@ -132,11 +135,13 @@ const expectedResultObj = type => {
     result[type][blankLineRuleDesc][file0Path].push(blankLine);
     const expectedMessage                      = ExceptionUtils.unbalancedElementError('div', 2).message;
     const filePath                             = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
+    const relativePath                         = FileUtils.getRelativePath(specSpecificDirLinterTemplate, 'template_0.isml');
 
     result[UNPARSEABLE] = [ {
-        filePath   : filePath,
-        message    : expectedMessage,
-        lineNumber : 2
+        filePath     : filePath,
+        relativePath : relativePath,
+        message      : expectedMessage,
+        lineNumber   : 2
     } ];
 
     result.issueQty = 5;
