@@ -130,6 +130,9 @@ To prevent new errors to be introduced in next pushes, we recommend using some g
 }
 ```
 
+## API
+
+Check the [API docs][api-docs].
 
 ## Available Rules
 
@@ -174,6 +177,8 @@ To prevent new errors to be introduced in next pushes, we recommend using some g
 [no-embedded-isml-readme]:       <docs/rules/no-embedded-isml.md>
 [max-depth-readme]:              <docs/rules/max-depth.md>
 [one-element-per-line-readme]:   <docs/rules/one-element-per-line.md>
+
+[api-docs]: <docs/api.md>
 
 [npm-husky]: <https://www.npmjs.com/package/husky>
 [npm-ghooks]: <https://www.npmjs.com/package/ghooks>
