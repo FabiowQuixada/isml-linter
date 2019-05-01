@@ -21,6 +21,17 @@ describe('GlobalPosition', () => {
         expect(divNode.getGlobalPos()).toEqual(0);
         expect(textNode.getGlobalPos()).toEqual(10);
     });
+
+    it('II', () => {
+        const rootNode        = parseTemplate(1);
+        const commentNode     = rootNode.getChild(0);
+        const commentTextNode = commentNode.getChild(0);
+        const tdNode          = rootNode.getChild(1);
+
+        expect(commentNode.getGlobalPos()).toEqual(0);
+        expect(commentTextNode.getGlobalPos()).toEqual(11);
+        expect(tdNode.getGlobalPos()).toEqual(31);
+    });
 });
 
 const parseTemplate = number => {

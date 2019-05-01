@@ -110,7 +110,7 @@ const createNode = oldState => {
     let state           = Object.assign({}, oldState);
     const emptyLinesQty = ParseUtils.getPrecedingEmptyLinesQty(state.currentElement.asString);
     state               = updateStateLinesData(state, emptyLinesQty);
-    const globalPos     = state.currentPos - state.currentElement.asString.length + 1;
+    const globalPos     = state.currentPos - state.currentElement.asString.length + 1 + emptyLinesQty;
 
     const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
     const node       = isIsifNode ?
