@@ -110,7 +110,9 @@ const createNode = oldState => {
     let state           = Object.assign({}, oldState);
     const emptyLinesQty = ParseUtils.getPrecedingEmptyLinesQty(state.currentElement.asString);
     state               = updateStateLinesData(state, emptyLinesQty);
-    const globalPos     = state.currentPos - state.currentElement.asString.length + 1 + emptyLinesQty;
+    const globalPos     = state.parentState ?
+        state.currentPos :
+        state.currentPos - state.currentElement.asString.length + 1 + emptyLinesQty;
 
     const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
     const node       = isIsifNode ?
@@ -188,10 +190,14 @@ const createTextNodeFromMainLoop = oldState => {
 
 const createTextNodeFromInnerContent = (text, state, parentNode) => {
     if (text) {
-        const lineBreakQty      = ParseUtils.getPrecedingEmptyLinesQty(text);
-        const globalPos         = state.currentPos + 1 + ParseUtils.getNextNonEmptyCharPos(text);
-        const innerTextNode     = new IsmlNode(text, state.currentLineNumber + lineBreakQty, globalPos);
-        state.currentLineNumber += ParseUtils.getLineBreakQty(text);
+        const lineBreakQty            = ParseUtils.getPrecedingEmptyLinesQty(text);
+        const precedingEmptySpacesQty = ParseUtils.getNextNonEmptyCharPos(text);
+        const globalPos               = state.parentState ?
+            state.parentState.currentPos + 1 + precedingEmptySpacesQty + parentNode.getValue().length :
+            state.currentPos + 1 + precedingEmptySpacesQty;
+        const innerTextNode           = new IsmlNode(text, state.currentLineNumber + lineBreakQty, globalPos);
+
+        state.currentLineNumber       += ParseUtils.getLineBreakQty(text);
 
         parentNode.addChild(innerTextNode);
     }
