@@ -5,9 +5,10 @@ const Constants   = require('../Constants');
 
 class IsmlNode {
 
-    constructor(value = '(root)', lineNumber = 0) {
+    constructor(value = '(root)', lineNumber = 0, globalPos) {
         this.value      = value;
         this.lineNumber = lineNumber;
+        this.globalPos  = globalPos;
         this.type       = null;
         this.depth      = 0;
         this.suffix     = '';
@@ -49,7 +50,7 @@ class IsmlNode {
 
     getDepth() { return this.depth; }
     getParent() { return this.parent; }
-    getGlobalPos() { return -1; }
+    getGlobalPos() { return this.globalPos; }
 
     addChild(newNode) {
         newNode.depth        = this.depth+1;

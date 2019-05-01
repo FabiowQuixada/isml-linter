@@ -27,6 +27,7 @@ const specRuleTemplateDir            = path.join(specTemplateDir, 'rules');
 const specIsmlTreeTemplateDir        = path.join(specTemplateDir, 'isml_tree');
 const specLineNumberTemplateDir      = path.join(specIsmlTreeTemplateDir, 'line_numbers');
 const specInvalidTemplateDir         = path.join(specIsmlTreeTemplateDir, 'invalid_templates');
+const specGlobalPosTemplateDir       = path.join(specIsmlTreeTemplateDir, 'global_position');
 const specComplexTemplatesDir        = path.join(specIsmlTreeTemplateDir, 'complex_templates');
 const specAutofixTemplatesDir        = path.join(specTemplateDir, 'autofix');
 const specIsifTagParserTemplateDir   = path.join(specTemplateDir, 'isml_tree', 'components', 'isif_tag_parser');
@@ -71,6 +72,7 @@ module.exports = {
     treeRulesDir,
     specRuleTemplateDir,
     specIsmlTreeTemplateDir,
+    specGlobalPosTemplateDir,
     specIsifTagParserTemplateDir,
     specLineNumberTemplateDir,
     specInvalidTemplateDir,

@@ -110,11 +110,12 @@ const createNode = oldState => {
     let state           = Object.assign({}, oldState);
     const emptyLinesQty = ParseUtils.getPrecedingEmptyLinesQty(state.currentElement.asString);
     state               = updateStateLinesData(state, emptyLinesQty);
+    const globalPos     = state.currentPos - state.currentElement.asString.length + 1;
 
     const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
     const node       = isIsifNode ?
         new MultiClauseNode() :
-        new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber);
+        new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber, globalPos);
 
     state.parentNode.addChild(node);
 
@@ -188,7 +189,8 @@ const createTextNodeFromMainLoop = oldState => {
 const createTextNodeFromInnerContent = (text, state, parentNode) => {
     if (text) {
         const lineBreakQty      = ParseUtils.getPrecedingEmptyLinesQty(text);
-        const innerTextNode     = new IsmlNode(text, state.currentLineNumber + lineBreakQty);
+        const globalPos         = state.currentPos + 1 + ParseUtils.getNextNonEmptyCharPos(text);
+        const innerTextNode     = new IsmlNode(text, state.currentLineNumber + lineBreakQty, globalPos);
         state.currentLineNumber += ParseUtils.getLineBreakQty(text);
 
         parentNode.addChild(innerTextNode);
