@@ -111,8 +111,8 @@ const createNode = oldState => {
     const emptyLinesQty = ParseUtils.getPrecedingEmptyLinesQty(state.currentElement.asString);
     state               = updateStateLinesData(state, emptyLinesQty);
     const globalPos     = state.parentState ?
-        state.currentPos - state.currentElement.asString.trim().length + 1 + emptyLinesQty + state.parentState.currentPos :
-        state.currentPos - state.currentElement.asString.length + 1 + emptyLinesQty;
+        getAccumulatedPos(state) - state.currentElement.asString.trim().length + emptyLinesQty + 1 :
+        getAccumulatedPos(state) - state.currentElement.asString.length + emptyLinesQty + 1;
 
     const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
     const node       = isIsifNode ?
@@ -188,13 +188,25 @@ const createTextNodeFromMainLoop = oldState => {
     return state;
 };
 
+const getAccumulatedPos = state => {
+    let accumulatedValue = 0;
+    let iterator         = state;
+
+    do {
+        accumulatedValue += iterator.currentPos;
+        iterator         = iterator.parentState;
+    } while (iterator);
+
+    return accumulatedValue;
+};
+
 const createTextNodeFromInnerContent = (text, state, parentNode) => {
     if (text) {
         const lineBreakQty            = ParseUtils.getPrecedingEmptyLinesQty(text);
         const precedingEmptySpacesQty = ParseUtils.getNextNonEmptyCharPos(text);
         const globalPos               = state.parentState ?
-            state.parentState.currentPos + state.currentPos + precedingEmptySpacesQty + lineBreakQty + 1 :
-            state.currentPos + 1 + precedingEmptySpacesQty;
+            getAccumulatedPos(state) + precedingEmptySpacesQty + lineBreakQty + 1 :
+            getAccumulatedPos(state) + precedingEmptySpacesQty + 1;
         const innerTextNode           = new IsmlNode(text, state.currentLineNumber + lineBreakQty, globalPos);
 
         state.currentLineNumber       += ParseUtils.getLineBreakQty(text);
