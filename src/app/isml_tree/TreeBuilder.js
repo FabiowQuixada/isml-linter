@@ -107,12 +107,9 @@ const updateStateWhetherItIsInsideExpression = oldState => {
 };
 
 const createNode = oldState => {
-    let state           = Object.assign({}, oldState);
-    const emptyLinesQty = ParseUtils.getPrecedingEmptyLinesQty(state.currentElement.asString);
-    state               = updateStateLinesData(state, emptyLinesQty);
-    const globalPos     = state.parentState ?
-        getAccumulatedPos(state) - state.currentElement.asString.trim().length + emptyLinesQty + 1 :
-        getAccumulatedPos(state) - state.currentElement.asString.length + emptyLinesQty + 1;
+    let state       = Object.assign({}, oldState);
+    state           = updateStateLinesData(state);
+    const globalPos = getGlobalPos(state);
 
     const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
     const node       = isIsifNode ?
@@ -202,14 +199,11 @@ const getAccumulatedPos = state => {
 
 const createTextNodeFromInnerContent = (text, state, parentNode) => {
     if (text) {
-        const lineBreakQty            = ParseUtils.getPrecedingEmptyLinesQty(text);
-        const precedingEmptySpacesQty = ParseUtils.getNextNonEmptyCharPos(text);
-        const globalPos               = state.parentState ?
-            getAccumulatedPos(state) + precedingEmptySpacesQty + lineBreakQty + 1 :
-            getAccumulatedPos(state) + precedingEmptySpacesQty + 1;
-        const innerTextNode           = new IsmlNode(text, state.currentLineNumber + lineBreakQty, globalPos);
+        const lineBreakQty  = ParseUtils.getPrecedingEmptyLinesQty(text);
+        const globalPos     = getTextGlobalPos(state, text);
+        const innerTextNode = new IsmlNode(text, state.currentLineNumber + lineBreakQty, globalPos);
 
-        state.currentLineNumber       += ParseUtils.getLineBreakQty(text);
+        state.currentLineNumber += ParseUtils.getLineBreakQty(text);
 
         parentNode.addChild(innerTextNode);
     }
@@ -250,8 +244,9 @@ const prepareStateForOpeningElement = oldState => {
     return state;
 };
 
-const updateStateLinesData = (oldState, emptyLinesQty) => {
+const updateStateLinesData = oldState => {
     const state                             = Object.assign({}, oldState);
+    const emptyLinesQty                     = ParseUtils.getPrecedingEmptyLinesQty(state.currentElement.asString);
     state.currentElement.startingLineNumber += emptyLinesQty;
 
     if (state.parentState && !state.node.isMulticlause()) {
@@ -259,6 +254,26 @@ const updateStateLinesData = (oldState, emptyLinesQty) => {
     }
 
     return state;
+};
+
+const getGlobalPos = state => {
+    const currentElement = state.currentElement.asString;
+    const emptyLinesQty  = ParseUtils.getPrecedingEmptyLinesQty(currentElement);
+    const accumutatedPos = getAccumulatedPos(state);
+
+    return state.parentState ?
+        accumutatedPos - currentElement.trim().length + emptyLinesQty + 1 :
+        accumutatedPos - currentElement.length        + emptyLinesQty + 1;
+};
+
+const getTextGlobalPos = (state, text) => {
+    const lineBreakQty            = ParseUtils.getPrecedingEmptyLinesQty(text);
+    const precedingEmptySpacesQty = ParseUtils.getNextNonEmptyCharPos(text);
+    const accumulatedPos          = getAccumulatedPos(state);
+
+    return state.parentState ?
+        accumulatedPos + precedingEmptySpacesQty + lineBreakQty + 1 :
+        accumulatedPos + precedingEmptySpacesQty + 1;
 };
 
 module.exports.build = build;
