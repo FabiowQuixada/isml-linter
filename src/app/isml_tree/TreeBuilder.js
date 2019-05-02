@@ -111,7 +111,7 @@ const createNode = oldState => {
     const emptyLinesQty = ParseUtils.getPrecedingEmptyLinesQty(state.currentElement.asString);
     state               = updateStateLinesData(state, emptyLinesQty);
     const globalPos     = state.parentState ?
-        state.currentPos :
+        state.currentPos - state.currentElement.asString.trim().length + 1 + emptyLinesQty + state.parentState.currentPos :
         state.currentPos - state.currentElement.asString.length + 1 + emptyLinesQty;
 
     const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
@@ -193,7 +193,7 @@ const createTextNodeFromInnerContent = (text, state, parentNode) => {
         const lineBreakQty            = ParseUtils.getPrecedingEmptyLinesQty(text);
         const precedingEmptySpacesQty = ParseUtils.getNextNonEmptyCharPos(text);
         const globalPos               = state.parentState ?
-            state.parentState.currentPos + 1 + precedingEmptySpacesQty + parentNode.getValue().length :
+            state.parentState.currentPos + state.currentPos + precedingEmptySpacesQty + lineBreakQty + 1 :
             state.currentPos + 1 + precedingEmptySpacesQty;
         const innerTextNode           = new IsmlNode(text, state.currentLineNumber + lineBreakQty, globalPos);
 

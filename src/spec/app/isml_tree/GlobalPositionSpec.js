@@ -43,6 +43,21 @@ describe('GlobalPosition', () => {
         expect(divNode.getGlobalPos()).toEqual(28);
         expect(textNode.getGlobalPos()).toEqual(61);
     });
+
+    it('IV', () => {
+        const rootNode  = parseTemplate(3);
+        const tdNode    = rootNode.getChild(0);
+        const divNode   = tdNode.getChild(0);
+        const textNode  = divNode.getChild(0);
+        const divNode2  = tdNode.getChild(1);
+        const textNode2 = divNode2.getChild(0);
+
+        expect(tdNode.getGlobalPos()).toEqual(0);
+        expect(divNode.getGlobalPos()).toEqual(28);
+        expect(textNode.getGlobalPos()).toEqual(61);
+        expect(divNode2.getGlobalPos()).toEqual(97);
+        expect(textNode2.getGlobalPos()).toEqual(133);
+    });
 });
 
 const parseTemplate = number => {
