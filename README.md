@@ -37,9 +37,11 @@ The first script simply lists the broken rules in the console, while second rais
 
 ### Configuration
 
-When you run Isml Linter for the first time, an .ismllinter.json file will be created in your project root directory. All rules will be listed there (enabled by default) so you can clearly see what this linter can do for you. To disable a rule, simply remove it from the .ismllinter.json file and run Isml Linter again;
+**Important note**: A preferred format for configuration file (ismllinter.config.js) has been introduced and it is now recommended, although the old .ismllinter.json format is still accepted.
 
-The following configurations can be set in the .ismllinter.json file:
+When you run Isml Linter for the first time, an ismllinter.config.js file will be created in your project root directory. All rules will be listed there (enabled by default) so you can clearly see what this linter can do for you. To disable a rule, simply remove it from the ismllinter.config.js file and run Isml Linter again;
+
+The following configurations can be set in the ismllinter.config.js file:
 
 | Config            | Description                              |
 | ----------------- |:-----------------------------------------|

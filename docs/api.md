@@ -22,8 +22,8 @@ you have access to the following methods:
     /**
      * Parses all files under a specific path;
      *
-     * @param  {String} path
-     * @return {Object} structured parse result
+     * @param  {String|Array} path  File path, directory path or array of file paths
+     * @return {Object}             Structured parse result
      **/
     parse(path)
 

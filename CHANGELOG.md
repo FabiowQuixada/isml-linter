@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.4.0] - 2019-05-05
+
+### Added
+ - Public API's `parse()` method now also accepts array of filepaths;
+ - Preferred config filename: ismllinter.config.js;
+ - Public API backwards-compability objects;
+ - Rule name and description to each API output;
+
 ## [5.3.0] - 2019-04-28
 
 ### Added
@@ -184,6 +192,7 @@
 ### Added
 - Linter is published;
 
+[5.4.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.3.0...v5.4.0
 [5.3.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.2.0...v5.3.0
 [5.2.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.1.0...v5.2.0
 [5.1.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.0.3...v5.1.0
