@@ -1,6 +1,7 @@
 const IsmlLinter  = require('./IsmlLinter');
 const Builder     = require('./Builder');
 const ConfigUtils = require('./util/ConfigUtils');
+const FileParser  = require('./FileParser');
 
 module.exports = {
     /**
@@ -11,7 +12,7 @@ module.exports = {
      * @param  {Object}
      * @return {Object}
     */
-    setConfig : json => { return ConfigUtils.load(json); },
+    setConfig: json => { return ConfigUtils.load(json); },
 
     /**
      * Parses all files under a specific path;
@@ -19,7 +20,7 @@ module.exports = {
      * @param  {String} path
      * @return {Object} structured parse result
      **/
-    parse : path => { return IsmlLinter.run(path); },
+    parse: path => { return IsmlLinter.run(path); },
 
     /**
      * Calls parse() with configured path as
@@ -28,5 +29,12 @@ module.exports = {
      * @return {Number} 0 if no errors we found
      *                  1 if errors were found
      **/
-    build : () => { return Builder.run(); }
+    build: () => { return Builder.run(); },
+
+    // The following are available for retro-compability
+    // and are deprecated. They do the same as the above
+    // methods;
+    IsmlLinter,
+    Builder,
+    FileParser
 };

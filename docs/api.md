@@ -35,4 +35,11 @@ you have access to the following methods:
      *                  1 if errors were found
      **/
     build()
+
+    // The following are available for retro-compability
+    // and are deprecated. They do the same as the above
+    // methods;
+    IsmlLinter,
+    Builder,
+    FileParser
 ```
