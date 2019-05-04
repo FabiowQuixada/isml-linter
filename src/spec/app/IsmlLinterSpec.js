@@ -1,4 +1,5 @@
 const path                 = require('path');
+const glob                 = require('glob');
 const IsmlLinter           = require('../../app/IsmlLinter');
 const SpecHelper           = require('../SpecHelper');
 const Constants            = require('../../app/Constants');
@@ -7,7 +8,6 @@ const NoInlineStyleRule    = require('../../app/rules/line_by_line/no-inline-sty
 const EnforceIsprintRule   = require('../../app/rules/line_by_line/enforce-isprint');
 const FileParser           = require('../../app/FileParser');
 const ExceptionUtils       = require('../../app/util/ExceptionUtils');
-const FileUtils            = require('../../app/util/FileUtils');
 
 const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
@@ -26,6 +26,14 @@ describe(targetObjName, () => {
 
     it('lints ISML files in a given directory', () => {
         const result         = IsmlLinter.run(specSpecificDirLinterTemplate);
+        const expectedResult = expectedResultObj('errors');
+
+        expect(result.errors).toEqual(expectedResult.errors);
+    });
+
+    it('lints ISML files in a given array of file paths', () => {
+        const filePathArray  = glob.sync('src/spec/templates/default/isml_linter/specific_directory_to_be_linted/**/*.isml');
+        const result         = IsmlLinter.run(filePathArray);
         const expectedResult = expectedResultObj('errors');
 
         expect(result.errors).toEqual(expectedResult.errors);
@@ -73,11 +81,9 @@ describe(targetObjName, () => {
         const result          = IsmlLinter.run(specSpecificDirLinterTemplate);
         const expectedMessage = ExceptionUtils.unbalancedElementError('div', 2).message;
         const actualResult    = result[UNPARSEABLE][0];
-        const fullPath        = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
-        const relativePath    = FileUtils.getRelativePath(specSpecificDirLinterTemplate, 'template_0.isml');
+        const relativePath    = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
 
         expect(actualResult).toEqual({
-            filePath     : fullPath,
             relativePath : relativePath,
             message      : expectedMessage,
             lineNumber   : 2
@@ -92,6 +98,8 @@ const expectedResultObj = type => {
     const inlineStyleRuleDesc = NoInlineStyleRule.description;
     const blankLineRuleDesc   = NoSpaceOnlyLinesRule.description;
     const isprintRuleDesc     = EnforceIsprintRule.description;
+    const expectedMessage     = ExceptionUtils.unbalancedElementError('div', 2).message;
+    const relativePath        = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
 
     const file0Path       = path.join(specSpecificDirLinterTemplate, 'template_1.isml');
     const file1Path       = path.join(specSpecificDirLinterTemplate, 'template_2.isml');
@@ -133,16 +141,12 @@ const expectedResultObj = type => {
     result[type][blankLineRuleDesc]            = {};
     result[type][blankLineRuleDesc][file0Path] = [];
     result[type][blankLineRuleDesc][file0Path].push(blankLine);
-    const expectedMessage                      = ExceptionUtils.unbalancedElementError('div', 2).message;
-    const filePath                             = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
-    const relativePath                         = FileUtils.getRelativePath(specSpecificDirLinterTemplate, 'template_0.isml');
 
-    result[UNPARSEABLE] = [ {
-        filePath     : filePath,
+    result[UNPARSEABLE] = [{
         relativePath : relativePath,
         message      : expectedMessage,
         lineNumber   : 2
-    } ];
+    }];
 
     result.issueQty = 5;
 

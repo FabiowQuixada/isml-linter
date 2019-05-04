@@ -14,15 +14,14 @@ const specConfigFileName   = 'spec_config.json';
 const clientAppDir    = appRoot.toString();
 const productionDir   = path.join(clientAppDir, 'node_modules', 'isml-linter');
 const linterModuleDir = fs.existsSync(productionDir) ? productionDir : clientAppDir;
-const linterMainDir   = clientAppDir;
 
 // Directories;
-const specDir                        = path.join(linterMainDir, 'src', 'spec');
+const specDir                        = path.join(appRoot.toString(), 'src', 'spec');
 const specTempDir                    = path.join(specDir, 'temp');
 const specTemplateDir                = path.join(specDir, 'templates', 'default');
 const specFileParserTemplate         = path.join(specTemplateDir, 'file_parser');
 const specLinterTemplate             = path.join(specTemplateDir, 'isml_linter');
-const specSpecificDirLinterTemplate  = path.join(specLinterTemplate, 'specific_directory_to_be_linted');
+const specSpecificDirLinterTemplate  = path.join('src', 'spec', 'templates', 'default', 'isml_linter', 'specific_directory_to_be_linted');
 const specIgnoreDirLinterTemplateDir = path.join(specLinterTemplate, 'ignore_config');
 const specRuleTemplateDir            = path.join(specTemplateDir, 'rules');
 const specIsmlTreeTemplateDir        = path.join(specTemplateDir, 'isml_tree');

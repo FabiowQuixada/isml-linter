@@ -4,7 +4,6 @@ const path           = require('path');
 const appRoot        = require('app-root-path');
 const config         = require('./util/ConfigUtils').load();
 const ExceptionUtils = require('./util/ExceptionUtils');
-const FileUtils      = require('./util/FileUtils');
 
 const Linter = {};
 
@@ -20,11 +19,14 @@ const ignoreFiles = file => {
     return true;
 };
 
-Linter.run = function(dir = config.rootDir || appRoot.toString()) {
+Linter.run = function(paths = config.rootDir || appRoot.toString()) {
 
-    const filesArray = readDir
-        .readSync(dir, ['**.isml'])
-        .filter(ignoreFiles);
+    const filesArray = Array.isArray(paths) ?
+        paths
+            .filter(ignoreFiles) :
+        readDir
+            .readSync(paths, ['**.isml'])
+            .filter(ignoreFiles);
 
     this.result        = {};
     this.result.errors = {};
@@ -32,30 +34,28 @@ Linter.run = function(dir = config.rootDir || appRoot.toString()) {
     let issueQty       = 0;
 
     filesArray.forEach( templateName => {
-        const absoluteFilePath = path.join(dir, templateName);
-        const relativeFilePath = FileUtils.getRelativePath(dir, templateName);
+        const absoluteFilePath = Array.isArray(paths) ? templateName : path.join(paths, templateName);
+        const relativeFilePath = Array.isArray(paths) ? templateName : path.join(paths, templateName);
 
         try {
             const output = FileParser.parse(absoluteFilePath);
 
             for (const rule in output.errors) {
                 that.result.errors[rule]                   = that.result.errors[rule] || {};
-                that.result.errors[rule][absoluteFilePath] = output.errors[rule];
+                that.result.errors[rule][relativeFilePath] = output.errors[rule];
                 issueQty++;
             }
         } catch (e) {
 
             const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
             const UNPARSEABLE   = ExceptionUtils.types.INVALID_TEMPLATE;
-            const fullPath      = path.join(dir, templateName);
 
             if (!ExceptionUtils.isLinterException(e) || e.type === UNKNOWN_ERROR) {
                 that.result[UNKNOWN_ERROR] = that.result[UNKNOWN_ERROR] || [];
-                that.result[UNKNOWN_ERROR].push(fullPath);
+                that.result[UNKNOWN_ERROR].push(relativeFilePath);
             } else {
                 that.result[UNPARSEABLE] = that.result[UNPARSEABLE] || [];
                 that.result[UNPARSEABLE].push({
-                    filePath     : fullPath,
                     relativePath : relativeFilePath,
                     message      : e.message,
                     lineNumber   : e.lineNumber
