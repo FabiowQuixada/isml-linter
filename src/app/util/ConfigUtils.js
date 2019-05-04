@@ -1,3 +1,4 @@
+const fs        = require('fs');
 const path      = require('path');
 const Constants = require('../Constants');
 const FileUtils = require('./FileUtils');
@@ -6,7 +7,7 @@ const ConfigUtils = {};
 
 ConfigUtils.init = function(
     targetDir = Constants.clientAppDir,
-    configFileName = Constants.clientConfigFileName
+    configFileName = Constants.configPreferredFileName
 ) {
     return createConfigFile(targetDir, configFileName);
 };
@@ -22,15 +23,20 @@ ConfigUtils.load = function(configParam) {
         return this.config;
     }
 
-    if (process.env.NODE_ENV === Constants.ENV_TEST) {
-        return require(path.join(Constants.specDir, Constants.specConfigFileName));
+    if (isTestEnv()) {
+        return require(path.join('..', '..', 'spec', Constants.configPreferredFileName));
     }
 
-    if (!FileUtils.fileExists(Constants.configFilePath)) {
+    if (!existConfigFile()) {
         this.init();
     }
 
-    const config = require(Constants.configFilePath);
+    let config = null;
+    try {
+        config = require(Constants.configPreferredFilePath);
+    } catch (err) {
+        config = require(Constants.configFilePath);
+    }
 
     addParamsToConfig(config);
 
@@ -41,14 +47,16 @@ ConfigUtils.clear = function() {
     this.config = null;
 };
 
-const createConfigFile = (targetDir = Constants.configFilePath, configFileName) => {
+const createConfigFile = (
+    targetDir = Constants.configFilePath,
+    configFileName) => {
 
-    if (!FileUtils.fileExists(path.join(targetDir, configFileName))) {
-        const configContent = {
-            rules : {}
-        };
+    if (!existConfigFile()) {
+        const sourceDir = isTestEnv() ? 'scaffold_files' : 'scaffold_files';
 
-        FileUtils.saveToJsonFile(targetDir, configFileName, configContent);
+        fs.copyFileSync(
+            path.join(sourceDir, configFileName),
+            path.join(targetDir, configFileName));
 
         return true;
     }
@@ -63,5 +71,12 @@ const addParamsToConfig = config => {
         }
     });
 };
+
+const existConfigFile = () => {
+    return FileUtils.fileExists(Constants.configFilePath) ||
+        FileUtils.fileExists(Constants.configPreferredFilePath);
+};
+
+const isTestEnv = () => process.env.NODE_ENV === Constants.ENV_TEST;
 
 module.exports = ConfigUtils;

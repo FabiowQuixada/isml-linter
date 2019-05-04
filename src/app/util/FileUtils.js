@@ -10,6 +10,13 @@ const saveToJsonFile = (filePath, fileName, content) => {
     fs.writeFileSync(fullPath, JSON.stringify(content, null, 4));
 };
 
+const saveToFile = (filePath, fileName, content) => {
+    createDirIfDoesNotExist(filePath);
+    const fullPath = path.join(filePath, fileName);
+
+    fs.writeFileSync(fullPath, JSON.stringify(content, null, 4));
+};
+
 const deleteFile = filePath => {
     if (fileExists(filePath)) {
         fs.unlinkSync(path.join(filePath));
@@ -50,6 +57,7 @@ const deleteDirectoryRecursively = dirPath => {
 const fileExists = filePath => fs.existsSync(filePath);
 
 module.exports = {
+    saveToFile,
     saveToJsonFile,
     fileExists,
     createDirIfDoesNotExist,
