@@ -8,10 +8,10 @@ const currentVersion = require(path.join(Constants.clientAppDir, 'package.json')
 const tag            = `v${currentVersion}`;
 
 const commandChain = `
-    npm stash -u &&
-    npm tag ${tag} &&
-    npm push &&
-    npm push --tags &&
+    git stash -u &&
+    git tag ${tag} &&
+    git push &&
+    git push --tags &&
     npm publish`;
 
 exec(commandChain, (err, stdout, stderr) => {
