@@ -32,7 +32,9 @@ describe(rule.name, () => {
             line        : 'importPackage( dw.system );',
             lineNumber  : 1,
             columnStart : 0,
-            length      : 13
+            length      : 13,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

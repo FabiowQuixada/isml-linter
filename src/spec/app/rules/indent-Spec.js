@@ -18,7 +18,9 @@ describe(rule.name, () => {
             line        : '<br/>',
             lineNumber  : 2,
             columnStart : 0,
-            length      : 3
+            length      : 3,
+            rule        : rule.name,
+            message     : rule.description
         }]);
     });
 
@@ -29,7 +31,9 @@ describe(rule.name, () => {
             line        : '<br/>',
             lineNumber  : 3,
             columnStart : 0,
-            length      : 3
+            length      : 3,
+            rule        : rule.name,
+            message     : rule.description
         }]);
     });
 
@@ -46,7 +50,9 @@ describe(rule.name, () => {
             line        : '<input type="text" />',
             lineNumber  : 3,
             columnStart : 0,
-            length      : 5
+            length      : 5,
+            rule        : rule.name,
+            message     : rule.description
         }]);
     });
 });

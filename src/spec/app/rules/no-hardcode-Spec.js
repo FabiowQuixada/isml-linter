@@ -18,12 +18,16 @@ describe(rule.name, () => {
             line        : 'I\'m a hardcoded-text',
             lineNumber  : 4,
             columnStart : -1,
-            length      : 34
+            length      : 34,
+            rule        : rule.name,
+            message     : rule.description
         }, {
             line        : 'I\'m another hardcoded-text',
             lineNumber  : 7,
             columnStart : -1,
-            length      : 40
+            length      : 40,
+            rule        : rule.name,
+            message     : rule.description
         }]);
     });
 

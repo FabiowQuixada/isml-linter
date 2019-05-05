@@ -10,9 +10,11 @@ const RulePrototype = {
     add(line, lineNumber, columnStart, length) {
         this.result.occurrences.push({
             line,
-            lineNumber : lineNumber + 1,
             columnStart,
-            length
+            length,
+            lineNumber : lineNumber + 1,
+            rule       : this.name,
+            message    : this.description
         });
     },
 

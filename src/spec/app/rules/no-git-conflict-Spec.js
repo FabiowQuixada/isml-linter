@@ -32,13 +32,17 @@ describe(rule.name, () => {
             line        : '<<<<<<< HEAD',
             lineNumber  : 1,
             columnStart : 0,
-            length      : 12
+            length      : 12,
+            rule        : rule.name,
+            message     : rule.description
         },
         {
             line        : '=======',
             lineNumber  : 3,
             columnStart : 25,
-            length      : 7
+            length      : 7,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

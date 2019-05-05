@@ -32,7 +32,9 @@ describe(rule.name, () => {
             line        : '<div style="display: none;">',
             lineNumber  : 1,
             columnStart : 5,
-            length      : 5
+            length      : 5,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

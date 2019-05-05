@@ -18,7 +18,9 @@ describe(rule.name, () => {
             line        : '<input\n    type="text"\n    class="form-control <isif condition="${condition}">billingAddressCity</isif>"\n    id="billingAddressCity"\n    autocomplete="billing address-level2"/>',
             lineNumber  : 1,
             columnStart : -1,
-            length      : 176
+            length      : 176,
+            rule        : rule.name,
+            message     : rule.description
         }]);
     });
 

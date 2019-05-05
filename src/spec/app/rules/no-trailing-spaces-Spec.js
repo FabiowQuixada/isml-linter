@@ -46,7 +46,9 @@ describe(rule.name, () => {
             line        : 'const sum = 0;    ',
             lineNumber  : 1,
             columnStart : 14,
-            length      : 4
+            length      : 4,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

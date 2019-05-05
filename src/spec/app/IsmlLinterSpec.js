@@ -107,25 +107,33 @@ const expectedResultObj = type => {
         line        : '<div style="display: none;">${addToCartUrl}</div>',
         lineNumber  : 1,
         columnStart : 5,
-        length      : 5
+        length      : 5,
+        rule        : NoInlineStyleRule.name,
+        message     : NoInlineStyleRule.description
     };
     const blankLine       = {
         line        : '   ',
         lineNumber  : 2,
         columnStart : 50,
-        length      : 4
+        length      : 4,
+        rule        : NoSpaceOnlyLinesRule.name,
+        message     : NoSpaceOnlyLinesRule.description
     };
     const isprintLine0    = {
         line        : '<div style="display: none;">${addToCartUrl}</div>',
         lineNumber  : 1,
         columnStart : 28,
-        length      : 15
+        length      : 15,
+        rule        : EnforceIsprintRule.name,
+        message     : EnforceIsprintRule.description
     };
     const isprintLine1    = {
         line        : ' ${URLUtils.https(\'Reorder-ListingPage\')}',
         lineNumber  : 1,
         columnStart : 1,
-        length      : 40
+        length      : 40,
+        rule        : EnforceIsprintRule.name,
+        message     : EnforceIsprintRule.description
     };
 
     result[type][isprintRuleDesc]            = {};

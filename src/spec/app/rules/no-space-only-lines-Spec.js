@@ -39,7 +39,9 @@ describe(rule.name, () => {
             line        : '     ',
             lineNumber  : 1,
             columnStart : 0,
-            length      : 6
+            length      : 6,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

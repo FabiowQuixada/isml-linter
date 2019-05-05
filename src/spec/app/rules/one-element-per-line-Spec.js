@@ -18,7 +18,9 @@ describe(rule.name, () => {
             line        : '${Resource.msg(\'field.billing.address.last.name\',\'address\',null)}',
             lineNumber  : 7,
             columnStart : -1,
-            length      : 65
+            length      : 65,
+            rule        : rule.name,
+            message     : rule.description
         }]);
     });
 

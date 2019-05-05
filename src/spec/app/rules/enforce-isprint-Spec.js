@@ -53,7 +53,9 @@ describe(rule.name, () => {
             line        : '${\'some ds code\'}',
             lineNumber  : 1,
             columnStart : 0,
-            length      : 17
+            length      : 17,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

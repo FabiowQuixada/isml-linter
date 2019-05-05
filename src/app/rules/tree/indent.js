@@ -60,7 +60,9 @@ Rule.check = function(node, result) {
             node.getValue().trim(),
             node.getLineNumber() - 1,
             0,
-            getActualIndentationSize(node)
+            getActualIndentationSize(node),
+            ruleName,
+            description
         );
     }
 

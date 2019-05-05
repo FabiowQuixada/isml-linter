@@ -32,7 +32,9 @@ describe(rule.name, () => {
             line        : '<isscript>',
             lineNumber  : 1,
             columnStart : 0,
-            length      : 10
+            length      : 10,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

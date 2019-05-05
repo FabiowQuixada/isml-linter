@@ -32,7 +32,9 @@ describe(rule.name, () => {
             line        : '<div><br></div>',
             lineNumber  : 1,
             columnStart : 5,
-            length      : 4
+            length      : 4,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);
@@ -45,7 +47,9 @@ describe(rule.name, () => {
             line        : '<div><br /></div>',
             lineNumber  : 2,
             columnStart : 6,
-            length      : 6
+            length      : 6,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);
@@ -58,7 +62,9 @@ describe(rule.name, () => {
             line        : '<div><br/></div>',
             lineNumber  : 1,
             columnStart : 5,
-            length      : 5
+            length      : 5,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);
@@ -71,7 +77,9 @@ describe(rule.name, () => {
             line        : '<br>',
             lineNumber  : 1,
             columnStart : 0,
-            length      : 4
+            length      : 4,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);
@@ -84,7 +92,9 @@ describe(rule.name, () => {
             line        : '<br/>',
             lineNumber  : 2,
             columnStart : 1,
-            length      : 5
+            length      : 5,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);

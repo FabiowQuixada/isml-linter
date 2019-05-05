@@ -25,7 +25,9 @@ describe(rule.name, () => {
             line        : '<a href="${dw.catalog.ProductSearchModel.urlForCategory(\'Search-Show\',cat.ID)}"',
             lineNumber  : 0,
             columnStart : 11,
-            length      : 29
+            length      : 29,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).not.toEqual(expectedResult);
@@ -52,7 +54,9 @@ describe(rule.name, () => {
             line        : 'const productLineItem : dw.order.ProductLineItem; // Some comment',
             lineNumber  : 2,
             columnStart : 25,
-            length      : 24
+            length      : 24,
+            rule        : rule.name,
+            message     : rule.description
         }];
 
         expect(result.occurrences).toEqual(expectedResult);
