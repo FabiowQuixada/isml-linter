@@ -52,10 +52,10 @@ const createConfigFile = (
     configFileName) => {
 
     if (!existConfigFile()) {
-        const sourceDir = isTestEnv() ? 'scaffold_files' : 'scaffold_files';
+        const sourceDir = 'scaffold_files';
 
         fs.copyFileSync(
-            path.join(sourceDir, configFileName),
+            path.join('node_modules', 'isml-linter', sourceDir, configFileName),
             path.join(targetDir, configFileName));
 
         return true;
