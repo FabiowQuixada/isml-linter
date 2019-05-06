@@ -35,14 +35,14 @@ Linter.run = function(paths = config.rootDir || appRoot.toString()) {
 
     filesArray.forEach( templateName => {
         const absoluteFilePath = Array.isArray(paths) ? templateName : path.join(paths, templateName);
-        const relativeFilePath = Array.isArray(paths) ? templateName : path.join(paths, templateName);
+        const filePath         = Array.isArray(paths) ? templateName : path.join(paths, templateName);
 
         try {
             const output = FileParser.parse(absoluteFilePath);
 
             for (const rule in output.errors) {
-                that.result.errors[rule]                   = that.result.errors[rule] || {};
-                that.result.errors[rule][relativeFilePath] = output.errors[rule];
+                that.result.errors[rule]           = that.result.errors[rule] || {};
+                that.result.errors[rule][filePath] = output.errors[rule];
                 issueQty++;
             }
         } catch (e) {
@@ -52,13 +52,13 @@ Linter.run = function(paths = config.rootDir || appRoot.toString()) {
 
             if (!ExceptionUtils.isLinterException(e) || e.type === UNKNOWN_ERROR) {
                 that.result[UNKNOWN_ERROR] = that.result[UNKNOWN_ERROR] || [];
-                that.result[UNKNOWN_ERROR].push(relativeFilePath);
+                that.result[UNKNOWN_ERROR].push(filePath);
             } else {
                 that.result[UNPARSEABLE] = that.result[UNPARSEABLE] || [];
                 that.result[UNPARSEABLE].push({
-                    relativePath : relativeFilePath,
-                    message      : e.message,
-                    lineNumber   : e.lineNumber
+                    filePath   : filePath,
+                    message    : e.message,
+                    lineNumber : e.lineNumber
                 });
             }
 

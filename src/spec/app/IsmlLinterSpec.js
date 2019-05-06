@@ -81,12 +81,12 @@ describe(targetObjName, () => {
         const result          = IsmlLinter.run(specSpecificDirLinterTemplate);
         const expectedMessage = ExceptionUtils.unbalancedElementError('div', 2).message;
         const actualResult    = result[UNPARSEABLE][0];
-        const relativePath    = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
+        const filePath        = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
 
         expect(actualResult).toEqual({
-            relativePath : relativePath,
-            message      : expectedMessage,
-            lineNumber   : 2
+            filePath   : filePath,
+            message    : expectedMessage,
+            lineNumber : 2
         });
     });
 });
@@ -99,7 +99,7 @@ const expectedResultObj = type => {
     const blankLineRuleDesc   = NoSpaceOnlyLinesRule.description;
     const isprintRuleDesc     = EnforceIsprintRule.description;
     const expectedMessage     = ExceptionUtils.unbalancedElementError('div', 2).message;
-    const relativePath        = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
+    const filePath            = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
 
     const file0Path       = path.join(specSpecificDirLinterTemplate, 'template_1.isml');
     const file1Path       = path.join(specSpecificDirLinterTemplate, 'template_2.isml');
@@ -151,9 +151,9 @@ const expectedResultObj = type => {
     result[type][blankLineRuleDesc][file0Path].push(blankLine);
 
     result[UNPARSEABLE] = [{
-        relativePath : relativePath,
-        message      : expectedMessage,
-        lineNumber   : 2
+        filePath   : filePath,
+        message    : expectedMessage,
+        lineNumber : 2
     }];
 
     result.issueQty = 5;
