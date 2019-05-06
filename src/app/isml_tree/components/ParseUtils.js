@@ -22,6 +22,18 @@ const getUpdateContent = state => {
     return content;
 };
 
+const getAccumulatedPos = state => {
+    let accumulatedValue = 0;
+    let iterator         = state;
+
+    do {
+        accumulatedValue += iterator.currentPos + 1;
+        iterator         = iterator.parentState;
+    } while (iterator);
+
+    return accumulatedValue;
+};
+
 const getNextNonEmptyChar = content => {
     return content.replace(/\n/g, '').trim()[0];
 };
@@ -30,10 +42,12 @@ module.exports.getLineBreakQty = function(string) {
     return (string.match(/\n/g) || []).length;
 };
 
-module.exports.getNextNonEmptyCharPos = content => {
+const getNextNonEmptyCharPos = content => {
     const firstNonEmptyChar = getNextNonEmptyChar(content);
     return content.indexOf(firstNonEmptyChar);
 };
+
+module.exports.getNextNonEmptyCharPos = getNextNonEmptyCharPos;
 
 module.exports.getPostClosingTagContentUpToLneBreak = function(content, startPos) {
     let postContent = '';
@@ -262,4 +276,20 @@ module.exports.darken = function(state) {
 
 module.exports.lighten = function(state) {
     state.depthColor--;
+};
+
+module.exports.getGlobalPos = state => {
+    const currentElement = state.currentElement.asString;
+    const accumutatedPos = getAccumulatedPos(state);
+
+    const newLocal = accumutatedPos - currentElement.trim().length;
+    return newLocal;
+};
+
+module.exports.getTextGlobalPos = (state, text) => {
+    const precedingEmptySpacesQty = getNextNonEmptyCharPos(text);
+    const accumulatedPos          = getAccumulatedPos(state);
+
+    return accumulatedPos + precedingEmptySpacesQty;
+
 };
