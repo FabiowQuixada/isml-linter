@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.4.1] - 2019-05-05
+
+## Fixed
+ - Parse output filepath for unparseable templates;
+
 ## [5.4.0] - 2019-05-05
 
 ### Added
@@ -192,6 +197,7 @@
 ### Added
 - Linter is published;
 
+[5.4.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.0...v5.4.1
 [5.4.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.3.0...v5.4.0
 [5.3.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.2.0...v5.3.0
 [5.2.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.1.0...v5.2.0
