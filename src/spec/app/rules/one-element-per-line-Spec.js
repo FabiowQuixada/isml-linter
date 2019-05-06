@@ -17,7 +17,7 @@ describe(rule.name, () => {
         expect(result).toEqual([{
             line        : '${Resource.msg(\'field.billing.address.last.name\',\'address\',null)}',
             lineNumber  : 7,
-            columnStart : -1,
+            columnStart : 360,
             length      : 65,
             rule        : rule.name,
             message     : rule.description

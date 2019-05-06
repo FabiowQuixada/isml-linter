@@ -17,7 +17,7 @@ describe(rule.name, () => {
         expect(result).toEqual([{
             line        : '<input\n    type="text"\n    class="form-control <isif condition="${condition}">billingAddressCity</isif>"\n    id="billingAddressCity"\n    autocomplete="billing address-level2"/>',
             lineNumber  : 1,
-            columnStart : -1,
+            columnStart : 0,
             length      : 176,
             rule        : rule.name,
             message     : rule.description

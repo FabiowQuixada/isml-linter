@@ -17,7 +17,7 @@ describe(rule.name, () => {
         expect(occurrences).toEqual([{
             line        : '<isprint class="lvl-11" />',
             lineNumber  : 11,
-            columnStart : -1,
+            columnStart : 490,
             length      : 67,
             rule        : rule.name,
             message     : rule.description

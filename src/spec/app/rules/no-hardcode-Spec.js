@@ -17,14 +17,14 @@ describe(rule.name, () => {
         expect(result).toEqual([{
             line        : 'I\'m a hardcoded-text',
             lineNumber  : 4,
-            columnStart : -1,
+            columnStart : 90,
             length      : 34,
             rule        : rule.name,
             message     : rule.description
         }, {
             line        : 'I\'m another hardcoded-text',
             lineNumber  : 7,
-            columnStart : -1,
+            columnStart : 162,
             length      : 40,
             rule        : rule.name,
             message     : rule.description
