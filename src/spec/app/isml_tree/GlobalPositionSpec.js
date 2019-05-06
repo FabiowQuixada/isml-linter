@@ -58,6 +58,30 @@ describe('GlobalPosition', () => {
         expect(divNode2.getGlobalPos()).toEqual(97);
         expect(textNode2.getGlobalPos()).toEqual(133);
     });
+
+    it('V', () => {
+        const rootNode = parseTemplate(4);
+        const tdNode   = rootNode.getChild(0);
+        const divNode  = tdNode.getChild(0);
+        const divNode2 = divNode.getChild(0);
+
+        expect(tdNode.getGlobalPos()).toEqual(0);
+        expect(divNode.getGlobalPos()).toEqual(28);
+        expect(divNode2.getGlobalPos()).toEqual(61);
+    });
+
+    it('VI', () => {
+        const rootNode  = parseTemplate(5);
+        const tdNode    = rootNode.getChild(0);
+        const divNode   = tdNode.getChild(0);
+        const divNode2  = divNode.getChild(0);
+        const inputNode = divNode2.getChild(0);
+
+        expect(tdNode.getGlobalPos()).toEqual(0);
+        expect(divNode.getGlobalPos()).toEqual(28);
+        expect(divNode2.getGlobalPos()).toEqual(61);
+        expect(inputNode.getGlobalPos()).toEqual(105);
+    });
 });
 
 const parseTemplate = number => {

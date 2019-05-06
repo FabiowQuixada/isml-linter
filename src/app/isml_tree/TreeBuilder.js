@@ -190,7 +190,7 @@ const getAccumulatedPos = state => {
     let iterator         = state;
 
     do {
-        accumulatedValue += iterator.currentPos;
+        accumulatedValue += iterator.currentPos + 1;
         iterator         = iterator.parentState;
     } while (iterator);
 
@@ -258,22 +258,18 @@ const updateStateLinesData = oldState => {
 
 const getGlobalPos = state => {
     const currentElement = state.currentElement.asString;
-    const emptyLinesQty  = ParseUtils.getPrecedingEmptyLinesQty(currentElement);
     const accumutatedPos = getAccumulatedPos(state);
 
-    return state.parentState ?
-        accumutatedPos - currentElement.trim().length + emptyLinesQty + 1 :
-        accumutatedPos - currentElement.length        + emptyLinesQty + 1;
+    const newLocal = accumutatedPos - currentElement.trim().length;
+    return newLocal;
 };
 
 const getTextGlobalPos = (state, text) => {
-    const lineBreakQty            = ParseUtils.getPrecedingEmptyLinesQty(text);
     const precedingEmptySpacesQty = ParseUtils.getNextNonEmptyCharPos(text);
     const accumulatedPos          = getAccumulatedPos(state);
 
-    return state.parentState ?
-        accumulatedPos + precedingEmptySpacesQty + lineBreakQty + 1 :
-        accumulatedPos + precedingEmptySpacesQty + 1;
+    return accumulatedPos + precedingEmptySpacesQty;
+
 };
 
 module.exports.build = build;

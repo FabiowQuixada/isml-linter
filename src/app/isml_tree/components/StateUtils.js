@@ -8,6 +8,7 @@ module.exports = {
             parentState,
             parentNode,
             filePath,
+            stateDepth            : parentState ? parentState.stateDepth + 1 : 0,
             currentElement        : {},
             lineBreakPositionList : [0],
             closingElementsStack  : [],
