@@ -40,12 +40,14 @@ const RulePrototype = {
     },
 
     getConfigs() {
-        const config = ConfigUtils.load();
-        if (config && config.rules && config.rules[this.name]) {
-            return config.rules[this.name];
-        }
+        const config             = ConfigUtils.load();
+        const ruleDefaultConfigs = this.getDefaultAttrs();
 
-        return this.getDefaultAttrs();
+        return Object.assign(
+            {},
+            ruleDefaultConfigs,
+            config.rules[this.name]
+        );
     },
 };
 
