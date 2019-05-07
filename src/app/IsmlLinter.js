@@ -20,6 +20,12 @@ const ignoreFiles = file => {
     return true;
 };
 
+const getTemplatePath = (pathData, templateName) => {
+    return Array.isArray(pathData) || path.isAbsolute(pathData)?
+        templateName :
+        path.join(pathData, templateName);
+};
+
 Linter.run = function(pathData = config.rootDir || appRoot.toString()) {
     const filesArray = getFilePathArray(pathData);
 
@@ -29,15 +35,14 @@ Linter.run = function(pathData = config.rootDir || appRoot.toString()) {
     let issueQty       = 0;
 
     filesArray.forEach( templateName => {
-        const absoluteFilePath = Array.isArray(pathData) ? templateName : path.join(pathData, templateName);
-        const filePath         = Array.isArray(pathData) ? templateName : path.join(pathData, templateName);
+        const templatePath = getTemplatePath(pathData, templateName);
 
         try {
-            const output = FileParser.parse(absoluteFilePath);
+            const output = FileParser.parse(templatePath);
 
             for (const rule in output.errors) {
-                that.result.errors[rule]           = that.result.errors[rule] || {};
-                that.result.errors[rule][filePath] = output.errors[rule];
+                that.result.errors[rule]               = that.result.errors[rule] || {};
+                that.result.errors[rule][templatePath] = output.errors[rule];
                 issueQty++;
             }
         } catch (e) {
@@ -47,11 +52,11 @@ Linter.run = function(pathData = config.rootDir || appRoot.toString()) {
 
             if (!ExceptionUtils.isLinterException(e) || e.type === UNKNOWN_ERROR) {
                 that.result[UNKNOWN_ERROR] = that.result[UNKNOWN_ERROR] || [];
-                that.result[UNKNOWN_ERROR].push(filePath);
+                that.result[UNKNOWN_ERROR].push(templatePath);
             } else {
                 that.result[UNPARSEABLE] = that.result[UNPARSEABLE] || [];
                 that.result[UNPARSEABLE].push({
-                    filePath   : filePath,
+                    filePath   : templatePath,
                     message    : e.message,
                     lineNumber : e.lineNumber
                 });
