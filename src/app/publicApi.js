@@ -17,10 +17,13 @@ module.exports = {
     /**
      * Parses all files under a specific path;
      *
-     * @param  {String} path
+     * @param  {String} path      Single file, array of files or directory
+     * @param  {String} [content] Content of the file, for cases when it needs
+     *                            to be validated even if the changes were not
+     *                            saved
      * @return {Object} structured parse result
      **/
-    parse: path => { return IsmlLinter.run(path); },
+    parse: (path, content) => { return IsmlLinter.run(path, content); },
 
     /**
      * Calls parse() with configured path as

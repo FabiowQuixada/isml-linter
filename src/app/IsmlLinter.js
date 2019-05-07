@@ -26,7 +26,7 @@ const getTemplatePath = (pathData, templateName) => {
         path.join(pathData, templateName);
 };
 
-Linter.run = function(pathData = config.rootDir || appRoot.toString()) {
+Linter.run = function(pathData = config.rootDir || appRoot.toString(), content) {
     const filesArray = getFilePathArray(pathData);
 
     this.result        = {};
@@ -38,7 +38,7 @@ Linter.run = function(pathData = config.rootDir || appRoot.toString()) {
         const templatePath = getTemplatePath(pathData, templateName);
 
         try {
-            const output = FileParser.parse(templatePath);
+            const output = FileParser.parse(templatePath, content);
 
             for (const rule in output.errors) {
                 that.result.errors[rule]               = that.result.errors[rule] || {};
