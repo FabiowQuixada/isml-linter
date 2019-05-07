@@ -2,6 +2,7 @@ const readDir        = require('readdir');
 const FileParser     = require('./FileParser');
 const path           = require('path');
 const appRoot        = require('app-root-path');
+const fs             = require('fs');
 const config         = require('./util/ConfigUtils').load();
 const ExceptionUtils = require('./util/ExceptionUtils');
 
@@ -19,14 +20,8 @@ const ignoreFiles = file => {
     return true;
 };
 
-Linter.run = function(paths = config.rootDir || appRoot.toString()) {
-
-    const filesArray = Array.isArray(paths) ?
-        paths
-            .filter(ignoreFiles) :
-        readDir
-            .readSync(paths, ['**.isml'])
-            .filter(ignoreFiles);
+Linter.run = function(pathData = config.rootDir || appRoot.toString()) {
+    const filesArray = getFilePathArray(pathData);
 
     this.result        = {};
     this.result.errors = {};
@@ -34,8 +29,8 @@ Linter.run = function(paths = config.rootDir || appRoot.toString()) {
     let issueQty       = 0;
 
     filesArray.forEach( templateName => {
-        const absoluteFilePath = Array.isArray(paths) ? templateName : path.join(paths, templateName);
-        const filePath         = Array.isArray(paths) ? templateName : path.join(paths, templateName);
+        const absoluteFilePath = Array.isArray(pathData) ? templateName : path.join(pathData, templateName);
+        const filePath         = Array.isArray(pathData) ? templateName : path.join(pathData, templateName);
 
         try {
             const output = FileParser.parse(absoluteFilePath);
@@ -69,6 +64,20 @@ Linter.run = function(paths = config.rootDir || appRoot.toString()) {
     that.result.issueQty = issueQty;
 
     return that.result;
+};
+
+const getFilePathArray = pathData => {
+    if (Array.isArray(pathData)) {
+        return pathData.filter(ignoreFiles);
+    } else {
+        if (fs.lstatSync(pathData).isFile()) {
+            return [pathData];
+        } else {
+            return readDir
+                .readSync(pathData, ['**.isml'])
+                .filter(ignoreFiles);
+        }
+    }
 };
 
 module.exports = Linter;
