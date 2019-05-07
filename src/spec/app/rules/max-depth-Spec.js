@@ -18,7 +18,7 @@ describe(rule.name, () => {
             line        : '<isprint class="lvl-11" />',
             lineNumber  : 11,
             columnStart : 490,
-            length      : 67,
+            length      : 26,
             rule        : rule.name,
             message     : rule.description
         }]);

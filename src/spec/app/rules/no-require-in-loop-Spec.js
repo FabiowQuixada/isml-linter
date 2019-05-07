@@ -18,7 +18,7 @@ describe(rule.name, () => {
             line        : '<isset name="basket" value="${require(\'dw.order.Basket\')}" scope="page"/>',
             lineNumber  : 3,
             columnStart : 80,
-            length      : 82,
+            length      : 73,
             rule        : rule.name,
             message     : rule.description
         }]);

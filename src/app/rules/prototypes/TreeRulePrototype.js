@@ -16,7 +16,7 @@ TreeRulePrototype.check = function(node, result) {
             node.getValue().trim(),
             node.getLineNumber() - 1,
             node.getGlobalPos(),
-            node.getValue().length
+            node.getValue().trim().length
         );
     }
 

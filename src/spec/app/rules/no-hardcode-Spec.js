@@ -18,14 +18,14 @@ describe(rule.name, () => {
             line        : 'I\'m a hardcoded-text',
             lineNumber  : 4,
             columnStart : 90,
-            length      : 34,
+            length      : 20,
             rule        : rule.name,
             message     : rule.description
         }, {
             line        : 'I\'m another hardcoded-text',
             lineNumber  : 7,
             columnStart : 162,
-            length      : 40,
+            length      : 26,
             rule        : rule.name,
             message     : rule.description
         }]);
@@ -41,5 +41,18 @@ describe(rule.name, () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2);
 
         expect(result.length).toEqual(0);
+    });
+
+    it('detects a 1-length-long hardcoded text', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3)[0];
+
+        expect(result).toEqual({
+            columnStart : 28,
+            length      : 1,
+            line        : 'g',
+            lineNumber  : 6,
+            message     : 'Hardcoded string is not allowed',
+            rule        : 'no-hardcode'
+        });
     });
 });
