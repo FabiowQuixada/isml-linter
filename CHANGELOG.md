@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.4.2] - 2019-05-08
+
+## Fixed
+ - Error occurrence global starting position;
+ - Rule default and custom configs handling;
+ - Single file as param to Isml Linter;
+ - Output template path for unknown error;
+ - Error occurrence length;
+
 ## [5.4.1] - 2019-05-05
 
 ## Fixed
@@ -197,6 +206,7 @@
 ### Added
 - Linter is published;
 
+[5.4.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.1...v5.4.2
 [5.4.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.0...v5.4.1
 [5.4.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.3.0...v5.4.0
 [5.3.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.2.0...v5.3.0
