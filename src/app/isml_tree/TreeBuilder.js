@@ -38,6 +38,8 @@ const parse = (content, parentState, parentNode = new IsmlNode(), filePath) => {
         state = iterate(state);
     }
 
+    parseRemainingContent(state);
+
     return state.parentNode;
 };
 
@@ -242,6 +244,18 @@ const updateStateLinesData = oldState => {
     }
 
     return state;
+};
+
+const parseRemainingContent = state => {
+    const trailingTextValue = state.nonTagBuffer;
+
+    if (trailingTextValue.trim()) {
+        const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(trailingTextValue);
+        const globalPos    = ParseUtils. getNextNonEmptyCharPos(trailingTextValue);
+        const node         = new IsmlNode(trailingTextValue, state.currentLineNumber + lineBreakQty, globalPos);
+
+        state.parentNode.addChild(node);
+    }
 };
 
 module.exports.build = build;

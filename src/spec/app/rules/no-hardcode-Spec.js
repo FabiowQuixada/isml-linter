@@ -55,4 +55,17 @@ describe(rule.name, () => {
             rule        : 'no-hardcode'
         });
     });
+
+    it('detects lonely hardcoded text', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4);
+
+        expect(result[0]).toEqual({
+            columnStart : 7,
+            length      : 4,
+            line        : 'test',
+            lineNumber  : 3,
+            message     : 'Hardcoded string is not allowed',
+            rule        : 'no-hardcode'
+        });
+    });
 });
