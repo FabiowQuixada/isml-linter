@@ -351,6 +351,20 @@ describe(targetObjName, () => {
         expect(issetNode.getValue()).toEqual('\n    <isset name="isLowPrice" value="${}" scope="page" />');
     });
 
+    it('accepts a hardcoded string as last element', () => {
+        const rootNode = getRootNodeFromTemplate(37);
+        const divNode  = rootNode.getChild(0);
+        const textNode = rootNode.getChild(1);
+
+        expect(divNode.getValue()).toEqual('<td class="value">');
+        expect(divNode.getLineNumber()).toEqual(1);
+        expect(divNode.getNumberOfChildren()).toEqual(1);
+
+        expect(textNode.getValue()).toEqual('\n\ntest\n');
+        expect(textNode.getLineNumber()).toEqual(5);
+        expect(textNode.getNumberOfChildren()).toEqual(0);
+    });
+
     it('accepts a hardcoded string as first element', () => {
         const rootNode = getRootNodeFromTemplate(27);
         const textNode = rootNode.getChild(0);

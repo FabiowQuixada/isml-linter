@@ -46,7 +46,7 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
             internalState = updateState(internalState, currentElemStartingLineNumber, parentState);
 
             if (!internalState.elementStack.length) {
-                parentState.currentElemClosingTagInitPos = internalState.result;
+                parentState.currentElemClosingTagInitPos = contentUpToCurrentPosition.length;
                 return parentState;
             }
         } else {
