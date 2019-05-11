@@ -20,6 +20,14 @@ describe('Tree auto-fix', () => {
     it('prints complex tree as-is', () => {
         compareResultForTemplate(1);
     });
+
+    it('prints simple tree as-is', () => {
+        compareResultForTemplate(2);
+    });
+
+    it('prints simple tree with no eof line as-is', () => {
+        compareResultForTemplate(3);
+    });
 });
 
 const compareResultForTemplate = number => {

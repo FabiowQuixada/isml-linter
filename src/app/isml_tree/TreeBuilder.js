@@ -127,8 +127,8 @@ const createNode = oldState => {
     const innerContentLastPos = parseNewNodeInnerContent(state);
 
     isIsifNode ?
-        node.getLastChild().suffix = state.closingElementsStack.pop() :
-        node.suffix = state.closingElementsStack.pop();
+        node.getLastChild().suffix = state.closingElementsStack.pop().trim() :
+        node.suffix                = state.closingElementsStack.pop().trim();
 
     return innerContentLastPos;
 };
@@ -255,7 +255,7 @@ const updateStateLinesData = oldState => {
 const parseRemainingContent = state => {
     const trailingTextValue = state.nonTagBuffer;
 
-    if (trailingTextValue.trim()) {
+    if (trailingTextValue) {
         const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(trailingTextValue);
         const globalPos    = ParseUtils. getNextNonEmptyCharPos(trailingTextValue);
         const node         = new IsmlNode(trailingTextValue, state.currentLineNumber + lineBreakQty, globalPos);

@@ -167,9 +167,10 @@ describe(targetObjName, () => {
     });
 
     it('handles empty "isif" tag', () => {
-        const rootNode = getRootNodeFromTemplate(20);
-        const divNode  = rootNode.getChild(0);
-        const ifNode   = divNode.getChild(0).getChild(0);
+        const rootNode  = getRootNodeFromTemplate(20);
+        const divNode   = rootNode.getChild(0);
+        const ifNode    = divNode.getChild(0).getChild(0);
+        const emptyNode = ifNode.getChild(0);
 
         expect(divNode.getValue()).toEqual('<div <isif condition="${condition1}"></isif>>');
         expect(divNode.getLineNumber()).toEqual(1);
@@ -177,13 +178,16 @@ describe(targetObjName, () => {
 
         expect(ifNode.getValue()).toEqual('\n    <isif condition="${condition2}">');
         expect(ifNode.getLineNumber()).toEqual(2);
-        expect(ifNode.getNumberOfChildren()).toEqual(0);
+        expect(ifNode.getNumberOfChildren()).toEqual(1);
+
+        expect(emptyNode.getValue()).toEqual('\n    ');
     });
 
     it('handle one-char condition "if" tag', () => {
-        const rootNode = getRootNodeFromTemplate(21);
-        const divNode  = rootNode.getChild(0);
-        const ifNode   = divNode.getChild(0).getChild(0);
+        const rootNode  = getRootNodeFromTemplate(21);
+        const divNode   = rootNode.getChild(0);
+        const ifNode    = divNode.getChild(0).getChild(0);
+        const emptyNode = ifNode.getChild(0);
 
         expect(divNode.getValue()).toEqual('<div <isif condition="${c}"></isif>>');
         expect(divNode.getLineNumber()).toEqual(1);
@@ -191,7 +195,9 @@ describe(targetObjName, () => {
 
         expect(ifNode.getValue()).toEqual('\n    <isif condition="${c2}">');
         expect(ifNode.getLineNumber()).toEqual(2);
-        expect(ifNode.getNumberOfChildren()).toEqual(0);
+        expect(ifNode.getNumberOfChildren()).toEqual(1);
+
+        expect(emptyNode.getValue()).toEqual('\n    ');
     });
 
     it('identifies HTML comments', () => {
@@ -213,6 +219,7 @@ describe(targetObjName, () => {
         const htmlCommentNode = rootNode.getChild(0);
         const mainDivNode     = rootNode.getChild(1);
         const childDivNode    = mainDivNode.getChild(0);
+        const emptyNode       = childDivNode.getChild(0);
 
         expect(rootNode.getNumberOfChildren()).toEqual(2);
 
@@ -226,7 +233,9 @@ describe(targetObjName, () => {
 
         expect(childDivNode.getValue()).toEqual('\n    <div class="col-sm-6">');
         expect(childDivNode.getLineNumber()).toEqual(4);
-        expect(childDivNode.getNumberOfChildren()).toEqual(0);
+        expect(childDivNode.getNumberOfChildren()).toEqual(1);
+
+        expect(emptyNode.getValue()).toEqual('\n    ');
     });
 
     it('identifies style tags', () => {
@@ -366,9 +375,10 @@ describe(targetObjName, () => {
     });
 
     it('accepts a hardcoded string as first element', () => {
-        const rootNode = getRootNodeFromTemplate(27);
-        const textNode = rootNode.getChild(0);
-        const divNode  = rootNode.getChild(1);
+        const rootNode  = getRootNodeFromTemplate(27);
+        const textNode  = rootNode.getChild(0);
+        const divNode   = rootNode.getChild(1);
+        const emptyNode = divNode.getChild(0);
 
         expect(textNode.getValue()).toEqual('\ntest\n\n');
         expect(textNode.getLineNumber()).toEqual(2);
@@ -376,7 +386,9 @@ describe(targetObjName, () => {
 
         expect(divNode.getValue()).toEqual('<td class="value">');
         expect(divNode.getLineNumber()).toEqual(4);
-        expect(divNode.getNumberOfChildren()).toEqual(0);
+        expect(divNode.getNumberOfChildren()).toEqual(1);
+
+        expect(emptyNode.getValue()).toEqual('\n    \n');
     });
 });
 

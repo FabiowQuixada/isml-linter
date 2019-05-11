@@ -128,6 +128,14 @@ class IsmlNode {
             type.some( elem => elem === this.getType());
     }
 
+    isEmpty() {
+        return !this.value.trim();
+    }
+
+    isLastChild()  {
+        return !this.parent || this.parent.getLastChild() === this;
+    }
+
     print() {
         const indentSize = this.depth;
         let indentation  = '';
@@ -144,6 +152,11 @@ class IsmlNode {
     }
 
     getFullContent(stream = '') {
+
+        if (!this.isMulticlause() && this.isEmpty() && !this.isLastChild()) {
+            return stream;
+        }
+
         if (!this.isRoot() && !this.isMulticlause()) {
             stream += this.value;
         }

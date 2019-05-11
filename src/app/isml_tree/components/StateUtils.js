@@ -40,6 +40,7 @@ module.exports = {
     },
 
     initializeCurrentElement(state) {
+        state.nonTagBuffer                      = '';
         state.currentElement.asString           = '';
         state.currentElement.initPosition       = -1;
         state.currentElement.endPosition        = -1;
