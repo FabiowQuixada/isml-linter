@@ -177,11 +177,17 @@ const createTextNodeFromMainLoop = oldState => {
     const state = Object.assign({}, oldState);
 
     if (state.nonTagBuffer && state.nonTagBuffer.replace(/\s/g, '').length) {
-        const node                    = new IsmlNode(state.nonTagBuffer);
+        const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(state.nonTagBuffer);
+        const globalPos    = ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer);
+        const lineNumber   = state.currentLineNumber + lineBreakQty;
+        const node         = new IsmlNode(state.nonTagBuffer, lineNumber, globalPos);
+
+        state.currentLineNumber                 += ParseUtils.getLineBreakQty(state.nonTagBuffer);
         state.parentNode.addChild(node);
         StateUtils.initializeCurrentElement(state);
-        state.ignoreUntil             += state.nonTagBuffer.length - 1;
-        state.currentElement.asString = '<';
+        state.currentElement.startingLineNumber = state.currentLineNumber;
+        state.currentElement.asString           = '<';
+        state.ignoreUntil                       += state.nonTagBuffer.length - 1;
     }
 
     return state;

@@ -350,6 +350,20 @@ describe(targetObjName, () => {
 
         expect(issetNode.getValue()).toEqual('\n    <isset name="isLowPrice" value="${}" scope="page" />');
     });
+
+    it('accepts a hardcoded string as first element', () => {
+        const rootNode = getRootNodeFromTemplate(27);
+        const textNode = rootNode.getChild(0);
+        const divNode  = rootNode.getChild(1);
+
+        expect(textNode.getValue()).toEqual('\ntest\n\n');
+        expect(textNode.getLineNumber()).toEqual(2);
+        expect(textNode.getNumberOfChildren()).toEqual(0);
+
+        expect(divNode.getValue()).toEqual('<td class="value">');
+        expect(divNode.getLineNumber()).toEqual(4);
+        expect(divNode.getNumberOfChildren()).toEqual(0);
+    });
 });
 
 const getFilePath = number => {
