@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.4.3] - 2019-05-12
+
+## Fixed
+ - Hardcode rule for edge cases:
+   - If it's the first element in the DOM;
+   - If it's the last element in the DOM;
+   - If it's the only element in the DOM;
+
 ## [5.4.2] - 2019-05-08
 
 ## Fixed
@@ -206,6 +214,7 @@
 ### Added
 - Linter is published;
 
+[5.4.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.2...v5.4.3
 [5.4.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.1...v5.4.2
 [5.4.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.0...v5.4.1
 [5.4.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.3.0...v5.4.0
