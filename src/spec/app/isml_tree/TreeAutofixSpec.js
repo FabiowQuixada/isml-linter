@@ -14,23 +14,22 @@ describe('Tree auto-fix', () => {
     });
 
     it('prints tree as-is', () => {
-        const templatePath            = getFilePath(0);
-        const originalTemplateContent = fs.readFileSync(templatePath, 'utf-8');
-        const rootNode                = TreeBuilder.build(templatePath).rootNode;
-        const actualContent           = rootNode.getFullContent();
-
-        expect(actualContent).toEqual(originalTemplateContent);
+        compareResultForTemplate(0);
     });
 
     it('prints complex tree as-is', () => {
-        const templatePath            = getFilePath(1);
-        const originalTemplateContent = fs.readFileSync(templatePath, 'utf-8');
-        const rootNode                = TreeBuilder.build(templatePath).rootNode;
-        const actualContent           = rootNode.getFullContent();
-
-        expect(actualContent).toEqual(originalTemplateContent);
+        compareResultForTemplate(1);
     });
 });
+
+const compareResultForTemplate = number => {
+    const templatePath            = getFilePath(number);
+    const originalTemplateContent = fs.readFileSync(templatePath, 'utf-8');
+    const rootNode                = TreeBuilder.build(templatePath).rootNode;
+    const actualContent           = rootNode.getFullContent();
+
+    expect(actualContent).toEqual(originalTemplateContent);
+};
 
 const getFilePath = number => {
     return `${Constants.specAutofixTemplatesDir}/template_${number}.isml`;
