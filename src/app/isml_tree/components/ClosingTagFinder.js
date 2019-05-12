@@ -36,7 +36,7 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
 
     while (internalState.content) {
 
-        if (isNextElementATag(internalState)) {
+        if (ParseUtils.isNextElementATag(internalState.content)) {
             const nextOpeningCharPosition       = internalState.content.indexOf('<');
             const pastContentLength             = internalState.initialContent.indexOf(internalState.content);
             const contentUpToCurrentPosition    = internalState.initialContent.substring(0, pastContentLength + nextOpeningCharPosition);
@@ -143,7 +143,7 @@ const initializeLoopState = (oldState, openingElemRegex, closingElemRegex) => {
 const updateElementStack = (oldState, currentElementStartingLineNumber, parentState) => {
 
     const state = Object.assign({}, oldState);
-    const elem  = getFirstElementType(state.content).trim();
+    const elem  = ParseUtils.getFirstElementType(state.content).trim();
 
     const config        = ConfigUtils.load();
     const isVoidElement = !config.disableHtml5 && Constants.voidElementsArray.indexOf(elem) !== -1;
@@ -156,7 +156,7 @@ const updateElementStack = (oldState, currentElementStartingLineNumber, parentSt
                     lineNumber: currentElementStartingLineNumber
                 });
             }
-        } else if (isCorrespondentElement(state, elem)) {
+        } else if (ParseUtils.isCorrespondentElement(state, elem)) {
             const prevElementPosition = state.content.indexOf('>') + 1;
             let currentElementContent = state.content.substring(0, prevElementPosition);
             const remainingContent    = state.content.substring(prevElementPosition, state.content.length);
@@ -174,30 +174,6 @@ const updateElementStack = (oldState, currentElementStartingLineNumber, parentSt
     }
 
     return state;
-};
-
-const isCorrespondentElement = (state, elem) =>
-    `/${state.elementStack[state.elementStack.length-1].elem}` === elem;
-
-const isNextElementATag = state => getNextNonEmptyChar(state) === '<';
-
-const getNextNonEmptyChar = state => {
-
-    const content    = state.content;
-    const currentPos = state.currentPos;
-
-    return content.substring(currentPos+1, content.length-1).trim()[0];
-};
-
-const getFirstElementType = elementAsString => {
-    let result = elementAsString.substring(elementAsString.indexOf('<') + 1, elementAsString.indexOf('>'));
-
-    // In case the tag has attributes;
-    if (result.indexOf(' ') !== -1) {
-        result = result.split(' ')[0];
-    }
-
-    return result;
 };
 
 const getPosition = content => {

@@ -146,7 +146,8 @@ module.exports.isSkipIteraction = function(state) {
 };
 
 module.exports.isCorrespondentElement = function(state, elem) {
-    return `/${state.elementStack[state.elementStack.length-1]}` === elem;
+    return `/${state.elementStack[state.elementStack.length-1].elem}` === elem;
+
 };
 
 module.exports.getFirstElementType = function(elementAsString) {
