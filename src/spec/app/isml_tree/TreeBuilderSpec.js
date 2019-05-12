@@ -131,7 +131,8 @@ describe(targetObjName, () => {
 
         expect(trNode.getValue()).toEqual('\n<tr class="cart_row lineItem-${lineItem.getUUID()} product-${productLineItem.productID}">');
         expect(trNode.getLineNumber()).toEqual(2);
-        expect(trNode.getNumberOfChildren()).toEqual(1);
+        expect(trNode.getNumberOfChildren()).toEqual(2);
+        expect(trNode.getLastChild().isEmpty()).toBe(true);
 
         expect(commentNode.getValue()).toEqual('\n\n\n<iscomment>');
         expect(commentNode.getLineNumber()).toEqual(23);
@@ -145,7 +146,8 @@ describe(targetObjName, () => {
 
         expect(nestedIfNode.getValue()).toEqual('\n    <isif condition="${c2}">');
         expect(nestedIfNode.getLineNumber()).toEqual(2);
-        expect(nestedIfNode.getNumberOfChildren()).toEqual(1);
+        expect(nestedIfNode.getNumberOfChildren()).toEqual(2);
+        expect(nestedIfNode.getLastChild().isEmpty()).toBe(true);
     });
 
     it('identifies ISML expressions II', () => {
@@ -154,7 +156,8 @@ describe(targetObjName, () => {
 
         expect(availNode.getValue()).toEqual('\n<div class="product-availability">');
         expect(availNode.getLineNumber()).toEqual(23);
-        expect(availNode.getNumberOfChildren()).toEqual(1);
+        expect(availNode.getNumberOfChildren()).toEqual(2);
+        expect(availNode.getLastChild().isEmpty()).toBe(true);
     });
 
     it('identifies ISML expressions III', () => {
@@ -174,7 +177,8 @@ describe(targetObjName, () => {
 
         expect(divNode.getValue()).toEqual('<div <isif condition="${condition1}"></isif>>');
         expect(divNode.getLineNumber()).toEqual(1);
-        expect(divNode.getNumberOfChildren()).toEqual(1);
+        expect(divNode.getNumberOfChildren()).toEqual(2);
+        expect(divNode.getLastChild().isEmpty()).toBe(true);
 
         expect(ifNode.getValue()).toEqual('\n    <isif condition="${condition2}">');
         expect(ifNode.getLineNumber()).toEqual(2);
@@ -191,7 +195,8 @@ describe(targetObjName, () => {
 
         expect(divNode.getValue()).toEqual('<div <isif condition="${c}"></isif>>');
         expect(divNode.getLineNumber()).toEqual(1);
-        expect(divNode.getNumberOfChildren()).toEqual(1);
+        expect(divNode.getNumberOfChildren()).toEqual(2);
+        expect(divNode.getLastChild().isEmpty()).toBe(true);
 
         expect(ifNode.getValue()).toEqual('\n    <isif condition="${c2}">');
         expect(ifNode.getLineNumber()).toEqual(2);
@@ -211,7 +216,8 @@ describe(targetObjName, () => {
 
         expect(ifNode.getValue()).toEqual('\n<isif condition="${condition}">');
         expect(ifNode.getLineNumber()).toEqual(2);
-        expect(ifNode.getNumberOfChildren()).toEqual(1);
+        expect(ifNode.getNumberOfChildren()).toEqual(2);
+        expect(ifNode.getLastChild().isEmpty()).toBe(true);
     });
 
     it('identifies a html comment as self-closing tag', () => {
@@ -221,7 +227,8 @@ describe(targetObjName, () => {
         const childDivNode    = mainDivNode.getChild(0);
         const emptyNode       = childDivNode.getChild(0);
 
-        expect(rootNode.getNumberOfChildren()).toEqual(2);
+        expect(rootNode.getNumberOfChildren()).toEqual(3);
+        expect(rootNode.getLastChild().isEmpty()).toBe(true);
 
         expect(htmlCommentNode.getValue()).toEqual('\n<!--- make drop down -->');
         expect(htmlCommentNode.getLineNumber()).toEqual(2);
@@ -229,7 +236,8 @@ describe(targetObjName, () => {
 
         expect(mainDivNode.getValue()).toEqual('\n<div class="row">');
         expect(mainDivNode.getLineNumber()).toEqual(3);
-        expect(mainDivNode.getNumberOfChildren()).toEqual(1);
+        expect(mainDivNode.getNumberOfChildren()).toEqual(2);
+        expect(mainDivNode.getLastChild().isEmpty()).toBe(true);
 
         expect(childDivNode.getValue()).toEqual('\n    <div class="col-sm-6">');
         expect(childDivNode.getLineNumber()).toEqual(4);
@@ -278,7 +286,8 @@ describe(targetObjName, () => {
 
         expect(isifNode.getValue()).toEqual('<isif condition="${true}"/>');
         expect(isifNode.getLineNumber()).toEqual(1);
-        expect(isifNode.getNumberOfChildren()).toEqual(1);
+        expect(isifNode.getNumberOfChildren()).toEqual(2);
+        expect(isifNode.getLastChild().isEmpty()).toBe(true);
 
         expect(divNode.getValue()).toEqual('\n    <div/>');
         expect(divNode.getLineNumber()).toEqual(2);
@@ -314,7 +323,8 @@ describe(targetObjName, () => {
 
         expect(divNode.getValue()).toEqual('<div class="error_message">');
         expect(divNode.getLineNumber()).toEqual(1);
-        expect(divNode.getNumberOfChildren()).toEqual(2);
+        expect(divNode.getNumberOfChildren()).toEqual(3);
+        expect(divNode.getLastChild().isEmpty()).toBe(true);
 
         expect(hardcodeNode.getValue()).toEqual('\n\na\n    ');
         expect(hardcodeNode.getLineNumber()).toEqual(3);

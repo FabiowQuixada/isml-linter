@@ -28,7 +28,8 @@ describe(targetObjName, () => {
         const lastTdNode   = rootNode.getChild(11);
 
         expect(result.status).toEqual(ParseStatus.NO_ERRORS);
-        expect(rootNode.getNumberOfChildren()).toEqual(12);
+        expect(rootNode.getNumberOfChildren()).toEqual(13);
+        expect(rootNode.getLastChild().isEmpty()).toBe(true);
 
         expect(commentNode.getValue()).toEqual('\n\n<iscomment>');
         expect(commentNode.getLineNumber()).toEqual(4);
@@ -36,7 +37,8 @@ describe(targetObjName, () => {
 
         expect(trNode.getValue()).toEqual('\n\n<tr class="cart_row lineItem-${lineItem.getUUID()} product-${productLineItem.productID}">');
         expect(trNode.getLineNumber()).toEqual(21);
-        expect(trNode.getNumberOfChildren()).toEqual(7);
+        expect(trNode.getNumberOfChildren()).toEqual(8);
+        expect(trNode.getLastChild().isEmpty()).toBe(true);
 
         expect(setNode.getValue()).toEqual('\n<isset name="ProductUtils" value="${require(\'file_path/cartridge/scripts/product/ProductUtils\')}" scope="page" />');
         expect(setNode.getLineNumber()).toEqual(18);
@@ -44,27 +46,33 @@ describe(targetObjName, () => {
 
         expect(trNode.getValue()).toEqual('\n\n<tr class="cart_row lineItem-${lineItem.getUUID()} product-${productLineItem.productID}">');
         expect(trNode.getLineNumber()).toEqual(21);
-        expect(trNode.getNumberOfChildren()).toEqual(7);
+        expect(trNode.getNumberOfChildren()).toEqual(8);
+        expect(trNode.getLastChild().isEmpty()).toBe(true);
 
         expect(tdNode.getValue()).toEqual('\n\n    <td class="item_details">');
         expect(tdNode.getLineNumber()).toEqual(35);
-        expect(tdNode.getNumberOfChildren()).toEqual(10);
+        expect(tdNode.getNumberOfChildren()).toEqual(11);
+        expect(tdNode.getLastChild().isEmpty()).toBe(true);
 
         expect(availNode.getValue()).toEqual('\n        <div class="product-availability">');
         expect(availNode.getLineNumber()).toEqual(67);
-        expect(availNode.getNumberOfChildren()).toEqual(1);
+        expect(availNode.getNumberOfChildren()).toEqual(2);
+        expect(availNode.getLastChild().isEmpty()).toBe(true);
 
         expect(ifNode.getValue()).toEqual('\n            <isif condition="${isDiscontinued || isOutOfStock}">');
         expect(ifNode.getLineNumber()).toEqual(68);
-        expect(ifNode.getNumberOfChildren()).toEqual(2);
+        expect(ifNode.getNumberOfChildren()).toEqual(3);
+        expect(ifNode.getLastChild().isEmpty()).toBe(true);
 
         expect(nestedIfNode.getValue()).toEqual('\n                <isif condition="${isOutOfStock}">');
         expect(nestedIfNode.getLineNumber()).toEqual(72);
-        expect(nestedIfNode.getNumberOfChildren()).toEqual(3);
+        expect(nestedIfNode.getNumberOfChildren()).toEqual(4);
+        expect(nestedIfNode.getLastChild().isEmpty()).toBe(true);
 
         expect(lastTdNode.getValue()).toEqual('\n<td class="item_total">');
         expect(lastTdNode.getLineNumber()).toEqual(102);
-        expect(lastTdNode.getNumberOfChildren()).toEqual(1);
+        expect(lastTdNode.getNumberOfChildren()).toEqual(2);
+        expect(lastTdNode.getLastChild().isEmpty()).toBe(true);
     });
 
     it('parses a complex template II', () => {
@@ -88,7 +96,8 @@ describe(targetObjName, () => {
 
         expect(firstDivNode.getValue()).toEqual('\n<div class="row">');
         expect(firstDivNode.getLineNumber()).toEqual(2);
-        expect(firstDivNode.getNumberOfChildren()).toEqual(2);
+        expect(firstDivNode.getNumberOfChildren()).toEqual(3);
+        expect(firstDivNode.getLastChild().isEmpty()).toBe(true);
 
         expect(htmlCommentNode.getValue()).toEqual('\n\n<!--- make drop down -->');
         expect(htmlCommentNode.getLineNumber()).toEqual(71);
@@ -115,11 +124,13 @@ describe(targetObjName, () => {
 
         expect(loopNode.getValue()).toEqual('<isloop items="${pdict.products}" var="product" status="productLoopStatus">');
         expect(loopNode.getLineNumber()).toEqual(1);
-        expect(loopNode.getNumberOfChildren()).toEqual(1);
+        expect(loopNode.getNumberOfChildren()).toEqual(2);
+        expect(loopNode.getLastChild().isEmpty()).toBe(true);
 
         expect(sectionNode.getValue()).toEqual('\n                        <section class="attributes">');
         expect(sectionNode.getLineNumber()).toEqual(14);
-        expect(sectionNode.getNumberOfChildren()).toEqual(1);
+        expect(sectionNode.getNumberOfChildren()).toEqual(2);
+        expect(sectionNode.getLastChild().isEmpty()).toBe(true);
 
         expect(commentNode.getValue()).toEqual('\n                                                        <!-- Quantity Drop Down Menu -->');
         expect(commentNode.getLineNumber()).toEqual(26);
@@ -127,11 +138,13 @@ describe(targetObjName, () => {
 
         expect(modalFooterNode.getValue()).toEqual('\n\n<div class="modal-footer">');
         expect(modalFooterNode.getLineNumber()).toEqual(94);
-        expect(modalFooterNode.getNumberOfChildren()).toEqual(1);
+        expect(modalFooterNode.getNumberOfChildren()).toEqual(2);
+        expect(modalFooterNode.getLastChild().isEmpty()).toBe(true);
 
         expect(otherLoopNode.getValue()).toEqual('\n                <isloop items="${pdict.selectedBonusProducts}" var="selectedProduct" status="productLoopStatus">');
         expect(otherLoopNode.getLineNumber()).toEqual(102);
-        expect(otherLoopNode.getNumberOfChildren()).toEqual(1);
+        expect(otherLoopNode.getNumberOfChildren()).toEqual(2);
+        expect(otherLoopNode.getLastChild().isEmpty()).toBe(true);
 
         expect(iNode.getValue()).toEqual('<i class="fa fa-times" aria-hidden="true">');
         expect(iNode.getLineNumber()).toEqual(109);
@@ -152,11 +165,13 @@ describe(targetObjName, () => {
 
         expect(cardNumberRowNode.getValue()).toEqual('\n\n<div class="row">');
         expect(cardNumberRowNode.getLineNumber()).toEqual(8);
-        expect(cardNumberRowNode.getNumberOfChildren()).toEqual(1);
+        expect(cardNumberRowNode.getNumberOfChildren()).toEqual(2);
+        expect(cardNumberRowNode.getLastChild().isEmpty()).toBe(true);
 
         expect(phoneRowNode.getValue()).toEqual('\n\n<div class="row">');
         expect(phoneRowNode.getLineNumber()).toEqual(94);
-        expect(phoneRowNode.getNumberOfChildren()).toEqual(2);
+        expect(phoneRowNode.getNumberOfChildren()).toEqual(3);
+        expect(phoneRowNode.getLastChild().isEmpty()).toBe(true);
 
         expect(tooltipMessageNode.getValue()).toEqual('\n                    ${Resource.msg(\'tooltip.phone.number\',\'creditCard\',null)}\n                ');
         expect(tooltipMessageNode.getLineNumber()).toEqual(119);

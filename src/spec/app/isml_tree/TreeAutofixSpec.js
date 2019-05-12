@@ -28,6 +28,10 @@ describe('Tree auto-fix', () => {
     it('prints simple tree with no eof line as-is', () => {
         compareResultForTemplate(3);
     });
+
+    it('prints simple tree with "iselse" as-is', () => {
+        compareResultForTemplate(4);
+    });
 });
 
 const compareResultForTemplate = number => {

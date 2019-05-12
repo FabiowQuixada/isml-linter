@@ -1,0 +1,4 @@
+<isif condition="${isOutOfStock}">
+    <div/>
+<iselse>
+</isif>

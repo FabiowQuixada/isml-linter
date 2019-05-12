@@ -42,6 +42,7 @@ Rule.isBroken = function(node) {
     const isInSameLineAsParent = node.getParent() && node.getParent().getLineNumber() === node.getLineNumber();
 
     return !node.isRoot() &&
+        !node.isEmpty() &&
         !isInSameLineAsParent &&
         expectedIndentation !== actualIndentation;
 };
