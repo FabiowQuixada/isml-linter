@@ -1,19 +1,9 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
-const ParseUtils        = require('../../isml_tree/components/ParseUtils');
 
 const ruleName    = require('path').basename(__filename).slice(0, -3);
 const description = 'Line incorrectly indented';
 
 const Rule = Object.create(TreeRulePrototype);
-
-const getActualIndentationSize = node => {
-    const firstNonEmptyCharPos = ParseUtils.getNextNonEmptyCharPos(node.getValue()) - 1;
-    const sub                  = node.getValue().substring(0, firstNonEmptyCharPos);
-    const sub2                 = sub.lastIndexOf('\n');
-    const actualIndentation    = sub.substring(sub2, firstNonEmptyCharPos).length;
-
-    return actualIndentation;
-};
 
 Rule.init(ruleName, description);
 
@@ -38,7 +28,7 @@ Rule.isBroken = function(node) {
 
     const configIndentSize     = this.getConfigs().size;
     const expectedIndentation  = (node.getDepth() - 1) * configIndentSize;
-    const actualIndentation    = getActualIndentationSize(node);
+    const actualIndentation    = node.getIndentationSize();
     const isInSameLineAsParent = node.getParent() && node.getParent().getLineNumber() === node.getLineNumber();
 
     return !node.isRoot() &&
@@ -63,7 +53,7 @@ Rule.check = function(node, result) {
             node.getValue().trim(),
             node.getLineNumber() - 1,
             globalPos,
-            getActualIndentationSize(node),
+            node.getIndentationSize(),
             ruleName,
             description
         );

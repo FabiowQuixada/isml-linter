@@ -67,8 +67,9 @@ class IsmlNode {
         const precedingEmptySpacesLength = this.getValue().search(/\S|$/);
         const precedingEmptySpaces       = this.getValue().substring(0, precedingEmptySpacesLength);
         const lastLineBreakPos           = precedingEmptySpaces.lastIndexOf('\n');
+        const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
 
-        return precedingEmptySpaces.substring(lastLineBreakPos).length - 1;
+        return Math.max(indentationSize - 1, 0);
     }
 
     isRoot() { return !this.parent; }

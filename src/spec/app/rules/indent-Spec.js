@@ -55,4 +55,10 @@ describe(rule.name, () => {
             message     : rule.description
         }]);
     });
+
+    it('checks indendation for elements at depth 0', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5);
+
+        expect(result).toEqual([]);
+    });
 });
