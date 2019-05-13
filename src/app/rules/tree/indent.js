@@ -56,11 +56,13 @@ Rule.check = function(node, result) {
 
     node.children.forEach( child => this.check(child, this.result));
 
+    const globalPos = node.getGlobalPos() - node.getIndentationSize();
+
     if (this.isBroken(node)) {
         that.add(
             node.getValue().trim(),
             node.getLineNumber() - 1,
-            0,
+            globalPos,
             getActualIndentationSize(node),
             ruleName,
             description

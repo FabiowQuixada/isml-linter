@@ -63,6 +63,14 @@ class IsmlNode {
     getLastChild() { return this.children[this.children.length - 1];}
     getNumberOfChildren() { return this.children.length; }
 
+    getIndentationSize() {
+        const precedingEmptySpacesLength = this.getValue().search(/\S|$/);
+        const precedingEmptySpaces       = this.getValue().substring(0, precedingEmptySpacesLength);
+        const lastLineBreakPos           = precedingEmptySpaces.lastIndexOf('\n');
+
+        return precedingEmptySpaces.substring(lastLineBreakPos).length - 1;
+    }
+
     isRoot() { return !this.parent; }
     isMulticlause() { return false; }
     isScriptContent() {
