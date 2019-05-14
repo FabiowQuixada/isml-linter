@@ -2,18 +2,18 @@
 
 ## [5.5.0] - 2019-05-20
 
-## Added
+### Added
  - Optional "content" param to API;
  - Unbalanced element information to parse output;
  - Parsed isml node attributes for future rules;
  - Isml node closing tag data: position and length;
 
-## Fixed
+### Fixed
  - Indentation Rule output data fix;
 
 ## [5.4.3] - 2019-05-12
 
-## Fixed
+### Fixed
  - Hardcode rule for edge cases:
    - If it's the first element in the DOM;
    - If it's the last element in the DOM;
@@ -21,7 +21,7 @@
 
 ## [5.4.2] - 2019-05-08
 
-## Fixed
+### Fixed
  - Error occurrence global starting position;
  - Rule default and custom configs handling;
  - Single file as param to Isml Linter;
@@ -30,7 +30,7 @@
 
 ## [5.4.1] - 2019-05-05
 
-## Fixed
+### Fixed
  - Parse output filepath for unparseable templates;
 
 ## [5.4.0] - 2019-05-05
