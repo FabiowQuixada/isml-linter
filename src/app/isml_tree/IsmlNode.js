@@ -6,16 +6,24 @@ const Constants   = require('../Constants');
 class IsmlNode {
 
     constructor(value = '(root)', lineNumber = 0, globalPos) {
-        this.value      = value;
-        this.lineNumber = lineNumber;
-        this.globalPos  = globalPos;
-        this.type       = null;
-        this.depth      = 0;
-        this.suffix     = '';
-        this.type       = null;
-        this.innerText  = null;
-        this.parent     = null;
-        this.children   = [];
+        this.value            = value;
+        this.lineNumber       = lineNumber;
+        this.globalPos        = globalPos;
+        this.type             = null;
+        this.depth            = 0;
+        this.suffixValue      = '';
+        this.suffixLineNumber = -1;
+        this.suffixGlobalPos  = -1;
+        this.type             = null;
+        this.innerText        = null;
+        this.parent           = null;
+        this.children         = [];
+    }
+
+    setSuffix(value, lineNumber, globalPos) {
+        this.suffixValue      = value;
+        this.suffixLineNumber = lineNumber;
+        this.suffixGlobalPos  = globalPos;
     }
 
     setValue(value) { this.value = value; }
@@ -51,6 +59,10 @@ class IsmlNode {
     getDepth() { return this.depth; }
     getParent() { return this.parent; }
     getGlobalPos() { return this.globalPos; }
+
+    getSuffixValue() { return this.suffixValue; }
+    getSuffixLineNumber() { return this.suffixLineNumber; }
+    getSuffixGlobalPos() { return this.suffixGlobalPos; }
 
     addChild(newNode) {
         newNode.depth        = this.depth+1;
@@ -173,7 +185,7 @@ class IsmlNode {
         this.children.forEach( node => stream = node.getFullContent(stream) );
 
         if (!this.isRoot() && !this.isMulticlause()) {
-            stream += this.suffix;
+            stream += this.suffixValue;
         }
 
         return stream;

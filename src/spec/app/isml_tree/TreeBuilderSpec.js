@@ -400,6 +400,26 @@ describe(targetObjName, () => {
 
         expect(emptyNode.getValue()).toEqual('\n    \n');
     });
+
+    it('calculates node suffix global position', () => {
+        const rootNode = getRootNodeFromTemplate(40);
+        const a1Node   = rootNode.getChild(0);
+        const a2Node   = a1Node.getChild(0);
+        const a3Node   = a2Node.getChild(0);
+        const a4Node   = a3Node.getChild(0);
+
+        expect(a1Node.getSuffixValue()).toEqual('</a1>');
+        expect(a1Node.getSuffixGlobalPos()).toEqual(39);
+
+        expect(a2Node.getSuffixValue()).toEqual('</a2>');
+        expect(a2Node.getSuffixGlobalPos()).toEqual(33);
+
+        expect(a3Node.getSuffixValue()).toEqual('</a3>');
+        expect(a3Node.getSuffixGlobalPos()).toEqual(27);
+
+        expect(a4Node.getSuffixValue()).toEqual('</a4>');
+        expect(a4Node.getSuffixGlobalPos()).toEqual(21);
+    });
 });
 
 const getFilePath = number => {
@@ -412,5 +432,6 @@ const getTreeFromTemplate = number => {
 };
 
 const getRootNodeFromTemplate = number => {
-    return getTreeFromTemplate(number).rootNode;
+    const tree = getTreeFromTemplate(number);
+    return tree.rootNode;
 };

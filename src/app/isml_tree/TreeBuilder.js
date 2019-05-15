@@ -124,11 +124,15 @@ const createNode = oldState => {
         return null;
     }
 
-    const innerContentLastPos = parseNewNodeInnerContent(state);
+    const innerParseResult    = parseNewNodeInnerContent(state);
+    const innerContentLastPos = innerParseResult.innerContentLastPosition;
+    const suffixableNode      = isIsifNode ? node.getLastChild() : node;
 
-    isIsifNode ?
-        node.getLastChild().suffix = state.closingElementsStack.pop().trim() :
-        node.suffix                = state.closingElementsStack.pop().trim();
+    const suffixValue      = state.closingElementsStack.pop().trim();
+    const suffixLineNumber = innerParseResult.suffixLineNumber;
+    const suffixGlobalPos  = innerParseResult.suffixGlobalPos;
+
+    suffixableNode.setSuffix(suffixValue, suffixLineNumber, suffixGlobalPos);
 
     return innerContentLastPos;
 };
@@ -170,7 +174,28 @@ const parseNewNodeInnerContent = state => {
         }
     }
 
-    return state.currentPos + nodeInnerContent.length;
+    const stateStartingPos          = state.parentState ? getCurrentStateStartingPos(state.parentState) : 0;
+    const index                     = state.content.lastIndexOf('<');
+    const currentStateContentLength = state.content.substring(0, index).length;
+    const suffixGlobalPos           = stateStartingPos + currentStateContentLength;
+
+    return {
+        innerContentLastPosition : state.currentPos + nodeInnerContent.length,
+        suffixLineNumber         : -1,
+        suffixGlobalPos          : suffixGlobalPos
+    };
+};
+
+const getCurrentStateStartingPos = state => {
+    let accumulatedValue = 0;
+    let iterator         = state;
+
+    do {
+        accumulatedValue += iterator.currentElement.asString.length;
+        iterator         = iterator.parentState;
+    } while (iterator);
+
+    return accumulatedValue;
 };
 
 const createTextNodeFromMainLoop = oldState => {
