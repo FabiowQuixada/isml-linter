@@ -17,14 +17,14 @@ describe(rule.name, () => {
         expect(result).toEqual([{
             line        : 'I\'m a hardcoded-text',
             lineNumber  : 4,
-            columnStart : 90,
+            globalPos : 90,
             length      : 20,
             rule        : rule.name,
             message     : rule.description
         }, {
             line        : 'I\'m another hardcoded-text',
             lineNumber  : 7,
-            columnStart : 162,
+            globalPos : 162,
             length      : 26,
             rule        : rule.name,
             message     : rule.description
@@ -47,7 +47,7 @@ describe(rule.name, () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3)[0];
 
         expect(result).toEqual({
-            columnStart : 28,
+            globalPos : 28,
             length      : 1,
             line        : 'g',
             lineNumber  : 6,
@@ -60,7 +60,7 @@ describe(rule.name, () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4);
 
         expect(result[0]).toEqual({
-            columnStart : 7,
+            globalPos : 7,
             length      : 4,
             line        : 'test',
             lineNumber  : 3,

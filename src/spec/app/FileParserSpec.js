@@ -117,7 +117,7 @@ const expectedResultObj = type => {
     const isprintOccurrence0 = {
         line        : line0,
         lineNumber  : 2,
-        columnStart : 30,
+        globalPos : 30,
         length      : 40,
         rule        : EnforceIsprintRule.name,
         message     : EnforceIsprintRule.description
@@ -125,7 +125,7 @@ const expectedResultObj = type => {
     const isprintOccurrence1 = {
         line        : line1,
         lineNumber  : 3,
-        columnStart : 136,
+        globalPos : 136,
         length      : 15,
         rule        : EnforceIsprintRule.name,
         message     : EnforceIsprintRule.description
@@ -134,7 +134,7 @@ const expectedResultObj = type => {
     const styleOccurrence = {
         line        : line1,
         lineNumber  : 3,
-        columnStart : 113,
+        globalPos : 113,
         length      : 5,
         rule        : NoInlineStyleRule.name,
         message     : NoInlineStyleRule.description

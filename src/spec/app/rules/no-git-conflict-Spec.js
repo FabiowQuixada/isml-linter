@@ -31,7 +31,7 @@ describe(rule.name, () => {
         const expectedResult = [{
             line        : '<<<<<<< HEAD',
             lineNumber  : 1,
-            columnStart : 0,
+            globalPos : 0,
             length      : 12,
             rule        : rule.name,
             message     : rule.description
@@ -39,7 +39,7 @@ describe(rule.name, () => {
         {
             line        : '=======',
             lineNumber  : 3,
-            columnStart : 25,
+            globalPos : 25,
             length      : 7,
             rule        : rule.name,
             message     : rule.description

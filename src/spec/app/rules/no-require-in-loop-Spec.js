@@ -17,7 +17,7 @@ describe(rule.name, () => {
         expect(result).toEqual([{
             line        : '<isset name="basket" value="${require(\'dw.order.Basket\')}" scope="page"/>',
             lineNumber  : 3,
-            columnStart : 80,
+            globalPos : 80,
             length      : 73,
             rule        : rule.name,
             message     : rule.description

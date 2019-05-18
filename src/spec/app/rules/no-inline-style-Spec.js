@@ -31,7 +31,7 @@ describe(rule.name, () => {
         const expectedResult = [{
             line        : '<div style="display: none;">',
             lineNumber  : 1,
-            columnStart : 5,
+            globalPos : 5,
             length      : 5,
             rule        : rule.name,
             message     : rule.description

@@ -31,7 +31,7 @@ describe(rule.name, () => {
         const expectedResult = [{
             line        : '	',
             lineNumber  : 1,
-            columnStart : 0,
+            globalPos : 0,
             length      : 1,
             rule        : rule.name,
             message     : rule.description

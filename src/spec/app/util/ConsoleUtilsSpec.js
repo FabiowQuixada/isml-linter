@@ -87,7 +87,7 @@ const expectedObject = {
                 {
                     'line': '                <a data-pid="${lineItem.productID}" class="button notifyme ${lineItem.productID}-notifyme">',
                     'lineNumber': 13,
-                    'columnStart': 654,
+                    'globalPos': 654,
                     'length': 21
                 }
             ],
@@ -95,13 +95,13 @@ const expectedObject = {
                 {
                     'line': '        <div class="productLineItemId">${lineItem.getUUID()}</div>',
                     'lineNumber': 39,
-                    'columnStart': 2565,
+                    'globalPos': 2565,
                     'length': 21
                 },
                 {
                     'line': '            <span class="product_id_label">${Resource.msg("global.itemno", "locale", null)}</span>',
                     'lineNumber': 59,
-                    'columnStart': 3197,
+                    'globalPos': 3197,
                     'length': 48
                 }
             ]

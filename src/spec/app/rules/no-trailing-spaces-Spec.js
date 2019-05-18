@@ -45,7 +45,7 @@ describe(rule.name, () => {
         const expectedResult = [{
             line        : 'const sum = 0;    ',
             lineNumber  : 1,
-            columnStart : 14,
+            globalPos : 14,
             length      : 4,
             rule        : rule.name,
             message     : rule.description

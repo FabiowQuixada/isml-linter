@@ -22,7 +22,7 @@ Rule.getFirstOccurrence = function(line) {
 
     if (this.isBroken(line)) {
         result = {
-            columnStart : 0,
+            globalPos : 0,
             length      : line.length+1
         };
     }

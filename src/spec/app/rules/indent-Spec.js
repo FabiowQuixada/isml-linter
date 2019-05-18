@@ -17,7 +17,7 @@ describe(rule.name, () => {
         expect(result).toEqual([{
             line        : '<br/>',
             lineNumber  : 2,
-            columnStart : 6,
+            globalPos : 6,
             length      : 3,
             rule        : rule.name,
             message     : rule.description
@@ -30,7 +30,7 @@ describe(rule.name, () => {
         expect(result).toEqual([{
             line        : '<br/>',
             lineNumber  : 3,
-            columnStart : 7,
+            globalPos : 7,
             length      : 3,
             rule        : rule.name,
             message     : rule.description
@@ -49,7 +49,7 @@ describe(rule.name, () => {
         expect(result).toEqual([{
             line        : '<input type="text" />',
             lineNumber  : 3,
-            columnStart : 87,
+            globalPos : 87,
             length      : 5,
             rule        : rule.name,
             message     : rule.description

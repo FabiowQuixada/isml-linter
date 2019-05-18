@@ -31,7 +31,7 @@ describe(rule.name, () => {
         const expectedResult = [{
             line        : '<div><br></div>',
             lineNumber  : 1,
-            columnStart : 5,
+            globalPos : 5,
             length      : 4,
             rule        : rule.name,
             message     : rule.description
@@ -46,7 +46,7 @@ describe(rule.name, () => {
         const expectedResult = [{
             line        : '<div><br /></div>',
             lineNumber  : 2,
-            columnStart : 6,
+            globalPos : 6,
             length      : 6,
             rule        : rule.name,
             message     : rule.description
@@ -61,7 +61,7 @@ describe(rule.name, () => {
         const expectedResult = [{
             line        : '<div><br/></div>',
             lineNumber  : 1,
-            columnStart : 5,
+            globalPos : 5,
             length      : 5,
             rule        : rule.name,
             message     : rule.description
@@ -76,7 +76,7 @@ describe(rule.name, () => {
         const expectedResult = [{
             line        : '<br>',
             lineNumber  : 1,
-            columnStart : 0,
+            globalPos : 0,
             length      : 4,
             rule        : rule.name,
             message     : rule.description
@@ -91,7 +91,7 @@ describe(rule.name, () => {
         const expectedResult = [{
             line        : '<br/>',
             lineNumber  : 2,
-            columnStart : 1,
+            globalPos : 1,
             length      : 5,
             rule        : rule.name,
             message     : rule.description

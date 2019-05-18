@@ -21,7 +21,7 @@ Rule.getFirstOccurrence = function(line) {
 
     if (this.isBroken(line)) {
         result = {
-            columnStart : line.indexOf('\t'),
+            globalPos : line.indexOf('\t'),
             length      : 1
         };
     }

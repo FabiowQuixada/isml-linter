@@ -36,7 +36,7 @@ Rule.getFirstOccurrence = function(line) {
         const temp = line.substring(matchPos);
 
         result = {
-            columnStart : matchPos,
+            globalPos : matchPos,
             length      : temp.indexOf('}') + 1
         };
     }

@@ -16,7 +16,7 @@ SingleLineRulePrototype.check = function(fileContent) {
     lineArray.forEach( (line, lineNumber) => {
         const occurrence = that.getFirstOccurrence(line);
         if (occurrence) {
-            that.add(line, lineNumber, globalPos + occurrence.columnStart, occurrence.length);
+            that.add(line, lineNumber, globalPos + occurrence.globalPos, occurrence.length);
         }
 
         globalPos += line.length+1;
