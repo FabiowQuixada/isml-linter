@@ -106,6 +106,7 @@ const removeLeadingNonTagText = oldInternalState => {
     }
 
     internalState.maskedContent     = oldInternalState.maskedContent.substring(splitPosition, oldInternalState.maskedContent.length);
+    internalState.content           = oldInternalState.content.substring(splitPosition, oldInternalState.maskedContent.length);
     internalState.currentReadingPos += splitPosition;
 
     return internalState;
@@ -113,8 +114,10 @@ const removeLeadingNonTagText = oldInternalState => {
 
 const removeFirstElement = oldInternalState => {
     const internalState = Object.assign({}, oldInternalState);
+    const elemLength    = internalState.maskedContent.length;
 
-    internalState.maskedContent = internalState.maskedContent.substring(internalState.firstClosingElemPos, internalState.maskedContent.length);
+    internalState.maskedContent = internalState.maskedContent.substring(internalState.firstClosingElemPos, elemLength);
+    internalState.content       = internalState.content.substring(internalState.firstClosingElemPos, elemLength);
 
     return internalState;
 };
@@ -150,22 +153,22 @@ const initializeLoopState = (oldInternalState, openingElemRegex, closingElemRege
 
 const updateElementStack = (oldInternalState, currentElementStartingLineNumber, parentState) => {
 
-    const internalState    = Object.assign({}, oldInternalState);
-    const elem             = ParseUtils.getFirstElementType(internalState.maskedContent).trim();
-    const config           = ConfigUtils.load();
-    const isVoidElement    = !config.disableHtml5 && Constants.voidElementsArray.indexOf(elem) !== -1;
-    const elementLength    = -1;
-    const elementGlobalPos = -1;
+    const internalState = Object.assign({}, oldInternalState);
+    const elemType      = ParseUtils.getFirstElementType(internalState.maskedContent).trim();
+    const elemValue     = ParseUtils.getNextElementValue(internalState.content);
+    const config        = ConfigUtils.load();
+    const isVoidElement = !config.disableHtml5 && Constants.voidElementsArray.indexOf(elemType) !== -1;
 
     if (!internalState.isSelfClosingElement && !isVoidElement) {
-        if (!elem.startsWith('/')) {
-            if(ParseUtils.isStackable(elem)) {
+        if (!elemType.startsWith('/')) {
+            if(ParseUtils.isStackable(elemType)) {
                 internalState.elementStack.push({
-                    elem,
+                    elem: elemType,
+                    elemValue,
                     lineNumber: currentElementStartingLineNumber
                 });
             }
-        } else if (ParseUtils.isCorrespondentElement(internalState, elem)) {
+        } else if (ParseUtils.isCorrespondentElement(internalState, elemType)) {
             const prevElementPosition = internalState.maskedContent.indexOf('>') + 1;
             let currentElementContent = internalState.maskedContent.substring(0, prevElementPosition);
             const remainingContent    = internalState.maskedContent.substring(prevElementPosition, internalState.maskedContent.length);
@@ -178,11 +181,13 @@ const updateElementStack = (oldInternalState, currentElementStartingLineNumber, 
             internalState.elementStack.pop();
         } else {
             const stackTopElement = internalState.elementStack.pop();
+            const elemLength      = stackTopElement.elemValue.trim().length;
+
             throw ExceptionUtils.unbalancedElementError(
                 stackTopElement.elem,
                 stackTopElement.lineNumber,
-                elementGlobalPos,
-                elementLength,
+                -1,
+                elemLength,
                 internalState.filePath);
         }
     }

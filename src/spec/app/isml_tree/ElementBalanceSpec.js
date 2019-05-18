@@ -16,7 +16,12 @@ describe('TreeBuilder', () => {
         const tree = getTreeFromTemplate(0);
 
         expect(tree.exception.length).toEqual(10);
-        });
+    });
+
+    it('gets unbalanced element length II', () => {
+        const tree = getTreeFromTemplate(1);
+
+        expect(tree.exception.length).toEqual(52);
     });
 });
 

@@ -1,0 +1,8 @@
+<div class="form-group
+    ${addressFields.postalCode.mandatory === true ? 'required' : ''}
+    ${addressFields.postalCode.htmlName}">
+        <div class="invalid-feedback" id="${lineItem ? lineItem.UUID : 'default'}PostalCode">
+            <isprint value="${addressFields.postalCode.error}" >
+        </div>
+    </div>
+</div>

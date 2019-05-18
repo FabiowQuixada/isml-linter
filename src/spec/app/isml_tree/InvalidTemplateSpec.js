@@ -20,7 +20,7 @@ describe('Invalid Template', () => {
             disableHtml5: true
         });
         const result       = TreeBuilder.build(getFilePath(0));
-        const exceptionObj = ExceptionUtils.unbalancedElementError('input', 8);
+        const exceptionObj = ExceptionUtils.unbalancedElementError('input', 8, -1, 20);
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
         expect(result.exception).toEqual(exceptionObj);
@@ -31,7 +31,7 @@ describe('Invalid Template', () => {
             disableHtml5: true
         });
         const result          = TreeBuilder.build(getFilePath(1));
-        const expectedMessage = ExceptionUtils.unbalancedElementError('input', 5).message;
+        const expectedMessage = ExceptionUtils.unbalancedElementError('input', 5, -1, -1).message;
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
         expect(result.exception.message).toEqual(expectedMessage);
@@ -48,7 +48,7 @@ describe('Invalid Template', () => {
 
     it('identifies the line number of an unbalanced element II', () => {
         const result          = TreeBuilder.build(getFilePath(3));
-        const expectedMessage = ExceptionUtils.unbalancedElementError('select', 4).message;
+        const expectedMessage = ExceptionUtils.unbalancedElementError('select', 4, -1, -1).message;
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
         expect(result.exception.message).toEqual(expectedMessage);
