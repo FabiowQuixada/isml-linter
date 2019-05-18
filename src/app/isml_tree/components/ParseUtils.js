@@ -81,6 +81,12 @@ module.exports.isStackable = function(elem) {
             elem !== 'iselseif';
 };
 
+module.exports.getNextElementValue = function(content) {
+    const index = content.indexOf('>');
+
+    return content.substring(0, index + 1);
+};
+
 module.exports.isNextElementATag = function(state) {
     return getNextNonEmptyChar(state) === '<';
 };

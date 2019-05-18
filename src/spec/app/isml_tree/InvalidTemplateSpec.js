@@ -40,7 +40,7 @@ describe('Invalid Template', () => {
     it('identifies the line number of an unbalanced element', () => {
         const templatePath = getFilePath(2);
         const result       = TreeBuilder.build(templatePath);
-        const exceptionObj = ExceptionUtils.unbalancedElementError('div', 3, templatePath);
+        const exceptionObj = ExceptionUtils.unbalancedElementError('div', 3, -1, 7, templatePath);
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
         expect(result.exception).toEqual(exceptionObj);

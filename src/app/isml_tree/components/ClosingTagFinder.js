@@ -31,6 +31,7 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
     internalState.initialContent             = obj.content;
     const maskedContent                      = obj.content;
     let previousContent                      = null;
+    let element                              = null;
 
     parentState.currentElement.endPosition = maskedContent.indexOf('>');
 
@@ -42,6 +43,7 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
             const contentUpToCurrentPosition    = internalState.initialContent.substring(0, pastContentLength + nextOpeningCharPosition);
             const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(/\n/g) || []).length + parentState.currentLineNumber;
 
+            element       = ParseUtils.getNextElementValue(internalState.content);
             internalState = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
             internalState = updateState(internalState, currentElemStartingLineNumber, parentState);
 
@@ -60,7 +62,14 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
         previousContent = internalState.content;
     }
 
-    throw ExceptionUtils.unbalancedElementError(currentElement.type, currentElement.lineNumber, oldParentState.filePath);
+    const globalPos = -1;
+
+    throw ExceptionUtils.unbalancedElementError(
+        currentElement.type,
+        currentElement.lineNumber,
+        globalPos,
+        element.length,
+        oldParentState.filePath);
 };
 
 const getInitialState = (content, parentState) => {

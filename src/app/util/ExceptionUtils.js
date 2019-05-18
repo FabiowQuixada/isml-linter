@@ -5,10 +5,12 @@ const types = {
     INVALID_TEMPLATE : 'INVALID_TEMPLATE',
 };
 
-const unbalancedElementError = (elementType, lineNumber, templatePath) => {
+const unbalancedElementError = (elementType, lineNumber, columnStart, length, templatePath) => {
     return {
         message      : `Unbalanced <${elementType}> element`,
         templatePath : templatePath,
+        columnStart,
+        length,
         lineNumber   : lineNumber,
         isCustom     : true,
         type         : types.INVALID_TEMPLATE
