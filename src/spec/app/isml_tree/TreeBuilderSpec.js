@@ -420,6 +420,26 @@ describe(targetObjName, () => {
         expect(a4Node.getSuffixValue()).toEqual('</a4>');
         expect(a4Node.getSuffixGlobalPos()).toEqual(21);
     });
+
+    it('calculates node suffix line number', () => {
+        const rootNode = getRootNodeFromTemplate(41);
+        const a1Node   = rootNode.getChild(0);
+        const a2Node   = a1Node.getChild(0);
+        const a3Node   = a2Node.getChild(0);
+        const a4Node   = a3Node.getChild(0);
+
+        expect(a1Node.getSuffixValue()).toEqual('</a1>');
+        expect(a1Node.getSuffixLineNumber()).toEqual(13);
+
+        expect(a2Node.getSuffixValue()).toEqual('</a2>');
+        expect(a2Node.getSuffixLineNumber()).toEqual(12);
+
+        expect(a3Node.getSuffixValue()).toEqual('</a3>');
+        expect(a3Node.getSuffixLineNumber()).toEqual(10);
+
+        expect(a4Node.getSuffixValue()).toEqual('</a4>');
+        expect(a4Node.getSuffixLineNumber()).toEqual(9);
+    });
 });
 
 const getFilePath = number => {

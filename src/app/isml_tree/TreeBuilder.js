@@ -178,12 +178,27 @@ const parseNewNodeInnerContent = state => {
     const index                     = state.content.lastIndexOf('<');
     const currentStateContentLength = state.content.substring(0, index).length;
     const suffixGlobalPos           = stateStartingPos + currentStateContentLength;
+    const currentLineNumber         = getSuffixLineNumber(state);
 
     return {
         innerContentLastPosition : state.currentPos + nodeInnerContent.length,
-        suffixLineNumber         : -1,
+        suffixLineNumber         : currentLineNumber,
         suffixGlobalPos          : suffixGlobalPos
     };
+};
+
+const getSuffixLineNumber = state => {
+    const closingTagStackCopy   = [...state.closingElementsStack];
+    const elem                  = closingTagStackCopy.pop();
+    const trimmedElem           = elem.trim();
+    const suffixElemIndex       = elem.indexOf(trimmedElem);
+    const lineBreaksInSuffix    = closingTagStackCopy.length > 0 ? (elem.substring(0, suffixElemIndex).match(/\n/g) || []).length : 0;
+    const suffixGlobalIndex     = state.content.indexOf(elem);
+    const contentUpToCurrentPos = state.content.substring(state.currentPos, suffixGlobalIndex);
+    const contentLength         = (contentUpToCurrentPos.match(/\n/g) || []).length;
+    const suffixLineNumber      = state.currentLineNumber + contentLength + lineBreaksInSuffix;
+
+    return suffixLineNumber;
 };
 
 const getCurrentStateStartingPos = state => {
