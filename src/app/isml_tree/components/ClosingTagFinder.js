@@ -27,23 +27,22 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
     const obj         = getPosition(internalState.content);
 
     internalState.currentElement.endPosition = obj.currentElemEndPosition;
-    internalState.content                    = obj.content;
-    internalState.initialContent             = obj.content;
-    const maskedContent                      = obj.content;
+    internalState.maskedContent              = obj.content;
+    internalState.initialMaskedContent       = obj.content;
     let previousContent                      = null;
     let element                              = null;
 
-    parentState.currentElement.endPosition = maskedContent.indexOf('>');
+    parentState.currentElement.endPosition = internalState.maskedContent.indexOf('>');
 
-    while (internalState.content) {
+    while (internalState.maskedContent) {
 
-        if (ParseUtils.isNextElementATag(internalState.content)) {
-            const nextOpeningCharPosition       = internalState.content.indexOf('<');
-            const pastContentLength             = internalState.initialContent.indexOf(internalState.content);
-            const contentUpToCurrentPosition    = internalState.initialContent.substring(0, pastContentLength + nextOpeningCharPosition);
+        if (ParseUtils.isNextElementATag(internalState.maskedContent)) {
+            const nextOpeningCharPosition       = internalState.maskedContent.indexOf('<');
+            const pastContentLength             = internalState.initialMaskedContent.indexOf(internalState.maskedContent);
+            const contentUpToCurrentPosition    = internalState.initialMaskedContent.substring(0, pastContentLength + nextOpeningCharPosition);
             const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(/\n/g) || []).length + parentState.currentLineNumber;
 
-            element       = ParseUtils.getNextElementValue(internalState.content);
+            element       = ParseUtils.getNextElementValue(internalState.maskedContent);
             internalState = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
             internalState = updateState(internalState, currentElemStartingLineNumber, parentState);
 
@@ -55,11 +54,11 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
             internalState = removeLeadingNonTagText(internalState);
         }
 
-        if (previousContent === internalState.content) {
+        if (previousContent === internalState.maskedContent) {
             throw ExceptionUtils.parseError(oldParentState.filePath);
         }
 
-        previousContent = internalState.content;
+        previousContent = internalState.maskedContent;
     }
 
     const globalPos = -1;
@@ -86,103 +85,109 @@ const getInitialState = (content, parentState) => {
     };
 };
 
-const updateState = (oldState, currentElementStartingLineNumber, parentState) => {
-    let state = Object.assign({}, oldState);
+const updateState = (oldInternalState, currentElementStartingLineNumber, parentState) => {
+    let internalState = Object.assign({}, oldInternalState);
 
-    state.currentReadingPos += state.firstClosingElemPos;
-    state                   = updateElementStack(state, currentElementStartingLineNumber, parentState);
-    state                   = removeFirstElement(state);
+    internalState.currentReadingPos += internalState.firstClosingElemPos;
+    internalState                   = updateElementStack(internalState, currentElementStartingLineNumber, parentState);
+    internalState                   = removeFirstElement(internalState);
 
-    state.result = state.currentReadingPos - state.firstClosingElemPos;
+    internalState.result = internalState.currentReadingPos - internalState.firstClosingElemPos;
 
-    return state;
+    return internalState;
 };
 
-const removeLeadingNonTagText = oldState => {
-    const state       = Object.assign({}, oldState);
-    let splitPosition = oldState.content.indexOf('<');
+const removeLeadingNonTagText = oldInternalState => {
+    const internalState = Object.assign({}, oldInternalState);
+    let splitPosition   = oldInternalState.maskedContent.indexOf('<');
 
     if (splitPosition === -1) {
-        splitPosition = oldState.content.length;
+        splitPosition = oldInternalState.maskedContent.length;
     }
 
-    state.content           = oldState.content.substring(splitPosition, oldState.content.length);
-    state.currentReadingPos += splitPosition;
+    internalState.maskedContent     = oldInternalState.maskedContent.substring(splitPosition, oldInternalState.maskedContent.length);
+    internalState.currentReadingPos += splitPosition;
 
-    return state;
+    return internalState;
 };
 
-const removeFirstElement = oldState => {
-    const state = Object.assign({}, oldState);
+const removeFirstElement = oldInternalState => {
+    const internalState = Object.assign({}, oldInternalState);
 
-    state.content = state.content.substring(state.firstClosingElemPos, state.content.length);
+    internalState.maskedContent = internalState.maskedContent.substring(internalState.firstClosingElemPos, internalState.maskedContent.length);
 
-    return state;
+    return internalState;
 };
 
-const initializeLoopState = (oldState, openingElemRegex, closingElemRegex) => {
+const initializeLoopState = (oldInternalState, openingElemRegex, closingElemRegex) => {
 
-    const state = Object.assign({}, oldState);
+    const internalState = Object.assign({}, oldInternalState);
 
     openingElemRegex.lastIndex = 0;
     closingElemRegex.lastIndex = 0;
 
-    state.firstClosingElemPos  = state.content.indexOf('>')+1;
-    state.isSelfClosingElement =
-        state.content.charAt(state.firstClosingElemPos - 2) === '/' &&
-        !state.content.startsWith('<isif');
+    internalState.firstClosingElemPos  = internalState.maskedContent.indexOf('>')+1;
+    internalState.isSelfClosingElement =
+        internalState.maskedContent.charAt(internalState.firstClosingElemPos - 2) === '/' &&
+        !internalState.maskedContent.startsWith('<isif');
 
-    state.openingElemPos    = Number.POSITIVE_INFINITY;
-    state.closingElementPos = Number.POSITIVE_INFINITY;
+    internalState.openingElemPos    = Number.POSITIVE_INFINITY;
+    internalState.closingElementPos = Number.POSITIVE_INFINITY;
 
-    const openingElem    = openingElemRegex.exec(state.content);
-    const closingElement = closingElemRegex.exec(state.content);
+    const openingElem    = openingElemRegex.exec(internalState.maskedContent);
+    const closingElement = closingElemRegex.exec(internalState.maskedContent);
 
     if (openingElem) {
-        state.openingElemPos = openingElem.index;
+        internalState.openingElemPos = openingElem.index;
     }
 
     if (closingElement) {
-        state.closingElementPos = closingElement.index;
+        internalState.closingElementPos = closingElement.index;
     }
 
-    return state;
+    return internalState;
 };
 
-const updateElementStack = (oldState, currentElementStartingLineNumber, parentState) => {
+const updateElementStack = (oldInternalState, currentElementStartingLineNumber, parentState) => {
 
-    const state = Object.assign({}, oldState);
-    const elem  = ParseUtils.getFirstElementType(state.content).trim();
+    const internalState    = Object.assign({}, oldInternalState);
+    const elem             = ParseUtils.getFirstElementType(internalState.maskedContent).trim();
+    const config           = ConfigUtils.load();
+    const isVoidElement    = !config.disableHtml5 && Constants.voidElementsArray.indexOf(elem) !== -1;
+    const elementLength    = -1;
+    const elementGlobalPos = -1;
 
-    const config        = ConfigUtils.load();
-    const isVoidElement = !config.disableHtml5 && Constants.voidElementsArray.indexOf(elem) !== -1;
-
-    if (!state.isSelfClosingElement && !isVoidElement) {
+    if (!internalState.isSelfClosingElement && !isVoidElement) {
         if (!elem.startsWith('/')) {
             if(ParseUtils.isStackable(elem)) {
-                state.elementStack.push({
+                internalState.elementStack.push({
                     elem,
                     lineNumber: currentElementStartingLineNumber
                 });
             }
-        } else if (ParseUtils.isCorrespondentElement(state, elem)) {
-            const prevElementPosition = state.content.indexOf('>') + 1;
-            let currentElementContent = state.content.substring(0, prevElementPosition);
-            const remainingContent    = state.content.substring(prevElementPosition, state.content.length);
+        } else if (ParseUtils.isCorrespondentElement(internalState, elem)) {
+            const prevElementPosition = internalState.maskedContent.indexOf('>') + 1;
+            let currentElementContent = internalState.maskedContent.substring(0, prevElementPosition);
+            const remainingContent    = internalState.maskedContent.substring(prevElementPosition, internalState.maskedContent.length);
 
             if (remainingContent.indexOf('>') === -1) {
                 currentElementContent += remainingContent;
             }
 
             parentState.closingElementsStack.push(currentElementContent);
-            state.elementStack.pop();
+            internalState.elementStack.pop();
         } else {
-            const stackTopElement = state.elementStack.pop();
-            throw ExceptionUtils.unbalancedElementError(stackTopElement.elem, stackTopElement.lineNumber, state.filePath);
+            const stackTopElement = internalState.elementStack.pop();
+            throw ExceptionUtils.unbalancedElementError(
+                stackTopElement.elem,
+                stackTopElement.lineNumber,
+                elementGlobalPos,
+                elementLength,
+                internalState.filePath);
         }
     }
 
-    return state;
+    return internalState;
 };
 
 const getPosition = content => {
