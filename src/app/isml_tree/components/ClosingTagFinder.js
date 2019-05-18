@@ -29,8 +29,10 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
     internalState.currentElement.endPosition = obj.currentElemEndPosition;
     internalState.maskedContent              = obj.content;
     internalState.initialMaskedContent       = obj.content;
+    internalState.initialContent             = content;
     let previousContent                      = null;
     let element                              = null;
+    let elemStartinPos                       = 0;
 
     parentState.currentElement.endPosition = internalState.maskedContent.indexOf('>');
 
@@ -42,9 +44,10 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
             const contentUpToCurrentPosition    = internalState.initialMaskedContent.substring(0, pastContentLength + nextOpeningCharPosition);
             const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(/\n/g) || []).length + parentState.currentLineNumber;
 
-            element       = ParseUtils.getNextElementValue(internalState.maskedContent);
-            internalState = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
-            internalState = updateState(internalState, currentElemStartingLineNumber, parentState);
+            element        = ParseUtils.getNextElementValue(internalState.maskedContent);
+            elemStartinPos += element.length;
+            internalState  = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
+            internalState  = updateState(internalState, currentElemStartingLineNumber, parentState);
 
             if (!internalState.elementStack.length) {
                 parentState.currentElemClosingTagInitPos = contentUpToCurrentPosition.length;
@@ -61,14 +64,14 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
         previousContent = internalState.maskedContent;
     }
 
-    const globalPos = -1;
+    const globalPos = elemStartinPos - element.length + 1;
 
     throw ExceptionUtils.unbalancedElementError(
         currentElement.type,
         currentElement.lineNumber,
         globalPos,
         element.length,
-        oldParentState.filePath);
+        parentState.filePath);
 };
 
 const getInitialState = (content, parentState) => {
@@ -156,6 +159,7 @@ const updateElementStack = (oldInternalState, currentElementStartingLineNumber, 
     const internalState = Object.assign({}, oldInternalState);
     const elemType      = ParseUtils.getFirstElementType(internalState.maskedContent).trim();
     const elemValue     = ParseUtils.getNextElementValue(internalState.content);
+    const elemGlobalPos = internalState.currentReadingPos - elemValue.trim().length;
     const config        = ConfigUtils.load();
     const isVoidElement = !config.disableHtml5 && Constants.voidElementsArray.indexOf(elemType) !== -1;
 
@@ -163,8 +167,9 @@ const updateElementStack = (oldInternalState, currentElementStartingLineNumber, 
         if (!elemType.startsWith('/')) {
             if(ParseUtils.isStackable(elemType)) {
                 internalState.elementStack.push({
-                    elem: elemType,
-                    elemValue,
+                    elem      : elemType,
+                    value     : elemValue,
+                    globalPos : elemGlobalPos,
                     lineNumber: currentElementStartingLineNumber
                 });
             }
@@ -181,12 +186,12 @@ const updateElementStack = (oldInternalState, currentElementStartingLineNumber, 
             internalState.elementStack.pop();
         } else {
             const stackTopElement = internalState.elementStack.pop();
-            const elemLength      = stackTopElement.elemValue.trim().length;
+            const elemLength      = stackTopElement.value.trim().length;
 
             throw ExceptionUtils.unbalancedElementError(
                 stackTopElement.elem,
                 stackTopElement.lineNumber,
-                -1,
+                stackTopElement.globalPos,
                 elemLength,
                 internalState.filePath);
         }

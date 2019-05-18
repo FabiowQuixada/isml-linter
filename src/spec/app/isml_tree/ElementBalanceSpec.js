@@ -18,11 +18,24 @@ describe('TreeBuilder', () => {
         expect(tree.exception.length).toEqual(10);
     });
 
+    it('gets unbalanced element global position', () => {
+        const tree = getTreeFromTemplate(0);
+
+        expect(tree.exception.globalPos).toEqual(1);
+    });
+
     it('gets unbalanced element length II', () => {
         const tree = getTreeFromTemplate(1);
 
         expect(tree.exception.length).toEqual(52);
     });
+
+    it('gets unbalanced element global position II', () => {
+        const tree = getTreeFromTemplate(1);
+
+        expect(tree.exception.globalPos).toEqual(241);
+    });
+
 });
 
 const getFilePath = number => {
