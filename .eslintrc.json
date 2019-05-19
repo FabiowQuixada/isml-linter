@@ -28,7 +28,6 @@
         "no-trailing-spaces": ["error", { "skipBlankLines": false }],
         "no-var": ["error"],
         "prefer-const": ["error"],
-        "consistent-return": ["error"],
         "no-extra-parens": ["error"],
         "strict": ["error"],
         "no-mixed-requires": ["error"],

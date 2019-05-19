@@ -162,13 +162,13 @@ const updateElementStack = (oldInternalState, currentElementStartingLineNumber, 
 
     if (!internalState.isSelfClosingElement && !isVoidElement) {
         if (!elemType.startsWith('/')) {
-            if(ParseUtils.isStackable(elemType)) {
+            if (ParseUtils.isStackable(elemType)) {
                 internalState.elementStack.push({
-                    elem      : elemType,
-                    value     : elemValue,
-                    length    : elemValue.trim().length,
-                    globalPos : elemGlobalPos,
-                    lineNumber: currentElementStartingLineNumber
+                    elem       : elemType,
+                    value      : elemValue,
+                    length     : elemValue.trim().length,
+                    globalPos  : elemGlobalPos,
+                    lineNumber : currentElementStartingLineNumber
                 });
             }
         } else if (ParseUtils.isCorrespondentElement(internalState, elemType)) {
