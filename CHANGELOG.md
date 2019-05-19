@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.5.0] - 2019-05-20
+
+## Added
+ - Optional "content" param to API;
+ - Unbalanced element information to parse output;
+ - Parsed isml node attributes for future rules;
+ - Isml node closing tag data: position and length;
+
+## Fixed
+ - Indentation Rule output data fix;
+
 ## [5.4.3] - 2019-05-12
 
 ## Fixed
@@ -214,6 +225,7 @@
 ### Added
 - Linter is published;
 
+[5.5.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.3...v5.5.0
 [5.4.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.2...v5.4.3
 [5.4.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.1...v5.4.2
 [5.4.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.0...v5.4.1
