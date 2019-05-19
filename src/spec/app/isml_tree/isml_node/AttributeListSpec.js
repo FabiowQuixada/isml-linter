@@ -33,4 +33,16 @@ describe('IsmlNode', () => {
         expect(actual[1].name).toEqual('checked');
         expect(actual[1].value).toEqual(null);
     });
+
+    it('lists its attributes for atributes with more than one value', () => {
+        const node   = new IsmlNode('<span class="class_1 class_2" data-url="https://">');
+        const actual = node.getAttributeList();
+
+        expect(actual[0].name).toEqual('class');
+        expect(actual[0].values).toEqual(['class_1', 'class_2']);
+
+        expect(actual[1].name).toEqual('data-url');
+        expect(actual[1].value).toEqual('https://');
+        expect(actual[1].values).toEqual(['https://']);
+    });
 });

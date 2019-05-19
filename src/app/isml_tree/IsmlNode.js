@@ -69,21 +69,10 @@ class IsmlNode {
             return [];
         }
 
-        const attributeList  = [];
         const trimmedValue   = this.value.trim();
         const processedValue = trimmedValue.substring(1, trimmedValue.length - 1);
-        const tempArray      = processedValue.split(' ').slice(1);
 
-        tempArray
-            .forEach( piece => {
-                const attributeProps = piece.split('=');
-                attributeList.push({
-                    name  : attributeProps[0],
-                    value : attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null
-                });
-            });
-
-        return attributeList;
+        return parseAttributes(processedValue);
     }
 
     addChild(newNode) {
@@ -233,5 +222,52 @@ class IsmlNode {
         return displayText.trim();
     }
 }
+
+const parseAttributes = nodeValue => {
+    const rawAttrNodeValue = nodeValue.split(' ').slice(1).join(' ');
+    let outsideQuotes      = true;
+
+    const maskedContent = rawAttrNodeValue.split('').map( (char, i) => {
+
+        if (i > 2 && rawAttrNodeValue[i-2] === '=' && rawAttrNodeValue[i-1] === '"') {
+            outsideQuotes = false;
+        }
+
+        if (i > 2 && rawAttrNodeValue[i-1] !== '=' && char === '"') {
+            outsideQuotes = true;
+        }
+
+        return outsideQuotes ? char : '_';
+    }).join('');
+
+    const blankSpaceIndexesArray = maskedContent
+        .split('')
+        .map((e, i) => e === ' ' ? i : '')
+        .filter(String);
+
+    const stringifiedAttributesArray = [];
+
+    blankSpaceIndexesArray.forEach( (spacePosition, i) => {
+        stringifiedAttributesArray.push(i === 0 ?
+            rawAttrNodeValue.substring(0, spacePosition) :
+            rawAttrNodeValue.substring(blankSpaceIndexesArray[i - 1], spacePosition));
+    });
+
+    stringifiedAttributesArray.push(rawAttrNodeValue.substring(blankSpaceIndexesArray[blankSpaceIndexesArray.length -1] + 1, rawAttrNodeValue.length));
+
+    const attributesArray = stringifiedAttributesArray.map( attr => {
+        const attributeProps = attr.split('=');
+        const value          = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
+        const values         = value ? value.split(' ') : null;
+
+        return {
+            name   : attributeProps[0],
+            value  : value,
+            values : values
+        };
+    });
+
+    return attributesArray;
+};
 
 module.exports = IsmlNode;
