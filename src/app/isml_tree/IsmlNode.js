@@ -64,6 +64,31 @@ class IsmlNode {
     getSuffixLineNumber() { return this.suffixLineNumber; }
     getSuffixGlobalPos() { return this.suffixGlobalPos; }
 
+    getAttributeList() {
+        if (!this.isHtmlTag() && !this.isIsmlTag()){
+            return [];
+        }
+
+        const attributeList  = [];
+        const trimmedValue   = this.value.trim();
+        const processedValue = this.isSelfClosing() ?
+            trimmedValue.substring(1, trimmedValue.length - 2) :
+            trimmedValue.substring(1, trimmedValue.length - 1);
+        const tempArray      = processedValue.split(' ');
+
+        tempArray
+            .filter( (piece, i) => i > 0 && piece.indexOf('=') !== -1 )
+            .forEach( piece => {
+                const attributeProps = piece.split('=');
+                attributeList.push({
+                    name  : attributeProps[0],
+                    value : attributeProps[1].substring(1, attributeProps[1].length - 1)
+                });
+            });
+
+        return attributeList;
+    }
+
     addChild(newNode) {
         newNode.depth        = this.depth+1;
         newNode.parent       = this;
@@ -103,6 +128,10 @@ class IsmlNode {
         return value.startsWith('<') &&
             !value.startsWith('<is') &&
             value.endsWith('>');
+    }
+
+    isIsmlTag() {
+        return this.value.trim().startsWith('<is');
     }
 
     isExpression() {
