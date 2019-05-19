@@ -71,18 +71,15 @@ class IsmlNode {
 
         const attributeList  = [];
         const trimmedValue   = this.value.trim();
-        const processedValue = this.isSelfClosing() ?
-            trimmedValue.substring(1, trimmedValue.length - 2) :
-            trimmedValue.substring(1, trimmedValue.length - 1);
-        const tempArray      = processedValue.split(' ');
+        const processedValue = trimmedValue.substring(1, trimmedValue.length - 1);
+        const tempArray      = processedValue.split(' ').slice(1);
 
         tempArray
-            .filter( (piece, i) => i > 0 && piece.indexOf('=') !== -1 )
             .forEach( piece => {
                 const attributeProps = piece.split('=');
                 attributeList.push({
                     name  : attributeProps[0],
-                    value : attributeProps[1].substring(1, attributeProps[1].length - 1)
+                    value : attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null
                 });
             });
 
