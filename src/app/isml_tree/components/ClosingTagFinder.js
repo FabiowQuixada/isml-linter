@@ -18,10 +18,6 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
     const parentState      = Object.assign({}, oldParentState);
     const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
     const closingElemRegex = /<\/.[a-zA-Z]*>/;
-    const currentElement   = {
-        type       : ParseUtils.getFirstElementType(content),
-        lineNumber : parentState.currentLineNumber
-    };
 
     let internalState = getInitialState(content, parentState);
     const obj         = getPosition(internalState.content);
@@ -31,8 +27,6 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
     internalState.initialMaskedContent       = obj.content;
     internalState.initialContent             = content;
     let previousContent                      = null;
-    let element                              = null;
-    let elemStartinPos                       = 0;
 
     parentState.currentElement.endPosition = internalState.maskedContent.indexOf('>');
 
@@ -44,10 +38,8 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
             const contentUpToCurrentPosition    = internalState.initialMaskedContent.substring(0, pastContentLength + nextOpeningCharPosition);
             const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(/\n/g) || []).length + parentState.currentLineNumber;
 
-            element        = ParseUtils.getNextElementValue(internalState.maskedContent);
-            elemStartinPos += element.length;
-            internalState  = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
-            internalState  = updateState(internalState, currentElemStartingLineNumber, parentState);
+            internalState = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
+            internalState = updateState(internalState, currentElemStartingLineNumber, parentState);
 
             if (!internalState.elementStack.length) {
                 parentState.currentElemClosingTagInitPos = contentUpToCurrentPosition.length;
@@ -64,14 +56,19 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
         previousContent = internalState.maskedContent;
     }
 
-    const globalPos = elemStartinPos - element.length + 1;
+    throwUnbalancedElementException(internalState);
+};
+
+const throwUnbalancedElementException = internalState => {
+    const stackTopElement = internalState.elementStack.pop();
+    const elemLength      = stackTopElement.value.trim().length;
 
     throw ExceptionUtils.unbalancedElementError(
-        currentElement.type,
-        currentElement.lineNumber,
-        globalPos,
-        element.length,
-        parentState.filePath);
+        stackTopElement.elem,
+        stackTopElement.lineNumber,
+        stackTopElement.globalPos,
+        elemLength,
+        internalState.filePath);
 };
 
 const getInitialState = (content, parentState) => {
@@ -159,7 +156,7 @@ const updateElementStack = (oldInternalState, currentElementStartingLineNumber, 
     const internalState = Object.assign({}, oldInternalState);
     const elemType      = ParseUtils.getFirstElementType(internalState.maskedContent).trim();
     const elemValue     = ParseUtils.getNextElementValue(internalState.content);
-    const elemGlobalPos = internalState.currentReadingPos - elemValue.trim().length;
+    const elemGlobalPos = internalState.currentReadingPos - elemValue.trim().length + internalState.parentState.currentElement.initPosition;
     const config        = ConfigUtils.load();
     const isVoidElement = !config.disableHtml5 && Constants.voidElementsArray.indexOf(elemType) !== -1;
 
@@ -169,6 +166,7 @@ const updateElementStack = (oldInternalState, currentElementStartingLineNumber, 
                 internalState.elementStack.push({
                     elem      : elemType,
                     value     : elemValue,
+                    length    : elemValue.trim().length,
                     globalPos : elemGlobalPos,
                     lineNumber: currentElementStartingLineNumber
                 });
@@ -185,15 +183,7 @@ const updateElementStack = (oldInternalState, currentElementStartingLineNumber, 
             parentState.closingElementsStack.push(currentElementContent);
             internalState.elementStack.pop();
         } else {
-            const stackTopElement = internalState.elementStack.pop();
-            const elemLength      = stackTopElement.value.trim().length;
-
-            throw ExceptionUtils.unbalancedElementError(
-                stackTopElement.elem,
-                stackTopElement.lineNumber,
-                stackTopElement.globalPos,
-                elemLength,
-                internalState.filePath);
+            throwUnbalancedElementException(internalState);
         }
     }
 

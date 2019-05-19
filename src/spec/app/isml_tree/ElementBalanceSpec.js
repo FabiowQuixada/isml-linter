@@ -36,6 +36,12 @@ describe('TreeBuilder', () => {
         expect(tree.exception.globalPos).toEqual(241);
     });
 
+    it('gets unbalanced element length III', () => {
+        const tree = getTreeFromTemplate(2);
+
+        expect(tree.exception.length).toEqual(36);
+    });
+
 });
 
 const getFilePath = number => {
