@@ -254,7 +254,7 @@ const parseAttributes = nodeValue => {
     });
 
     const lastAttribute = rawAttrNodeValue.substring(blankSpaceIndexesArray[blankSpaceIndexesArray.length - 1] + 1, rawAttrNodeValue.length);
-    if (lastAttribute) {
+    if (lastAttribute && lastAttribute !== '/') {
         stringifiedAttributesArray.push(lastAttribute);
     }
 

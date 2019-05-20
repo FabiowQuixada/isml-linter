@@ -73,4 +73,11 @@ describe('IsmlNode', () => {
 
         expect(actual).toEqual([]);
     });
+
+    it('lists no attributes for attribute-less self-closing elements', () => {
+        const node   = new IsmlNode('<div />');
+        const actual = node.getAttributeList();
+
+        expect(actual).toEqual([]);
+    });
 });
