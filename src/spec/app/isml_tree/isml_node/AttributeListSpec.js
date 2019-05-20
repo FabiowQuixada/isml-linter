@@ -52,4 +52,25 @@ describe('IsmlNode', () => {
 
         expect(actual).toEqual([]);
     });
+
+    it('lists no attributes for hardcodes', () => {
+        const node   = new IsmlNode('hardcoded-text');
+        const actual = node.getAttributeList();
+
+        expect(actual).toEqual([]);
+    });
+
+    it('lists no attributes for expressions', () => {
+        const node   = new IsmlNode('${"expression"}');
+        const actual = node.getAttributeList();
+
+        expect(actual).toEqual([]);
+    });
+
+    it('lists no attributes for empty nodes', () => {
+        const node   = new IsmlNode('\n  \n\n');
+        const actual = node.getAttributeList();
+
+        expect(actual).toEqual([]);
+    });
 });
