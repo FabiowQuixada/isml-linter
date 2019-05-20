@@ -19,11 +19,13 @@ describe('Invalid Template', () => {
         ConfigUtils.load({
             disableHtml5: true
         });
-        const result       = TreeBuilder.build(getFilePath(0));
-        const exceptionObj = ExceptionUtils.unbalancedElementError('input', 8, 96, 20);
+        const result = TreeBuilder.build(getFilePath(0));
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
-        expect(result.exception).toEqual(exceptionObj);
+        expect(result.exception.globalPos).toEqual(96);
+        expect(result.exception.length).toEqual(20);
+        expect(result.exception.lineNumber).toEqual(8);
+        expect(result.exception.message).toEqual('Unbalanced <input> element');
     });
 
     it('detects simple unclosed <input> tag II', () => {
