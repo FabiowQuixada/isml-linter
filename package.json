@@ -12,7 +12,7 @@
     "lint:isml": "node scripts/lint.js",
     "build:isml": "node scripts/lint.js --build",
     "fix:isml": "node scripts/lint.js --autofix",
-    "prepush": "npm run lint && npm test && npm run check-coverage",
+    "prepush": "npm run lint && npm test --silent && npm run check-coverage",
     "release": "node scripts/release"
   },
   "config": {
