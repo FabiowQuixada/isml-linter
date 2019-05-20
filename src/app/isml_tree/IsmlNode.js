@@ -260,11 +260,12 @@ const parseAttributes = nodeValue => {
 
     const attributesArray = stringifiedAttributesArray.map( attr => {
         const attributeProps = attr.split('=');
+        const label          = attributeProps[0].trim();
         const value          = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
         const values         = value ? value.split(' ') : null;
 
         return {
-            name   : attributeProps[0],
+            name   : label,
             value  : value,
             values : values
         };
