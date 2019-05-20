@@ -42,6 +42,11 @@ describe('TreeBuilder', () => {
         expect(tree.exception.length).toEqual(36);
     });
 
+    it('gets unbalanced element global position III: root-level element', () => {
+        const tree = getTreeFromTemplate(2);
+
+        expect(tree.exception.globalPos).toEqual(95);
+    });
 });
 
 const getFilePath = number => {
