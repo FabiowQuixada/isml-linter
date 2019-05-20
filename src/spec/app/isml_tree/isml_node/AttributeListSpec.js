@@ -45,4 +45,11 @@ describe('IsmlNode', () => {
         expect(actual[1].value).toEqual('https://');
         expect(actual[1].values).toEqual(['https://']);
     });
+
+    it('lists its no attributes if there is none for non-self-closing element', () => {
+        const node   = new IsmlNode('<span >');
+        const actual = node.getAttributeList();
+
+        expect(actual).toEqual([]);
+    });
 });

@@ -65,7 +65,7 @@ class IsmlNode {
     getSuffixGlobalPos() { return this.suffixGlobalPos; }
 
     getAttributeList() {
-        if (!this.isHtmlTag() && !this.isIsmlTag()){
+        if (!this.isHtmlTag() && !this.isIsmlTag()) {
             return [];
         }
 
@@ -253,7 +253,10 @@ const parseAttributes = nodeValue => {
             rawAttrNodeValue.substring(blankSpaceIndexesArray[i - 1], spacePosition));
     });
 
-    stringifiedAttributesArray.push(rawAttrNodeValue.substring(blankSpaceIndexesArray[blankSpaceIndexesArray.length -1] + 1, rawAttrNodeValue.length));
+    const lastAttribute = rawAttrNodeValue.substring(blankSpaceIndexesArray[blankSpaceIndexesArray.length - 1] + 1, rawAttrNodeValue.length);
+    if (lastAttribute) {
+        stringifiedAttributesArray.push(lastAttribute);
+    }
 
     const attributesArray = stringifiedAttributesArray.map( attr => {
         const attributeProps = attr.split('=');
