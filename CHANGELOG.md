@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.5.1] - 2019-05-21
+
+### Added
+ - Print lint output from API;
+
 ## [5.5.0] - 2019-05-20
 
 ### Added
@@ -225,6 +230,7 @@
 ### Added
 - Linter is published;
 
+[5.5.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.0...v5.5.1
 [5.5.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.3...v5.5.0
 [5.4.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.2...v5.4.3
 [5.4.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.1...v5.4.2
