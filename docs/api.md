@@ -28,6 +28,11 @@ you have access to the following methods:
     parse(path)
 
     /**
+     * Prints errors to console;
+     */
+    printResults()
+
+    /**
      * Calls parse() with configured path as
      * param and prints the result to console;
      *
