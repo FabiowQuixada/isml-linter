@@ -5,21 +5,25 @@ const Constants   = require('../Constants');
 
 class IsmlNode {
 
+    /**
+     * @param {String} value      node opening tag value, including attributes
+     * @param {Number} lineNumber node starting line number
+     * @param {Number} globalPos  node starting position since the beginning of the file
+     */
     constructor(value = '(root)', lineNumber = 0, globalPos) {
-        this.value            = value;
-        this.lineNumber       = lineNumber;
-        this.globalPos        = globalPos;
-        this.type             = null;
-        this.depth            = 0;
-        this.suffixValue      = '';
-        this.suffixLineNumber = -1;
-        this.suffixGlobalPos  = -1;
-        this.type             = null;
-        this.innerText        = null;
-        this.parent           = null;
-        this.children         = [];
+        this.value            = value;      // '<div class="my_class">'
+        this.lineNumber       = lineNumber; // 7
+        this.globalPos        = globalPos;  // 184
+        this.type             = null;       // 'div'
+        this.depth            = 0;          // Isml dom tree node depth
+        this.suffixValue      = '';         // '</div>'
+        this.suffixLineNumber = -1;         // 9
+        this.suffixGlobalPos  = -1;         // 207
+        this.parent           = null;       // Parent isml node;
+        this.children         = [];         // Child isml nodes;
     }
 
+    // Suffix is the element corresponding closing tag, such as </div>
     setSuffix(value, lineNumber, globalPos) {
         this.suffixValue      = value;
         this.suffixLineNumber = lineNumber;
@@ -30,6 +34,7 @@ class IsmlNode {
     getValue() { return this.value; }
     getLineNumber() { return this.lineNumber; }
 
+    // Returns a string. Examples: 'div', 'isprint', 'doctype';
     getType() {
         const value = this.value.trim();
 
@@ -52,6 +57,8 @@ class IsmlNode {
         return this.value.toLowerCase().trim().startsWith('<!doctype ');
     }
 
+    // Checks if the node type is dinamically set, such in:
+    // <${aPdictVariable} />
     isDynamicElement() {
         return this.value.trim().startsWith('<${');
     }
@@ -64,6 +71,22 @@ class IsmlNode {
     getSuffixLineNumber() { return this.suffixLineNumber; }
     getSuffixGlobalPos() { return this.suffixGlobalPos; }
 
+    /**
+     * Gets an array of attributes. For <div class="my_class_1 my my_class_2" style="fancy">, returns:
+     *
+     * [
+     *      {
+     *         name   : 'class',
+     *         value  : 'my_class_1 my my_class_2',
+     *         values : ['my_class_1', 'my_class_2']
+     *      },
+     *      {
+     *         name   : 'style',
+     *         value  : 'fancy',
+     *         values : ['fancy']
+     *      }
+     * ]
+     */
     getAttributeList() {
         if (!this.isHtmlTag() && !this.isIsmlTag()) {
             return [];
@@ -96,7 +119,10 @@ class IsmlNode {
     }
 
     isRoot() { return !this.parent; }
+
+    // Always returns false. It is true only for the container elements, please check MultiClauseNode class;
     isMulticlause() { return false; }
+
     isScriptContent() {
         return this.parent && this.parent.isOfType('isscript');
     }
@@ -120,6 +146,8 @@ class IsmlNode {
         return this.value.trim().startsWith('<is');
     }
 
+    // For an unwrapped ${someVariable} element, returns true;
+    // For tags and hardcoded strings          , returns false;
     isExpression() {
         const value = this.value.trim();
 
@@ -144,12 +172,15 @@ class IsmlNode {
         return this.parent && this.parent.isIsmlComment();
     }
 
+    // Checks if node is HTML 5 void element;
     isVoidElement() {
         const config = ConfigUtils.load();
 
         return !config.disableHtml5 && Constants.voidElementsArray.indexOf(this.getType()) !== -1;
     }
 
+    // For <div />    , returns true;
+    // For <div></div>, returns false;
     isSelfClosing() {
         return !this.isMulticlause() && (
             this.isDocType() ||
@@ -172,6 +203,7 @@ class IsmlNode {
         return !this.parent || this.parent.getLastChild() === this;
     }
 
+    // Used for debugging purposes only;
     print() {
         const indentSize = this.depth;
         let indentation  = '';
@@ -180,13 +212,14 @@ class IsmlNode {
             indentation += '    ';
         }
 
-        console.log(this.depth + ' :: ' + this.lineNumber + ' :: ' + indentation + this.getDisplayText());
+        console.log(this.depth + ' :: ' + this.lineNumber + ' :: ' + indentation + getDisplayText(this));
 
         if (this.children.length > 0) {
             this.children.forEach( node => node.print() );
         }
     }
 
+    // Used for debugging purposes only;
     getFullContent(stream = '') {
 
         if (!this.isMulticlause() && this.isEmpty() && !this.isLastChild()) {
@@ -205,24 +238,16 @@ class IsmlNode {
 
         return stream;
     }
-
-    // === Helper, "private" methods;
-
-    getDisplayText() {
-        let displayText = this.value;
-
-        displayText = displayText
-            .replace(/\n/g, '')
-            .replace(/ +(?= )/g, '');
-
-        if (this.value.length > MAX_TEXT_DISPLAY_SIZE - 3) {
-            displayText = displayText.substring(0, MAX_TEXT_DISPLAY_SIZE - 3) + '...';
-        }
-
-        return displayText.trim();
-    }
 }
 
+/**
+ * PRIVATE FUNCTIONS
+ *
+ * The following are "private" spyOnAllFunctions, which
+ * will be available for use only within IsmlNode methods;
+*/
+
+// Gets array of element attributes;
 const parseAttributes = nodeValue => {
     const rawAttrNodeValue = nodeValue.split(' ').slice(1).join(' ');
     let outsideQuotes      = true;
@@ -272,6 +297,21 @@ const parseAttributes = nodeValue => {
     });
 
     return attributesArray;
+};
+
+// Used for debugging purposes only;
+const getDisplayText = node => {
+    let displayText = node.value;
+
+    displayText = displayText
+        .replace(/\n/g, '')
+        .replace(/ +(?= )/g, '');
+
+    if (node.value.length > MAX_TEXT_DISPLAY_SIZE - 3) {
+        displayText = displayText.substring(0, MAX_TEXT_DISPLAY_SIZE - 3) + '...';
+    }
+
+    return displayText.trim();
 };
 
 module.exports = IsmlNode;

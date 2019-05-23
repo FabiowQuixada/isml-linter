@@ -157,6 +157,8 @@ Check the [API docs][api-docs].
 | :small_orange_diamond: [max-depth][max-depth-readme]               | Sets the maximum of nested elements in a template |
 | :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]   | One element per line |
 
+You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
+
 ## Iconography
 :exclamation: Deprecated feature<br/>
 :boom: New feature<br/>
@@ -181,6 +183,7 @@ Check the [API docs][api-docs].
 [one-element-per-line-readme]:   <docs/rules/one-element-per-line.md>
 
 [api-docs]: <docs/api.md>
+[contribute-docs]: <docs/contribute.md>
 
 [npm-husky]: <https://www.npmjs.com/package/husky>
 [npm-ghooks]: <https://www.npmjs.com/package/ghooks>

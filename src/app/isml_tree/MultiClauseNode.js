@@ -1,9 +1,11 @@
 const IsmlNode = require('./IsmlNode');
 /**
- * This is a helper node that holds values for multiclause tags, such as
+ * This is container node that holds values for multiclause tags, such as
  * an <isif> ... <iselseif> ... </isif> chain.
  *
  * It is not printed when the isml dom tree is printed;
+ *
+ * It is used ONLY to hold <isif>, <iselse>, <iselseif> nodes together;
  */
 
 class MultiClauseNode extends IsmlNode {
