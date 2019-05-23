@@ -12,16 +12,14 @@ describe(rule.name, () => {
     });
 
     it('detects elements in the same line', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
 
-        expect(result).toEqual([{
-            line        : '${Resource.msg(\'field.billing.address.last.name\',\'address\',null)}',
-            lineNumber  : 7,
-            globalPos : 360,
-            length      : 65,
-            rule        : rule.name,
-            message     : rule.description
-        }]);
+        expect(result.line).toEqual('${Resource.msg(\'field.billing.address.last.name\',\'address\',null)}');
+        expect(result.lineNumber).toEqual(7);
+        expect(result.globalPos).toEqual(360);
+        expect(result.length).toEqual(65);
+        expect(result.rule).toEqual(rule.name);
+        expect(result.message).toEqual(rule.description);
     });
 
     it('allows one element per line', () => {
