@@ -12,23 +12,23 @@ describe(rule.name, () => {
     });
 
     it('detects hardcoded texts', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const occurrence1 = result[0];
+        const occurrence2 = result[1];
 
-        expect(result).toEqual([{
-            line        : 'I\'m a hardcoded-text',
-            lineNumber  : 4,
-            globalPos : 90,
-            length      : 20,
-            rule        : rule.name,
-            message     : rule.description
-        }, {
-            line        : 'I\'m another hardcoded-text',
-            lineNumber  : 7,
-            globalPos : 162,
-            length      : 26,
-            rule        : rule.name,
-            message     : rule.description
-        }]);
+        expect(occurrence1.line      ).toEqual('I\'m a hardcoded-text');
+        expect(occurrence1.lineNumber).toEqual(4);
+        expect(occurrence1.globalPos ).toEqual(90);
+        expect(occurrence1.length    ).toEqual(20);
+        expect(occurrence1.rule      ).toEqual(rule.name);
+        expect(occurrence1.message   ).toEqual(rule.description);
+
+        expect(occurrence2.line      ).toEqual('I\'m another hardcoded-text');
+        expect(occurrence2.lineNumber).toEqual(7);
+        expect(occurrence2.globalPos ).toEqual(162);
+        expect(occurrence2.length    ).toEqual(26);
+        expect(occurrence2.rule      ).toEqual(rule.name);
+        expect(occurrence2.message   ).toEqual(rule.description);
     });
 
     it('ignores multiclause nodes', () => {
@@ -46,26 +46,22 @@ describe(rule.name, () => {
     it('detects a 1-length-long hardcoded text', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3)[0];
 
-        expect(result).toEqual({
-            globalPos : 28,
-            length      : 1,
-            line        : 'g',
-            lineNumber  : 6,
-            message     : 'Hardcoded string is not allowed',
-            rule        : 'no-hardcode'
-        });
+        expect(result.globalPos ).toEqual(28);
+        expect(result.length    ).toEqual(1);
+        expect(result.line      ).toEqual('g');
+        expect(result.lineNumber).toEqual(6);
+        expect(result.message   ).toEqual('Hardcoded string is not allowed');
+        expect(result.rule      ).toEqual('no-hardcode');
     });
 
     it('detects lonely hardcoded text', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4)[0];
 
-        expect(result[0]).toEqual({
-            globalPos : 7,
-            length      : 4,
-            line        : 'test',
-            lineNumber  : 3,
-            message     : 'Hardcoded string is not allowed',
-            rule        : 'no-hardcode'
-        });
+        expect(result.globalPos ).toEqual(7);
+        expect(result.length    ).toEqual(4);
+        expect(result.line      ).toEqual('test');
+        expect(result.lineNumber).toEqual(3);
+        expect(result.message   ).toEqual('Hardcoded string is not allowed');
+        expect(result.rule      ).toEqual('no-hardcode');
     });
 });

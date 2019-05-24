@@ -6,7 +6,6 @@ const Constants            = require('../../app/Constants');
 const NoSpaceOnlyLinesRule = require('../../app/rules/line_by_line/no-space-only-lines');
 const NoInlineStyleRule    = require('../../app/rules/line_by_line/no-inline-style');
 const EnforceIsprintRule   = require('../../app/rules/line_by_line/enforce-isprint');
-const FileParser           = require('../../app/FileParser');
 const ExceptionUtils       = require('../../app/util/ExceptionUtils');
 
 const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
@@ -47,10 +46,12 @@ describe(targetObjName, () => {
     });
 
     it('processes the correct line in result json data', () => {
-        const result         = IsmlLinter.run(specSpecificDirLinterTemplate);
-        const expectedResult = expectedResultObj(FileParser.ENTRY_TYPES.ERROR);
+        const result = IsmlLinter.run(specSpecificDirLinterTemplate);
 
-        expect(result).toEqual(expectedResult);
+        expect(result.errors['Wrap expression in <isprint> tag']['src/spec/templates/default/isml_linter/specific_directory_to_be_linted/template_1.isml'][0].line).toEqual('<div style="display: none;">${addToCartUrl}</div>');
+        expect(result.errors['Wrap expression in <isprint> tag']['src/spec/templates/default/isml_linter/specific_directory_to_be_linted/template_2.isml'][0].line).toEqual(' ${URLUtils.https(\'Reorder-ListingPage\')}');
+        expect(result.errors['Avoid using inline style']['src/spec/templates/default/isml_linter/specific_directory_to_be_linted/template_1.isml'][0].line).toEqual('<div style="display: none;">${addToCartUrl}</div>');
+        expect(result.errors['Line contains only blank spaces']['src/spec/templates/default/isml_linter/specific_directory_to_be_linted/template_1.isml'][0].line).toEqual('   ');
     });
 
     it('does not consider errors in directories defined to be ignored in the config file', () => {
@@ -83,11 +84,9 @@ describe(targetObjName, () => {
         const actualResult    = result[UNPARSEABLE][0];
         const filePath        = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
 
-        expect(actualResult).toEqual({
-            filePath   : filePath,
-            message    : expectedMessage,
-            lineNumber : 2
-        });
+        expect(actualResult.filePath  ).toEqual(filePath);
+        expect(actualResult.message   ).toEqual(expectedMessage);
+        expect(actualResult.lineNumber).toEqual(2);
     });
 });
 

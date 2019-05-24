@@ -12,16 +12,14 @@ describe(rule.name, () => {
     });
 
     it('detects "require()" calls within loops', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
 
-        expect(result).toEqual([{
-            line        : '<isset name="basket" value="${require(\'dw.order.Basket\')}" scope="page"/>',
-            lineNumber  : 3,
-            globalPos : 80,
-            length      : 73,
-            rule        : rule.name,
-            message     : rule.description
-        }]);
+        expect(result.line      ).toEqual('<isset name="basket" value="${require(\'dw.order.Basket\')}" scope="page"/>');
+        expect(result.lineNumber).toEqual(3);
+        expect(result.globalPos ).toEqual(80);
+        expect(result.length    ).toEqual(73);
+        expect(result.rule      ).toEqual(rule.name);
+        expect(result.message   ).toEqual(rule.description);
     });
 
     it('allows "require()" calls outsde loops', () => {

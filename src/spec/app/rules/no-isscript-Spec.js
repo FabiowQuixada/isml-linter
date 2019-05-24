@@ -26,17 +26,15 @@ describe(rule.name, () => {
     });
 
     it('detects logic in template', () => {
-        const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result         = rule.check(fileContent);
-        const expectedResult = [{
-            line        : '<isscript>',
-            lineNumber  : 1,
-            globalPos : 0,
-            length      : 10,
-            rule        : rule.name,
-            message     : rule.description
-        }];
+        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result          = rule.check(fileContent);
+        const firstOccurrence = result.occurrences[0];
 
-        expect(result.occurrences).toEqual(expectedResult);
+        expect(firstOccurrence.line      ).toEqual('<isscript>');
+        expect(firstOccurrence.lineNumber).toEqual(1);
+        expect(firstOccurrence.globalPos ).toEqual(0);
+        expect(firstOccurrence.length    ).toEqual(10);
+        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.message   ).toEqual(rule.description);
     });
 });

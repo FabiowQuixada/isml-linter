@@ -52,8 +52,8 @@ describe(targetObjName, () => {
         const actualLintResult   = publicApi.parse(lintPath);
         const expectedLintResult = IsmlLinter.run(lintPath);
 
-        expect(actualResult).toEqual(expectedResult);
-        expect(actualResult).toEqual(config);
+        expect(actualResult    ).toEqual(expectedResult);
+        expect(actualResult    ).toEqual(config);
         expect(actualLintResult).toEqual(expectedLintResult);
     });
 });

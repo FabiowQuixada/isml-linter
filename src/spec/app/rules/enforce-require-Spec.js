@@ -24,7 +24,7 @@ describe(rule.name, () => {
         const expectedResult = [{
             line        : '<a href="${dw.catalog.ProductSearchModel.urlForCategory(\'Search-Show\',cat.ID)}"',
             lineNumber  : 0,
-            globalPos : 11,
+            globalPos   : 11,
             length      : 29,
             rule        : rule.name,
             message     : rule.description
@@ -48,17 +48,15 @@ describe(rule.name, () => {
     });
 
     it('detects inadequate code upon declaration and no assignment', () => {
-        const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 4);
-        const result         = rule.check(fileContent);
-        const expectedResult = [{
-            line        : 'const productLineItem : dw.order.ProductLineItem; // Some comment',
-            lineNumber  : 2,
-            globalPos : 25,
-            length      : 24,
-            rule        : rule.name,
-            message     : rule.description
-        }];
+        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 4);
+        const result          = rule.check(fileContent);
+        const firstOccurrence = result.occurrences[0];
 
-        expect(result.occurrences).toEqual(expectedResult);
+        expect(firstOccurrence.line      ).toEqual('const productLineItem : dw.order.ProductLineItem; // Some comment');
+        expect(firstOccurrence.lineNumber).toEqual(2);
+        expect(firstOccurrence.globalPos ).toEqual(25);
+        expect(firstOccurrence.length    ).toEqual(24);
+        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.message   ).toEqual(rule.description);
     });
 });

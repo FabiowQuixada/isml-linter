@@ -26,17 +26,15 @@ describe(rule.name, () => {
     });
 
     it('detects simple style occurrence', () => {
-        const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result         = rule.check(fileContent);
-        const expectedResult = [{
-            line        : '<div style="display: none;">',
-            lineNumber  : 1,
-            globalPos : 5,
-            length      : 5,
-            rule        : rule.name,
-            message     : rule.description
-        }];
+        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result          = rule.check(fileContent);
+        const firstOccurrence = result.occurrences[0];
 
-        expect(result.occurrences).toEqual(expectedResult);
+        expect(firstOccurrence.line      ).toEqual('<div style="display: none;">');
+        expect(firstOccurrence.lineNumber).toEqual(1);
+        expect(firstOccurrence.globalPos ).toEqual(5);
+        expect(firstOccurrence.length    ).toEqual(5);
+        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.message   ).toEqual(rule.description);
     });
 });

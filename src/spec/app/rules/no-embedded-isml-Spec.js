@@ -12,16 +12,14 @@ describe(rule.name, () => {
     });
 
     it('detects non-isprint tags within html tags', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
 
-        expect(result).toEqual([{
-            line        : '<input\n    type="text"\n    class="form-control <isif condition="${condition}">billingAddressCity</isif>"\n    id="billingAddressCity"\n    autocomplete="billing address-level2"/>',
-            lineNumber  : 1,
-            globalPos : 0,
-            length      : 176,
-            rule        : rule.name,
-            message     : rule.description
-        }]);
+        expect(result.line      ).toEqual('<input\n    type="text"\n    class="form-control <isif condition="${condition}">billingAddressCity</isif>"\n    id="billingAddressCity"\n    autocomplete="billing address-level2"/>');
+        expect(result.lineNumber).toEqual(1);
+        expect(result.globalPos ).toEqual(0);
+        expect(result.length    ).toEqual(176);
+        expect(result.rule      ).toEqual(rule.name);
+        expect(result.message   ).toEqual(rule.description);
     });
 
     it('allows isml-tag-less html tags', () => {

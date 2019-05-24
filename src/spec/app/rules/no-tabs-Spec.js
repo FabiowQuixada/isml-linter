@@ -28,16 +28,14 @@ describe(rule.name, () => {
     it('detects tab character position', () => {
         const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
         const result = rule.check(fileContent);
-        const expectedResult = [{
-            line        : '	',
-            lineNumber  : 1,
-            globalPos : 0,
-            length      : 1,
-            rule        : rule.name,
-            message     : rule.description
-        }];
+        const firstOccurrence = result.occurrences[0];
 
-        expect(result.occurrences).toEqual(expectedResult);
+        expect(firstOccurrence.line      ).toEqual('	');
+        expect(firstOccurrence.lineNumber).toEqual(1);
+        expect(firstOccurrence.globalPos ).toEqual(0);
+        expect(firstOccurrence.length    ).toEqual(1);
+        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.message   ).toEqual(rule.description);
     });
 
     it('fixes a simple template', () => {

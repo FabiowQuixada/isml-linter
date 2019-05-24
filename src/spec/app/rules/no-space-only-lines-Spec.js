@@ -33,18 +33,16 @@ describe(rule.name, () => {
     });
 
     it('detects position and length of space-only lines', () => {
-        const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result         = rule.check(fileContent);
-        const expectedResult = [{
-            line        : '     ',
-            lineNumber  : 1,
-            globalPos : 0,
-            length      : 6,
-            rule        : rule.name,
-            message     : rule.description
-        }];
+        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result          = rule.check(fileContent);
+        const firstOccurrence = result.occurrences[0];
 
-        expect(result.occurrences).toEqual(expectedResult);
+        expect(firstOccurrence.line      ).toEqual('     ');
+        expect(firstOccurrence.lineNumber).toEqual(1);
+        expect(firstOccurrence.globalPos ).toEqual(0);
+        expect(firstOccurrence.length    ).toEqual(6);
+        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.message   ).toEqual(rule.description);
     });
 
     it('fixes a simple template', () => {

@@ -12,15 +12,13 @@ describe(rule.name, () => {
     });
 
     it('detects a too-deeply-nested template', () => {
-        const occurrences = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const occurrences = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
 
-        expect(occurrences).toEqual([{
-            line        : '<isprint class="lvl-11" />',
-            lineNumber  : 11,
-            globalPos : 490,
-            length      : 26,
-            rule        : rule.name,
-            message     : rule.description
-        }]);
+        expect(occurrences.line      ).toEqual('<isprint class="lvl-11" />');
+        expect(occurrences.lineNumber).toEqual(11);
+        expect(occurrences.globalPos ).toEqual(490);
+        expect(occurrences.length    ).toEqual(26);
+        expect(occurrences.rule      ).toEqual(rule.name);
+        expect(occurrences.message   ).toEqual(rule.description);
     });
 });

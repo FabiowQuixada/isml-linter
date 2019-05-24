@@ -40,18 +40,16 @@ describe(rule.name, () => {
     });
 
     it('detects trailing space chain position and length', () => {
-        const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result         = rule.check(fileContent);
-        const expectedResult = [{
-            line        : 'const sum = 0;    ',
-            lineNumber  : 1,
-            globalPos : 14,
-            length      : 4,
-            rule        : rule.name,
-            message     : rule.description
-        }];
+        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result          = rule.check(fileContent);
+        const firstOccurrence = result.occurrences[0];
 
-        expect(result.occurrences).toEqual(expectedResult);
+        expect(firstOccurrence.line      ).toEqual('const sum = 0;    ');
+        expect(firstOccurrence.lineNumber).toEqual(1);
+        expect(firstOccurrence.globalPos ).toEqual(14);
+        expect(firstOccurrence.length    ).toEqual(4);
+        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.message   ).toEqual(rule.description);
     });
 
     it('fixes a simple template', () => {

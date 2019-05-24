@@ -44,16 +44,14 @@ describe(rule.name, () => {
     });
 
     it('detects wrong indentation with previous sibling element', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3)[0];
 
-        expect(result).toEqual([{
-            line        : '<input type="text" />',
-            lineNumber  : 3,
-            globalPos : 87,
-            length      : 5,
-            rule        : rule.name,
-            message     : rule.description
-        }]);
+        expect(result.line      ).toEqual('<input type="text" />');
+        expect(result.lineNumber).toEqual(3);
+        expect(result.globalPos ).toEqual(87);
+        expect(result.length    ).toEqual(5);
+        expect(result.rule      ).toEqual(rule.name);
+        expect(result.message   ).toEqual(rule.description);
     });
 
     it('checks indendation for elements at depth 0', () => {

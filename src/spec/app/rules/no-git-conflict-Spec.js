@@ -26,25 +26,24 @@ describe(rule.name, () => {
     });
 
     it('detects position and length of space-only lines', () => {
-        const fileContent    = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result         = rule.check(fileContent);
-        const expectedResult = [{
-            line        : '<<<<<<< HEAD',
-            lineNumber  : 1,
-            globalPos : 0,
-            length      : 12,
-            rule        : rule.name,
-            message     : rule.description
-        },
-        {
-            line        : '=======',
-            lineNumber  : 3,
-            globalPos : 25,
-            length      : 7,
-            rule        : rule.name,
-            message     : rule.description
-        }];
+        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result      = rule.check(fileContent);
+        const occurrence1 = result.occurrences[0];
+        const occurrence2 = result.occurrences[1];
 
-        expect(result.occurrences).toEqual(expectedResult);
+        expect(occurrence1.line      ).toEqual('<<<<<<< HEAD');
+        expect(occurrence1.lineNumber).toEqual(1);
+        expect(occurrence1.globalPos ).toEqual(0);
+        expect(occurrence1.length    ).toEqual(12);
+        expect(occurrence1.rule      ).toEqual(rule.name);
+        expect(occurrence1.message   ).toEqual(rule.description);
+
+        expect(occurrence2.line      ).toEqual('=======');
+        expect(occurrence2.lineNumber).toEqual(3);
+        expect(occurrence2.globalPos ).toEqual(25);
+        expect(occurrence2.length    ).toEqual(7);
+        expect(occurrence2.rule      ).toEqual(rule.name);
+
+        expect(result.occurrences.length).toEqual(2);
     });
 });
