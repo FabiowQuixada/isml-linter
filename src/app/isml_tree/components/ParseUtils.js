@@ -157,7 +157,8 @@ module.exports.isCorrespondentElement = function(state, elem) {
 };
 
 module.exports.getFirstElementType = function(elementAsString) {
-    let result = elementAsString.substring(elementAsString.indexOf('<') + 1, elementAsString.indexOf('>'));
+    const elementEndPos = elementAsString.indexOf('>') === -1 ? elementAsString.length : elementAsString.indexOf('>');
+    let result          = elementAsString.substring(elementAsString.indexOf('<') + 1, elementEndPos);
 
     // In case the tag has attributes;
     if (result.indexOf(' ') !== -1) {

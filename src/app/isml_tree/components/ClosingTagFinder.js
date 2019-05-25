@@ -50,7 +50,17 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
         }
 
         if (previousContent === internalState.maskedContent) {
-            throw ExceptionUtils.parseError(oldParentState.filePath);
+            const elementType = ParseUtils.getFirstElementType(previousContent.trim());
+            const lineNumber  = parentState.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(previousContent);
+            const length      = elementType.length;
+            const globalPos   = parentState.currentPos + ParseUtils.getNextNonEmptyCharPos(previousContent);
+
+            throw ExceptionUtils.parseError(
+                elementType,
+                lineNumber,
+                globalPos,
+                length,
+                parentState.filePath);
         }
 
         previousContent = internalState.maskedContent;

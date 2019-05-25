@@ -1,5 +1,3 @@
-const Constants = require('../Constants');
-
 const types = {
     UNKNOWN_ERROR    : 'UNKNOWN_ERROR',
     INVALID_TEMPLATE : 'INVALID_TEMPLATE',
@@ -17,11 +15,15 @@ const unbalancedElementError = (elementType, lineNumber, globalPos, length, temp
     };
 };
 
-const parseError = templatePath => {
+const parseError = (elementType, lineNumber, globalPos, length, templatePath) => {
     return {
-        message  : `An unexpected error happened while parsing ${templatePath}. Please report it to ${Constants.repositoryUrl} and add the file to the ignore list while a fix is not available.`,
-        isCustom : true,
-        type     : types.UNKNOWN_ERROR
+        message      : `An unexpected error happened while parsing element ${elementType} at ${templatePath}:${lineNumber}.`,
+        templatePath : templatePath,
+        globalPos,
+        length,
+        lineNumber   : lineNumber,
+        isCustom     : true,
+        type         : types.UNKNOWN_ERROR
     };
 };
 
