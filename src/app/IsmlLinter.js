@@ -58,6 +58,8 @@ Linter.run = function(pathData = config.rootDir || appRoot.toString(), content) 
                 that.result[UNPARSEABLE].push({
                     filePath   : templatePath,
                     message    : e.message,
+                    globalPos  : e.globalPos,
+                    length     : e.length,
                     lineNumber : e.lineNumber
                 });
             }
