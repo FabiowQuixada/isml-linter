@@ -46,6 +46,12 @@ class IsmlNode {
             return 'dynamic_element';
         } else if (this.isMulticlause()) {
             return 'multi_clause';
+        } else if (!value) {
+            return 'empty';
+        } else if (value === '(root)') {
+            return 'root';
+        } else if (!this.isTag()) {
+            return 'text';
         }
 
         const regex = /<[a-zA-Z\d_]*(\s|>|\/)/g;
