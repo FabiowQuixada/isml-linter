@@ -72,7 +72,7 @@ const getMatchingIndexList = (content, expression, openingMatchList) => {
     while (match !== null) {
         const matchIndex = match.index;
 
-        if (!openingMatchList || openingMatchList[i] < matchIndex && (!openingMatchList[i + 1] || matchIndex < openingMatchList[i + 1])) {
+        if (!openingMatchList || openingMatchList[i] <= matchIndex && (!openingMatchList[i + 1] || matchIndex < openingMatchList[i + 1])) {
             matchingIndexList.push(matchIndex);
             ++i;
         }
@@ -92,7 +92,7 @@ const getMatchingIndexListForTagWithAtrributes = (content, expression) => {
     while (match !== null) {
         const substring     = content.substring(match.index);
         const closingTagPos = substring.indexOf('>');
-        matchingIndexList.push(match.index + closingTagPos - expression.length + 1);
+        matchingIndexList.push(match.index + closingTagPos + 1);
         match               = regex.exec(content);
     }
 
@@ -145,10 +145,13 @@ const removeEmptyIsmlExpressionFromIndexes = (startString, endString, openingMat
 };
 
 const getMatchingIndexes = (content, endString, paramOpeningMatchList, startString) => {
-    let closingMatchList = getMatchingIndexList(content, endString, paramOpeningMatchList);
-    let result           = '';
-    let isInBetween      = false;
-    let activePos        = null;
+    let closingMatchList    = getMatchingIndexList(content, endString, paramOpeningMatchList);
+    let result              = '';
+    let isInBetween         = false;
+    const currentOpeningTag = {
+        endingGlobalPos : null,
+        arrayIndex         : null
+    };
 
     const matchingIndexListResult = removeEmptyIsmlExpressionFromIndexes(startString, endString, paramOpeningMatchList, closingMatchList);
 
@@ -158,18 +161,27 @@ const getMatchingIndexes = (content, endString, paramOpeningMatchList, startStri
     for (let i = 0; i < content.length; ++i) {
         if (isInBetween) {
             if (closingMatchList.indexOf(i) !== -1) {
-                activePos   = null;
-                isInBetween = false;
-                result      += content[i];
+                currentOpeningTag.endingGlobalPos = null;
+                isInBetween                       = false;
+                result                            += content[i];
             } else {
                 result      += placeholderSymbol;
             }
         } else {
-            if (openingMatchList.indexOf(i - 1) !== -1) {
-                activePos = i;
+            const newLocal = openingMatchList.indexOf(i - 1);
+            if (newLocal !== -1) {
+                currentOpeningTag.endingGlobalPos = i;
+                currentOpeningTag.arrayIndex      = newLocal;
             }
 
-            isInBetween = activePos && i >= activePos + startString.length - 1;
+            isInBetween = currentOpeningTag.endingGlobalPos &&
+             i >= currentOpeningTag.endingGlobalPos + startString.length - 1;
+
+            if (openingMatchList[currentOpeningTag.arrayIndex] === closingMatchList[currentOpeningTag.arrayIndex]) {
+                isInBetween                       = false;
+                currentOpeningTag.arrayIndex      = null;
+                currentOpeningTag.endingGlobalPos = null;
+            }
 
             if (isInBetween) {
                 result += placeholderSymbol;

@@ -205,6 +205,14 @@ describe(targetObjName, () => {
         expect(emptyNode.getValue()).toEqual('\n    ');
     });
 
+    it('allows empty "script" tag', () => {
+        const tree       = getTreeFromTemplate(22);
+        const rootNode   = tree.rootNode;
+        const scriptNode = rootNode.getChild(0);
+
+        expect(scriptNode.getType()).toEqual('script');
+    });
+
     it('identifies HTML comments', () => {
         const rootNode        = getRootNodeFromTemplate(24);
         const htmlCommentNode = rootNode.getChild(0);
