@@ -3,6 +3,8 @@ const MAX_TEXT_DISPLAY_SIZE = 30;
 const ConfigUtils = require('../util/ConfigUtils');
 const Constants   = require('../Constants');
 
+let ID_COUNTER = 0;
+
 class IsmlNode {
 
     /**
@@ -11,6 +13,7 @@ class IsmlNode {
      * @param {Number} globalPos  node starting position since the beginning of the file
      */
     constructor(value = '(root)', lineNumber = 0, globalPos) {
+        this.id               = ID_COUNTER++;
         this.value            = value;      // '<div class="my_class">'
         this.lineNumber       = lineNumber; // 7
         this.globalPos        = globalPos;  // 184
@@ -30,6 +33,7 @@ class IsmlNode {
         this.suffixGlobalPos  = globalPos;
     }
 
+    getId() { return this.id; }
     setValue(value) { this.value = value; }
     getValue() { return this.value; }
     getLineNumber() { return this.lineNumber; }
