@@ -22,7 +22,7 @@ describe('IsmlNode', () => {
         expect(actual[1].value).toEqual('width:7px');
     });
 
-    it('lists its attributes for value-less atributes', () => {
+    it('lists its attributes for value-less attributes', () => {
         const node   = new IsmlNode('<input type="checkbox" checked>');
         const actual = node.getAttributeList();
 
@@ -34,7 +34,7 @@ describe('IsmlNode', () => {
         expect(actual[1].value).toEqual(null);
     });
 
-    it('lists its attributes for atributes with more than one value', () => {
+    it('lists its attributes for attributes with more than one value', () => {
         const node   = new IsmlNode('<span class="class_1 class_2" data-url="https://">');
         const actual = node.getAttributeList();
 

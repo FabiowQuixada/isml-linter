@@ -1,4 +1,4 @@
-// Please check all available configutations and rules
+// Please check all available configurations and rules
 // at https://www.npmjs.com/package/isml-linter.
 
 const config = {

@@ -22,7 +22,7 @@ describe(rule.name, () => {
         expect(result.message   ).toEqual(rule.description);
     });
 
-    it('allows "require()" calls outsde loops', () => {
+    it('allows "require()" calls outside loops', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
 
         expect(result).toEqual([]);

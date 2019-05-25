@@ -54,7 +54,7 @@ describe(rule.name, () => {
         expect(result.message   ).toEqual(rule.description);
     });
 
-    it('checks indendation for elements at depth 0', () => {
+    it('checks indentation for elements at depth 0', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5);
 
         expect(result).toEqual([]);

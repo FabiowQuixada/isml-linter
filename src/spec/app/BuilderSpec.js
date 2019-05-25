@@ -13,7 +13,7 @@ describe(targetObjName, () => {
         SpecHelper.afterEach();
     });
 
-    it('simulates production errorly scenario', () => {
+    it('simulates production buggy scenario', () => {
         const result = Builder.run();
 
         expect(result).toEqual(1);

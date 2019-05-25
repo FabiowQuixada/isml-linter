@@ -25,7 +25,7 @@ describe(rule.name, () => {
         expect(result.occurrences).not.toEqual([]);
     });
 
-    it('detects unwraped expressions inside HTML elements', () => {
+    it('detects unwrapped expressions inside HTML elements', () => {
         const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 5);
         const result      = rule.check(fileContent);
 

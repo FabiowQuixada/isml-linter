@@ -41,7 +41,7 @@ you have access to the following methods:
      **/
     build()
 
-    // The following are available for retro-compability
+    // The following are available for retro-compatibility
     // and are deprecated. They do the same as the above
     // methods;
     IsmlLinter,

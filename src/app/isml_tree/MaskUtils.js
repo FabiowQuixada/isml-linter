@@ -1,5 +1,5 @@
 /**
- * Replaces '${...}' with '${___}', so it facilites next processes. For Example,
+ * Replaces '${...}' with '${___}', so it facilitates next processes. For Example,
  * if ${ 3 < 4 } is present, the '<' symbol might be thought as an opening tag
  * symbol. The same is valid for <isscript> and <iscomment> tags;
  */

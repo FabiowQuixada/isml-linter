@@ -67,12 +67,12 @@ module.exports.getPostClosingTagContentUpToLneBreak = function(content, startPos
 
 module.exports.isOpeningElem = function(state) {
 
-    const content    = state.content;
-    const currPos    = state.currentElement.initPosition;
-    const currenChar = content.charAt(currPos);
-    const nextChar   = content.charAt(currPos + 1);
+    const content     = state.content;
+    const currPos     = state.currentElement.initPosition;
+    const currentChar = content.charAt(currPos);
+    const nextChar    = content.charAt(currPos + 1);
 
-    return currenChar === '<' && nextChar !== '/';
+    return currentChar === '<' && nextChar !== '/';
 };
 
 module.exports.isStackable = function(elem) {
@@ -212,7 +212,7 @@ module.exports.getAllConditionalTags = function(content) {
     return tagList;
 };
 
-module.exports.getOutterConditionalTagList = function(tagList) {
+module.exports.getOuterConditionalTagList = function(tagList) {
 
     let depth = 0;
 
@@ -244,7 +244,7 @@ module.exports.getClauseList = function(content) {
     const clauseStringList = [];
 
     let tagList = this.getAllConditionalTags(content);
-    tagList     = this.getOutterConditionalTagList(tagList);
+    tagList     = this.getOuterConditionalTagList(tagList);
 
     let lastIndex = 0;
     tagList.forEach( tagObj => {
@@ -287,9 +287,9 @@ module.exports.lighten = function(state) {
 
 module.exports.getGlobalPos = state => {
     const currentElement = state.currentElement.asString;
-    const accumutatedPos = getAccumulatedPos(state);
+    const accumulatedPos = getAccumulatedPos(state);
 
-    const newLocal = accumutatedPos - currentElement.trim().length;
+    const newLocal = accumulatedPos - currentElement.trim().length;
     return newLocal;
 };
 

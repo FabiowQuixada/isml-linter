@@ -63,7 +63,7 @@ class IsmlNode {
         return this.value.toLowerCase().trim().startsWith('<!doctype ');
     }
 
-    // Checks if the node type is dinamically set, such in:
+    // Checks if the node type is dynamically set, such in:
     // <${aPdictVariable} />
     isDynamicElement() {
         return this.value.trim().startsWith('<${');

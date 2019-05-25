@@ -32,7 +32,7 @@ describe(targetObjName, () => {
         expect(config.env).not.toEqual('test');
     });
 
-    // TODO: Works on production, flexibilize
+    // TODO: Works on production
     // it to work on test environment also;
     // it('creates a config file if it does not exist', () => {
     //     const specTempDir = Constants.specTempDir;

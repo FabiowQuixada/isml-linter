@@ -26,67 +26,67 @@ describe(rule.name, () => {
     });
 
     it('detects <br> (no space nor slash) tag within another tag', () => {
-        const fileContent      = SpecHelper.getRuleSpecTemplateContent(rule, 2);
-        const result           = rule.check(fileContent);
-        const firstOccurrrence = result.occurrences[0];
+        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 2);
+        const result          = rule.check(fileContent);
+        const firstOccurrence = result.occurrences[0];
 
-        expect(firstOccurrrence.line      ).toEqual('<div><br></div>');
-        expect(firstOccurrrence.lineNumber).toEqual(1);
-        expect(firstOccurrrence.globalPos ).toEqual(5);
-        expect(firstOccurrrence.length    ).toEqual(4);
-        expect(firstOccurrrence.rule      ).toEqual(rule.name);
-        expect(firstOccurrrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line      ).toEqual('<div><br></div>');
+        expect(firstOccurrence.lineNumber).toEqual(1);
+        expect(firstOccurrence.globalPos ).toEqual(5);
+        expect(firstOccurrence.length    ).toEqual(4);
+        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.message   ).toEqual(rule.description);
     });
 
     it('detects <br /> (space, slash) tag within another tag', () => {
-        const fileContent      = SpecHelper.getRuleSpecTemplateContent(rule, 3);
-        const result           = rule.check(fileContent);
-        const firstOccurrrence = result.occurrences[0];
+        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 3);
+        const result          = rule.check(fileContent);
+        const firstOccurrence = result.occurrences[0];
 
-        expect(firstOccurrrence.line      ).toEqual('<div><br /></div>');
-        expect(firstOccurrrence.lineNumber).toEqual(2);
-        expect(firstOccurrrence.globalPos ).toEqual(6);
-        expect(firstOccurrrence.length    ).toEqual(6);
-        expect(firstOccurrrence.rule      ).toEqual(rule.name);
-        expect(firstOccurrrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line      ).toEqual('<div><br /></div>');
+        expect(firstOccurrence.lineNumber).toEqual(2);
+        expect(firstOccurrence.globalPos ).toEqual(6);
+        expect(firstOccurrence.length    ).toEqual(6);
+        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.message   ).toEqual(rule.description);
     });
 
     it('detects <br/> (slash only) tag within another tag', () => {
-        const fileContent      = SpecHelper.getRuleSpecTemplateContent(rule, 4);
-        const result           = rule.check(fileContent);
-        const firstOccurrrence = result.occurrences[0];
+        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 4);
+        const result          = rule.check(fileContent);
+        const firstOccurrence = result.occurrences[0];
 
-        expect(firstOccurrrence.line      ).toEqual('<div><br/></div>');
-        expect(firstOccurrrence.lineNumber).toEqual(1);
-        expect(firstOccurrrence.globalPos ).toEqual(5);
-        expect(firstOccurrrence.length    ).toEqual(5);
-        expect(firstOccurrrence.rule      ).toEqual(rule.name);
-        expect(firstOccurrrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line      ).toEqual('<div><br/></div>');
+        expect(firstOccurrence.lineNumber).toEqual(1);
+        expect(firstOccurrence.globalPos ).toEqual(5);
+        expect(firstOccurrence.length    ).toEqual(5);
+        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.message   ).toEqual(rule.description);
     });
 
     it('detects standalone <br> tag (no space nor slash)', () => {
-        const fileContent      = SpecHelper.getRuleSpecTemplateContent(rule, 5);
-        const result           = rule.check(fileContent);
-        const firstOccurrrence = result.occurrences[0];
+        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 5);
+        const result          = rule.check(fileContent);
+        const firstOccurrence = result.occurrences[0];
 
-        expect(firstOccurrrence.line      ).toEqual('<br>');
-        expect(firstOccurrrence.lineNumber).toEqual(1);
-        expect(firstOccurrrence.globalPos ).toEqual(0);
-        expect(firstOccurrrence.length    ).toEqual(4);
-        expect(firstOccurrrence.rule      ).toEqual(rule.name);
-        expect(firstOccurrrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line      ).toEqual('<br>');
+        expect(firstOccurrence.lineNumber).toEqual(1);
+        expect(firstOccurrence.globalPos ).toEqual(0);
+        expect(firstOccurrence.length    ).toEqual(4);
+        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.message   ).toEqual(rule.description);
     });
 
     it('detects standalone <br/> tag (slash)', () => {
-        const fileContent      = SpecHelper.getRuleSpecTemplateContent(rule, 6);
-        const result           = rule.check(fileContent);
-        const firstOccurrrence = result.occurrences[0];
+        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 6);
+        const result          = rule.check(fileContent);
+        const firstOccurrence = result.occurrences[0];
 
-        expect(firstOccurrrence.line      ).toEqual('<br/>');
-        expect(firstOccurrrence.lineNumber).toEqual(2);
-        expect(firstOccurrrence.globalPos ).toEqual(1);
-        expect(firstOccurrrence.length    ).toEqual(5);
-        expect(firstOccurrrence.rule      ).toEqual(rule.name);
-        expect(firstOccurrrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line      ).toEqual('<br/>');
+        expect(firstOccurrence.lineNumber).toEqual(2);
+        expect(firstOccurrence.globalPos ).toEqual(1);
+        expect(firstOccurrence.length    ).toEqual(5);
+        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.message   ).toEqual(rule.description);
     });
 });

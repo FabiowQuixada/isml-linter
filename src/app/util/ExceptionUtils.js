@@ -19,7 +19,7 @@ const unbalancedElementError = (elementType, lineNumber, globalPos, length, temp
 
 const parseError = templatePath => {
     return {
-        message  : `An unexpected error happenned while parsing ${templatePath}. Please report it to ${Constants.repositoryUrl} and add the file to the ignore list while a fix is not available.`,
+        message  : `An unexpected error happened while parsing ${templatePath}. Please report it to ${Constants.repositoryUrl} and add the file to the ignore list while a fix is not available.`,
         isCustom : true,
         type     : types.UNKNOWN_ERROR
     };

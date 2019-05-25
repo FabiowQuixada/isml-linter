@@ -60,13 +60,13 @@ describe(targetObjName, () => {
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('Some content');
     });
 
-    it('handles "<" charecters in scripts', () => {
+    it('handles "<" characters in scripts', () => {
         const rootNode = getRootNodeFromTemplate(5);
 
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('var condition = someValue < 4;');
     });
 
-    it('handles "<" charecters in isml expressons', () => {
+    it('handles "<" characters in isml expressions', () => {
         const rootNode = getRootNodeFromTemplate(6);
 
         expect(rootNode.getChild(0).getChild(0).getValue().trim()).toEqual('${someValue < 3}');
