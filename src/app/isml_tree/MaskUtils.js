@@ -8,11 +8,11 @@ const placeholderSymbol = '_';
 
 const maskIgnorableContent = content => {
 
-    content = maskInBetween(content, '<iscomment>', '</iscomment>');
+    content = maskInBetween(content, 'iscomment');
     content = maskInBetween(content, '${', '}');
-    content = maskInBetween(content, '<isscript>', '</isscript>');
-    content = maskInBetweenForTagWithAttributes(content, '<script', '</script>');
-    content = maskInBetweenForTagWithAttributes(content, '<style', '</style>');
+    content = maskInBetween(content, 'isscript');
+    content = maskInBetweenForTagWithAttributes(content, 'script');
+    content = maskInBetweenForTagWithAttributes(content, 'style');
     content = maskInBetween(content, '<!--', '-->');
     content = maskNestedIsmlElements(content);
 
@@ -100,54 +100,65 @@ const getMatchingIndexListForTagWithAtrributes = (content, expression) => {
 };
 
 const maskInBetween = (content, startString, endString) => {
-    const openingMatchList = getMatchingIndexList(content, startString);
-    return getMatchingIndexes(content, endString, openingMatchList, startString);
+
+    let processedStartingString = startString;
+    let processedEndString      = endString;
+
+    if (!endString) {
+        processedStartingString = `<${startString}>`;
+        processedEndString      = `</${startString}>`;
+    }
+    const openingMatchList = getMatchingIndexList(content, processedStartingString);
+    return getMatchingIndexes(content, processedEndString, openingMatchList, processedStartingString);
 };
 
-const maskInBetweenForTagWithAttributes = (content, startString, endString) => {
-    const openingMatchList = getMatchingIndexListForTagWithAtrributes(content, startString);
-    return getMatchingIndexes(content, endString, openingMatchList, startString);
+const maskInBetweenForTagWithAttributes = (content, rawStartString) => {
+
+    const startingString   = `<${rawStartString}>`;
+    const endString        = `</${rawStartString}>`;
+    const openingMatchList = getMatchingIndexListForTagWithAtrributes(content, startingString);
+    return getMatchingIndexes(content, endString, openingMatchList, startingString);
 };
 
 const removeEmptyIsmlExpressionFromIndexes = (startString, endString, openingMatchList, closingMatchList) => {
 
-    let result1 = [];
-    let result2 = [];
+    let finalOpeningMatchList = [];
+    let finalClosingMatchList = [];
     if (startString === '${' && endString === '}') {
         const matchQty = openingMatchList.length;
 
         for (let i = 0; i < matchQty; i++) {
             if (openingMatchList[i] !== closingMatchList[i] - 2) {
-                result1.push(openingMatchList[i]);
-                result2.push(closingMatchList[i]);
+                finalOpeningMatchList.push(openingMatchList[i]);
+                finalClosingMatchList.push(closingMatchList[i]);
             }
         }
     } else {
-        result1 = openingMatchList;
-        result2 = closingMatchList;
+        finalOpeningMatchList = openingMatchList;
+        finalClosingMatchList = closingMatchList;
     }
 
-    return [
-        result1,
-        result2
-    ];
+    return {
+        openingMatchList : finalOpeningMatchList,
+        closingMatchList : finalClosingMatchList
+    };
 };
 
-const getMatchingIndexes = (content, endString, openingMatchList, startString) => {
-    let closingMatchList = getMatchingIndexList(content, endString, openingMatchList);
+const getMatchingIndexes = (content, endString, paramOpeningMatchList, startString) => {
+    let closingMatchList = getMatchingIndexList(content, endString, paramOpeningMatchList);
     let result           = '';
     let isInBetween      = false;
-    let activePos        = -1;
+    let activePos        = null;
 
-    const a = removeEmptyIsmlExpressionFromIndexes(startString, endString, openingMatchList, closingMatchList);
+    const matchingIndexListResult = removeEmptyIsmlExpressionFromIndexes(startString, endString, paramOpeningMatchList, closingMatchList);
 
-    openingMatchList = a[0];
-    closingMatchList = a[1];
+    const openingMatchList = matchingIndexListResult.openingMatchList;
+    closingMatchList       = matchingIndexListResult.closingMatchList;
 
     for (let i = 0; i < content.length; ++i) {
         if (isInBetween) {
             if (closingMatchList.indexOf(i) !== -1) {
-                activePos   = -1;
+                activePos   = null;
                 isInBetween = false;
                 result      += content[i];
             } else {
@@ -158,7 +169,7 @@ const getMatchingIndexes = (content, endString, openingMatchList, startString) =
                 activePos = i;
             }
 
-            isInBetween = activePos !== -1 && i >= activePos + startString.length - 1;
+            isInBetween = activePos && i >= activePos + startString.length - 1;
 
             if (isInBetween) {
                 result += placeholderSymbol;
