@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.5.3] - 2019-05-25
+
+### Added
+ - Data to unparseable template result;
+
+### Fixed
+ - Docs misspellings;
+ - Contentless tag handling;
+ - Isml node types;
+ 
 ## [5.5.2] - 2019-05-23
 
 ### Added
@@ -235,6 +245,7 @@
 ### Added
 - Linter is published;
 
+[5.5.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.2...v5.5.3
 [5.5.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.1...v5.5.2
 [5.5.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.0...v5.5.1
 [5.5.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.4.3...v5.5.0
