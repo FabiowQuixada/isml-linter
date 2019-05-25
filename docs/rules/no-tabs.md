@@ -16,7 +16,7 @@ No configuration is available for this rule. Check the [Generic Configurations f
 "no-tabs": {}
 ```
 
-For the above configuration, the following scenarios may happen. A dot "." notation is used to ilustrate blank (heading and trailing) spaces, and "____" is used to represent a tab character.
+For the above configuration, the following scenarios may happen. A dot "." notation is used to illustrate blank (heading and trailing) spaces, and "____" is used to represent a tab character.
 
 ```
 ....<div>      // Valid;

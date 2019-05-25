@@ -18,7 +18,7 @@ No configuration is available for this rule. Check the [Generic Configurations f
 For the above configuration, the following scenarios may happen:
 
 ```
-<div clas="price"> 
+<div class="price"> 
     $10.00               // Hardcoded string, invalid;
     <div class="offer_label">
         ${'Only today!'} // Valid;

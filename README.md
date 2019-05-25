@@ -1,5 +1,5 @@
 # Isml Linter
-Isml Linter is a tool for examing if your project's templates follow a specified set of rules defined by your dev team. The available rules can be roughly grouped into: 
+Isml Linter is a tool for examining if your project's templates follow a specified set of rules defined by your dev team. The available rules can be roughly grouped into: 
 
  - Styles that are defined by your team;
  - Syntactic errors related to &lt;is* > tags;
@@ -118,7 +118,7 @@ And, to avoid possible doubts, here is an extra piece of information: it is allo
 
 ### Line by Line (disableTreeParse : true)
 
-This is a more robust, less powerful mode. It only has a few set of rules available and is indicated for cases where there are many, many lint errors and you want fix them gradually. It is also recommended in cases you don't want to force templates to be parseable (see previous secton). This mode is ideally temporary, as it cannot take advantages of even some simple rules, such as indentation checking.
+This is a more robust, less powerful mode. It only has a few set of rules available and is indicated for cases where there are many, many lint errors and you want fix them gradually. It is also recommended in cases you don't want to force templates to be parseable (see previous section). This mode is ideally temporary, as it cannot take advantages of even some simple rules, such as indentation checking.
 
 ### Git Hooks (Optional)
 

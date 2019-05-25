@@ -2,7 +2,7 @@
 
 In order to add a new rule, only one file is necessary apart from the specs. No extra configuration needed, it just needs to be under a specific directory. That's it. :)
 
-Although we will go through each estep to create a new rule, you might want to see a real world example, so please check the code of the following rules:
+Although we will go through each step to create a new rule, you might want to see a real world example, so please check the code of the following rules:
 
 - [one-element-per-line][one-element-per-line-rule] (for the simplest case scenario);
 - [indent][indent-rule] (for a more complex rule);
@@ -51,7 +51,7 @@ To create specs, you will need to create the following files (adapting them with
 - /src/spec/templates/default/rules/tree/my_new_rule/template_0.isml
 - /src/spec/templates/default/rules/tree/my_new_rule/template_1.isml
 
-Naming is very important here for both the spec file and templates. Notice that the `my_new_rule` directory snakecase convention.
+Naming is very important here for both the spec file and templates. Notice that the `my_new_rule` directory snake-case convention.
 
 You can easily copy and adapt from other rules specs. We recommend you to take [one-element-per-line-Spec][one-element-per-line-spec] as base for your specs.
 

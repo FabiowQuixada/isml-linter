@@ -1,6 +1,6 @@
 # "no-trailing-spaces" Rule
 
-Disallow trailning spaces.
+Disallow trailing spaces.
 
 ## Notes
 
@@ -16,7 +16,7 @@ No configuration is available for this rule. Check the [Generic Configurations f
 "no-trailing-spaces": {}
 ```
 
-For the above configuration, the following scenarios may happen. A dot "." notation is used to ilustrate blank (heading and trailing) spaces.
+For the above configuration, the following scenarios may happen. A dot "." notation is used to illustrate blank (heading and trailing) spaces.
 
 ```
 ....<div>      // Valid;

@@ -19,13 +19,13 @@ No configuration is available for this rule. Check the [Generic Configurations f
 For the above configuration, the following scenarios may happen:
 
 ```
-<div clas="price"> 
+<div class="price"> 
     ${price}  // Invalid;
 </div>
 ```
 
 ```
-<div clas="price"> 
+<div class="price"> 
     <isprint value="${price}" ... /> // Valid;
 </div>
 ```

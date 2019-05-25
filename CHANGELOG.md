@@ -79,7 +79,7 @@
    - Allowed DOCTYPE tag;
    - Ignored script tag content for isml parsing; 
    - Custom tags with "_" character;
-   - Allowed multile elements;
+   - Allowed multiple elements;
    - Dynamic elements: &lt;${elem} />;
    - Allowed empty isml expression: ${};
    - &lt;iscomment> element;
