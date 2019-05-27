@@ -21,11 +21,13 @@ const displayResult = issueQty => {
 const printExceptionMsg = e => {
     const Constants = require('../Constants');
 
-    console.log();
-    console.log('An error has occurred:');
-    console.log(e.stack || e);
-    console.log('If you think this is a bug, please open an issue at:');
-    console.log(`\n${Constants.repositoryUrl}\n\n`);
+    if (!e.isCustom) {
+        console.log();
+        console.log('An error has occurred:');
+        console.log(e.stack || e);
+        console.log('If you think this is a bug, please open an issue at:');
+        console.log(`\n${Constants.repositoryUrl}\n\n`);
+    }
 };
 
 const displayLintingErrors = jsonErrors => {
@@ -106,8 +108,14 @@ const displayErrors = jsonErrors => {
     }
 };
 
+const displayConfigError = () => {
+    console.log('No configuration found. Please run the following command to create a default configuration file:');
+    console.log('\n\t'+ chalk.yellow('node ./node_modules/.bin/isml-linter --init') + '\n');
+};
+
 module.exports = {
     displayErrors,
     displayResult,
+    displayConfigError,
     printExceptionMsg
 };

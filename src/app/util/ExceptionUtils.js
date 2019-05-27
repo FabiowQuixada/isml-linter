@@ -1,6 +1,7 @@
 const types = {
     UNKNOWN_ERROR    : 'UNKNOWN_ERROR',
     INVALID_TEMPLATE : 'INVALID_TEMPLATE',
+    NO_CONFIG        : 'NO_CONFIG',
 };
 
 const unbalancedElementError = (elementType, lineNumber, globalPos, length, templatePath) => {
@@ -27,11 +28,26 @@ const parseError = (elementType, lineNumber, globalPos, length, templatePath) =>
     };
 };
 
+const noConfigError = () => {
+    return {
+        message  : 'No configuration found. Please run the following command: \n\n\tnode ./node_modules/.bin/isml-linter --init\n\n',
+        isCustom : true
+    };
+};
+
+const emptyException = () => {
+    return {
+        isCustom : true
+    };
+};
+
 const isLinterException = e => e && e.isCustom;
 
 module.exports = {
     parseError,
     unbalancedElementError,
+    noConfigError,
+    emptyException,
     isLinterException,
     types
 };
