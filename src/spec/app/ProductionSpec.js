@@ -4,6 +4,7 @@ const rimraf       = require('rimraf');
 const { execSync } = require('child_process');
 const SpecHelper   = require('../SpecHelper');
 const Constants    = require('../../app/Constants');
+const ConfigUtils  = require('../../app/util/ConfigUtils');
 
 const targetDir             = path.join(Constants.clientAppDir, '..', Constants.sampleProductionProjectName);
 const targetPackageBasePath = path.join(targetDir, 'package_base.json');
@@ -11,20 +12,31 @@ const targetPackagePath     = path.join(targetDir, 'package.json');
 
 describe('Production', () => {
     beforeEach(() => {
-        SpecHelper.beforeEach();
+        deleteSampleProjectDir();
         const { version } = require(path.join(Constants.clientAppDir, 'package.json'));
         copySampleProject();
         setProductionVersion(version);
+        installLinter();
+        SpecHelper.beforeEach();
     });
 
     afterEach(() => {
+        removeConfigs();
         SpecHelper.afterEach();
         deleteSampleProjectDir();
     });
 
-    it('runs successfully', () => {
+    // TODO
+    // it('raises an error if no config is set', () => {
+    //     removeConfigs();
+    //     const exitCode = runLinter();
+    //     expect(exitCode).toEqual(1);
+    // });
 
-        const exitCode = installAndRunLinter();
+    it('runs successfully if a configuration is set', () => {
+        initConfig();
+
+        const exitCode = runLinter();
 
         expect(exitCode).toEqual(0);
     });
@@ -46,11 +58,32 @@ const setProductionVersion = version => {
     fs.writeFileSync(targetPackagePath, result, 'utf8');
 };
 
-const installAndRunLinter = () => {
+const installLinter = () => {
+    return runCommand('npm run import');
+};
 
+const initConfig = () => {
+    return runCommand('npm run init:isml');
+};
+
+const runLinter = () => {
+    return runCommand('npm run lint');
+};
+
+const removeConfigs = () => {
+    rimraf.sync(path.join(targetDir, Constants.configPreferredFileName));
+    rimraf.sync(path.join(targetDir, Constants.configFileName));
+    ConfigUtils.clearConfig();
+};
+
+const deleteSampleProjectDir = () => {
+    rimraf.sync(targetDir);
+};
+
+const runCommand = inputCommand => {
     try {
         const prodRootDir = path.join('..', Constants.sampleProductionProjectName);
-        const command     = `cd ${prodRootDir} && npm run production`;
+        const command     = `cd ${prodRootDir} && ${inputCommand}`;
 
         execSync(command);
 
@@ -58,8 +91,4 @@ const installAndRunLinter = () => {
     } catch (err) {
         return err;
     }
-};
-
-const deleteSampleProjectDir = () => {
-    rimraf.sync(targetDir);
 };
