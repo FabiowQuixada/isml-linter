@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.6.0] - 2019-05-____
+
+### Added
+ - New rule - "Leading &lt;iscontent> Tag";
+ - Output information for "unknown error" scenario;
+
+### Changed
+ - Config file initialization: not automatic anymore. Description added to README;
+
 ## [5.5.3] - 2019-05-25
 
 ### Added
@@ -58,7 +67,7 @@
 ### Added
  - Public API's `parse()` method now also accepts array of filepaths;
  - Preferred config filename: ismllinter.config.js;
- - Public API backwards-compability objects;
+ - Public API backwards-compatibility objects;
  - Rule name and description to each API output;
 
 ## [5.3.0] - 2019-04-28
@@ -245,6 +254,7 @@
 ### Added
 - Linter is published;
 
+[5.6.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.3...v5.6.0
 [5.5.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.2...v5.5.3
 [5.5.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.1...v5.5.2
 [5.5.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.0...v5.5.1

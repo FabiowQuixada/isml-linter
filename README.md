@@ -26,22 +26,29 @@ and add the following to package.json:
 
 ```js
 "scripts": {
+    "init:isml":  "./node_modules/.bin/isml-linter --init",
     "lint:isml":  "./node_modules/.bin/isml-linter",
     "build:isml": "./node_modules/.bin/isml-linter --build",
     "fix:isml":   "./node_modules/.bin/isml-linter --autofix"
 }
 ```
 
-The first script simply lists the broken rules in the console, while second raises an error if there is any broken rule, thus can be used in your build process. The "fix-isml" script applies fixes for the enabled rules. Please check below which rules are auto-fixable.
+Here's what each script does:
+- **init:isml** creates a config file;
+- **lint:isml** simply lists the broken rules in the console;
+- **build:isml** raises an error if there is any broken rule, thus can be used in your build process;
+- **fix:isml** applies fixes for the enabled rules;
 
 
 ### Configuration
 
-**Important note**: A preferred format for configuration file (ismllinter.config.js) has been introduced and it is now recommended, although the old .ismllinter.json format is still accepted.
+After adding the above scripts to package.json, run the following command to generate a config file containing all available rules:
 
-When you run Isml Linter for the first time, an ismllinter.config.js file will be created in your project root directory. All rules will be listed there (enabled by default) so you can clearly see what this linter can do for you. To disable a rule, simply remove it from the ismllinter.config.js file and run Isml Linter again;
+```
+npm run init:isml
+```
 
-The following configurations can be set in the ismllinter.config.js file:
+You can disable any rule by removing it from the config file. You may also find these configuration options useful:
 
 | Config            | Description                              |
 | ----------------- |:-----------------------------------------|
@@ -156,7 +163,7 @@ Check the [API docs][api-docs].
 | :small_orange_diamond: [no-embedded-isml][no-embedded-isml-readme]       | Disallows embedded isml tags, such as in <div &lt;isif /> />, except for &lt;isprint /> |
 | :small_orange_diamond: [max-depth][max-depth-readme]               | Sets the maximum of nested elements in a template |
 | :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]   | One element per line |
-| :boom: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]   | Ensures &lt;iscontent is the first element in the template |
+| :boom: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]   | Ensures &lt;iscontent> tag is the first element in the template if it exists |
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
 
