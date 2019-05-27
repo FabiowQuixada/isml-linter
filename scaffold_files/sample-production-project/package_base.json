@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "init:isml":  "./node_modules/.bin/isml-linter --init",
     "lint:isml":  "./node_modules/.bin/isml-linter",
     "build:isml": "./node_modules/.bin/isml-linter --build",
     "fix:isml":   "./node_modules/.bin/isml-linter --autofix",
