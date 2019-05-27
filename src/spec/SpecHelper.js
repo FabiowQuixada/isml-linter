@@ -49,7 +49,7 @@ module.exports = {
     afterEach: () => {
         process.env.NODE_ENV = Constants.ENV_DEV;
         cleanTempDirectory();
-        ConfigUtils.clear();
+        ConfigUtils.clearConfig();
     },
 
     getRuleSpecTemplateContent: (rule, fileNumber) => {

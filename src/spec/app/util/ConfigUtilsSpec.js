@@ -74,7 +74,7 @@ describe(targetObjName, () => {
                 'no-inline-style': {}
             }
         });
-        ConfigUtils.clear();
+        ConfigUtils.clearConfig();
 
         const specConfigPath = path.join(Constants.specDir, Constants.configPreferredFileName);
         const expectedConfig = require(specConfigPath);

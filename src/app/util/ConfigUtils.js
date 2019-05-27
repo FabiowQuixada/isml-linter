@@ -3,24 +3,24 @@ const path      = require('path');
 const Constants = require('../Constants');
 const FileUtils = require('./FileUtils');
 
-const ConfigUtils = {};
+let configData = null;
 
-ConfigUtils.init = function(
+const init = (
     targetDir = Constants.clientAppDir,
     configFileName = Constants.configPreferredFileName
-) {
+) => {
     return createConfigFile(targetDir, configFileName);
 };
 
-ConfigUtils.load = function(configParam) {
+const load = configParam => {
 
     if (configParam) {
-        this.config = configParam;
+        configData = configParam;
         return configParam;
     }
 
-    if (this.config) {
-        return this.config;
+    if (configData) {
+        return configData;
     }
 
     if (isTestEnv()) {
@@ -28,7 +28,11 @@ ConfigUtils.load = function(configParam) {
     }
 
     if (!existConfigFile()) {
-        this.init();
+        const ConsoleUtils   = require('./ConsoleUtils');
+        const ExceptionUtils = require('./ExceptionUtils');
+
+        ConsoleUtils.displayConfigError();
+        throw ExceptionUtils.emptyException();
     }
 
     let config = null;
@@ -43,8 +47,8 @@ ConfigUtils.load = function(configParam) {
     return config;
 };
 
-ConfigUtils.clear = function() {
-    this.config = null;
+const clearConfig = () => {
+    configData = null;
 };
 
 const createConfigFile = (
@@ -65,7 +69,7 @@ const createConfigFile = (
 };
 
 const addParamsToConfig = config => {
-    process.argv.forEach(val => {
+    process.argv.forEach( val => {
         if (val === '--autofix') {
             config.autoFix = true;
         }
@@ -73,10 +77,15 @@ const addParamsToConfig = config => {
 };
 
 const existConfigFile = () => {
-    return FileUtils.fileExists(Constants.configFilePath) ||
+    return configData ||
+        FileUtils.fileExists(Constants.configFilePath) ||
         FileUtils.fileExists(Constants.configPreferredFilePath);
 };
 
 const isTestEnv = () => process.env.NODE_ENV === Constants.ENV_TEST;
 
-module.exports = ConfigUtils;
+module.exports = {
+    init,
+    load,
+    clearConfig
+};
