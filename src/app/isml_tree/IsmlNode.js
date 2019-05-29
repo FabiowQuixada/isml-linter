@@ -2,6 +2,7 @@ const MAX_TEXT_DISPLAY_SIZE = 30;
 
 const ConfigUtils = require('../util/ConfigUtils');
 const Constants   = require('../Constants');
+const SfccTags    = require('../enums/SfccTags');
 
 let ID_COUNTER = 0;
 
@@ -154,6 +155,10 @@ class IsmlNode {
 
     isIsmlTag() {
         return this.value.trim().startsWith('<is');
+    }
+
+    isCustomIsmlTag() {
+        return this.isIsmlTag() && !SfccTags[this.getType()];
     }
 
     // For an unwrapped ${someVariable} element, returns true;

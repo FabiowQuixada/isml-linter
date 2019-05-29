@@ -183,4 +183,16 @@ describe(targetObjName, () => {
 
         expect(rootNode.isVoidElement()).toEqual(false);
     });
+
+    it('identifies a SFCC original isml tag', () => {
+        const node = new IsmlNode('<isslot>');
+
+        expect(node.isCustomIsmlTag()).toEqual(false);
+    });
+
+    it('identifies a custom isml tag', () => {
+        const node = new IsmlNode('<ismycustom>');
+
+        expect(node.isCustomIsmlTag()).toEqual(true);
+    });
 });
