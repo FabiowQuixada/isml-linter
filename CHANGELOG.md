@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.6.0] - 2019-05-____
+## [5.6.0] - 2019-05-28
 
 ### Added
  - New rule - "Leading &lt;iscontent> Tag";
