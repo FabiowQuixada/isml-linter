@@ -19,9 +19,7 @@ const addLineError = (parser, type, rule, result) => {
     });
 };
 
-const checkLineByLineRules = (filePath, parser, content) => {
-
-    const fileContent = content || fs.readFileSync(filePath, 'utf-8');
+const checkLineByLineRules = (filePath, parser, fileContent) => {
 
     RuleUtils
         .getEnabledLineRules()
@@ -30,19 +28,15 @@ const checkLineByLineRules = (filePath, parser, content) => {
             const result = rule.check(fileContent);
 
             if (config.autoFix && result.fixedContent) {
-                fs.writeFileSync(filePath, result.fixedContent, function (err) {
-                    // TODO
-                    if (err) console.log(err);
-                });
+                fs.writeFileSync(filePath, result.fixedContent);
             } else if (result.occurrences && result.occurrences.length) {
                 addLineError(parser, ENTRY_TYPES.ERROR, rule, result);
             }
         });
 };
 
-const checkTreeRules = (filePath, parser, content) => {
+const checkTreeRules = (filePath, parser, fileContent) => {
     if (!config.disableTreeParse) {
-        const fileContent = content || fs.readFileSync(filePath, 'utf-8');
         const tree        = TreeBuilder.build(filePath, fileContent);
 
         if (!tree.rootNode) {
@@ -68,8 +62,10 @@ const parse = (filePath, content) => {
 
     this.output = {};
 
-    checkLineByLineRules(filePath, this, content);
-    checkTreeRules(filePath, this, content);
+    const fileContent = content || fs.readFileSync(filePath, 'utf-8');
+
+    checkLineByLineRules(filePath, this, fileContent);
+    checkTreeRules(filePath, this, fileContent);
 
     return this.output;
 };

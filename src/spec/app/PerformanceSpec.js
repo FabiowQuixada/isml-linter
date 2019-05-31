@@ -30,8 +30,8 @@ describe('Performance', () => {
         console.log('ELAPSED TIME: ' + elapsedTime);
 
         expect(result.issueQty).toEqual(TEMPLATE_QTY * 2);
-        expect(elapsedTime).toBeGreaterThan(3);
-        expect(elapsedTime).toBeLessThan(5);
+        expect(elapsedTime).toBeGreaterThan(0.5);
+        expect(elapsedTime).toBeLessThan(1.5);
     });
 });
 
