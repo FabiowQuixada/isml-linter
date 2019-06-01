@@ -5,7 +5,6 @@ const SingleLineRulePrototype = Object.create(RulePrototype);
 
 SingleLineRulePrototype.check = function(fileContent) {
 
-    const that      = this;
     const config    = ConfigUtils.load();
     const lineArray = fileContent.split('\n');
     this.result     = {
@@ -14,9 +13,9 @@ SingleLineRulePrototype.check = function(fileContent) {
     let globalPos   = 0;
 
     lineArray.forEach( (line, lineNumber) => {
-        const occurrence = that.getFirstOccurrence(line);
+        const occurrence = this.getFirstOccurrence(line);
         if (occurrence) {
-            that.add(line, lineNumber, globalPos + occurrence.globalPos, occurrence.length);
+            this.add(line, lineNumber, globalPos + occurrence.globalPos, occurrence.length);
         }
 
         globalPos += line.length+1;

@@ -3,41 +3,49 @@ const TreeBuilder = require('./isml_tree/TreeBuilder');
 const ConfigUtils = require('./util/ConfigUtils');
 const fs          = require('fs');
 
-const config      = ConfigUtils.load();
-const ENTRY_TYPES = {
-    ERROR   : 'errors',
-    WARNING : 'warnings',
-    INFO    : 'info'
-};
+const config = ConfigUtils.load();
 
-const addLineError = (parser, type, rule, result) => {
-    parser.output[type]                   = parser.output[type] || {};
-    parser.output[type][rule.description] = parser.output[type][rule.description] || [];
+const getErrorObj = (rule, occurrences) => {
+    const errorObj                         = {};
+    errorObj[rule.level]                   = {};
+    errorObj[rule.level][rule.description] = [];
 
-    result.occurrences.forEach( res => {
-        parser.output[type][rule.description].push(res);
+    occurrences.forEach( res => {
+        errorObj[rule.level][rule.description].push(res);
     });
+
+    return errorObj;
 };
 
-const checkLineByLineRules = (filePath, parser, fileContent) => {
+const checkLineByLineRules = (filePath, fileContent) => {
+    const templateResults = {
+        errors : {}
+    };
 
     RuleUtils
         .getEnabledLineRules()
         .filter( rule => !rule.isIgnore(filePath))
-        .forEach(rule => {
-            const result = rule.check(fileContent);
+        .forEach( rule => {
+            const ruleResult = rule.check(fileContent);
 
-            if (config.autoFix && result.fixedContent) {
-                fs.writeFileSync(filePath, result.fixedContent);
-            } else if (result.occurrences && result.occurrences.length) {
-                addLineError(parser, ENTRY_TYPES.ERROR, rule, result);
+            if (config.autoFix && ruleResult.fixedContent) {
+                fs.writeFileSync(filePath, ruleResult.fixedContent);
+            } else if (ruleResult.occurrences && ruleResult.occurrences.length) {
+                const errorObj         = getErrorObj(rule, ruleResult.occurrences);
+                templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
             }
         });
+
+    return templateResults;
 };
 
-const checkTreeRules = (filePath, parser, fileContent) => {
+const checkTreeRules = (filePath, fileContent) => {
+    const templateResults = {
+        errors : {}
+    };
+
     if (!config.disableTreeParse) {
-        const tree        = TreeBuilder.build(filePath, fileContent);
+        const tree = TreeBuilder.build(filePath, fileContent);
 
         if (!tree.rootNode) {
             throw tree.exception;
@@ -47,32 +55,36 @@ const checkTreeRules = (filePath, parser, fileContent) => {
             .getEnabledTreeRules()
             .filter( rule => !rule.isIgnore(filePath))
             .forEach( rule => {
-                const result = rule.check(tree.rootNode);
-                if (config.autoFix && result.fixedContent) {
-                    fs.writeFile(filePath, result.fixedContent);
+                const ruleResults = rule.check(tree.rootNode);
+
+                if (config.autoFix && ruleResults.fixedContent) {
+                    fs.writeFile(filePath, ruleResults.fixedContent);
                 }
-                else if (result.occurrences && result.occurrences.length) {
-                    addLineError(parser, ENTRY_TYPES.ERROR, rule, result);
+                else if (ruleResults.occurrences && ruleResults.occurrences.length) {
+                    const errorObj         = getErrorObj(rule, ruleResults.occurrences);
+                    templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
                 }
             });
     }
+
+    return templateResults;
 };
 
 const parse = (filePath, content) => {
-
-    this.output = {};
-
     const fileContent = content || fs.readFileSync(filePath, 'utf-8');
+    const lineResults = checkLineByLineRules(filePath, fileContent);
+    const treeResults = checkTreeRules(filePath, fileContent);
 
-    checkLineByLineRules(filePath, this, fileContent);
-    checkTreeRules(filePath, this, fileContent);
-
-    return this.output;
+    return {
+        errors : {
+            ...lineResults.errors,
+            ...treeResults.errors
+        }
+    };
 };
 
 const FileParser = {
-    parse,
-    ENTRY_TYPES
+    parse
 };
 
 module.exports = FileParser;

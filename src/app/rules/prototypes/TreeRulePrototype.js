@@ -4,7 +4,6 @@ const TreeRulePrototype = Object.create(RulePrototype);
 
 TreeRulePrototype.check = function(node, result) {
 
-    const that  = this;
     this.result = result || {
         occurrences : []
     };
@@ -12,7 +11,7 @@ TreeRulePrototype.check = function(node, result) {
     node.children.forEach( child => this.check(child, this.result));
 
     if (this.isBroken(node)) {
-        that.add(
+        this.add(
             node.getValue().trim(),
             node.getLineNumber() - 1,
             node.getGlobalPos(),

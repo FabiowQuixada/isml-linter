@@ -5,6 +5,7 @@ const RulePrototype = {
     init(name, description) {
         this.name        = name;
         this.description = description;
+        this.level       = 'errors';
     },
 
     add(line, lineNumber, globalPos, length) {

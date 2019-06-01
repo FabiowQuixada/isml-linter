@@ -50,17 +50,7 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
         }
 
         if (previousContent === internalState.maskedContent) {
-            const elementType = ParseUtils.getFirstElementType(previousContent.trim());
-            const lineNumber  = parentState.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(previousContent);
-            const length      = elementType.length;
-            const globalPos   = parentState.currentPos + ParseUtils.getNextNonEmptyCharPos(previousContent);
-
-            throw ExceptionUtils.parseError(
-                elementType,
-                lineNumber,
-                globalPos,
-                length,
-                parentState.filePath);
+            throwParseException(previousContent, parentState);
         }
 
         previousContent = internalState.maskedContent;
@@ -68,6 +58,20 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
 
     throwUnbalancedElementException(internalState);
 };
+
+const throwParseException = (previousContent, parentState) => {
+    const elementType = ParseUtils.getFirstElementType(previousContent.trim());
+    const lineNumber  = parentState.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(previousContent);
+    const length      = elementType.length;
+    const globalPos   = parentState.currentPos + ParseUtils.getNextNonEmptyCharPos(previousContent);
+
+    throw ExceptionUtils.parseError(
+        elementType,
+        lineNumber,
+        globalPos,
+        length,
+        parentState.filePath);
+}
 
 const throwUnbalancedElementException = internalState => {
     const stackTopElement = internalState.elementStack.pop();
@@ -83,15 +87,15 @@ const throwUnbalancedElementException = internalState => {
 
 const getInitialState = (content, parentState) => {
     return {
-        parentState: parentState,
-        currentElement: {},
-        currentLineNumber: parentState.currentLineNumber,
-        content: content,
-        openingElemPos: -1,
-        closingElementPos: -1,
-        result: -1,
-        currentReadingPos: 0,
-        elementStack: []
+        parentState       : parentState,
+        currentElement    : {},
+        currentLineNumber : parentState.currentLineNumber,
+        content           : content,
+        openingElemPos    : -1,
+        closingElementPos : -1,
+        result            : -1,
+        currentReadingPos : 0,
+        elementStack      : []
     };
 };
 

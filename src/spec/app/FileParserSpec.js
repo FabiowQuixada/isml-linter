@@ -81,7 +81,7 @@ describe(targetObjName, () => {
         });
 
         const actualResult   = FileParser.parse(filePath);
-        const expectedResult = expectedResultObj(FileParser.ENTRY_TYPES.ERROR);
+        const expectedResult = expectedResultObj('errors');
 
         expect(actualResult).toEqual(expectedResult);
     });

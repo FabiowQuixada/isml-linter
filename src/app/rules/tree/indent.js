@@ -39,7 +39,6 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(node, result) {
 
-    const that  = this;
     this.result = result || {
         occurrences : []
     };
@@ -49,7 +48,7 @@ Rule.check = function(node, result) {
     const globalPos = node.getGlobalPos() - node.getIndentationSize();
 
     if (this.isBroken(node)) {
-        that.add(
+        this.add(
             node.getValue().trim(),
             node.getLineNumber() - 1,
             globalPos,

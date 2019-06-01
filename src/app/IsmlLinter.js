@@ -28,11 +28,10 @@ const getTemplatePath = (pathData, templateName) => {
 
 Linter.run = function(pathData = config.rootDir || appRoot.toString(), content) {
     const filesArray = getFilePathArray(pathData);
-
-    this.result        = {};
-    this.result.errors = {};
-    const that         = this;
-    let issueQty       = 0;
+    const result     = {
+        errors   : {},
+        issueQty : 0
+    };
 
     filesArray.forEach( templateName => {
         const templatePath = getTemplatePath(pathData, templateName);
@@ -41,9 +40,9 @@ Linter.run = function(pathData = config.rootDir || appRoot.toString(), content) 
             const output = FileParser.parse(templatePath, content);
 
             for (const rule in output.errors) {
-                that.result.errors[rule]               = that.result.errors[rule] || {};
-                that.result.errors[rule][templatePath] = output.errors[rule];
-                issueQty++;
+                result.errors[rule]               = result.errors[rule] || {};
+                result.errors[rule][templatePath] = output.errors[rule];
+                result.issueQty++;
             }
         } catch (e) {
 
@@ -51,11 +50,11 @@ Linter.run = function(pathData = config.rootDir || appRoot.toString(), content) 
             const UNPARSEABLE   = ExceptionUtils.types.INVALID_TEMPLATE;
 
             if (!ExceptionUtils.isLinterException(e) || e.type === UNKNOWN_ERROR) {
-                that.result[UNKNOWN_ERROR] = that.result[UNKNOWN_ERROR] || [];
-                that.result[UNKNOWN_ERROR].push(templatePath);
+                result[UNKNOWN_ERROR] = result[UNKNOWN_ERROR] || [];
+                result[UNKNOWN_ERROR].push(templatePath);
             } else {
-                that.result[UNPARSEABLE] = that.result[UNPARSEABLE] || [];
-                that.result[UNPARSEABLE].push({
+                result[UNPARSEABLE] = result[UNPARSEABLE] || [];
+                result[UNPARSEABLE].push({
                     filePath   : templatePath,
                     message    : e.message,
                     globalPos  : e.globalPos,
@@ -64,13 +63,11 @@ Linter.run = function(pathData = config.rootDir || appRoot.toString(), content) 
                 });
             }
 
-            issueQty++;
+            result.issueQty++;
         }
     });
 
-    that.result.issueQty = issueQty;
-
-    return that.result;
+    return result;
 };
 
 const getFilePathArray = pathData => {
