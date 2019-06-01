@@ -25,6 +25,7 @@ const specSpecificDirLinterTemplate  = path.join('src', 'spec', 'templates', 'de
 const specIgnoreDirLinterTemplateDir = path.join(specLinterTemplate, 'ignore_config');
 const specRuleTemplateDir            = path.join(specTemplateDir, 'rules');
 const specIsmlTreeTemplateDir        = path.join(specTemplateDir, 'isml_tree');
+const specPerformanceTemplateDir     = path.join(specTemplateDir, 'performance');
 const specLineNumberTemplateDir      = path.join(specIsmlTreeTemplateDir, 'line_numbers');
 const specInvalidTemplateDir         = path.join(specIsmlTreeTemplateDir, 'invalid_templates');
 const specGlobalPosTemplateDir       = path.join(specIsmlTreeTemplateDir, 'global_position');
@@ -77,6 +78,7 @@ module.exports = {
     specIsifTagParserTemplateDir,
     specLineNumberTemplateDir,
     specInvalidTemplateDir,
+    specPerformanceTemplateDir,
     specComplexTemplatesDir,
     specAutofixTemplatesDir,
     specElementBalanceTemplatesDir,
