@@ -110,7 +110,7 @@ const displayErrors = jsonErrors => {
 
 const displayConfigError = () => {
     console.log('No configuration found. Please run the following command to create a default configuration file:');
-    console.log('\n\t'+ chalk.yellow('node ./node_modules/.bin/isml-linter --init') + '\n');
+    console.log('\n\t' + chalk.yellow('node ./node_modules/.bin/isml-linter --init') + '\n');
 };
 
 module.exports = {

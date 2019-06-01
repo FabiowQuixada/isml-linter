@@ -21,7 +21,7 @@ const ignoreFiles = file => {
 };
 
 const getTemplatePath = (pathData, templateName) => {
-    return Array.isArray(pathData) || path.isAbsolute(templateName)?
+    return Array.isArray(pathData) || path.isAbsolute(templateName) ?
         templateName :
         path.join(pathData, templateName);
 };

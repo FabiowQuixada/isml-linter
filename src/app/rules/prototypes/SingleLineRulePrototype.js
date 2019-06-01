@@ -18,7 +18,7 @@ SingleLineRulePrototype.check = function(fileContent) {
             this.add(line, lineNumber, globalPos + occurrence.globalPos, occurrence.length);
         }
 
-        globalPos += line.length+1;
+        globalPos += line.length + 1;
     });
 
     if (this.result.occurrences.length &&

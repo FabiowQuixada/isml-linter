@@ -23,7 +23,7 @@ Rule.getFirstOccurrence = function(line) {
     if (this.isBroken(line)) {
         result = {
             globalPos : 0,
-            length      : line.length+1
+            length      : line.length + 1
         };
     }
 

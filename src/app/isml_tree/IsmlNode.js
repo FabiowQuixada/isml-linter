@@ -109,7 +109,7 @@ class IsmlNode {
     }
 
     addChild(newNode) {
-        newNode.depth        = this.depth+1;
+        newNode.depth        = this.depth + 1;
         newNode.parent       = this;
         this.children.push(newNode);
         this.newestChildNode = newNode;
@@ -264,11 +264,11 @@ const parseAttributes = nodeValue => {
 
     const maskedContent = rawAttrNodeValue.split('').map( (char, i) => {
 
-        if (i > 2 && rawAttrNodeValue[i-2] === '=' && rawAttrNodeValue[i-1] === '"') {
+        if (i > 2 && rawAttrNodeValue[i - 2] === '=' && rawAttrNodeValue[i - 1] === '"') {
             outsideQuotes = false;
         }
 
-        if (i > 2 && rawAttrNodeValue[i-1] !== '=' && char === '"') {
+        if (i > 2 && rawAttrNodeValue[i - 1] !== '=' && char === '"') {
             outsideQuotes = true;
         }
 

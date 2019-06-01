@@ -71,7 +71,7 @@ const throwParseException = (previousContent, parentState) => {
         globalPos,
         length,
         parentState.filePath);
-}
+};
 
 const throwUnbalancedElementException = internalState => {
     const stackTopElement = internalState.elementStack.pop();
@@ -143,7 +143,7 @@ const initializeLoopState = (oldInternalState, openingElemRegex, closingElemRege
     openingElemRegex.lastIndex = 0;
     closingElemRegex.lastIndex = 0;
 
-    internalState.firstClosingElemPos  = internalState.maskedContent.indexOf('>')+1;
+    internalState.firstClosingElemPos  = internalState.maskedContent.indexOf('>') + 1;
     internalState.isSelfClosingElement =
         internalState.maskedContent.charAt(internalState.firstClosingElemPos - 2) === '/' &&
         !internalState.maskedContent.startsWith('<isif');
