@@ -88,6 +88,17 @@ describe(targetObjName, () => {
         expect(actualResult.message   ).toEqual(expectedMessage);
         expect(actualResult.lineNumber).toEqual(2);
     });
+
+    it('accepts template absolute path as parameter', () => {
+        const absoluteFilePath = path.join(Constants.clientAppDir, specSpecificDirLinterTemplate, 'template_0.isml');
+        const result           = IsmlLinter.run(absoluteFilePath);
+        const expectedMessage  = ExceptionUtils.unbalancedElementError('div', 2).message;
+        const actualResult     = result[UNPARSEABLE][0];
+
+        expect(actualResult.filePath  ).toEqual(absoluteFilePath);
+        expect(actualResult.message   ).toEqual(expectedMessage);
+        expect(actualResult.lineNumber).toEqual(2);
+    });
 });
 
 const expectedResultObj = type => {
