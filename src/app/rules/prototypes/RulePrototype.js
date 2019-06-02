@@ -8,14 +8,14 @@ const RulePrototype = {
         this.level       = 'errors';
     },
 
-    add(line, lineNumber, globalPos, length) {
+    add(line, lineNumber, globalPos, length, description) {
         this.result.occurrences.push({
             line,
             globalPos,
             length,
             lineNumber : lineNumber + 1,
             rule       : this.name,
-            message    : this.description
+            message    : description || this.description
         });
     },
 

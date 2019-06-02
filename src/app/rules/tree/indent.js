@@ -53,7 +53,6 @@ Rule.check = function(node, result) {
             node.getLineNumber() - 1,
             globalPos,
             node.getIndentationSize(),
-            ruleName,
             description
         );
     }
