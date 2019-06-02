@@ -315,7 +315,8 @@ const parseAttributes = node => {
             valueGlobalPos : node.getGlobalPos() + valueLocalPos,
             valueLength    : value ? value.length : 0,
             attrFullValue  : attr,
-            attrFullLength : attr.length
+            attrFullLength : attr.length,
+            node           : node
         };
     });
 

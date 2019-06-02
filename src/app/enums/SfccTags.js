@@ -96,6 +96,9 @@ const TAG_DATA = {
                 'values'        : ['on', 'off'],
                 'default' : 'on'
             }
+        },
+        'requires' : {
+            'exclusive': ['url', 'template']
         }
     },
     'isloop' : {
@@ -108,6 +111,11 @@ const TAG_DATA = {
             'begin'    : {},
             'end'      : {},
             'step'     : {}
+        },
+        'requires': {
+            // TODO Non-exclusive?
+            // 'non-exclusive' : ['items', 'iterator']
+            // 'non-exclusive' : ['alias', 'var']
         }
     },
     'ismodule' : {
@@ -150,6 +158,10 @@ const TAG_DATA = {
                 'values' : ['on', 'off'],
                 'default' : 'on'
             }
+        // TODO Are they really mutually exclusive?
+        // },
+        // 'requires' : {
+        //     'exclusive': ['style', 'formatter']
         }
     },
     'isredirect' : {
@@ -221,7 +233,11 @@ const TAG_DATA = {
             },
             'context' : {
                 'required' : true,
-                'values': ['global', 'category', 'folder']
+                'values'   : ['global', 'category', 'folder'],
+                'requires' : {
+                    'name'     : 'context-object',
+                    'ifValues' : ['category', 'folder']
+                }
             },
             'context-object' : {},
             'description' : {

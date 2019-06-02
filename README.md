@@ -165,6 +165,7 @@ Check the [API docs][api-docs].
 | :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]   | One element per line |
 | :boom: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]   | Ensures &lt;iscontent> tag is the first element in the template if it exists |
 | :boom: :small_orange_diamond: [no-deprecated-attrs][no-deprecated-attrs-readme]   | Disallows deprecated attributes or attribute values |
+| :boom: :small_orange_diamond: [contextual-attrs][contextual-attrs-readme]   | Disallows presence of mutually exclusive attributes |
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
 
@@ -192,6 +193,7 @@ You are more than welcome to contribute with us! Please check the [contribute se
 [one-element-per-line-readme]:   <docs/rules/one-element-per-line.md>
 [leading-iscontent-readme]:      <docs/rules/leading-iscontent.md>
 [no-deprecated-attrs-readme]:    <docs/rules/no-deprecated-attrs.md>
+[contextual-attrs-readme]:       <docs/rules/contextual-attrs.md>
 
 [api-docs]: <docs/api.md>
 [contribute-docs]: <docs/contribute.md>
