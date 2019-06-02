@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.6.1] - 2019-06-02
+
+### Added
+ - Performance-Meter;
+
+### Fixed
+ - Absolute path template as param;
+ 
+### Changed
+ - Considerable code refactoring;
+ - Improved performance;
+
 ## [5.6.0] - 2019-05-28
 
 ### Added
@@ -254,6 +266,8 @@
 ### Added
 - Linter is published;
 
+
+[5.6.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.6.0...v5.6.1
 [5.6.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.3...v5.6.0
 [5.5.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.2...v5.5.3
 [5.5.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.1...v5.5.2

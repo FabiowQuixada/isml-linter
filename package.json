@@ -1,6 +1,6 @@
 {
   "name": "isml-linter",
-  "version": "5.6.0",
+  "version": "5.6.1",
   "author": "Fabiow Quixadá <ftquixada@gmail.com>",
   "license": "ISC",
   "main": "src/app/publicApi.js",
@@ -29,6 +29,7 @@
   },
   "keywords": [
     "isml",
+    "template",
     "lint",
     "linter",
     "demandware",
