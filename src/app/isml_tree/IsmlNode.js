@@ -103,10 +103,7 @@ class IsmlNode {
             return [];
         }
 
-        const trimmedValue   = this.value.trim();
-        const processedValue = trimmedValue.substring(1, trimmedValue.length - 1);
-
-        return parseAttributes(processedValue);
+        return parseAttributes(this);
     }
 
     addChild(newNode) {
@@ -263,7 +260,9 @@ class IsmlNode {
 */
 
 // Gets array of element attributes;
-const parseAttributes = nodeValue => {
+const parseAttributes = node => {
+    const trimmedValue     = node.value.trim();
+    const nodeValue        = trimmedValue.substring(1, trimmedValue.length - 1);
     const rawAttrNodeValue = nodeValue.split(' ').slice(1).join(' ');
     let outsideQuotes      = true;
 
@@ -304,10 +303,19 @@ const parseAttributes = nodeValue => {
         const value          = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
         const values         = value ? value.split(' ') : null;
 
+        const attrLocalPos  = node.getValue().trim().indexOf(attr);
+        const valueLocalPos = attr.indexOf(value);
+
         return {
-            name   : label,
-            value  : value,
-            values : values
+            name           : label,
+            value          : value,
+            values         : values,
+            attrGlobalPos  : node.getGlobalPos() + attrLocalPos,
+            nameLength     : label.length,
+            valueGlobalPos : node.getGlobalPos() + valueLocalPos,
+            valueLength    : value ? value.length : 0,
+            attrFullValue  : attr,
+            attrFullLength : attr.length
         };
     });
 
