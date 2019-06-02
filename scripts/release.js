@@ -10,16 +10,17 @@ const tag            = `v${currentVersion}`;
 const commandChain = `
     git stash -u &&
     git tag ${tag} &&
-    git push &&
-    git push --tags &&
-    npm publish`;
+    echo 'Pushing code and tags...' &&
+    git push --follow-tags &&
+    echo 'Publishing to npm...' &&
+    npm publish &&
+    echo 'Done!'`;
 
 exec(commandChain, (err, stdout, stderr) => {
     if (err) {
         return;
     }
 
-    // the *entire* stdout and stderr (buffered)
     console.log(`stdout: ${stdout}`);
     console.log(`stderr: ${stderr}`);
 });
