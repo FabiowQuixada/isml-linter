@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.7.0] - 2019-06-04
+
+### Added
+ - "Contextual Attribute" rule;
+ - "No Deprecated Attributes" rule;
+
 ## [5.6.1] - 2019-06-02
 
 ### Added
@@ -267,6 +273,7 @@
 - Linter is published;
 
 
+[5.7.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.6.1...v5.7.0
 [5.6.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.6.0...v5.6.1
 [5.6.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.3...v5.6.0
 [5.5.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.2...v5.5.3
