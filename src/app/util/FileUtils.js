@@ -1,7 +1,8 @@
-const path      = require('path');
-const Constants = require('./../Constants');
-const rootPath  = Constants.clientIsmlLinterDir;
-const fs        = require('fs');
+const path        = require('path');
+const Constants   = require('./../Constants');
+const rootPath    = Constants.clientIsmlLinterDir;
+const fs          = require('fs');
+const ConfigUtils = require('./ConfigUtils');
 
 const saveToJsonFile = (filePath, fileName, content) => {
     createDirIfDoesNotExist(filePath);
@@ -54,14 +55,21 @@ const deleteDirectoryRecursively = dirPath => {
     return false;
 };
 
+const isIgnored = filePath => {
+    const config = ConfigUtils.load();
+
+    return config.ignore && config.ignore.some( ignoredPath => {
+        return filePath.indexOf(ignoredPath) !== -1;
+    });
+};
+
 const fileExists = filePath => fs.existsSync(filePath);
 
-module.exports = {
-    saveToFile,
-    saveToJsonFile,
-    fileExists,
-    createDirIfDoesNotExist,
-    deleteFile,
-    deleteDirectoryRecursively,
-    createClientDir
-};
+module.exports.saveToFile                 = saveToFile;
+module.exports.saveToJsonFile             = saveToJsonFile;
+module.exports.fileExists                 = fileExists;
+module.exports.createDirIfDoesNotExist    = createDirIfDoesNotExist;
+module.exports.deleteFile                 = deleteFile;
+module.exports.deleteDirectoryRecursively = deleteDirectoryRecursively;
+module.exports.createClientDir            = createClientDir;
+module.exports.isIgnored                  = isIgnored;

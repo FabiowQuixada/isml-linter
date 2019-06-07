@@ -1,9 +1,9 @@
 
-const run = () => {
+const run = path => {
     const IsmlLinter   = require('./IsmlLinter');
     const ConsoleUtils = require('./util/ConsoleUtils');
 
-    const lintResults = IsmlLinter.run();
+    const lintResults = IsmlLinter.run(path);
 
     ConsoleUtils.displayErrors(lintResults);
 

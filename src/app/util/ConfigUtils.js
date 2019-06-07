@@ -84,8 +84,6 @@ const existConfigFile = () => {
 
 const isTestEnv = () => process.env.NODE_ENV === Constants.ENV_TEST;
 
-module.exports = {
-    init,
-    load,
-    clearConfig
-};
+module.exports.init        = init;
+module.exports.load        = load;
+module.exports.clearConfig = clearConfig;

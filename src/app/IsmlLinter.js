@@ -5,6 +5,7 @@ const appRoot        = require('app-root-path');
 const fs             = require('fs');
 const config         = require('./util/ConfigUtils').load();
 const ExceptionUtils = require('./util/ExceptionUtils');
+const FileUtils      = require('./util/FileUtils');
 
 const Linter = {};
 
@@ -36,34 +37,36 @@ Linter.run = function(pathData = config.rootDir || appRoot.toString(), content) 
     filesArray.forEach( templateName => {
         const templatePath = getTemplatePath(pathData, templateName);
 
-        try {
-            const output = FileParser.parse(templatePath, content);
+        if (!FileUtils.isIgnored(templatePath)) {
+            try {
+                const output = FileParser.parse(templatePath, content);
 
-            for (const rule in output.errors) {
-                result.errors[rule]               = result.errors[rule] || {};
-                result.errors[rule][templatePath] = output.errors[rule];
+                for (const rule in output.errors) {
+                    result.errors[rule]               = result.errors[rule] || {};
+                    result.errors[rule][templatePath] = output.errors[rule];
+                    result.issueQty++;
+                }
+            } catch (e) {
+
+                const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
+                const UNPARSEABLE   = ExceptionUtils.types.INVALID_TEMPLATE;
+
+                if (!ExceptionUtils.isLinterException(e) || e.type === UNKNOWN_ERROR) {
+                    result[UNKNOWN_ERROR] = result[UNKNOWN_ERROR] || [];
+                    result[UNKNOWN_ERROR].push(templatePath);
+                } else {
+                    result[UNPARSEABLE] = result[UNPARSEABLE] || [];
+                    result[UNPARSEABLE].push({
+                        filePath   : templatePath,
+                        message    : e.message,
+                        globalPos  : e.globalPos,
+                        length     : e.length,
+                        lineNumber : e.lineNumber
+                    });
+                }
+
                 result.issueQty++;
             }
-        } catch (e) {
-
-            const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
-            const UNPARSEABLE   = ExceptionUtils.types.INVALID_TEMPLATE;
-
-            if (!ExceptionUtils.isLinterException(e) || e.type === UNKNOWN_ERROR) {
-                result[UNKNOWN_ERROR] = result[UNKNOWN_ERROR] || [];
-                result[UNKNOWN_ERROR].push(templatePath);
-            } else {
-                result[UNPARSEABLE] = result[UNPARSEABLE] || [];
-                result[UNPARSEABLE].push({
-                    filePath   : templatePath,
-                    message    : e.message,
-                    globalPos  : e.globalPos,
-                    length     : e.length,
-                    lineNumber : e.lineNumber
-                });
-            }
-
-            result.issueQty++;
         }
     });
 
