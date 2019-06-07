@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.7.1] - 2019-06-06
+
+### Fixed
+ - [Issue #3][issue#3] partially, build process now ignores files defined in the configuration file;
+
 ## [5.7.0] - 2019-06-04
 
 ### Added
@@ -273,6 +278,7 @@
 - Linter is published;
 
 
+[5.7.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.7.0...v5.7.1
 [5.7.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.6.1...v5.7.0
 [5.6.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.6.0...v5.6.1
 [5.6.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.5.3...v5.6.0
@@ -303,3 +309,4 @@
 [1.0.1]: https://github.com/FabiowQuixada/isml-linter/compare/1.0.0...1.0.1
 
 [issue#2]: https://github.com/FabiowQuixada/isml-linter/issues/2
+[issue#3]: https://github.com/FabiowQuixada/isml-linter/issues/3
