@@ -1,10 +1,12 @@
 const RulePrototype = require('./RulePrototype');
+const ConfigUtils   = require('../../util/ConfigUtils');
 
 const TreeRulePrototype = Object.create(RulePrototype);
 
 TreeRulePrototype.check = function(node, result) {
 
-    this.result = result || {
+    const config = ConfigUtils.load();
+    this.result  = result || {
         occurrences : []
     };
 
@@ -17,6 +19,13 @@ TreeRulePrototype.check = function(node, result) {
             node.getGlobalPos(),
             node.getValue().trim().length
         );
+    }
+
+    if (this.result.occurrences.length &&
+        config.autoFix &&
+        this.getFixedContent &&
+        node.isRoot()) {
+        this.result.fixedContent = this.getFixedContent(node);
     }
 
     return this.result;

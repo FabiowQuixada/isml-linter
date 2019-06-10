@@ -30,8 +30,9 @@ const getTemplatePath = (pathData, templateName) => {
 Linter.run = function(pathData = config.rootDir || appRoot.toString(), content) {
     const filesArray = getFilePathArray(pathData);
     const result     = {
-        errors   : {},
-        issueQty : 0
+        errors         : {},
+        issueQty       : 0,
+        templatesFixed : 0
     };
 
     filesArray.forEach( templateName => {
@@ -40,6 +41,10 @@ Linter.run = function(pathData = config.rootDir || appRoot.toString(), content) 
         if (!FileUtils.isIgnored(templatePath)) {
             try {
                 const output = FileParser.parse(templatePath, content);
+
+                if (output.fixed) {
+                    result.templatesFixed++;
+                }
 
                 for (const rule in output.errors) {
                     result.errors[rule]               = result.errors[rule] || {};

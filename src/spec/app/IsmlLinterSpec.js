@@ -1,5 +1,6 @@
 const path                 = require('path');
 const glob                 = require('glob');
+const fs                   = require('fs');
 const IsmlLinter           = require('../../app/IsmlLinter');
 const SpecHelper           = require('../SpecHelper');
 const Constants            = require('../../app/Constants');
@@ -7,6 +8,7 @@ const NoSpaceOnlyLinesRule = require('../../app/rules/line_by_line/no-space-only
 const NoInlineStyleRule    = require('../../app/rules/line_by_line/no-inline-style');
 const EnforceIsprintRule   = require('../../app/rules/line_by_line/enforce-isprint');
 const ExceptionUtils       = require('../../app/util/ExceptionUtils');
+const ConfigUtils          = require('../../app/util/ConfigUtils');
 
 const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
@@ -98,6 +100,22 @@ describe(targetObjName, () => {
         expect(actualResult.filePath  ).toEqual(absoluteFilePath);
         expect(actualResult.message   ).toEqual(expectedMessage);
         expect(actualResult.lineNumber).toEqual(2);
+    });
+
+    it('applies fixes for tree-based rules', () => {
+        ConfigUtils.load({
+            autoFix: true,
+            rules: {
+                'one-element-per-line': {}
+            }
+        });
+
+        const filePath        = path.join(Constants.clientAppDir, specSpecificDirLinterTemplate, 'template_1.isml');
+        const originalContent = fs.readFileSync(filePath, 'utf-8');
+        const result          = IsmlLinter.run(filePath);
+
+        expect(result.templatesFixed).toEqual(1);
+        fs.writeFileSync(filePath, originalContent);
     });
 });
 

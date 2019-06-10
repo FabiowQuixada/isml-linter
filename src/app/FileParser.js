@@ -3,7 +3,6 @@ const TreeBuilder = require('./isml_tree/TreeBuilder');
 const ConfigUtils = require('./util/ConfigUtils');
 const fs          = require('fs');
 
-const config = ConfigUtils.load();
 
 const getErrorObj = (rule, occurrences) => {
     const errorObj                         = {};
@@ -18,7 +17,9 @@ const getErrorObj = (rule, occurrences) => {
 };
 
 const checkLineByLineRules = (filePath, fileContent) => {
+    const config          = ConfigUtils.load();
     const templateResults = {
+        fixed  : false,
         errors : {}
     };
 
@@ -30,6 +31,7 @@ const checkLineByLineRules = (filePath, fileContent) => {
 
             if (config.autoFix && ruleResult.fixedContent) {
                 fs.writeFileSync(filePath, ruleResult.fixedContent);
+                templateResults.fixed = true;
             } else if (ruleResult.occurrences && ruleResult.occurrences.length) {
                 const errorObj         = getErrorObj(rule, ruleResult.occurrences);
                 templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
@@ -40,7 +42,9 @@ const checkLineByLineRules = (filePath, fileContent) => {
 };
 
 const checkTreeRules = (filePath, fileContent) => {
+    const config          = ConfigUtils.load();
     const templateResults = {
+        fixed  : false,
         errors : {}
     };
 
@@ -58,7 +62,8 @@ const checkTreeRules = (filePath, fileContent) => {
                 const ruleResults = rule.check(tree.rootNode);
 
                 if (config.autoFix && ruleResults.fixedContent) {
-                    fs.writeFile(filePath, ruleResults.fixedContent);
+                    fs.writeFileSync(filePath, ruleResults.fixedContent);
+                    templateResults.fixed = true;
                 }
                 else if (ruleResults.occurrences && ruleResults.occurrences.length) {
                     const errorObj         = getErrorObj(rule, ruleResults.occurrences);
@@ -76,6 +81,7 @@ const parse = (filePath, content) => {
     const treeResults = checkTreeRules(filePath, fileContent);
 
     return {
+        fixed  : lineResults.fixed || treeResults.fixed,
         errors : {
             ...lineResults.errors,
             ...treeResults.errors
