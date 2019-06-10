@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.8.0] - 2019-06-__
+
+### Added
+ - Autofix feature for rules:
+   - One Element per Line;
+   - Leading Iscontent;
+ - VSCode extension reference to README;
+
 ## [5.7.1] - 2019-06-06
 
 ### Fixed
@@ -278,6 +286,7 @@
 - Linter is published;
 
 
+[5.8.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.7.1...v5.8.0
 [5.7.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.7.0...v5.7.1
 [5.7.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.6.1...v5.7.0
 [5.6.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.6.0...v5.6.1
