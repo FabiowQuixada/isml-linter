@@ -139,6 +139,10 @@ To prevent new errors to be introduced in next pushes, we recommend using some g
 }
 ```
 
+## Meet the Family!
+
+Isml Linter is also available as a VSCode extension. Please check https://marketplace.visualstudio.com/items?itemName=fabiowquixada.vscode-isml-linter and give it a try! :) There is a Prophet extension incompatibility, which we expect to be solved soon.
+
 ## API
 
 Check the [API docs][api-docs].
