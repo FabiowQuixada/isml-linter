@@ -1,10 +1,11 @@
 # "leading-iscontent" Rule
 
-Ensures that &lt;iscontent> tag is always the first element of the template, if present.
+Ensures that &lt;iscontent> tag is always among the first four elements of the template, if present.
 
 ## Notes
 
-- This rule depends on abstract tree build;
+- Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);<br/>
+- Auto-fixable;
 
 ## Configuration
 

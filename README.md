@@ -162,8 +162,7 @@ Check the [API docs][api-docs].
 | :small_orange_diamond: [no-require-in-loop][no-require-in-loop-readme]     | No `require()` calls from within a loop in the template |
 | :small_orange_diamond: [no-embedded-isml][no-embedded-isml-readme]       | Disallows embedded isml tags, such as in <div &lt;isif /> />, except for &lt;isprint /> |
 | :small_orange_diamond: [max-depth][max-depth-readme]               | Sets the maximum of nested elements in a template |
-| :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]   | One element per line |
-| :boom: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]   | Ensures &lt;iscontent> tag is the first element in the template if it exists |
+| :wrench: :boom: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]   | Ensures &lt;iscontent> tag is the first element in the template if it exists |
 | :boom: :small_orange_diamond: [no-deprecated-attrs][no-deprecated-attrs-readme]   | Disallows deprecated attributes or attribute values |
 | :boom: :small_orange_diamond: [contextual-attrs][contextual-attrs-readme]   | Disallows presence of mutually exclusive attributes |
 

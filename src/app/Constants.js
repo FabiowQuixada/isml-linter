@@ -59,6 +59,8 @@ const voidElementsArray = [
     'param', 'source', 'track', 'wbr'
 ];
 
+const leadingElementsChecking = 4;
+
 module.exports = {
     // Client directories;
     clientAppDir,
@@ -109,4 +111,5 @@ module.exports = {
 
     // Other;
     voidElementsArray,
+    leadingElementsChecking,
 };

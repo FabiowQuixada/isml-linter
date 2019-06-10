@@ -1,5 +1,6 @@
-const SpecHelper   = require('../../SpecHelper');
 const specFileName = require('path').basename(__filename);
+const SpecHelper   = require('../../SpecHelper');
+
 const rule         = SpecHelper.getTreeRule(specFileName);
 
 describe(rule.name, () => {
@@ -43,5 +44,23 @@ describe(rule.name, () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
 
         expect(result).toEqual([]);
+    });
+
+    it('fixes a simple template', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 0);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('fixes a complex template', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 1);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('does not modify the template if element is among the "k" first', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 2);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 });
