@@ -3,6 +3,7 @@
 Disallows presence of mutually exclusive attributes and checks for attributes that are conditionally required.
 
 ## Notes
+
 - Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
 
 ## Configuration

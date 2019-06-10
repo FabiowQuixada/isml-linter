@@ -3,6 +3,7 @@
 Disallows `require()` calls within loops in the same template.
 
 ## Notes
+
 - Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
 
 ## Configuration

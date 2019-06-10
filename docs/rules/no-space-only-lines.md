@@ -5,6 +5,7 @@ Disallow lines that contain only blank spaces.
 ## Notes
 
 - This rule does **not** dependent on abstract tree build;
+- Auto-fixable;
 
 ## Configuration
 

@@ -3,6 +3,7 @@
 Disallows deprecated attributes or attribute values.
 
 ## Notes
+
 - Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
 
 ## Configuration

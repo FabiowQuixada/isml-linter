@@ -3,6 +3,7 @@
 Disallows hardcoded strings in the ISML DOM. Hardcoded strings within ISML expressions are not considered invalid (configuration to be implemented).
 
 ## Notes
+
 - Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
 
 ## Configuration

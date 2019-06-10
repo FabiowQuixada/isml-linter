@@ -4,7 +4,7 @@ Enforces any hardcoded string or ISML expression to be wrapped in a &lt;isprint 
 
 ## Notes
 
-- Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
+- This rule does **not** dependent on abstract tree build;
 
 ## Configuration
 
