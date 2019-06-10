@@ -18,7 +18,6 @@ class IsmlNode {
         this.value            = value;      // '<div class="my_class">'
         this.lineNumber       = lineNumber; // 7
         this.globalPos        = globalPos;  // 184
-        this.type             = null;       // 'div'
         this.depth            = 0;          // Isml dom tree node depth
         this.suffixValue      = '';         // '</div>'
         this.suffixLineNumber = -1;         // 9
@@ -74,6 +73,10 @@ class IsmlNode {
         return this.value.trim().startsWith('<${');
     }
 
+    isInSameLineAsParent() {
+        return this.getParent() && this.getParent().getLineNumber() === this.getLineNumber();
+    }
+
     getDepth() { return this.depth; }
     getParent() { return this.parent; }
     getGlobalPos() { return this.globalPos; }
@@ -113,9 +116,10 @@ class IsmlNode {
         this.newestChildNode = newNode;
     }
 
-    getChild(number) { return this.children[number]; }
-    getLastChild() { return this.children[this.children.length - 1];}
-    getNumberOfChildren() { return this.children.length; }
+    getChild(number)      { return this.children[number];                   }
+    getLastChild()        { return this.children[this.children.length - 1]; }
+    getNumberOfChildren() { return this.children.length;                    }
+    getChildren()         { return this.children;                           }
 
     getIndentationSize() {
         const precedingEmptySpacesLength = this.getValue().search(/\S|$/);
@@ -215,6 +219,40 @@ class IsmlNode {
         return !this.parent || this.parent.getLastChild() === this;
     }
 
+    removeChild(node) {
+        const index       = this.children.map( child => child.id ).indexOf(node.id);
+        const removedNode = this.getChild(index);
+        this.children.splice(index, 1);
+        return removedNode;
+    }
+
+    // No position or line number is set. To get
+    // it, it is necessary to re-parse the tree;
+    addChildNodeToPos(node, index) {
+        node.parent = this;
+        node.depth  = this.depth + 1;
+        this.children.splice(index, 0, node);
+    }
+
+    toString(stream = '') {
+
+        if (!this.isMulticlause() && this.isEmpty() && !this.isLastChild()) {
+            return stream;
+        }
+
+        if (!this.isRoot() && !this.isMulticlause()) {
+            stream += this.value;
+        }
+
+        this.children.forEach( node => stream = node.toString(stream) );
+
+        if (!this.isRoot() && !this.isMulticlause()) {
+            stream += this.suffixValue;
+        }
+
+        return stream;
+    }
+
     // Used for debugging purposes only;
     print() {
         const indentSize = this.depth;
@@ -229,26 +267,6 @@ class IsmlNode {
         if (this.children.length > 0) {
             this.children.forEach( node => node.print() );
         }
-    }
-
-    // Used for debugging purposes only;
-    getFullContent(stream = '') {
-
-        if (!this.isMulticlause() && this.isEmpty() && !this.isLastChild()) {
-            return stream;
-        }
-
-        if (!this.isRoot() && !this.isMulticlause()) {
-            stream += this.value;
-        }
-
-        this.children.forEach( node => stream = node.getFullContent(stream) );
-
-        if (!this.isRoot() && !this.isMulticlause()) {
-            stream += this.suffixValue;
-        }
-
-        return stream;
     }
 }
 

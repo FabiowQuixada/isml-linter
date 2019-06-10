@@ -30,7 +30,7 @@ TreeRulePrototype.fix = function(stream = '') {
 
     this.children.forEach( node =>
         stream = node.isBroken() ?
-            node.getFullContent(stream) :
+            node.toString(stream) :
             this.getFixedContent(node, stream)
     );
 

@@ -38,7 +38,7 @@ const compareResultForTemplate = number => {
     const templatePath            = getFilePath(number);
     const originalTemplateContent = fs.readFileSync(templatePath, 'utf-8');
     const rootNode                = TreeBuilder.build(templatePath).rootNode;
-    const actualContent           = rootNode.getFullContent();
+    const actualContent           = rootNode.toString();
 
     expect(actualContent).toEqual(originalTemplateContent);
 };

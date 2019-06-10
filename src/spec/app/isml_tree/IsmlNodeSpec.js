@@ -1,6 +1,8 @@
 const IsmlNode    = require('../../../app/isml_tree/IsmlNode');
 const SpecHelper  = require('../../SpecHelper');
 const ConfigUtils = require('../../../app/util/ConfigUtils');
+const TreeBuilder = require('../../../app/isml_tree/TreeBuilder');
+const Constants   = require('../../../app/Constants');
 const sinon       = require('sinon');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
@@ -195,4 +197,46 @@ describe(targetObjName, () => {
 
         expect(node.isCustomIsmlTag()).toEqual(true);
     });
+
+    it('removes a child node', () => {
+        const removeIndex     = 3;
+        const tree            = TreeBuilder.build(getFilePath(0));
+        const rootNode        = tree.rootNode;
+        const childrenQty     = rootNode.getNumberOfChildren();
+        const nodeToBeRemoved = rootNode.getChild(removeIndex);
+
+        rootNode.removeChild(nodeToBeRemoved);
+
+        const nextNode = rootNode.getChild(removeIndex);
+
+        expect(nodeToBeRemoved.id).not.toEqual(nextNode.id);
+        expect(rootNode.getNumberOfChildren()).toEqual(childrenQty - 1);
+    });
+
+    it('returns the removed node on remove operation', () => {
+        const removeIndex     = 3;
+        const tree            = TreeBuilder.build(getFilePath(0));
+        const rootNode        = tree.rootNode;
+        const nodeToBeRemoved = rootNode.getChild(removeIndex);
+        const removedNode     = rootNode.removeChild(nodeToBeRemoved);
+
+        expect(nodeToBeRemoved.id).toEqual(removedNode.id);
+    });
+
+    it('adds a child node at a specific position', () => {
+        const tree        = TreeBuilder.build(getFilePath(0));
+        const rootNode    = tree.rootNode;
+        const childrenQty = rootNode.getNumberOfChildren();
+        const newNode     = new IsmlNode('<ismycustom />');
+
+        rootNode.addChildNodeToPos(newNode, 0);
+
+        expect(rootNode.getChild(0).id).toEqual(newNode.id);
+        expect(newNode.getParent().id).toEqual(rootNode.id);
+        expect(rootNode.getNumberOfChildren()).toEqual(childrenQty + 1);
+    });
 });
+
+const getFilePath = number => {
+    return `${Constants.specComplexTemplatesDir}/template_${number}.isml`;
+};
