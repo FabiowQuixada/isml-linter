@@ -26,14 +26,13 @@ Rule.getIndentation = function(depth = 1) {
 
 Rule.isBroken = function(node) {
 
-    const configIndentSize     = this.getConfigs().size;
-    const expectedIndentation  = (node.getDepth() - 1) * configIndentSize;
-    const actualIndentation    = node.getIndentationSize();
-    const isInSameLineAsParent = node.getParent() && node.getParent().getLineNumber() === node.getLineNumber();
+    const configIndentSize    = this.getConfigs().size;
+    const expectedIndentation = (node.getDepth() - 1) * configIndentSize;
+    const actualIndentation   = node.getIndentationSize();
 
     return !node.isRoot() &&
         !node.isEmpty() &&
-        !isInSameLineAsParent &&
+        !node.isInSameLineAsParent() &&
         expectedIndentation !== actualIndentation;
 };
 
