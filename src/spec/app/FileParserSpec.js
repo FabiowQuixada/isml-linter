@@ -102,7 +102,9 @@ describe(targetObjName, () => {
 });
 
 const expectedResultObj = type => {
-    const result = {};
+    const result = {
+        fixed: false
+    };
     result[type] = {};
 
     const EnforceIsprintRule = require('../../app/rules/line_by_line/enforce-isprint');
