@@ -27,4 +27,22 @@ describe(rule.name, () => {
 
         expect(result).toEqual([]);
     });
+
+    it('fixes a simple template', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 0);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('ignores ISML comment nodes', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 1);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('fixes a complex template', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 2);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

@@ -3,7 +3,9 @@
 Enforces nodes that compose the ISML tree to not start at the same line number as their parent.
 
 ## Notes
+
 - Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
+- Auto-fixable;
 
 ## Configuration
 
