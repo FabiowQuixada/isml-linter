@@ -1,6 +1,6 @@
 # Changelog
 
-## [5.8.0] - 2019-06-__
+## [5.8.0] - 2019-06-09
 
 ### Added
  - Autofix feature for rules:
