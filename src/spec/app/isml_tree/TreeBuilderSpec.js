@@ -213,6 +213,13 @@ describe(targetObjName, () => {
         expect(scriptNode.getType()).toEqual('script');
     });
 
+    it('identifies deprecated ISML comments', () => {
+        const tree     = getTreeFromTemplate(23);
+        const rootNode = tree.rootNode;
+
+        expect(rootNode).not.toEqual(null);
+    });
+
     it('identifies HTML comments', () => {
         const rootNode        = getRootNodeFromTemplate(24);
         const htmlCommentNode = rootNode.getChild(0);

@@ -1,0 +1,11 @@
+<div class="hero slant-down search-banner"
+    <!--- If no image, default is specified in search.scss > .search-banner --->
+>
+    <h1 class="header page-title">
+        <isif condition="${pdict.productSearch.isCategorySearch}">
+            ${pdict.productSearch.category.name}
+        <iselse>
+            ${Resource.msg('label.header.banner', 'search', null)}
+        </isif>
+    </h1>
+</div>
