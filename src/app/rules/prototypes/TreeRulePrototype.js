@@ -3,7 +3,7 @@ const ConfigUtils   = require('../../util/ConfigUtils');
 
 const TreeRulePrototype = Object.create(RulePrototype);
 
-TreeRulePrototype.check = function(node, result) {
+TreeRulePrototype.check = function(node, result = { occurrences : [] }) {
 
     const config = ConfigUtils.load();
     this.result  = result || {

@@ -6,6 +6,33 @@ const MultiClauseNode = require('./MultiClauseNode');
 const ExceptionUtils  = require('../util/ExceptionUtils');
 const fs              = require('fs');
 
+const postProcess = (node, data = {}) => {
+    node.getChildren().forEach( child => {
+        if (child.getValue().indexOf('template="util/modules"') !== -1) {
+            data.moduleDefinition = {
+                value      : child.getValue(),
+                lineNumber : child.getLineNumber(),
+                globalPos  : child.getGlobalPos(),
+                length     : child.getValue().trim().length
+            };
+        }
+
+        if (child.isCustomIsmlTag()) {
+            data.customModuleArray = data.customModuleArray || [];
+            data.customModuleArray.push({
+                value      : child.getValue(),
+                lineNumber : child.getLineNumber(),
+                globalPos  : child.getGlobalPos(),
+                length     : child.getValue().trim().length
+            });
+        }
+
+        return postProcess(child, data);
+    });
+
+    return data;
+};
+
 const build = (filePath, content) => {
 
     const ParseStatus = require('../enums/ParseStatus');
@@ -18,6 +45,8 @@ const build = (filePath, content) => {
     try {
         const fileContent = content || fs.readFileSync(filePath, 'utf-8');
         result.rootNode   = parse(fileContent, undefined, undefined, filePath);
+        result.data       = postProcess(result.rootNode);
+
     } catch (e) {
         result.rootNode  = null;
         result.status    = ParseStatus.INVALID_DOM;

@@ -59,11 +59,10 @@ module.exports = {
     },
 
     parseAndApplyRuleToTemplate: (rule, fileNumber) => {
-        const filePath    = getTreeRuleSpecTemplatePath(rule, fileNumber);
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-        const tree        = TreeBuilder.parse(fileContent, undefined, undefined, filePath);
+        const filePath = getTreeRuleSpecTemplatePath(rule, fileNumber);
+        const tree     = TreeBuilder.build(filePath);
 
-        return rule.check(tree).occurrences;
+        return rule.check(tree.rootNode, { occurrences : [] }, tree.data).occurrences;
     },
 
     getLineRuleFixData: (rule, templateNumber) => {

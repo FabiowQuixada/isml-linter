@@ -103,6 +103,7 @@ describe(targetObjName, () => {
 
 const expectedResultObj = type => {
     const result = {
+        treeData : undefined,
         fixed: false
     };
     result[type] = {};

@@ -59,7 +59,7 @@ const checkTreeRules = (filePath, fileContent) => {
             .getEnabledTreeRules()
             .filter( rule => !rule.isIgnore(filePath))
             .forEach( rule => {
-                const ruleResults = rule.check(tree.rootNode);
+                const ruleResults = rule.check(tree.rootNode, { occurrences : [] }, templateResults.data);
 
                 if (config.autoFix && ruleResults.fixedContent) {
                     fs.writeFileSync(filePath, ruleResults.fixedContent);
@@ -81,8 +81,9 @@ const parse = (filePath, content) => {
     const treeResults = checkTreeRules(filePath, fileContent);
 
     return {
-        fixed  : lineResults.fixed || treeResults.fixed,
-        errors : {
+        fixed    : lineResults.fixed || treeResults.fixed,
+        treeData : treeResults.data,
+        errors   : {
             ...lineResults.errors,
             ...treeResults.errors
         }
