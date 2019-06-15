@@ -2,6 +2,7 @@ const chalk        = require('chalk');
 const ConsoleUtils = require('../../../app/util/ConsoleUtils');
 const SpecHelper   = require('../../SpecHelper');
 const sinon        = require('sinon');
+const Constants    = require('../../../app/Constants');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -27,7 +28,7 @@ describe(targetObjName, () => {
 
         const expectedResult1 = 'An error has occurred:';
         const expectedResult3 = 'If you think this is a bug, please open an issue at:';
-        const expectedResult4 = '\nhttps://github.com/FabiowQuixada/isml-linter\n\n';
+        const expectedResult4 = `${Constants.EOL}https://github.com/FabiowQuixada/isml-linter${Constants.EOL}${Constants.EOL}`;
 
         expect(spy.getCall(1).args[0]).toEqual(expectedResult1);
         expect(spy.getCall(3).args[0]).toEqual(expectedResult3);
@@ -38,7 +39,7 @@ describe(targetObjName, () => {
         ConsoleUtils.displayErrors(expectedObject);
 
         const expectedResult1 = chalk.gray('13') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
-        const expectedResult2 = '\na_multi_cartridge_project/int_cartridge_1/templates/default/some_folder/sample_file.isml';
+        const expectedResult2 = `${Constants.EOL}a_multi_cartridge_project/int_cartridge_1/templates/default/some_folder/sample_file.isml`;
         const expectedResult3 = chalk.gray('39') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
         const expectedResult4 = chalk.gray('59') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
 
@@ -57,7 +58,7 @@ describe(targetObjName, () => {
         ConsoleUtils.displayErrors(expectedObject);
 
         //const expectedResult1 = `${chalk.grey(0)} cartridges/a_multi_cartridge_project/int_cartridge_1/templates/default/template_2.isml:289`;
-        const expectedResult2 = '\t' + chalk`{red.bold >> }` + 'Unbalanced <div> element\n';
+        const expectedResult2 = '\t' + chalk`{red.bold >> }` + 'Unbalanced <div> element' + Constants.EOL;
 
         // TODO expect(spy.getCall(1).args[0]).toEqual(expectedResult1);
         expect(spy.getCall(2).args[0]).toEqual(expectedResult2);
@@ -68,7 +69,7 @@ describe(targetObjName, () => {
         ConsoleUtils.displayErrors(expectedObject);
 
         const expectedResult1 = chalk.gray('13') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
-        const expectedResult2 = '\na_multi_cartridge_project/int_cartridge_1/templates/default/some_folder/sample_file.isml';
+        const expectedResult2 = Constants.EOL + 'a_multi_cartridge_project/int_cartridge_1/templates/default/some_folder/sample_file.isml';
         const expectedResult3 = chalk.gray('39') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
         const expectedResult4 = chalk.gray('59') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
 

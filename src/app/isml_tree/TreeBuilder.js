@@ -4,6 +4,7 @@ const StateUtils      = require('./components/StateUtils');
 const ParseUtils      = require('./components/ParseUtils');
 const MultiClauseNode = require('./MultiClauseNode');
 const ExceptionUtils  = require('../util/ExceptionUtils');
+const Constants       = require('../Constants');
 const fs              = require('fs');
 
 const postProcess = (node, data = {}) => {
@@ -221,10 +222,10 @@ const getSuffixLineNumber = state => {
     const elem                  = closingTagStackCopy.pop();
     const trimmedElem           = elem.trim();
     const suffixElemIndex       = elem.indexOf(trimmedElem);
-    const lineBreaksInSuffix    = closingTagStackCopy.length > 0 ? (elem.substring(0, suffixElemIndex).match(/\n/g) || []).length : 0;
+    const lineBreaksInSuffix    = closingTagStackCopy.length > 0 ? (elem.substring(0, suffixElemIndex).match(new RegExp(Constants.EOL, 'g')) || []).length : 0;
     const suffixGlobalIndex     = state.content.indexOf(elem);
     const contentUpToCurrentPos = state.content.substring(state.currentPos, suffixGlobalIndex);
-    const contentLength         = (contentUpToCurrentPos.match(/\n/g) || []).length;
+    const contentLength         = (contentUpToCurrentPos.match(new RegExp(Constants.EOL, 'g')) || []).length;
     const suffixLineNumber      = state.currentLineNumber + contentLength + lineBreaksInSuffix;
 
     return suffixLineNumber;

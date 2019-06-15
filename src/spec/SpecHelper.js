@@ -9,6 +9,7 @@ const ConfigUtils = require('../app/util/ConfigUtils');
 const snake       = require('to-snake-case');
 const path        = require('path');
 const fs          = require('fs');
+const eol         = require('eol');
 
 const specTempDir = Constants.specTempDir;
 
@@ -88,9 +89,13 @@ module.exports = {
         const actualContent        = rule.getFixedContent(rootNode);
 
         return {
-            actualContent,
-            fixedTemplateContent
+            actualContent        : eol.auto(actualContent),
+            fixedTemplateContent : eol.auto(fixedTemplateContent)
         };
+    },
+
+    getEolOffset(lineNumber) {
+        return (Constants.EOL.length - 1) * (lineNumber - 1);
     },
 
     /**

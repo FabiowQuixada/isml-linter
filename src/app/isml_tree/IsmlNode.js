@@ -128,7 +128,7 @@ class IsmlNode {
     getIndentationSize() {
         const precedingEmptySpacesLength = this.getValue().search(/\S|$/);
         const precedingEmptySpaces       = this.getValue().substring(0, precedingEmptySpacesLength);
-        const lastLineBreakPos           = precedingEmptySpaces.lastIndexOf('\n');
+        const lastLineBreakPos           = precedingEmptySpaces.lastIndexOf(Constants.EOL);
         const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
 
         return Math.max(indentationSize - 1, 0);
@@ -350,7 +350,7 @@ const getDisplayText = node => {
     let displayText = node.value;
 
     displayText = displayText
-        .replace(/\n/g, '')
+        .replace(new RegExp(Constants.EOL, 'g'), '')
         .replace(/ +(?= )/g, '');
 
     if (node.value.length > MAX_TEXT_DISPLAY_SIZE - 3) {

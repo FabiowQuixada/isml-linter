@@ -36,7 +36,7 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
             const nextOpeningCharPosition       = internalState.maskedContent.indexOf('<');
             const pastContentLength             = internalState.initialMaskedContent.indexOf(internalState.maskedContent);
             const contentUpToCurrentPosition    = internalState.initialMaskedContent.substring(0, pastContentLength + nextOpeningCharPosition);
-            const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(/\n/g) || []).length + parentState.currentLineNumber;
+            const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(new RegExp(Constants.EOL, 'g')) || []).length + parentState.currentLineNumber;
 
             internalState = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
             internalState = updateState(internalState, currentElemStartingLineNumber, parentState);

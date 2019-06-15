@@ -26,7 +26,7 @@ const printExceptionMsg = e => {
         console.log('An error has occurred:');
         console.log(e.stack || e);
         console.log('If you think this is a bug, please open an issue at:');
-        console.log(`\n${Constants.repositoryUrl}\n\n`);
+        console.log(`${Constants.EOL}${Constants.repositoryUrl}${Constants.EOL}${Constants.EOL}`);
     }
 };
 
@@ -35,7 +35,7 @@ const displayLintingErrors = jsonErrors => {
     let partialSum = 0;
     for (const rule in jsonErrors.errors) {
         for (const file in jsonErrors.errors[rule]) {
-            console.log('\n' + file);
+            console.log(Constants.EOL + file);
 
             jsonErrors.errors[rule][file].forEach( error => {
                 let displayText = error.line;
@@ -64,11 +64,11 @@ const displayUnparseableErrors = jsonErrors => {
         const INVALID_TEMPLATE = ExceptionUtils.types.INVALID_TEMPLATE;
 
         if (jsonErrors[INVALID_TEMPLATE]) {
-            console.log(chalk`{red.bold \nAn Isml abstract syntax tree could not be built for the following templates:}`);
+            console.log(chalk`{red.bold ${Constants.EOL}An Isml abstract syntax tree could not be built for the following templates:}`);
 
             jsonErrors[INVALID_TEMPLATE].forEach( (error, i) => {
                 console.log(chalk.gray(i) + ' ' + error.filePath + ':' + error.lineNumber);
-                console.log('\t' + chalk`{red.bold >> }` + `${error.message}\n`);
+                console.log('\t' + chalk`{red.bold >> }` + `${error.message}${Constants.EOL}`);
                 partialSum++;
             });
         }
@@ -82,14 +82,14 @@ const displayUnknownErrors = jsonErrors => {
     let partialSum      = 0;
 
     if (jsonErrors[UNKNOWN_ERROR]) {
-        console.log(chalk`{red.bold \nAn unexpected error happened while parsing the following templates:}`);
+        console.log(chalk`{red.bold ${Constants.EOL}An unexpected error happened while parsing the following templates:}`);
 
         jsonErrors[UNKNOWN_ERROR].forEach( (filePath, i) => {
             console.log(chalk.gray(i) + '\t' + filePath);
             partialSum++;
         });
 
-        console.log(`\nPlease report this to ${chalk.cyan(Constants.repositoryUrl)} and add these files to the ignore list while a fix is not available.`);
+        console.log(`${Constants.EOL}Please report this to ${chalk.cyan(Constants.repositoryUrl)} and add these files to the ignore list while a fix is not available.`);
     }
 
     return partialSum;
@@ -104,13 +104,13 @@ const displayErrors = jsonErrors => {
     errorQty += displayLintingErrors(jsonErrors);
 
     if (errorQty > 0) {
-        console.log('\n' + chalk`{red.bold ${errorQty} errors found in templates.}`);
+        console.log(Constants.EOL + chalk`{red.bold ${errorQty} errors found in templates.}`);
     }
 };
 
 const displayConfigError = () => {
     console.log('No configuration found. Please run the following command to create a default configuration file:');
-    console.log('\n\t' + chalk.yellow('node ./node_modules/.bin/isml-linter --init') + '\n');
+    console.log(Constants.EOL + '\t' + chalk.yellow('node ./node_modules/.bin/isml-linter --init') + Constants.EOL);
 };
 
 module.exports = {

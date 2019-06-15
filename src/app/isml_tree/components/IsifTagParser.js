@@ -1,6 +1,7 @@
 const IsmlNode    = require('../IsmlNode');
 const TreeBuilder = require('../TreeBuilder');
 const ParseUtils  = require('./ParseUtils');
+const Constants   = require('../../../app/Constants');
 
 const run = function(content, state) {
 
@@ -13,7 +14,7 @@ const run = function(content, state) {
             parseMainClause(multiClauseNode, clauseContent, state) :
             parseElseClause(multiClauseNode, clauseContent, state);
 
-        lineNumber                              = (clauseContent.match(/\n/g) || []).length;
+        lineNumber                              = (clauseContent.match(new RegExp(Constants.EOL, 'g')) || []).length;
         state.currentLineNumber                 += lineNumber;
         state.currentElement.startingLineNumber += lineNumber;
     });

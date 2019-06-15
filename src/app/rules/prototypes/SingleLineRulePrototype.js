@@ -1,12 +1,13 @@
 const RulePrototype = require('./RulePrototype');
 const ConfigUtils   = require('../../util/ConfigUtils');
+const Constants     = require('../../Constants');
 
 const SingleLineRulePrototype = Object.create(RulePrototype);
 
 SingleLineRulePrototype.check = function(fileContent) {
 
     const config    = ConfigUtils.load();
-    const lineArray = fileContent.split('\n');
+    const lineArray = fileContent.split(Constants.EOL);
     this.result     = {
         occurrences : []
     };

@@ -1,4 +1,5 @@
 const ParseUtils = require('./ParseUtils');
+const Constants  = require('../../Constants');
 
 module.exports = {
     getInitialState(content, parentState, parentNode, filePath) {
@@ -28,7 +29,7 @@ module.exports = {
             state.node              = parentState.parentNode.newestChildNode;
         }
 
-        const regex        = /\n/gi;
+        const regex        = new RegExp(Constants.EOL, 'gi');
         let lineBreakMatch = regex.exec(content);
         while (lineBreakMatch) {
             const lineBreakPosition = lineBreakMatch.index - state.lineBreakPositionList.length + 1;

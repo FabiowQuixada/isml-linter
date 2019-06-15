@@ -6,6 +6,7 @@
 
 const MaskUtils        = require('../MaskUtils');
 const ClosingTagFinder = require('./ClosingTagFinder');
+const Constants        = require('../../Constants');
 
 const ISIF = '<isif';
 
@@ -35,11 +36,11 @@ const getAccumulatedPos = state => {
 };
 
 const getNextNonEmptyChar = content => {
-    return content.replace(/\n/g, '').trim()[0];
+    return content.replace(new RegExp(Constants.EOL, 'g'), '').trim()[0];
 };
 
 module.exports.getLineBreakQty = function(string) {
-    return (string.match(/\n/g) || []).length;
+    return (string.match(new RegExp(Constants.EOL, 'g')) || []).length;
 };
 
 const getNextNonEmptyCharPos = content => {
@@ -55,7 +56,7 @@ module.exports.getPostClosingTagContentUpToLneBreak = function(content, startPos
     for (let i = startPos + 1; i < content.length; i++) {
         const currentChar = content.charAt(i);
 
-        if (currentChar !== '\n' && currentChar !== '\t') {
+        if (currentChar !== Constants.EOL && currentChar !== '\t') {
             break;
         }
 
@@ -132,7 +133,7 @@ module.exports.getInnerContent = function(oldState) {
 
 module.exports.getPrecedingEmptyLinesQty = function(content) {
 
-    const lineArray  = content.split('\n');
+    const lineArray  = content.split(Constants.EOL);
     let lineBreakQty = 0;
 
     lineArray.some( line => {

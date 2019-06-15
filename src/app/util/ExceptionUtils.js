@@ -1,3 +1,5 @@
+const Constants = require('../Constants');
+
 const types = {
     UNKNOWN_ERROR    : 'UNKNOWN_ERROR',
     INVALID_TEMPLATE : 'INVALID_TEMPLATE',
@@ -30,7 +32,7 @@ const parseError = (elementType, lineNumber, globalPos, length, templatePath) =>
 
 const noConfigError = () => {
     return {
-        message  : 'No configuration found. Please run the following command: \n\n\tnode ./node_modules/.bin/isml-linter --init\n\n',
+        message  : `No configuration found. Please run the following command: ${Constants.EOL}${Constants.EOL}\tnode ./node_modules/.bin/isml-linter --init${Constants.EOL}${Constants.EOL}`,
         isCustom : true
     };
 };

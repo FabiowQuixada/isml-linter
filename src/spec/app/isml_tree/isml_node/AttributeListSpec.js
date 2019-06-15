@@ -1,5 +1,6 @@
 const IsmlNode   = require('../../../../app/isml_tree/IsmlNode');
 const SpecHelper = require('../../../SpecHelper');
+const Constants  = require('../../../../app/Constants');
 
 describe('IsmlNode', () => {
 
@@ -68,7 +69,7 @@ describe('IsmlNode', () => {
     });
 
     it('lists no attributes for empty nodes', () => {
-        const node   = new IsmlNode('\n  \n\n');
+        const node   = new IsmlNode(`${Constants.EOL}  ${Constants.EOL}${Constants.EOL}`);
         const actual = node.getAttributeList();
 
         expect(actual).toEqual([]);

@@ -16,7 +16,7 @@ describe(rule.name, () => {
 
         expect(result.line      ).toEqual('<isset name="basket" value="${require(\'dw.order.Basket\')}" scope="page"/>');
         expect(result.lineNumber).toEqual(3);
-        expect(result.globalPos ).toEqual(80);
+        expect(result.globalPos ).toEqual(80 + SpecHelper.getEolOffset(result.lineNumber));
         expect(result.length    ).toEqual(73);
         expect(result.rule      ).toEqual(rule.name);
         expect(result.message   ).toEqual(rule.description);

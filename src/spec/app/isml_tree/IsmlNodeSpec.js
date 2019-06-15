@@ -152,7 +152,7 @@ describe(targetObjName, () => {
     });
 
     it('prints multi-line elements in a single line', () => {
-        const rootNode = new IsmlNode('<div     \n    class="some_class"></div>');
+        const rootNode = new IsmlNode(`<div     ${Constants.EOL}    class="some_class"></div>`);
 
         rootNode.print();
 

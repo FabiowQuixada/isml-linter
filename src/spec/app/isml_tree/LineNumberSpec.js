@@ -112,19 +112,19 @@ describe('TreeBuilder', () => {
         const emptyNode    = selectNode.getChild(0);
         const errorMsgNode = rootNode.getChild(1);
         const selectValue  = '' +
-        '<select class="form-control billingState custom-select" id="billingState"\n' +
-        '    <isprint value=${billingFields.states.stateCode.attributes} encoding="off"/>\n' +
+        `<select class="form-control billingState custom-select" id="billingState"${Constants.EOL}` +
+        `    <isprint value=\${billingFields.states.stateCode.attributes} encoding="off"/>${Constants.EOL}` +
         '    autocomplete="billing address-level1">';
 
         expect(selectNode.getValue()).toEqual(selectValue);
         expect(selectNode.getLineNumber()).toEqual(1);
         expect(selectNode.getNumberOfChildren()).toEqual(1);
 
-        expect(errorMsgNode.getValue()).toEqual('\n<div class="invalid-feedback">');
+        expect(errorMsgNode.getValue()).toEqual(`${Constants.EOL}<div class="invalid-feedback">`);
         expect(errorMsgNode.getLineNumber()).toEqual(9);
         expect(errorMsgNode.getNumberOfChildren()).toEqual(0);
 
-        expect(emptyNode.getValue()).toEqual('\n\n\n\n\n');
+        expect(emptyNode.getValue()).toEqual(`${Constants.EOL}${Constants.EOL}${Constants.EOL}${Constants.EOL}${Constants.EOL}`);
     });
 
     it('identifies a single-child non-tag element line number', () => {
@@ -132,12 +132,12 @@ describe('TreeBuilder', () => {
         const ifNode     = rootNode.getChild(0).getChild(0).getChild(0).getChild(0);
         const nonTagNode = ifNode.getChild(0).getChild(1).getChild(0);
 
-        expect(ifNode.getValue()).toEqual('\n        <isif condition="${pdict.customer.registeredUser}">');
+        expect(ifNode.getValue()).toEqual(`${Constants.EOL}        <isif condition="\${pdict.customer.registeredUser}">`);
         expect(ifNode.getLineNumber()).toEqual(4);
         expect(ifNode.getNumberOfChildren()).toEqual(2);
         expect(ifNode.getLastChild().isEmpty()).toBe(true);
 
-        expect(nonTagNode.getValue()).toEqual('\n                    ${creditFields.saveCard.label}\n                ');
+        expect(nonTagNode.getValue()).toEqual(`${Constants.EOL}                    \${creditFields.saveCard.label}${Constants.EOL}                `);
         expect(nonTagNode.getLineNumber()).toEqual(8);
         expect(nonTagNode.getNumberOfChildren()).toEqual(0);
     });

@@ -1,6 +1,7 @@
 const path    = require('path');
 const appRoot = require('app-root-path');
 const fs      = require('fs');
+const EOL     = require('os').EOL;
 
 // Environments;
 const ENV_DEV  = 'dev';
@@ -113,4 +114,5 @@ module.exports = {
     // Other;
     voidElementsArray,
     leadingElementsChecking,
+    EOL,
 };

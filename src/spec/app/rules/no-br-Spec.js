@@ -32,7 +32,7 @@ describe(rule.name, () => {
 
         expect(firstOccurrence.line      ).toEqual('<div><br></div>');
         expect(firstOccurrence.lineNumber).toEqual(1);
-        expect(firstOccurrence.globalPos ).toEqual(5);
+        expect(firstOccurrence.globalPos ).toEqual(5 + SpecHelper.getEolOffset(firstOccurrence.lineNumber));
         expect(firstOccurrence.length    ).toEqual(4);
         expect(firstOccurrence.rule      ).toEqual(rule.name);
         expect(firstOccurrence.message   ).toEqual(rule.description);
@@ -45,7 +45,7 @@ describe(rule.name, () => {
 
         expect(firstOccurrence.line      ).toEqual('<div><br /></div>');
         expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(6);
+        expect(firstOccurrence.globalPos ).toEqual(6 + SpecHelper.getEolOffset(firstOccurrence.lineNumber));
         expect(firstOccurrence.length    ).toEqual(6);
         expect(firstOccurrence.rule      ).toEqual(rule.name);
         expect(firstOccurrence.message   ).toEqual(rule.description);
@@ -58,7 +58,7 @@ describe(rule.name, () => {
 
         expect(firstOccurrence.line      ).toEqual('<div><br/></div>');
         expect(firstOccurrence.lineNumber).toEqual(1);
-        expect(firstOccurrence.globalPos ).toEqual(5);
+        expect(firstOccurrence.globalPos ).toEqual(5 + SpecHelper.getEolOffset(firstOccurrence.lineNumber));
         expect(firstOccurrence.length    ).toEqual(5);
         expect(firstOccurrence.rule      ).toEqual(rule.name);
         expect(firstOccurrence.message   ).toEqual(rule.description);
@@ -71,7 +71,7 @@ describe(rule.name, () => {
 
         expect(firstOccurrence.line      ).toEqual('<br>');
         expect(firstOccurrence.lineNumber).toEqual(1);
-        expect(firstOccurrence.globalPos ).toEqual(0);
+        expect(firstOccurrence.globalPos ).toEqual(0 + SpecHelper.getEolOffset(firstOccurrence.lineNumber));
         expect(firstOccurrence.length    ).toEqual(4);
         expect(firstOccurrence.rule      ).toEqual(rule.name);
         expect(firstOccurrence.message   ).toEqual(rule.description);
@@ -84,7 +84,7 @@ describe(rule.name, () => {
 
         expect(firstOccurrence.line      ).toEqual('<br/>');
         expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(1);
+        expect(firstOccurrence.globalPos ).toEqual(1 + SpecHelper.getEolOffset(firstOccurrence.lineNumber));
         expect(firstOccurrence.length    ).toEqual(5);
         expect(firstOccurrence.rule      ).toEqual(rule.name);
         expect(firstOccurrence.message   ).toEqual(rule.description);
