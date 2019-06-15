@@ -1,0 +1,17 @@
+<ismodule template="/components/content/amodule"
+	name="moduleone"
+	attribute="aid"
+	attribute="aid"
+/>
+
+<ismodule template="/components/content/anothermodule"
+	name="moduletwo"
+	attribute="aid"
+/>
+
+<ismodule template="/components/content/yetanothermodule"
+	name="modulethree"
+	attribute="aid"
+	attribute="bid"
+	attribute="cid"
+/>

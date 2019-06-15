@@ -170,6 +170,7 @@ Check the [API docs][api-docs].
 | :wrench: :boom: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]   | Ensures &lt;iscontent> tag is the first element in the template if it exists |
 | :boom: :small_orange_diamond: [no-deprecated-attrs][no-deprecated-attrs-readme]   | Disallows deprecated attributes or attribute values |
 | :boom: :small_orange_diamond: [contextual-attrs][contextual-attrs-readme]   | Disallows presence of mutually exclusive attributes |
+| :boom: :small_orange_diamond: [custom-tags][custom-tags-readme]   | Checks if "util/modules" template is actually needed or if it is missing |
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
 
@@ -198,6 +199,7 @@ You are more than welcome to contribute with us! Please check the [contribute se
 [leading-iscontent-readme]:      <docs/rules/leading-iscontent.md>
 [no-deprecated-attrs-readme]:    <docs/rules/no-deprecated-attrs.md>
 [contextual-attrs-readme]:       <docs/rules/contextual-attrs.md>
+[custom-tags-readme]:            <docs/rules/custom-tags.md>
 
 [api-docs]: <docs/api.md>
 [contribute-docs]: <docs/contribute.md>

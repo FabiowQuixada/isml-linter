@@ -72,6 +72,7 @@ module.exports = {
     fileParserSpecDir: specFileParserTemplate,
     specTempDir,
     rulesDir,
+    specTemplateDir,
     lineByLineRulesDir,
     treeRulesDir,
     specRuleTemplateDir,

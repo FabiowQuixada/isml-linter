@@ -109,6 +109,10 @@ class IsmlNode {
         return parseAttributes(this);
     }
 
+    getAttr(name) {
+        return this.getAttributeList().find( attr => attr.label === name );
+    }
+
     addChild(newNode) {
         newNode.depth        = this.depth + 1;
         newNode.parent       = this;

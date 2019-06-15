@@ -1,0 +1,7 @@
+<isinclude template="util/modules" />
+
+<iscomment>Price</iscomment>
+<td class="item_total">
+        <div class="price_sale single_product_price">
+        </div>
+</td>

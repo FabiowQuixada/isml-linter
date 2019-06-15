@@ -1,0 +1,6 @@
+<iscomment>Price</iscomment>
+<td class="item_total">
+        <div class="price_sale single_product_price">
+            <ismoduleone p_product="${productLineItem.product}" />
+        </div>
+</td>
