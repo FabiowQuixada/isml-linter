@@ -12,29 +12,25 @@ describe(rule.name, () => {
     });
 
     it('detects simplest wrong indentation case', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
 
-        expect(result).toEqual([{
-            line        : '<br/>',
-            lineNumber  : 2,
-            globalPos : 6,
-            length      : 3,
-            rule        : rule.name,
-            message     : rule.description
-        }]);
+        expect(result.line      ).toEqual('<br/>');
+        expect(result.lineNumber).toEqual(2);
+        expect(result.globalPos ).toEqual(6);
+        expect(result.length    ).toEqual(3);
+        expect(result.rule      ).toEqual(rule.name);
+        expect(result.message   ).toEqual(rule.description);
     });
 
     it('detects wrong indentation with previous empty line', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1)[0];
 
-        expect(result).toEqual([{
-            line        : '<br/>',
-            lineNumber  : 3,
-            globalPos : 7,
-            length      : 3,
-            rule        : rule.name,
-            message     : rule.description
-        }]);
+        expect(result.line      ).toEqual('<br/>');
+        expect(result.lineNumber).toEqual(3);
+        expect(result.globalPos ).toEqual(7);
+        expect(result.length    ).toEqual(3);
+        expect(result.rule      ).toEqual(rule.name);
+        expect(result.message   ).toEqual(rule.description);
     });
 
     it('ignores indentation for elements in the same line as their parents', () => {
