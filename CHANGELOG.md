@@ -1,6 +1,14 @@
 # Changelog
 
-## [5.8.0] - 2019-06-09
+## [5.9.0] - 2019-06-16
+
+### Added
+ - "Custom Tags" rule;
+
+### Fixed
+ - Issue with deprecated ISML comment: <!--- --->
+ 
+ ## [5.8.0] - 2019-06-09
 
 ### Added
  - Autofix feature for rules:
@@ -286,6 +294,7 @@
 - Linter is published;
 
 
+[5.9.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.8.0...v5.9.0
 [5.8.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.7.1...v5.8.0
 [5.7.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.7.0...v5.7.1
 [5.7.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.6.1...v5.7.0
