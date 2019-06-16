@@ -10,7 +10,7 @@
     "fix:isml":   "./node_modules/.bin/isml-linter --autofix",
     "import": "cd ../isml-linter && npm pack && cd ../\"sample-production-project\"/ && npm i ../isml-linter/isml-linter-{version}.tgz",
     "lint": "./node_modules/.bin/isml-linter",
-    "production": "npm run import && npm run lint"
+    "production": "npm run import && npm run init:isml && npm run lint"
   },
   "author": "",
   "license": "ISC",
