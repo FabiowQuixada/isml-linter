@@ -1,0 +1,4 @@
+<isscript>
+    var product = pdict.Product;
+    var pid = pdict.Product.getID();
+</isscript>

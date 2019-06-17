@@ -181,6 +181,10 @@ class IsmlNode {
         return value === '<iscomment>';
     }
 
+    isIsscriptContent() {
+        return this.getParent() && this.getParent().getType() === 'isscript';
+    }
+
     isHtmlComment() {
         const value = this.value.trim();
 

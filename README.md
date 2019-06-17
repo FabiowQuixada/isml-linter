@@ -174,6 +174,7 @@ Check the [API docs][api-docs].
 | :boom: :small_orange_diamond: [no-deprecated-attrs][no-deprecated-attrs-readme]      | Disallows deprecated attributes or attribute values |
 | :boom: :small_orange_diamond: [contextual-attrs][contextual-attrs-readme]            | Disallows presence of mutually exclusive attributes |
 | :boom: :small_orange_diamond: [custom-tags][custom-tags-readme]                      | Checks if "util/modules" template is actually needed or if it is missing |
+| :boom: :small_orange_diamond: [eslint-to-isscript][eslint-to-isscript-readme] | Applies ESLint rules to &lt;isscript> tag content |
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
 
@@ -205,6 +206,7 @@ You are more than welcome to contribute with us! Please check the [contribute se
 [no-deprecated-attrs-readme]:    <docs/rules/no-deprecated-attrs.md>
 [contextual-attrs-readme]:       <docs/rules/contextual-attrs.md>
 [custom-tags-readme]:            <docs/rules/custom-tags.md>
+[eslint-to-isscript-readme]:     <docs/rules/eslint-to-isscript.md>
 
 [api-docs]: <docs/api.md>
 [contribute-docs]: <docs/contribute.md>

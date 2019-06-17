@@ -1,0 +1,24 @@
+{
+    "plugins": [
+        "jasmine",
+        "varspacing"
+    ],
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:varspacing/recommended",
+        "plugin:jasmine/recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": ["error"],
+        "no-trailing-spaces": ["error", { "skipBlankLines": false }],
+        "no-var": ["error"]
+    }
+}

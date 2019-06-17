@@ -1,0 +1,122 @@
+<iscontent type="text/html" charset="UTF-8" compact="true" />
+<isinclude template="util/modules" />
+
+<iscomment>
+    Module description
+    
+    The following can parameters can be passed to this module:  
+
+    someObject       : {Object} A simple js object
+    productlineitem  : {dw.order.ProductLineItem}
+    aBooleanVariable : {Boolean}
+</iscomment>
+
+<iscomment>Variables</iscomment>
+<isset name="productLineItem" value="${lineItem}" scope="page" />
+<isset name="message" value="${productLineItem.custom.message}" scope="page"/>
+<isset name="url" value="${URLUtils.url('Controller-Route'}" scope="page" />
+<isset name="ProductUtils" value="${require('file_path/cartridge/scripts/product/ProductUtils')}" scope="page" />
+<isset name="isOutOfStock" value="${ProductUtils.outofstock(productLineItem.product)}" scope="page"/>
+
+<tr class="cart_row lineItem-${lineItem.getUUID()} product-${productLineItem.productID}">
+
+    <iscomment>Server data</iscomment>
+    <td style="display:none;">
+        <div class="product-line-item-id">${lineItem.getUUID()}</div>
+        <div class="order-number">${lineItem.getLineItemCtnr().orderNo}</div>
+    </td>
+    
+
+    <iscomment>Image</iscomment>
+    <td class="product-image">
+        <isproductimage product="${lineItem.product}" type="medium" mode="link" />
+    </td>
+
+    <td class="item_details">
+        
+        <iscomment>Name</iscomment>
+        <div class="product_name">
+            <isproductname product="${productLineItem.product}" mode="link" />
+        </div>
+
+
+        <iscomment>Item ID</iscomment>
+        <div class="product_details_description">
+            <span class="product_id_label">${Resource.msg("some.label", "locale", null)}</span>
+            <span class="productID"><isprint value="${lineItem.product.getID()}"/></span>
+        </div>
+
+
+        <iscomment>Tracking number</iscomment>
+        <div class="product_details_description">
+            <isif condition="${pdict.displaytrackingnumber}">
+                <isinclude template="components/order/trackingnumber"/>
+            </isif>
+        </div>
+
+
+        <iscomment>Item details for mobile</iscomment>
+        <div class="item_details_mobile">
+                <div class="price_sale single_product_price">
+                    <isproductprice p_product="${productLineItem.product}" />
+                </div>
+        </div>
+
+
+        <iscomment>Availability</iscomment>
+        <div class="product-availability">
+            <isif condition="${isDiscontinued || isOutOfStock}">
+                <div class="error_message">
+                    <isprint value="${Resource.msg('label.unabletoorder','properties',null)}" />
+                </div>
+                <isif condition="${isOutOfStock}">
+                    <div class="error_message">
+                        <isprint value="${Resource.msg('labal.productoutofstock','properties',null)}" />
+                    </div>
+                    <iscomment>'Notify me' button</iscomment>
+                    <div class="product_button_notify">
+                        <a data-pid="${lineItem.productID}" class="button notifyme ${lineItem.productID}-notifyme">
+                            <isprint value="${Resource.msg('some.label','properties',null)}" />
+                        </a>
+                    </div>
+                <iselseif condition="${isDiscontinued}">
+                    <div class="error_message">
+                        <isprint value="${Resource.msg('some.label','properties',null)}" />
+                    </div>
+                </isif>
+            </isif>
+        </div>
+    </td>
+
+
+    <iscomment>Price</iscomment>
+    <td class="item_total">
+            <div class="price_sale single_product_price">
+                <isproductprice p_product="${productLineItem.product}" />
+            </div>
+    </td>
+</tr>
+
+
+<iscomment>Price</iscomment>
+<td class="item_total">
+        <div class="price_sale single_product_price">
+            <isproductprice p_product="${productLineItem.product}" />
+        </div>
+</td>
+
+<isscript>
+    let product = pdict.Product;
+    var pid = pdict.Product.getID();
+    let disabledAttr = pdict.isProductAvailable && !product.master ? '' : ' disabled="disabled"';
+
+    if (product.isVariationGroup()) {
+        let variationModel = pdict.CurrentVariationModel || product.getVariationModel();
+        let selectedVariant = variationModel.getSelectedVariant();
+        if (selectedVariant) {
+            pid = selectedVariant.getID();
+        } else {
+            disabledAttr = ' disabled="disabled"';  
+        }
+    };
+</isscript>

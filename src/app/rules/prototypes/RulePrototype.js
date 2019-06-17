@@ -6,6 +6,9 @@ const RulePrototype = {
         this.name        = name;
         this.description = description;
         this.level       = 'errors';
+        this.result      = {
+            occurrences : []
+        };
     },
 
     add(line, lineNumber, globalPos, length, description) {
