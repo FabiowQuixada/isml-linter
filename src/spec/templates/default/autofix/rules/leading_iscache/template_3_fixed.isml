@@ -1,0 +1,4 @@
+<iscache status="on" />
+<isinclude template="util/modules" />
+
+<iscomment>Module description</iscomment>

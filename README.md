@@ -167,7 +167,8 @@ Check the [API docs][api-docs].
 | :small_orange_diamond: [no-embedded-isml][no-embedded-isml-readme]       | Disallows embedded isml tags, such as in <div &lt;isif /> />, except for &lt;isprint /> |
 | :small_orange_diamond: [max-depth][max-depth-readme]               | Sets the maximum of nested elements in a template |
 | :wrench: :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]   | One element per line |
-| :wrench: :boom: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]   | Ensures &lt;iscontent> tag is the first element in the template if it exists |
+| :wrench: :boom: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]   | Ensures &lt;iscontent> tag is the first element in the template if present |
+| :wrench: :boom: :small_orange_diamond: [leading-iscache][leading-iscache-readme]   | Ensures &lt;iscache> tag is among the first element in the template if present |
 | :boom: :small_orange_diamond: [no-deprecated-attrs][no-deprecated-attrs-readme]   | Disallows deprecated attributes or attribute values |
 | :boom: :small_orange_diamond: [contextual-attrs][contextual-attrs-readme]   | Disallows presence of mutually exclusive attributes |
 | :boom: :small_orange_diamond: [custom-tags][custom-tags-readme]   | Checks if "util/modules" template is actually needed or if it is missing |
@@ -197,6 +198,7 @@ You are more than welcome to contribute with us! Please check the [contribute se
 [max-depth-readme]:              <docs/rules/max-depth.md>
 [one-element-per-line-readme]:   <docs/rules/one-element-per-line.md>
 [leading-iscontent-readme]:      <docs/rules/leading-iscontent.md>
+[leading-iscache-readme]:        <docs/rules/leading-iscache.md>
 [no-deprecated-attrs-readme]:    <docs/rules/no-deprecated-attrs.md>
 [contextual-attrs-readme]:       <docs/rules/contextual-attrs.md>
 [custom-tags-readme]:            <docs/rules/custom-tags.md>
