@@ -19,8 +19,37 @@ fs.readdirSync(Constants.treeRulesDir)
         treeRules.push(require(rulePath));
     });
 
-module.exports = {
-    getAllLineRules     : () => lineByLineRules,
-    getEnabledLineRules : () => lineByLineRules.filter( rule => rule.isEnabled() ),
-    getEnabledTreeRules : () => treeRules.filter( rule => rule.isEnabled() )
+const findNodeOfType = (node, type) => {
+    let result = null;
+
+    node.getChildren().some( child => {
+        if (child.isOfType(type)) {
+            result = child;
+            return true;
+        } else {
+            result = findNodeOfType(child, type) || result;
+        }
+
+        return false;
+    });
+
+    return result;
 };
+
+const isTypeAmongTheFirstElements = (rootNode, type) => {
+    let result = false;
+
+    for (let i = 0; i < Constants.leadingElementsChecking; i++) {
+        result = result ||
+            rootNode.getChild(i) &&
+            rootNode.getChild(i).isOfType(type);
+    }
+
+    return result;
+};
+
+module.exports.getAllLineRules             = () => lineByLineRules;
+module.exports.getEnabledLineRules         = () => lineByLineRules.filter( rule => rule.isEnabled() );
+module.exports.getEnabledTreeRules         = () => treeRules.filter( rule => rule.isEnabled() );
+module.exports.findNodeOfType              = findNodeOfType;
+module.exports.isTypeAmongTheFirstElements = isTypeAmongTheFirstElements;

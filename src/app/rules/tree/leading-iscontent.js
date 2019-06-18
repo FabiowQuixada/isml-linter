@@ -1,8 +1,10 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const Constants         = require('../../Constants');
+const RuleUtils         = require('../../util/RuleUtils');
 
+const TAG_TYPE    = 'iscontent';
 const ruleName    = require('path').basename(__filename).slice(0, -3);
-const description = '<iscontent> tag should be the first in the template';
+const description = `<${TAG_TYPE}> tag should be the first in the template`;
 
 const Rule = Object.create(TreeRulePrototype);
 
@@ -15,51 +17,22 @@ Rule.isBroken = function(node) {
         rootNode = rootNode.getParent();
     }
 
-    return node.isOfType('iscontent') &&
+    return node.isOfType(TAG_TYPE) &&
         rootNode.getChild(0).getId() !== node.getId();
 };
 
 Rule.getFixedContent = rootNode => {
-    if (!isIsContentAmongTheFirstElements(rootNode)) {
-        const isContentNode = findIsContentNode(rootNode);
+    if (!RuleUtils.isTypeAmongTheFirstElements(rootNode, TAG_TYPE)) {
+        const isContentNode = RuleUtils.findNodeOfType(rootNode, TAG_TYPE);
 
         if (isContentNode) {
             isContentNode.getParent().removeChild(isContentNode);
-            isContentNode.setValue(isContentNode.getValue().trim() + '\n');
+            isContentNode.setValue(isContentNode.getValue().trim() + Constants.EOL);
             rootNode.addChildNodeToPos(isContentNode, 0);
         }
     }
 
     return rootNode.toString();
-};
-
-const isIsContentAmongTheFirstElements = rootNode => {
-    let result = false;
-
-    for (let i = 0; i < Constants.leadingElementsChecking; i++) {
-        result = result ||
-            rootNode.getChild(i) &&
-            rootNode.getChild(i).isOfType('iscontent');
-    }
-
-    return result;
-};
-
-const findIsContentNode = node => {
-    let result = null;
-
-    node.getChildren().some( child => {
-        if (child.isOfType('iscontent')) {
-            result = child;
-            return true;
-        } else {
-            result = findIsContentNode(child) || result;
-        }
-
-        return false;
-    });
-
-    return result;
 };
 
 module.exports = Rule;
