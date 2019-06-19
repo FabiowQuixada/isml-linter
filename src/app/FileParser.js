@@ -1,8 +1,8 @@
-const RuleUtils   = require('./util/RuleUtils');
-const TreeBuilder = require('./isml_tree/TreeBuilder');
-const ConfigUtils = require('./util/ConfigUtils');
-const fs          = require('fs');
-
+const RuleUtils             = require('./util/RuleUtils');
+const TreeBuilder           = require('./isml_tree/TreeBuilder');
+const ConfigUtils           = require('./util/ConfigUtils');
+const fs                    = require('fs');
+const lowercaseFilenameRule = require('./rules/line_by_line/lowercase-filename');
 
 const getErrorObj = (rule, occurrences) => {
     const errorObj                         = {};
@@ -41,6 +41,23 @@ const checkLineByLineRules = (filePath, fileContent) => {
     return templateResults;
 };
 
+const checkFileName = (filename, fileContent) => {
+    const templateResults = {
+        fixed  : false,
+        errors : {}
+    };
+
+    if (lowercaseFilenameRule.isEnabled()) {
+        const errorObj = lowercaseFilenameRule.check(filename, fileContent);
+
+        if (errorObj) {
+            templateResults.errors = errorObj.occurrences;
+        }
+    }
+
+    return templateResults;
+};
+
 const checkTreeRules = (filePath, fileContent) => {
     const config          = ConfigUtils.load();
     const templateResults = {
@@ -75,17 +92,19 @@ const checkTreeRules = (filePath, fileContent) => {
     return templateResults;
 };
 
-const parse = (filePath, content) => {
-    const fileContent = content || fs.readFileSync(filePath, 'utf-8');
-    const lineResults = checkLineByLineRules(filePath, fileContent);
-    const treeResults = checkTreeRules(filePath, fileContent);
+const parse = (filePath, content, templateName) => {
+    const fileContent     = content || fs.readFileSync(filePath, 'utf-8');
+    const lineResults     = checkLineByLineRules(filePath, fileContent);
+    const treeResults     = checkTreeRules(filePath, fileContent);
+    const filenameResults = checkFileName(templateName, fileContent);
 
     return {
         fixed    : lineResults.fixed || treeResults.fixed,
         treeData : treeResults.data,
         errors   : {
             ...lineResults.errors,
-            ...treeResults.errors
+            ...treeResults.errors,
+            ...filenameResults.errors
         }
     };
 };

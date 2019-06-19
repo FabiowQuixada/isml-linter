@@ -161,6 +161,7 @@ Check the [API docs][api-docs].
 | :wrench: [no-tabs][no-tabs-readme]                | Disallows use of tabs |
 | [enforce-isprint][enforce-isprint-readme]        | Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
 | [enforce-require][enforce-require-readme]        | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
+| :boom: [lowercase-filename][lowercase-filename-readme]        | Disallows template names to have uppercase characters |
 | :small_orange_diamond: [no-hardcode][no-hardcode-readme]            | Disallows hardcoded strings outside ISML expressions |
 | :small_orange_diamond: [indent][indent-readme]                 | Sets indentation size |
 | :small_orange_diamond: [no-require-in-loop][no-require-in-loop-readme]     | No `require()` calls from within a loop in the template |
@@ -191,6 +192,7 @@ You are more than welcome to contribute with us! Please check the [contribute se
 [no-tabs-readme]:                <docs/rules/no-tabs.md>
 [enforce-isprint-readme]:        <docs/rules/enforce-isprint.md>
 [enforce-require-readme]:        <docs/rules/enforce-require.md>
+[lowercase-filename-readme]:     <docs/rules/lowercase-filename.md>
 [no-hardcode-readme]:            <docs/rules/no-hardcode.md>
 [indent-readme]:                 <docs/rules/indent.md>
 [no-require-in-loop-readme]:     <docs/rules/no-require-in-loop.md>

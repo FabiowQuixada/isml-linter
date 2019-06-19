@@ -40,7 +40,7 @@ Linter.run = function(pathData = config.rootDir || appRoot.toString(), content) 
 
         if (!FileUtils.isIgnored(templatePath)) {
             try {
-                const output = FileParser.parse(templatePath, content);
+                const output = FileParser.parse(templatePath, content, templateName);
 
                 if (output.fixed) {
                     result.templatesFixed++;

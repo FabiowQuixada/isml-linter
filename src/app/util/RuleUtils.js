@@ -49,7 +49,7 @@ const isTypeAmongTheFirstElements = (rootNode, type) => {
 };
 
 module.exports.getAllLineRules             = () => lineByLineRules;
-module.exports.getEnabledLineRules         = () => lineByLineRules.filter( rule => rule.isEnabled() );
+module.exports.getEnabledLineRules         = () => lineByLineRules.filter( rule => rule.isEnabled() && rule.name !== 'lowercase-filename');
 module.exports.getEnabledTreeRules         = () => treeRules.filter( rule => rule.isEnabled() );
 module.exports.findNodeOfType              = findNodeOfType;
 module.exports.isTypeAmongTheFirstElements = isTypeAmongTheFirstElements;

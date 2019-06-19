@@ -12,6 +12,7 @@ const ConfigUtils          = require('../../app/util/ConfigUtils');
 
 const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
+const specFilenameTemplate           = Constants.specFilenameTemplate;
 const UNPARSEABLE                    = ExceptionUtils.types.INVALID_TEMPLATE;
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
@@ -116,6 +117,25 @@ describe(targetObjName, () => {
 
         expect(result.templatesFixed).toEqual(1);
         fs.writeFileSync(filePath, originalContent);
+    });
+
+    it('lists unconsistent filenames', () => {
+        const ExceptionUtils = require('../../app/util/ExceptionUtils');
+
+        ConfigUtils.load({ rules: { 'lowercase-filename': {} } });
+
+        const rule    = require('../../app/rules/line_by_line/lowercase-filename');
+        const dirPath = path.join(Constants.clientAppDir, specFilenameTemplate);
+        const result  = IsmlLinter.run(dirPath);
+        const error   = result.errors[0][path.join(dirPath, 'camelCaseTemplate.isml')];
+
+        expect(error.line      ).toEqual('');
+        expect(error.lineNumber).toEqual(0);
+        expect(error.globalPos ).toEqual(0);
+        expect(error.length    ).toEqual(7);
+        expect(error.rule      ).toEqual(rule.name);
+        expect(error.message   ).toEqual(rule.description);
+        expect(result[ExceptionUtils.UNKNOWN_ERROR]).toBe(undefined);
     });
 });
 
