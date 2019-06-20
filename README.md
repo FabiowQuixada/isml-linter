@@ -57,11 +57,11 @@ You can disable any rule by removing it from the config file. You may also find 
 | Config            | Description                              |
 | ----------------- |:-----------------------------------------|
 | rootDir           | The root directory under which the linter will run. Defaults to the directory where the package.json file is |
-| :boom: disableHtml5 | Disallows HTML5-defined unclosed tags, such as input, img and meta. Default: false |
+| disableHtml5      | Disallows HTML5-defined unclosed tags, such as input, img and meta. Default: false |
 | ignoreUnparseable | Does not raise an error if an unparseable template is found. Default: false. Please check "Parse Modes - Tree" section below |
 | ignore            | If a template path contains (as a substring) any string defined here, that template will be ignored by the linter |
-| :boom: autoFix    | Applies fixes for enabled rules. Default: 'false' |
-| disableTreeParse | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: 'false' |
+| autoFix           | Applies fixes for enabled rules. Default: 'false' |
+| disableTreeParse  | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: 'false' |
 | rules             | Defines which rules to check. See available rules below |
 
 **Note:** If you explicitly set "ignoreUnparseable" config to true, unparseable templates may contain errors that will not be detected by Isml Linter.
@@ -149,30 +149,30 @@ Check the [API docs][api-docs].
 
 ## Available Rules
 
-| Rule                   | Description                              |
-| ---------------------- |:-----------------------------------------|
-| [no-br][no-br-readme]  | Disallows &lt;br/> tags. Enable this rule if you prefer to use CSS to handle vertical spacing |
-| [no-git-conflict][no-git-conflict-readme]        | Disallows unresolved Git conflicts |
-| [no-import-package][no-import-package-readme]      | Disallows `importPackage()` function. It is recommended by SalesForce to use require() instead |
-| [no-isscript][no-isscript-readme]            | Disallows &lt;isscript/> tag in template. Enable this rule if you prefer logic to be kept in a separate .ds/.js file |
-| :wrench: [no-trailing-spaces][no-isscript-readme]     | Disallows trailing blank spaces |
-| :wrench: [no-space-only-lines][no-space-only-lines-readme]    | Disallows lines that contain only blank spaces, i.e., unnecessarily indented |
-| [no-inline-style][no-inline-style-readme]        | Disallows use of "style" HTML attribute. Enable this rule if you prefer style to be fully handled via CSS |
-| :wrench: [no-tabs][no-tabs-readme]                | Disallows use of tabs |
-| [enforce-isprint][enforce-isprint-readme]        | Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
-| [enforce-require][enforce-require-readme]        | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
-| :boom: [lowercase-filename][lowercase-filename-readme]        | Disallows template names to have uppercase characters |
-| :small_orange_diamond: [no-hardcode][no-hardcode-readme]            | Disallows hardcoded strings outside ISML expressions |
-| :small_orange_diamond: [indent][indent-readme]                 | Sets indentation size |
-| :small_orange_diamond: [no-require-in-loop][no-require-in-loop-readme]     | No `require()` calls from within a loop in the template |
-| :small_orange_diamond: [no-embedded-isml][no-embedded-isml-readme]       | Disallows embedded isml tags, such as in <div &lt;isif /> />, except for &lt;isprint /> |
-| :small_orange_diamond: [max-depth][max-depth-readme]               | Sets the maximum of nested elements in a template |
-| :wrench: :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]   | One element per line |
-| :wrench: :boom: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]   | Ensures &lt;iscontent> tag is the first element in the template if present |
-| :wrench: :boom: :small_orange_diamond: [leading-iscache][leading-iscache-readme]   | Ensures &lt;iscache> tag is among the first element in the template if present |
-| :boom: :small_orange_diamond: [no-deprecated-attrs][no-deprecated-attrs-readme]   | Disallows deprecated attributes or attribute values |
-| :boom: :small_orange_diamond: [contextual-attrs][contextual-attrs-readme]   | Disallows presence of mutually exclusive attributes |
-| :boom: :small_orange_diamond: [custom-tags][custom-tags-readme]   | Checks if "util/modules" template is actually needed or if it is missing |
+| Rule                                                                                 | Description |
+| ------------------------------------------------------------------------------------ |:-----------------------------------------|
+| [no-br][no-br-readme]                                                                | Disallows &lt;br/> tags. Enable this rule if you prefer to use CSS to handle vertical spacing |
+| [no-git-conflict][no-git-conflict-readme]                                            | Disallows unresolved Git conflicts |
+| [no-import-package][no-import-package-readme]                                        | Disallows `importPackage()` function. It is recommended by SalesForce to use require() instead |
+| [no-isscript][no-isscript-readme]                                                    | Disallows &lt;isscript/> tag in template. Enable this rule if you prefer logic to be kept in a separate .ds/.js file |
+| :wrench: [no-trailing-spaces][no-isscript-readme]                                    | Disallows trailing blank spaces |
+| :wrench: [no-space-only-lines][no-space-only-lines-readme]                           | Disallows lines that contain only blank spaces, i.e., unnecessarily indented |
+| [no-inline-style][no-inline-style-readme]                                            | Disallows use of "style" HTML attribute. Enable this rule if you prefer style to be fully handled via CSS |
+| :wrench: [no-tabs][no-tabs-readme]                                                   | Disallows use of tabs |
+| [enforce-isprint][enforce-isprint-readme]                                            | Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
+| [enforce-require][enforce-require-readme]                                            | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
+| :boom: [lowercase-filename][lowercase-filename-readme]                               | Disallows template names to have uppercase characters |
+| :small_orange_diamond: [no-hardcode][no-hardcode-readme]                             | Disallows hardcoded strings outside ISML expressions |
+| :small_orange_diamond: [indent][indent-readme]                                       | Sets indentation size |
+| :small_orange_diamond: [no-require-in-loop][no-require-in-loop-readme]               | No `require()` calls from within a loop in the template |
+| :small_orange_diamond: [no-embedded-isml][no-embedded-isml-readme]                   | Disallows embedded isml tags, such as in <div &lt;isif /> />, except for &lt;isprint /> |
+| :small_orange_diamond: [max-depth][max-depth-readme]                                 | Sets the maximum of nested elements in a template |
+| :wrench: :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]  | One element per line |
+| :wrench: :boom: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme] | Ensures &lt;iscontent> tag is the first element in the template if present |
+| :wrench: :boom: :small_orange_diamond: [leading-iscache][leading-iscache-readme]     | Ensures &lt;iscache> tag is among the first element in the template if present |
+| :boom: :small_orange_diamond: [no-deprecated-attrs][no-deprecated-attrs-readme]      | Disallows deprecated attributes or attribute values |
+| :boom: :small_orange_diamond: [contextual-attrs][contextual-attrs-readme]            | Disallows presence of mutually exclusive attributes |
+| :boom: :small_orange_diamond: [custom-tags][custom-tags-readme]                      | Checks if "util/modules" template is actually needed or if it is missing |
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
 
