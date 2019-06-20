@@ -1,6 +1,12 @@
 # Changelog
 
-## [5.9.0] - 2019-06-16
+## [5.10.0] - 2019-06-20
+
+### Added
+ - "Leading Iscache" rule;
+ - "Lowercase filename" rule;
+ 
+ ## [5.9.0] - 2019-06-16
 
 ### Added
  - "Custom Tags" rule;
@@ -294,6 +300,7 @@
 - Linter is published;
 
 
+[5.10.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.9.0...v5.10.0
 [5.9.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.8.0...v5.9.0
 [5.8.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.7.1...v5.8.0
 [5.7.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.7.0...v5.7.1
