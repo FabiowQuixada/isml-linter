@@ -47,9 +47,9 @@ Rule.isBroken = function(node) {
 
 To create specs, you will need to create the following files (adapting them with your own rule name, of course):
 
-- /src/spec/app/rules/my-new-rule-Spec.js
-- /src/spec/templates/default/rules/tree/my_new_rule/template_0.isml
-- /src/spec/templates/default/rules/tree/my_new_rule/template_1.isml
+- /spec/app/rules/my-new-rule-Spec.js
+- /spec/templates/default/rules/tree/my_new_rule/template_0.isml
+- /spec/templates/default/rules/tree/my_new_rule/template_1.isml
 
 Naming is very important here for both the spec file and templates. Notice that the `my_new_rule` directory snake-case convention.
 
@@ -64,4 +64,4 @@ That's it! Now you're ready to create a PR! Once you have forked the repository 
 [indent-rule]: <../src/app/rules/tree/indent.js>
 [one-element-per-line-rule]: <../src/app/rules/tree/one-element-per-line.js>
 [isml-node]: <../src/app/isml_tree/IsmlNode.js>
-[one-element-per-line-spec]: <../src/spec/app/rules/one-element-per-line-Spec.js>
+[one-element-per-line-spec]: <../spec/app/rules/one-element-per-line-Spec.js>

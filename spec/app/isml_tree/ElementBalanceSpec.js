@@ -1,0 +1,59 @@
+const SpecHelper  = require('../../SpecHelper');
+const TreeBuilder = require('../../../src/app/isml_tree/TreeBuilder');
+const Constants   = require('../../../src/app/Constants');
+
+describe('TreeBuilder', () => {
+
+    beforeEach(() => {
+        SpecHelper.beforeEach();
+    });
+
+    afterEach(() => {
+        SpecHelper.afterEach();
+    });
+
+    it('gets unbalanced element length', () => {
+        const tree = getTreeFromTemplate(0);
+
+        expect(tree.exception.length).toEqual(10);
+    });
+
+    it('gets unbalanced element global position', () => {
+        const tree = getTreeFromTemplate(0);
+
+        expect(tree.exception.globalPos).toEqual(1);
+    });
+
+    it('gets unbalanced element length II', () => {
+        const tree = getTreeFromTemplate(1);
+
+        expect(tree.exception.length).toEqual(52);
+    });
+
+    it('gets unbalanced element global position II', () => {
+        const tree = getTreeFromTemplate(1);
+
+        expect(tree.exception.globalPos).toEqual(241);
+    });
+
+    it('gets unbalanced element length III', () => {
+        const tree = getTreeFromTemplate(2);
+
+        expect(tree.exception.length).toEqual(36);
+    });
+
+    it('gets unbalanced element global position III: root-level element', () => {
+        const tree = getTreeFromTemplate(2);
+
+        expect(tree.exception.globalPos).toEqual(95);
+    });
+});
+
+const getFilePath = number => {
+    return `${Constants.specElementBalanceTemplatesDir}/template_${number}.isml`;
+};
+
+const getTreeFromTemplate = number => {
+    const filePath = getFilePath(number);
+    return TreeBuilder.build(filePath);
+};

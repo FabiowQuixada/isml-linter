@@ -1,2 +1,2 @@
 coverage/
-src/spec/app/rules/no-tabs-Spec.js
+spec/app/rules/no-tabs-Spec.js

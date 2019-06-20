@@ -24,7 +24,7 @@ const load = configParam => {
     }
 
     if (isTestEnv()) {
-        return require(path.join('..', '..', 'spec', Constants.configPreferredFileName));
+        return require(path.join('..', '..', '..', 'spec', Constants.configPreferredFileName));
     }
 
     if (!existConfigFile()) {

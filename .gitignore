@@ -2,7 +2,7 @@
 /.vscode/
 coverage/
 isml-linter/
-src/spec/temp/
+spec/temp/
 
 *.log
 *.tgz

@@ -17,13 +17,13 @@ const productionDir   = path.join(clientAppDir, 'node_modules', 'isml-linter');
 const linterModuleDir = fs.existsSync(productionDir) ? productionDir : clientAppDir;
 
 // Directories;
-const specDir                        = path.join(appRoot.toString(), 'src', 'spec');
+const specDir                        = path.join(appRoot.toString(), 'spec');
 const specTempDir                    = path.join(specDir, 'temp');
 const specTemplateDir                = path.join(specDir, 'templates', 'default');
 const specFileParserTemplate         = path.join(specTemplateDir, 'file_parser');
 const specLinterTemplate             = path.join(specTemplateDir, 'isml_linter');
-const specSpecificDirLinterTemplate  = path.join('src', 'spec', 'templates', 'default', 'isml_linter', 'specific_directory_to_be_linted');
-const specFilenameTemplate           = path.join('src', 'spec', 'templates', 'default', 'isml_linter', 'filenames');
+const specSpecificDirLinterTemplate  = path.join('spec', 'templates', 'default', 'isml_linter', 'specific_directory_to_be_linted');
+const specFilenameTemplate           = path.join('spec', 'templates', 'default', 'isml_linter', 'filenames');
 const specIgnoreDirLinterTemplateDir = path.join(specLinterTemplate, 'ignore_config');
 const specRuleTemplateDir            = path.join(specTemplateDir, 'rules');
 const specIsmlTreeTemplateDir        = path.join(specTemplateDir, 'isml_tree');
@@ -44,7 +44,7 @@ const sampleProductionProjectDir     = path.join(clientAppDir, 'scaffold_files',
 // Regex;
 const srcJsRegex  = path.join('src', '**', '*.js');
 const appJsRegex  = path.join('src', 'app', '**', '*.js');
-const specJsRegex = path.join('src', 'spec', '**', '*.js');
+const specJsRegex = path.join('spec', '**', '*.js');
 
 // File paths;
 const configPreferredFilePath = path.join(clientAppDir, configPreferredFileName);
