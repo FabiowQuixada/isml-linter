@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.10.1] - 2019-06-29
+
+### Changed
+ - Code refactoring;
+
+### Fixed
+ - Included missing rules in config file for initialization script;
+ 
 ## [5.10.0] - 2019-06-20
 
 ### Added
@@ -300,6 +308,7 @@
 - Linter is published;
 
 
+[5.10.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.10.0...v5.10.1
 [5.10.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.9.0...v5.10.0
 [5.9.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.8.0...v5.9.0
 [5.8.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.7.1...v5.8.0
