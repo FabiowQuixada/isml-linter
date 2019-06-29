@@ -19,7 +19,8 @@ const run = function(content, state) {
         state.currentElement.startingLineNumber += lineNumber;
     });
 
-    // TODO: Under certain scenarios, there is a duplicated "isif" tag. The code below simply removes the duplicate;
+    // TODO: Under certain scenarios, there is a duplicated "isif" tag.
+    // The code below simply removes the duplicate;
     if (multiClauseNode.getNumberOfChildren() > 1 && multiClauseNode.getChild(1).isOfType('isif')) {
         multiClauseNode.getChildren().splice(1, 1);
     }
@@ -40,10 +41,12 @@ const parseMainClause = (multiClauseNode, content, state) => {
 
 const parseElseClause = (multiClauseNode, content, state) => {
 
-    const clauseValue        = ParseUtils.getClauseContent(content);
-    const clauseInnerContent = ParseUtils.getClauseInnerContent(content);
-    const globalPos          = state.content.indexOf(content);
-    const clauseContentNode  = new IsmlNode(clauseValue, state.currentElement.startingLineNumber, globalPos);
+    const clauseValue             = ParseUtils.getClauseContent(content);
+    const clauseInnerContent      = ParseUtils.getClauseInnerContent(content);
+    const globalPos               = state.content.indexOf(content);
+    const isifTagLineNumber       = multiClauseNode.getChild(0).getLineNumber();
+    const accumulatedLineBreakQty = (multiClauseNode.toString().trimStart().match(new RegExp(Constants.EOL, 'g')) || []).length;
+    const clauseContentNode       = new IsmlNode(clauseValue, isifTagLineNumber + accumulatedLineBreakQty, globalPos);
 
     multiClauseNode.addChild(clauseContentNode);
     TreeBuilder.parse(clauseInnerContent, state, clauseContentNode);

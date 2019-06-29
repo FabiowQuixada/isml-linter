@@ -1,0 +1,7 @@
+<isif condition="${aCondition}">
+    content1
+<iselseif condition="${anotherCondition}"/>
+    content2
+<iselse/>
+    content3
+</isif>

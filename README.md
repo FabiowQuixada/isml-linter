@@ -175,6 +175,7 @@ Check the [API docs][api-docs].
 | :boom: :small_orange_diamond: [contextual-attrs][contextual-attrs-readme]            | Disallows presence of mutually exclusive attributes |
 | :boom: :small_orange_diamond: [custom-tags][custom-tags-readme]                      | Checks if "util/modules" template is actually needed or if it is missing |
 | :boom: :small_orange_diamond: [eslint-to-isscript][eslint-to-isscript-readme] | Applies ESLint rules to &lt;isscript> tag content |
+| :boom: :small_orange_diamond: [no-iselse-slash][no-iselse-slash-readme]              | Disallows self-closing &lt;iselse> and &lt;iselseif> tags |
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
 
@@ -207,6 +208,7 @@ You are more than welcome to contribute with us! Please check the [contribute se
 [contextual-attrs-readme]:       <docs/rules/contextual-attrs.md>
 [custom-tags-readme]:            <docs/rules/custom-tags.md>
 [eslint-to-isscript-readme]:     <docs/rules/eslint-to-isscript.md>
+[no-iselse-slash-readme]:        <docs/rules/no-iselse-slash.md>
 
 [api-docs]: <docs/api.md>
 [contribute-docs]: <docs/contribute.md>

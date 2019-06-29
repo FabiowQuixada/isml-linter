@@ -202,7 +202,7 @@ module.exports.getAllConditionalTags = function(content) {
                 end = Math.max(maskedContent.substring(i).indexOf(' '), maskedContent.substring(i).indexOf('>'));
             }
             const tag = content.substring(i, i + end);
-            if (['isif', 'iselse', 'iselseif', '/isif'].indexOf(tag) !== -1) {
+            if (['isif', 'iselse', 'iselse/', 'iselseif', '/isif'].indexOf(tag) !== -1) {
                 tagList.push({
                     tag,
                     startPos : i - 1
