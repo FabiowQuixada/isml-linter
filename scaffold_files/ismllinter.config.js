@@ -23,7 +23,14 @@ const config = {
         'no-embedded-isml'     : {},
         'no-hardcode'          : {},
         'no-require-in-loop'   : {},
-        'one-element-per-line' : {}
+        'one-element-per-line' : {},
+        'leading-iscache'      : {},
+        'no-deprecated-attrs'  : {},
+        'contextual-attrs'     : {},
+        'custom-tags'          : {},
+
+        // Other
+        'lowercase-filename' : {}
     }
 };
 
