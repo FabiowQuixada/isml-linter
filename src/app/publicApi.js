@@ -8,8 +8,8 @@ let linterResult = {};
 
 module.exports = {
     setConfig    : json  => ConfigUtils.load(json),
-    parse        : path  => {
-        linterResult = IsmlLinter.run(path);
+    parse        : (path, content)  => {
+        linterResult = IsmlLinter.run(path, content);
         return linterResult;
     },
     printResults : ()    => ConsoleUtils.displayErrors(linterResult),

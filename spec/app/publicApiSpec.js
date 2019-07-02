@@ -1,3 +1,4 @@
+const path        = require('path');
 const SpecHelper  = require('../SpecHelper');
 const IsmlLinter  = require('../../src/app/IsmlLinter');
 const Builder     = require('../../src/app/Builder');
@@ -18,9 +19,9 @@ describe(targetObjName, () => {
     });
 
     it('lints path', () => {
-        const path           = Constants.specSpecificDirLinterTemplate;
-        const actualResult   = publicApi.parse(path);
-        const expectedResult = IsmlLinter.run(path);
+        const dirPath        = Constants.specSpecificDirLinterTemplate;
+        const actualResult   = publicApi.parse(dirPath);
+        const expectedResult = IsmlLinter.run(dirPath);
 
         expect(actualResult).toEqual(expectedResult);
     });
@@ -54,5 +55,14 @@ describe(targetObjName, () => {
         expect(actualResult    ).toEqual(expectedResult);
         expect(actualResult    ).toEqual(config);
         expect(actualLintResult).toEqual(expectedLintResult);
+    });
+
+    it('parses dynamic content, if passed as parameter', () => {
+        const content      = '<br/>';
+        const templatePath = path.join(Constants.specSpecificDirLinterTemplate, 'template_3.isml');
+        const result       = publicApi.parse(templatePath, content);
+        const errorQty     = Object.keys(result.errors).length;
+
+        expect(errorQty).toEqual(1);
     });
 });
