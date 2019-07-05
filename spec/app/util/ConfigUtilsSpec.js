@@ -81,4 +81,45 @@ describe(targetObjName, () => {
 
         expect(actualConfig).toBe(expectedConfig);
     });
+
+    it('loads eslint config', () => {
+        process.env.NODE_ENV = Constants.ENV_DEV;
+
+        const eslintConfig = ConfigUtils.loadEslintConfig();
+
+        expect(eslintConfig.env).not.toEqual('test');
+    });
+
+    it('loads a given, temporary eslint configuration', () => {
+        const expectedEslintConfig = getSpecEslintConfig();
+        ConfigUtils.loadEslintConfig(expectedEslintConfig);
+
+        const actualEslintConfig = ConfigUtils.loadEslintConfig();
+
+        expect(actualEslintConfig).toEqual(expectedEslintConfig);
+    });
 });
+
+const getSpecEslintConfig = () => {
+    return {
+        'env': {
+            'browser': true,
+            'es6': true,
+            'node': true
+        },
+        'extends': [
+            'eslint:recommended',
+            'plugin:varspacing/recommended',
+            'plugin:jasmine/recommended'
+        ],
+        'parserOptions': {
+            'ecmaVersion': 2018,
+            'sourceType': 'module'
+        },
+        'rules': {
+            'indent': ['error'],
+            'no-trailing-spaces': ['error', { 'skipBlankLines': false }],
+            'no-var': ['error']
+        }
+    };
+};

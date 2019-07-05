@@ -60,6 +60,7 @@ You can disable any rule by removing it from the config file. You may also find 
 | disableHtml5      | Disallows HTML5-defined unclosed tags, such as input, img and meta. Default: false |
 | ignoreUnparseable | Does not raise an error if an unparseable template is found. Default: false. Please check "Parse Modes - Tree" section below |
 | ignore            | If a template path contains (as a substring) any string defined here, that template will be ignored by the linter |
+| eslintConfig      | Path to a eslint configuration file, to be applied within &lt;isscript> tags. Default: .eslintrc.json |
 | autoFix           | Applies fixes for enabled rules. Default: 'false' |
 | disableTreeParse  | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: 'false' |
 | rules             | Defines which rules to check. See available rules below |

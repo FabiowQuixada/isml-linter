@@ -37,6 +37,13 @@ const noConfigError = () => {
     };
 };
 
+const noEslintConfigError = () => {
+    return {
+        message  : `No eslint configuration found. Please run the following command: ${Constants.EOL}${Constants.EOL}\tnode ./node_modules/.bin/isml-linter --init${Constants.EOL}${Constants.EOL}`,
+        isCustom : true
+    };
+};
+
 const emptyException = () => {
     return {
         isCustom : true
@@ -49,6 +56,7 @@ module.exports = {
     parseError,
     unbalancedElementError,
     noConfigError,
+    noEslintConfigError,
     emptyException,
     isLinterException,
     types

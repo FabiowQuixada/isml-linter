@@ -3,7 +3,8 @@ const path      = require('path');
 const Constants = require('../Constants');
 const FileUtils = require('./FileUtils');
 
-let configData = null;
+let configData       = null;
+let eslintConfigData = null;
 
 const init = (
     targetDir = Constants.clientAppDir,
@@ -32,7 +33,7 @@ const load = configParam => {
         const ExceptionUtils = require('./ExceptionUtils');
 
         ConsoleUtils.displayConfigError();
-        throw ExceptionUtils.emptyException();
+        throw ExceptionUtils.noConfigError();
     }
 
     let config = null;
@@ -45,6 +46,34 @@ const load = configParam => {
     addParamsToConfig(config);
 
     return config;
+};
+
+const loadEslintConfig = eslintConfigParam => {
+
+    if (eslintConfigParam) {
+        eslintConfigData = eslintConfigParam;
+        return eslintConfigParam;
+    }
+
+    if (eslintConfigData) {
+        return eslintConfigData;
+    }
+
+    if (isTestEnv()) {
+        return require(path.join('..', '..', '..', 'spec', Constants.eslintConfigFileName));
+    }
+
+    if (!existEslintConfigFile()) {
+        const ConsoleUtils   = require('./ConsoleUtils');
+        const ExceptionUtils = require('./ExceptionUtils');
+
+        ConsoleUtils.displayConfigError();
+        throw ExceptionUtils.noEslintConfigError();
+    }
+
+    const eslintConfig = JSON.parse(fs.readFileSync(Constants.eslintConfigFilePath));
+
+    return eslintConfig;
 };
 
 const clearConfig = () => {
@@ -82,8 +111,14 @@ const existConfigFile = () => {
         FileUtils.fileExists(Constants.configPreferredFilePath);
 };
 
+const existEslintConfigFile = () => {
+    return eslintConfigData ||
+        FileUtils.fileExists(Constants.eslintConfigFileName);
+};
+
 const isTestEnv = () => process.env.NODE_ENV === Constants.ENV_TEST;
 
-module.exports.init        = init;
-module.exports.load        = load;
-module.exports.clearConfig = clearConfig;
+module.exports.init             = init;
+module.exports.load             = load;
+module.exports.loadEslintConfig = loadEslintConfig;
+module.exports.clearConfig      = clearConfig;
