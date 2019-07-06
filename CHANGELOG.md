@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.11.0] - 2019-07-07
+
+### Added
+ - "ESLint to Isscript" rule;
+
+### Fixed
+ - Public API dynamic content parameter;
+ 
 ## [5.10.1] - 2019-06-29
 
 ### Changed
@@ -308,6 +316,7 @@
 - Linter is published;
 
 
+[5.11.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.10.1...v5.11.0
 [5.10.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.10.0...v5.10.1
 [5.10.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.9.0...v5.10.0
 [5.9.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.8.0...v5.9.0
