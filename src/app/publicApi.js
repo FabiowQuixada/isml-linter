@@ -1,7 +1,6 @@
 const IsmlLinter   = require('./IsmlLinter');
 const Builder      = require('./Builder');
 const ConfigUtils  = require('./util/ConfigUtils');
-const FileParser   = require('./FileParser');
 const ConsoleUtils = require('./util/ConsoleUtils');
 
 let linterResult = {};
@@ -16,6 +15,5 @@ module.exports = {
     build        : ()    => Builder.run(),
 
     IsmlLinter,
-    Builder,
-    FileParser
+    Builder
 };

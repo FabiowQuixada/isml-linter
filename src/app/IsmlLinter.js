@@ -1,5 +1,5 @@
 const readDir        = require('readdir');
-const FileParser     = require('./FileParser');
+const RuleUtils      = require('./util/RuleUtils');
 const path           = require('path');
 const appRoot        = require('app-root-path');
 const fs             = require('fs');
@@ -87,7 +87,7 @@ const reducer = content => {
         const templateResults = getEmptyResult();
 
         try {
-            const parseResult = FileParser.parse(templatePath, content, templateName);
+            const parseResult = RuleUtils.checkTemplate(templatePath, content, templateName);
 
             if (parseResult.fixed) {
                 templateResults.templatesFixed++;

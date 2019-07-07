@@ -45,6 +45,5 @@ you have access to the following methods:
     // and are deprecated. They do the same as the above
     // methods;
     IsmlLinter,
-    Builder,
-    FileParser
+    Builder
 ```
