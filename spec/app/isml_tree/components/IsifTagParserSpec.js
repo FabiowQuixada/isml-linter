@@ -36,6 +36,34 @@ describe(targetObjName, () => {
         expect(multiClauseNode.getChild(1).getChild(0).getValue()).toEqual(`${Constants.EOL}    <ho/>`);
     });
 
+    it('sets correct global position for <iselse> tag', () => {
+        const filePath        = getFilePath(1);
+        const rootNode        = TreeBuilder.build(filePath).rootNode;
+        const multiClauseNode = rootNode.getChild(0);
+        const iselseNode      = multiClauseNode.getChild(1);
+
+        expect(iselseNode.getGlobalPos()).toEqual(38);
+    });
+
+    it('sets correct global position for <iselseif> tags', () => {
+        const filePath        = getFilePath(2);
+        const rootNode        = TreeBuilder.build(filePath).rootNode;
+        const multiClauseNode = rootNode.getChild(0);
+        const iselseifNode    = multiClauseNode.getChild(1);
+        const iselseNode      = multiClauseNode.getChild(2);
+
+        expect(iselseifNode.getGlobalPos()).toEqual(39);
+        expect(iselseNode.getGlobalPos()).toEqual(86);
+    });
+
+    it('sets the children of a multiclause node correctly, with no duplicates', () => {
+        const filePath        = getFilePath(2);
+        const rootNode        = TreeBuilder.build(filePath).rootNode;
+        const multiClauseNode = rootNode.getChild(0);
+
+        expect(multiClauseNode.getNumberOfChildren()).toEqual(3);
+    });
+
     it('parses a multi-clause isif-iselseif-iselse tag', () => {
 
         const filePath        = getFilePath(2);
