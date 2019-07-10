@@ -27,7 +27,7 @@ const fixContent = node => {
             child.setValue(`\n${indentation}${child.getValue()}\n${parentIndentation}`);
 
             if (child.getSuffixValue()) {
-                child.setSuffixValue(`\n${indentation}${child.getSuffixValue()}\n`);
+                child.setSuffix(`\n${indentation}${child.getSuffixValue()}\n`);
             }
         }
 
