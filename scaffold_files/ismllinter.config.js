@@ -28,6 +28,8 @@ const config = {
         'no-deprecated-attrs'  : {},
         'contextual-attrs'     : {},
         'custom-tags'          : {},
+        'eslint-to-isscript'   : {},
+        'no-iselse-slash'      : {},
 
         // Other
         'lowercase-filename' : {}
