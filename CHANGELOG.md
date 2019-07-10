@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.12.0] - 2019-07-09
+
+### Added
+ - "No Else Slash" rule;
+
+### Fixed
+ - Call to an inexistent function;
+ - "iselse" tag global position and line number;
+ 
+### Changed
+ - Code refactoring;
+ 
 ## [5.11.0] - 2019-07-07
 
 ### Added
@@ -316,6 +328,7 @@
 - Linter is published;
 
 
+[5.12.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.11.0...v5.12.0
 [5.11.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.10.1...v5.11.0
 [5.10.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.10.0...v5.10.1
 [5.10.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.9.0...v5.10.0
