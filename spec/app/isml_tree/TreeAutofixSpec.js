@@ -32,6 +32,10 @@ describe('Tree auto-fix', () => {
     it('prints simple tree with "iselse" as-is', () => {
         compareResultForTemplate(4);
     });
+
+    it('does not duplicate masked isml expression', () => {
+        compareResultForTemplate(5);
+    });
 });
 
 const compareResultForTemplate = number => {

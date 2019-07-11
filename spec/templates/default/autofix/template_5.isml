@@ -1,0 +1,2 @@
+<i></i>
+${Resource.msg('link.header.logout', 'account', null)}

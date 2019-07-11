@@ -190,7 +190,7 @@ const updateElementStack = (oldInternalState, currentElementStartingLineNumber, 
             let currentElementContent = internalState.maskedContent.substring(0, prevElementPosition);
             const remainingContent    = internalState.maskedContent.substring(prevElementPosition, internalState.maskedContent.length);
 
-            if (remainingContent.indexOf('>') === -1) {
+            if (remainingContent.indexOf('>') === -1 && remainingContent.indexOf('${') === -1) {
                 currentElementContent += remainingContent;
             }
 
