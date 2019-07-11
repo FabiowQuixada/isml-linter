@@ -88,8 +88,8 @@ module.exports.getNextElementValue = function(content) {
     return content.substring(0, index + 1);
 };
 
-module.exports.isNextElementATag = function(state) {
-    return getNextNonEmptyChar(state) === '<';
+module.exports.isNextElementATag = function(content) {
+    return getNextNonEmptyChar(content) === '<';
 };
 
 module.exports.isNextElementIsifTag = function(content) {
