@@ -1,6 +1,14 @@
 # Changelog
 
-## [5.12.0] - 2019-07-09
+## [5.12.1] - 2019-07-10
+
+### Fixed
+ - Generated-tree template reconstruction;
+
+### Security
+- Updated vulnerable dependencies;
+ 
+ ## [5.12.0] - 2019-07-09
 
 ### Added
  - "No Else Slash" rule;
@@ -328,6 +336,7 @@
 - Linter is published;
 
 
+[5.12.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.0...v5.12.1
 [5.12.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.11.0...v5.12.0
 [5.11.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.10.1...v5.11.0
 [5.10.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.10.0...v5.10.1
