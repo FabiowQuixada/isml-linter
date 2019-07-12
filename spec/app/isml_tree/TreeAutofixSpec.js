@@ -44,6 +44,10 @@ describe('Tree auto-fix', () => {
     it('does not erase <isif> tag hardcode-started content', () => {
         compareResultForTemplate(7);
     });
+
+    it('does not duplicate hardcode-ended content', () => {
+        compareResultForTemplate(8);
+    });
 });
 
 const compareResultForTemplate = number => {

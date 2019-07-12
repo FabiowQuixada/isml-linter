@@ -186,13 +186,8 @@ const updateElementStack = (oldInternalState, currentElementStartingLineNumber, 
                 });
             }
         } else if (ParseUtils.isCorrespondentElement(internalState, elemType)) {
-            const prevElementPosition = internalState.maskedContent.indexOf('>') + 1;
-            let currentElementContent = internalState.maskedContent.substring(0, prevElementPosition);
-            const remainingContent    = internalState.maskedContent.substring(prevElementPosition, internalState.maskedContent.length);
-
-            if (remainingContent.indexOf('>') === -1 && remainingContent.indexOf('${') === -1) {
-                currentElementContent += remainingContent;
-            }
+            const prevElementPosition   = internalState.maskedContent.indexOf('>') + 1;
+            const currentElementContent = internalState.maskedContent.substring(0, prevElementPosition);
 
             parentState.closingElementsStack.push(currentElementContent);
             internalState.elementStack.pop();
