@@ -20,8 +20,14 @@ const run = function(content, state) {
     });
 
     // TODO: Under certain scenarios, there is a duplicated "isif" tag.
-    // The code below simply removes the duplicate;
+    // The code below merges both "isif" nodes;
     if (multiClauseNode.getNumberOfChildren() > 1 && multiClauseNode.getChild(1).isOfType('isif')) {
+        const firstIsifNode = multiClauseNode.getChild(0);
+
+        multiClauseNode.getChild(1).getChildren().forEach( child => {
+            firstIsifNode.addChild(child);
+        });
+
         multiClauseNode.getChildren().splice(1, 1);
     }
 

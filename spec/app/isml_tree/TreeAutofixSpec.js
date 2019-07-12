@@ -40,6 +40,10 @@ describe('Tree auto-fix', () => {
     it('does not mask an isml expression', () => {
         compareResultForTemplate(6);
     });
+
+    it('does not erase <isif> tag hardcode-started content', () => {
+        compareResultForTemplate(7);
+    });
 });
 
 const compareResultForTemplate = number => {

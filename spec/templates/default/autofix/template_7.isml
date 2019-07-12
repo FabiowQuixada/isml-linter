@@ -1,0 +1,3 @@
+<isif condition="${aCondition}">
+    (<span>${Resource.msg('label','cart', null)}</span>)
+</isif>
