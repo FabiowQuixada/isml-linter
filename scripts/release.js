@@ -11,7 +11,8 @@ const commandChain = `
     git stash -u &&
     git tag ${tag} &&
     echo 'Pushing code and tags...' &&
-    git push --follow-tags &&
+    git push &&
+    git push --tags &&
     echo 'Publishing to npm...' &&
     npm publish &&
     echo 'Done!'`;
