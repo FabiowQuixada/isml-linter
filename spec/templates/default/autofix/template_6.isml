@@ -1,0 +1,4 @@
+<h3>
+    ${Resource.msg('title.cart', 'cart', null)}
+    <div/>
+</h3>

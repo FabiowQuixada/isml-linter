@@ -92,6 +92,10 @@ module.exports.isNextElementATag = function(content) {
     return getNextNonEmptyChar(content) === '<';
 };
 
+module.exports.isNextElementAnIsmlExpression = function(content) {
+    return content.trim().startsWith('${');
+};
+
 module.exports.isNextElementIsifTag = function(content) {
     return content.trim().startsWith(ISIF);
 };

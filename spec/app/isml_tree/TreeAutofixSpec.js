@@ -36,6 +36,10 @@ describe('Tree auto-fix', () => {
     it('does not duplicate masked isml expression', () => {
         compareResultForTemplate(5);
     });
+
+    it('does not mask an isml expression', () => {
+        compareResultForTemplate(6);
+    });
 });
 
 const compareResultForTemplate = number => {

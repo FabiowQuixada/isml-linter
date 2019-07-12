@@ -5,6 +5,7 @@ const ParseUtils      = require('./components/ParseUtils');
 const MultiClauseNode = require('./MultiClauseNode');
 const ExceptionUtils  = require('../util/ExceptionUtils');
 const Constants       = require('../Constants');
+const MaskUtils       = require('./MaskUtils');
 const fs              = require('fs');
 
 const postProcess = (node, data = {}) => {
@@ -174,21 +175,13 @@ const parseNewNodeInnerContent = state => {
     let content            = nodeInnerContent;
 
     if (!ParseUtils.isNextElementATag(nodeInnerContent)) {
-        let textNodeParent = state.parentNode.newestChildNode;
+        let textNodeParent  = state.parentNode.newestChildNode;
+        const textNodeValue = getTextNodeValue(nodeInnerContent, content, parentNode);
 
         if (parentNode.isMulticlause()) {
             const node     = new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber);
             textNodeParent = node;
             parentNode.addChild(node);
-        }
-
-        let textNodeValue = nodeInnerContent;
-
-        if (!parentNode.isOfType(['iscomment', 'isscript'])) {
-            const MaskUtils = require('./MaskUtils');
-
-            const maskedText = MaskUtils.maskIgnorableContent(textNodeValue);
-            textNodeValue    = maskedText.substring(0, maskedText.indexOf('<')) || textNodeValue;
         }
 
         createTextNodeFromInnerContent(textNodeValue, state, textNodeParent);
@@ -333,6 +326,21 @@ const parseRemainingContent = state => {
         state.parentNode.addChild(node);
     }
 };
+
+function getTextNodeValue(nodeInnerContent, content, parentNode) {
+    let textNodeValue = nodeInnerContent;
+
+    const maskedText  = MaskUtils.maskIgnorableContent(textNodeValue);
+
+    if (ParseUtils.isNextElementAnIsmlExpression(content)) {
+        textNodeValue = content.substring(0, maskedText.indexOf('<')) || textNodeValue;
+    }
+    else if (!parentNode.isOfType(['iscomment', 'isscript'])) {
+        textNodeValue = maskedText.substring(0, maskedText.indexOf('<')) || textNodeValue;
+    }
+
+    return textNodeValue;
+}
 
 module.exports.build = build;
 module.exports.parse = parse;
