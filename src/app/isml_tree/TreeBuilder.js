@@ -172,28 +172,17 @@ const parseNewNodeInnerContent = state => {
 
     const parentNode       = state.parentNode.newestChildNode;
     const nodeInnerContent = ParseUtils.getInnerContent(state);
-    let content            = nodeInnerContent;
+    let remainingContent   = nodeInnerContent;
 
     if (!ParseUtils.isNextElementATag(nodeInnerContent)) {
-        let textNodeParent  = state.parentNode.newestChildNode;
-        const textNodeValue = getTextNodeValue(nodeInnerContent, content, parentNode);
-
-        if (parentNode.isMulticlause()) {
-            const node     = new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber);
-            textNodeParent = node;
-            parentNode.addChild(node);
-        }
-
-        createTextNodeFromInnerContent(textNodeValue, state, textNodeParent);
-
-        content = content.substring(textNodeValue.length);
+        remainingContent = parseTextNode(state, nodeInnerContent);
     }
 
-    if (content) {
+    if (remainingContent) {
         if (ParseUtils.isCurrentElementIsifTag(state)) {
-            IsifTagParser.run(content, state);
+            IsifTagParser.run(remainingContent, state);
         } else {
-            parse(content, state, parentNode);
+            parse(remainingContent, state, parentNode);
         }
     }
 
@@ -325,6 +314,24 @@ const parseRemainingContent = state => {
 
         state.parentNode.addChild(node);
     }
+};
+
+const parseTextNode = (state, nodeInnerContent) => {
+    const parentNode    = state.parentNode.newestChildNode;
+    let content         = nodeInnerContent;
+    let textNodeParent  = state.parentNode.newestChildNode;
+    const textNodeValue = getTextNodeValue(nodeInnerContent, content, parentNode);
+
+    if (parentNode.isMulticlause()) {
+        const node     = new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber);
+        textNodeParent = node;
+        parentNode.addChild(node);
+    }
+
+    createTextNodeFromInnerContent(textNodeValue, state, textNodeParent);
+    content = content.substring(textNodeValue.length);
+
+    return content;
 };
 
 function getTextNodeValue(nodeInnerContent, content, parentNode) {
