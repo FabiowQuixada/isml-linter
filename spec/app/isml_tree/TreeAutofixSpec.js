@@ -48,6 +48,14 @@ describe('Tree auto-fix', () => {
     it('does not duplicate hardcode-ended content', () => {
         compareResultForTemplate(8);
     });
+
+    it('does not remove content if deprecated isml comment is present', () => {
+        compareResultForTemplate(9);
+    });
+
+    it('indents closing tags properly if deprecated isml comment is present', () => {
+        compareResultForTemplate(10);
+    });
 });
 
 const compareResultForTemplate = number => {

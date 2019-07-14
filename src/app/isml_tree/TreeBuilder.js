@@ -99,6 +99,11 @@ const initializeLoopState = (oldState, i) => {
 
     if (ParseUtils.isStopIgnoring(state)) {
         state.ignoreUntil = null;
+
+        // TODO: There is probably a better way to handle deprecated ISML comments;
+        if (state.currentElement.asString.trim().startsWith('<!---')) {
+            state.currentElement.asString = state.currentChar;
+        }
     }
 
     return state;
