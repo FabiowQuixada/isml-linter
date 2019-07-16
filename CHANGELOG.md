@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.12.4] - 2019-07-15
+
+### Fixed
+ - ">" character occurrence within ISML expression;
+ 
 ## [5.12.3] - 2019-07-14
 
 ### Fixed
@@ -346,6 +351,7 @@
 - Linter is published;
 
 
+[5.12.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.3...v5.12.4
 [5.12.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.2...v5.12.3
 [5.12.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.1...v5.12.2
 [5.12.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.0...v5.12.1
