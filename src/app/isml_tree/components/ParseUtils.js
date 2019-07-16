@@ -185,13 +185,13 @@ module.exports.getCurrentElementEndPosition = function(content) {
 };
 
 module.exports.getClauseContent = function(content) {
-    const processedContent = MaskUtils.maskIgnorableContent(content);
-    return content.substring(0, processedContent.indexOf('>') + 1);
+    const maskedContent = MaskUtils.maskIgnorableContent(content);
+    return content.substring(0, maskedContent.indexOf('>') + 1);
 };
 
 module.exports.getClauseInnerContent = function(content) {
-    const processedContent = MaskUtils.maskIgnorableContent(content);
-    return content.substring(content.indexOf('>') + 1, processedContent.length);
+    const maskedContent = MaskUtils.maskIgnorableContent(content);
+    return content.substring(maskedContent.indexOf('>') + 1, maskedContent.length);
 };
 
 module.exports.getAllConditionalTags = function(content) {

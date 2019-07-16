@@ -1,0 +1,5 @@
+<isif condition="${aCondition}">
+    <span />
+<iselseif condition="${aVariable >= anotherVariable}"/>
+    <span />
+</isif>
