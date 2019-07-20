@@ -30,6 +30,7 @@ const config = {
         'custom-tags'          : {},
         'eslint-to-isscript'   : {},
         'no-iselse-slash'      : {},
+        'empty-eof'            : {},
 
         // Other
         'lowercase-filename' : {}

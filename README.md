@@ -176,6 +176,7 @@ Check the [API docs][api-docs].
 | :small_orange_diamond: [custom-tags][custom-tags-readme]                      | Checks if "util/modules" template is actually needed or if it is missing |
 | :boom: :small_orange_diamond: [eslint-to-isscript][eslint-to-isscript-readme] | Applies ESLint rules to &lt;isscript> tag content |
 | :boom: :small_orange_diamond: [no-iselse-slash][no-iselse-slash-readme]              | Disallows self-closing &lt;iselse> and &lt;iselseif> tags |
+| :boom: :small_orange_diamond: [empty-eof][empty-eof-readme]                          | Enforces a empty line at the end of the template |
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
 
@@ -209,6 +210,7 @@ You are more than welcome to contribute with us! Please check the [contribute se
 [custom-tags-readme]:            <docs/rules/custom-tags.md>
 [eslint-to-isscript-readme]:     <docs/rules/eslint-to-isscript.md>
 [no-iselse-slash-readme]:        <docs/rules/no-iselse-slash.md>
+[empty-eof-readme]:              <docs/rules/empty-eof.md>
 
 [api-docs]: <docs/api.md>
 [contribute-docs]: <docs/contribute.md>
