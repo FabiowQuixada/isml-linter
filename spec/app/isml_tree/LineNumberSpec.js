@@ -134,8 +134,7 @@ describe('TreeBuilder', () => {
 
         expect(ifNode.getValue()               ).toEqual(`${Constants.EOL}        <isif condition="\${pdict.customer.registeredUser}">`);
         expect(ifNode.getLineNumber()          ).toEqual(4);
-        expect(ifNode.getNumberOfChildren()    ).toEqual(2);
-        expect(ifNode.getLastChild().isEmpty() ).toBe(true);
+        expect(ifNode.getNumberOfChildren()    ).toEqual(1);
 
         expect(nonTagNode.getValue()            ).toEqual(`${Constants.EOL}                    \${creditFields.saveCard.label}${Constants.EOL}                `);
         expect(nonTagNode.getLineNumber()       ).toEqual(8);

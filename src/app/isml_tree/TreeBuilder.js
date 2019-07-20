@@ -313,11 +313,23 @@ const parseRemainingContent = state => {
     const trailingTextValue = state.nonTagBuffer;
 
     if (trailingTextValue) {
-        const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(trailingTextValue);
-        const globalPos    = ParseUtils. getNextNonEmptyCharPos(trailingTextValue);
-        const node         = new IsmlNode(trailingTextValue, state.currentLineNumber + lineBreakQty, globalPos);
+        if (trailingTextValue.trim()) {
+            const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(trailingTextValue);
+            const globalPos    = ParseUtils. getNextNonEmptyCharPos(trailingTextValue);
+            const node         = new IsmlNode(trailingTextValue, state.currentLineNumber + lineBreakQty, globalPos);
 
-        state.parentNode.addChild(node);
+            state.parentNode.addChild(node);
+        } else {
+            let lastNode = state.parentNode.getLastChild() || state.parentNode;
+
+            if (lastNode.isMulticlause()) {
+                lastNode = lastNode.getLastChild();
+            }
+
+            lastNode.getSuffixValue() ?
+                lastNode.suffixValue += trailingTextValue :
+                lastNode.value       += trailingTextValue ;
+        }
     }
 };
 

@@ -21,8 +21,8 @@ describe(targetObjName, () => {
         const multiClauseNode = rootNode.getChild(0);
 
         expect(multiClauseNode.getNumberOfChildren()).toEqual(2);
-        expect(multiClauseNode.getChild(0).getValue()).toEqual('<isif condition="${true}">');
-        expect(multiClauseNode.getChild(1).getValue()).toEqual('<iselse>');
+        expect(multiClauseNode.getChild(0).getValue()).toEqual('<isif condition="${true}">\n');
+        expect(multiClauseNode.getChild(1).getValue()).toEqual('<iselse>    \n');
     });
 
     it('parser simple non-empty isif-iselse tag', () => {
@@ -32,8 +32,8 @@ describe(targetObjName, () => {
         const multiClauseNode = rootNode.getChild(0);
 
         expect(multiClauseNode.getNumberOfChildren()).toEqual(2);
-        expect(multiClauseNode.getChild(0).getChild(0).getValue()).toEqual(`${Constants.EOL}    <hey/>`);
-        expect(multiClauseNode.getChild(1).getChild(0).getValue()).toEqual(`${Constants.EOL}    <ho/>`);
+        expect(multiClauseNode.getChild(0).getChild(0).getValue()).toEqual(`${Constants.EOL}    <hey/>${Constants.EOL}`);
+        expect(multiClauseNode.getChild(1).getChild(0).getValue()).toEqual(`${Constants.EOL}    <ho/>${Constants.EOL}`);
     });
 
     it('sets correct global position for <iselse> tag', () => {

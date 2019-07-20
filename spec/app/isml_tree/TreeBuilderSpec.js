@@ -50,7 +50,7 @@ describe(targetObjName, () => {
     it('parses <isif> tag with a "<" character in its condition', () => {
         const rootNode = getRootNodeFromTemplate(3);
 
-        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual(`${Constants.EOL}    <div class="clause_1" />`);
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual(`${Constants.EOL}    <div class="clause_1" />${Constants.EOL}`);
     });
 
     it('recognizes an isml element within a html element', () => {
@@ -82,7 +82,7 @@ describe(targetObjName, () => {
     it('recognizes an isml expression within an isml/html tag', () => {
         const rootNode = getRootNodeFromTemplate(8);
 
-        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual(`${Constants.EOL}    <isset name="opliID" value="\${opli.ID}" scope="page" />`);
+        expect(rootNode.getChild(0).getChild(0).getChild(0).getValue()).toEqual(`${Constants.EOL}    <isset name="opliID" value="\${opli.ID}" scope="page" />${Constants.EOL}`);
         expect(rootNode.getChild(0).getChild(0).getChild(0).getNumberOfChildren()).toEqual(0);
     });
 
@@ -95,7 +95,7 @@ describe(targetObjName, () => {
     it('creates a one-level-deep tree with node values', () => {
         const rootNode = getRootNodeFromTemplate(10);
 
-        expect(rootNode.getChild(0).getValue()).toEqual('<isset name="lineItem" value="${\'some value\'}" scope="page" />');
+        expect(rootNode.getChild(0).getValue()).toEqual(`<isset name="lineItem" value="\${'some value'}" scope="page" />${Constants.EOL}`);
     });
 
     it('creates a tree with a self-closed tag grandchild', () => {
@@ -131,8 +131,7 @@ describe(targetObjName, () => {
 
         expect(trNode.getValue()).toEqual(`${Constants.EOL}<tr class="cart_row lineItem-\${lineItem.getUUID()} product-\${productLineItem.productID}">`);
         expect(trNode.getLineNumber()).toEqual(2);
-        expect(trNode.getNumberOfChildren()).toEqual(2);
-        expect(trNode.getLastChild().isEmpty()).toBe(true);
+        expect(trNode.getNumberOfChildren()).toEqual(1);
 
         expect(commentNode.getValue()).toEqual(`${Constants.EOL}${Constants.EOL}${Constants.EOL}<iscomment>`);
         expect(commentNode.getLineNumber()).toEqual(23);
@@ -146,8 +145,7 @@ describe(targetObjName, () => {
 
         expect(nestedIfNode.getValue()).toEqual(`${Constants.EOL}    <isif condition="\${c2}">`);
         expect(nestedIfNode.getLineNumber()).toEqual(2);
-        expect(nestedIfNode.getNumberOfChildren()).toEqual(2);
-        expect(nestedIfNode.getLastChild().isEmpty()).toBe(true);
+        expect(nestedIfNode.getNumberOfChildren()).toEqual(1);
     });
 
     it('identifies ISML expressions II', () => {
@@ -156,15 +154,14 @@ describe(targetObjName, () => {
 
         expect(availNode.getValue()).toEqual(`${Constants.EOL}<div class="product-availability">`);
         expect(availNode.getLineNumber()).toEqual(23);
-        expect(availNode.getNumberOfChildren()).toEqual(2);
-        expect(availNode.getLastChild().isEmpty()).toBe(true);
+        expect(availNode.getNumberOfChildren()).toEqual(1);
     });
 
     it('identifies ISML expressions III', () => {
         const rootNode = getRootNodeFromTemplate(19);
         const setNode  = rootNode.getChild(2);
 
-        expect(setNode.getValue()).toEqual(`${Constants.EOL}<isset value="\${abc}" />`);
+        expect(setNode.getValue()).toEqual(`${Constants.EOL}<isset value="\${abc}" />${Constants.EOL}`);
         expect(setNode.getLineNumber()).toEqual(7);
         expect(setNode.getNumberOfChildren()).toEqual(0);
     });
@@ -177,8 +174,7 @@ describe(targetObjName, () => {
 
         expect(divNode.getValue()).toEqual('<div <isif condition="${condition1}"></isif>>');
         expect(divNode.getLineNumber()).toEqual(1);
-        expect(divNode.getNumberOfChildren()).toEqual(2);
-        expect(divNode.getLastChild().isEmpty()).toBe(true);
+        expect(divNode.getNumberOfChildren()).toEqual(1);
 
         expect(ifNode.getValue()).toEqual(`${Constants.EOL}    <isif condition="\${condition2}">`);
         expect(ifNode.getLineNumber()).toEqual(2);
@@ -195,8 +191,7 @@ describe(targetObjName, () => {
 
         expect(divNode.getValue()).toEqual('<div <isif condition="${c}"></isif>>');
         expect(divNode.getLineNumber()).toEqual(1);
-        expect(divNode.getNumberOfChildren()).toEqual(2);
-        expect(divNode.getLastChild().isEmpty()).toBe(true);
+        expect(divNode.getNumberOfChildren()).toEqual(1);
 
         expect(ifNode.getValue()).toEqual(`${Constants.EOL}    <isif condition="\${c2}">`);
         expect(ifNode.getLineNumber()).toEqual(2);
@@ -231,8 +226,7 @@ describe(targetObjName, () => {
 
         expect(ifNode.getValue()).toEqual(`${Constants.EOL}<isif condition="\${condition}">`);
         expect(ifNode.getLineNumber()).toEqual(2);
-        expect(ifNode.getNumberOfChildren()).toEqual(2);
-        expect(ifNode.getLastChild().isEmpty()).toBe(true);
+        expect(ifNode.getNumberOfChildren()).toEqual(1);
     });
 
     it('identifies a html comment as self-closing tag', () => {
@@ -242,8 +236,7 @@ describe(targetObjName, () => {
         const childDivNode    = mainDivNode.getChild(0);
         const emptyNode       = childDivNode.getChild(0);
 
-        expect(rootNode.getNumberOfChildren()).toEqual(3);
-        expect(rootNode.getLastChild().isEmpty()).toBe(true);
+        expect(rootNode.getNumberOfChildren()).toEqual(2);
 
         expect(htmlCommentNode.getValue()).toEqual(`${Constants.EOL}<!--- make drop down -->`);
         expect(htmlCommentNode.getLineNumber()).toEqual(2);
@@ -251,8 +244,7 @@ describe(targetObjName, () => {
 
         expect(mainDivNode.getValue()).toEqual(`${Constants.EOL}<div class="row">`);
         expect(mainDivNode.getLineNumber()).toEqual(3);
-        expect(mainDivNode.getNumberOfChildren()).toEqual(2);
-        expect(mainDivNode.getLastChild().isEmpty()).toBe(true);
+        expect(mainDivNode.getNumberOfChildren()).toEqual(1);
 
         expect(childDivNode.getValue()).toEqual(`${Constants.EOL}    <div class="col-sm-6">`);
         expect(childDivNode.getLineNumber()).toEqual(4);
@@ -301,10 +293,9 @@ describe(targetObjName, () => {
 
         expect(isifNode.getValue()).toEqual('<isif condition="${true}"/>');
         expect(isifNode.getLineNumber()).toEqual(1);
-        expect(isifNode.getNumberOfChildren()).toEqual(2);
-        expect(isifNode.getLastChild().isEmpty()).toBe(true);
+        expect(isifNode.getNumberOfChildren()).toEqual(1);
 
-        expect(divNode.getValue()).toEqual(`${Constants.EOL}    <div/>`);
+        expect(divNode.getValue()).toEqual(`${Constants.EOL}    <div/>${Constants.EOL}`);
         expect(divNode.getLineNumber()).toEqual(2);
         expect(divNode.getNumberOfChildren()).toEqual(0);
     });
@@ -338,14 +329,13 @@ describe(targetObjName, () => {
 
         expect(divNode.getValue()).toEqual('<div class="error_message">');
         expect(divNode.getLineNumber()).toEqual(1);
-        expect(divNode.getNumberOfChildren()).toEqual(3);
-        expect(divNode.getLastChild().isEmpty()).toBe(true);
+        expect(divNode.getNumberOfChildren()).toEqual(2);
 
         expect(hardcodeNode.getValue()).toEqual(`${Constants.EOL}${Constants.EOL}a${Constants.EOL}    `);
         expect(hardcodeNode.getLineNumber()).toEqual(3);
         expect(hardcodeNode.getNumberOfChildren()).toEqual(0);
 
-        expect(isprintNode.getValue()).toEqual('<isprint value="${Resource.msg(\'reorder.productdiscontinued\',\'reorder\',null)}" />');
+        expect(isprintNode.getValue()).toEqual(`<isprint value="\${Resource.msg('reorder.productdiscontinued','reorder',null)}" />${Constants.EOL}`);
         expect(isprintNode.getLineNumber()).toEqual(4);
         expect(isprintNode.getNumberOfChildren()).toEqual(0);
     });
@@ -354,7 +344,7 @@ describe(targetObjName, () => {
         const rootNode         = getRootNodeFromTemplate(33);
         const customModuleNode = rootNode.getChild(0);
 
-        expect(customModuleNode.getValue()).toEqual('<ismycustom_module p_attribute="${\'value\'}"/>');
+        expect(customModuleNode.getValue()).toEqual(`<ismycustom_module p_attribute="\${'value'}"/>${Constants.EOL}`);
     });
 
     it('allows tags within iscomment tags', () => {
@@ -382,7 +372,7 @@ describe(targetObjName, () => {
         const rootNode  = getRootNodeFromTemplate(38);
         const issetNode = rootNode.getChild(0).getChild(0);
 
-        expect(issetNode.getValue()).toEqual(`${Constants.EOL}    <isset name="isLowPrice" value="\${}" scope="page" />`);
+        expect(issetNode.getValue()).toEqual(`${Constants.EOL}    <isset name="isLowPrice" value="\${}" scope="page" />${Constants.EOL}`);
     });
 
     it('provides enough info for unknown errors', () => {
@@ -435,16 +425,16 @@ describe(targetObjName, () => {
         const a3Node   = a2Node.getChild(0);
         const a4Node   = a3Node.getChild(0);
 
-        expect(a1Node.getSuffixValue()).toEqual('</a1>');
+        expect(a1Node.getSuffixValue()).toEqual(`</a1>${Constants.EOL}`);
         expect(a1Node.getSuffixGlobalPos()).toEqual(39);
 
-        expect(a2Node.getSuffixValue()).toEqual('</a2>');
+        expect(a2Node.getSuffixValue()).toEqual(`</a2>${Constants.EOL}`);
         expect(a2Node.getSuffixGlobalPos()).toEqual(33);
 
-        expect(a3Node.getSuffixValue()).toEqual('</a3>');
+        expect(a3Node.getSuffixValue()).toEqual(`</a3>${Constants.EOL}`);
         expect(a3Node.getSuffixGlobalPos()).toEqual(27);
 
-        expect(a4Node.getSuffixValue()).toEqual('</a4>');
+        expect(a4Node.getSuffixValue()).toEqual(`</a4>${Constants.EOL}`);
         expect(a4Node.getSuffixGlobalPos()).toEqual(21);
     });
 
@@ -455,16 +445,16 @@ describe(targetObjName, () => {
         const a3Node   = a2Node.getChild(0);
         const a4Node   = a3Node.getChild(0);
 
-        expect(a1Node.getSuffixValue()).toEqual('</a1>');
+        expect(a1Node.getSuffixValue()).toEqual(`</a1>${Constants.EOL}`);
         expect(a1Node.getSuffixLineNumber()).toEqual(13);
 
-        expect(a2Node.getSuffixValue()).toEqual('</a2>');
+        expect(a2Node.getSuffixValue()).toEqual(`</a2>${Constants.EOL}`);
         expect(a2Node.getSuffixLineNumber()).toEqual(12);
 
-        expect(a3Node.getSuffixValue()).toEqual('</a3>');
+        expect(a3Node.getSuffixValue()).toEqual(`</a3>${Constants.EOL}${Constants.EOL}`);
         expect(a3Node.getSuffixLineNumber()).toEqual(10);
 
-        expect(a4Node.getSuffixValue()).toEqual('</a4>');
+        expect(a4Node.getSuffixValue()).toEqual(`</a4>${Constants.EOL}`);
         expect(a4Node.getSuffixLineNumber()).toEqual(9);
     });
 });
