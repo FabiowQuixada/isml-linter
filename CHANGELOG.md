@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.13.0] - 2019-07-20
+
+### Added
+ - "Empty End-of-File" rule;
+
+### Security
+- Updated vulnerable dependencies;
+ 
 ## [5.12.4] - 2019-07-15
 
 ### Fixed
@@ -351,6 +359,7 @@
 - Linter is published;
 
 
+[5.13.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.4...v5.13.0
 [5.12.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.3...v5.12.4
 [5.12.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.2...v5.12.3
 [5.12.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.1...v5.12.2
