@@ -137,6 +137,37 @@ const checkTreeRules = (filePath, fileContent) => {
     return templateResults;
 };
 
+const checkCustomModules = () => {
+    const customTagContainer = require('./CustomTagUtils');
+    const CustomModulesRule  = require('../rules/tree/custom-tags');
+    const moduleResults      = {
+        errors : []
+    };
+    moduleResults[CustomModulesRule.description];
+
+    if (CustomModulesRule.isEnabled()) {
+        for (const tag in customTagContainer) {
+            if (customTagContainer.hasOwnProperty(tag)) {
+                customTagContainer[tag]
+                    .attrList
+                    .filter( attr => attr !== attr.toLowerCase())
+                    .forEach( attr => {
+                        moduleResults.errors.push({
+                            line       : '',
+                            globalPos  : 0,
+                            length     : 10,
+                            lineNumber : 1,
+                            rule       : CustomModulesRule.name,
+                            message    : `Module properties need to be lower case: "${tag}" module has the invalid "${attr}" attribute`
+                        });
+                    });
+            }
+        }
+    }
+
+    return moduleResults;
+};
+
 const checkTemplate = (filePath, content, templateName) => {
     const fileContent     = content || fs.readFileSync(filePath, 'utf-8');
     const lineResults     = checkLineByLineRules(filePath, fileContent);
@@ -161,3 +192,4 @@ module.exports.getAllLineRules             = () => lineByLineRules;
 module.exports.findNodeOfType              = findNodeOfType;
 module.exports.isTypeAmongTheFirstElements = isTypeAmongTheFirstElements;
 module.exports.checkTemplate               = checkTemplate;
+module.exports.checkCustomModules          = checkCustomModules;

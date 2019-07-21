@@ -63,4 +63,18 @@ describe(rule.name, () => {
         expect(result.rule      ).toEqual(rule.name);
         expect(result.message   ).toEqual('Unknown tag "isproductprice". Maybe you forgot to add it to util/modules template?');
     });
+
+    it('allows only lowercase custom module attributes', () => {
+        ConfigUtils.load({ rules: { 'custom-tags': {} } });
+        const IsmlLinter = require('../../../src/app/IsmlLinter');
+
+        const result = IsmlLinter.run().errors[rule.description][0];
+
+        expect(result.line      ).toEqual('');
+        expect(result.lineNumber).toEqual(1);
+        expect(result.globalPos ).toEqual(0);
+        expect(result.length    ).toEqual(10);
+        expect(result.rule      ).toEqual(rule.name);
+        expect(result.message   ).toEqual('Module properties need to be lower case: "ismodulethree" module has the invalid "uppercaseAttribute" attribute');
+    });
 });

@@ -103,10 +103,19 @@ const reducer = content => {
 };
 
 Linter.run = (pathData = config.rootDir || appRoot.toString(), content) => {
-    return getFilePathArray(pathData)
-        .map(    templateName => getTemplateData(pathData, templateName))
-        .filter( templateData => !FileUtils.isIgnored(templateData.path))
-        .reduce( reducer(content), getEmptyResult());
+    const CustomModulesRule   = require('./rules/tree/custom-tags');
+    const customModuleResults = RuleUtils.checkCustomModules();
+
+    const templateResults = getFilePathArray(pathData)
+        .map(templateName => getTemplateData(pathData, templateName))
+        .filter(templateData => !FileUtils.isIgnored(templateData.path))
+        .reduce(reducer(content), getEmptyResult());
+
+    if (customModuleResults.errors.length) {
+        templateResults.errors[CustomModulesRule.description] = customModuleResults.errors;
+    }
+
+    return templateResults;
 };
 
 module.exports = Linter;
