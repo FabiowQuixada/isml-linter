@@ -1,0 +1,17 @@
+
+<iscomment>Availability</iscomment>
+<div class="product-availability">
+    <isscript>
+        let product = pdict.Product;
+        let pid = pdict.Product.getID();
+    </isscript>
+</div>
+
+<iscomment>Availability</iscomment>
+<div class="product-availability">
+    <isscript>
+        let product = pdict.Product;
+        let pid = pdict.Product.getID();
+    </isscript>
+</div>
+    

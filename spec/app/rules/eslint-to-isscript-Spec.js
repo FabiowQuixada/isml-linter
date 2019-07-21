@@ -5,7 +5,7 @@ const rule         = SpecHelper.getTreeRule(specFileName);
 describe(rule.name, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
-        rule.occurrences = []
+        rule.occurrences = [];
     });
 
     afterEach(() => {
@@ -86,5 +86,29 @@ describe(rule.name, () => {
         expect(firstOccurrence.length    ).toEqual(32);
         expect(firstOccurrence.rule      ).toEqual(rule.name);
         expect(firstOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');
+    });
+
+    it('fixes a simple template', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 0);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('fixes a complex script in the template', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 1);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('fixes a complex script in a complex template', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 2);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('fixes all <isscript> tags in the template', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 3);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 });

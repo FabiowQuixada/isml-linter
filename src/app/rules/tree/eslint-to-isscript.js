@@ -67,10 +67,45 @@ Rule.check = function(node) {
     }
 };
 
+Rule.getFixedContent = function(node) {
+    let eslintConfig = null;
+
+    try {
+        eslintConfig = ConfigUtils.loadEslintConfig();
+    } catch (err) {
+        this.add(null, 0, 0, 1, 'No eslint configuration file found.');
+        return this.result;
+    }
+
+    node.children.forEach( child => this.getFixedContent(child) );
+
+    if (node.isIsscriptContent()) {
+        const Linter          = require('eslint').Linter;
+        const linter          = new Linter();
+        let content           = node.getValue();
+        const ismlIndentation = getIndentation(content);
+
+        this.result.fixedContent = content = linter.verifyAndFix(content, eslintConfig).output;
+
+        content = reindent(content, ismlIndentation);
+
+        node.setValue(content + ismlIndentation.substring(4));
+    }
+
+    return node.toString();
+};
+
 const unindent = (content, indentSize) => {
     return content
         .split(Constants.EOL)
         .map( line => line.substring(indentSize) )
+        .join(Constants.EOL);
+};
+
+const reindent = (content, ismlIndentation) => {
+    return content
+        .split(Constants.EOL)
+        .map( line => line.trim() ? ismlIndentation + line : '' )
         .join(Constants.EOL);
 };
 

@@ -4,7 +4,8 @@ Applies ESLint rules to &lt;isscript> tag content
 
 ## Notes
 
-- Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
+- Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);<br/>
+- Auto-fixable;
 
 ## Configuration
 

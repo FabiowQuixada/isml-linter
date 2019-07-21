@@ -1,0 +1,16 @@
+<isscript>
+    let product = pdict.Product;
+    let pid = pdict.Product.getID();
+    let disabledAttr = pdict.isProductAvailable && !product.master ? '' : ' disabled="disabled"';
+
+    if (product.isVariationGroup()) {
+        let variationModel = pdict.CurrentVariationModel || product.getVariationModel();
+        let selectedVariant = variationModel.getSelectedVariant();
+        if (selectedVariant) {
+            pid = selectedVariant.getID();
+        } else {
+            disabledAttr = ' disabled="disabled"';
+        }
+    };
+</isscript>
+ 

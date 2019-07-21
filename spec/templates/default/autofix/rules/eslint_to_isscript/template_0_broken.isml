@@ -1,0 +1,6 @@
+<isscript>
+    let foo = bar;    
+
+    let bar = baz;  
+
+</isscript>
