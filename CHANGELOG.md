@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.14.0] - 2019-07-23
+
+### Added
+ - Autofix feature for "Eslint to Isscript" rule;
+ - Allowance only of custom modules lowercase attributes if "Custom Tags" rule is enabled;
+
+### Changed
+ - Code refactoring;
+ 
 ## [5.13.0] - 2019-07-20
 
 ### Added
@@ -359,6 +368,7 @@
 - Linter is published;
 
 
+[5.14.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.13.0...v5.14.0
 [5.13.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.4...v5.13.0
 [5.12.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.3...v5.12.4
 [5.12.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.2...v5.12.3
