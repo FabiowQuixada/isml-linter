@@ -375,18 +375,6 @@ describe(targetObjName, () => {
         expect(issetNode.getValue()).toEqual(`${Constants.EOL}    <isset name="isLowPrice" value="\${}" scope="page" />${Constants.EOL}`);
     });
 
-    it('provides enough info for unknown errors', () => {
-        const tree      = getTreeFromTemplate(39);
-        const exception = tree.exception;
-
-        expect(exception.message     ).toEqual('An unexpected error happened while parsing element div at /home/fabiow/Development/Projects/isml-linter/spec/templates/default/isml_tree/template_39.isml:5.');
-        expect(exception.templatePath).toEqual('/home/fabiow/Development/Projects/isml-linter/spec/templates/default/isml_tree/template_39.isml');
-        expect(exception.lineNumber  ).toEqual(5);
-        expect(exception.globalPos   ).toEqual(13);
-        expect(exception.length      ).toEqual(3);
-        expect(exception.type        ).toEqual('UNKNOWN_ERROR');
-    });
-
     it('accepts a hardcoded string as last element', () => {
         const rootNode = getRootNodeFromTemplate(37);
         const divNode  = rootNode.getChild(0);
@@ -456,6 +444,16 @@ describe(targetObjName, () => {
 
         expect(a4Node.getSuffixValue()).toEqual(`</a4>${Constants.EOL}`);
         expect(a4Node.getSuffixLineNumber()).toEqual(9);
+    });
+
+    it('detects an "<" invalid character', () => {
+        const tree         = getTreeFromTemplate(42);
+        const templatePath = getFilePath(42);
+
+        expect(tree.exception.message    ).toEqual(`Invalid character "<" found at ${templatePath}:3.`);
+        expect(tree.exception.globalPos  ).toEqual(46);
+        expect(tree.exception.length     ).toEqual(1);
+        expect(tree.exception.lineNumber ).toEqual(3);
     });
 });
 

@@ -83,7 +83,8 @@ module.exports.isStackable = function(elem) {
 };
 
 module.exports.getNextElementValue = function(content) {
-    const index = content.indexOf('>');
+    const maskedContent = MaskUtils.maskInBetween(content, '<!---', '--->', true);
+    const index         = maskedContent.indexOf('>');
 
     return content.substring(0, index + 1);
 };

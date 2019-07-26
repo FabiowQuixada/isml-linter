@@ -15,6 +15,12 @@ const ConfigUtils    = require('../../util/ConfigUtils');
  * The 'depth' variable works as a stack, taking into account only elements of type 'E'
 */
 const getCorrespondentClosingElementPosition = (content, oldParentState) => {
+    const balanceCheckResult = isBalanced(content, oldParentState);
+
+    if (balanceCheckResult.error) {
+        throwInvalidCharacterException(balanceCheckResult.error);
+    }
+
     const parentState      = Object.assign({}, oldParentState);
     const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
     const closingElemRegex = /<\/.[a-zA-Z]*>/;
@@ -83,6 +89,15 @@ const throwUnbalancedElementException = internalState => {
         stackTopElement.globalPos,
         elemLength,
         internalState.filePath);
+};
+
+const throwInvalidCharacterException = error => {
+    throw ExceptionUtils.invalidCharacterError(
+        error.character,
+        error.lineNumber,
+        error.globalPos,
+        error.elemLength,
+        error.templatePath);
 };
 
 const getInitialState = (content, parentState) => {
@@ -208,6 +223,57 @@ const getPosition = content => {
         currentElemEndPosition,
         content
     };
+};
+
+const isLetter = str => str.length === 1 && str.match(/[a-z]/i);
+
+const isBalanced = (content, state) => {
+
+    const templatePath       = state.filePath;
+    const startingLineNumber = state.currentLineNumber;
+    let depth                = 0;
+
+    for (let i = 0; i < content.length; i++) {
+        const char = content[i];
+
+        // TODO: Not good;
+        const isNextCharALetter = i !== content.length - 1 && isLetter(content[i + 1]);
+
+        if (char === '<' && isNextCharALetter && depth === 0) {
+            depth++;
+            const elem                   = ParseUtils.getNextElementValue(content.substring(i));
+            const currentLocalLineNumber = (content.substring(0, i).match(new RegExp(Constants.EOL, 'g')) || []).length;
+            let maskedContent            = MaskUtils.maskInBetween(elem, 'iscomment');
+
+            maskedContent = MaskUtils.maskInBetween(maskedContent, '${', '}');
+            maskedContent = MaskUtils.maskInBetween(maskedContent, 'isscript');
+            maskedContent = MaskUtils.maskInBetweenForTagWithAttributes(maskedContent, 'script');
+            maskedContent = MaskUtils.maskInBetweenForTagWithAttributes(maskedContent, 'style');
+            maskedContent = MaskUtils.maskInBetween(maskedContent, '<!---', '--->', true);
+            maskedContent = MaskUtils.maskInBetween(maskedContent, '<!--', '-->', true);
+
+            const localPos     = maskedContent.substring(1).indexOf('<');
+            const isCondition  = localPos !== -1;
+            const innerElement = content.substring(i + localPos + 1);
+
+            if (isCondition && !innerElement.startsWith('<is')) {
+                return {
+                    error: {
+                        character  : char,
+                        elem       : elem,
+                        lineNumber : startingLineNumber + currentLocalLineNumber + 1,
+                        globalPos  : i + localPos + 1,
+                        elemLength : 1,
+                        templatePath
+                    }
+                };
+            }
+        } else if (char === '>') {
+            depth--;
+        }
+    }
+
+    return {};
 };
 
 module.exports = {

@@ -6,15 +6,15 @@
 
 const placeholderSymbol = '_';
 
-const maskIgnorableContent = content => {
+const maskIgnorableContent = (content, isMaskBorders) => {
 
-    content = maskInBetween(content, 'iscomment');
-    content = maskInBetween(content, '${', '}');
-    content = maskInBetween(content, 'isscript');
+    content = maskInBetween(content, 'iscomment', isMaskBorders);
+    content = maskInBetween(content, '${', '}', isMaskBorders);
+    content = maskInBetween(content, 'isscript', isMaskBorders);
     content = maskInBetweenForTagWithAttributes(content, 'script');
     content = maskInBetweenForTagWithAttributes(content, 'style');
-    content = maskInBetween(content, '<!---', '--->');
-    content = maskInBetween(content, '<!--', '-->');
+    content = maskInBetween(content, '<!---', '--->', isMaskBorders);
+    content = maskInBetween(content, '<!--', '-->', isMaskBorders);
     content = maskNestedIsmlElements(content);
 
     return content;
@@ -100,7 +100,7 @@ const getMatchingIndexListForTagWithAtrributes = (content, expression) => {
     return matchingIndexList;
 };
 
-const maskInBetween = (content, startString, endString) => {
+const maskInBetween = (content, startString, endString, isMaskBorders) => {
 
     let processedStartingString = startString;
     let processedEndString      = endString;
@@ -110,7 +110,7 @@ const maskInBetween = (content, startString, endString) => {
         processedEndString      = `</${startString}>`;
     }
     const openingMatchList = getMatchingIndexList(content, processedStartingString);
-    return getMatchingIndexes(content, processedEndString, openingMatchList, processedStartingString);
+    return getMatchingIndexes(content, processedEndString, openingMatchList, processedStartingString, isMaskBorders);
 };
 
 const maskInBetweenForTagWithAttributes = (content, rawStartString) => {
@@ -145,7 +145,7 @@ const removeEmptyIsmlExpressionFromIndexes = (startString, endString, openingMat
     };
 };
 
-const getMatchingIndexes = (content, endString, paramOpeningMatchList, startString) => {
+const getMatchingIndexes = (content, endString, paramOpeningMatchList, startString, isMaskBorders) => {
     let closingMatchList    = getMatchingIndexList(content, endString, paramOpeningMatchList);
     let result              = '';
     let isInBetween         = false;
@@ -192,9 +192,30 @@ const getMatchingIndexes = (content, endString, paramOpeningMatchList, startStri
         }
     }
 
+    if (isMaskBorders) {
+        const maskedStartString = mask(startString);
+        const maskedEndString   = mask(endString);
+
+        result = result
+            .replace(new RegExp(startString, 'g'), maskedStartString)
+            .replace(new RegExp(endString, 'g'), maskedEndString);
+    }
+
     return result;
 };
 
+const mask = content => {
+    let maskedContent = '';
+
+    for (let i = 0; i < content.length; i++) {
+        maskedContent += '_';
+    }
+
+    return maskedContent;
+};
+
 module.exports = {
-    maskIgnorableContent
+    maskIgnorableContent,
+    maskInBetween,
+    maskInBetweenForTagWithAttributes
 };

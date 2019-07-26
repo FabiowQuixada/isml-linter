@@ -1,9 +1,10 @@
 const Constants = require('../Constants');
 
 const types = {
-    UNKNOWN_ERROR    : 'UNKNOWN_ERROR',
-    INVALID_TEMPLATE : 'INVALID_TEMPLATE',
-    NO_CONFIG        : 'NO_CONFIG',
+    UNKNOWN_ERROR     : 'UNKNOWN_ERROR',
+    INVALID_TEMPLATE  : 'INVALID_TEMPLATE',
+    INVALID_CHARACTER : 'INVALID_CHARACTER',
+    NO_CONFIG         : 'NO_CONFIG',
 };
 
 const unbalancedElementError = (elementType, lineNumber, globalPos, length, templatePath) => {
@@ -15,6 +16,18 @@ const unbalancedElementError = (elementType, lineNumber, globalPos, length, temp
         lineNumber   : lineNumber,
         isCustom     : true,
         type         : types.INVALID_TEMPLATE
+    };
+};
+
+const invalidCharacterError = (character, lineNumber, globalPos, length, templatePath) => {
+    return {
+        message      : `Invalid character "${character}" found at ${templatePath}:${lineNumber}.`,
+        templatePath : templatePath,
+        globalPos,
+        length,
+        lineNumber   : lineNumber,
+        isCustom     : true,
+        type         : types.INVALID_CHARACTER
     };
 };
 
@@ -55,6 +68,7 @@ const isLinterException = e => e && e.isCustom;
 module.exports = {
     parseError,
     unbalancedElementError,
+    invalidCharacterError,
     noConfigError,
     noEslintConfigError,
     emptyException,
