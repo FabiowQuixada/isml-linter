@@ -1,6 +1,7 @@
 require('../src/app/util/NativeExtensionUtils');
 // TODO: Find a better way to set this;
 process.env.NODE_ENV = 'test';
+require('log-suppress').init(console, 'test');
 
 const FileUtils   = require('../src/app/util/FileUtils');
 const Constants   = require('../src/app/Constants');

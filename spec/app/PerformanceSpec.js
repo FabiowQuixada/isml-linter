@@ -27,7 +27,6 @@ describe('Performance', () => {
 
         const endDate     = new Date();
         const elapsedTime = (endDate.getTime() - startDate.getTime()) / 1000;
-        console.log('ELAPSED TIME: ' + elapsedTime);
 
         expect(result.issueQty).toEqual(TEMPLATE_QTY * 2);
         expect(elapsedTime).toBeGreaterThan(0.5);
