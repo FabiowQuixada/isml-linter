@@ -455,6 +455,17 @@ describe(targetObjName, () => {
         expect(tree.exception.length     ).toEqual(1);
         expect(tree.exception.lineNumber ).toEqual(3);
     });
+
+    it('ignores opening comment strings within comments', () => {
+        const rootNode     = getRootNodeFromTemplate(44);
+        const headNode     = rootNode.getChild(0);
+        const htmlComment0 = headNode.getChild(0);
+        const htmlComment1 = headNode.getChild(1);
+
+        expect(headNode.getValue()).toEqual('<head>');
+        expect(htmlComment0.getValue()).toEqual(`${Constants.EOL}    <!--[if gt IE 9]><!-->${Constants.EOL}`);
+        expect(htmlComment1.getValue()).toEqual(`    <!--<![endif]-->${Constants.EOL}`);
+    });
 });
 
 const getFilePath = number => {
