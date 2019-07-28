@@ -185,6 +185,8 @@ const checkTemplate = (filePath, content, templateName) => {
     };
 };
 
+const getAvailableRulesQty = () => treeRules.length + lineByLineRules.length;
+
 const getEnabledLineRules = () => lineByLineRules.filter( rule => rule.isEnabled() && rule.name !== 'lowercase-filename');
 const getEnabledTreeRules = () => treeRules.filter( rule => rule.isEnabled() );
 
@@ -193,3 +195,4 @@ module.exports.findNodeOfType              = findNodeOfType;
 module.exports.isTypeAmongTheFirstElements = isTypeAmongTheFirstElements;
 module.exports.checkTemplate               = checkTemplate;
 module.exports.checkCustomModules          = checkCustomModules;
+module.exports.getAvailableRulesQty        = getAvailableRulesQty;

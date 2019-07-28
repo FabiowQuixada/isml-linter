@@ -2,6 +2,7 @@ const path        = require('path');
 const SpecHelper  = require('../../SpecHelper');
 const ConfigUtils = require('../../../src/app/util/ConfigUtils');
 const Constants   = require('../../../src/app/Constants');
+const RuleUtils   = require('../../../src/app/util/RuleUtils');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -38,6 +39,16 @@ describe(targetObjName, () => {
     //     ConfigUtils.init(specTempDir);
     //     expect(FileUtils.fileExists(specTempDir)).toBe(true);
     // });
+
+    it('creates a config file with all available rules', () => {
+        const scaffoldConfig    = require('../../../scaffold_files/ismllinter.config');
+        const availableRulesQty = RuleUtils.getAvailableRulesQty();
+
+        ConfigUtils.load(scaffoldConfig);
+        const defaultConfigRules = Object.keys(ConfigUtils.load().rules);
+
+        expect(defaultConfigRules.length).toEqual(availableRulesQty);
+    });
 
     // it('does not create a config file if it already exists', () => {
 
