@@ -1,7 +1,6 @@
 const IsmlNode    = require('../IsmlNode');
 const TreeBuilder = require('../TreeBuilder');
 const ParseUtils  = require('./ParseUtils');
-const Constants   = require('../../../app/Constants');
 
 const run = function(content, state) {
 
@@ -14,7 +13,7 @@ const run = function(content, state) {
             parseMainClause(multiClauseNode, clauseContent, state) :
             parseElseClause(multiClauseNode, clauseContent, state);
 
-        lineNumber                              = (clauseContent.match(new RegExp(Constants.EOL, 'g')) || []).length;
+        lineNumber                              = ParseUtils.getLineBreakQty(clauseContent);
         state.currentLineNumber                 += lineNumber;
         state.currentElement.startingLineNumber += lineNumber;
     });
@@ -51,7 +50,7 @@ const parseElseClause = (multiClauseNode, content, state) => {
     const clauseInnerContent      = ParseUtils.getClauseInnerContent(content);
     const globalPos               = state.content.indexOf(content);
     const isifTagLineNumber       = multiClauseNode.getChild(0).getLineNumber();
-    const accumulatedLineBreakQty = (multiClauseNode.toString().trimStart().match(new RegExp(Constants.EOL, 'g')) || []).length;
+    const accumulatedLineBreakQty = ParseUtils.getLineBreakQty(multiClauseNode.toString().trimStart());
     const clauseContentNode       = new IsmlNode(clauseValue, isifTagLineNumber + accumulatedLineBreakQty, globalPos);
 
     multiClauseNode.addChild(clauseContentNode);

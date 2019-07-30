@@ -1,5 +1,6 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const Constants         = require('../../Constants');
+const ParseUtils        = require('../../isml_tree/components/ParseUtils');
 
 const ruleName    = require('path').basename(__filename).slice(0, -3);
 const description = 'A blank line at the end of the file is required';
@@ -24,7 +25,7 @@ Rule.check = function(rootNode, result) {
 
     if (this.isBroken(node)) {
         const lineContent  = node.toString().substring(node.toString().lastIndexOf(Constants.EOL) + 1);
-        const lineBreakQty = (node.toString().match(new RegExp(Constants.EOL, 'g')) || []).length;
+        const lineBreakQty = ParseUtils.getLineBreakQty(node.toString());
 
         this.add(
             lineContent,

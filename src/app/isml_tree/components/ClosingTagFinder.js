@@ -42,7 +42,7 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
             const nextOpeningCharPosition       = internalState.maskedContent.indexOf('<');
             const pastContentLength             = internalState.initialMaskedContent.indexOf(internalState.maskedContent);
             const contentUpToCurrentPosition    = internalState.initialMaskedContent.substring(0, pastContentLength + nextOpeningCharPosition);
-            const currentElemStartingLineNumber = (contentUpToCurrentPosition.match(new RegExp(Constants.EOL, 'g')) || []).length + parentState.currentLineNumber;
+            const currentElemStartingLineNumber = ParseUtils.getLineBreakQty(contentUpToCurrentPosition) + parentState.currentLineNumber;
 
             internalState = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
             internalState = updateState(internalState, currentElemStartingLineNumber, parentState);
@@ -242,7 +242,7 @@ const isBalanced = (content, state) => {
         if (char === '<' && isNextCharALetter && depth === 0) {
             depth++;
             const elem                   = ParseUtils.getNextElementValue(content.substring(i));
-            const currentLocalLineNumber = (content.substring(0, i).match(new RegExp(Constants.EOL, 'g')) || []).length;
+            const currentLocalLineNumber = ParseUtils.getLineBreakQty(content.substring(0, i));
             let maskedContent            = MaskUtils.maskInBetween(elem, 'iscomment');
 
             maskedContent = MaskUtils.maskInBetween(maskedContent, '${', '}');
