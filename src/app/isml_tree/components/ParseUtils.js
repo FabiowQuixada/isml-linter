@@ -39,9 +39,7 @@ const getNextNonEmptyChar = content => {
     return content.replace(new RegExp(Constants.EOL, 'g'), '').trim()[0];
 };
 
-module.exports.getLineBreakQty = function(string) {
-    return (string.match(new RegExp(Constants.EOL, 'g')) || []).length;
-};
+module.exports.getLineBreakQty = string => (string.match(new RegExp(Constants.EOL, 'g')) || []).length;
 
 const getNextNonEmptyCharPos = content => {
     const firstNonEmptyChar = getNextNonEmptyChar(content);
@@ -50,7 +48,7 @@ const getNextNonEmptyCharPos = content => {
 
 module.exports.getNextNonEmptyCharPos = getNextNonEmptyCharPos;
 
-module.exports.getPostClosingTagContentUpToLneBreak = function(content, startPos) {
+module.exports.getPostClosingTagContentUpToLneBreak = (content, startPos) => {
     let postContent = '';
 
     for (let i = startPos + 1; i < content.length; i++) {
@@ -66,7 +64,7 @@ module.exports.getPostClosingTagContentUpToLneBreak = function(content, startPos
     return postContent;
 };
 
-module.exports.isOpeningElem = function(state) {
+module.exports.isOpeningElem = state => {
 
     const content     = state.content;
     const currPos     = state.currentElement.initPosition;
@@ -76,40 +74,40 @@ module.exports.isOpeningElem = function(state) {
     return currentChar === '<' && nextChar !== '/';
 };
 
-module.exports.isStackable = function(elem) {
+module.exports.isStackable = elem => {
     return !elem.startsWith('!--') &&
             elem !== 'iselse' &&
             elem !== 'iselseif';
 };
 
-module.exports.getNextElementValue = function(content) {
+module.exports.getNextElementValue = content => {
     const maskedContent = MaskUtils.maskInBetween(content, '<!---', '--->', true);
     const index         = maskedContent.indexOf('>');
 
     return content.substring(0, index + 1);
 };
 
-module.exports.isNextElementATag = function(content) {
+module.exports.isNextElementATag = content => {
     return getNextNonEmptyChar(content) === '<';
 };
 
-module.exports.isNextElementAnIsmlExpression = function(content) {
+module.exports.isNextElementAnIsmlExpression = content => {
     return content.trim().startsWith('${');
 };
 
-module.exports.isNextElementIsifTag = function(content) {
+module.exports.isNextElementIsifTag = content => {
     return content.trim().startsWith(ISIF);
 };
 
-module.exports.isNextElementHtmlComment = function(content) {
+module.exports.isNextElementHtmlComment = content => {
     return content.trim().startsWith('<!--');
 };
 
-module.exports.isCurrentElementIsifTag = function(state) {
+module.exports.isCurrentElementIsifTag = state => {
     return state.currentElement.asString.trim().startsWith(ISIF);
 };
 
-module.exports.isOpeningIsmlExpression = function(state) {
+module.exports.isOpeningIsmlExpression = state => {
 
     const content    = state.content;
     const currentPos = state.currentPos;
@@ -119,7 +117,7 @@ module.exports.isOpeningIsmlExpression = function(state) {
     return currChar === '$' && nextChar === '{';
 };
 
-module.exports.isClosingIsmlExpression = function(state) {
+module.exports.isClosingIsmlExpression = state => {
 
     const content          = state.content;
     const currentPos       = state.currentPos;
@@ -128,7 +126,7 @@ module.exports.isClosingIsmlExpression = function(state) {
     return insideExpression && content.charAt(currentPos - 1) === '}';
 };
 
-module.exports.getInnerContent = function(oldState) {
+module.exports.getInnerContent = oldState => {
     let state     = Object.assign({}, oldState);
     const content = getUpdateContent(state);
     state         = ClosingTagFinder.getCorrespondentClosingElementPosition(content, state);
@@ -136,7 +134,7 @@ module.exports.getInnerContent = function(oldState) {
     return pickInnerContent(state, content);
 };
 
-module.exports.getPrecedingEmptyLinesQty = function(content) {
+module.exports.getPrecedingEmptyLinesQty = content => {
 
     const lineArray  = content.split(Constants.EOL);
     let lineBreakQty = 0;
@@ -152,17 +150,17 @@ module.exports.getPrecedingEmptyLinesQty = function(content) {
     return lineBreakQty;
 };
 
-module.exports.isSkipIteraction = function(state) {
+module.exports.isSkipIteraction = state => {
     return state.ignoreUntil && state.ignoreUntil >= state.currentPos ||
             state.insideTag && state.insideExpression;
 };
 
-module.exports.isCorrespondentElement = function(state, elem) {
+module.exports.isCorrespondentElement = (state, elem) => {
     return `/${state.elementStack[state.elementStack.length - 1].elem}` === elem;
 
 };
 
-module.exports.getFirstElementType = function(elementAsString) {
+module.exports.getFirstElementType = elementAsString => {
     const elementEndPos = elementAsString.indexOf('>') === -1 ? elementAsString.length : elementAsString.indexOf('>');
     let result          = elementAsString.substring(elementAsString.indexOf('<') + 1, elementEndPos);
 
@@ -174,7 +172,7 @@ module.exports.getFirstElementType = function(elementAsString) {
     return result;
 };
 
-module.exports.getCurrentElementEndPosition = function(content) {
+module.exports.getCurrentElementEndPosition = content => {
 
     content                      = MaskUtils.maskIgnorableContent(content);
     const currentElemEndPosition = content.indexOf('<');
@@ -185,17 +183,17 @@ module.exports.getCurrentElementEndPosition = function(content) {
     };
 };
 
-module.exports.getClauseContent = function(content) {
+module.exports.getClauseContent = content => {
     const maskedContent = MaskUtils.maskIgnorableContent(content);
     return content.substring(0, maskedContent.indexOf('>') + 1);
 };
 
-module.exports.getClauseInnerContent = function(content) {
+module.exports.getClauseInnerContent = content => {
     const maskedContent = MaskUtils.maskIgnorableContent(content);
     return content.substring(maskedContent.indexOf('>') + 1, maskedContent.length);
 };
 
-module.exports.getAllConditionalTags = function(content) {
+module.exports.getAllConditionalTags = content => {
 
     const tagList       = [];
     const maskedContent = MaskUtils.maskIgnorableContent(content);
@@ -219,7 +217,7 @@ module.exports.getAllConditionalTags = function(content) {
     return tagList;
 };
 
-module.exports.getOuterConditionalTagList = function(tagList) {
+module.exports.getOuterConditionalTagList = tagList => {
 
     let depth = 0;
 
@@ -242,11 +240,13 @@ module.exports.getOuterConditionalTagList = function(tagList) {
     return tagList;
 };
 
-module.exports.isStopIgnoring = function(state) {
-    return state.ignoreUntil && state.ignoreUntil < state.currentPos && state.ignoreUntil !== state.content.length + 1;
+module.exports.isStopIgnoring = state => {
+    return state.ignoreUntil &&
+        state.ignoreUntil < state.currentPos &&
+        state.ignoreUntil !== state.content.length + 1;
 };
 
-module.exports.getClauseList = function(content) {
+module.exports.getClauseList = content => {
 
     const clauseStringList = [];
 
@@ -272,25 +272,12 @@ const DEPTH_COLOR = {
 
 module.exports.DEPTH_COLOR = DEPTH_COLOR;
 
-module.exports.isWhite = function(state) {
-    return state.depthColor === DEPTH_COLOR.WHITE;
-};
+module.exports.isWhite = state => state.depthColor === DEPTH_COLOR.WHITE;
+module.exports.isGray  = state => state.depthColor === DEPTH_COLOR.GRAY;
+module.exports.isBlack = state => state.depthColor === DEPTH_COLOR.BLACK;
 
-module.exports.isGray = function(state) {
-    return state.depthColor === DEPTH_COLOR.GRAY;
-};
-
-module.exports.isBlack = function(state) {
-    return state.depthColor === DEPTH_COLOR.BLACK;
-};
-
-module.exports.darken = function(state) {
-    state.depthColor++;
-};
-
-module.exports.lighten = function(state) {
-    state.depthColor--;
-};
+module.exports.darken  = state => state.depthColor++;
+module.exports.lighten = state => state.depthColor--;
 
 module.exports.getGlobalPos = state => {
     const currentElement = state.currentElement.asString;

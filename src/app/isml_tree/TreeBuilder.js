@@ -350,7 +350,7 @@ const parseTextNode = (state, nodeInnerContent) => {
     return content;
 };
 
-function getTextNodeValue(nodeInnerContent, content, parentNode) {
+const getTextNodeValue = (nodeInnerContent, content, parentNode) => {
     let textNodeValue = nodeInnerContent;
 
     const maskedText  = MaskUtils.maskIgnorableContent(textNodeValue);
@@ -363,7 +363,7 @@ function getTextNodeValue(nodeInnerContent, content, parentNode) {
     }
 
     return textNodeValue;
-}
+};
 
 module.exports.build = build;
 module.exports.parse = parse;

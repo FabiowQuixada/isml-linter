@@ -72,7 +72,7 @@ const maskInBetween = (content, startString, endString, isMaskBorders) => {
     return getMatchingIndexes(content, processedEndString, processedStartingString, isMaskBorders);
 };
 
-function getMatchingLists(content, startString, endString) {
+const getMatchingLists = (content, startString, endString) => {
     const openingMatchList    = [];
     const closingMatchList    = [];
     const emptyElementPattern = startString + endString;
@@ -95,7 +95,7 @@ function getMatchingLists(content, startString, endString) {
         openingMatchList,
         closingMatchList
     };
-}
+};
 
 const maskInBetweenForTagWithAttributes = (content, rawStartString) => {
 

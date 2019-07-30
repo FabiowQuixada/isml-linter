@@ -2,7 +2,7 @@ const IsmlNode    = require('../IsmlNode');
 const TreeBuilder = require('../TreeBuilder');
 const ParseUtils  = require('./ParseUtils');
 
-const run = function(content, state) {
+const run = (content, state) => {
 
     const multiClauseNode = state.parentNode.newestChildNode;
     const clauseList      = ParseUtils.getClauseList(content);
