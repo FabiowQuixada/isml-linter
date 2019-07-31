@@ -13,13 +13,13 @@ Rule.init(ruleName, description);
 Rule.isBroken = function(node) {
     let rootNode = node;
 
-    while (rootNode.getParent()) {
-        rootNode = rootNode.getParent();
+    while (rootNode.parent) {
+        rootNode = rootNode.parent;
     }
 
-    const isFirstNode          = rootNode.getChild(0) && rootNode.getChild(0).isOfType(TAG_TYPE);
-    const isAfterIscontentNode = rootNode.getChild(0) && rootNode.getChild(0).isOfType('iscontent') &&
-                                 rootNode.getChild(1) && rootNode.getChild(1).isOfType(TAG_TYPE);
+    const isFirstNode          = rootNode.children[0] && rootNode.children[0].isOfType(TAG_TYPE);
+    const isAfterIscontentNode = rootNode.children[0] && rootNode.children[0].isOfType('iscontent') &&
+                                 rootNode.children[1] && rootNode.children[1].isOfType(TAG_TYPE);
 
     return node.isOfType(TAG_TYPE) &&
         (!isFirstNode && !isAfterIscontentNode);
@@ -30,8 +30,8 @@ Rule.getFixedContent = rootNode => {
         const isContentNode = RuleUtils.findNodeOfType(rootNode, TAG_TYPE);
 
         if (isContentNode) {
-            isContentNode.getParent().removeChild(isContentNode);
-            isContentNode.setValue(isContentNode.getValue().trim() + Constants.EOL);
+            isContentNode.parent.removeChild(isContentNode);
+            isContentNode.value = isContentNode.value.trim() + Constants.EOL;
             rootNode.addChildNodeToPos(isContentNode, 0);
         }
     }

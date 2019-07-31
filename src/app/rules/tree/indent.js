@@ -27,7 +27,7 @@ Rule.getIndentation = function(depth = 1) {
 Rule.isBroken = function(node) {
 
     const configIndentSize    = this.getConfigs().size;
-    const expectedIndentation = (node.getDepth() - 1) * configIndentSize;
+    const expectedIndentation = (node.depth - 1) * configIndentSize;
     const actualIndentation   = node.getIndentationSize();
 
     return !node.isRoot() &&
@@ -44,12 +44,12 @@ Rule.check = function(node, result) {
 
     node.children.forEach( child => this.check(child, this.result));
 
-    const globalPos = node.getGlobalPos() - node.getIndentationSize();
+    const globalPos = node.globalPos - node.getIndentationSize();
 
     if (this.isBroken(node)) {
         this.add(
-            node.getValue().trim(),
-            node.getLineNumber() - 1,
+            node.value.trim(),
+            node.lineNumber - 1,
             globalPos,
             node.getIndentationSize(),
             description

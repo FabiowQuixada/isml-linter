@@ -9,14 +9,14 @@ Rule.init(ruleName, description);
 
 Rule.isBroken = function(node) {
 
-    if (node.getValue().indexOf('require(') === -1) {
+    if (node.value.indexOf('require(') === -1) {
         return false;
     }
 
     let iterator = node;
 
-    while (iterator.getParent()) {
-        iterator = iterator.getParent();
+    while (iterator.parent) {
+        iterator = iterator.parent;
 
         if (iterator.isOfType('isloop')) {
             return true;

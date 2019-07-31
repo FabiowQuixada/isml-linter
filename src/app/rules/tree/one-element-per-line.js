@@ -9,7 +9,7 @@ Rule.init(ruleName, description);
 
 Rule.isBroken = function(node) {
     return !node.isRoot() &&
-        node.getLineNumber() === node.getParent().getLineNumber();
+        node.lineNumber === node.parent.lineNumber;
 };
 
 Rule.getFixedContent = rootNode => {
@@ -19,15 +19,15 @@ Rule.getFixedContent = rootNode => {
 };
 
 const fixContent = node => {
-    node.getChildren().forEach( child => {
+    node.children.forEach( child => {
         if (child.isInSameLineAsParent() && !node.isIsmlComment()) {
             const indentation       = getCorrectIndentation(child);
             const parentIndentation = getCorrectIndentation(node);
 
-            child.setValue(`\n${indentation}${child.getValue()}\n${parentIndentation}`);
+            child.value = `\n${indentation}${child.value}\n${parentIndentation}`;
 
-            if (child.getSuffixValue()) {
-                child.setSuffix(`\n${indentation}${child.getSuffixValue()}\n`);
+            if (child.suffixValue) {
+                child.setSuffix(`\n${indentation}${child.suffixValue}\n`);
             }
         }
 

@@ -13,12 +13,12 @@ Rule.init(ruleName, description);
 Rule.isBroken = function(node) {
     let rootNode = node;
 
-    while (rootNode.getParent()) {
-        rootNode = rootNode.getParent();
+    while (rootNode.parent) {
+        rootNode = rootNode.parent;
     }
 
     return node.isOfType(TAG_TYPE) &&
-        rootNode.getChild(0).getId() !== node.getId();
+        rootNode.children[0].id !== node.id;
 };
 
 Rule.getFixedContent = rootNode => {
@@ -26,8 +26,8 @@ Rule.getFixedContent = rootNode => {
         const isContentNode = RuleUtils.findNodeOfType(rootNode, TAG_TYPE);
 
         if (isContentNode) {
-            isContentNode.getParent().removeChild(isContentNode);
-            isContentNode.setValue(isContentNode.getValue().trim() + Constants.EOL);
+            isContentNode.parent.removeChild(isContentNode);
+            isContentNode.value = isContentNode.value.trim() + Constants.EOL;
             rootNode.addChildNodeToPos(isContentNode, 0);
         }
     }

@@ -20,14 +20,14 @@ const run = (content, state) => {
 
     // TODO: Under certain scenarios, there is a duplicated "isif" tag.
     // The code below merges both "isif" nodes;
-    if (multiClauseNode.getNumberOfChildren() > 1 && multiClauseNode.getChild(1).isOfType('isif')) {
-        const firstIsifNode = multiClauseNode.getChild(0);
+    if (multiClauseNode.getNumberOfChildren() > 1 && multiClauseNode.children[1].isOfType('isif')) {
+        const firstIsifNode = multiClauseNode.children[0];
 
-        multiClauseNode.getChild(1).getChildren().forEach( child => {
+        multiClauseNode.children[1].children.forEach( child => {
             firstIsifNode.addChild(child);
         });
 
-        multiClauseNode.getChildren().splice(1, 1);
+        multiClauseNode.children.splice(1, 1);
     }
 
     return multiClauseNode;
@@ -49,7 +49,7 @@ const parseElseClause = (multiClauseNode, content, state) => {
     const clauseValue             = ParseUtils.getClauseContent(content);
     const clauseInnerContent      = ParseUtils.getClauseInnerContent(content);
     const globalPos               = state.content.indexOf(content);
-    const isifTagLineNumber       = multiClauseNode.getChild(0).getLineNumber();
+    const isifTagLineNumber       = multiClauseNode.children[0].lineNumber;
     const accumulatedLineBreakQty = ParseUtils.getLineBreakQty(multiClauseNode.toString().trimStart());
     const clauseContentNode       = new IsmlNode(clauseValue, isifTagLineNumber + accumulatedLineBreakQty, globalPos);
 

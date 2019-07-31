@@ -9,7 +9,7 @@ Rule.init(ruleName, description);
 
 Rule.isBroken = function(node) {
     return (node.isOfType('iselse') || node.isOfType('iselseif')) &&
-        node.getValue().trim().endsWith('/>');
+        node.value.trim().endsWith('/>');
 };
 
 module.exports = Rule;

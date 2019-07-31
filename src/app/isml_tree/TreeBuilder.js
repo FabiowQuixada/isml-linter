@@ -8,23 +8,23 @@ const MaskUtils       = require('./MaskUtils');
 const fs              = require('fs');
 
 const postProcess = (node, data = {}) => {
-    node.getChildren().forEach( child => {
-        if (child.getValue().indexOf('template="util/modules"') !== -1) {
+    node.children.forEach( child => {
+        if (child.value.indexOf('template="util/modules"') !== -1) {
             data.moduleDefinition = {
-                value      : child.getValue(),
-                lineNumber : child.getLineNumber(),
-                globalPos  : child.getGlobalPos(),
-                length     : child.getValue().trim().length
+                value      : child.value,
+                lineNumber : child.lineNumber,
+                globalPos  : child.globalPos,
+                length     : child.value.trim().length
             };
         }
 
         if (child.isCustomIsmlTag()) {
             data.customModuleArray = data.customModuleArray || [];
             data.customModuleArray.push({
-                value      : child.getValue(),
-                lineNumber : child.getLineNumber(),
-                globalPos  : child.getGlobalPos(),
-                length     : child.getValue().trim().length
+                value      : child.value,
+                lineNumber : child.lineNumber,
+                globalPos  : child.globalPos,
+                length     : child.value.trim().length
             });
         }
 
@@ -325,7 +325,7 @@ const parseRemainingContent = state => {
                 lastNode = lastNode.getLastChild();
             }
 
-            lastNode.getSuffixValue() ?
+            lastNode.suffixValue ?
                 lastNode.suffixValue += trailingTextValue :
                 lastNode.value       += trailingTextValue ;
         }

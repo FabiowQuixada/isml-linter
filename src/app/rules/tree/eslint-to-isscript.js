@@ -14,12 +14,12 @@ Rule.init(ruleName, description);
 
 Rule.addError = function(node, error, ismlIndentation, linter) {
     const errorLine              = linter.getSourceCode().lines[error.line - 1];
-    const contentUpToCurrentLine = node.getValue().split(Constants.EOL, error.line - 1).join(Constants.EOL).length;
-    const errorGlobalPos         = node.getGlobalPos() + contentUpToCurrentLine + ParseUtils.getNextNonEmptyCharPos(errorLine);
+    const contentUpToCurrentLine = node.value.split(Constants.EOL, error.line - 1).join(Constants.EOL).length;
+    const errorGlobalPos         = node.globalPos + contentUpToCurrentLine + ParseUtils.getNextNonEmptyCharPos(errorLine);
 
     this.add(
         ismlIndentation + errorLine,
-        node.getLineNumber() + error.line - 3,
+        node.lineNumber + error.line - 3,
         errorGlobalPos,
         errorLine.trimStart().length,
         error.message
@@ -50,7 +50,7 @@ Rule.check = function(node) {
         };
 
         isscriptContentArray.forEach( node => {
-            let content = node.getValue();
+            let content = node.value;
 
             const ismlIndentation = getIndentation(content);
 
@@ -82,14 +82,14 @@ Rule.getFixedContent = function(node) {
     if (node.isIsscriptContent()) {
         const Linter          = require('eslint').Linter;
         const linter          = new Linter();
-        let content           = node.getValue();
+        let content           = node.value;
         const ismlIndentation = getIndentation(content);
 
         this.result.fixedContent = content = linter.verifyAndFix(content, eslintConfig).output;
 
         content = reindent(content, ismlIndentation);
 
-        node.setValue(content + ismlIndentation.substring(4));
+        node.value = content + ismlIndentation.substring(4);
     }
 
     return node.toString();

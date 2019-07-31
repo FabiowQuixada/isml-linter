@@ -18,62 +18,62 @@ describe(targetObjName, () => {
     it('parses a complex template I', () => {
         const result       = TreeBuilder.build(getFilePath(0));
         const rootNode     = result.rootNode;
-        const commentNode  = rootNode.getChild(2);
-        const setNode      = rootNode.getChild(7);
-        const trNode       = rootNode.getChild(9);
-        const tdNode       = trNode.getChild(4);
-        const availNode    = tdNode.getChild(9);
-        const ifNode       = availNode.getChild(0).getChild(0);
-        const nestedIfNode = ifNode.getChild(1).getChild(0);
-        const lastTdNode   = rootNode.getChild(11);
+        const commentNode  = rootNode.children[2];
+        const setNode      = rootNode.children[7];
+        const trNode       = rootNode.children[9];
+        const tdNode       = trNode.children[4];
+        const availNode    = tdNode.children[9];
+        const ifNode       = availNode.children[0].children[0];
+        const nestedIfNode = ifNode.children[1].children[0];
+        const lastTdNode   = rootNode.children[11];
 
         expect(result.status).toEqual(ParseStatus.NO_ERRORS);
         expect(rootNode.getNumberOfChildren()).toEqual(12);
 
-        expect(commentNode.getValue()).toEqual(`${Constants.EOL}${Constants.EOL}<iscomment>`);
-        expect(commentNode.getLineNumber()).toEqual(4);
+        expect(commentNode.value).toEqual(`${Constants.EOL}${Constants.EOL}<iscomment>`);
+        expect(commentNode.lineNumber).toEqual(4);
         expect(commentNode.getNumberOfChildren()).toEqual(1);
 
-        expect(trNode.getValue()).toEqual(`${Constants.EOL}${Constants.EOL}<tr class="cart_row lineItem-\${lineItem.getUUID()} product-\${productLineItem.productID}">`);
-        expect(trNode.getLineNumber()).toEqual(21);
+        expect(trNode.value).toEqual(`${Constants.EOL}${Constants.EOL}<tr class="cart_row lineItem-\${lineItem.getUUID()} product-\${productLineItem.productID}">`);
+        expect(trNode.lineNumber).toEqual(21);
         expect(trNode.getNumberOfChildren()).toEqual(7);
 
-        expect(setNode.getValue()).toEqual(`${Constants.EOL}<isset name="ProductUtils" value="\${require('file_path/cartridge/scripts/product/ProductUtils')}" scope="page" />`);
-        expect(setNode.getLineNumber()).toEqual(18);
+        expect(setNode.value).toEqual(`${Constants.EOL}<isset name="ProductUtils" value="\${require('file_path/cartridge/scripts/product/ProductUtils')}" scope="page" />`);
+        expect(setNode.lineNumber).toEqual(18);
         expect(setNode.getNumberOfChildren()).toEqual(0);
 
-        expect(trNode.getValue()).toEqual(`${Constants.EOL}${Constants.EOL}<tr class="cart_row lineItem-\${lineItem.getUUID()} product-\${productLineItem.productID}">`);
-        expect(trNode.getLineNumber()).toEqual(21);
+        expect(trNode.value).toEqual(`${Constants.EOL}${Constants.EOL}<tr class="cart_row lineItem-\${lineItem.getUUID()} product-\${productLineItem.productID}">`);
+        expect(trNode.lineNumber).toEqual(21);
         expect(trNode.getNumberOfChildren()).toEqual(7);
 
-        expect(tdNode.getValue()).toEqual(`${Constants.EOL}${Constants.EOL}    <td class="item_details">`);
-        expect(tdNode.getLineNumber()).toEqual(35);
+        expect(tdNode.value).toEqual(`${Constants.EOL}${Constants.EOL}    <td class="item_details">`);
+        expect(tdNode.lineNumber).toEqual(35);
         expect(tdNode.getNumberOfChildren()).toEqual(10);
 
-        expect(availNode.getValue()).toEqual(`${Constants.EOL}        <div class="product-availability">`);
-        expect(availNode.getLineNumber()).toEqual(67);
+        expect(availNode.value).toEqual(`${Constants.EOL}        <div class="product-availability">`);
+        expect(availNode.lineNumber).toEqual(67);
         expect(availNode.getNumberOfChildren()).toEqual(1);
 
-        expect(ifNode.getValue()).toEqual(`${Constants.EOL}            <isif condition="\${isDiscontinued || isOutOfStock}">`);
-        expect(ifNode.getLineNumber()).toEqual(68);
+        expect(ifNode.value).toEqual(`${Constants.EOL}            <isif condition="\${isDiscontinued || isOutOfStock}">`);
+        expect(ifNode.lineNumber).toEqual(68);
         expect(ifNode.getNumberOfChildren()).toEqual(2);
 
-        expect(nestedIfNode.getValue()).toEqual(`${Constants.EOL}                <isif condition="\${isOutOfStock}">`);
-        expect(nestedIfNode.getLineNumber()).toEqual(72);
+        expect(nestedIfNode.value).toEqual(`${Constants.EOL}                <isif condition="\${isOutOfStock}">`);
+        expect(nestedIfNode.lineNumber).toEqual(72);
         expect(nestedIfNode.getNumberOfChildren()).toEqual(3);
 
-        expect(lastTdNode.getValue()).toEqual(`${Constants.EOL}<td class="item_total">`);
-        expect(lastTdNode.getLineNumber()).toEqual(102);
+        expect(lastTdNode.value).toEqual(`${Constants.EOL}<td class="item_total">`);
+        expect(lastTdNode.lineNumber).toEqual(102);
         expect(lastTdNode.getNumberOfChildren()).toEqual(1);
     });
 
     it('parses a complex template II', () => {
         const result          = TreeBuilder.build(getFilePath(1));
         const rootNode        = result.rootNode;
-        const firstDivNode    = rootNode.getChild(1);
-        const htmlCommentNode = rootNode.getChild(4);
-        const errorMsgNode    = rootNode.getChild(5).getChild(1).getChild(0).getChild(2);
-        const inputNode       = rootNode.getChild(6).getChild(1).getChild(0).getChild(1);
+        const firstDivNode    = rootNode.children[1];
+        const htmlCommentNode = rootNode.children[4];
+        const errorMsgNode    = rootNode.children[5].children[1].children[0].children[2];
+        const inputNode       = rootNode.children[6].children[1].children[0].children[1];
         const inputValue      = Constants.EOL +
         '            <input type="text" class="form-control billingZipCode" id="billingZipCode"' + Constants.EOL +
         '                value="${pdict.order.billing.billingAddress.address' + Constants.EOL +
@@ -86,80 +86,80 @@ describe(targetObjName, () => {
         expect(result.status).toEqual(ParseStatus.NO_ERRORS);
         expect(rootNode.getNumberOfChildren()).toEqual(7);
 
-        expect(firstDivNode.getValue()).toEqual(`${Constants.EOL}<div class="row">`);
-        expect(firstDivNode.getLineNumber()).toEqual(2);
+        expect(firstDivNode.value).toEqual(`${Constants.EOL}<div class="row">`);
+        expect(firstDivNode.lineNumber).toEqual(2);
         expect(firstDivNode.getNumberOfChildren()).toEqual(2);
 
-        expect(htmlCommentNode.getValue()).toEqual(`${Constants.EOL}${Constants.EOL}<!--- make drop down -->`);
-        expect(htmlCommentNode.getLineNumber()).toEqual(71);
+        expect(htmlCommentNode.value).toEqual(`${Constants.EOL}${Constants.EOL}<!--- make drop down -->`);
+        expect(htmlCommentNode.lineNumber).toEqual(71);
         expect(htmlCommentNode.getNumberOfChildren()).toEqual(0);
 
-        expect(errorMsgNode.getValue()).toEqual(`${Constants.EOL}            <div class="invalid-feedback">`);
-        expect(errorMsgNode.getLineNumber()).toEqual(116);
+        expect(errorMsgNode.value).toEqual(`${Constants.EOL}            <div class="invalid-feedback">`);
+        expect(errorMsgNode.lineNumber).toEqual(116);
         expect(errorMsgNode.getNumberOfChildren()).toEqual(0);
 
-        expect(inputNode.getValue()).toEqual(inputValue);
-        expect(inputNode.getLineNumber()).toEqual(142);
+        expect(inputNode.value).toEqual(inputValue);
+        expect(inputNode.lineNumber).toEqual(142);
         expect(inputNode.getNumberOfChildren()).toEqual(0);
     });
 
     it('parses a complex template III', () => {
         const result          = TreeBuilder.build(getFilePath(2));
         const rootNode        = result.rootNode;
-        const loopNode        = rootNode.getChild(0);
-        const sectionNode     = loopNode.getChild(0).getChild(0).getChild(0).getChild(4).getChild(0).getChild(1);
-        const commentNode     = sectionNode.getChild(0).getChild(0).getChild(0).getChild(0).getChild(0).getChild(0).getChild(1).getChild(0).getChild(1);
-        const modalFooterNode = rootNode.getChild(1);
-        const otherLoopNode   = modalFooterNode.getChild(0).getChild(0).getChild(1).getChild(1);
-        const iNode           = otherLoopNode.getChild(0).getChild(1).getChild(0);
+        const loopNode        = rootNode.children[0];
+        const sectionNode     = loopNode.children[0].children[0].children[0].children[4].children[0].children[1];
+        const commentNode     = sectionNode.children[0].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[1];
+        const modalFooterNode = rootNode.children[1];
+        const otherLoopNode   = modalFooterNode.children[0].children[0].children[1].children[1];
+        const iNode           = otherLoopNode.children[0].children[1].children[0];
 
-        expect(loopNode.getValue()).toEqual('<isloop items="${pdict.products}" var="product" status="productLoopStatus">');
-        expect(loopNode.getLineNumber()).toEqual(1);
+        expect(loopNode.value).toEqual('<isloop items="${pdict.products}" var="product" status="productLoopStatus">');
+        expect(loopNode.lineNumber).toEqual(1);
         expect(loopNode.getNumberOfChildren()).toEqual(1);
 
-        expect(sectionNode.getValue()).toEqual(`${Constants.EOL}                        <section class="attributes">`);
-        expect(sectionNode.getLineNumber()).toEqual(14);
+        expect(sectionNode.value).toEqual(`${Constants.EOL}                        <section class="attributes">`);
+        expect(sectionNode.lineNumber).toEqual(14);
         expect(sectionNode.getNumberOfChildren()).toEqual(1);
 
-        expect(commentNode.getValue()).toEqual(`${Constants.EOL}                                                        <!-- Quantity Drop Down Menu -->`);
-        expect(commentNode.getLineNumber()).toEqual(26);
+        expect(commentNode.value).toEqual(`${Constants.EOL}                                                        <!-- Quantity Drop Down Menu -->`);
+        expect(commentNode.lineNumber).toEqual(26);
         expect(commentNode.getNumberOfChildren()).toEqual(0);
 
-        expect(modalFooterNode.getValue()).toEqual(`${Constants.EOL}${Constants.EOL}<div class="modal-footer">`);
-        expect(modalFooterNode.getLineNumber()).toEqual(94);
+        expect(modalFooterNode.value).toEqual(`${Constants.EOL}${Constants.EOL}<div class="modal-footer">`);
+        expect(modalFooterNode.lineNumber).toEqual(94);
         expect(modalFooterNode.getNumberOfChildren()).toEqual(1);
 
-        expect(otherLoopNode.getValue()).toEqual(`${Constants.EOL}                <isloop items="\${pdict.selectedBonusProducts}" var="selectedProduct" status="productLoopStatus">`);
-        expect(otherLoopNode.getLineNumber()).toEqual(102);
+        expect(otherLoopNode.value).toEqual(`${Constants.EOL}                <isloop items="\${pdict.selectedBonusProducts}" var="selectedProduct" status="productLoopStatus">`);
+        expect(otherLoopNode.lineNumber).toEqual(102);
         expect(otherLoopNode.getNumberOfChildren()).toEqual(1);
 
-        expect(iNode.getValue()).toEqual('<i class="fa fa-times" aria-hidden="true">');
-        expect(iNode.getLineNumber()).toEqual(109);
+        expect(iNode.value).toEqual('<i class="fa fa-times" aria-hidden="true">');
+        expect(iNode.lineNumber).toEqual(109);
         expect(iNode.getNumberOfChildren()).toEqual(0);
     });
 
     it('parses a complex template IV', () => {
         const result             = TreeBuilder.build(getFilePath(3));
         const rootNode           = result.rootNode;
-        const setNode            = rootNode.getChild(0);
-        const cardNumberRowNode  = rootNode.getChild(3);
-        const phoneRowNode       = rootNode.getChild(6);
-        const tooltipMessageNode = phoneRowNode.getChild(1).getChild(0).getChild(1).getChild(1).getChild(0);
+        const setNode            = rootNode.children[0];
+        const cardNumberRowNode  = rootNode.children[3];
+        const phoneRowNode       = rootNode.children[6];
+        const tooltipMessageNode = phoneRowNode.children[1].children[0].children[1].children[1].children[0];
 
-        expect(setNode.getValue()).toEqual('<isset name="creditFields" value="${pdict.forms.billingForm.creditCardFields}" scope="page"/>');
-        expect(setNode.getLineNumber()).toEqual(1);
+        expect(setNode.value).toEqual('<isset name="creditFields" value="${pdict.forms.billingForm.creditCardFields}" scope="page"/>');
+        expect(setNode.lineNumber).toEqual(1);
         expect(setNode.getNumberOfChildren()).toEqual(0);
 
-        expect(cardNumberRowNode.getValue()).toEqual(`${Constants.EOL}${Constants.EOL}<div class="row">`);
-        expect(cardNumberRowNode.getLineNumber()).toEqual(8);
+        expect(cardNumberRowNode.value).toEqual(`${Constants.EOL}${Constants.EOL}<div class="row">`);
+        expect(cardNumberRowNode.lineNumber).toEqual(8);
         expect(cardNumberRowNode.getNumberOfChildren()).toEqual(1);
 
-        expect(phoneRowNode.getValue()).toEqual(`${Constants.EOL}${Constants.EOL}<div class="row">`);
-        expect(phoneRowNode.getLineNumber()).toEqual(94);
+        expect(phoneRowNode.value).toEqual(`${Constants.EOL}${Constants.EOL}<div class="row">`);
+        expect(phoneRowNode.lineNumber).toEqual(94);
         expect(phoneRowNode.getNumberOfChildren()).toEqual(2);
 
-        expect(tooltipMessageNode.getValue()).toEqual(`${Constants.EOL}                    \${Resource.msg('tooltip.phone.number','creditCard',null)}${Constants.EOL}                `);
-        expect(tooltipMessageNode.getLineNumber()).toEqual(119);
+        expect(tooltipMessageNode.value).toEqual(`${Constants.EOL}                    \${Resource.msg('tooltip.phone.number','creditCard',null)}${Constants.EOL}                `);
+        expect(tooltipMessageNode.lineNumber).toEqual(119);
         expect(tooltipMessageNode.getNumberOfChildren()).toEqual(0);
     });
 });

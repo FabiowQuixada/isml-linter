@@ -37,41 +37,31 @@ describe(targetObjName, () => {
     });
 
     it('stores the correspondent self-closing isml/html element', () => {
-        const rootNode = new IsmlNode();
-
-        rootNode.setValue('<div/>');
+        const rootNode = new IsmlNode('<div/>');
 
         expect(rootNode.getType()).toEqual('div');
     });
 
     it('stores the correspondent non-self-closing isml/html element', () => {
-        const rootNode = new IsmlNode();
-
-        rootNode.setValue('<div>');
+        const rootNode = new IsmlNode('<div>');
 
         expect(rootNode.getType()).toEqual('div');
     });
 
     it('stores the correspondent self-closing with space isml/html element', () => {
-        const rootNode = new IsmlNode();
-
-        rootNode.setValue('<div />');
+        const rootNode = new IsmlNode('<div />');
 
         expect(rootNode.getType()).toEqual('div');
     });
 
     it('knows if it is a self-closing tag', () => {
-        const rootNode = new IsmlNode();
-
-        rootNode.setValue('<div/>');
+        const rootNode = new IsmlNode('<div/>');
 
         expect(rootNode.isSelfClosing()).toEqual(true);
     });
 
     it('knows when it is not self-closing tag', () => {
-        const rootNode = new IsmlNode();
-
-        rootNode.setValue('<div>');
+        const rootNode = new IsmlNode('<div>');
 
         expect(rootNode.isSelfClosing()).toEqual(false);
     });
@@ -82,7 +72,7 @@ describe(targetObjName, () => {
 
         rootNode.addChild(childNode);
 
-        expect(childNode.getDepth()).toEqual(rootNode.getDepth() + 1);
+        expect(childNode.depth).toEqual(rootNode.depth + 1);
     });
 
     it('gets the correct type for isml tag', () => {
@@ -113,26 +103,22 @@ describe(targetObjName, () => {
 
     it('prints its children', () => {
         const rootNode  = new IsmlNode();
-        const childNode = new IsmlNode();
-        childNode.setValue('<span class="some_class">');
-        rootNode.addChild(childNode);
+        const childNode = new IsmlNode('<span class="some_class">');
 
+        rootNode.addChild(childNode);
         rootNode.print();
 
         expect(spy.secondCall.args[0]).toEqual('1 :: 0 ::     <span class="some_class">');
     });
 
     it('prints its inner text', () => {
-        const rootNode  = new IsmlNode();
-        const childNode = new IsmlNode();
+        const rootNode  = new IsmlNode('<span class="some_class">');
+        const childNode = new IsmlNode('Some text');
+
         rootNode.addChild(childNode);
-
-        rootNode.setValue('<span class="some_class">');
-        childNode.setValue('Some text');
-
         rootNode.print();
 
-        expect(spy.secondCall.args[0]).toEqual('1 :: 0 ::     ' + childNode.getValue());
+        expect(spy.secondCall.args[0]).toEqual('1 :: 0 ::     ' + childNode.value);
     });
 
     it('prints its value halted if it is too long', () => {
@@ -203,11 +189,11 @@ describe(targetObjName, () => {
         const tree            = TreeBuilder.build(getFilePath(0));
         const rootNode        = tree.rootNode;
         const childrenQty     = rootNode.getNumberOfChildren();
-        const nodeToBeRemoved = rootNode.getChild(removeIndex);
+        const nodeToBeRemoved = rootNode.children[removeIndex];
 
         rootNode.removeChild(nodeToBeRemoved);
 
-        const nextNode = rootNode.getChild(removeIndex);
+        const nextNode = rootNode.children[removeIndex];
 
         expect(nodeToBeRemoved.id).not.toEqual(nextNode.id);
         expect(rootNode.getNumberOfChildren()).toEqual(childrenQty - 1);
@@ -217,7 +203,7 @@ describe(targetObjName, () => {
         const removeIndex     = 3;
         const tree            = TreeBuilder.build(getFilePath(0));
         const rootNode        = tree.rootNode;
-        const nodeToBeRemoved = rootNode.getChild(removeIndex);
+        const nodeToBeRemoved = rootNode.children[removeIndex];
         const removedNode     = rootNode.removeChild(nodeToBeRemoved);
 
         expect(nodeToBeRemoved.id).toEqual(removedNode.id);
@@ -231,8 +217,8 @@ describe(targetObjName, () => {
 
         rootNode.addChildNodeToPos(newNode, 0);
 
-        expect(rootNode.getChild(0).id).toEqual(newNode.id);
-        expect(newNode.getParent().id).toEqual(rootNode.id);
+        expect(rootNode.children[0].id).toEqual(newNode.id);
+        expect(newNode.parent.id).toEqual(rootNode.id);
         expect(rootNode.getNumberOfChildren()).toEqual(childrenQty + 1);
     });
 });

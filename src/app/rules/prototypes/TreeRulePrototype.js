@@ -14,10 +14,10 @@ TreeRulePrototype.check = function(node, result = { occurrences : [] }) {
 
     if (this.isBroken(node)) {
         this.add(
-            node.getValue().trim(),
-            node.getLineNumber() - 1,
-            node.getGlobalPos(),
-            node.getValue().trim().length
+            node.value.trim(),
+            node.lineNumber - 1,
+            node.globalPos,
+            node.value.trim().length
         );
     }
 

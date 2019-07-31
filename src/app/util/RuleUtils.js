@@ -25,7 +25,7 @@ fs.readdirSync(Constants.treeRulesDir)
 const findNodeOfType = (node, type) => {
     let result = null;
 
-    node.getChildren().some( child => {
+    node.children.some( child => {
         if (child.isOfType(type)) {
             result = child;
             return true;
@@ -44,8 +44,8 @@ const isTypeAmongTheFirstElements = (rootNode, type) => {
 
     for (let i = 0; i < Constants.leadingElementsChecking; i++) {
         result = result ||
-            rootNode.getChild(i) &&
-            rootNode.getChild(i).isOfType(type);
+            rootNode.children[i] &&
+            rootNode.children[i].isOfType(type);
     }
 
     return result;

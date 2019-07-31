@@ -33,11 +33,6 @@ class IsmlNode {
         this.suffixGlobalPos  = globalPos;
     }
 
-    getId() { return this.id; }
-    setValue(value) { this.value = value; }
-    getValue() { return this.value; }
-    getLineNumber() { return this.lineNumber; }
-
     // Returns a string. Examples: 'div', 'isprint', 'doctype';
     getType() {
         const value = this.value.trim();
@@ -74,16 +69,8 @@ class IsmlNode {
     }
 
     isInSameLineAsParent() {
-        return this.getParent() && this.getParent().getLineNumber() === this.getLineNumber();
+        return this.parent && this.parent.lineNumber === this.lineNumber;
     }
-
-    getDepth() { return this.depth; }
-    getParent() { return this.parent; }
-    getGlobalPos() { return this.globalPos; }
-
-    getSuffixValue() { return this.suffixValue; }
-    getSuffixLineNumber() { return this.suffixLineNumber; }
-    getSuffixGlobalPos() { return this.suffixGlobalPos; }
 
     /**
      * Gets an array of attributes. For <div class="my_class_1 my my_class_2" style="fancy">, returns:
@@ -120,14 +107,12 @@ class IsmlNode {
         this.newestChildNode = newNode;
     }
 
-    getChild(number)      { return this.children[number];                   }
     getLastChild()        { return this.children[this.children.length - 1]; }
     getNumberOfChildren() { return this.children.length;                    }
-    getChildren()         { return this.children;                           }
 
     getIndentationSize() {
-        const precedingEmptySpacesLength = this.getValue().search(/\S|$/);
-        const precedingEmptySpaces       = this.getValue().substring(0, precedingEmptySpacesLength);
+        const precedingEmptySpacesLength = this.value.search(/\S|$/);
+        const precedingEmptySpaces       = this.value.substring(0, precedingEmptySpacesLength);
         const lastLineBreakPos           = precedingEmptySpaces.lastIndexOf(Constants.EOL);
         const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
 
@@ -182,7 +167,7 @@ class IsmlNode {
     }
 
     isIsscriptContent() {
-        return this.getParent() && this.getParent().getType() === 'isscript';
+        return this.parent && this.parent.getType() === 'isscript';
     }
 
     isHtmlComment() {
@@ -229,7 +214,7 @@ class IsmlNode {
 
     removeChild(node) {
         const index       = this.children.map( child => child.id ).indexOf(node.id);
-        const removedNode = this.getChild(index);
+        const removedNode = this.children[index];
         this.children.splice(index, 1);
         return removedNode;
     }
@@ -329,16 +314,16 @@ const parseAttributes = node => {
         const value          = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
         const values         = value ? value.split(' ') : null;
 
-        const attrLocalPos  = node.getValue().trim().indexOf(attr);
+        const attrLocalPos  = node.value.trim().indexOf(attr);
         const valueLocalPos = attr.indexOf(value);
 
         return {
             name           : label,
             value          : value,
             values         : values,
-            attrGlobalPos  : node.getGlobalPos() + attrLocalPos,
+            attrGlobalPos  : node.globalPos + attrLocalPos,
             nameLength     : label.length,
-            valueGlobalPos : node.getGlobalPos() + valueLocalPos,
+            valueGlobalPos : node.globalPos + valueLocalPos,
             valueLength    : value ? value.length : 0,
             attrFullValue  : attr,
             attrFullLength : attr.length,

@@ -40,15 +40,14 @@ describe(targetObjName, () => {
 
         rootNode.addChild(childNode);
 
-        expect(childNode.getDepth()).toEqual(rootNode.getDepth());
+        expect(childNode.depth).toEqual(rootNode.depth);
     });
 
     it('does NOT print itself', () => {
         const rootNode  = new MultiClauseNode();
-        const childNode = new IsmlNode();
+        const childNode = new IsmlNode('<div />');
 
         rootNode.addChild(childNode);
-        childNode.setValue('<div />');
 
         rootNode.print();
 
@@ -57,11 +56,8 @@ describe(targetObjName, () => {
 
     it('prints its clauses', () => {
         const rootNode   = new MultiClauseNode();
-        const childNode1 = new IsmlNode();
-        const childNode2 = new IsmlNode();
-
-        childNode1.setValue('<isif>');
-        childNode2.setValue('<iselse>');
+        const childNode1 = new IsmlNode('<isif>');
+        const childNode2 = new IsmlNode('<iselse>');
 
         rootNode.addChild(childNode1);
         rootNode.addChild(childNode2);

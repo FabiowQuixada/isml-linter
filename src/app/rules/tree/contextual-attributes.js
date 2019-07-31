@@ -89,10 +89,10 @@ Rule.check = function(node, result) {
     const occurrence = this.isBroken(node);
     if (occurrence) {
         this.add(
-            node.getValue().trim(),
-            node.getLineNumber() - 1,
-            node.getGlobalPos(),
-            node.getValue().trim().length,
+            node.value.trim(),
+            node.lineNumber - 1,
+            node.globalPos,
+            node.value.trim().length,
             occurrence.message
         );
     }

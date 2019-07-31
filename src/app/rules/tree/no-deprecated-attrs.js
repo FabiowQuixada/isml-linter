@@ -50,8 +50,8 @@ Rule.check = function(node, result) {
     const occurrence = this.isBroken(node);
     if (occurrence) {
         this.add(
-            node.getValue().trim(),
-            node.getLineNumber() - 1,
+            node.value.trim(),
+            node.lineNumber - 1,
             occurrence.attrGlobalPos,
             occurrence.attrFullLength,
             occurrence.message

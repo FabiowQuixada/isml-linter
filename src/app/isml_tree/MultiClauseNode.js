@@ -12,7 +12,7 @@ class MultiClauseNode extends IsmlNode {
 
     constructor() {
         super();
-        this.setValue('(Multiclause node)');
+        this.value = '(Multiclause node)';
     }
 
     isMulticlause() { return true; }

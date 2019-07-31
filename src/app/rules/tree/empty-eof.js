@@ -10,9 +10,9 @@ const Rule = Object.create(TreeRulePrototype);
 Rule.init(ruleName, description);
 
 Rule.isBroken = function(node) {
-    return !(node.getSuffixValue() ?
-        node.getSuffixValue().endsWith(Constants.EOL) :
-        node.getValue().endsWith(Constants.EOL));
+    return !(node.suffixValue ?
+        node.suffixValue.endsWith(Constants.EOL) :
+        node.value.endsWith(Constants.EOL));
 };
 
 Rule.check = function(rootNode, result) {
@@ -29,8 +29,8 @@ Rule.check = function(rootNode, result) {
 
         this.add(
             lineContent,
-            node.getLineNumber() + lineBreakQty - 2,
-            node.getGlobalPos() + node.toString().length - 1,
+            node.lineNumber + lineBreakQty - 2,
+            node.globalPos + node.toString().length - 1,
             1
         );
     }
