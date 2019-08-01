@@ -37,7 +37,10 @@ const displayLintingErrors = jsonErrors => {
         for (const file in jsonErrors.errors[rule]) {
             console.log(Constants.EOL + file);
 
-            jsonErrors.errors[rule][file].forEach( error => {
+            const errorArray = jsonErrors.errors[rule][file];
+
+            for (let i = 0; i < errorArray.length; i++) {
+                const error     = errorArray[i];
                 let displayText = error.line;
 
                 if (displayText.length > 30) {
@@ -47,7 +50,7 @@ const displayLintingErrors = jsonErrors => {
                 console.log(chalk.gray(error.lineNumber) + '\t' + chalk.red('error') + '\t' + rule);
 
                 partialSum++;
-            });
+            }
         }
     }
 
@@ -66,11 +69,12 @@ const displayUnparseableErrors = jsonErrors => {
         if (jsonErrors[INVALID_TEMPLATE]) {
             console.log(chalk`{red.bold ${Constants.EOL}An Isml abstract syntax tree could not be built for the following templates:}`);
 
-            jsonErrors[INVALID_TEMPLATE].forEach( (error, i) => {
+            for (let i = 0; i < jsonErrors[INVALID_TEMPLATE].length; i++) {
+                const error = jsonErrors[INVALID_TEMPLATE][i];
                 console.log(chalk.gray(i) + ' ' + error.filePath + ':' + error.lineNumber);
                 console.log('\t' + chalk`{red.bold >> }` + `${error.message}${Constants.EOL}`);
                 partialSum++;
-            });
+            }
         }
     }
 
@@ -84,10 +88,12 @@ const displayUnknownErrors = jsonErrors => {
     if (jsonErrors[UNKNOWN_ERROR]) {
         console.log(chalk`{red.bold ${Constants.EOL}An unexpected error happened while parsing the following templates:}`);
 
-        jsonErrors[UNKNOWN_ERROR].forEach( (filePath, i) => {
-            console.log(chalk.gray(i) + '\t' + filePath);
+        const unknownErrorArray = jsonErrors[UNKNOWN_ERROR];
+
+        for (let i = 0; i < unknownErrorArray.length; i++) {
+            console.log(chalk.gray(i) + '\t' + unknownErrorArray[i]);
             partialSum++;
-        });
+        }
 
         console.log(`${Constants.EOL}Please report this to ${chalk.cyan(Constants.repositoryUrl)} and add these files to the ignore list while a fix is not available.`);
     }

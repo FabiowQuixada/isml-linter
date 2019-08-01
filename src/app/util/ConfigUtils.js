@@ -98,11 +98,11 @@ const createConfigFile = (
 };
 
 const addParamsToConfig = config => {
-    process.argv.forEach( val => {
-        if (val === '--autofix') {
+    for (let i = 0; i < process.argv.length; i++) {
+        if (process.argv[i] === '--autofix') {
             config.autoFix = true;
         }
-    });
+    }
 };
 
 const existConfigFile = () => {

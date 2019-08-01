@@ -8,19 +8,26 @@ const lowercaseFilenameRule = require('../rules/line_by_line/lowercase-filename'
 const lineByLineRules = [];
 const treeRules       = [];
 
-fs.readdirSync(Constants.lineByLineRulesDir)
-    .filter( file => file.endsWith('.js'))
-    .forEach( file => {
+const lineRuleFileArray = fs.readdirSync(Constants.lineByLineRulesDir);
+const treeRuleFileArray = fs.readdirSync(Constants.treeRulesDir);
+
+for (let i = 0; i < lineRuleFileArray.length; i++) {
+    const file = lineRuleFileArray[i];
+
+    if (file.endsWith('.js')) {
         const rulePath = path.join(__dirname, '..', 'rules', 'line_by_line', file);
         lineByLineRules.push(require(rulePath));
-    });
+    }
+}
 
-fs.readdirSync(Constants.treeRulesDir)
-    .filter( file => file.endsWith('.js'))
-    .forEach( file => {
+for (let i = 0; i < treeRuleFileArray.length; i++) {
+    const file = treeRuleFileArray[i];
+
+    if (file.endsWith('.js')) {
         const rulePath = path.join(__dirname, '..', 'rules', 'tree', file);
         treeRules.push(require(rulePath));
-    });
+    }
+}
 
 const findNodeOfType = (node, type) => {
     let result = null;
@@ -51,14 +58,15 @@ const isTypeAmongTheFirstElements = (rootNode, type) => {
     return result;
 };
 
-const getErrorObj = (rule, occurrences) => {
+const getErrorObj = (rule, occurrenceArray) => {
     const errorObj                         = {};
     errorObj[rule.level]                   = {};
     errorObj[rule.level][rule.description] = [];
 
-    occurrences.forEach( res => {
-        errorObj[rule.level][rule.description].push(res);
-    });
+    for (let i = 0; i < occurrenceArray.length; i++) {
+        const occurrence = occurrenceArray[i];
+        errorObj[rule.level][rule.description].push(occurrence);
+    }
 
     return errorObj;
 };
@@ -70,9 +78,12 @@ const checkLineByLineRules = (filePath, fileContent) => {
         errors : {}
     };
 
-    getEnabledLineRules()
-        .filter( rule => !rule.isIgnore(filePath))
-        .forEach( rule => {
+    const ruleArray = getEnabledLineRules();
+
+    for (let i = 0; i < ruleArray.length; i++) {
+        const rule = ruleArray[i];
+
+        if (!rule.isIgnore(filePath)) {
             const ruleResult = rule.check(fileContent);
 
             if (config.autoFix && ruleResult.fixedContent) {
@@ -82,7 +93,9 @@ const checkLineByLineRules = (filePath, fileContent) => {
                 const errorObj         = getErrorObj(rule, ruleResult.occurrences);
                 templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
             }
-        });
+
+        }
+    }
 
     return templateResults;
 };
@@ -118,9 +131,12 @@ const checkTreeRules = (filePath, fileContent) => {
             throw tree.exception;
         }
 
-        getEnabledTreeRules()
-            .filter( rule => !rule.isIgnore(filePath))
-            .forEach( rule => {
+        const ruleArray = getEnabledTreeRules();
+
+        for (let i = 0; i < ruleArray.length; i++) {
+            const rule = ruleArray[i];
+
+            if (!rule.isIgnore(filePath)) {
                 const ruleResults = rule.check(tree.rootNode, { occurrences : [] }, templateResults.data);
 
                 if (config.autoFix && ruleResults.fixedContent) {
@@ -131,7 +147,8 @@ const checkTreeRules = (filePath, fileContent) => {
                     const errorObj         = getErrorObj(rule, ruleResults.occurrences);
                     templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
                 }
-            });
+            }
+        }
     }
 
     return templateResults;
@@ -148,10 +165,12 @@ const checkCustomModules = () => {
     if (CustomModulesRule.isEnabled()) {
         for (const tag in customTagContainer) {
             if (customTagContainer.hasOwnProperty(tag)) {
-                customTagContainer[tag]
-                    .attrList
-                    .filter( attr => attr !== attr.toLowerCase())
-                    .forEach( attr => {
+                const attrList = customTagContainer[tag].attrList;
+
+                for (let i = 0; i < attrList.length; i++) {
+                    const attr = attrList[i];
+
+                    if (attr !== attr.toLowerCase()) {
                         moduleResults.errors.push({
                             line       : '',
                             globalPos  : 0,
@@ -160,7 +179,8 @@ const checkCustomModules = () => {
                             rule       : CustomModulesRule.name,
                             message    : `Module properties need to be lower case: "${tag}" module has the invalid "${attr}" attribute`
                         });
-                    });
+                    }
+                }
             }
         }
     }

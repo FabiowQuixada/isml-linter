@@ -10,7 +10,9 @@ TreeRulePrototype.check = function(node, result = { occurrences : [] }) {
         occurrences : []
     };
 
-    node.children.forEach( child => this.check(child, this.result));
+    for (let i = 0; i < node.children.length; i++) {
+        this.check(node.children[i], this.result);
+    }
 
     if (this.isBroken(node)) {
         this.add(
@@ -37,11 +39,12 @@ TreeRulePrototype.fix = function(stream = '') {
         stream += this.value;
     }
 
-    this.children.forEach( node =>
-        stream = node.isBroken() ?
+    for (let i = 0; i < this.children.length; i++) {
+        const node = this.children[i];
+        stream     = node.isBroken() ?
             node.toString(stream) :
-            this.getFixedContent(node, stream)
-    );
+            this.getFixedContent(node, stream);
+    }
 
     if (!this.isRoot() && !this.isMulticlause()) {
         stream += this.suffix;

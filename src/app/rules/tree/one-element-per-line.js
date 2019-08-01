@@ -19,7 +19,9 @@ Rule.getFixedContent = rootNode => {
 };
 
 const fixContent = node => {
-    node.children.forEach( child => {
+    for (let i = 0; i < node.children.length; i++) {
+        const child = node.children[i];
+
         if (child.isInSameLineAsParent() && !node.isIsmlComment()) {
             const indentation       = getCorrectIndentation(child);
             const parentIndentation = getCorrectIndentation(node);
@@ -32,7 +34,7 @@ const fixContent = node => {
         }
 
         fixContent(child);
-    });
+    }
 };
 
 const getCorrectIndentation = node => {

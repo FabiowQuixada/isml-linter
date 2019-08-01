@@ -254,10 +254,11 @@ module.exports.getClauseList = content => {
     tagList     = this.getOuterConditionalTagList(tagList);
 
     let lastIndex = 0;
-    tagList.forEach( tagObj => {
+    for (let i = 0; i < tagList.length; i++) {
+        const tagObj = tagList[i];
         clauseStringList.push(content.substring(lastIndex, tagObj.startPos));
-        lastIndex = tagObj.startPos;
-    });
+        lastIndex    = tagObj.startPos;
+    }
 
     clauseStringList.push(content.substring(lastIndex, content.length));
 

@@ -8,7 +8,8 @@ const run = (content, state) => {
     const clauseList      = ParseUtils.getClauseList(content);
     let lineNumber        = 0;
 
-    clauseList.forEach( (clauseContent, index) => {
+    for (let index = 0; index < clauseList.length; index++) {
+        const clauseContent = clauseList[index];
         index === 0 ?
             parseMainClause(multiClauseNode, clauseContent, state) :
             parseElseClause(multiClauseNode, clauseContent, state);
@@ -16,16 +17,17 @@ const run = (content, state) => {
         lineNumber                              = ParseUtils.getLineBreakQty(clauseContent);
         state.currentLineNumber                 += lineNumber;
         state.currentElement.startingLineNumber += lineNumber;
-    });
+    }
 
     // TODO: Under certain scenarios, there is a duplicated "isif" tag.
     // The code below merges both "isif" nodes;
     if (multiClauseNode.getNumberOfChildren() > 1 && multiClauseNode.children[1].isOfType('isif')) {
         const firstIsifNode = multiClauseNode.children[0];
+        const children      = multiClauseNode.children[1].children;
 
-        multiClauseNode.children[1].children.forEach( child => {
-            firstIsifNode.addChild(child);
-        });
+        for (let i = 0; i < children.length; i++) {
+            firstIsifNode.addChild(children[i]);
+        }
 
         multiClauseNode.children.splice(1, 1);
     }

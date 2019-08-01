@@ -13,14 +13,15 @@ SingleLineRulePrototype.check = function(fileContent) {
     };
     let globalPos   = 0;
 
-    lineArray.forEach( (line, lineNumber) => {
+    for (let lineNumber = 0; lineNumber < lineArray.length; lineNumber++) {
+        const line       = lineArray[lineNumber];
         const occurrence = this.getFirstOccurrence(line);
         if (occurrence) {
             this.add(line, lineNumber, globalPos + occurrence.globalPos, occurrence.length);
         }
 
         globalPos += line.length + 1;
-    });
+    }
 
     if (this.result.occurrences.length &&
         config.autoFix &&

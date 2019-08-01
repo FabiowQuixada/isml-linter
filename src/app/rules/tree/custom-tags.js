@@ -23,7 +23,9 @@ Rule.check = function(node, result, data) {
     this.result             = this.result || {};
     this.result.occurrences = result.occurrences || [];
 
-    node.children.forEach( child => this.check(child, this.result, data));
+    for (let i = 0; i < node.children.length; i++) {
+        this.check(node.children[i], this.result, data);
+    }
 
     if (data) {
         const isUsedButNotDeclared = !data.moduleDefinition && data.customModuleArray && data.customModuleArray.length > 0;

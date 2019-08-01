@@ -36,7 +36,9 @@ Rule.check = function(node) {
         return this.result;
     }
 
-    node.children.forEach( child => this.check(child) );
+    for (let i = 0; i < node.children.length; i++) {
+        this.check(node.children[i]);
+    }
 
     if (node.isIsscriptContent()) {
         isscriptContentArray.push(node);
@@ -49,7 +51,8 @@ Rule.check = function(node) {
             occurrences : []
         };
 
-        isscriptContentArray.forEach( node => {
+        for (let index = 0; index < isscriptContentArray.length; index++) {
+            const node  = isscriptContentArray[index];
             let content = node.value;
 
             const ismlIndentation = getIndentation(content);
@@ -58,8 +61,10 @@ Rule.check = function(node) {
 
             const errorArray = linter.verify(content, eslintConfig);
 
-            errorArray.forEach( error => this.addError(node, error, ismlIndentation, linter));
-        });
+            for (let i = 0; i < errorArray.length; i++) {
+                this.addError(node, errorArray[i], ismlIndentation, linter);
+            }
+        }
 
         isscriptContentArray = [];
 
@@ -77,7 +82,9 @@ Rule.getFixedContent = function(node) {
         return this.result;
     }
 
-    node.children.forEach( child => this.getFixedContent(child) );
+    for (let i = 0; i < node.children.length; i++) {
+        this.getFixedContent(node.children[i]);
+    }
 
     if (node.isIsscriptContent()) {
         const Linter          = require('eslint').Linter;

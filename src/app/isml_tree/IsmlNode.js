@@ -237,7 +237,10 @@ class IsmlNode {
             stream += this.value;
         }
 
-        this.children.forEach( node => stream = node.toString(stream) );
+        for (let i = 0; i < this.children.length; i++) {
+            const child = this.children[i];
+            stream      = child.toString(stream);
+        }
 
         if (!this.isRoot() && !this.isMulticlause()) {
             stream += this.suffixValue;
@@ -257,8 +260,8 @@ class IsmlNode {
 
         console.log(this.depth + ' :: ' + this.lineNumber + ' :: ' + indentation + getDisplayText(this));
 
-        if (this.children.length > 0) {
-            this.children.forEach( node => node.print() );
+        for (let i = 0; i < this.children.length; i++) {
+            this.children[i].print();
         }
     }
 }
@@ -297,11 +300,13 @@ const parseAttributes = node => {
 
     const stringifiedAttributesArray = [];
 
-    blankSpaceIndexesArray.forEach( (spacePosition, i) => {
+    for (let i = 0; i < blankSpaceIndexesArray.length; i++) {
+        const spacePosition = blankSpaceIndexesArray[i];
+
         stringifiedAttributesArray.push(i === 0 ?
             rawAttrNodeValue.substring(0, spacePosition) :
             rawAttrNodeValue.substring(blankSpaceIndexesArray[i - 1], spacePosition));
-    });
+    }
 
     const lastAttribute = rawAttrNodeValue.substring(blankSpaceIndexesArray[blankSpaceIndexesArray.length - 1] + 1, rawAttrNodeValue.length);
     if (lastAttribute && lastAttribute !== '/') {

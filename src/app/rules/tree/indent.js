@@ -42,7 +42,9 @@ Rule.check = function(node, result) {
         occurrences : []
     };
 
-    node.children.forEach( child => this.check(child, this.result));
+    for (let i = 0; i < node.children.length; i++) {
+        this.check(node.children[i], this.result);
+    }
 
     const globalPos = node.globalPos - node.getIndentationSize();
 

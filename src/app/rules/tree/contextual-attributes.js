@@ -43,11 +43,12 @@ const checkForExclusiveAttributes = (sfccTagObj, nodeAttribute, attrList) => {
         const exclusiveAttributeObj          = sfccTagObj.requires.exclusive;
         const exclusiveAttributesOccurrences = [];
 
-        attrList.forEach( attr => {
+        for (let i = 0; i < attrList.length; i++) {
+            const attr = attrList[i];
             if (exclusiveAttributeObj.indexOf(attr.name) !== -1) {
                 exclusiveAttributesOccurrences.push(attr.name);
             }
-        });
+        }
 
         if (exclusiveAttributesOccurrences.length > 1) {
             result         = {};
@@ -84,7 +85,9 @@ Rule.check = function(node, result) {
         occurrences : []
     };
 
-    node.children.forEach( child => this.check(child, this.result));
+    for (let i = 0; i < node.children.length; i++) {
+        this.check(node.children[i], this.result);
+    }
 
     const occurrence = this.isBroken(node);
     if (occurrence) {

@@ -45,13 +45,14 @@ describe(targetObjName, () => {
         });
 
         const result       = RuleUtils.checkTemplate(filePath);
+        const errorArray   = Object.keys(result.errors);
         let ruleWasChecked = false;
 
-        Object.keys(result.errors).forEach( rule => {
-            if (rule === NoIsscriptRule.description) {
+        for (let i = 0; i < errorArray.length; i++) {
+            if (errorArray[i] === NoIsscriptRule.description) {
                 ruleWasChecked = true;
             }
-        });
+        }
 
         expect(ruleWasChecked).toBe(false);
     });
@@ -66,13 +67,16 @@ describe(targetObjName, () => {
         });
 
         const result       = RuleUtils.checkTemplate(filePath);
+        const ruleArray    = Object.keys(result.errors);
         let ruleWasChecked = false;
 
-        Object.keys(result.errors).forEach( rule => {
+        for (let i = 0; i < ruleArray.length; i++) {
+            const rule = ruleArray[i];
             if (rule === NoInlineStyleRule.description) {
                 ruleWasChecked = true;
             }
-        });
+
+        }
 
         expect(ruleWasChecked).toBe(true);
     });
@@ -132,12 +136,13 @@ describe(targetObjName, () => {
 const numberOfRules = () => {
     let result = 0;
 
-    require('fs')
-        .readdirSync(Constants.lineByLineRulesDir)
-        .filter( file => file.endsWith('.js'))
-        .forEach( () => {
+    const fileArray = require('fs').readdirSync(Constants.lineByLineRulesDir);
+
+    for (let i = 0; i < fileArray.length; i++) {
+        if (fileArray[i].endsWith('.js')) {
             result += 1;
-        });
+        }
+    }
 
     return result;
 };

@@ -38,14 +38,18 @@ const createClientDir = (dirName, dirPath = rootPath) => {
 
 const deleteDirectoryRecursively = dirPath => {
     if (fs.existsSync(dirPath)) {
-        fs.readdirSync(dirPath).forEach( file => {
+        const fileArray = fs.readdirSync(dirPath);
+
+        for (let i = 0; i < fileArray.length; i++) {
+            const file    = fileArray[i];
             const curPath = path.join(dirPath, file);
+
             if (fs.lstatSync(curPath).isDirectory()) {
                 deleteDirectoryRecursively(curPath);
             } else {
                 fs.unlinkSync(curPath);
             }
-        });
+        }
 
         fs.rmdirSync(dirPath);
 

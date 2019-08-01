@@ -25,9 +25,9 @@ class MultiClauseNode extends IsmlNode {
     }
 
     print() {
-        this.children.forEach( node => {
-            node.print();
-        });
+        for (let i = 0; i < this.children.length; i++) {
+            this.children[i].print();
+        }
     }
 }
 

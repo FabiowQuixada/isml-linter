@@ -5,19 +5,19 @@ require('../src/app/util/NativeExtensionUtils');
 const ConfigUtils = require('../src/app/util/ConfigUtils');
 
 try {
-    process.argv.forEach( val => {
-        if (val === '--init') {
+    for (let i = 0; i < process.argv.length; i++) {
+        if (process.argv[i] === '--init') {
             ConfigUtils.init() &&
             process.exit(0);
         }
-    });
+    }
 
     const IsmlLinter = require('isml-linter');
     const exitCode   = IsmlLinter.build();
 
-    process.argv.forEach( val => {
-        val === '--build' && process.exit(exitCode);
-    });
+    for (let i = 0; i < process.argv.length; i++) {
+        process.argv[i] === '--build' && process.exit(exitCode);
+    }
 
 } catch (e) {
     const ConsoleUtils = require('../src/app/util/ConsoleUtils');
