@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.14.2] - 2019-08-03
+
+### Changed
+ - Code refactoring;
+ - Performance improvement;
+ 
 ## [5.14.1] - 2019-07-27
 
 ### Fixed
@@ -373,6 +379,7 @@
 - Linter is published;
 
 
+[5.14.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.14.1...v5.14.2
 [5.14.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.14.0...v5.14.1
 [5.14.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.13.0...v5.14.0
 [5.13.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.12.4...v5.13.0
