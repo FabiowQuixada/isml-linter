@@ -13,7 +13,7 @@ describe('TreeBuilder', () => {
     });
 
     it('sets line number for a very simple html DOM', () => {
-        const rootNode = TreeBuilder.build(getFilePath(0)).rootNode;
+        const rootNode = TreeBuilder.build(getTemplatePath(0)).rootNode;
 
         expect(rootNode.children[0].lineNumber                         ).toEqual(1);
         expect(rootNode.children[0].children[0].lineNumber             ).toEqual(1);
@@ -23,13 +23,13 @@ describe('TreeBuilder', () => {
     });
 
     it('sets line number for a very simple html DOM with multi-line elements', () => {
-        const rootNode = TreeBuilder.build(getFilePath(1)).rootNode;
+        const rootNode = TreeBuilder.build(getTemplatePath(1)).rootNode;
 
         expect(rootNode.children[0].children[0].lineNumber).toEqual(5);
     });
 
     it('sets line numbers form level-3-deep tree', () => {
-        const rootNode = TreeBuilder.build(getFilePath(2)).rootNode;
+        const rootNode = TreeBuilder.build(getTemplatePath(2)).rootNode;
 
         expect(rootNode.children[1].lineNumber                         ).toEqual(2);
         expect(rootNode.children[1].children[0].lineNumber             ).toEqual(6);
@@ -39,20 +39,20 @@ describe('TreeBuilder', () => {
 
     it('sets line number for a very simple html DOM with multiple blank lines', () => {
 
-        const rootNode = TreeBuilder.build(getFilePath(3)).rootNode;
+        const rootNode = TreeBuilder.build(getTemplatePath(3)).rootNode;
 
         expect(rootNode.children[0].children[0].lineNumber).toEqual(10);
         expect(rootNode.children[1].lineNumber).toEqual(16);
     });
 
     it('sets line number for a very simple html DOM with multi-line elements with child starting in the same line', () => {
-        const rootNode = TreeBuilder.build(getFilePath(4)).rootNode;
+        const rootNode = TreeBuilder.build(getTemplatePath(4)).rootNode;
 
         expect(rootNode.children[0].children[0].lineNumber).toEqual(4);
     });
 
     it('sets line number for a simple "isif" tag', () => {
-        const rootNode = TreeBuilder.build(getFilePath(5)).rootNode;
+        const rootNode = TreeBuilder.build(getTemplatePath(5)).rootNode;
 
         const divNode    = rootNode.children[0];
         const isifNode   = divNode.children[0].children[0];
@@ -67,7 +67,7 @@ describe('TreeBuilder', () => {
     });
 
     it('sets line number for a simple "iselse" tag', () => {
-        const rootNode   = TreeBuilder.build(getFilePath(6)).rootNode;
+        const rootNode   = TreeBuilder.build(getTemplatePath(6)).rootNode;
         const divNode    = rootNode.children[0];
         const isifNode   = divNode.children[0].children[0];
         const iselseNode = divNode.children[0].children[1];
@@ -84,7 +84,7 @@ describe('TreeBuilder', () => {
     });
 
     it('sets line number for a simple "iselseif" tag', () => {
-        const rootNode     = TreeBuilder.build(getFilePath(7)).rootNode;
+        const rootNode     = TreeBuilder.build(getTemplatePath(7)).rootNode;
         const divNode      = rootNode.children[0];
         const isifNode     = divNode.children[0].children[0];
         const iselseifNode = divNode.children[0].children[1];
@@ -107,7 +107,7 @@ describe('TreeBuilder', () => {
     });
 
     it('sets correct line number when there is a nested isml element', () => {
-        const rootNode     = TreeBuilder.build(getFilePath(8)).rootNode;
+        const rootNode     = TreeBuilder.build(getTemplatePath(8)).rootNode;
         const selectNode   = rootNode.children[0];
         const emptyNode    = selectNode.children[0];
         const errorMsgNode = rootNode.children[1];
@@ -128,7 +128,7 @@ describe('TreeBuilder', () => {
     });
 
     it('identifies a single-child non-tag element line number', () => {
-        const rootNode   = TreeBuilder.build(getFilePath(9)).rootNode;
+        const rootNode   = TreeBuilder.build(getTemplatePath(9)).rootNode;
         const ifNode     = rootNode.children[0].children[0].children[0].children[0];
         const nonTagNode = ifNode.children[0].children[1].children[0];
 
@@ -142,6 +142,6 @@ describe('TreeBuilder', () => {
     });
 });
 
-const getFilePath = number => {
+const getTemplatePath = number => {
     return `${Constants.specLineNumberTemplateDir}/template_${number}.isml`;
 };

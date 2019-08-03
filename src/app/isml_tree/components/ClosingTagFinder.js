@@ -76,7 +76,7 @@ const throwParseException = (previousContent, parentState) => {
         lineNumber,
         globalPos,
         length,
-        parentState.filePath);
+        parentState.templatePath);
 };
 
 const throwUnbalancedElementException = internalState => {
@@ -88,7 +88,7 @@ const throwUnbalancedElementException = internalState => {
         stackTopElement.lineNumber,
         stackTopElement.globalPos,
         elemLength,
-        internalState.filePath);
+        internalState.templatePath);
 };
 
 const throwInvalidCharacterException = error => {
@@ -229,7 +229,7 @@ const isLetter = str => str.length === 1 && str.match(/[a-z]/i);
 
 const isBalanced = (content, state) => {
 
-    const templatePath       = state.filePath;
+    const templatePath       = state.templatePath;
     const startingLineNumber = state.currentLineNumber;
     let depth                = 0;
 

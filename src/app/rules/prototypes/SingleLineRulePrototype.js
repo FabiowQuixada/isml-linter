@@ -4,10 +4,10 @@ const Constants     = require('../../Constants');
 
 const SingleLineRulePrototype = Object.create(RulePrototype);
 
-SingleLineRulePrototype.check = function(fileContent) {
+SingleLineRulePrototype.check = function(templateContent) {
 
     const config    = ConfigUtils.load();
-    const lineArray = fileContent.split(Constants.EOL);
+    const lineArray = templateContent.split(Constants.EOL);
     this.result     = {
         occurrences : []
     };
@@ -26,7 +26,7 @@ SingleLineRulePrototype.check = function(fileContent) {
     if (this.result.occurrences.length &&
         config.autoFix &&
         this.getFixedContent) {
-        this.result.fixedContent = this.getFixedContent(fileContent);
+        this.result.fixedContent = this.getFixedContent(templateContent);
     }
 
     return this.result;

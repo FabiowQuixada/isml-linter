@@ -10,8 +10,8 @@ Rule.init(ruleName, description);
 
 Rule.isBroken = function(line) { return line !== '' && line !== '\r' && line !== Constants.EOL && !/\S/.test(line); };
 
-Rule.getFixedContent = function(fileContent) {
-    return fileContent
+Rule.getFixedContent = function(templateContent) {
+    return templateContent
         .split(Constants.EOL)
         .map( line => line.trim() ? line : line.trim())
         .join(Constants.EOL);

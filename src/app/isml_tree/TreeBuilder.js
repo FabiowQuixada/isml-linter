@@ -34,34 +34,34 @@ const postProcess = (node, data = {}) => {
     return data;
 };
 
-const build = (filePath, content) => {
+const build = (templatePath, content) => {
 
     const ParseStatus = require('../enums/ParseStatus');
 
     const result = {
-        filePath,
+        templatePath,
         status : ParseStatus.NO_ERRORS
     };
 
     try {
-        const fileContent = content || fs.readFileSync(filePath, 'utf-8');
-        result.rootNode   = parse(fileContent, undefined, undefined, filePath);
-        result.data       = postProcess(result.rootNode);
+        const templateContent = content || fs.readFileSync(templatePath, 'utf-8');
+        result.rootNode       = parse(templateContent, undefined, undefined, templatePath);
+        result.data           = postProcess(result.rootNode);
 
     } catch (e) {
         result.rootNode  = null;
         result.status    = ParseStatus.INVALID_DOM;
         result.exception = e === ExceptionUtils.types.UNKNOWN_ERROR ?
-            ExceptionUtils.getParseErrorMessage(filePath) :
+            ExceptionUtils.getParseErrorMessage(templatePath) :
             e;
     }
 
     return result;
 };
 
-const parse = (content, parentState, parentNode = new IsmlNode(), filePath) => {
+const parse = (content, parentState, parentNode = new IsmlNode(), templatePath) => {
 
-    let state = StateUtils.getInitialState(content, parentState, parentNode, filePath);
+    let state = StateUtils.getInitialState(content, parentState, parentNode, templatePath);
 
     for (let i = 0; i < content.length; i++) {
         state = initializeLoopState(state, i);

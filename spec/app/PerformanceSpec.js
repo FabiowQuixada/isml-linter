@@ -35,8 +35,8 @@ describe('Performance', () => {
 });
 
 const createTemporaryTemplates = () => {
-    const filePath = path.join(Constants.specPerformanceTemplateDir, 'template_0.isml');
-    const content  = fs.readFileSync(filePath, 'utf-8');
+    const templatePath = path.join(Constants.specPerformanceTemplateDir, 'template_0.isml');
+    const content      = fs.readFileSync(templatePath, 'utf-8');
 
     for (let i = 0; i < TEMPLATE_QTY; i++) {
         fs.writeFileSync(

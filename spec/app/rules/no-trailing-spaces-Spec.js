@@ -12,36 +12,36 @@ describe(rule.name, () => {
     });
 
     it('detects inadequate code', () => {
-        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result      = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result          = rule.check(templateContent);
 
         expect(result.occurrences).not.toEqual([]);
     });
 
     it('does not apply to spaces-only lines', () => {
-        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
-        const result      = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
+        const result          = rule.check(templateContent);
 
         expect(result.occurrences).toEqual([]);
     });
 
     it('does not apply to empty lines', () => {
-        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
-        const result      = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
+        const result          = rule.check(templateContent);
 
         expect(result.occurrences).toEqual([]);
     });
 
     it('accepts good code', () => {
-        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 3);
-        const result      = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 3);
+        const result          = rule.check(templateContent);
 
         expect(result.occurrences).toEqual([]);
     });
 
     it('detects trailing space chain position and length', () => {
-        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result          = rule.check(templateContent);
         const firstOccurrence = result.occurrences[0];
 
         expect(firstOccurrence.line      ).toEqual('const sum = 0;    ');

@@ -14,9 +14,9 @@ const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
 const specFilenameTemplate           = Constants.specFilenameTemplate;
 const UNPARSEABLE                    = ExceptionUtils.types.INVALID_TEMPLATE;
-const unparseableFilePath            = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
-const file0Path                      = path.join(specSpecificDirLinterTemplate, 'template_1.isml');
-const file1Path                      = path.join(specSpecificDirLinterTemplate, 'template_2.isml');
+const unparseableTemplatePath        = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
+const template0Path                  = path.join(specSpecificDirLinterTemplate, 'template_1.isml');
+const template1Path                  = path.join(specSpecificDirLinterTemplate, 'template_2.isml');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -29,12 +29,12 @@ describe(targetObjName, () => {
         SpecHelper.afterEach();
     });
 
-    it('lints ISML files in a given directory', () => {
+    it('lints ISML templates in a given directory', () => {
         const result           = IsmlLinter.run(specSpecificDirLinterTemplate);
-        const isprintError0    = result.errors[EnforceIsprintRule.description][file0Path][0];
-        const isprintError1    = result.errors[EnforceIsprintRule.description][file1Path][0];
-        const inlineStyleError = result.errors[NoInlineStyleRule.description][file0Path][0];
-        const blankLineError   = result.errors[NoSpaceOnlyLinesRule.description][file0Path][0];
+        const isprintError0    = result.errors[EnforceIsprintRule.description][template0Path][0];
+        const isprintError1    = result.errors[EnforceIsprintRule.description][template1Path][0];
+        const inlineStyleError = result.errors[NoInlineStyleRule.description][template0Path][0];
+        const blankLineError   = result.errors[NoSpaceOnlyLinesRule.description][template0Path][0];
 
         expect(isprintError0.line       ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
         expect(isprintError0.lineNumber ).toEqual(1);
@@ -64,19 +64,19 @@ describe(targetObjName, () => {
         expect(blankLineError.rule       ).toEqual(NoSpaceOnlyLinesRule.name);
         expect(blankLineError.message    ).toEqual(NoSpaceOnlyLinesRule.description);
 
-        expect(result[UNPARSEABLE][0].filePath   ).toEqual(unparseableFilePath);
-        expect(result[UNPARSEABLE][0].message    ).toEqual('Unbalanced <div> element');
-        expect(result[UNPARSEABLE][0].lineNumber ).toEqual(2);
-        expect(result.issueQty                   ).toEqual(5);
+        expect(result[UNPARSEABLE][0].templatePath ).toEqual(unparseableTemplatePath);
+        expect(result[UNPARSEABLE][0].message      ).toEqual('Unbalanced <div> element');
+        expect(result[UNPARSEABLE][0].lineNumber   ).toEqual(2);
+        expect(result.issueQty                     ).toEqual(5);
     });
 
-    it('lints ISML files in a given array of file paths', () => {
-        const filePathArray    = glob.sync('spec/templates/default/isml_linter/specific_directory_to_be_linted/**/*.isml');
-        const result           = IsmlLinter.run(filePathArray);
-        const isprintError0    = result.errors[EnforceIsprintRule.description][file0Path][0];
-        const isprintError1    = result.errors[EnforceIsprintRule.description][file1Path][0];
-        const inlineStyleError = result.errors[NoInlineStyleRule.description][file0Path][0];
-        const blankLineError   = result.errors[NoSpaceOnlyLinesRule.description][file0Path][0];
+    it('lints ISML templates in a given array of template paths', () => {
+        const templatePathArray = glob.sync('spec/templates/default/isml_linter/specific_directory_to_be_linted/**/*.isml');
+        const result            = IsmlLinter.run(templatePathArray);
+        const isprintError0     = result.errors[EnforceIsprintRule.description][template0Path][0];
+        const isprintError1     = result.errors[EnforceIsprintRule.description][template1Path][0];
+        const inlineStyleError  = result.errors[NoInlineStyleRule.description][template0Path][0];
+        const blankLineError    = result.errors[NoSpaceOnlyLinesRule.description][template0Path][0];
 
         expect(isprintError0.line       ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
         expect(isprintError0.lineNumber ).toEqual(1);
@@ -106,13 +106,13 @@ describe(targetObjName, () => {
         expect(blankLineError.rule       ).toEqual(NoSpaceOnlyLinesRule.name);
         expect(blankLineError.message    ).toEqual(NoSpaceOnlyLinesRule.description);
 
-        expect(result[UNPARSEABLE][0].filePath   ).toEqual(unparseableFilePath);
-        expect(result[UNPARSEABLE][0].message    ).toEqual('Unbalanced <div> element');
-        expect(result[UNPARSEABLE][0].lineNumber ).toEqual(2);
-        expect(result.issueQty                   ).toEqual(5);
+        expect(result[UNPARSEABLE][0].templatePath ).toEqual(unparseableTemplatePath);
+        expect(result[UNPARSEABLE][0].message      ).toEqual('Unbalanced <div> element');
+        expect(result[UNPARSEABLE][0].lineNumber   ).toEqual(2);
+        expect(result.issueQty                     ).toEqual(5);
     });
 
-    it('ignores files under the node_modules/ directory', () => {
+    it('ignores templates under the node_modules/ directory', () => {
         const result       = IsmlLinter.run(specSpecificDirLinterTemplate);
         const stringResult = JSON.stringify(result);
 
@@ -122,10 +122,10 @@ describe(targetObjName, () => {
     it('processes the correct line in result json data', () => {
         const result = IsmlLinter.run(specSpecificDirLinterTemplate);
 
-        expect(result.errors[EnforceIsprintRule.description][file0Path][0].line   ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
-        expect(result.errors[EnforceIsprintRule.description][file1Path][0].line   ).toEqual(' ${URLUtils.https(\'Reorder-ListingPage\')}');
-        expect(result.errors[NoInlineStyleRule.description][file0Path][0].line    ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
-        expect(result.errors[NoSpaceOnlyLinesRule.description][file0Path][0].line ).toEqual('   ');
+        expect(result.errors[EnforceIsprintRule.description][template0Path][0].line   ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
+        expect(result.errors[EnforceIsprintRule.description][template1Path][0].line   ).toEqual(' ${URLUtils.https(\'Reorder-ListingPage\')}');
+        expect(result.errors[NoInlineStyleRule.description][template0Path][0].line    ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
+        expect(result.errors[NoSpaceOnlyLinesRule.description][template0Path][0].line ).toEqual('   ');
     });
 
     it('does not consider errors in directories defined to be ignored in the config file', () => {
@@ -135,21 +135,21 @@ describe(targetObjName, () => {
         expect(result.indexOf('this_directory_is_to_be_ignored')).toEqual(-1);
     });
 
-    it('does not consider errors in files defined to be ignored in the config file', () => {
+    it('does not consider errors in templates defined to be ignored in the config file', () => {
         const lintResult = IsmlLinter.run(specIgnoreDirLinterTemplateDir);
         const result     = JSON.stringify(lintResult);
 
         expect(result.indexOf('Email.isml')).toEqual(-1);
     });
 
-    it('considers errors in files not defined to be ignored in the config file', () => {
+    it('considers errors in templates not defined to be ignored in the config file', () => {
         const lintResult = IsmlLinter.run(specIgnoreDirLinterTemplateDir);
         const result     = JSON.stringify(lintResult);
 
         expect(result.indexOf('this_directory_should_be_tested')).not.toEqual(-1);
     });
 
-    it('parses files only under a given directory', () => {
+    it('parses templates only under a given directory', () => {
         const lintResult = IsmlLinter.run(specIgnoreDirLinterTemplateDir);
         const result     = JSON.stringify(lintResult);
 
@@ -160,22 +160,22 @@ describe(targetObjName, () => {
         const result          = IsmlLinter.run(specSpecificDirLinterTemplate);
         const expectedMessage = ExceptionUtils.unbalancedElementError('div', 2).message;
         const actualResult    = result[UNPARSEABLE][0];
-        const filePath        = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
+        const templatePath    = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
 
-        expect(actualResult.filePath   ).toEqual(filePath);
-        expect(actualResult.message    ).toEqual(expectedMessage);
-        expect(actualResult.lineNumber ).toEqual(2);
+        expect(actualResult.templatePath ).toEqual(templatePath);
+        expect(actualResult.message      ).toEqual(expectedMessage);
+        expect(actualResult.lineNumber   ).toEqual(2);
     });
 
     it('accepts template absolute path as parameter', () => {
-        const absoluteFilePath = path.join(Constants.clientAppDir, specSpecificDirLinterTemplate, 'template_0.isml');
-        const result           = IsmlLinter.run(absoluteFilePath);
-        const expectedMessage  = ExceptionUtils.unbalancedElementError('div', 2).message;
-        const actualResult     = result[UNPARSEABLE][0];
+        const absoluteTemplatePath = path.join(Constants.clientAppDir, specSpecificDirLinterTemplate, 'template_0.isml');
+        const result               = IsmlLinter.run(absoluteTemplatePath);
+        const expectedMessage      = ExceptionUtils.unbalancedElementError('div', 2).message;
+        const actualResult         = result[UNPARSEABLE][0];
 
-        expect(actualResult.filePath   ).toEqual(absoluteFilePath);
-        expect(actualResult.message    ).toEqual(expectedMessage);
-        expect(actualResult.lineNumber ).toEqual(2);
+        expect(actualResult.templatePath ).toEqual(absoluteTemplatePath);
+        expect(actualResult.message      ).toEqual(expectedMessage);
+        expect(actualResult.lineNumber   ).toEqual(2);
     });
 
     it('applies fixes for tree-based rules', () => {
@@ -186,12 +186,12 @@ describe(targetObjName, () => {
             }
         });
 
-        const filePath        = path.join(Constants.clientAppDir, specSpecificDirLinterTemplate, 'template_1.isml');
-        const originalContent = fs.readFileSync(filePath, 'utf-8');
-        const result          = IsmlLinter.run(filePath);
+        const templatePath    = path.join(Constants.clientAppDir, specSpecificDirLinterTemplate, 'template_1.isml');
+        const originalContent = fs.readFileSync(templatePath, 'utf-8');
+        const result          = IsmlLinter.run(templatePath);
 
         expect(result.templatesFixed).toEqual(1);
-        fs.writeFileSync(filePath, originalContent);
+        fs.writeFileSync(templatePath, originalContent);
     });
 
     it('lists inconsistent filenames', () => {

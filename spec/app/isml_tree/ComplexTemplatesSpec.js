@@ -16,7 +16,7 @@ describe(targetObjName, () => {
     });
 
     it('parses a complex template I', () => {
-        const result       = TreeBuilder.build(getFilePath(0));
+        const result       = TreeBuilder.build(getTemplatePath(0));
         const rootNode     = result.rootNode;
         const commentNode  = rootNode.children[2];
         const setNode      = rootNode.children[7];
@@ -68,7 +68,7 @@ describe(targetObjName, () => {
     });
 
     it('parses a complex template II', () => {
-        const result          = TreeBuilder.build(getFilePath(1));
+        const result          = TreeBuilder.build(getTemplatePath(1));
         const rootNode        = result.rootNode;
         const firstDivNode    = rootNode.children[1];
         const htmlCommentNode = rootNode.children[4];
@@ -104,7 +104,7 @@ describe(targetObjName, () => {
     });
 
     it('parses a complex template III', () => {
-        const result          = TreeBuilder.build(getFilePath(2));
+        const result          = TreeBuilder.build(getTemplatePath(2));
         const rootNode        = result.rootNode;
         const loopNode        = rootNode.children[0];
         const sectionNode     = loopNode.children[0].children[0].children[0].children[4].children[0].children[1];
@@ -139,7 +139,7 @@ describe(targetObjName, () => {
     });
 
     it('parses a complex template IV', () => {
-        const result             = TreeBuilder.build(getFilePath(3));
+        const result             = TreeBuilder.build(getTemplatePath(3));
         const rootNode           = result.rootNode;
         const setNode            = rootNode.children[0];
         const cardNumberRowNode  = rootNode.children[3];
@@ -164,6 +164,6 @@ describe(targetObjName, () => {
     });
 });
 
-const getFilePath = number => {
+const getTemplatePath = number => {
     return `${Constants.specComplexTemplatesDir}/template_${number}.isml`;
 };

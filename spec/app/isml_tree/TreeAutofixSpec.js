@@ -63,7 +63,7 @@ describe('Tree auto-fix', () => {
 });
 
 const compareResultForTemplate = number => {
-    const templatePath            = getFilePath(number);
+    const templatePath            = getTemplatePath(number);
     const originalTemplateContent = fs.readFileSync(templatePath, 'utf-8');
     const tree                    = TreeBuilder.build(templatePath);
     const rootNode                = tree.rootNode;
@@ -72,6 +72,6 @@ const compareResultForTemplate = number => {
     expect(actualContent).toEqual(originalTemplateContent);
 };
 
-const getFilePath = number => {
+const getTemplatePath = number => {
     return `${Constants.specAutofixTemplatesDir}/template_${number}.isml`;
 };

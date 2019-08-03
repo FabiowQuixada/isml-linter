@@ -71,7 +71,7 @@ const getErrorObj = (rule, occurrenceArray) => {
     return errorObj;
 };
 
-const checkLineByLineRules = (filePath, fileContent) => {
+const checkLineByLineRules = (templatePath, templateContent) => {
     const config          = ConfigUtils.load();
     const templateResults = {
         fixed  : false,
@@ -83,11 +83,11 @@ const checkLineByLineRules = (filePath, fileContent) => {
     for (let i = 0; i < ruleArray.length; i++) {
         const rule = ruleArray[i];
 
-        if (!rule.isIgnore(filePath)) {
-            const ruleResult = rule.check(fileContent);
+        if (!rule.isIgnore(templatePath)) {
+            const ruleResult = rule.check(templateContent);
 
             if (config.autoFix && ruleResult.fixedContent) {
-                fs.writeFileSync(filePath, ruleResult.fixedContent);
+                fs.writeFileSync(templatePath, ruleResult.fixedContent);
                 templateResults.fixed = true;
             } else if (ruleResult.occurrences && ruleResult.occurrences.length) {
                 const errorObj         = getErrorObj(rule, ruleResult.occurrences);
@@ -100,14 +100,14 @@ const checkLineByLineRules = (filePath, fileContent) => {
     return templateResults;
 };
 
-const checkFileName = (filename, fileContent) => {
+const checkFileName = (filename, templateContent) => {
     const templateResults = {
         fixed  : false,
         errors : {}
     };
 
     if (lowercaseFilenameRule.isEnabled()) {
-        const errorObj = lowercaseFilenameRule.check(filename, fileContent);
+        const errorObj = lowercaseFilenameRule.check(filename, templateContent);
 
         if (errorObj) {
             templateResults.errors = errorObj.occurrences;
@@ -117,7 +117,7 @@ const checkFileName = (filename, fileContent) => {
     return templateResults;
 };
 
-const checkTreeRules = (filePath, fileContent) => {
+const checkTreeRules = (templatePath, templateContent) => {
     const config          = ConfigUtils.load();
     const templateResults = {
         fixed  : false,
@@ -125,7 +125,7 @@ const checkTreeRules = (filePath, fileContent) => {
     };
 
     if (!config.disableTreeParse) {
-        const tree = TreeBuilder.build(filePath, fileContent);
+        const tree = TreeBuilder.build(templatePath, templateContent);
 
         if (!tree.rootNode) {
             throw tree.exception;
@@ -136,11 +136,11 @@ const checkTreeRules = (filePath, fileContent) => {
         for (let i = 0; i < ruleArray.length; i++) {
             const rule = ruleArray[i];
 
-            if (!rule.isIgnore(filePath)) {
+            if (!rule.isIgnore(templatePath)) {
                 const ruleResults = rule.check(tree.rootNode, { occurrences : [] }, templateResults.data);
 
                 if (config.autoFix && ruleResults.fixedContent) {
-                    fs.writeFileSync(filePath, ruleResults.fixedContent);
+                    fs.writeFileSync(templatePath, ruleResults.fixedContent);
                     templateResults.fixed = true;
                 }
                 else if (ruleResults.occurrences && ruleResults.occurrences.length) {
@@ -188,11 +188,11 @@ const checkCustomModules = () => {
     return moduleResults;
 };
 
-const checkTemplate = (filePath, content, templateName) => {
-    const fileContent     = content || fs.readFileSync(filePath, 'utf-8');
-    const lineResults     = checkLineByLineRules(filePath, fileContent);
-    const treeResults     = checkTreeRules(filePath, fileContent);
-    const filenameResults = checkFileName(templateName, fileContent);
+const checkTemplate = (templatePath, content, templateName) => {
+    const templateContent = content || fs.readFileSync(templatePath, 'utf-8');
+    const lineResults     = checkLineByLineRules(templatePath, templateContent);
+    const treeResults     = checkTreeRules(templatePath, templateContent);
+    const filenameResults = checkFileName(templateName, templateContent);
 
     return {
         fixed    : lineResults.fixed || treeResults.fixed,

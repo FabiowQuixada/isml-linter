@@ -34,10 +34,10 @@ const displayLintingErrors = jsonErrors => {
 
     let partialSum = 0;
     for (const rule in jsonErrors.errors) {
-        for (const file in jsonErrors.errors[rule]) {
-            console.log(Constants.EOL + file);
+        for (const template in jsonErrors.errors[rule]) {
+            console.log(Constants.EOL + template);
 
-            const errorArray = jsonErrors.errors[rule][file];
+            const errorArray = jsonErrors.errors[rule][template];
 
             for (let i = 0; i < errorArray.length; i++) {
                 const error     = errorArray[i];
@@ -71,7 +71,7 @@ const displayUnparseableErrors = jsonErrors => {
 
             for (let i = 0; i < jsonErrors[INVALID_TEMPLATE].length; i++) {
                 const error = jsonErrors[INVALID_TEMPLATE][i];
-                console.log(chalk.gray(i) + ' ' + error.filePath + ':' + error.lineNumber);
+                console.log(chalk.gray(i) + ' ' + error.templatePath + ':' + error.lineNumber);
                 console.log('\t' + chalk`{red.bold >> }` + `${error.message}${Constants.EOL}`);
                 partialSum++;
             }

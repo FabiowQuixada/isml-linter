@@ -12,24 +12,24 @@ describe(rule.name, () => {
     });
 
     it('detects unresolved conflict', () => {
-        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result      = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result          = rule.check(templateContent);
 
         expect(result.occurrences).not.toEqual([]);
     });
 
     it('accepts code that is not related to the rule', () => {
-        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
-        const result      = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
+        const result          = rule.check(templateContent);
 
         expect(result.occurrences).toEqual([]);
     });
 
     it('detects position and length of space-only lines', () => {
-        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result      = rule.check(fileContent);
-        const occurrence1 = result.occurrences[0];
-        const occurrence2 = result.occurrences[1];
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result          = rule.check(templateContent);
+        const occurrence1     = result.occurrences[0];
+        const occurrence2     = result.occurrences[1];
 
         expect(occurrence1.line      ).toEqual('<<<<<<< HEAD');
         expect(occurrence1.lineNumber).toEqual(1);

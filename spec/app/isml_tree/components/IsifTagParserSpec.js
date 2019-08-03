@@ -16,8 +16,8 @@ describe(targetObjName, () => {
 
     it('parses an simple empty isif-iselse tag', () => {
 
-        const filePath        = getFilePath(0);
-        const rootNode        = TreeBuilder.build(filePath).rootNode;
+        const templatePath    = getTemplatePath(0);
+        const rootNode        = TreeBuilder.build(templatePath).rootNode;
         const multiClauseNode = rootNode.children[0];
 
         expect(multiClauseNode.getNumberOfChildren()).toEqual(2);
@@ -27,8 +27,8 @@ describe(targetObjName, () => {
 
     it('parser simple non-empty isif-iselse tag', () => {
 
-        const filePath        = getFilePath(1);
-        const rootNode        = TreeBuilder.build(filePath).rootNode;
+        const templatePath    = getTemplatePath(1);
+        const rootNode        = TreeBuilder.build(templatePath).rootNode;
         const multiClauseNode = rootNode.children[0];
 
         expect(multiClauseNode.getNumberOfChildren()).toEqual(2);
@@ -37,8 +37,8 @@ describe(targetObjName, () => {
     });
 
     it('sets correct global position for <iselse> tag', () => {
-        const filePath        = getFilePath(1);
-        const rootNode        = TreeBuilder.build(filePath).rootNode;
+        const templatePath    = getTemplatePath(1);
+        const rootNode        = TreeBuilder.build(templatePath).rootNode;
         const multiClauseNode = rootNode.children[0];
         const iselseNode      = multiClauseNode.children[1];
 
@@ -46,8 +46,8 @@ describe(targetObjName, () => {
     });
 
     it('sets correct global position for <iselseif> tags', () => {
-        const filePath        = getFilePath(2);
-        const rootNode        = TreeBuilder.build(filePath).rootNode;
+        const templatePath    = getTemplatePath(2);
+        const rootNode        = TreeBuilder.build(templatePath).rootNode;
         const multiClauseNode = rootNode.children[0];
         const iselseifNode    = multiClauseNode.children[1];
         const iselseNode      = multiClauseNode.children[2];
@@ -57,8 +57,8 @@ describe(targetObjName, () => {
     });
 
     it('sets the children of a multiclause node correctly, with no duplicates', () => {
-        const filePath        = getFilePath(2);
-        const rootNode        = TreeBuilder.build(filePath).rootNode;
+        const templatePath    = getTemplatePath(2);
+        const rootNode        = TreeBuilder.build(templatePath).rootNode;
         const multiClauseNode = rootNode.children[0];
 
         expect(multiClauseNode.getNumberOfChildren()).toEqual(3);
@@ -66,8 +66,8 @@ describe(targetObjName, () => {
 
     it('parses a multi-clause isif-iselseif-iselse tag', () => {
 
-        const filePath        = getFilePath(2);
-        const rootNode        = TreeBuilder.build(filePath).rootNode;
+        const templatePath    = getTemplatePath(2);
+        const rootNode        = TreeBuilder.build(templatePath).rootNode;
         const multiClauseNode = rootNode.children[0];
 
         expect(multiClauseNode.getNumberOfChildren()).toEqual(3);
@@ -77,6 +77,6 @@ describe(targetObjName, () => {
     });
 });
 
-const getFilePath = number => {
+const getTemplatePath = number => {
     return `${Constants.specIsifTagParserTemplateDir}/template_${number}.isml`;
 };

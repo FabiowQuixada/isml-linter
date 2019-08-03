@@ -49,11 +49,11 @@ describe('TreeBuilder', () => {
     });
 });
 
-const getFilePath = number => {
+const getTemplatePath = number => {
     return `${Constants.specElementBalanceTemplatesDir}/template_${number}.isml`;
 };
 
 const getTreeFromTemplate = number => {
-    const filePath = getFilePath(number);
-    return TreeBuilder.build(filePath);
+    const templatePath = getTemplatePath(number);
+    return TreeBuilder.build(templatePath);
 };

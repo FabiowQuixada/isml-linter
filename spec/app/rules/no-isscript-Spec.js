@@ -12,22 +12,22 @@ describe(rule.name, () => {
     });
 
     it('detects inadequate code', () => {
-        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result      = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result          = rule.check(templateContent);
 
         expect(result.occurrences).not.toEqual([]);
     });
 
     it('accepts code that is not related to the rule', () => {
-        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
-        const result      = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
+        const result          = rule.check(templateContent);
 
         expect(result.occurrences).toEqual([]);
     });
 
     it('detects logic in template', () => {
-        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result          = rule.check(templateContent);
         const firstOccurrence = result.occurrences[0];
 
         expect(firstOccurrence.line      ).toEqual('<isscript>');

@@ -186,7 +186,7 @@ describe(targetObjName, () => {
 
     it('removes a child node', () => {
         const removeIndex     = 3;
-        const tree            = TreeBuilder.build(getFilePath(0));
+        const tree            = TreeBuilder.build(getTemplatePath(0));
         const rootNode        = tree.rootNode;
         const childrenQty     = rootNode.getNumberOfChildren();
         const nodeToBeRemoved = rootNode.children[removeIndex];
@@ -201,7 +201,7 @@ describe(targetObjName, () => {
 
     it('returns the removed node on remove operation', () => {
         const removeIndex     = 3;
-        const tree            = TreeBuilder.build(getFilePath(0));
+        const tree            = TreeBuilder.build(getTemplatePath(0));
         const rootNode        = tree.rootNode;
         const nodeToBeRemoved = rootNode.children[removeIndex];
         const removedNode     = rootNode.removeChild(nodeToBeRemoved);
@@ -210,7 +210,7 @@ describe(targetObjName, () => {
     });
 
     it('adds a child node at a specific position', () => {
-        const tree        = TreeBuilder.build(getFilePath(0));
+        const tree        = TreeBuilder.build(getTemplatePath(0));
         const rootNode    = tree.rootNode;
         const childrenQty = rootNode.getNumberOfChildren();
         const newNode     = new IsmlNode('<ismycustom />');
@@ -223,6 +223,6 @@ describe(targetObjName, () => {
     });
 });
 
-const getFilePath = number => {
+const getTemplatePath = number => {
     return `${Constants.specComplexTemplatesDir}/template_${number}.isml`;
 };

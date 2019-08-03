@@ -109,7 +109,7 @@ const expectedObject = {
         }
     },
     'INVALID_TEMPLATE': [{
-        filePath : 'cartridges/a_multi_cartridge_project/int_cartridge_1/templates/default/template_2.isml:289',
+        templatePath : 'cartridges/a_multi_cartridge_project/int_cartridge_1/templates/default/template_2.isml:289',
         message  : 'Unbalanced <div> element'
     }]
 };

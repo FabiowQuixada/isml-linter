@@ -74,7 +74,7 @@ module.exports = {
     specSpecificDirLinterTemplate,
     specFilenameTemplate,
     specIgnoreDirLinterTemplateDir,
-    fileParserSpecDir: specFileParserTemplate,
+    templateParserSpecDir: specFileParserTemplate,
     specTempDir,
     rulesDir,
     specTemplateDir,

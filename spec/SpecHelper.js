@@ -26,8 +26,8 @@ const cleanTempDirectory = () => {
     FileUtils.deleteDirectoryRecursively(specTempDir);
 };
 
-const getTreeRuleSpecTemplatePath = (rule, fileNumber) => {
-    return `${Constants.specRuleTemplateDir}/tree/${snake(rule.name)}/template_${fileNumber}.isml`;
+const getTreeRuleSpecTemplatePath = (rule, templateNumber) => {
+    return `${Constants.specRuleTemplateDir}/tree/${snake(rule.name)}/template_${templateNumber}.isml`;
 };
 
 module.exports = {
@@ -54,15 +54,15 @@ module.exports = {
         ConfigUtils.clearConfig();
     },
 
-    getRuleSpecTemplateContent: (rule, fileNumber) => {
-        const fs       = require('fs');
-        const filePath = `${Constants.specRuleTemplateDir}/line_by_line/${snake(rule.name)}/template_${fileNumber}.isml`;
-        return fs.readFileSync(filePath, 'utf-8');
+    getRuleSpecTemplateContent: (rule, templateNumber) => {
+        const fs           = require('fs');
+        const templatePath = `${Constants.specRuleTemplateDir}/line_by_line/${snake(rule.name)}/template_${templateNumber}.isml`;
+        return fs.readFileSync(templatePath, 'utf-8');
     },
 
-    parseAndApplyRuleToTemplate: (rule, fileNumber) => {
-        const filePath = getTreeRuleSpecTemplatePath(rule, fileNumber);
-        const tree     = TreeBuilder.build(filePath);
+    parseAndApplyRuleToTemplate: (rule, templateNumber) => {
+        const templatePath = getTreeRuleSpecTemplatePath(rule, templateNumber);
+        const tree         = TreeBuilder.build(templatePath);
 
         return rule.check(tree.rootNode, { occurrences : [] }, tree.data).occurrences;
     },

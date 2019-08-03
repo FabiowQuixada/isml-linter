@@ -11,8 +11,8 @@ Rule.init(ruleName, description);
 
 Rule.isBroken = function(line) { return line.indexOf('\t') !== -1; };
 
-Rule.getFixedContent = function(fileContent) {
-    return fileContent.replaceAll('\t', indent);
+Rule.getFixedContent = function(templateContent) {
+    return templateContent.replaceAll('\t', indent);
 };
 
 Rule.getFirstOccurrence = function(line) {

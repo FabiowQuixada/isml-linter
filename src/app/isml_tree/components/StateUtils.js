@@ -2,13 +2,13 @@ const ParseUtils = require('./ParseUtils');
 const Constants  = require('../../Constants');
 
 module.exports = {
-    getInitialState(content, parentState, parentNode, filePath) {
+    getInitialState(content, parentState, parentNode, templatePath) {
 
         const state = {
             content,
             parentState,
             parentNode,
-            filePath,
+            templatePath,
             stateDepth            : parentState ? parentState.stateDepth + 1 : 0,
             currentElement        : {},
             lineBreakPositionList : [0],

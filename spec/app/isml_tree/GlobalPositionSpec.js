@@ -85,9 +85,9 @@ describe('GlobalPosition', () => {
 });
 
 const parseTemplate = number => {
-    const filePath    = `${Constants.specGlobalPosTemplateDir}/template_${number}.isml`;
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    const root        = TreeBuilder.parse(fileContent, undefined, undefined, filePath);
+    const templatePath    = `${Constants.specGlobalPosTemplateDir}/template_${number}.isml`;
+    const templateContent = fs.readFileSync(templatePath, 'utf-8');
+    const root            = TreeBuilder.parse(templateContent, undefined, undefined, templatePath);
 
     return root;
 };

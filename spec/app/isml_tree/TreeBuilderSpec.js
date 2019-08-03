@@ -448,7 +448,7 @@ describe(targetObjName, () => {
 
     it('detects an "<" invalid character', () => {
         const tree         = getTreeFromTemplate(42);
-        const templatePath = getFilePath(42);
+        const templatePath = getTemplatePath(42);
 
         expect(tree.exception.message    ).toEqual(`Invalid character "<" found at ${templatePath}:3.`);
         expect(tree.exception.globalPos  ).toEqual(46);
@@ -468,13 +468,13 @@ describe(targetObjName, () => {
     });
 });
 
-const getFilePath = number => {
+const getTemplatePath = number => {
     return `${Constants.specIsmlTreeTemplateDir}/template_${number}.isml`;
 };
 
 const getTreeFromTemplate = number => {
-    const filePath  = getFilePath(number);
-    return TreeBuilder.build(filePath);
+    const templatePath  = getTemplatePath(number);
+    return TreeBuilder.build(templatePath);
 };
 
 const getRootNodeFromTemplate = number => {

@@ -13,8 +13,8 @@ const EnforceIsprintRule   = require('../../../src/app/rules/line_by_line/enforc
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
-const filePath   = path.join(Constants.fileParserSpecDir, 'template_0.isml');
-const ptFilePath = path.join(Constants.fileParserSpecDir, 'pt_template_0.isml');
+const templatePath   = path.join(Constants.templateParserSpecDir, 'template_0.isml');
+const ptTemplatePath = path.join(Constants.templateParserSpecDir, 'pt_template_0.isml');
 
 describe(targetObjName, () => {
     beforeEach(() => {
@@ -29,8 +29,8 @@ describe(targetObjName, () => {
         expect(RuleUtils.getAllLineRules().length).toBe(numberOfRules());
     });
 
-    it('correctly parses a given ISML file', () => {
-        const result = RuleUtils.checkTemplate(filePath);
+    it('correctly parses a given ISML template', () => {
+        const result = RuleUtils.checkTemplate(templatePath);
 
         expect(result).not.toEqual({});
     });
@@ -44,7 +44,7 @@ describe(targetObjName, () => {
             }
         });
 
-        const result       = RuleUtils.checkTemplate(filePath);
+        const result       = RuleUtils.checkTemplate(templatePath);
         const errorArray   = Object.keys(result.errors);
         let ruleWasChecked = false;
 
@@ -66,7 +66,7 @@ describe(targetObjName, () => {
             }
         });
 
-        const result       = RuleUtils.checkTemplate(filePath);
+        const result       = RuleUtils.checkTemplate(templatePath);
         const ruleArray    = Object.keys(result.errors);
         let ruleWasChecked = false;
 
@@ -89,7 +89,7 @@ describe(targetObjName, () => {
             }
         });
 
-        const actualResult     = RuleUtils.checkTemplate(filePath);
+        const actualResult     = RuleUtils.checkTemplate(templatePath);
         const isprintError0    = actualResult.errors[EnforceIsprintRule.description][0];
         const isprintError1    = actualResult.errors[EnforceIsprintRule.description][1];
         const inlineStyleError = actualResult.errors[NoInlineStyleRule.description][0];
@@ -119,14 +119,14 @@ describe(targetObjName, () => {
     });
 
     it('ignores "pt_"-named templates for no-isscript (line) rule', () => {
-        const actualResult = RuleUtils.checkTemplate(ptFilePath);
+        const actualResult = RuleUtils.checkTemplate(ptTemplatePath);
 
         expect(actualResult.errors[NoIsscriptRule.description]).toEqual(undefined);
         expect(actualResult.errors[NoSpaceOnlyLinesRule.description]).not.toEqual(undefined);
     });
 
     it('ignores "pt_"-named templates for no-require-in-loop (tree) rule', () => {
-        const actualResult = RuleUtils.checkTemplate(ptFilePath);
+        const actualResult = RuleUtils.checkTemplate(ptTemplatePath);
 
         expect(actualResult.errors[NoRequireInLoopRule.description]).toEqual(undefined);
         expect(actualResult.errors[NoHardcodeRule.description]).not.toEqual(undefined);

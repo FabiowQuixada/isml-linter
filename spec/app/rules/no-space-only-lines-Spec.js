@@ -12,29 +12,29 @@ describe(rule.name, () => {
     });
 
     it('detects inadequate code', () => {
-        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result      = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result          = rule.check(templateContent);
 
         expect(result.occurrences).not.toEqual([]);
     });
 
     it('ignores empty lines', () => {
-        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
-        const result      = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
+        const result          = rule.check(templateContent);
 
         expect(result.occurrences).toEqual([]);
     });
 
     it('accepts good code', () => {
-        const fileContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
-        const result      = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
+        const result          = rule.check(templateContent);
 
         expect(result.occurrences).toEqual([]);
     });
 
     it('detects position and length of space-only lines', () => {
-        const fileContent     = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(fileContent);
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
+        const result          = rule.check(templateContent);
         const firstOccurrence = result.occurrences[0];
 
         expect(firstOccurrence.line      ).toEqual('     ');

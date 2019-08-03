@@ -32,7 +32,7 @@ const getTemplateData = (pathData, templateName) => {
             path.join(pathData, templateName)};
 };
 
-const getFilePathArray = pathData => {
+const getTemplatePathArray = pathData => {
     if (Array.isArray(pathData)) {
         return pathData.filter(ignoreFiles);
     } else {
@@ -81,11 +81,11 @@ const reducer = content => {
             }
             else {
                 templateResults[UNPARSEABLE].push({
-                    filePath   : templatePath,
-                    message    : e.message,
-                    globalPos  : e.globalPos,
-                    length     : e.length,
-                    lineNumber : e.lineNumber
+                    templatePath : templatePath,
+                    message      : e.message,
+                    globalPos    : e.globalPos,
+                    length       : e.length,
+                    lineNumber   : e.lineNumber
                 });
             }
 
@@ -106,7 +106,7 @@ Linter.run = (pathData = config.rootDir || appRoot.toString(), content) => {
     const CustomModulesRule   = require('./rules/tree/custom-tags');
     const customModuleResults = RuleUtils.checkCustomModules();
 
-    const templateResults = getFilePathArray(pathData)
+    const templateResults = getTemplatePathArray(pathData)
         .map(templateName => getTemplateData(pathData, templateName))
         .filter(templateData => !FileUtils.isIgnored(templateData.path))
         .reduce(reducer(content), getEmptyResult());
