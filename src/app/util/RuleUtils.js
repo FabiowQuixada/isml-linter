@@ -4,12 +4,34 @@ const Constants             = require('../Constants');
 const TreeBuilder           = require('../isml_tree/TreeBuilder');
 const ConfigUtils           = require('./ConfigUtils');
 const lowercaseFilenameRule = require('../rules/line_by_line/lowercase-filename');
+const customTagContainer    = require('./CustomTagUtils');
+const CustomModulesRule     = require('../rules/tree/custom-tags');
 
 const lineByLineRules = [];
 const treeRules       = [];
 
 const lineRuleFileArray = fs.readdirSync(Constants.lineByLineRulesDir);
 const treeRuleFileArray = fs.readdirSync(Constants.treeRulesDir);
+
+const checkCustomTag = tag => {
+    if (customTagContainer.hasOwnProperty(tag)) {
+        const attrList = customTagContainer[tag].attrList;
+
+        for (let i = 0; i < attrList.length; i++) {
+            const attr = attrList[i];
+            if (attr !== attr.toLowerCase()) {
+                return {
+                    line: '',
+                    globalPos: 0,
+                    length: 10,
+                    lineNumber: 1,
+                    rule: CustomModulesRule.name,
+                    message: `Module properties need to be lower case: "${tag}" module has the invalid "${attr}" attribute`
+                };
+            }
+        }
+    }
+};
 
 for (let i = 0; i < lineRuleFileArray.length; i++) {
     const file = lineRuleFileArray[i];
@@ -155,8 +177,6 @@ const checkTreeRules = (templatePath, templateContent) => {
 };
 
 const checkCustomModules = () => {
-    const customTagContainer = require('./CustomTagUtils');
-    const CustomModulesRule  = require('../rules/tree/custom-tags');
     const moduleResults      = {
         errors : []
     };
@@ -164,23 +184,10 @@ const checkCustomModules = () => {
 
     if (CustomModulesRule.isEnabled()) {
         for (const tag in customTagContainer) {
-            if (customTagContainer.hasOwnProperty(tag)) {
-                const attrList = customTagContainer[tag].attrList;
+            const errorObj = checkCustomTag(tag);
 
-                for (let i = 0; i < attrList.length; i++) {
-                    const attr = attrList[i];
-
-                    if (attr !== attr.toLowerCase()) {
-                        moduleResults.errors.push({
-                            line       : '',
-                            globalPos  : 0,
-                            length     : 10,
-                            lineNumber : 1,
-                            rule       : CustomModulesRule.name,
-                            message    : `Module properties need to be lower case: "${tag}" module has the invalid "${attr}" attribute`
-                        });
-                    }
-                }
+            if (errorObj) {
+                moduleResults.errors.push(errorObj);
             }
         }
     }
