@@ -28,7 +28,7 @@ describe(targetObjName, () => {
 
         const expectedResult1 = 'An error has occurred:';
         const expectedResult3 = 'If you think this is a bug, please open an issue at:';
-        const expectedResult4 = `${Constants.EOL}https://github.com/FabiowQuixada/isml-linter${Constants.EOL}${Constants.EOL}`;
+        const expectedResult4 = `${Constants.EOL}${Constants.repositoryUrl}${Constants.EOL}${Constants.EOL}`;
 
         expect(spy.getCall(1).args[0]).toEqual(expectedResult1);
         expect(spy.getCall(3).args[0]).toEqual(expectedResult3);
