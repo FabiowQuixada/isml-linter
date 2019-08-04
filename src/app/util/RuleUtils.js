@@ -10,8 +10,28 @@ const CustomModulesRule     = require('../rules/tree/custom-tags');
 const lineByLineRules = [];
 const treeRules       = [];
 
-const lineRuleFileArray = fs.readdirSync(Constants.lineByLineRulesDir);
-const treeRuleFileArray = fs.readdirSync(Constants.treeRulesDir);
+(() => {
+    const lineRuleFileArray = fs.readdirSync(Constants.lineByLineRulesDir);
+    const treeRuleFileArray = fs.readdirSync(Constants.treeRulesDir);
+
+    for (let i = 0; i < lineRuleFileArray.length; i++) {
+        const file = lineRuleFileArray[i];
+
+        if (file.endsWith('.js')) {
+            const rulePath = path.join(__dirname, '..', 'rules', 'line_by_line', file);
+            lineByLineRules.push(require(rulePath));
+        }
+    }
+
+    for (let i = 0; i < treeRuleFileArray.length; i++) {
+        const file = treeRuleFileArray[i];
+
+        if (file.endsWith('.js')) {
+            const rulePath = path.join(__dirname, '..', 'rules', 'tree', file);
+            treeRules.push(require(rulePath));
+        }
+    }
+})();
 
 const checkCustomTag = tag => {
     if (customTagContainer.hasOwnProperty(tag)) {
@@ -21,35 +41,45 @@ const checkCustomTag = tag => {
             const attr = attrList[i];
             if (attr !== attr.toLowerCase()) {
                 return {
-                    line: '',
-                    globalPos: 0,
-                    length: 10,
-                    lineNumber: 1,
-                    rule: CustomModulesRule.name,
-                    message: `Module properties need to be lower case: "${tag}" module has the invalid "${attr}" attribute`
+                    line       : '',
+                    globalPos  : 0,
+                    length     : 10,
+                    lineNumber : 1,
+                    rule       : CustomModulesRule.name,
+                    message    : `Module properties need to be lower case: "${tag}" module has the invalid "${attr}" attribute`
                 };
             }
         }
     }
 };
 
-for (let i = 0; i < lineRuleFileArray.length; i++) {
-    const file = lineRuleFileArray[i];
-
-    if (file.endsWith('.js')) {
-        const rulePath = path.join(__dirname, '..', 'rules', 'line_by_line', file);
-        lineByLineRules.push(require(rulePath));
+const applyRuleResult = (config, ruleResult, templatePath, templateResults, rule) => {
+    if (config.autoFix && ruleResult.fixedContent) {
+        fs.writeFileSync(templatePath, ruleResult.fixedContent);
+        templateResults.fixed = true;
     }
-}
-
-for (let i = 0; i < treeRuleFileArray.length; i++) {
-    const file = treeRuleFileArray[i];
-
-    if (file.endsWith('.js')) {
-        const rulePath = path.join(__dirname, '..', 'rules', 'tree', file);
-        treeRules.push(require(rulePath));
+    else if (ruleResult.occurrences && ruleResult.occurrences.length) {
+        const errorObj         = getErrorObj(rule, ruleResult.occurrences);
+        templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
     }
-}
+};
+
+const applyRuleOnTemplate = (ruleArray, templatePath, root, config) => {
+    const templateResults = {
+        fixed  : false,
+        errors : {}
+    };
+
+    for (let i = 0; i < ruleArray.length; i++) {
+        const rule = ruleArray[i];
+        if (!rule.isIgnore(templatePath)) {
+            const ruleResults = rule.check(root, { occurrences: [] }, templateResults.data);
+            applyRuleResult(config, ruleResults, templatePath, templateResults, rule);
+        }
+    }
+
+    return templateResults;
+};
 
 const findNodeOfType = (node, type) => {
     let result = null;
@@ -93,35 +123,6 @@ const getErrorObj = (rule, occurrenceArray) => {
     return errorObj;
 };
 
-const checkLineByLineRules = (templatePath, templateContent) => {
-    const config          = ConfigUtils.load();
-    const templateResults = {
-        fixed  : false,
-        errors : {}
-    };
-
-    const ruleArray = getEnabledLineRules();
-
-    for (let i = 0; i < ruleArray.length; i++) {
-        const rule = ruleArray[i];
-
-        if (!rule.isIgnore(templatePath)) {
-            const ruleResult = rule.check(templateContent);
-
-            if (config.autoFix && ruleResult.fixedContent) {
-                fs.writeFileSync(templatePath, ruleResult.fixedContent);
-                templateResults.fixed = true;
-            } else if (ruleResult.occurrences && ruleResult.occurrences.length) {
-                const errorObj         = getErrorObj(rule, ruleResult.occurrences);
-                templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
-            }
-
-        }
-    }
-
-    return templateResults;
-};
-
 const checkFileName = (filename, templateContent) => {
     const templateResults = {
         fixed  : false,
@@ -139,13 +140,7 @@ const checkFileName = (filename, templateContent) => {
     return templateResults;
 };
 
-const checkTreeRules = (templatePath, templateContent) => {
-    const config          = ConfigUtils.load();
-    const templateResults = {
-        fixed  : false,
-        errors : {}
-    };
-
+const checkTreeRules = (templatePath, templateContent, config) => {
     if (!config.disableTreeParse) {
         const tree = TreeBuilder.build(templatePath, templateContent);
 
@@ -155,32 +150,28 @@ const checkTreeRules = (templatePath, templateContent) => {
 
         const ruleArray = getEnabledTreeRules();
 
-        for (let i = 0; i < ruleArray.length; i++) {
-            const rule = ruleArray[i];
-
-            if (!rule.isIgnore(templatePath)) {
-                const ruleResults = rule.check(tree.rootNode, { occurrences : [] }, templateResults.data);
-
-                if (config.autoFix && ruleResults.fixedContent) {
-                    fs.writeFileSync(templatePath, ruleResults.fixedContent);
-                    templateResults.fixed = true;
-                }
-                else if (ruleResults.occurrences && ruleResults.occurrences.length) {
-                    const errorObj         = getErrorObj(rule, ruleResults.occurrences);
-                    templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
-                }
-            }
-        }
+        return applyRuleOnTemplate(
+            ruleArray,
+            templatePath,
+            tree.rootNode,
+            config);
     }
+};
 
-    return templateResults;
+const checkLineByLineRules = (templatePath, templateContent, config) => {
+    const ruleArray = getEnabledLineRules();
+
+    return applyRuleOnTemplate(
+        ruleArray,
+        templatePath,
+        templateContent,
+        config);
 };
 
 const checkCustomModules = () => {
-    const moduleResults      = {
+    const moduleResults = {
         errors : []
     };
-    moduleResults[CustomModulesRule.description];
 
     if (CustomModulesRule.isEnabled()) {
         for (const tag in customTagContainer) {
@@ -196,9 +187,10 @@ const checkCustomModules = () => {
 };
 
 const checkTemplate = (templatePath, content, templateName) => {
+    const config          = ConfigUtils.load();
     const templateContent = content || fs.readFileSync(templatePath, 'utf-8');
-    const lineResults     = checkLineByLineRules(templatePath, templateContent);
-    const treeResults     = checkTreeRules(templatePath, templateContent);
+    const lineResults     = checkLineByLineRules(templatePath, templateContent, config);
+    const treeResults     = checkTreeRules(templatePath, templateContent, config) || { errors : [] };
     const filenameResults = checkFileName(templateName, templateContent);
 
     return {
@@ -213,9 +205,8 @@ const checkTemplate = (templatePath, content, templateName) => {
 };
 
 const getAvailableRulesQty = () => treeRules.length + lineByLineRules.length;
-
-const getEnabledLineRules = () => lineByLineRules.filter( rule => rule.isEnabled() && rule.name !== 'lowercase-filename');
-const getEnabledTreeRules = () => treeRules.filter( rule => rule.isEnabled() );
+const getEnabledLineRules  = () => lineByLineRules.filter( rule => rule.isEnabled() && rule.name !== 'lowercase-filename');
+const getEnabledTreeRules  = () => treeRules.filter( rule => rule.isEnabled() );
 
 module.exports.getAllLineRules             = () => lineByLineRules;
 module.exports.findNodeOfType              = findNodeOfType;
