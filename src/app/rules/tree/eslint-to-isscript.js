@@ -3,14 +3,14 @@ const ParseUtils        = require('../../isml_tree/components/ParseUtils');
 const Constants         = require('../../Constants');
 const ConfigUtils       = require('../../util/ConfigUtils');
 
-const ruleName    = require('path').basename(__filename).slice(0, -3);
+const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Not eslint-valid';
 
 const Rule = Object.create(TreeRulePrototype);
 
 let isscriptContentArray = [];
 
-Rule.init(ruleName, description);
+Rule.init(ruleId, description);
 
 Rule.addError = function(node, error, ismlIndentation, linter) {
     const errorLine              = linter.getSourceCode().lines[error.line - 1];

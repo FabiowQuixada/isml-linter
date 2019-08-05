@@ -4,7 +4,7 @@ const Constants    = require('../../../src/app/Constants');
 
 const rule = SpecHelper.getTreeRule(specFileName);
 
-describe(rule.name, () => {
+describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });
@@ -20,7 +20,7 @@ describe(rule.name, () => {
         expect(result.lineNumber).toEqual(1);
         expect(result.globalPos ).toEqual(0 + SpecHelper.getEolOffset(result.lineNumber));
         expect(result.length    ).toEqual(176);
-        expect(result.rule      ).toEqual(rule.name);
+        expect(result.rule      ).toEqual(rule.id);
         expect(result.message   ).toEqual(rule.description);
     });
 

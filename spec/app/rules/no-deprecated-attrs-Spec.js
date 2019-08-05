@@ -3,7 +3,7 @@ const specFileName = require('path').basename(__filename);
 const rule         = SpecHelper.getTreeRule(specFileName);
 const IsmlNode     = require('../../../src/app/isml_tree/IsmlNode');
 
-describe(rule.name, () => {
+describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });
@@ -43,6 +43,6 @@ describe(rule.name, () => {
         expect(result.lineNumber).toEqual(2);
         expect(result.globalPos ).toEqual(19 + SpecHelper.getEolOffset(result.lineNumber));
         expect(result.length    ).toEqual(12);
-        expect(result.rule      ).toEqual(rule.name);
+        expect(result.rule      ).toEqual(rule.id);
     });
 });

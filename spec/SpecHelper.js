@@ -26,19 +26,19 @@ const cleanTempDirectory = () => {
 };
 
 const getTreeRuleSpecTemplatePath = (rule, templateNumber) => {
-    return `${Constants.specRuleTemplateDir}/tree/${snake(rule.name)}/template_${templateNumber}.isml`;
+    return `${Constants.specRuleTemplateDir}/tree/${snake(rule.id)}/template_${templateNumber}.isml`;
 };
 
 module.exports = {
     getRule: specFileName => {
-        const ruleName = specFileName.substr(0, specFileName.indexOf('-Spec'));
-        const rule     = require(`../src/app/rules/line_by_line/${ruleName}`);
+        const ruleId = specFileName.substr(0, specFileName.indexOf('-Spec'));
+        const rule   = require(`../src/app/rules/line_by_line/${ruleId}`);
         return rule;
     },
 
     getTreeRule: specFileName => {
-        const ruleName = specFileName.substr(0, specFileName.indexOf('-Spec'));
-        const rule     = require(`../src/app/rules/tree/${ruleName}`);
+        const ruleId = specFileName.substr(0, specFileName.indexOf('-Spec'));
+        const rule   = require(`../src/app/rules/tree/${ruleId}`);
         return rule;
     },
 
@@ -55,7 +55,7 @@ module.exports = {
 
     getRuleSpecTemplateContent: (rule, templateNumber) => {
         const fs           = require('fs');
-        const templatePath = `${Constants.specRuleTemplateDir}/line_by_line/${snake(rule.name)}/template_${templateNumber}.isml`;
+        const templatePath = `${Constants.specRuleTemplateDir}/line_by_line/${snake(rule.id)}/template_${templateNumber}.isml`;
         return fs.readFileSync(templatePath, 'utf-8');
     },
 
@@ -67,7 +67,7 @@ module.exports = {
     },
 
     getLineRuleFixData: (rule, templateNumber) => {
-        const ruleDirName           = rule.name.replaceAll('-', '_');
+        const ruleDirName           = rule.id.replaceAll('-', '_');
         const brokenTemplatePath    = getBrokenTemplatePath(ruleDirName, templateNumber);
         const fixedTemplatePath     = getFixedTemplatePath(ruleDirName, templateNumber);
         const fixedTemplateContent  = fs.readFileSync(fixedTemplatePath, 'utf-8');
@@ -81,7 +81,7 @@ module.exports = {
     },
 
     getTreeRuleFixData: (rule, templateNumber) => {
-        const ruleDirName          = rule.name.replaceAll('-', '_');
+        const ruleDirName          = rule.id.replaceAll('-', '_');
         const brokenTemplatePath   = getBrokenTemplatePath(ruleDirName, templateNumber);
         const fixedTemplatePath    = getFixedTemplatePath(ruleDirName, templateNumber);
         const fixedTemplateContent = fs.readFileSync(fixedTemplatePath, 'utf-8');

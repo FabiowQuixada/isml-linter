@@ -1,12 +1,12 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const CustomTags        = require('../../util/CustomTagUtils');
 
-const ruleName    = require('path').basename(__filename).slice(0, -3);
+const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Invalid custom tag';
 
 const Rule = Object.create(TreeRulePrototype);
 
-Rule.init(ruleName, description);
+Rule.init(ruleId, description);
 
 Rule.addError = function(node, message) {
     this.add(

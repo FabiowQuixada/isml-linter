@@ -2,7 +2,7 @@ const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../SpecHelper');
 const rule         = SpecHelper.getTreeRule(specFileName);
 
-describe(rule.name, () => {
+describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });
@@ -20,14 +20,14 @@ describe(rule.name, () => {
         expect(occurrence1.lineNumber).toEqual(4);
         expect(occurrence1.globalPos ).toEqual(90 + SpecHelper.getEolOffset(occurrence1.lineNumber));
         expect(occurrence1.length    ).toEqual(20);
-        expect(occurrence1.rule      ).toEqual(rule.name);
+        expect(occurrence1.rule      ).toEqual(rule.id);
         expect(occurrence1.message   ).toEqual(rule.description);
 
         expect(occurrence2.line      ).toEqual('I\'m another hardcoded-text');
         expect(occurrence2.lineNumber).toEqual(7);
         expect(occurrence2.globalPos ).toEqual(162 + SpecHelper.getEolOffset(occurrence2.lineNumber));
         expect(occurrence2.length    ).toEqual(26);
-        expect(occurrence2.rule      ).toEqual(rule.name);
+        expect(occurrence2.rule      ).toEqual(rule.id);
         expect(occurrence2.message   ).toEqual(rule.description);
     });
 

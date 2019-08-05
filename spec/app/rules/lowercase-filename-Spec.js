@@ -6,7 +6,7 @@ const Constants    = require('../../../src/app/Constants');
 
 const rule = SpecHelper.getRule(specFileName);
 
-describe(rule.name, () => {
+describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });
@@ -33,6 +33,6 @@ describe(rule.name, () => {
 });
 
 const getRuleSpecTemplateContent = (rule, templateName) => {
-    const templatePath = `${Constants.specRuleTemplateDir}/line_by_line/${snake(rule.name)}/${templateName}.isml`;
+    const templatePath = `${Constants.specRuleTemplateDir}/line_by_line/${snake(rule.id)}/${templateName}.isml`;
     return fs.readFileSync(templatePath, 'utf-8');
 };

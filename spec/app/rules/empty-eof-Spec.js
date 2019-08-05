@@ -3,7 +3,7 @@ const SpecHelper   = require('../../SpecHelper');
 
 const rule = SpecHelper.getTreeRule(specFileName);
 
-describe(rule.name, () => {
+describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });
@@ -25,7 +25,7 @@ describe(rule.name, () => {
         expect(occurrence.lineNumber).toEqual(4);
         expect(occurrence.globalPos ).toEqual(21);
         expect(occurrence.length    ).toEqual(1);
-        expect(occurrence.rule      ).toEqual(rule.name);
+        expect(occurrence.rule      ).toEqual(rule.id);
         expect(occurrence.message   ).toEqual(rule.description);
     });
 
@@ -36,7 +36,7 @@ describe(rule.name, () => {
         expect(occurrence.lineNumber).toEqual(3);
         expect(occurrence.globalPos ).toEqual(20);
         expect(occurrence.length    ).toEqual(1);
-        expect(occurrence.rule      ).toEqual(rule.name);
+        expect(occurrence.rule      ).toEqual(rule.id);
         expect(occurrence.message   ).toEqual(rule.description);
     });
 });

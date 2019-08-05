@@ -45,7 +45,7 @@ const checkCustomTag = tag => {
                     globalPos  : 0,
                     length     : 10,
                     lineNumber : 1,
-                    rule       : CustomModulesRule.name,
+                    rule       : CustomModulesRule.id,
                     message    : `Module properties need to be lower case: "${tag}" module has the invalid "${attr}" attribute`
                 };
             }
@@ -205,7 +205,7 @@ const checkTemplate = (templatePath, content, templateName) => {
 };
 
 const getAvailableRulesQty = () => treeRules.length + lineByLineRules.length;
-const getEnabledLineRules  = () => lineByLineRules.filter( rule => rule.isEnabled() && rule.name !== 'lowercase-filename');
+const getEnabledLineRules  = () => lineByLineRules.filter( rule => rule.isEnabled() && rule.id !== 'lowercase-filename');
 const getEnabledTreeRules  = () => treeRules.filter( rule => rule.isEnabled() );
 
 module.exports.getAllLineRules             = () => lineByLineRules;

@@ -2,7 +2,7 @@ const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../SpecHelper');
 const rule         = SpecHelper.getTreeRule(specFileName);
 
-describe(rule.name, () => {
+describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
         rule.occurrences = [];
@@ -20,7 +20,7 @@ describe(rule.name, () => {
         expect(firstOccurrence.lineNumber).toEqual(2);
         expect(firstOccurrence.globalPos ).toEqual(15);
         expect(firstOccurrence.length    ).toEqual(18);
-        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual('Trailing spaces not allowed.');
     });
 
@@ -31,7 +31,7 @@ describe(rule.name, () => {
         expect(secondOccurrence.lineNumber).toEqual(4);
         expect(secondOccurrence.globalPos ).toEqual(39);
         expect(secondOccurrence.length    ).toEqual(16);
-        expect(secondOccurrence.rule      ).toEqual(rule.name);
+        expect(secondOccurrence.rule      ).toEqual(rule.id);
         expect(secondOccurrence.message   ).toEqual('Trailing spaces not allowed.');
     });
 
@@ -42,7 +42,7 @@ describe(rule.name, () => {
         expect(firstOccurrence.lineNumber).toEqual(12);
         expect(firstOccurrence.globalPos ).toEqual(476);
         expect(firstOccurrence.length    ).toEqual(40);
-        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual('Expected indentation of 8 spaces but found 7.');
     });
 
@@ -55,14 +55,14 @@ describe(rule.name, () => {
         expect(firstOccurrence.lineNumber).toEqual(2);
         expect(firstOccurrence.globalPos ).toEqual(15);
         expect(firstOccurrence.length    ).toEqual(28);
-        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');
 
         expect(secondOccurrence.line      ).toEqual('    var pid = pdict.Product.getID();');
         expect(secondOccurrence.lineNumber).toEqual(3);
         expect(secondOccurrence.globalPos ).toEqual(48);
         expect(secondOccurrence.length    ).toEqual(32);
-        expect(secondOccurrence.rule      ).toEqual(rule.name);
+        expect(secondOccurrence.rule      ).toEqual(rule.id);
         expect(secondOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');
     });
 
@@ -73,7 +73,7 @@ describe(rule.name, () => {
         expect(firstOccurrence.lineNumber).toEqual(3);
         expect(firstOccurrence.globalPos ).toEqual(48);
         expect(firstOccurrence.length    ).toEqual(32);
-        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');
     });
 
@@ -84,7 +84,7 @@ describe(rule.name, () => {
         expect(firstOccurrence.lineNumber).toEqual(110);
         expect(firstOccurrence.globalPos ).toEqual(4058);
         expect(firstOccurrence.length    ).toEqual(32);
-        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');
     });
 

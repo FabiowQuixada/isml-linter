@@ -2,7 +2,7 @@ const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../SpecHelper');
 const rule         = SpecHelper.getTreeRule(specFileName);
 
-describe(rule.name, () => {
+describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });
@@ -18,7 +18,7 @@ describe(rule.name, () => {
         expect(result.lineNumber).toEqual(3);
         expect(result.globalPos ).toEqual(80 + SpecHelper.getEolOffset(result.lineNumber));
         expect(result.length    ).toEqual(73);
-        expect(result.rule      ).toEqual(rule.name);
+        expect(result.rule      ).toEqual(rule.id);
         expect(result.message   ).toEqual(rule.description);
     });
 

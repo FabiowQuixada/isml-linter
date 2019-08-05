@@ -2,7 +2,7 @@ const SpecHelper   = require('../../SpecHelper');
 const specFileName = require('path').basename(__filename);
 const rule         = SpecHelper.getRule(specFileName);
 
-describe(rule.name, () => {
+describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });
@@ -26,7 +26,7 @@ describe(rule.name, () => {
             lineNumber  : 0,
             globalPos   : 11,
             length      : 29,
-            rule        : rule.name,
+            rule        : rule.id,
             message     : rule.description
         }];
 
@@ -56,7 +56,7 @@ describe(rule.name, () => {
         expect(firstOccurrence.lineNumber).toEqual(2);
         expect(firstOccurrence.globalPos ).toEqual(25);
         expect(firstOccurrence.length    ).toEqual(24);
-        expect(firstOccurrence.rule      ).toEqual(rule.name);
+        expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual(rule.description);
     });
 });

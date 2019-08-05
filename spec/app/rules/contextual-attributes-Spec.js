@@ -4,7 +4,7 @@ const IsmlNode     = require('../../../src/app/isml_tree/IsmlNode');
 
 const rule = SpecHelper.getTreeRule(specFileName);
 
-describe(rule.name, () => {
+describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });
@@ -80,6 +80,6 @@ describe(rule.name, () => {
         expect(result.lineNumber).toEqual(2);
         expect(result.globalPos ).toEqual(10);
         expect(result.length    ).toEqual(29);
-        expect(result.rule      ).toEqual(rule.name);
+        expect(result.rule      ).toEqual(rule.id);
     });
 });

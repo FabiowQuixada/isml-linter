@@ -40,28 +40,28 @@ describe(targetObjName, () => {
         expect(isprintError0.lineNumber ).toEqual(1);
         expect(isprintError0.globalPos  ).toEqual(28);
         expect(isprintError0.length     ).toEqual(15);
-        expect(isprintError0.rule       ).toEqual(EnforceIsprintRule.name);
+        expect(isprintError0.rule       ).toEqual(EnforceIsprintRule.id);
         expect(isprintError0.message    ).toEqual(EnforceIsprintRule.description);
 
         expect(isprintError1.line       ).toEqual(' ${URLUtils.https(\'Reorder-ListingPage\')}');
         expect(isprintError1.lineNumber ).toEqual(1);
         expect(isprintError1.globalPos  ).toEqual(1);
         expect(isprintError1.length     ).toEqual(40);
-        expect(isprintError1.rule       ).toEqual(EnforceIsprintRule.name);
+        expect(isprintError1.rule       ).toEqual(EnforceIsprintRule.id);
         expect(isprintError1.message    ).toEqual(EnforceIsprintRule.description);
 
         expect(inlineStyleError.line       ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
         expect(inlineStyleError.lineNumber ).toEqual(1);
         expect(inlineStyleError.globalPos  ).toEqual(5);
         expect(inlineStyleError.length     ).toEqual(5);
-        expect(inlineStyleError.rule       ).toEqual(NoInlineStyleRule.name);
+        expect(inlineStyleError.rule       ).toEqual(NoInlineStyleRule.id);
         expect(inlineStyleError.message    ).toEqual(NoInlineStyleRule.description);
 
         expect(blankLineError.line       ).toEqual('   ');
         expect(blankLineError.lineNumber ).toEqual(2);
         expect(blankLineError.globalPos  ).toEqual(50);
         expect(blankLineError.length     ).toEqual(4);
-        expect(blankLineError.rule       ).toEqual(NoSpaceOnlyLinesRule.name);
+        expect(blankLineError.rule       ).toEqual(NoSpaceOnlyLinesRule.id);
         expect(blankLineError.message    ).toEqual(NoSpaceOnlyLinesRule.description);
 
         expect(result[UNPARSEABLE][0].templatePath ).toEqual(unparseableTemplatePath);
@@ -82,28 +82,28 @@ describe(targetObjName, () => {
         expect(isprintError0.lineNumber ).toEqual(1);
         expect(isprintError0.globalPos  ).toEqual(28);
         expect(isprintError0.length     ).toEqual(15);
-        expect(isprintError0.rule       ).toEqual(EnforceIsprintRule.name);
+        expect(isprintError0.rule       ).toEqual(EnforceIsprintRule.id);
         expect(isprintError0.message    ).toEqual(EnforceIsprintRule.description);
 
         expect(isprintError1.line       ).toEqual(' ${URLUtils.https(\'Reorder-ListingPage\')}');
         expect(isprintError1.lineNumber ).toEqual(1);
         expect(isprintError1.globalPos  ).toEqual(1);
         expect(isprintError1.length     ).toEqual(40);
-        expect(isprintError1.rule       ).toEqual(EnforceIsprintRule.name);
+        expect(isprintError1.rule       ).toEqual(EnforceIsprintRule.id);
         expect(isprintError1.message    ).toEqual(EnforceIsprintRule.description);
 
         expect(inlineStyleError.line       ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
         expect(inlineStyleError.lineNumber ).toEqual(1);
         expect(inlineStyleError.globalPos  ).toEqual(5);
         expect(inlineStyleError.length     ).toEqual(5);
-        expect(inlineStyleError.rule       ).toEqual(NoInlineStyleRule.name);
+        expect(inlineStyleError.rule       ).toEqual(NoInlineStyleRule.id);
         expect(inlineStyleError.message    ).toEqual(NoInlineStyleRule.description);
 
         expect(blankLineError.line       ).toEqual('   ');
         expect(blankLineError.lineNumber ).toEqual(2);
         expect(blankLineError.globalPos  ).toEqual(50);
         expect(blankLineError.length     ).toEqual(4);
-        expect(blankLineError.rule       ).toEqual(NoSpaceOnlyLinesRule.name);
+        expect(blankLineError.rule       ).toEqual(NoSpaceOnlyLinesRule.id);
         expect(blankLineError.message    ).toEqual(NoSpaceOnlyLinesRule.description);
 
         expect(result[UNPARSEABLE][0].templatePath ).toEqual(unparseableTemplatePath);
@@ -206,7 +206,7 @@ describe(targetObjName, () => {
         expect(error.lineNumber                     ).toEqual(0);
         expect(error.globalPos                      ).toEqual(0);
         expect(error.length                         ).toEqual(7);
-        expect(error.rule                           ).toEqual(rule.name);
+        expect(error.rule                           ).toEqual(rule.id);
         expect(error.message                        ).toEqual(rule.description);
         expect(result[ExceptionUtils.UNKNOWN_ERROR] ).toBe(undefined);
     });

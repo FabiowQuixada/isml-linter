@@ -3,12 +3,12 @@ const RuleUtils         = require('../../util/RuleUtils');
 const Constants         = require('../../Constants');
 
 const TAG_TYPE    = 'iscache';
-const ruleName    = require('path').basename(__filename).slice(0, -3);
+const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = `<${TAG_TYPE}> tag should be on top of the template`;
 
 const Rule = Object.create(TreeRulePrototype);
 
-Rule.init(ruleName, description);
+Rule.init(ruleId, description);
 
 Rule.isBroken = function(node) {
     let rootNode = node;

@@ -2,8 +2,8 @@ const ConfigUtils = require('../../util/ConfigUtils');
 
 const RulePrototype = {
 
-    init(name, description) {
-        this.name        = name;
+    init(id, description) {
+        this.id          = id;
         this.description = description;
         this.level       = 'errors';
         this.result      = {
@@ -17,14 +17,14 @@ const RulePrototype = {
             globalPos,
             length,
             lineNumber : lineNumber + 1,
-            rule       : this.name,
+            rule       : this.id,
             message    : description || this.description
         });
     },
 
     isEnabled() {
         const config = ConfigUtils.load();
-        return config && config.rules && this.name in config.rules;
+        return config && config.rules && this.id in config.rules;
     },
 
     isIgnore(templatePath) {
@@ -50,7 +50,7 @@ const RulePrototype = {
         return Object.assign(
             {},
             ruleDefaultConfigs,
-            config.rules[this.name]
+            config.rules[this.id]
         );
     },
 };

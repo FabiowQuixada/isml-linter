@@ -100,21 +100,21 @@ describe(targetObjName, () => {
         expect(isprintError0.lineNumber).toEqual(2);
         expect(isprintError0.globalPos).toEqual(30);
         expect(isprintError0.length).toEqual(40);
-        expect(isprintError0.rule).toEqual(EnforceIsprintRule.name);
+        expect(isprintError0.rule).toEqual(EnforceIsprintRule.id);
         expect(isprintError0.message).toEqual(EnforceIsprintRule.description);
 
         expect(isprintError1.line).toEqual('<div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>');
         expect(isprintError1.lineNumber).toEqual(3);
         expect(isprintError1.globalPos).toEqual(136);
         expect(isprintError1.length).toEqual(15);
-        expect(isprintError1.rule).toEqual(EnforceIsprintRule.name);
+        expect(isprintError1.rule).toEqual(EnforceIsprintRule.id);
         expect(isprintError1.message).toEqual(EnforceIsprintRule.description);
 
         expect(inlineStyleError.line).toEqual('<div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>');
         expect(inlineStyleError.lineNumber).toEqual(3);
         expect(inlineStyleError.globalPos).toEqual(113);
         expect(inlineStyleError.length).toEqual(5);
-        expect(inlineStyleError.rule).toEqual(NoInlineStyleRule.name);
+        expect(inlineStyleError.rule).toEqual(NoInlineStyleRule.id);
         expect(inlineStyleError.message).toEqual(NoInlineStyleRule.description);
     });
 
