@@ -111,13 +111,13 @@ const isTypeAmongTheFirstElements = (rootNode, type) => {
 };
 
 const getErrorObj = (rule, occurrenceArray) => {
-    const errorObj                         = {};
-    errorObj[rule.level]                   = {};
-    errorObj[rule.level][rule.description] = [];
+    const errorObj                = {};
+    errorObj[rule.level]          = {};
+    errorObj[rule.level][rule.id] = [];
 
     for (let i = 0; i < occurrenceArray.length; i++) {
         const occurrence = occurrenceArray[i];
-        errorObj[rule.level][rule.description].push(occurrence);
+        errorObj[rule.level][rule.id].push(occurrence);
     }
 
     return errorObj;

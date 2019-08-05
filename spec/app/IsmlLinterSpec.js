@@ -31,10 +31,10 @@ describe(targetObjName, () => {
 
     it('lints ISML templates in a given directory', () => {
         const result           = IsmlLinter.run(specSpecificDirLinterTemplate);
-        const isprintError0    = result.errors[EnforceIsprintRule.description][template0Path][0];
-        const isprintError1    = result.errors[EnforceIsprintRule.description][template1Path][0];
-        const inlineStyleError = result.errors[NoInlineStyleRule.description][template0Path][0];
-        const blankLineError   = result.errors[NoSpaceOnlyLinesRule.description][template0Path][0];
+        const isprintError0    = result.errors[EnforceIsprintRule.id][template0Path][0];
+        const isprintError1    = result.errors[EnforceIsprintRule.id][template1Path][0];
+        const inlineStyleError = result.errors[NoInlineStyleRule.id][template0Path][0];
+        const blankLineError   = result.errors[NoSpaceOnlyLinesRule.id][template0Path][0];
 
         expect(isprintError0.line       ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
         expect(isprintError0.lineNumber ).toEqual(1);
@@ -73,10 +73,10 @@ describe(targetObjName, () => {
     it('lints ISML templates in a given array of template paths', () => {
         const templatePathArray = glob.sync('spec/templates/default/isml_linter/specific_directory_to_be_linted/**/*.isml');
         const result            = IsmlLinter.run(templatePathArray);
-        const isprintError0     = result.errors[EnforceIsprintRule.description][template0Path][0];
-        const isprintError1     = result.errors[EnforceIsprintRule.description][template1Path][0];
-        const inlineStyleError  = result.errors[NoInlineStyleRule.description][template0Path][0];
-        const blankLineError    = result.errors[NoSpaceOnlyLinesRule.description][template0Path][0];
+        const isprintError0     = result.errors[EnforceIsprintRule.id][template0Path][0];
+        const isprintError1     = result.errors[EnforceIsprintRule.id][template1Path][0];
+        const inlineStyleError  = result.errors[NoInlineStyleRule.id][template0Path][0];
+        const blankLineError    = result.errors[NoSpaceOnlyLinesRule.id][template0Path][0];
 
         expect(isprintError0.line       ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
         expect(isprintError0.lineNumber ).toEqual(1);
@@ -122,10 +122,10 @@ describe(targetObjName, () => {
     it('processes the correct line in result json data', () => {
         const result = IsmlLinter.run(specSpecificDirLinterTemplate);
 
-        expect(result.errors[EnforceIsprintRule.description][template0Path][0].line   ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
-        expect(result.errors[EnforceIsprintRule.description][template1Path][0].line   ).toEqual(' ${URLUtils.https(\'Reorder-ListingPage\')}');
-        expect(result.errors[NoInlineStyleRule.description][template0Path][0].line    ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
-        expect(result.errors[NoSpaceOnlyLinesRule.description][template0Path][0].line ).toEqual('   ');
+        expect(result.errors[EnforceIsprintRule.id][template0Path][0].line   ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
+        expect(result.errors[EnforceIsprintRule.id][template1Path][0].line   ).toEqual(' ${URLUtils.https(\'Reorder-ListingPage\')}');
+        expect(result.errors[NoInlineStyleRule.id][template0Path][0].line    ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
+        expect(result.errors[NoSpaceOnlyLinesRule.id][template0Path][0].line ).toEqual('   ');
     });
 
     it('does not consider errors in directories defined to be ignored in the config file', () => {

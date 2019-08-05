@@ -67,12 +67,12 @@ describe(targetObjName, () => {
         });
 
         const result       = RuleUtils.checkTemplate(templatePath);
-        const ruleArray    = Object.keys(result.errors);
+        const ruleIdArray  = Object.keys(result.errors);
         let ruleWasChecked = false;
 
-        for (let i = 0; i < ruleArray.length; i++) {
-            const rule = ruleArray[i];
-            if (rule === NoInlineStyleRule.description) {
+        for (let i = 0; i < ruleIdArray.length; i++) {
+            const ruleId = ruleIdArray[i];
+            if (ruleId === NoInlineStyleRule.id) {
                 ruleWasChecked = true;
             }
 
@@ -90,9 +90,9 @@ describe(targetObjName, () => {
         });
 
         const actualResult     = RuleUtils.checkTemplate(templatePath);
-        const isprintError0    = actualResult.errors[EnforceIsprintRule.description][0];
-        const isprintError1    = actualResult.errors[EnforceIsprintRule.description][1];
-        const inlineStyleError = actualResult.errors[NoInlineStyleRule.description][0];
+        const isprintError0    = actualResult.errors[EnforceIsprintRule.id][0];
+        const isprintError1    = actualResult.errors[EnforceIsprintRule.id][1];
+        const inlineStyleError = actualResult.errors[NoInlineStyleRule.id][0];
 
         expect(actualResult.fixed).toBe(false);
 
@@ -121,15 +121,15 @@ describe(targetObjName, () => {
     it('ignores "pt_"-named templates for no-isscript (line) rule', () => {
         const actualResult = RuleUtils.checkTemplate(ptTemplatePath);
 
-        expect(actualResult.errors[NoIsscriptRule.description]).toEqual(undefined);
-        expect(actualResult.errors[NoSpaceOnlyLinesRule.description]).not.toEqual(undefined);
+        expect(actualResult.errors[NoIsscriptRule.id]).toEqual(undefined);
+        expect(actualResult.errors[NoSpaceOnlyLinesRule.id]).not.toEqual(undefined);
     });
 
     it('ignores "pt_"-named templates for no-require-in-loop (tree) rule', () => {
         const actualResult = RuleUtils.checkTemplate(ptTemplatePath);
 
-        expect(actualResult.errors[NoRequireInLoopRule.description]).toEqual(undefined);
-        expect(actualResult.errors[NoHardcodeRule.description]).not.toEqual(undefined);
+        expect(actualResult.errors[NoRequireInLoopRule.id]).toEqual(undefined);
+        expect(actualResult.errors[NoHardcodeRule.id]).not.toEqual(undefined);
     });
 });
 

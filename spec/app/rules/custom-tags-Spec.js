@@ -68,7 +68,7 @@ describe(rule.id, () => {
         ConfigUtils.load({ rules: { 'custom-tags': {} } });
         const IsmlLinter = require('../../../src/app/IsmlLinter');
 
-        const result = IsmlLinter.run().errors[rule.description][0];
+        const result = IsmlLinter.run().errors[rule.id][0];
 
         expect(result.line      ).toEqual('');
         expect(result.lineNumber).toEqual(1);

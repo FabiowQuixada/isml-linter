@@ -112,7 +112,7 @@ Linter.run = (pathData = config.rootDir || appRoot.toString(), content) => {
         .reduce(reducer(content), getEmptyResult());
 
     if (customModuleResults.errors.length) {
-        templateResults.errors[CustomModulesRule.description] = customModuleResults.errors;
+        templateResults.errors[CustomModulesRule.id] = customModuleResults.errors;
     }
 
     return templateResults;
