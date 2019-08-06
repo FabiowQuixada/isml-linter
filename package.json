@@ -39,7 +39,6 @@
   "dependencies": {
     "app-root-path": "^2.2.1",
     "chalk": "^2.4.2",
-    "log-suppress": "^1.0.3",
     "readdir": "^0.1.0"
   },
   "devDependencies": {
