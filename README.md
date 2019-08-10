@@ -163,6 +163,7 @@ Check the [API docs][api-docs].
 | [enforce-isprint][enforce-isprint-readme]                                            | Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
 | [enforce-require][enforce-require-readme]                                            | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
 | [lowercase-filename][lowercase-filename-readme]                               | Disallows template names to have uppercase characters |
+| :boom: [max-lines][max-lines-readme]                                                        | Limits the size of templates |
 | :small_orange_diamond: [no-hardcode][no-hardcode-readme]                             | Disallows hardcoded strings outside ISML expressions |
 | :small_orange_diamond: [indent][indent-readme]                                       | Sets indentation size |
 | :small_orange_diamond: [no-require-in-loop][no-require-in-loop-readme]               | No `require()` calls from within a loop in the template |
@@ -211,6 +212,7 @@ You are more than welcome to contribute with us! Please check the [contribute se
 [eslint-to-isscript-readme]:     <docs/rules/eslint-to-isscript.md>
 [no-iselse-slash-readme]:        <docs/rules/no-iselse-slash.md>
 [empty-eof-readme]:              <docs/rules/empty-eof.md>
+[max-lines-readme]:              <docs/rules/max-lines.md>
 
 [api-docs]: <docs/api.md>
 [contribute-docs]: <docs/contribute.md>

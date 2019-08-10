@@ -15,6 +15,7 @@ const config = {
         'no-space-only-lines' : {},
         'no-tabs'             : {},
         'no-trailing-spaces'  : {},
+        'max-lines'           : {},
 
         // Tree rules;
         'indent'               : {},
