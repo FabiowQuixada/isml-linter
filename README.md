@@ -175,9 +175,9 @@ Check the [API docs][api-docs].
 | :small_orange_diamond: [no-deprecated-attrs][no-deprecated-attrs-readme]      | Disallows deprecated attributes or attribute values |
 | :small_orange_diamond: [contextual-attrs][contextual-attrs-readme]            | Disallows presence of mutually exclusive attributes |
 | :small_orange_diamond: [custom-tags][custom-tags-readme]                      | Checks if "util/modules" template is actually needed or if it is missing |
-| :wrench: :boom: :small_orange_diamond: [eslint-to-isscript][eslint-to-isscript-readme] | Applies ESLint rules to &lt;isscript> tag content |
-| :boom: :small_orange_diamond: [no-iselse-slash][no-iselse-slash-readme]              | Disallows self-closing &lt;iselse> and &lt;iselseif> tags |
-| :boom: :small_orange_diamond: [empty-eof][empty-eof-readme]                          | Enforces a empty line at the end of the template |
+| :wrench: :small_orange_diamond: [eslint-to-isscript][eslint-to-isscript-readme] | Applies ESLint rules to &lt;isscript> tag content |
+| :small_orange_diamond: [no-iselse-slash][no-iselse-slash-readme]              | Disallows self-closing &lt;iselse> and &lt;iselseif> tags |
+| :small_orange_diamond: [empty-eof][empty-eof-readme]                          | Enforces a empty line at the end of the template |
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
 
