@@ -1,6 +1,15 @@
 # Changelog
 
-## [5.14.3] - 2019-08-066
+## [5.15.0] - 2019-08-10
+
+### Added
+ - "Max Lines" rule;
+
+### Changed
+ - Rule ID as lint result object key, instead of description;
+ - Code refactoring;
+
+## [5.14.3] - 2019-08-06
 
 ### Fixed
  - Bug related to a node-version-problematic dependency;
@@ -387,6 +396,7 @@
 - Linter is published;
 
 
+[5.15.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.14.3...v5.15.0
 [5.14.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.14.2...v5.14.3
 [5.14.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.14.1...v5.14.2
 [5.14.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.14.0...v5.14.1
