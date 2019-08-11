@@ -8,7 +8,9 @@ const MaskUtils       = require('./MaskUtils');
 const fs              = require('fs');
 
 const postProcess = (node, data = {}) => {
-    node.children.forEach( child => {
+    for (let i = 0; i < node.children.length; i++) {
+        const child = node.children[i];
+
         if (child.value.indexOf('template="util/modules"') !== -1) {
             data.moduleDefinition = {
                 value      : child.value,
@@ -28,8 +30,8 @@ const postProcess = (node, data = {}) => {
             });
         }
 
-        return postProcess(child, data);
-    });
+        postProcess(child, data);
+    }
 
     return data;
 };

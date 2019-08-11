@@ -93,7 +93,7 @@ class IsmlNode {
             return [];
         }
 
-        return parseAttributes(this);
+        return getAttributes(this);
     }
 
     getAttr(name) {
@@ -213,7 +213,17 @@ class IsmlNode {
     }
 
     removeChild(node) {
-        const index       = this.children.map( child => child.id ).indexOf(node.id);
+        let index = null;
+
+        for (let i = 0; i < this.children.length; i++) {
+            const child = this.children[i];
+
+            if (child.id === node.id) {
+                index = i;
+                break;
+            }
+        }
+
         const removedNode = this.children[index];
         this.children.splice(index, 1);
         return removedNode;
@@ -273,70 +283,20 @@ class IsmlNode {
  * will be available for use only within IsmlNode methods;
 */
 
-// Gets array of element attributes;
-const parseAttributes = node => {
-    const trimmedValue     = node.value.trim();
-    const nodeValue        = trimmedValue.substring(1, trimmedValue.length - 1);
-    const rawAttrNodeValue = nodeValue.split(' ').slice(1).join(' ');
-    let outsideQuotes      = true;
+const getAttributes = node => {
+    const trimmedValue               = node.value.trim();
+    const nodeValue                  = trimmedValue.substring(1, trimmedValue.length - 1);
+    const rawAttrNodeValue           = nodeValue.split(' ').slice(1).join(' ');
+    const stringifiedAttributesArray = getStringifiedAttrArray(rawAttrNodeValue);
+    const attributeArray             = [];
 
-    const maskedContent = rawAttrNodeValue.split('').map( (char, i) => {
+    for (let i = 0; i < stringifiedAttributesArray.length; i++) {
+        const attr = parseAttribute(stringifiedAttributesArray[i], node);
 
-        if (i > 2 && rawAttrNodeValue[i - 2] === '=' && rawAttrNodeValue[i - 1] === '"') {
-            outsideQuotes = false;
-        }
-
-        if (i > 2 && rawAttrNodeValue[i - 1] !== '=' && char === '"') {
-            outsideQuotes = true;
-        }
-
-        return outsideQuotes ? char : '_';
-    }).join('');
-
-    const blankSpaceIndexesArray = maskedContent
-        .split('')
-        .map((e, i) => e === ' ' ? i : '')
-        .filter(String);
-
-    const stringifiedAttributesArray = [];
-
-    for (let i = 0; i < blankSpaceIndexesArray.length; i++) {
-        const spacePosition = blankSpaceIndexesArray[i];
-
-        stringifiedAttributesArray.push(i === 0 ?
-            rawAttrNodeValue.substring(0, spacePosition) :
-            rawAttrNodeValue.substring(blankSpaceIndexesArray[i - 1], spacePosition));
+        attributeArray.push(attr);
     }
 
-    const lastAttribute = rawAttrNodeValue.substring(blankSpaceIndexesArray[blankSpaceIndexesArray.length - 1] + 1, rawAttrNodeValue.length);
-    if (lastAttribute && lastAttribute !== '/') {
-        stringifiedAttributesArray.push(lastAttribute);
-    }
-
-    const attributesArray = stringifiedAttributesArray.map( attr => {
-        const attributeProps = attr.split('=');
-        const label          = attributeProps[0].trim();
-        const value          = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
-        const values         = value ? value.split(' ') : null;
-
-        const attrLocalPos  = node.value.trim().indexOf(attr);
-        const valueLocalPos = attr.indexOf(value);
-
-        return {
-            name           : label,
-            value          : value,
-            values         : values,
-            attrGlobalPos  : node.globalPos + attrLocalPos,
-            nameLength     : label.length,
-            valueGlobalPos : node.globalPos + valueLocalPos,
-            valueLength    : value ? value.length : 0,
-            attrFullValue  : attr,
-            attrFullLength : attr.length,
-            node           : node
-        };
-    });
-
-    return attributesArray;
+    return attributeArray;
 };
 
 // Used for debugging purposes only;
@@ -352,6 +312,64 @@ const getDisplayText = node => {
     }
 
     return displayText.trim();
+};
+
+const getStringifiedAttrArray = rawAttrNodeValue => {
+    const result           = [];
+    let lastAttrDividerPos = -1;
+    let outsideQuotes      = true;
+
+    for (let i = 0; i < rawAttrNodeValue.length; i++) {
+        const char = rawAttrNodeValue[i];
+
+        if (i > 2 && rawAttrNodeValue[i - 2] === '=' && rawAttrNodeValue[i - 1] === '"') {
+            outsideQuotes = false;
+        }
+
+        if (i > 2 && rawAttrNodeValue[i - 1] !== '=' && char === '"') {
+            outsideQuotes = true;
+        }
+
+        if (char === ' ' && outsideQuotes) {
+            const attributeCounter = result.length;
+            result.push(
+                attributeCounter === 0 ?
+                    rawAttrNodeValue.substring(0, i) :
+                    rawAttrNodeValue.substring(lastAttrDividerPos, i)
+            );
+
+            lastAttrDividerPos = i;
+        }
+    }
+
+    const lastAttribute = rawAttrNodeValue.substring(lastAttrDividerPos + 1, rawAttrNodeValue.length);
+    if (lastAttribute && lastAttribute !== '/') {
+        result.push(lastAttribute);
+    }
+
+    return result;
+};
+
+const parseAttribute = (attr, node) => {
+    const attributeProps = attr.split('=');
+    const label          = attributeProps[0].trim();
+    const value          = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
+    const values         = value ? value.split(' ') : null;
+    const attrLocalPos   = node.value.trim().indexOf(attr);
+    const valueLocalPos  = attr.indexOf(value);
+
+    return {
+        name           : label,
+        value          : value,
+        values         : values,
+        attrGlobalPos  : node.globalPos + attrLocalPos,
+        nameLength     : label.length,
+        valueGlobalPos : node.globalPos + valueLocalPos,
+        valueLength    : value ? value.length : 0,
+        attrFullValue  : attr,
+        attrFullLength : attr.length,
+        node           : node
+    };
 };
 
 module.exports = IsmlNode;

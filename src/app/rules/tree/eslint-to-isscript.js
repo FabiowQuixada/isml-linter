@@ -103,17 +103,29 @@ Rule.getFixedContent = function(node) {
 };
 
 const unindent = (content, indentSize) => {
-    return content
-        .split(Constants.EOL)
-        .map( line => line.substring(indentSize) )
-        .join(Constants.EOL);
+    const lineArray = content.split(Constants.EOL);
+    const result    = [];
+
+    for (let i = 0; i < lineArray.length; i++) {
+        const line = lineArray[i];
+
+        result.push(line.substring(indentSize));
+    }
+
+    return result.join(Constants.EOL);
 };
 
 const reindent = (content, ismlIndentation) => {
-    return content
-        .split(Constants.EOL)
-        .map( line => line.trim() ? ismlIndentation + line : '' )
-        .join(Constants.EOL);
+    const lineArray = content.split(Constants.EOL);
+    const result    = [];
+
+    for (let i = 0; i < lineArray.length; i++) {
+        const line = lineArray[i];
+
+        result.push(line.trim() ? ismlIndentation + line : '');
+    }
+
+    return result.join(Constants.EOL);
 };
 
 const getIndentation = content => {

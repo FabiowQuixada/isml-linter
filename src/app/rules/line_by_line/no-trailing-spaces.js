@@ -11,10 +11,16 @@ Rule.init(ruleId, description);
 Rule.isBroken = function(line) { return (line.endsWith(' ') || line.endsWith(' \r')) && line.replace(/\s/g, '').length; };
 
 Rule.getFixedContent = function(templateContent) {
-    return templateContent
-        .split(Constants.EOL)
-        .map( line => line.replace(/\s+$/g, ''))
-        .join(Constants.EOL);
+    const lineArray = templateContent.split(Constants.EOL);
+    const result    = [];
+
+    for (let i = 0; i < lineArray.length; i++) {
+        const line = lineArray[i];
+
+        result.push(line.replace(/\s+$/g, ''));
+    }
+
+    return result.join(Constants.EOL);
 };
 
 Rule.getFirstOccurrence = function(line) {

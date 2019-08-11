@@ -30,7 +30,7 @@ const RulePrototype = {
     isIgnore(templatePath) {
         const ignoreArray = this.getConfigs().ignore;
 
-        if(ignoreArray) {
+        if (ignoreArray) {
             return ignoreArray.some( ignore => {
                 return templatePath.includes(ignore);
             });

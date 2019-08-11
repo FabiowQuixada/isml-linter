@@ -205,8 +205,34 @@ const checkTemplate = (templatePath, content, templateName) => {
 };
 
 const getAvailableRulesQty = () => treeRules.length + lineByLineRules.length;
-const getEnabledLineRules  = () => lineByLineRules.filter( rule => rule.isEnabled() && rule.id !== 'lowercase-filename');
-const getEnabledTreeRules  = () => treeRules.filter( rule => rule.isEnabled() );
+
+const getEnabledLineRules  = () => {
+    const result = [];
+
+    for (let i = 0; i < lineByLineRules.length; i++) {
+        const rule = lineByLineRules[i];
+
+        if (rule.isEnabled() && rule.id !== 'lowercase-filename') {
+            result.push(rule);
+        }
+    }
+
+    return result;
+};
+
+const getEnabledTreeRules = () => {
+    const result = [];
+
+    for (let i = 0; i < treeRules.length; i++) {
+        const rule = treeRules[i];
+
+        if (rule.isEnabled()) {
+            result.push(rule);
+        }
+    }
+
+    return result;
+};
 
 module.exports.getAllLineRules             = () => lineByLineRules;
 module.exports.findNodeOfType              = findNodeOfType;

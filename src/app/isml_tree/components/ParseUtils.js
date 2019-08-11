@@ -219,25 +219,26 @@ module.exports.getAllConditionalTags = content => {
 
 module.exports.getOuterConditionalTagList = tagList => {
 
-    let depth = 0;
+    let depth    = 0;
+    const result = [];
 
-    tagList = tagList.filter(tagObj => {
+    for (let i = 0; i < tagList.length; i++) {
+        const tagObj = tagList[i];
+
         if (tagObj.tag.startsWith('isif')) {
             depth += 1;
         }
 
         if (depth === 0) {
-            return true;
+            result.push(tagObj);
         }
 
         if (tagObj.tag === '/isif') {
             depth -= 1;
         }
+    }
 
-        return false;
-    });
-
-    return tagList;
+    return result;
 };
 
 module.exports.isStopIgnoring = state => {
