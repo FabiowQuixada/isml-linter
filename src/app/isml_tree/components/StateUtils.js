@@ -31,6 +31,7 @@ module.exports = {
 
         const regex        = new RegExp(Constants.EOL, 'gi');
         let lineBreakMatch = regex.exec(content);
+
         while (lineBreakMatch) {
             const lineBreakPosition = lineBreakMatch.index - state.lineBreakPositionList.length + 1;
             state.lineBreakPositionList.push(lineBreakPosition);

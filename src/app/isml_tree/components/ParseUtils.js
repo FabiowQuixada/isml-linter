@@ -10,7 +10,7 @@ const Constants        = require('../../Constants');
 
 const ISIF = '<isif';
 
-const pickInnerContent  = (state, content) => {
+const pickInnerContent = (state, content) => {
     const innerContentStartPos = state.currentElement.endPosition + 1;
     const innerContentEndPos   = state.currentElemClosingTagInitPos;
     return content.substring(innerContentStartPos, innerContentEndPos);
@@ -126,10 +126,10 @@ module.exports.isClosingIsmlExpression = state => {
     return insideExpression && content.charAt(currentPos - 1) === '}';
 };
 
-module.exports.getInnerContent = oldState => {
-    let state     = Object.assign({}, oldState);
+module.exports.getInnerContent = state => {
     const content = getUpdateContent(state);
-    state         = ClosingTagFinder.getCorrespondentClosingElementPosition(content, state);
+
+    ClosingTagFinder.getCorrespondentClosingElementPosition(content, state);
 
     return pickInnerContent(state, content);
 };
@@ -284,8 +284,7 @@ module.exports.getGlobalPos = state => {
     const currentElement = state.currentElement.asString;
     const accumulatedPos = getAccumulatedPos(state);
 
-    const newLocal = accumulatedPos - currentElement.trim().length;
-    return newLocal;
+    return accumulatedPos - currentElement.trim().length;
 };
 
 module.exports.getTextGlobalPos = (state, text) => {
@@ -293,5 +292,4 @@ module.exports.getTextGlobalPos = (state, text) => {
     const accumulatedPos          = getAccumulatedPos(state);
 
     return accumulatedPos + precedingEmptySpacesQty;
-
 };

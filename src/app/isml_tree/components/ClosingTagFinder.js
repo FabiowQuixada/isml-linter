@@ -14,19 +14,18 @@ const ConfigUtils    = require('../../util/ConfigUtils');
 
  * The 'depth' variable works as a stack, taking into account only elements of type 'E'
 */
-const getCorrespondentClosingElementPosition = (content, oldParentState) => {
-    const balanceCheckResult = isBalanced(content, oldParentState);
+const getCorrespondentClosingElementPosition = (content, parentState) => {
+    const balanceCheckResult = isBalanced(content, parentState);
 
     if (balanceCheckResult.error) {
         throwInvalidCharacterException(balanceCheckResult.error);
     }
 
-    const parentState      = Object.assign({}, oldParentState);
     const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
     const closingElemRegex = /<\/.[a-zA-Z]*>/;
 
-    let internalState = getInitialState(content, parentState);
-    const obj         = getPosition(internalState.content);
+    const internalState = getInitialState(content, parentState);
+    const obj           = getPosition(internalState.content);
 
     internalState.currentElement.endPosition = obj.currentElemEndPosition;
     internalState.maskedContent              = obj.content;
@@ -44,15 +43,15 @@ const getCorrespondentClosingElementPosition = (content, oldParentState) => {
             const contentUpToCurrentPosition    = internalState.initialMaskedContent.substring(0, pastContentLength + nextOpeningCharPosition);
             const currentElemStartingLineNumber = ParseUtils.getLineBreakQty(contentUpToCurrentPosition) + parentState.currentLineNumber;
 
-            internalState = initializeLoopState(internalState, openingElemRegex, closingElemRegex);
-            internalState = updateState(internalState, currentElemStartingLineNumber, parentState);
+            initializeLoopState(internalState, openingElemRegex, closingElemRegex);
+            updateState(internalState, currentElemStartingLineNumber, parentState);
 
             if (!internalState.elementStack.length) {
                 parentState.currentElemClosingTagInitPos = contentUpToCurrentPosition.length;
                 return parentState;
             }
         } else {
-            internalState = removeLeadingNonTagText(internalState);
+            removeLeadingNonTagText(internalState);
         }
 
         if (previousContent === internalState.maskedContent) {
@@ -114,47 +113,35 @@ const getInitialState = (content, parentState) => {
     };
 };
 
-const updateState = (oldInternalState, currentElementStartingLineNumber, parentState) => {
-    let internalState = Object.assign({}, oldInternalState);
-
+const updateState = (internalState, currentElementStartingLineNumber, parentState) => {
     internalState.currentReadingPos += internalState.firstClosingElemPos;
-    internalState                   = updateElementStack(internalState, currentElementStartingLineNumber, parentState);
-    internalState                   = removeFirstElement(internalState);
+
+    updateElementStack(internalState, currentElementStartingLineNumber, parentState);
+    removeFirstElement(internalState);
 
     internalState.result = internalState.currentReadingPos - internalState.firstClosingElemPos;
-
-    return internalState;
 };
 
-const removeLeadingNonTagText = oldInternalState => {
-    const internalState = Object.assign({}, oldInternalState);
-    let splitPosition   = oldInternalState.maskedContent.indexOf('<');
+const removeLeadingNonTagText = internalState => {
+    let splitPosition   = internalState.maskedContent.indexOf('<');
 
     if (splitPosition === -1) {
-        splitPosition = oldInternalState.maskedContent.length;
+        splitPosition = internalState.maskedContent.length;
     }
 
-    internalState.maskedContent     = oldInternalState.maskedContent.substring(splitPosition, oldInternalState.maskedContent.length);
-    internalState.content           = oldInternalState.content.substring(splitPosition, oldInternalState.maskedContent.length);
+    internalState.maskedContent     = internalState.maskedContent.substring(splitPosition, internalState.maskedContent.length);
+    internalState.content           = internalState.content.substring(splitPosition, internalState.maskedContent.length);
     internalState.currentReadingPos += splitPosition;
-
-    return internalState;
 };
 
-const removeFirstElement = oldInternalState => {
-    const internalState = Object.assign({}, oldInternalState);
-    const elemLength    = internalState.maskedContent.length;
+const removeFirstElement = internalState => {
+    const elemLength = internalState.maskedContent.length;
 
     internalState.maskedContent = internalState.maskedContent.substring(internalState.firstClosingElemPos, elemLength);
     internalState.content       = internalState.content.substring(internalState.firstClosingElemPos, elemLength);
-
-    return internalState;
 };
 
-const initializeLoopState = (oldInternalState, openingElemRegex, closingElemRegex) => {
-
-    const internalState = Object.assign({}, oldInternalState);
-
+const initializeLoopState = (internalState, openingElemRegex, closingElemRegex) => {
     openingElemRegex.lastIndex = 0;
     closingElemRegex.lastIndex = 0;
 
@@ -176,13 +163,9 @@ const initializeLoopState = (oldInternalState, openingElemRegex, closingElemRege
     if (closingElement) {
         internalState.closingElementPos = closingElement.index;
     }
-
-    return internalState;
 };
 
-const updateElementStack = (oldInternalState, currentElementStartingLineNumber, parentState) => {
-
-    const internalState = Object.assign({}, oldInternalState);
+const updateElementStack = (internalState, currentElementStartingLineNumber, parentState) => {
     const elemType      = ParseUtils.getFirstElementType(internalState.maskedContent).trim();
     const elemValue     = ParseUtils.getNextElementValue(internalState.content);
     const elemGlobalPos = internalState.currentReadingPos - elemValue.trim().length + internalState.parentState.currentElement.initPosition;
@@ -210,8 +193,6 @@ const updateElementStack = (oldInternalState, currentElementStartingLineNumber, 
             throwUnbalancedElementException(internalState);
         }
     }
-
-    return internalState;
 };
 
 const getPosition = content => {

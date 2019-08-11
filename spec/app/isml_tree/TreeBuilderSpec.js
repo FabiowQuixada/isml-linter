@@ -15,7 +15,6 @@ describe(targetObjName, () => {
         SpecHelper.afterEach();
     });
 
-
     it('creates a tree with non-self-closing tags', () => {
         const rootNode = getRootNodeFromTemplate(0);
 

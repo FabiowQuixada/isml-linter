@@ -61,11 +61,14 @@ const build = (templatePath, content) => {
 
 const parse = (content, parentState, parentNode = new IsmlNode(), templatePath) => {
 
-    let state = StateUtils.getInitialState(content, parentState, parentNode, templatePath);
+    const state = StateUtils.getInitialState(content, parentState, parentNode, templatePath);
 
     for (let i = 0; i < content.length; i++) {
-        state = initializeLoopState(state, i);
-        state = iterate(state);
+        initializeLoopState(state, i);
+
+        if (!ParseUtils.isSkipIteraction(state)) {
+            parseState(state);
+        }
     }
 
     parseRemainingContent(state);
@@ -73,20 +76,8 @@ const parse = (content, parentState, parentNode = new IsmlNode(), templatePath) 
     return state.parentNode;
 };
 
-const iterate = state => {
-
-    if (ParseUtils.isSkipIteraction(state)) {
-        return state;
-    }
-
-    state = parseState(state);
-
-    return state;
-};
-
-const initializeLoopState = (oldState, i) => {
-    let state = Object.assign({}, oldState);
-    state     = updateStateWhetherItIsInsideExpression(state);
+const initializeLoopState = (state, i) => {
+    updateStateWhetherItIsInsideExpression(state);
 
     state.currentPos              = i;
     state.currentChar             = state.content.charAt(state.currentPos);
@@ -104,33 +95,24 @@ const initializeLoopState = (oldState, i) => {
             state.currentElement.asString = state.currentChar;
         }
     }
-
-    return state;
 };
 
-const parseState = oldState => {
-
-    let state = Object.assign({}, oldState);
-
+const parseState = state => {
     const currentElement   = state.currentElement.asString.trim();
     const isHtmlComment    = currentElement.startsWith('<!--') && currentElement.endsWith('-->');
     const isOpeningTagChar = state.currentChar === '<';
     const isClosingTagChar = state.currentChar === '>' && !currentElement.startsWith('<!--') || isHtmlComment;
 
     if (isOpeningTagChar) {
-        state = prepareStateForOpeningElement(state);
+        prepareStateForOpeningElement(state);
     } else if (isClosingTagChar) {
-        state = createNodeForCurrentElement(state);
+        createNodeForCurrentElement(state);
     } else if (ParseUtils.isWhite(state)) {
         state.nonTagBuffer += state.currentChar;
     }
-
-    return state;
 };
 
-const updateStateWhetherItIsInsideExpression = oldState => {
-    const state = Object.assign({}, oldState);
-
+const updateStateWhetherItIsInsideExpression = state => {
     if (!ParseUtils.isWhite(state)) {
         if (ParseUtils.isOpeningIsmlExpression(state)) {
             state.insideExpression = true;
@@ -139,13 +121,11 @@ const updateStateWhetherItIsInsideExpression = oldState => {
             state.insideExpression = false;
         }
     }
-
-    return state;
 };
 
 const createNode = oldState => {
-    let state       = Object.assign({}, oldState);
-    state           = updateStateLinesData(state);
+    const state     = Object.assign({}, oldState);
+    updateStateLinesData(state);
     const globalPos = ParseUtils.getGlobalPos(state);
 
     const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
@@ -229,9 +209,7 @@ const getCurrentStateStartingPos = state => {
     return accumulatedValue;
 };
 
-const createTextNodeFromMainLoop = oldState => {
-    const state = Object.assign({}, oldState);
-
+const createTextNodeFromMainLoop = state => {
     if (state.nonTagBuffer && state.nonTagBuffer.replace(/\s/g, '').length) {
         const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(state.nonTagBuffer);
         const globalPos    = ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer);
@@ -245,8 +223,6 @@ const createTextNodeFromMainLoop = oldState => {
         state.currentElement.asString           = '<';
         state.ignoreUntil                       += state.nonTagBuffer.length - 1;
     }
-
-    return state;
 };
 
 const createTextNodeFromInnerContent = (text, state, parentNode) => {
@@ -261,10 +237,7 @@ const createTextNodeFromInnerContent = (text, state, parentNode) => {
     }
 };
 
-const createNodeForCurrentElement = oldState => {
-
-    const state = Object.assign({}, oldState);
-
+const createNodeForCurrentElement = state => {
     ParseUtils.lighten(state);
 
     if (ParseUtils.isWhite(state)) {
@@ -278,34 +251,25 @@ const createNodeForCurrentElement = oldState => {
 
         StateUtils.initializeCurrentElement(state);
     }
-
-    return state;
 };
 
-const prepareStateForOpeningElement = oldState => {
-    let state = Object.assign({}, oldState);
-
-    state = createTextNodeFromMainLoop(state);
+const prepareStateForOpeningElement = state => {
+    createTextNodeFromMainLoop(state);
 
     if (ParseUtils.isWhite(state)) {
         state.currentElement.initPosition = state.currentPos;
     }
 
     ParseUtils.darken(state);
-
-    return state;
 };
 
-const updateStateLinesData = oldState => {
-    const state                             = Object.assign({}, oldState);
+const updateStateLinesData = state => {
     const emptyLinesQty                     = ParseUtils.getPrecedingEmptyLinesQty(state.currentElement.asString);
     state.currentElement.startingLineNumber += emptyLinesQty;
 
     if (state.parentState && !state.node.isMulticlause()) {
         state.parentState.currentElement.startingLineNumber += emptyLinesQty;
     }
-
-    return state;
 };
 
 const parseRemainingContent = state => {
