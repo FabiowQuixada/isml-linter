@@ -292,7 +292,6 @@ const getAttributes = node => {
 
     for (let i = 0; i < stringifiedAttributesArray.length; i++) {
         const attr = parseAttribute(stringifiedAttributesArray[i], node);
-
         attributeArray.push(attr);
     }
 
@@ -332,11 +331,15 @@ const getStringifiedAttrArray = rawAttrNodeValue => {
 
         if (char === ' ' && outsideQuotes) {
             const attributeCounter = result.length;
-            result.push(
-                attributeCounter === 0 ?
-                    rawAttrNodeValue.substring(0, i) :
-                    rawAttrNodeValue.substring(lastAttrDividerPos, i)
-            );
+            const attr             = attributeCounter === 0 ?
+                rawAttrNodeValue.substring(0, i) :
+                rawAttrNodeValue.substring(lastAttrDividerPos, i);
+
+            if (attr.trim()) {
+                result.push(
+                    attr.trim()
+                );
+            }
 
             lastAttrDividerPos = i;
         }
@@ -351,17 +354,20 @@ const getStringifiedAttrArray = rawAttrNodeValue => {
 };
 
 const parseAttribute = (attr, node) => {
+    attr                 = attr.trim();
     const attributeProps = attr.split('=');
     const label          = attributeProps[0].trim();
     const value          = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
     const values         = value ? value.split(' ') : null;
     const attrLocalPos   = node.value.trim().indexOf(attr);
     const valueLocalPos  = attr.indexOf(value);
+    const localPos       = node.value.trim().indexOf(attr) + 1;
 
     return {
         name           : label,
         value          : value,
         values         : values,
+        localPos,
         attrGlobalPos  : node.globalPos + attrLocalPos,
         nameLength     : label.length,
         valueGlobalPos : node.globalPos + valueLocalPos,

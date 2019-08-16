@@ -178,6 +178,8 @@ Check the [API docs][api-docs].
 | :wrench: :small_orange_diamond: [eslint-to-isscript][eslint-to-isscript-readme] | Applies ESLint rules to &lt;isscript> tag content |
 | :small_orange_diamond: [no-iselse-slash][no-iselse-slash-readme]              | Disallows self-closing &lt;iselse> and &lt;iselseif> tags |
 | :small_orange_diamond: [empty-eof][empty-eof-readme]                          | Enforces a empty line at the end of the template |
+| :boom: :small_orange_diamond: [align-isset][align-isset-readme]                      | Aligns contiguous &lt;isset> tags attributes' columns |
+
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
 
@@ -213,6 +215,7 @@ You are more than welcome to contribute with us! Please check the [contribute se
 [no-iselse-slash-readme]:        <docs/rules/no-iselse-slash.md>
 [empty-eof-readme]:              <docs/rules/empty-eof.md>
 [max-lines-readme]:              <docs/rules/max-lines.md>
+[align-isset-readme]:            <docs/rules/align-isset.md>
 
 [api-docs]: <docs/api.md>
 [contribute-docs]: <docs/contribute.md>

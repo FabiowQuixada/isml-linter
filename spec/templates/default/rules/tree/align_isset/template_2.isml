@@ -1,0 +1,3 @@
+<isset name="var1"    value="${value1}"   scope="page"/>
+<isset name="var11"   value="${value11}"  scope="page"/>
+<isset name="var114"  value="${value114}" scope="page"/>

@@ -32,6 +32,7 @@ const config = {
         'eslint-to-isscript'   : {},
         'no-iselse-slash'      : {},
         'empty-eof'            : {},
+        'align-isset'          : {},
 
         // Other
         'lowercase-filename' : {}
