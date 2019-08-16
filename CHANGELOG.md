@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.16.0] - 2019-08-16
+
+### Added
+ - "Align Isset" rule;
+
+### Changed
+ - Code refactoring ad optimization;
+ 
 ## [5.15.0] - 2019-08-10
 
 ### Added
@@ -396,6 +404,7 @@
 - Linter is published;
 
 
+[5.16.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.15.0...v5.16.0
 [5.15.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.14.3...v5.15.0
 [5.14.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.14.2...v5.14.3
 [5.14.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.14.1...v5.14.2
