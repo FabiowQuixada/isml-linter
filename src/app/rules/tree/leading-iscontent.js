@@ -21,7 +21,7 @@ Rule.isBroken = function(node) {
         rootNode.children[0].id !== node.id;
 };
 
-Rule.getFixedContent = rootNode => {
+Rule.getFixedContent = function(rootNode) {
     if (!RuleUtils.isTypeAmongTheFirstElements(rootNode, TAG_TYPE)) {
         const isContentNode = RuleUtils.findNodeOfType(rootNode, TAG_TYPE);
 
