@@ -1,13 +1,12 @@
-const readDir           = require('readdir');
-const RuleUtils         = require('./util/RuleUtils');
-const path              = require('path');
-const appRoot           = require('app-root-path');
-const fs                = require('fs');
-const config            = require('./util/ConfigUtils').load();
-const ExceptionUtils    = require('./util/ExceptionUtils');
-const FileUtils         = require('./util/FileUtils');
-const GeneralUtils      = require('./util/GeneralUtils');
-const CustomModulesRule = require('./rules/tree/custom-tags');
+const readDir        = require('readdir');
+const RuleUtils      = require('./util/RuleUtils');
+const path           = require('path');
+const appRoot        = require('app-root-path');
+const fs             = require('fs');
+const config         = require('./util/ConfigUtils').load();
+const ExceptionUtils = require('./util/ExceptionUtils');
+const FileUtils      = require('./util/FileUtils');
+const GeneralUtils   = require('./util/GeneralUtils');
 
 const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
 const UNPARSEABLE   = ExceptionUtils.types.INVALID_TEMPLATE;
@@ -23,14 +22,6 @@ const ignoreFiles = file => {
     }
 
     return false;
-};
-
-const getTemplateData = (pathData, templateName) => {
-    return {
-        name : templateName,
-        path : Array.isArray(pathData) || path.isAbsolute(templateName) ?
-            templateName :
-            path.join(pathData, templateName)};
 };
 
 const getTemplatePathArray = pathData => {
@@ -76,9 +67,7 @@ const getEmptyResult = () => {
     };
 };
 
-const reducer = (accumulator, content, templateData) => {
-    const templatePath    = templateData.path;
-    const templateName    = templateData.name;
+const checkTemplate = (content, templatePath, templateName) => {
     const templateResults = getEmptyResult();
 
     try {
@@ -112,34 +101,45 @@ const reducer = (accumulator, content, templateData) => {
     }
 
     return templateResults;
-
 };
 
-Linter.run = (pathData = config.rootDir || appRoot.toString(), content) => {
+const merge = (finalResult, templateResults) => {
+    return {
+        errors           : GeneralUtils.mergeDeep(finalResult.errors,   templateResults.errors),
+        issueQty         : finalResult.issueQty                       + templateResults.issueQty,
+        templatesFixed   : finalResult.templatesFixed                 + templateResults.templatesFixed,
+        UNKNOWN_ERROR    : [...finalResult[UNKNOWN_ERROR],           ...templateResults[UNKNOWN_ERROR]],
+        INVALID_TEMPLATE : [...finalResult[UNPARSEABLE],             ...templateResults[UNPARSEABLE]]
+    };
+};
+
+const addCustomModuleResults = finalResult => {
+    const CustomModulesRule   = require('./rules/tree/custom-tags');
     const customModuleResults = RuleUtils.checkCustomModules();
-    const templatePathArray   = getTemplatePathArray(pathData);
-    let finalResult           = getEmptyResult();
-
-    for (let i = 0; i < templatePathArray.length; i++) {
-        const templatePath = templatePathArray[i];
-        const templateData = getTemplateData(pathData, templatePath);
-
-        if (!FileUtils.isIgnored(templateData.path)) {
-            const templateResults = reducer(finalResult, content, templateData);
-
-            finalResult = {
-                errors           : GeneralUtils.mergeDeep(finalResult.errors,    templateResults.errors),
-                issueQty         : finalResult.issueQty                        + templateResults.issueQty,
-                templatesFixed   : finalResult.templatesFixed                  + templateResults.templatesFixed,
-                UNKNOWN_ERROR    : [...finalResult[UNKNOWN_ERROR],            ...templateResults[UNKNOWN_ERROR]],
-                INVALID_TEMPLATE : [...finalResult[UNPARSEABLE],              ...templateResults[UNPARSEABLE]]
-            };
-        }
-    }
 
     if (customModuleResults.errors.length) {
         finalResult.errors[CustomModulesRule.id] = customModuleResults.errors;
     }
+};
+
+Linter.run = (pathData = config.rootDir || appRoot.toString(), content) => {
+    const templatePathArray = getTemplatePathArray(pathData);
+    let finalResult         = getEmptyResult();
+
+    for (let i = 0; i < templatePathArray.length; i++) {
+        const templateName = templatePathArray[i];
+        const templatePath = Array.isArray(pathData) || path.isAbsolute(templateName) ?
+            templateName :
+            path.join(pathData, templateName);
+
+        if (!FileUtils.isIgnored(templatePath)) {
+            const templateResults = checkTemplate(content, templatePath, templateName);
+
+            finalResult = merge(finalResult, templateResults);
+        }
+    }
+
+    addCustomModuleResults(finalResult);
 
     return finalResult;
 };
