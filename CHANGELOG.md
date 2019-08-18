@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.17.0] - 2019-08-18
+
+### Added
+ - "No Iselse Slash" autofix feature;
+ 
 ## [5.16.0] - 2019-08-16
 
 ### Added
@@ -404,6 +409,7 @@
 - Linter is published;
 
 
+[5.17.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.16.0...v5.17.0
 [5.16.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.15.0...v5.16.0
 [5.15.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.14.3...v5.15.0
 [5.14.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.14.2...v5.14.3
