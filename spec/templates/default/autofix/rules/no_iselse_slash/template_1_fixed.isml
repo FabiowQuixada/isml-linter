@@ -1,0 +1,4 @@
+<isif condition="${aCondition}">
+<iselse condition="${anotherCondition}">
+<iselseif condition="${yetAnotherCondition}">
+</isif>

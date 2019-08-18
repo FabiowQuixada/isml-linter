@@ -176,7 +176,7 @@ Check the [API docs][api-docs].
 | :small_orange_diamond: [contextual-attrs][contextual-attrs-readme]                   | Disallows presence of mutually exclusive attributes |
 | :small_orange_diamond: [custom-tags][custom-tags-readme]                             | Checks if "util/modules" template is actually needed or if it is missing |
 | :wrench: :small_orange_diamond: [eslint-to-isscript][eslint-to-isscript-readme]      | Applies ESLint rules to &lt;isscript> tag content |
-| :small_orange_diamond: [no-iselse-slash][no-iselse-slash-readme]                     | Disallows self-closing &lt;iselse> and &lt;iselseif> tags |
+| :wrench: :small_orange_diamond: [no-iselse-slash][no-iselse-slash-readme]                     | Disallows self-closing &lt;iselse> and &lt;iselseif> tags |
 | :small_orange_diamond: [empty-eof][empty-eof-readme]                                 | Enforces a empty line at the end of the template |
 | :boom: :small_orange_diamond: [align-isset][align-isset-readme]                      | Aligns contiguous &lt;isset> tags attributes' columns |
 

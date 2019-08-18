@@ -5,6 +5,7 @@ Disallows self-closing &lt;iselse> and &lt;iselseif> tags.
 ## Notes
 
 - Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
+- Auto-fixable;
 
 ## Configuration
 
