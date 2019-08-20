@@ -16,6 +16,7 @@ Following are the available configurations for this rule, with default values:
     value: 4
 }
 ```
+:exclamation: **Deprecated:** Indentation size should be set as a root property in the config file, not at rule level, since other rules rely on it.
 
 Check the [Generic Configurations for Rules][generic-config].
 

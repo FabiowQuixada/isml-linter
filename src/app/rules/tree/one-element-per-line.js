@@ -1,4 +1,5 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
+const ConfigUtils       = require('../../util/ConfigUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Only one element per line is allowed';
@@ -39,10 +40,16 @@ const fixContent = node => {
 
 const getCorrectIndentation = node => {
     const indentSize = node.depth - 1;
+    const config     = ConfigUtils.load();
     let indentation  = '';
+    let indentUnit   = '';
+
+    for (let i = 0; i < (config.indent || 4); ++i) {
+        indentUnit += ' ';
+    }
 
     for (let i = 0; i < indentSize; ++i) {
-        indentation += '    ';
+        indentation += indentUnit;
     }
 
     return indentation;

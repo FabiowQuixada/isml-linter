@@ -1,5 +1,7 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../SpecHelper');
+const ConfigUtils  = require('../../../src/app/util/ConfigUtils');
+
 const rule         = SpecHelper.getTreeRule(specFileName);
 
 describe(rule.id, () => {
@@ -42,6 +44,18 @@ describe(rule.id, () => {
 
     it('fixes a complex template', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 2);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('fixes a complex template with custom indent size', () => {
+        ConfigUtils.load({
+            indent : 2,
+            rules  : {
+                'one-element-per-line' : {}
+            }
+        });
+        const results = SpecHelper.getTreeRuleFixData(rule, 3);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
