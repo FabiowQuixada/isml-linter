@@ -1,6 +1,6 @@
 {
   "name": "isml-linter",
-  "version": "5.17.1",
+  "version": "5.17.2",
   "author": "Fabiow Quixadá <ftquixada@gmail.com>",
   "license": "ISC",
   "main": "src/app/publicApi.js",

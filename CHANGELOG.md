@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.17.2] - 2019-08-20
+
+### Fixed
+ - Closing dynamic tag upon tree-based template reconstruction;
+ 
 ## [5.17.1] - 2019-08-19
 
 ### Added
@@ -423,6 +428,7 @@
 - Linter is published;
 
 
+[5.17.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.1...v5.17.2
 [5.17.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.0...v5.17.1
 [5.17.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.16.0...v5.17.0
 [5.16.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.15.0...v5.16.0
