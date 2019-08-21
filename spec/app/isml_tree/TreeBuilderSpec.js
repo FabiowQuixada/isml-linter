@@ -455,6 +455,13 @@ describe(targetObjName, () => {
         expect(tree.exception.lineNumber ).toEqual(3);
     });
 
+    it('sets the suffix of a dynamic node correctly', () => {
+        const rootNode    = getRootNodeFromTemplate(43);
+        const dynamicNode = rootNode.children[0];
+
+        expect(dynamicNode.suffixValue).toEqual('</${pdict.isForm === \'true\' ? \'form\' : \'div\'}>' + Constants.EOL);
+    });
+
     it('ignores opening comment strings within comments', () => {
         const rootNode     = getRootNodeFromTemplate(44);
         const headNode     = rootNode.children[0];

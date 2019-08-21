@@ -129,8 +129,9 @@ const removeLeadingNonTagText = internalState => {
         splitPosition = internalState.maskedContent.length;
     }
 
-    internalState.maskedContent     = internalState.maskedContent.substring(splitPosition, internalState.maskedContent.length);
-    internalState.content           = internalState.content.substring(splitPosition, internalState.maskedContent.length);
+    const length                    = internalState.maskedContent.length;
+    internalState.maskedContent     = internalState.maskedContent.substring(splitPosition, length);
+    internalState.content           = internalState.content.substring(splitPosition, length);
     internalState.currentReadingPos += splitPosition;
 };
 
@@ -185,7 +186,7 @@ const updateElementStack = (internalState, currentElementStartingLineNumber, par
             }
         } else if (ParseUtils.isCorrespondentElement(internalState, elemType)) {
             const prevElementPosition   = internalState.maskedContent.indexOf('>') + 1;
-            const currentElementContent = internalState.maskedContent.substring(0, prevElementPosition);
+            const currentElementContent = internalState.content.substring(0, prevElementPosition);
 
             parentState.closingElementsStack.push(currentElementContent);
             internalState.elementStack.pop();
