@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.17.3] - 2019-08-22
+
+### Fixed
+ - HTML comment as first child element upon tree-based template reconstruction;
+
+### Security
+ - Updated vulnerable dependencies;
+
 ## [5.17.2] - 2019-08-20
 
 ### Fixed
@@ -428,7 +436,8 @@
 - Linter is published;
 
 
-[5.17.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.1...v5.17.2
+[5.17.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.2...v5.17.3
+[5.17.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.1...v5.17.2
 [5.17.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.0...v5.17.1
 [5.17.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.16.0...v5.17.0
 [5.16.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.15.0...v5.16.0
