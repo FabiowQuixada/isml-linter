@@ -472,6 +472,17 @@ describe(targetObjName, () => {
         expect(htmlComment0.value).toEqual(`${Constants.EOL}    <!--[if gt IE 9]><!-->${Constants.EOL}`);
         expect(htmlComment1.value).toEqual(`    <!--<![endif]-->${Constants.EOL}`);
     });
+
+    it('allows an HTML element as first child of a parent node', () => {
+        const rootNode     = getRootNodeFromTemplate(45);
+        const spanNode     = rootNode.children[0];
+        const htmlComment0 = spanNode.children[0];
+        const divNode      = rootNode.children[1];
+        const htmlComment1 = divNode.children[0];
+
+        expect(htmlComment0.value).toEqual(`${Constants.EOL}    <!-- Comment 1 -->${Constants.EOL}`);
+        expect(htmlComment1.value).toEqual(`${Constants.EOL}    <!-- Comment 2 -->${Constants.EOL}`);
+    });
 });
 
 const getTemplatePath = number => {

@@ -92,8 +92,8 @@ const initializeLoopState = (state, i) => {
     if (ParseUtils.isStopIgnoring(state)) {
         state.ignoreUntil = null;
 
-        // TODO: There is probably a better way to handle deprecated ISML comments;
-        if (state.currentElement.asString.trim().startsWith('<!---')) {
+        // TODO: There is probably a better way to handle deprecated ISML comments and HTML comments;
+        if (state.currentElement.asString.trim().startsWith('<!--')) {
             state.currentElement.asString = state.currentChar;
         }
     }
