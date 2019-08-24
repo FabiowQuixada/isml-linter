@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.17.4] - 2019-08-24
+
+### Fixed
+ - API should not raise an error if no config is set at require time;
+ 
 ## [5.17.3] - 2019-08-22
 
 ### Fixed
@@ -436,6 +441,7 @@
 - Linter is published;
 
 
+[5.17.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.3...v5.17.4
 [5.17.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.2...v5.17.3
 [5.17.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.1...v5.17.2
 [5.17.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.0...v5.17.1
