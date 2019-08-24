@@ -44,6 +44,7 @@ module.exports = {
 
     beforeEach: () => {
         process.env.NODE_ENV = Constants.ENV_TEST;
+        ConfigUtils.load();
         cleanTempDirectory();
     },
 

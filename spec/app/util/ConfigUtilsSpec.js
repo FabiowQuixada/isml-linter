@@ -24,14 +24,6 @@ describe(targetObjName, () => {
         expect(config.env).toEqual('test');
     });
 
-    it('loads dev config', () => {
-        process.env.NODE_ENV = Constants.ENV_DEV;
-
-        const config = ConfigUtils.load();
-
-        expect(config.env).not.toEqual('test');
-    });
-
     // TODO: Works on production
     // it to work on test environment also;
     // it('creates a config file if it does not exist', () => {

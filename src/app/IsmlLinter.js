@@ -3,7 +3,7 @@ const RuleUtils      = require('./util/RuleUtils');
 const path           = require('path');
 const appRoot        = require('app-root-path');
 const fs             = require('fs');
-const config         = require('./util/ConfigUtils').load();
+const ConfigUtils    = require('./util/ConfigUtils');
 const ExceptionUtils = require('./util/ExceptionUtils');
 const FileUtils      = require('./util/FileUtils');
 const GeneralUtils   = require('./util/GeneralUtils');
@@ -16,6 +16,8 @@ const ignoreFiles = file => {
     if (file.indexOf('node_modules') !== -1) {
         return true;
     }
+
+    const config = ConfigUtils.load();
 
     if (config.ignore && config.ignore.some( ignorePath => file.indexOf(ignorePath) !== -1)) {
         return true;
@@ -122,7 +124,16 @@ const addCustomModuleResults = finalResult => {
     }
 };
 
-Linter.run = (pathData = config.rootDir || appRoot.toString(), content) => {
+Linter.run = (pathData = appRoot.toString(), content) => {
+
+    if (!ConfigUtils.isConfigSet()) {
+        const ConsoleUtils = require('./util/ConsoleUtils');
+        ConsoleUtils.displayConfigError();
+        throw ExceptionUtils.noConfigError();
+    }
+
+    const config            = ConfigUtils.load();
+    pathData                = pathData || config.rootDir;
     const templatePathArray = getTemplatePathArray(pathData);
     let finalResult         = getEmptyResult();
 

@@ -13,6 +13,8 @@ const init = (
     return createConfigFile(targetDir, configFileName);
 };
 
+const isConfigSet = () => configData !== null;
+
 const load = configParam => {
 
     if (configParam) {
@@ -25,7 +27,8 @@ const load = configParam => {
     }
 
     if (isTestEnv()) {
-        return require(path.join('..', '..', '..', 'spec', Constants.configPreferredFileName));
+        configData = require(path.join('..', '..', '..', 'spec', Constants.configPreferredFileName));
+        return configData;
     }
 
     if (!existConfigFile()) {
@@ -122,3 +125,4 @@ module.exports.init             = init;
 module.exports.load             = load;
 module.exports.loadEslintConfig = loadEslintConfig;
 module.exports.clearConfig      = clearConfig;
+module.exports.isConfigSet      = isConfigSet;
