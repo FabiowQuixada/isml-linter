@@ -212,6 +212,17 @@ class IsmlNode {
         return !this.value.trim();
     }
 
+    isFirstChild() {
+        if (this.isRoot()) {
+            return false;
+        }
+
+        const firstChild = this.parent.children[0];
+
+        return this.lineNumber === firstChild.lineNumber &&
+            this.value === firstChild.value;
+    }
+
     isLastChild()  {
         return !this.parent || this.parent.getLastChild() === this;
     }

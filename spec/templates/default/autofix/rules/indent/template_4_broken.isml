@@ -1,0 +1,7 @@
+<isif condition="${isOutOfStock}">
+    <div class="product_button_notify">
+    </div>
+  <iselseif condition="${isDiscontinued}">
+    <div class="error_message">
+    </div>
+ </isif>

@@ -266,6 +266,30 @@ module.exports.getClauseList = content => {
     return clauseStringList;
 };
 
+module.exports.getPreLineBreakContent = node => {
+    const leadingBlankSpacesQty    = getNextNonEmptyCharPos(node.value);
+    const leadingBlankSpacesString = node.value.substring(0, leadingBlankSpacesQty);
+    const preLineBreakContent      = leadingBlankSpacesString.substring(0, leadingBlankSpacesString.lastIndexOf(Constants.EOL) + 1);
+
+    return preLineBreakContent;
+};
+
+module.exports.getTrailingBlankContent = node => {
+    const reverseValue          = node.value.split('').reverse().join('');
+    const leadingBlankSpacesQty = getNextNonEmptyCharPos(reverseValue);
+    const postValueBlankContent = reverseValue.substring(0, leadingBlankSpacesQty).split('').reverse().join('');
+
+    return postValueBlankContent;
+};
+
+module.exports.getSuffixTrailingBlankContent = node => {
+    const reverseValue          = node.suffixValue.split('').reverse().join('');
+    const leadingBlankSpacesQty = getNextNonEmptyCharPos(reverseValue);
+    const postValueBlankContent = reverseValue.substring(0, leadingBlankSpacesQty).split('').reverse().join('');
+
+    return postValueBlankContent;
+};
+
 const DEPTH_COLOR = {
     WHITE : 0,
     GRAY  : 1,

@@ -1,0 +1,4 @@
+<isif condition="${isOutOfStock}">
+    <div class="product_button_notify">
+    </div>
+</isif>
