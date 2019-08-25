@@ -21,8 +21,8 @@ describe(targetObjName, () => {
         const multiClauseNode = rootNode.children[0];
 
         expect(multiClauseNode.getNumberOfChildren()).toEqual(2);
-        expect(multiClauseNode.children[0].value).toEqual('<isif condition="${true}">\n');
-        expect(multiClauseNode.children[1].value).toEqual('<iselse>    \n');
+        expect(multiClauseNode.children[0].value).toEqual(`<isif condition="\${true}">${Constants.EOL}`);
+        expect(multiClauseNode.children[1].value).toEqual(`<iselse>    ${Constants.EOL}`);
     });
 
     it('parser simple non-empty isif-iselse tag', () => {

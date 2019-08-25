@@ -1,5 +1,6 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const ConfigUtils       = require('../../util/ConfigUtils');
+const Constants         = require('../../Constants');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Only one element per line is allowed';
@@ -27,10 +28,10 @@ const fixContent = node => {
             const indentation       = getCorrectIndentation(child);
             const parentIndentation = getCorrectIndentation(node);
 
-            child.value = `\n${indentation}${child.value}\n${parentIndentation}`;
+            child.value = `${Constants.EOL}${indentation}${child.value}${Constants.EOL}${parentIndentation}`;
 
             if (child.suffixValue) {
-                child.setSuffix(`\n${indentation}${child.suffixValue}\n`);
+                child.setSuffix(`${Constants.EOL}${indentation}${child.suffixValue}${Constants.EOL}`);
             }
         }
 
