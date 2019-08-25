@@ -166,10 +166,9 @@ describe(targetObjName, () => {
     });
 
     it('handles empty "isif" tag', () => {
-        const rootNode  = getRootNodeFromTemplate(20);
-        const divNode   = rootNode.children[0];
-        const ifNode    = divNode.children[0].children[0];
-        const emptyNode = ifNode.children[0];
+        const rootNode = getRootNodeFromTemplate(20);
+        const divNode  = rootNode.children[0];
+        const ifNode   = divNode.children[0].children[0];
 
         expect(divNode.value).toEqual('<div <isif condition="${condition1}"></isif>>');
         expect(divNode.lineNumber).toEqual(1);
@@ -177,16 +176,13 @@ describe(targetObjName, () => {
 
         expect(ifNode.value).toEqual(`${Constants.EOL}    <isif condition="\${condition2}">`);
         expect(ifNode.lineNumber).toEqual(2);
-        expect(ifNode.getNumberOfChildren()).toEqual(1);
-
-        expect(emptyNode.value).toEqual(`${Constants.EOL}    `);
+        expect(ifNode.getNumberOfChildren()).toEqual(0);
     });
 
     it('handle one-char condition "if" tag', () => {
-        const rootNode  = getRootNodeFromTemplate(21);
-        const divNode   = rootNode.children[0];
-        const ifNode    = divNode.children[0].children[0];
-        const emptyNode = ifNode.children[0];
+        const rootNode = getRootNodeFromTemplate(21);
+        const divNode  = rootNode.children[0];
+        const ifNode   = divNode.children[0].children[0];
 
         expect(divNode.value).toEqual('<div <isif condition="${c}"></isif>>');
         expect(divNode.lineNumber).toEqual(1);
@@ -194,9 +190,7 @@ describe(targetObjName, () => {
 
         expect(ifNode.value).toEqual(`${Constants.EOL}    <isif condition="\${c2}">`);
         expect(ifNode.lineNumber).toEqual(2);
-        expect(ifNode.getNumberOfChildren()).toEqual(1);
-
-        expect(emptyNode.value).toEqual(`${Constants.EOL}    `);
+        expect(ifNode.getNumberOfChildren()).toEqual(0);
     });
 
     it('allows empty "script" tag', () => {
@@ -233,7 +227,6 @@ describe(targetObjName, () => {
         const htmlCommentNode = rootNode.children[0];
         const mainDivNode     = rootNode.children[1];
         const childDivNode    = mainDivNode.children[0];
-        const emptyNode       = childDivNode.children[0];
 
         expect(rootNode.getNumberOfChildren()).toEqual(2);
 
@@ -247,9 +240,7 @@ describe(targetObjName, () => {
 
         expect(childDivNode.value).toEqual(`${Constants.EOL}    <div class="col-sm-6">`);
         expect(childDivNode.lineNumber).toEqual(4);
-        expect(childDivNode.getNumberOfChildren()).toEqual(1);
-
-        expect(emptyNode.value).toEqual(`${Constants.EOL}    `);
+        expect(childDivNode.getNumberOfChildren()).toEqual(0);
     });
 
     it('identifies style tags', () => {
@@ -376,12 +367,12 @@ describe(targetObjName, () => {
 
     it('accepts a hardcoded string as last element', () => {
         const rootNode = getRootNodeFromTemplate(37);
-        const divNode  = rootNode.children[0];
+        const tdNode   = rootNode.children[0];
         const textNode = rootNode.children[1];
 
-        expect(divNode.value).toEqual('<td class="value">');
-        expect(divNode.lineNumber).toEqual(1);
-        expect(divNode.getNumberOfChildren()).toEqual(1);
+        expect(tdNode.value).toEqual('<td class="value">');
+        expect(tdNode.lineNumber).toEqual(1);
+        expect(tdNode.getNumberOfChildren()).toEqual(0);
 
         expect(textNode.value).toEqual(`${Constants.EOL}${Constants.EOL}test${Constants.EOL}`);
         expect(textNode.lineNumber).toEqual(5);
@@ -389,10 +380,9 @@ describe(targetObjName, () => {
     });
 
     it('accepts a hardcoded string as first element', () => {
-        const rootNode  = getRootNodeFromTemplate(27);
-        const textNode  = rootNode.children[0];
-        const divNode   = rootNode.children[1];
-        const emptyNode = divNode.children[0];
+        const rootNode = getRootNodeFromTemplate(27);
+        const textNode = rootNode.children[0];
+        const divNode  = rootNode.children[1];
 
         expect(textNode.value).toEqual(`${Constants.EOL}test${Constants.EOL}${Constants.EOL}`);
         expect(textNode.lineNumber).toEqual(2);
@@ -400,9 +390,7 @@ describe(targetObjName, () => {
 
         expect(divNode.value).toEqual('<td class="value">');
         expect(divNode.lineNumber).toEqual(4);
-        expect(divNode.getNumberOfChildren()).toEqual(1);
-
-        expect(emptyNode.value).toEqual(`${Constants.EOL}    ${Constants.EOL}`);
+        expect(divNode.getNumberOfChildren()).toEqual(0);
     });
 
     it('calculates node suffix global position', () => {
@@ -421,7 +409,7 @@ describe(targetObjName, () => {
         expect(a3Node.suffixValue).toEqual(`</a3>${Constants.EOL}`);
         expect(a3Node.suffixGlobalPos).toEqual(27);
 
-        expect(a4Node.suffixValue).toEqual(`</a4>${Constants.EOL}`);
+        expect(a4Node.suffixValue).toEqual(`${Constants.EOL}${Constants.EOL}</a4>${Constants.EOL}`);
         expect(a4Node.suffixGlobalPos).toEqual(21);
     });
 
@@ -441,7 +429,7 @@ describe(targetObjName, () => {
         expect(a3Node.suffixValue).toEqual(`</a3>${Constants.EOL}${Constants.EOL}`);
         expect(a3Node.suffixLineNumber).toEqual(10);
 
-        expect(a4Node.suffixValue).toEqual(`</a4>${Constants.EOL}`);
+        expect(a4Node.suffixValue).toEqual(`${Constants.EOL}${Constants.EOL}${Constants.EOL}${Constants.EOL}</a4>${Constants.EOL}`);
         expect(a4Node.suffixLineNumber).toEqual(9);
     });
 

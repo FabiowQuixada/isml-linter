@@ -109,7 +109,6 @@ describe('TreeBuilder', () => {
     it('sets correct line number when there is a nested isml element', () => {
         const rootNode     = TreeBuilder.build(getTemplatePath(8)).rootNode;
         const selectNode   = rootNode.children[0];
-        const emptyNode    = selectNode.children[0];
         const errorMsgNode = rootNode.children[1];
         const selectValue  = '' +
         `<select class="form-control billingState custom-select" id="billingState"${Constants.EOL}` +
@@ -118,13 +117,11 @@ describe('TreeBuilder', () => {
 
         expect(selectNode.value            ).toEqual(selectValue);
         expect(selectNode.lineNumber       ).toEqual(1);
-        expect(selectNode.getNumberOfChildren() ).toEqual(1);
+        expect(selectNode.getNumberOfChildren() ).toEqual(0);
 
         expect(errorMsgNode.value            ).toEqual(`${Constants.EOL}<div class="invalid-feedback">`);
         expect(errorMsgNode.lineNumber       ).toEqual(9);
         expect(errorMsgNode.getNumberOfChildren() ).toEqual(0);
-
-        expect(emptyNode.value).toEqual(`${Constants.EOL}${Constants.EOL}${Constants.EOL}${Constants.EOL}${Constants.EOL}`);
     });
 
     it('identifies a single-child non-tag element line number', () => {
