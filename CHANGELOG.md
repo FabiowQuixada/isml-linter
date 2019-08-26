@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.18.0] - 2019-08-25
+
+### Added
+ - "Indent" autofix feature;
+
+### Changed
+ - Removed empty nodes from ISML tree;
+
 ## [5.17.4] - 2019-08-24
 
 ### Fixed
@@ -441,6 +449,7 @@
 - Linter is published;
 
 
+[5.18.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.4...v5.18.0
 [5.17.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.3...v5.17.4
 [5.17.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.2...v5.17.3
 [5.17.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.1...v5.17.2
