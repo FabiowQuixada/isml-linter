@@ -200,7 +200,7 @@ describe(targetObjName, () => {
         const rule    = require('../../src/app/rules/line_by_line/lowercase-filename');
         const dirPath = path.join(Constants.clientAppDir, specFilenameTemplate);
         const result  = IsmlLinter.run(dirPath);
-        const error   = result.errors[0][path.join(dirPath, 'camelCaseTemplate.isml')];
+        const error   = result.errors[rule.id][path.join(dirPath, 'camelCaseTemplate.isml')][0];
 
         expect(error.line                           ).toEqual('');
         expect(error.lineNumber                     ).toEqual(0);

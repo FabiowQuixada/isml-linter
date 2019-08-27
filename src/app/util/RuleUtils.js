@@ -130,10 +130,11 @@ const checkFileName = (filename, templateContent) => {
     };
 
     if (lowercaseFilenameRule.isEnabled()) {
-        const errorObj = lowercaseFilenameRule.check(filename, templateContent);
+        const ruleResult = lowercaseFilenameRule.check(filename, templateContent);
 
-        if (errorObj) {
-            templateResults.errors = errorObj.occurrences;
+        if (ruleResult) {
+            const errorObj         = getErrorObj(lowercaseFilenameRule, ruleResult.occurrences);
+            templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
         }
     }
 
