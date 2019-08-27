@@ -70,7 +70,7 @@ const displayUnknownErrors = jsonErrors => {
     const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
     let partialSum      = 0;
 
-    if (jsonErrors[UNKNOWN_ERROR]) {
+    if (jsonErrors[UNKNOWN_ERROR] && jsonErrors[UNKNOWN_ERROR].length) {
         console.log(chalk`{red.bold ${Constants.EOL}An unexpected error happened while parsing the following templates:}`);
 
         const unknownErrorArray = jsonErrors[UNKNOWN_ERROR];
