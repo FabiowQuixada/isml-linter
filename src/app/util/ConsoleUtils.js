@@ -104,8 +104,13 @@ const displayConfigError = () => {
     console.log(Constants.EOL + '\t' + chalk.yellow('node ./node_modules/.bin/isml-linter --init') + Constants.EOL);
 };
 
+const displayEslintConfigError = () => {
+    console.log('"eslint-to-isscript" rule is enabled, but a ".eslintrc.json" file could not found in the project root directory.');
+};
+
 module.exports = {
     displayErrors,
     displayConfigError,
+    displayEslintConfigError,
     printExceptionMsg
 };

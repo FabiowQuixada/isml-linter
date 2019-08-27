@@ -65,7 +65,7 @@ const loadEslintConfig = eslintConfigParam => {
         const ConsoleUtils   = require('./ConsoleUtils');
         const ExceptionUtils = require('./ExceptionUtils');
 
-        ConsoleUtils.displayConfigError();
+        ConsoleUtils.displayEslintConfigError();
         throw ExceptionUtils.noEslintConfigError();
     }
 
