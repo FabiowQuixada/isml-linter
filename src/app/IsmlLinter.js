@@ -126,6 +126,8 @@ const addCustomModuleResults = finalResult => {
 
 Linter.run = (pathData = appRoot.toString(), content) => {
 
+    ConfigUtils.setLocalConfig();
+
     if (!ConfigUtils.isConfigSet()) {
         const ConsoleUtils = require('./util/ConsoleUtils');
         ConsoleUtils.displayConfigError();

@@ -39,16 +39,11 @@ const load = configParam => {
         throw ExceptionUtils.noConfigError();
     }
 
-    let config = null;
-    try {
-        config = require(Constants.configPreferredFilePath);
-    } catch (err) {
-        config = require(Constants.configFilePath);
-    }
+    setLocalConfig();
 
-    addParamsToConfig(config);
+    addParamsToConfig(configData);
 
-    return config;
+    return configData;
 };
 
 const loadEslintConfig = eslintConfigParam => {
@@ -121,7 +116,21 @@ const existEslintConfigFile = () => {
 
 const isTestEnv = () => process.env.NODE_ENV === Constants.ENV_TEST;
 
+const setLocalConfig = () => {
+    if (isTestEnv()) {
+        return;
+    }
+
+    try {
+        configData = require(Constants.configPreferredFilePath);
+    }
+    catch (err) {
+        configData = require(Constants.configFilePath);
+    }
+};
+
 module.exports.init             = init;
+module.exports.setLocalConfig   = setLocalConfig;
 module.exports.load             = load;
 module.exports.loadEslintConfig = loadEslintConfig;
 module.exports.clearConfig      = clearConfig;
