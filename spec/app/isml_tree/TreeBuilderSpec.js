@@ -247,7 +247,7 @@ describe(targetObjName, () => {
         const rootNode = getRootNodeFromTemplate(26);
         const styleTag = rootNode.children[4];
 
-        expect(styleTag.value).toEqual('<style type="text/css">');
+        expect(styleTag.value).toEqual(`${Constants.EOL}<style type="text/css">`);
         expect(styleTag.lineNumber).toEqual(5);
         expect(styleTag.getNumberOfChildren()).toEqual(1);
     });
@@ -259,19 +259,19 @@ describe(targetObjName, () => {
         const closingConditionTag = rootNode.children[3];
         const afterTag            = rootNode.children[4];
 
-        expect(conditionTag.value).toEqual(`${Constants.EOL}<!--[if !mso]><!-- -->${Constants.EOL}`);
+        expect(conditionTag.value).toEqual(`${Constants.EOL}<!--[if !mso]><!-- -->`);
         expect(conditionTag.lineNumber).toEqual(2);
         expect(conditionTag.getNumberOfChildren()).toEqual(0);
 
-        expect(metaTag.value).toEqual('    <meta content="IE=edge" http-equiv="X-UA-Compatible" />');
+        expect(metaTag.value).toEqual(`${Constants.EOL}    <meta content="IE=edge" http-equiv="X-UA-Compatible" />`);
         expect(metaTag.lineNumber).toEqual(3);
         expect(metaTag.getNumberOfChildren()).toEqual(0);
 
-        expect(closingConditionTag.value).toEqual(`${Constants.EOL}<!--<![endif]-->${Constants.EOL}`);
+        expect(closingConditionTag.value).toEqual(`${Constants.EOL}<!--<![endif]-->`);
         expect(closingConditionTag.lineNumber).toEqual(4);
         expect(closingConditionTag.getNumberOfChildren()).toEqual(0);
 
-        expect(afterTag.value).toEqual('<style type="text/css">');
+        expect(afterTag.value).toEqual(`${Constants.EOL}<style type="text/css">`);
         expect(afterTag.lineNumber).toEqual(5);
         expect(afterTag.getNumberOfChildren()).toEqual(1);
     });
@@ -457,8 +457,8 @@ describe(targetObjName, () => {
         const htmlComment1 = headNode.children[1];
 
         expect(headNode.value).toEqual('<head>');
-        expect(htmlComment0.value).toEqual(`${Constants.EOL}    <!--[if gt IE 9]><!-->${Constants.EOL}`);
-        expect(htmlComment1.value).toEqual(`    <!--<![endif]-->${Constants.EOL}`);
+        expect(htmlComment0.value).toEqual(`${Constants.EOL}    <!--[if gt IE 9]><!-->`);
+        expect(htmlComment1.value).toEqual(`${Constants.EOL}    <!--<![endif]-->${Constants.EOL}`);
     });
 
     it('allows an HTML element as first child of a parent node', () => {
@@ -470,6 +470,13 @@ describe(targetObjName, () => {
 
         expect(htmlComment0.value).toEqual(`${Constants.EOL}    <!-- Comment 1 -->${Constants.EOL}`);
         expect(htmlComment1.value).toEqual(`${Constants.EOL}    <!-- Comment 2 -->${Constants.EOL}`);
+    });
+
+    it('allows an ISML expression within HTML comment', () => {
+        const rootNode    = getRootNodeFromTemplate(46);
+        const commentNode = rootNode.children[0];
+
+        expect(commentNode.value).toEqual(`${Constants.EOL}<!-- dw="\${value}" -->${Constants.EOL}`);
     });
 });
 

@@ -105,18 +105,20 @@ const parseState = state => {
     const isOpeningTagChar = state.currentChar === '<';
     const isClosingTagChar = state.currentChar === '>' && !currentElement.startsWith('<!--') || isHtmlComment;
 
-    if (isOpeningTagChar) {
+    if (isOpeningTagChar && !currentElement.startsWith('<!--')) {
         prepareStateForOpeningElement(state);
     } else if (isClosingTagChar) {
         createNodeForCurrentElement(state);
-    } else if (ParseUtils.isWhite(state)) {
+    } else if (ParseUtils.isWhite(state) || currentElement.startsWith('<!--')) {
         state.nonTagBuffer += state.currentChar;
+    } else if (state.content.substring(state.currentPos).startsWith('!-')) {
+        state.nonTagBuffer += '<!-';
     }
 };
 
 const updateStateWhetherItIsInsideExpression = state => {
     if (!ParseUtils.isWhite(state)) {
-        if (ParseUtils.isOpeningIsmlExpression(state)) {
+        if (ParseUtils.isOpeningIsmlExpression(state) && !state.nonTagBuffer.trim().startsWith('<!--')) {
             state.insideExpression = true;
             state.ignoreUntil      = state.currentPos + state.content.substring(state.currentPos).indexOf('}');
         } else if (ParseUtils.isClosingIsmlExpression(state)) {
