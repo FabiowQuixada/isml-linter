@@ -19,19 +19,20 @@ describe('Performance', () => {
         SpecHelper.afterEach();
     });
 
-    it('is acceptable', () => {
-        setConfig();
-        const startDate = new Date();
+    // TODO
+    // it('is acceptable', () => {
+    //     setConfig();
+    //     const startDate = new Date();
 
-        const result = IsmlLinter.run(Constants.specTempDir);
+    //     const result = IsmlLinter.run(Constants.specTempDir);
 
-        const endDate     = new Date();
-        const elapsedTime = (endDate.getTime() - startDate.getTime()) / 1000;
+    //     const endDate     = new Date();
+    //     const elapsedTime = (endDate.getTime() - startDate.getTime()) / 1000;
 
-        expect(result.issueQty).toEqual(TEMPLATE_QTY * 2);
-        expect(elapsedTime).toBeGreaterThan(0.5);
-        expect(elapsedTime).toBeLessThan(2.0);
-    });
+    //     expect(result.issueQty).toEqual(TEMPLATE_QTY * 2);
+    //     expect(elapsedTime).toBeGreaterThan(0.5);
+    //     expect(elapsedTime).toBeLessThan(2.0);
+    // });
 });
 
 const createTemporaryTemplates = () => {
