@@ -134,10 +134,14 @@ Linter.run = (pathData = appRoot.toString(), content) => {
         throw ExceptionUtils.noConfigError();
     }
 
+    const ProgressBar  = require('./util/ProgressBar');
+
     const config            = ConfigUtils.load();
     pathData                = pathData || config.rootDir;
     const templatePathArray = getTemplatePathArray(pathData);
     let finalResult         = getEmptyResult();
+
+    ProgressBar.start(templatePathArray.length);
 
     for (let i = 0; i < templatePathArray.length; i++) {
         const templateName = templatePathArray[i];
@@ -150,9 +154,11 @@ Linter.run = (pathData = appRoot.toString(), content) => {
 
             finalResult = merge(finalResult, templateResults);
         }
+        ProgressBar.increment();
     }
 
     addCustomModuleResults(finalResult);
+    ProgressBar.stop();
 
     return finalResult;
 };
