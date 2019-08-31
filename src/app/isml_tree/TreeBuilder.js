@@ -53,7 +53,7 @@ const build = (templatePath, content) => {
     } catch (e) {
         result.rootNode  = null;
         result.status    = ParseStatus.INVALID_DOM;
-        result.exception = e === ExceptionUtils.types.UNKNOWN_ERROR ?
+        result.exception = e.type === ExceptionUtils.types.UNKNOWN_ERROR ?
             ExceptionUtils.getParseErrorMessage(templatePath) :
             e;
     }
