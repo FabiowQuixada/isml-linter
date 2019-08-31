@@ -102,13 +102,13 @@ class IsmlNode {
 
     addChild(newNode) {
         if (newNode.value.trim()) {
-        newNode.depth        = this.depth + 1;
-        newNode.parent       = this;
-        this.children.push(newNode);
-        this.newestChildNode = newNode;
+            newNode.depth        = this.depth + 1;
+            newNode.parent       = this;
+            this.children.push(newNode);
+            this.newestChildNode = newNode;
         } else {
             this.suffixValue = newNode.value + this.suffixValue;
-    }
+        }
     }
 
     getLastChild()        { return this.children[this.children.length - 1]; }
@@ -199,7 +199,8 @@ class IsmlNode {
             this.isDocType() ||
             this.isVoidElement() ||
             this.isHtmlComment() ||
-            this.isTag() && this.value.endsWith('/>'));
+            this.isTag() && this.value.endsWith('/>')) ||
+            this.isIsmlTag() && SfccTags[this.getType()] && SfccTags[this.getType()]['self-closing'];
     }
 
     isOfType(type) {

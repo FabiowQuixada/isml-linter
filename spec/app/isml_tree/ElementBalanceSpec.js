@@ -27,7 +27,7 @@ describe('TreeBuilder', () => {
     it('gets unbalanced element length II', () => {
         const tree = getTreeFromTemplate(1);
 
-        expect(tree.exception.length).toEqual(52);
+        expect(tree.exception.length).toEqual(8);
     });
 
     it('gets unbalanced element global position II', () => {

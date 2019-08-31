@@ -1,0 +1,3 @@
+<div>
+    <isprint value="${pdict.response[pdict.serviceReply]['reasonCode']}">
+</div>

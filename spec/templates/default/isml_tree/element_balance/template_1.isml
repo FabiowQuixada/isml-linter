@@ -2,7 +2,7 @@
     ${addressFields.postalCode.mandatory === true ? 'required' : ''}
     ${addressFields.postalCode.htmlName}">
         <div class="invalid-feedback" id="${lineItem ? lineItem.UUID : 'default'}PostalCode">
-            <isprint value="${addressFields.postalCode.error}" >
+            <isloop>
         </div>
     </div>
 </div>

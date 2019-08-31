@@ -7,8 +7,14 @@
 const MaskUtils        = require('../MaskUtils');
 const ClosingTagFinder = require('./ClosingTagFinder');
 const Constants        = require('../../Constants');
+const SfccTags         = require('../../enums/SfccTags');
 
 const ISIF = '<isif';
+
+const isSfccSelfClosing = elem => {
+    return !elem.startsWith('is') ||
+        SfccTags[elem] && SfccTags[elem]['self-closing'];
+};
 
 const pickInnerContent = (state, content) => {
     const innerContentStartPos = state.currentElement.endPosition + 1;
@@ -37,6 +43,26 @@ const getAccumulatedPos = state => {
 
 const getNextNonEmptyChar = content => {
     return content.replace(new RegExp(Constants.EOL, 'g'), '').trim()[0];
+};
+
+const isStackable = elem => {
+    return !elem.startsWith('!--') &&
+        elem !== 'iselse' &&
+        elem !== 'iselseif' &&
+        (!elem.startsWith('is') ||
+        !isSfccSelfClosing(elem));
+};
+
+const getFirstElementType = elementAsString => {
+    const elementEndPos = elementAsString.indexOf('>') === -1 ? elementAsString.length : elementAsString.indexOf('>');
+    let result          = elementAsString.substring(elementAsString.indexOf('<') + 1, elementEndPos);
+
+    // In case the tag has attributes;
+    if (result.indexOf(' ') !== -1) {
+        result = result.split(' ')[0];
+    }
+
+    return result;
 };
 
 module.exports.getLineBreakQty = string => (string.match(new RegExp(Constants.EOL, 'g')) || []).length;
@@ -74,11 +100,7 @@ module.exports.isOpeningElem = state => {
     return currentChar === '<' && nextChar !== '/';
 };
 
-module.exports.isStackable = elem => {
-    return !elem.startsWith('!--') &&
-            elem !== 'iselse' &&
-            elem !== 'iselseif';
-};
+module.exports.isStackable = isStackable;
 
 module.exports.getNextElementValue = content => {
     const maskedContent = MaskUtils.maskInBetween(content, '<!---', '--->', true);
@@ -160,17 +182,7 @@ module.exports.isCorrespondentElement = (state, elem) => {
 
 };
 
-module.exports.getFirstElementType = elementAsString => {
-    const elementEndPos = elementAsString.indexOf('>') === -1 ? elementAsString.length : elementAsString.indexOf('>');
-    let result          = elementAsString.substring(elementAsString.indexOf('<') + 1, elementEndPos);
-
-    // In case the tag has attributes;
-    if (result.indexOf(' ') !== -1) {
-        result = result.split(' ')[0];
-    }
-
-    return result;
-};
+module.exports.getFirstElementType = getFirstElementType;
 
 module.exports.getCurrentElementEndPosition = content => {
 

@@ -4,14 +4,19 @@ const TAG_DATA = {
             'category' : {
                 'required': true
             }
-        }
+        },
+        'self-closing' : true
     },
     'isactivedatahead' : {
-        'within' : ['head']
+        'within' : ['head'],
+        'self-closing' : true
     },
-    'isanalyticsoff' : {},
+    'isanalyticsoff' : {
+        'self-closing' : true
+    },
     'isbreak' : {
-        'within' : ['isloop']
+        'within' : ['isloop'],
+        'self-closing' : true
     },
     'iscache' : {
         'attributes': {
@@ -27,7 +32,8 @@ const TAG_DATA = {
             'minute' : {},
             'varyby' : {},
             'if'     : {}
-        }
+        },
+        'self-closing' : true
     },
     'iscomment': {},
     'iscomponent': {
@@ -37,7 +43,8 @@ const TAG_DATA = {
             },
             'locale'     : {},
             'parameterN' : {}
-        }
+        },
+        'self-closing' : true
     },
     'iscontent' : {
         'attributes': {
@@ -49,10 +56,12 @@ const TAG_DATA = {
             'compact'  : {
                 'values': ['true', 'false']
             }
-        }
+        },
+        'self-closing' : true
     },
     'iscontinue' : {
-        'within' : ['isloop']
+        'within' : ['isloop'],
+        'self-closing' : true
     },
     'iscookie' : {
         'attributes': {
@@ -70,7 +79,8 @@ const TAG_DATA = {
             'secure'  : {
                 'values' : ['on', 'off']
             }
-        }
+        },
+        'self-closing' : true
     },
     'isdecorate' : {
         'attributes': {
@@ -80,13 +90,15 @@ const TAG_DATA = {
         }
     },
     'iselse': {
-        'condition' : {}
+        'condition' : {},
+        'self-closing' : true
     },
     'isif': {
         'condition' : {}
     },
     'iselseif': {
-        'condition' : {}
+        'condition' : {},
+        'self-closing' : true
     },
     'isinclude' : {
         'attributes': {
@@ -99,7 +111,8 @@ const TAG_DATA = {
         },
         'requires' : {
             'exclusive': ['url', 'template']
-        }
+        },
+        'self-closing' : true
     },
     'isloop' : {
         'attributes': {
@@ -127,10 +140,12 @@ const TAG_DATA = {
                 'required' : true
             },
             'attribute': {}
-        }
+        },
+        'self-closing' : true
     },
     'isnext' : {
-        'within' : ['isloop']
+        'within' : ['isloop'],
+        'self-closing' : true
     },
     'isobject' : {
         'attributes': {
@@ -158,11 +173,12 @@ const TAG_DATA = {
                 'values' : ['on', 'off'],
                 'default' : 'on'
             }
+        },
+        'self-closing' : true
         // TODO Are they really mutually exclusive?
         // },
         // 'requires' : {
         //     'exclusive': ['style', 'formatter']
-        }
     },
     'isredirect' : {
         'attributes': {
@@ -173,7 +189,8 @@ const TAG_DATA = {
                 'values' : ['true', 'false'],
                 'default': 'false'
             }
-        }
+        },
+        'self-closing' : true
     },
     'isremove' : {
         'attributes': {
@@ -184,10 +201,12 @@ const TAG_DATA = {
                 'values' : ['session', 'request', 'page'],
                 'deprecatedValues' : ['pdict']
             }
-        }
+        },
+        'self-closing' : true
     },
     'isreplace' : {
-        'within' : ['isdecorate']
+        'within' : ['isdecorate'],
+        'self-closing' : true
     },
     'isscript' : {},
     'isselect' : {
@@ -210,7 +229,8 @@ const TAG_DATA = {
             'encoding' : {
                 'values' : ['on', 'off']
             }
-        }
+        },
+        'self-closing' : true
     },
     'isset' : {
         'attributes': {
@@ -224,7 +244,8 @@ const TAG_DATA = {
                 'required' : true,
                 'values' : ['session', 'request', 'page']
             }
-        }
+        },
+        'self-closing' : true
     },
     'isslot' : {
         'attributes': {
@@ -244,14 +265,16 @@ const TAG_DATA = {
                 'required' : true
             },
             'preview-url' : {}
-        }
+        },
+        'self-closing' : true
     },
     'isstatus' : {
         'attributes': {
             'value' : {
                 'required' : true
             }
-        }
+        },
+        'self-closing' : true
     }
 };
 

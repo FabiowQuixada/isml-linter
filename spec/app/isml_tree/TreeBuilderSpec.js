@@ -478,6 +478,20 @@ describe(targetObjName, () => {
 
         expect(commentNode.value).toEqual(`${Constants.EOL}<!-- dw="\${value}" -->${Constants.EOL}`);
     });
+
+    it('allows unclosed <isprint> tag', () => {
+        const rootNode    = getRootNodeFromTemplate(47);
+        const isprintNode = rootNode.children[0].children[0];
+
+        expect(isprintNode.value).toEqual(`${Constants.EOL}    <isprint value="\${pdict.response[pdict.serviceReply]['reasonCode']}">${Constants.EOL}`);
+    });
+
+    it('allows unclosed <iscontent> tag', () => {
+        const rootNode      = getRootNodeFromTemplate(48);
+        const iscontentNode = rootNode.children[0];
+
+        expect(iscontentNode.value).toEqual('<iscontent type="text/html" charset="UTF-8">');
+    });
 });
 
 const getTemplatePath = number => {
