@@ -51,7 +51,7 @@ const displayUnparseableErrors = jsonErrors => {
 
         const INVALID_TEMPLATE = ExceptionUtils.types.INVALID_TEMPLATE;
 
-        if (jsonErrors[INVALID_TEMPLATE]) {
+        if (jsonErrors[INVALID_TEMPLATE] && jsonErrors[INVALID_TEMPLATE].length > 0) {
             console.log(chalk`{red.bold ${Constants.EOL}An Isml abstract syntax tree could not be built for the following templates:}`);
 
             for (let i = 0; i < jsonErrors[INVALID_TEMPLATE].length; i++) {
@@ -70,7 +70,7 @@ const displayUnknownErrors = jsonErrors => {
     const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
     let partialSum      = 0;
 
-    if (jsonErrors[UNKNOWN_ERROR] && jsonErrors[UNKNOWN_ERROR].length) {
+    if (jsonErrors[UNKNOWN_ERROR] && jsonErrors[UNKNOWN_ERROR].length > 0) {
         console.log(chalk`{red.bold ${Constants.EOL}An unexpected error happened while parsing the following templates:}`);
 
         const unknownErrorArray = jsonErrors[UNKNOWN_ERROR];
