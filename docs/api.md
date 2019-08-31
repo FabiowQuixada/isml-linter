@@ -36,10 +36,11 @@ you have access to the following methods:
      * Calls parse() with configured path as
      * param and prints the result to console;
      *
+     * @para   {String} path defaults to project root directory;
      * @return {Number} 0 if no errors were found
      *                  1 if errors were found
      **/
-    build()
+    build(path)
 
     // The following are available for retro-compatibility
     // and are deprecated. They do the same as the above

@@ -12,7 +12,7 @@ module.exports = {
         return linterResult;
     },
     printResults : ()    => ConsoleUtils.displayErrors(linterResult),
-    build        : ()    => Builder.run(),
+    build        : path  => Builder.run(path),
 
     IsmlLinter,
     Builder
