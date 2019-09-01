@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.18.4] - 2019-09-01
+
+### Added
+ - Minimum required Node version (>=10.0.0) to docs;
+
+### Changed
+ - Display up to 100 errors in the output;
+
+### Fixed
+ - Suggested initialization command;
+
 ## [5.18.3] - 2019-09-01
 
 ### Added
@@ -469,6 +480,7 @@
 - Linter is published;
 
 
+[5.18.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.3...v5.18.4
 [5.18.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.2...v5.18.3
 [5.18.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.1...v5.18.2
 [5.18.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.0...v5.18.1
