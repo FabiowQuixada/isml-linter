@@ -101,7 +101,7 @@ const displayErrors = jsonErrors => {
 
 const displayConfigError = () => {
     console.log('No configuration found. Please run the following command to create a default configuration file:');
-    console.log(Constants.EOL + '\t' + chalk.yellow('node ./node_modules/.bin/isml-linter --init') + Constants.EOL);
+    console.log(Constants.EOL + '\t' + chalk.yellow('./node_modules/.bin/isml-linter --init') + Constants.EOL);
 };
 
 const displayEslintConfigError = () => {

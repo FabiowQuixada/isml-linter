@@ -45,14 +45,14 @@ const parseError = (elementType, lineNumber, globalPos, length, templatePath) =>
 
 const noConfigError = () => {
     return {
-        message  : `No configuration found. Please run the following command: ${Constants.EOL}${Constants.EOL}\tnode ./node_modules/.bin/isml-linter --init${Constants.EOL}${Constants.EOL}`,
+        message  : `No configuration found. Please run the following command: ${Constants.EOL}${Constants.EOL}\t./node_modules/.bin/isml-linter --init${Constants.EOL}${Constants.EOL}`,
         isCustom : true
     };
 };
 
 const noEslintConfigError = () => {
     return {
-        message  : `No eslint configuration found. Please run the following command: ${Constants.EOL}${Constants.EOL}\tnode ./node_modules/.bin/isml-linter --init${Constants.EOL}${Constants.EOL}`,
+        message  : 'No eslint configuration found. Please add an ESLint configuration file and try again.',
         isCustom : true
     };
 };
