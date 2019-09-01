@@ -3,6 +3,8 @@ const Constants      = require('../Constants');
 const ExceptionUtils = require('./ExceptionUtils');
 const ConfigUtils    = require('./ConfigUtils');
 
+const MAX_LISTED_ERRORS = 100;
+
 const printExceptionMsg = e => {
     const Constants = require('../Constants');
 
@@ -20,7 +22,9 @@ const displayLintingErrors = jsonErrors => {
     let partialSum = 0;
     for (const rule in jsonErrors.errors) {
         for (const template in jsonErrors.errors[rule]) {
-            console.log(Constants.EOL + template);
+            if (partialSum < MAX_LISTED_ERRORS) {
+                console.log(Constants.EOL + template);
+            }
 
             const errorArray = jsonErrors.errors[rule][template];
 
@@ -32,7 +36,9 @@ const displayLintingErrors = jsonErrors => {
                     displayText = displayText.substring(0, 30) + '...';
                 }
 
-                console.log(chalk.gray(error.lineNumber) + '\t' + chalk.red('error') + '\t' + rule);
+                if (partialSum < MAX_LISTED_ERRORS) {
+                    console.log(chalk.gray(error.lineNumber) + '\t' + chalk.red('error') + '\t' + rule);
+                }
 
                 partialSum++;
             }
@@ -80,7 +86,7 @@ const displayUnknownErrors = jsonErrors => {
             partialSum++;
         }
 
-        console.log(`${Constants.EOL}Please report this to ${chalk.cyan(Constants.repositoryUrl)} and add these files to the ignore list while a fix is not available.`);
+        console.log(`${Constants.EOL}Please check if your node version is >=10.0.0. If it is, please report the above issues to ${chalk.cyan(Constants.repositoryUrl)} and add these files to the ignore list while a fix is not available.`);
     }
 
     return partialSum;
@@ -90,12 +96,17 @@ const displayErrors = jsonErrors => {
 
     let errorQty = 0;
 
-    errorQty += displayUnparseableErrors(jsonErrors);
-    errorQty += displayUnknownErrors(jsonErrors);
-    errorQty += displayLintingErrors(jsonErrors);
+    errorQty         += displayUnparseableErrors(jsonErrors);
+    errorQty         += displayUnknownErrors(jsonErrors);
+    const lintErrors = displayLintingErrors(jsonErrors);
+    errorQty         += lintErrors;
 
     if (errorQty > 0) {
         console.log(Constants.EOL + chalk`{red.bold ${errorQty} errors found in templates.}`);
+
+        if (lintErrors >= MAX_LISTED_ERRORS) {
+            console.log(chalk`{red.bold Displaying the first ${MAX_LISTED_ERRORS} errors.}` + Constants.EOL);
+        }
     }
 };
 
