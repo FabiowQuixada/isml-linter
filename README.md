@@ -20,6 +20,8 @@ If you think Isml Linter is useful and has helped improving and speeding up your
 
 ## Installation
 
+Prerequisite: Node.js (>=10.0.0).
+
 Simply run in your project's root directory:
 
 ```sh

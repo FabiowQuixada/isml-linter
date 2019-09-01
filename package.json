@@ -4,6 +4,7 @@
   "author": "Fabiow Quixadá <ftquixada@gmail.com>",
   "license": "ISC",
   "main": "src/app/publicApi.js",
+  "engines": { "node" : ">=10.0.0" },
   "scripts": {
     "lint": "./node_modules/.bin/eslint . --fix",
     "test": "jasmine-node spec/",
