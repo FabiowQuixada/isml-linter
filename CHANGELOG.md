@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.18.3] - 2019-09-01
+
+### Added
+ - Progress bar;
+ - "path" parameter to the API's build method;
+
 ## [5.18.2] - 2019-08-31
 
 ### Fixed
@@ -463,6 +469,7 @@
 - Linter is published;
 
 
+[5.18.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.2...v5.18.3
 [5.18.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.1...v5.18.2
 [5.18.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.0...v5.18.1
 [5.18.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.17.4...v5.18.0
