@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.18.5] - 2019-09-02
+
+### Fixed
+ - "Eslint to Isscript" rule;
+ 
 ## [5.18.4] - 2019-09-01
 
 ### Added
@@ -480,6 +485,7 @@
 - Linter is published;
 
 
+[5.18.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.4...v5.18.5
 [5.18.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.3...v5.18.4
 [5.18.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.2...v5.18.3
 [5.18.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.1...v5.18.2
