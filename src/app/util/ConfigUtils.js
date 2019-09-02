@@ -13,7 +13,8 @@ const init = (
     return createConfigFile(targetDir, configFileName);
 };
 
-const isConfigSet = () => configData !== null;
+const isConfigSet       = () => configData !== null;
+const isEslintConfigSet = () => eslintConfigData !== null;
 
 const load = configParam => {
 
@@ -78,6 +79,10 @@ const clearConfig = () => {
     configData = null;
 };
 
+const clearEslintConfig = () => {
+    eslintConfigData = null;
+};
+
 const createConfigFile = (
     targetDir = Constants.configFilePath,
     configFileName) => {
@@ -111,6 +116,7 @@ const existConfigFile = () => {
 
 const existEslintConfigFile = () => {
     return eslintConfigData ||
+        configData && configData.eslintConfig && FileUtils.fileExists(configData.eslintConfig) ||
         FileUtils.fileExists(Constants.eslintConfigFileName);
 };
 
@@ -129,9 +135,26 @@ const setLocalConfig = () => {
     }
 };
 
-module.exports.init             = init;
-module.exports.setLocalConfig   = setLocalConfig;
-module.exports.load             = load;
-module.exports.loadEslintConfig = loadEslintConfig;
-module.exports.clearConfig      = clearConfig;
-module.exports.isConfigSet      = isConfigSet;
+const setLocalEslintConfig = () => {
+    try {
+        if (configData && configData.eslintConfig) {
+            if (FileUtils.fileExists(configData.eslintConfig)) {
+                eslintConfigData = require(path.join(Constants.clientAppDir, configData.eslintConfig));
+            }
+        } else {
+            eslintConfigData = require(Constants.eslintConfigFilePath);
+        }
+    } catch (err) {
+        // Configuration will be loaded through setConfig() method;
+    }
+};
+
+module.exports.init                 = init;
+module.exports.setLocalConfig       = setLocalConfig;
+module.exports.setLocalEslintConfig = setLocalEslintConfig;
+module.exports.load                 = load;
+module.exports.loadEslintConfig     = loadEslintConfig;
+module.exports.clearConfig          = clearConfig;
+module.exports.clearEslintConfig    = clearEslintConfig;
+module.exports.isConfigSet          = isConfigSet;
+module.exports.isEslintConfigSet    = isEslintConfigSet;

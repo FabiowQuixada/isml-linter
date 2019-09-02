@@ -127,6 +127,7 @@ const addCustomModuleResults = finalResult => {
 Linter.run = (pathData = appRoot.toString(), content) => {
 
     ConfigUtils.setLocalConfig();
+    ConfigUtils.setLocalEslintConfig();
 
     if (!ConfigUtils.isConfigSet()) {
         const ConsoleUtils = require('./util/ConsoleUtils');
@@ -134,7 +135,13 @@ Linter.run = (pathData = appRoot.toString(), content) => {
         throw ExceptionUtils.noConfigError();
     }
 
-    const ProgressBar  = require('./util/ProgressBar');
+    if (!ConfigUtils.isEslintConfigSet()) {
+        const ConsoleUtils = require('./util/ConsoleUtils');
+        ConsoleUtils.displayEslintConfigError();
+        throw ExceptionUtils.noEslintConfigError();
+    }
+
+    const ProgressBar = require('./util/ProgressBar');
 
     const config            = ConfigUtils.load();
     pathData                = pathData || config.rootDir;
@@ -154,6 +161,7 @@ Linter.run = (pathData = appRoot.toString(), content) => {
 
             finalResult = merge(finalResult, templateResults);
         }
+
         ProgressBar.increment();
     }
 

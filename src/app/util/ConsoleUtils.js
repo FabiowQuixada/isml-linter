@@ -116,7 +116,10 @@ const displayConfigError = () => {
 };
 
 const displayEslintConfigError = () => {
-    console.log('"eslint-to-isscript" rule is enabled, but a ".eslintrc.json" file could not found in the project root directory.');
+    const config               = ConfigUtils.load();
+    const eslintConfigFileName = config.eslintConfig || '.eslintrc.json';
+
+    console.log(`The "eslint-to-isscript" rule is enabled, but an ESLint configuration "${eslintConfigFileName}" file could not be found in the project root directory.`);
 };
 
 module.exports = {

@@ -43,11 +43,11 @@
     "app-root-path": "^2.2.1",
     "chalk": "^2.4.2",
     "cli-progress": "^3.0.0",
+    "eslint": "^6.3.0",
     "readdir": "^0.1.0"
   },
   "devDependencies": {
     "eol": "^0.9.1",
-    "eslint": "^6.0.1",
     "eslint-plugin-jasmine": "^2.10.1",
     "eslint-plugin-varspacing": "^1.2.1",
     "execSync": "^1.0.2",

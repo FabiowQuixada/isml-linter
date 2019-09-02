@@ -1,11 +1,17 @@
-const specFileName = require('path').basename(__filename);
+const path         = require('path');
+const specFileName = path.basename(__filename);
 const SpecHelper   = require('../../SpecHelper');
 const rule         = SpecHelper.getTreeRule(specFileName);
+const ConfigUtils  = require('../../../src/app/util/ConfigUtils');
+const Constants    = require('../../../src/app/Constants');
+
+const specEslintConfig =  require(path.join('..', '..', Constants.eslintConfigFileName));
 
 describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
-        rule.occurrences = [];
+        ConfigUtils.loadEslintConfig(specEslintConfig);
+        rule.occurrences       = [];
     });
 
     afterEach(() => {
