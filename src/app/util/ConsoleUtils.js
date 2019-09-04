@@ -17,30 +17,37 @@ const printExceptionMsg = e => {
     }
 };
 
+const printLintingError = (error, partialSum, rule) => {
+    let displayText = error.line;
+
+    if (displayText.length > 30) {
+        displayText = displayText.substring(0, 30) + '...';
+    }
+
+    if (partialSum < MAX_LISTED_ERRORS) {
+        console.log(chalk.gray(error.lineNumber) + '\t' + chalk.red('error') + '\t' + rule);
+    }
+};
+
 const displayLintingErrors = jsonErrors => {
 
     let partialSum = 0;
-    for (const rule in jsonErrors.errors) {
-        for (const template in jsonErrors.errors[rule]) {
-            if (partialSum < MAX_LISTED_ERRORS) {
-                console.log(Constants.EOL + template);
-            }
 
-            const errorArray = jsonErrors.errors[rule][template];
+    if (jsonErrors.errors) {
+        console.log(chalk`{red.bold ${Constants.EOL}The following linting errors were found in the templates:}`);
 
-            for (let i = 0; i < errorArray.length; i++) {
-                const error     = errorArray[i];
-                let displayText = error.line;
-
-                if (displayText.length > 30) {
-                    displayText = displayText.substring(0, 30) + '...';
-                }
-
+        for (const rule in jsonErrors.errors) {
+            for (const template in jsonErrors.errors[rule]) {
                 if (partialSum < MAX_LISTED_ERRORS) {
-                    console.log(chalk.gray(error.lineNumber) + '\t' + chalk.red('error') + '\t' + rule);
+                    console.log(Constants.EOL + template);
                 }
 
-                partialSum++;
+                const errorArray = jsonErrors.errors[rule][template];
+
+                for (let i = 0; i < errorArray.length; i++) {
+                    printLintingError(errorArray[i], partialSum, rule);
+                    partialSum++;
+                }
             }
         }
     }

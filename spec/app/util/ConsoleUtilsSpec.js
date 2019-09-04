@@ -43,10 +43,10 @@ describe(targetObjName, () => {
         const expectedResult3 = chalk.gray('39') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
         const expectedResult4 = chalk.gray('59') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
 
-        expect(spy.getCall(1).args[0]).toEqual(expectedResult1);
-        expect(spy.getCall(2).args[0]).toEqual(expectedResult2);
-        expect(spy.getCall(3).args[0]).toEqual(expectedResult3);
-        expect(spy.getCall(4).args[0]).toEqual(expectedResult4);
+        expect(spy.getCall(2).args[0]).toEqual(expectedResult1);
+        expect(spy.getCall(3).args[0]).toEqual(expectedResult2);
+        expect(spy.getCall(4).args[0]).toEqual(expectedResult3);
+        expect(spy.getCall(5).args[0]).toEqual(expectedResult4);
     });
 
     it('displays invalid template errors when config is enabled', () => {
@@ -73,10 +73,10 @@ describe(targetObjName, () => {
         const expectedResult3 = chalk.gray('39') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
         const expectedResult4 = chalk.gray('59') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
 
-        expect(spy.getCall(1).args[0]).toEqual(expectedResult1);
-        expect(spy.getCall(2).args[0]).toEqual(expectedResult2);
-        expect(spy.getCall(3).args[0]).toEqual(expectedResult3);
-        expect(spy.getCall(4).args[0]).toEqual(expectedResult4);
+        expect(spy.getCall(2).args[0]).toEqual(expectedResult1);
+        expect(spy.getCall(3).args[0]).toEqual(expectedResult2);
+        expect(spy.getCall(4).args[0]).toEqual(expectedResult3);
+        expect(spy.getCall(5).args[0]).toEqual(expectedResult4);
     });
 
 });
