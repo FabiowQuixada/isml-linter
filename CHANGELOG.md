@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.18.7] - 2019-09-04
+
+### Removed
+ - "Indent" rule autofix feature due to major bugs;
+ - "One Element per Line" rule autofix feature due to major bugs;
+
 ## [5.18.6] - 2019-09-03
 
 ### Fixed
@@ -490,6 +496,7 @@
 - Linter is published;
 
 
+[5.18.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.6...v5.18.7
 [5.18.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.5...v5.18.6
 [5.18.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.4...v5.18.5
 [5.18.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.3...v5.18.4
