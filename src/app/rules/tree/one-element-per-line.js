@@ -1,6 +1,6 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
-const ConfigUtils       = require('../../util/ConfigUtils');
-const Constants         = require('../../Constants');
+// const ConfigUtils       = require('../../util/ConfigUtils');
+// const Constants         = require('../../Constants');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Only one element per line is allowed';
@@ -14,46 +14,46 @@ Rule.isBroken = function(node) {
         node.lineNumber === node.parent.lineNumber;
 };
 
-Rule.getFixedContent = rootNode => {
-    fixContent(rootNode);
+// Rule.getFixedContent = rootNode => {
+//     fixContent(rootNode);
 
-    return rootNode.toString();
-};
+//     return rootNode.toString();
+// };
 
-const fixContent = node => {
-    for (let i = 0; i < node.children.length; i++) {
-        const child = node.children[i];
+// const fixContent = node => {
+//     for (let i = 0; i < node.children.length; i++) {
+//         const child = node.children[i];
 
-        if (child.isInSameLineAsParent() && !node.isIsmlComment()) {
-            const indentation       = getCorrectIndentation(child);
-            const parentIndentation = getCorrectIndentation(node);
+//         if (child.isInSameLineAsParent() && !node.isIsmlComment()) {
+//             const indentation       = getCorrectIndentation(child);
+//             const parentIndentation = getCorrectIndentation(node);
 
-            child.value = `${Constants.EOL}${indentation}${child.value}${Constants.EOL}${parentIndentation}`;
+//             child.value = `${Constants.EOL}${indentation}${child.value}${Constants.EOL}${parentIndentation}`;
 
-            if (child.suffixValue) {
-                child.setSuffix(`${Constants.EOL}${indentation}${child.suffixValue}${Constants.EOL}`);
-            }
-        }
+//             if (child.suffixValue) {
+//                 child.setSuffix(`${Constants.EOL}${indentation}${child.suffixValue}${Constants.EOL}`);
+//             }
+//         }
 
-        fixContent(child);
-    }
-};
+//         fixContent(child);
+//     }
+// };
 
-const getCorrectIndentation = node => {
-    const indentSize = node.depth - 1;
-    const config     = ConfigUtils.load();
-    let indentation  = '';
-    let indentUnit   = '';
+// const getCorrectIndentation = node => {
+//     const indentSize = node.depth - 1;
+//     const config     = ConfigUtils.load();
+//     let indentation  = '';
+//     let indentUnit   = '';
 
-    for (let i = 0; i < (config.indent || 4); ++i) {
-        indentUnit += ' ';
-    }
+//     for (let i = 0; i < (config.indent || 4); ++i) {
+//         indentUnit += ' ';
+//     }
 
-    for (let i = 0; i < indentSize; ++i) {
-        indentation += indentUnit;
-    }
+//     for (let i = 0; i < indentSize; ++i) {
+//         indentation += indentUnit;
+//     }
 
-    return indentation;
-};
+//     return indentation;
+// };
 
 module.exports = Rule;

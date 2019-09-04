@@ -168,11 +168,11 @@ Check the [API docs][api-docs].
 | [lowercase-filename][lowercase-filename-readme]                                      | Disallows template names to have uppercase characters |
 | :boom: [max-lines][max-lines-readme]                                                 | Limits the size of templates |
 | :small_orange_diamond: [no-hardcode][no-hardcode-readme]                             | Disallows hardcoded strings outside ISML expressions |
-| :wrench: :small_orange_diamond: [indent][indent-readme]                                       | Sets indentation size |
+| :small_orange_diamond: [indent][indent-readme]                                       | Sets indentation size |
 | :small_orange_diamond: [no-require-in-loop][no-require-in-loop-readme]               | No `require()` calls from within a loop in the template |
 | :small_orange_diamond: [no-embedded-isml][no-embedded-isml-readme]                   | Disallows embedded isml tags, such as in <div &lt;isif /> />, except for &lt;isprint /> |
 | :small_orange_diamond: [max-depth][max-depth-readme]                                 | Sets the maximum of nested elements in a template |
-| :wrench: :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]  | One element per line |
+| :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]  | One element per line |
 | :wrench: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]        | Ensures &lt;iscontent> tag is the first element in the template if present |
 | :wrench: :small_orange_diamond: [leading-iscache][leading-iscache-readme]            | Ensures &lt;iscache> tag is among the first element in the template if present |
 | :small_orange_diamond: [no-deprecated-attrs][no-deprecated-attrs-readme]             | Disallows deprecated attributes or attribute values |

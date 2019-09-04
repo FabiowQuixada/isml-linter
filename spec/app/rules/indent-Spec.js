@@ -56,45 +56,45 @@ describe(rule.id, () => {
         expect(result).toEqual([]);
     });
 
-    it('fixes the simplest possible template', () => {
-        const results = SpecHelper.getTreeRuleFixData(rule, 0);
+    // it('fixes the simplest possible template', () => {
+    //     const results = SpecHelper.getTreeRuleFixData(rule, 0);
 
-        expect(results.actualContent).toEqual(results.fixedTemplateContent);
-    });
+    //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    // });
 
-    it('fixes an element with no child', () => {
-        const results = SpecHelper.getTreeRuleFixData(rule, 1);
+    // it('fixes an element with no child', () => {
+    //     const results = SpecHelper.getTreeRuleFixData(rule, 1);
 
-        expect(results.actualContent).toEqual(results.fixedTemplateContent);
-    });
+    //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    // });
 
-    it('fixes a simple template for a comment tag with child in the same line', () => {
-        const results = SpecHelper.getTreeRuleFixData(rule, 2);
+    // it('fixes a simple template for a comment tag with child in the same line', () => {
+    //     const results = SpecHelper.getTreeRuleFixData(rule, 2);
 
-        expect(results.actualContent).toEqual(results.fixedTemplateContent);
-    });
+    //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    // });
 
-    it('fixes a simple template for a comment tag with child in a different line', () => {
-        const results = SpecHelper.getTreeRuleFixData(rule, 3);
+    // it('fixes a simple template for a comment tag with child in a different line', () => {
+    //     const results = SpecHelper.getTreeRuleFixData(rule, 3);
 
-        expect(results.actualContent).toEqual(results.fixedTemplateContent);
-    });
+    //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    // });
 
-    it('fixes "isif" tags', () => {
-        const results = SpecHelper.getTreeRuleFixData(rule, 4);
+    // it('fixes "isif" tags', () => {
+    //     const results = SpecHelper.getTreeRuleFixData(rule, 4);
 
-        expect(results.actualContent).toEqual(results.fixedTemplateContent);
-    });
+    //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    // });
 
-    it('fixes a complex template', () => {
-        const results = SpecHelper.getTreeRuleFixData(rule, 5);
+    // it('fixes a complex template', () => {
+    //     const results = SpecHelper.getTreeRuleFixData(rule, 5);
 
-        expect(results.actualContent).toEqual(results.fixedTemplateContent);
-    });
+    //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    // });
 
-    it('keeps a child element in the same line as the parent', () => {
-        const results = SpecHelper.getTreeRuleFixData(rule, 6);
+    // it('keeps a child element in the same line as the parent', () => {
+    //     const results = SpecHelper.getTreeRuleFixData(rule, 6);
 
-        expect(results.actualContent).toEqual(results.fixedTemplateContent);
-    });
+    //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    // });
 });

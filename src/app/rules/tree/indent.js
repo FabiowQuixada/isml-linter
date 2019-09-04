@@ -71,52 +71,52 @@ Rule.check = function(node, result) {
     return this.result;
 };
 
-Rule.getFixedContent = function(node, stream = '') {
-    const indentation = this.getIndentation(node.depth - 1);
-    stream            = addValue(node, stream, indentation);
-    node.children.forEach( node => stream = this.getFixedContent(node, stream) );
-    stream            = addSuffix(node, stream, indentation);
+// Rule.getFixedContent = function(node, stream = '') {
+//     const indentation = this.getIndentation(node.depth - 1);
+//     stream            = addValue(node, stream, indentation);
+//     node.children.forEach( node => stream = this.getFixedContent(node, stream) );
+//     stream            = addSuffix(node, stream, indentation);
 
-    return stream;
-};
+//     return stream;
+// };
 
-const addValue = (node, stream, indentation) => {
-    const preLineBreakContent = ParseUtils.getPreLineBreakContent(node);
-    let localStream           = stream;
+// const addValue = (node, stream, indentation) => {
+//     const preLineBreakContent = ParseUtils.getPreLineBreakContent(node);
+//     let localStream           = stream;
 
-    if (!node.isRoot() && !node.isMulticlause() && node.value.trim()) {
-        localStream += (node.isInSameLineAsParent() ? '' : preLineBreakContent + indentation) +
-            node.value.trim();
+//     if (!node.isRoot() && !node.isMulticlause() && node.value.trim()) {
+//         localStream += (node.isInSameLineAsParent() ? '' : preLineBreakContent + indentation) +
+//             node.value.trim();
 
-        const trailingBlankContent = ParseUtils.getTrailingBlankContent(node);
-        const lineBreakQty         = ParseUtils.getLineBreakQty(trailingBlankContent);
+//         const trailingBlankContent = ParseUtils.getTrailingBlankContent(node);
+//         const lineBreakQty         = ParseUtils.getLineBreakQty(trailingBlankContent);
 
-        for (let i = 0; i < lineBreakQty; i++) {
-            localStream += Constants.EOL;
-        }
-    }
+//         for (let i = 0; i < lineBreakQty; i++) {
+//             localStream += Constants.EOL;
+//         }
+//     }
 
-    return localStream;
-};
+//     return localStream;
+// };
 
-const addSuffix = (node, stream, indentation) => {
-    const suffixValue             = node.suffixValue;
-    const leadingContent          = suffixValue.substring(0, ParseUtils.getNextNonEmptyCharPos(suffixValue));
-    const contentAboveCurrentLine = leadingContent.substring(0, leadingContent.lastIndexOf(Constants.EOL) + 1);
-    const trailingContent         = ParseUtils.getSuffixTrailingBlankContent(node);
-    const trimmedTrailingContent  = trailingContent.substring(0, trailingContent.lastIndexOf(Constants.EOL) + 1);
-    let localStream               = stream;
+// const addSuffix = (node, stream, indentation) => {
+//     const suffixValue             = node.suffixValue;
+//     const leadingContent          = suffixValue.substring(0, ParseUtils.getNextNonEmptyCharPos(suffixValue));
+//     const contentAboveCurrentLine = leadingContent.substring(0, leadingContent.lastIndexOf(Constants.EOL) + 1);
+//     const trailingContent         = ParseUtils.getSuffixTrailingBlankContent(node);
+//     const trimmedTrailingContent  = trailingContent.substring(0, trailingContent.lastIndexOf(Constants.EOL) + 1);
+//     let localStream               = stream;
 
-    if (suffixValue) {
-        localStream +=
-            (node.getLastChild() && node.getLastChild().isInSameLineAsParent() ? '' : contentAboveCurrentLine + indentation) +
-            suffixValue.trim() +
-            (node.isLastChild() ? trimmedTrailingContent : trailingContent) ;
-    } else if (!node.isRoot() && !node.isMulticlause() && node.parent.isRoot()) {
-        localStream += node.value;
-    }
+//     if (suffixValue) {
+//         localStream +=
+//             (node.getLastChild() && node.getLastChild().isInSameLineAsParent() ? '' : contentAboveCurrentLine + indentation) +
+//             suffixValue.trim() +
+//             (node.isLastChild() ? trimmedTrailingContent : trailingContent) ;
+//     } else if (!node.isRoot() && !node.isMulticlause() && node.parent.isRoot()) {
+//         localStream += node.value;
+//     }
 
-    return localStream;
-};
+//     return localStream;
+// };
 
 module.exports = Rule;
