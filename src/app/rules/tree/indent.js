@@ -48,6 +48,7 @@ Rule.check = function(node, result) {
         this.check(node.children[i], this.result);
     }
 
+    const config    = this.getConfigs();
     const globalPos = node.globalPos - node.getIndentationSize();
 
     if (this.isBroken(node)) {
@@ -58,6 +59,13 @@ Rule.check = function(node, result) {
             node.getIndentationSize(),
             description
         );
+    }
+
+    if (this.result.occurrences.length &&
+        config.autoFix &&
+        this.getFixedContent &&
+        node.isRoot()) {
+        this.result.fixedContent = this.getFixedContent(node);
     }
 
     return this.result;
@@ -100,10 +108,10 @@ const addSuffix = (node, stream, indentation) => {
     let localStream               = stream;
 
     if (suffixValue) {
-        localStream += contentAboveCurrentLine +
-            indentation +
+        localStream +=
+            (node.getLastChild() && node.getLastChild().isInSameLineAsParent() ? '' : contentAboveCurrentLine + indentation) +
             suffixValue.trim() +
-            trimmedTrailingContent;
+            (node.isLastChild() ? trimmedTrailingContent : trailingContent) ;
     } else if (!node.isRoot() && !node.isMulticlause() && node.parent.isRoot()) {
         localStream += node.value;
     }

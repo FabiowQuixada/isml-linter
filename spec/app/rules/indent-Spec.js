@@ -91,4 +91,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('keeps a child element in the same line as the parent', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 6);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
