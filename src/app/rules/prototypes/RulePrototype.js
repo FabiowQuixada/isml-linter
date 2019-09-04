@@ -47,11 +47,11 @@ const RulePrototype = {
         const config             = ConfigUtils.load();
         const ruleDefaultConfigs = this.getDefaultAttrs();
 
-        return Object.assign(
-            {},
-            ruleDefaultConfigs,
-            config.rules[this.id]
-        );
+        return {
+            ...ruleDefaultConfigs,
+            ...config.rules[this.id],
+            autoFix : config.autoFix
+        };
     },
 };
 
