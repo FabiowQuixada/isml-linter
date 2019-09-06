@@ -33,7 +33,7 @@ const displayLintingErrors = jsonErrors => {
 
     let partialSum = 0;
 
-    if (jsonErrors.errors) {
+    if (jsonErrors.errors && Object.keys(jsonErrors.errors).length > 0) {
         console.log(chalk`{red.bold ${Constants.EOL}The following linting errors were found in the templates:}`);
 
         for (const rule in jsonErrors.errors) {
