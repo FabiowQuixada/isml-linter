@@ -178,21 +178,21 @@ describe(targetObjName, () => {
         expect(actualResult.lineNumber   ).toEqual(2);
     });
 
-    it('applies fixes for tree-based rules', () => {
-        ConfigUtils.load({
-            autoFix: true,
-            rules: {
-                'one-element-per-line': {}
-            }
-        });
+    // it('applies fixes for tree-based rules', () => {
+    //     ConfigUtils.load({
+    //         autoFix: true,
+    //         rules: {
+    //             'one-element-per-line': {}
+    //         }
+    //     });
 
-        const templatePath    = path.join(Constants.clientAppDir, specSpecificDirLinterTemplate, 'template_1.isml');
-        const originalContent = fs.readFileSync(templatePath, 'utf-8');
-        const result          = IsmlLinter.run(templatePath);
+    //     const templatePath    = path.join(Constants.clientAppDir, specSpecificDirLinterTemplate, 'template_1.isml');
+    //     const originalContent = fs.readFileSync(templatePath, 'utf-8');
+    //     const result          = IsmlLinter.run(templatePath);
 
-        expect(result.templatesFixed).toEqual(1);
-        fs.writeFileSync(templatePath, originalContent);
-    });
+    //     expect(result.templatesFixed).toEqual(1);
+    //     fs.writeFileSync(templatePath, originalContent);
+    // });
 
     it('lists inconsistent filenames', () => {
         ConfigUtils.load({ rules: { 'lowercase-filename': {} } });
