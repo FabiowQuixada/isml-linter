@@ -50,7 +50,8 @@ const RulePrototype = {
         return {
             ...ruleDefaultConfigs,
             ...config.rules[this.id],
-            autoFix : config.autoFix
+            autoFix : config.autoFix,
+            indent  : config.indent || 4
         };
     },
 };
