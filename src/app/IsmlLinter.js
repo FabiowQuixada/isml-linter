@@ -1,5 +1,4 @@
 const readDir        = require('readdir');
-const RuleUtils      = require('./util/RuleUtils');
 const path           = require('path');
 const appRoot        = require('app-root-path');
 const fs             = require('fs');
@@ -7,6 +6,7 @@ const ConfigUtils    = require('./util/ConfigUtils');
 const ExceptionUtils = require('./util/ExceptionUtils');
 const FileUtils      = require('./util/FileUtils');
 const GeneralUtils   = require('./util/GeneralUtils');
+let RuleUtils        = null;
 
 const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
 const UNPARSEABLE   = ExceptionUtils.types.INVALID_TEMPLATE;
@@ -142,6 +142,7 @@ Linter.run = (pathData = appRoot.toString(), content) => {
     }
 
     const ProgressBar = require('./util/ProgressBar');
+    RuleUtils         = require('./util/RuleUtils');
 
     const config            = ConfigUtils.load();
     pathData                = pathData || config.rootDir;

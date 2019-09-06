@@ -1,6 +1,6 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const Constants         = require('../../Constants');
-const RuleUtils         = require('../../util/RuleUtils');
+const RuleUtils         = require('../../util/TempRuleUtils');
 
 const TAG_TYPE    = 'iscontent';
 const ruleId      = require('path').basename(__filename).slice(0, -3);

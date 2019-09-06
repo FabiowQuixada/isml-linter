@@ -1,5 +1,5 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
-const RuleUtils         = require('../../util/RuleUtils');
+const RuleUtils         = require('../../util/TempRuleUtils');
 const Constants         = require('../../Constants');
 
 const TAG_TYPE    = 'iscache';

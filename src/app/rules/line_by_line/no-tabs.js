@@ -3,7 +3,6 @@ const IndentRule              = require('../tree/indent');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Tab detected';
-const indent      = IndentRule.getIndentation();
 
 const Rule = Object.create(SingleLineRulePrototype);
 
@@ -12,6 +11,7 @@ Rule.init(ruleId, description);
 Rule.isBroken = function(line) { return line.indexOf('\t') !== -1; };
 
 Rule.getFixedContent = function(templateContent) {
+    const indent = IndentRule.getIndentation();
     return templateContent.replaceAll('\t', indent);
 };
 

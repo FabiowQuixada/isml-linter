@@ -127,11 +127,16 @@ const setLocalConfig = () => {
         return;
     }
 
+    // TODO: Find a better way of checking this;
     try {
         configData = require(Constants.configPreferredFilePath);
     }
     catch (err) {
-        configData = require(Constants.configFilePath);
+        try {
+            configData = require(Constants.configFilePath);
+        } catch (err) {
+            // Configuration will be loaded through setConfig() method;
+        }
     }
 };
 

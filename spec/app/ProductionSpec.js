@@ -26,7 +26,6 @@ describe('Production', () => {
         deleteSampleProjectDir();
     });
 
-
     it('runs successfully if a configuration is set', () => {
         initConfig();
 
