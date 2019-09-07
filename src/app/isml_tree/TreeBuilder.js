@@ -55,7 +55,7 @@ const build = (templatePath, content) => {
         result.rootNode  = null;
         result.status    = ParseStatus.INVALID_DOM;
         result.exception = e.type === ExceptionUtils.types.UNKNOWN_ERROR ?
-            ExceptionUtils.getParseErrorMessage(templatePath) :
+            e.message :
             e;
     }
 
@@ -283,7 +283,7 @@ const parseRemainingContent = state => {
     if (trailingTextValue) {
         if (trailingTextValue.trim()) {
             const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(trailingTextValue);
-            const globalPos    = ParseUtils. getNextNonEmptyCharPos(trailingTextValue);
+            const globalPos    = ParseUtils.getNextNonEmptyCharPos(trailingTextValue);
             const node         = new IsmlNode(trailingTextValue, state.currentLineNumber + lineBreakQty, globalPos);
 
             state.parentNode.addChild(node);
