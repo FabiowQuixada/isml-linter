@@ -95,10 +95,6 @@ module.exports = {
         };
     },
 
-    getEolOffset(lineNumber) {
-        return (Constants.EOL.length - 1) * (lineNumber - 1);
-    },
-
     /**
      * The name of the object under test is inferred from the spec file name. So for example: from
      * the "IsmlLinterSpec.js" file name (which is passed as param), it is implicitly inferred that

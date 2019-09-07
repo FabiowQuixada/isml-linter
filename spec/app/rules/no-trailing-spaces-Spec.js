@@ -46,7 +46,7 @@ describe(rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('const sum = 0;    ');
         expect(firstOccurrence.lineNumber).toEqual(1);
-        expect(firstOccurrence.globalPos ).toEqual(14 + SpecHelper.getEolOffset(firstOccurrence.lineNumber));
+        expect(firstOccurrence.globalPos ).toEqual(14);
         expect(firstOccurrence.length    ).toEqual(4);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual(rule.description);
