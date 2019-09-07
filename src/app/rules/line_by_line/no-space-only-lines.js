@@ -11,8 +11,11 @@ Rule.init(ruleId, description);
 Rule.isBroken = function(line) { return line !== '' && line !== '\r' && line !== Constants.EOL && !/\S/.test(line); };
 
 Rule.getFixedContent = function(templateContent) {
-    const lineArray = templateContent.split(Constants.EOL);
-    const result    = [];
+    const GeneralUtils = require('../../util/GeneralUtils');
+
+    const activeLineBreak = GeneralUtils.getActiveLinebreak();
+    const lineArray       = templateContent.split(Constants.EOL);
+    const result          = [];
 
     for (let i = 0; i < lineArray.length; i++) {
         const line = lineArray[i];
@@ -20,7 +23,7 @@ Rule.getFixedContent = function(templateContent) {
         result.push(line.trim() ? line : line.trim());
     }
 
-    return result.join(Constants.OS_EOL);
+    return result.join(activeLineBreak);
 };
 
 Rule.getFirstOccurrence = function(line) {

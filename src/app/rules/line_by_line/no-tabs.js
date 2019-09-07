@@ -14,7 +14,7 @@ Rule.isBroken = function(line) { return line.indexOf('\t') !== -1; };
 Rule.getFixedContent = function(templateContent) {
     const indent       = IndentRule.getIndentation();
     const fixedContent = templateContent.replaceAll('\t', indent);
-    return GeneralUtils.applyOSLinebreaks(fixedContent);
+    return GeneralUtils.applyActiveLinebreaks(fixedContent);
 };
 
 Rule.getFirstOccurrence = function(line) {

@@ -10,7 +10,6 @@ const GeneralUtils = require('../src/app/util/GeneralUtils');
 const snake        = require('to-snake-case');
 const path         = require('path');
 const fs           = require('fs');
-const eol          = require('eol');
 
 const specTempDir = Constants.specTempDir;
 
@@ -72,7 +71,7 @@ module.exports = {
         const ruleDirName           = rule.id.replaceAll('-', '_');
         const brokenTemplatePath    = getBrokenTemplatePath(ruleDirName, templateNumber);
         const fixedTemplatePath     = getFixedTemplatePath(ruleDirName, templateNumber);
-        const fixedTemplateContent  = fs.readFileSync(fixedTemplatePath, 'utf-8');
+        const fixedTemplateContent  = GeneralUtils.applyActiveLinebreaks(fs.readFileSync(fixedTemplatePath, 'utf-8'));
         const brokenTemplateContent = GeneralUtils.toLF(fs.readFileSync(brokenTemplatePath, 'utf-8'));
         const actualContent         = rule.getFixedContent(brokenTemplateContent);
 
@@ -86,13 +85,13 @@ module.exports = {
         const ruleDirName          = rule.id.replaceAll('-', '_');
         const brokenTemplatePath   = getBrokenTemplatePath(ruleDirName, templateNumber);
         const fixedTemplatePath    = getFixedTemplatePath(ruleDirName, templateNumber);
-        const fixedTemplateContent = fs.readFileSync(fixedTemplatePath, 'utf-8');
+        const fixedTemplateContent = GeneralUtils.applyActiveLinebreaks(fs.readFileSync(fixedTemplatePath, 'utf-8'));
         const rootNode             = TreeBuilder.build(brokenTemplatePath).rootNode;
         const actualContent        = rule.getFixedContent(rootNode);
 
         return {
-            actualContent        : eol.auto(actualContent),
-            fixedTemplateContent : eol.auto(fixedTemplateContent)
+            actualContent,
+            fixedTemplateContent
         };
     },
 

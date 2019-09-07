@@ -100,7 +100,7 @@ Rule.getFixedContent = function(node) {
         node.value = content + ismlIndentation.substring(4);
     }
 
-    return GeneralUtils.applyOSLinebreaks(node.toString());
+    return GeneralUtils.applyActiveLinebreaks(node.toString());
 };
 
 const unindent = (content, indentSize) => {

@@ -29,7 +29,7 @@ Rule.getFixedContent = function(node) {
         this.getFixedContent(child);
     }
 
-    return GeneralUtils.applyOSLinebreaks(node.toString());
+    return GeneralUtils.applyActiveLinebreaks(node.toString());
 };
 
 module.exports = Rule;

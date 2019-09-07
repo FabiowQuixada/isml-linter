@@ -1,5 +1,6 @@
-const path      = require('path');
-const Constants = require('../Constants');
+const path        = require('path');
+const Constants   = require('../Constants');
+const ConfigUtils = require('./ConfigUtils');
 
 const isObject = item => {
     return item && typeof item === 'object' && !Array.isArray(item);
@@ -26,6 +27,13 @@ const mergeDeep  = (target, ...sources) => {
     return mergeDeep(target, ...sources);
 };
 
+const getActiveLinebreak = () => {
+    const config          = ConfigUtils.load();
+    const configLineBreak = config.linebreakStyle && Constants.lineBreak[config.linebreakStyle];
+
+    return configLineBreak || Constants.EOL;
+};
+
 module.exports.formatTemplatePath = filePath => {
     return filePath.replace(/\//g, path.sep);
 };
@@ -34,8 +42,14 @@ module.exports.toLF = content => {
     return content.replace(/\r\n/g, '\n');
 };
 
-module.exports.applyOSLinebreaks = content => {
-    return content.replace(new RegExp(Constants.EOL, 'g'), Constants.OS_EOL);
+module.exports.applyActiveLinebreaks = content => {
+    const activeLinebreak = getActiveLinebreak();
+
+    return content
+        .replace(new RegExp(Constants.lineBreak.windows, 'g'), activeLinebreak)
+        .replace(new RegExp(Constants.lineBreak.unix, 'g'), activeLinebreak);
 };
+
+module.exports.getActiveLinebreak = getActiveLinebreak;
 
 module.exports.mergeDeep = mergeDeep;

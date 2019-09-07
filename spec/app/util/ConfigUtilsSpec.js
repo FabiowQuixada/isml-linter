@@ -3,6 +3,7 @@ const SpecHelper  = require('../../SpecHelper');
 const ConfigUtils = require('../../../src/app/util/ConfigUtils');
 const Constants   = require('../../../src/app/Constants');
 const RuleUtils   = require('../../../src/app/util/RuleUtils');
+const NoTabsRule  = require('../../../src/app/rules/line_by_line/no-tabs');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -100,6 +101,46 @@ describe(targetObjName, () => {
         const actualEslintConfig = ConfigUtils.loadEslintConfig();
 
         expect(actualEslintConfig).toEqual(expectedEslintConfig);
+    });
+
+    it('uses config Unix line endings', () => {
+        ConfigUtils.load({
+            linebreakStyle : 'unix',
+            rules : {
+                'no-tabs' : {}
+            }
+        });
+
+        const results = SpecHelper.getLineRuleFixData(NoTabsRule, 0);
+
+        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.unix)).not.toBe(-1);
+        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
+    });
+
+    it('uses config Windows line endings', () => {
+        ConfigUtils.load({
+            linebreakStyle : 'windows',
+            rules : {
+                'no-tabs' : {}
+            }
+        });
+
+        const results = SpecHelper.getLineRuleFixData(NoTabsRule, 0);
+
+        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).not.toBe(-1);
+    });
+
+    it('uses config Unix line endings as default', () => {
+        ConfigUtils.load({
+            rules : {
+                'no-tabs' : {}
+            }
+        });
+
+        const results = SpecHelper.getLineRuleFixData(NoTabsRule, 0);
+
+        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.unix)).not.toBe(-1);
+        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
     });
 });
 

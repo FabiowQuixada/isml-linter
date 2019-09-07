@@ -1,4 +1,5 @@
-const ConfigUtils = require('../../util/ConfigUtils');
+const ConfigUtils  = require('../../util/ConfigUtils');
+const GeneralUtils = require('../../util/GeneralUtils');
 
 const RulePrototype = {
 
@@ -50,8 +51,9 @@ const RulePrototype = {
         return {
             ...ruleDefaultConfigs,
             ...config.rules[this.id],
-            autoFix : config.autoFix,
-            indent  : config.indent || 4
+            autoFix        : config.autoFix,
+            indent         : config.indent || 4,
+            linebreakStyle : GeneralUtils.getActiveLinebreak()
         };
     },
 };

@@ -78,7 +78,7 @@ Rule.check = function(node, result) {
 //     node.children.forEach( node => stream = this.getFixedContent(node, stream) );
 //     stream            = addSuffix(node, stream, indentation);
 
-//     return GeneralUtils.applyOSLinebreaks(stream);
+//     return GeneralUtils.applyActiveLinebreaks(stream);
 // };
 
 // const addValue = (node, stream, indentation) => {

@@ -18,7 +18,7 @@ Rule.isBroken = function(node) {
 // Rule.getFixedContent = rootNode => {
 //     fixContent(rootNode);
 
-//     return GeneralUtils.applyOSLinebreaks(rootNode.toString());
+//     return GeneralUtils.applyActiveLinebreaks(rootNode.toString());
 // };
 
 // const fixContent = node => {

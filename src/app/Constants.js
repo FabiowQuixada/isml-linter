@@ -63,6 +63,10 @@ const voidElementsArray = [
     'input', 'keygen', 'link', 'meta',
     'param', 'source', 'track', 'wbr'
 ];
+const lineBreak         = {
+    windows : '\r\n',
+    unix    : '\n'
+};
 
 const leadingElementsChecking = 4;
 
@@ -122,5 +126,6 @@ module.exports = {
     voidElementsArray,
     leadingElementsChecking,
     EOL,
-    OS_EOL
+    OS_EOL,
+    lineBreak
 };
