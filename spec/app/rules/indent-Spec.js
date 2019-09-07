@@ -1,6 +1,7 @@
 const specFileName = require('path').basename(__filename);
-const SpecHelper   = require('../../SpecHelper');
-const rule         = SpecHelper.getTreeRule(specFileName);
+// const EOL          = require('os').EOL;
+const SpecHelper = require('../../SpecHelper');
+const rule       = SpecHelper.getTreeRule(specFileName);
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -96,5 +97,11 @@ describe(rule.id, () => {
     //     const results = SpecHelper.getTreeRuleFixData(rule, 6);
 
     //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    // });
+
+    // it('keeps OS line breaks on autofix feature', () => {
+    //     const results = SpecHelper.getTreeRuleFixData(rule, 0);
+
+    //     expect(results.fixedTemplateContent.indexOf(EOL)).not.toBe(-1);
     // });
 });

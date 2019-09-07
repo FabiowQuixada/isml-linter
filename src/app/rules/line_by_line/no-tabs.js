@@ -1,5 +1,6 @@
 const SingleLineRulePrototype = require('../prototypes/SingleLineRulePrototype');
 const IndentRule              = require('../tree/indent');
+const GeneralUtils            = require('../../util/GeneralUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Tab detected';
@@ -11,8 +12,9 @@ Rule.init(ruleId, description);
 Rule.isBroken = function(line) { return line.indexOf('\t') !== -1; };
 
 Rule.getFixedContent = function(templateContent) {
-    const indent = IndentRule.getIndentation();
-    return templateContent.replaceAll('\t', indent);
+    const indent       = IndentRule.getIndentation();
+    const fixedContent = templateContent.replaceAll('\t', indent);
+    return GeneralUtils.applyOSLinebreaks(fixedContent);
 };
 
 Rule.getFirstOccurrence = function(line) {

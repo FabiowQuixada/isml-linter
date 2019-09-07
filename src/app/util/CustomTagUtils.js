@@ -7,7 +7,7 @@ const customTagContainer = {};
 if (fs.existsSync(templatePath)) {
     const ismoduleTagArray = fs
         .readFileSync(templatePath, 'utf-8')
-        .replace(new RegExp(Constants.EOL, 'g'), '')
+        .replace(new RegExp(Constants.OS_EOL, 'g'), '')
         .split('/>');
 
     for (let j = 0; j < ismoduleTagArray.length; j++) {

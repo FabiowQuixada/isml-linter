@@ -1,6 +1,7 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
-const ParseUtils        = require('../../isml_tree/components/ParseUtils');
-const Constants         = require('../../Constants');
+// const ParseUtils        = require('../../isml_tree/components/ParseUtils');
+// const Constants         = require('../../Constants');
+// const GeneralUtils      = require('../../util/GeneralUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Line incorrectly indented';
@@ -77,7 +78,7 @@ Rule.check = function(node, result) {
 //     node.children.forEach( node => stream = this.getFixedContent(node, stream) );
 //     stream            = addSuffix(node, stream, indentation);
 
-//     return stream;
+//     return GeneralUtils.applyOSLinebreaks(stream);
 // };
 
 // const addValue = (node, stream, indentation) => {

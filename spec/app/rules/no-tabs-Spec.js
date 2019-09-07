@@ -1,5 +1,6 @@
 const SpecHelper = require('../../SpecHelper');
 const specFileName = require('path').basename(__filename);
+const EOL          = require('os').EOL;
 const rule = SpecHelper.getRule(specFileName);
 
 describe(rule.id, () => {
@@ -48,5 +49,11 @@ describe(rule.id, () => {
         const results = SpecHelper.getLineRuleFixData(rule, 1);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('keeps OS line breaks on autofix feature', () => {
+        const results = SpecHelper.getLineRuleFixData(rule, 0);
+
+        expect(results.fixedTemplateContent.indexOf(EOL)).not.toBe(-1);
     });
 });

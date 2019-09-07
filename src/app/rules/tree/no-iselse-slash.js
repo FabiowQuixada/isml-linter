@@ -1,5 +1,6 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const MaskUtils         = require('../../isml_tree/MaskUtils');
+const GeneralUtils      = require('../../util/GeneralUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Non slash is allowed for "iselse" tags';
@@ -28,7 +29,7 @@ Rule.getFixedContent = function(node) {
         this.getFixedContent(child);
     }
 
-    return node.toString();
+    return GeneralUtils.applyOSLinebreaks(node.toString());
 };
 
 module.exports = Rule;

@@ -1,6 +1,7 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const RuleUtils         = require('../../util/TempRuleUtils');
 const Constants         = require('../../Constants');
+const GeneralUtils      = require('../../util/GeneralUtils');
 
 const TAG_TYPE    = 'iscache';
 const ruleId      = require('path').basename(__filename).slice(0, -3);
@@ -36,7 +37,7 @@ Rule.getFixedContent = function(rootNode) {
         }
     }
 
-    return rootNode.toString();
+    return GeneralUtils.applyOSLinebreaks(rootNode.toString());
 };
 
 module.exports = Rule;

@@ -2,6 +2,7 @@ const SingleLineRulePrototype = require('../prototypes/SingleLineRulePrototype')
 const Constants               = require('../../Constants');
 const GeneralUtils            = require('../../util/GeneralUtils');
 
+
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Blank space at the end of the line detected';
 
@@ -21,7 +22,7 @@ Rule.getFixedContent = function(templateContent) {
         result.push(line.replace(/\s+$/g, ''));
     }
 
-    return result.join(Constants.EOL);
+    return result.join(Constants.OS_EOL);
 };
 
 Rule.getFirstOccurrence = function(line) {

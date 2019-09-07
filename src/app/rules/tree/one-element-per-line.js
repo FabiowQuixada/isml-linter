@@ -1,6 +1,7 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 // const ConfigUtils       = require('../../util/ConfigUtils');
 // const Constants         = require('../../Constants');
+// const GeneralUtils = require('../../util/GeneralUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Only one element per line is allowed';
@@ -17,7 +18,7 @@ Rule.isBroken = function(node) {
 // Rule.getFixedContent = rootNode => {
 //     fixContent(rootNode);
 
-//     return rootNode.toString();
+//     return GeneralUtils.applyOSLinebreaks(rootNode.toString());
 // };
 
 // const fixContent = node => {

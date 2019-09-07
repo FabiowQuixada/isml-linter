@@ -1,6 +1,7 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../SpecHelper');
-const ConfigUtils  = require('../../../src/app/util/ConfigUtils');
+// const ConfigUtils  = require('../../../src/app/util/ConfigUtils');
+// const EOL          = require('os').EOL;
 
 const rule         = SpecHelper.getTreeRule(specFileName);
 
@@ -58,5 +59,11 @@ describe(rule.id, () => {
     //     const results = SpecHelper.getTreeRuleFixData(rule, 3);
 
     //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    // });
+
+    // it('keeps OS line breaks on autofix feature', () => {
+    //     const results = SpecHelper.getTreeRuleFixData(rule, 0);
+
+    //     expect(results.fixedTemplateContent.indexOf(EOL)).not.toBe(-1);
     // });
 });

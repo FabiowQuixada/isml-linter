@@ -1,4 +1,5 @@
-const path = require('path');
+const path      = require('path');
+const Constants = require('../Constants');
 
 const isObject = item => {
     return item && typeof item === 'object' && !Array.isArray(item);
@@ -31,6 +32,10 @@ module.exports.formatTemplatePath = filePath => {
 
 module.exports.toLF = content => {
     return content.replace(/\r\n/g, '\n');
+};
+
+module.exports.applyOSLinebreaks = content => {
+    return content.replace(new RegExp(Constants.EOL, 'g'), Constants.OS_EOL);
 };
 
 module.exports.mergeDeep = mergeDeep;
