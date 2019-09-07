@@ -1,3 +1,5 @@
+const path = require('path');
+
 const isObject = item => {
     return item && typeof item === 'object' && !Array.isArray(item);
 };
@@ -21,6 +23,10 @@ const mergeDeep  = (target, ...sources) => {
     }
 
     return mergeDeep(target, ...sources);
+};
+
+module.exports.formatTemplatePath = filePath => {
+    return filePath.replace(/\//g, path.sep);
 };
 
 module.exports.toLF = content => {

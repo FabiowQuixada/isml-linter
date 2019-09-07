@@ -70,7 +70,8 @@ const getEmptyResult = () => {
 };
 
 const checkTemplate = (content, templatePath, templateName) => {
-    const templateResults = getEmptyResult();
+    const formattedTemplatePath = GeneralUtils.formatTemplatePath(templatePath);
+    const templateResults       = getEmptyResult();
 
     try {
         const parseResult = RuleUtils.checkTemplate(templatePath, content, templateName);
@@ -80,18 +81,18 @@ const checkTemplate = (content, templatePath, templateName) => {
         }
 
         for (const rule in parseResult.errors) {
-            templateResults.errors[rule]               = templateResults.errors[rule] || {};
-            templateResults.errors[rule][templatePath] = parseResult.errors[rule];
+            templateResults.errors[rule]                        = templateResults.errors[rule] || {};
+            templateResults.errors[rule][formattedTemplatePath] = parseResult.errors[rule];
             templateResults.issueQty++;
         }
     }
     catch (e) {
         if (!ExceptionUtils.isLinterException(e) || e.type === UNKNOWN_ERROR) {
-            templateResults[UNKNOWN_ERROR].push(templatePath);
+            templateResults[UNKNOWN_ERROR].push(formattedTemplatePath);
         }
         else {
             templateResults[UNPARSEABLE].push({
-                templatePath : templatePath,
+                templatePath : formattedTemplatePath,
                 message      : e.message,
                 globalPos    : e.globalPos,
                 length       : e.length,
