@@ -42,7 +42,12 @@ const parseMainClause = (multiClauseNode, content, state) => {
     const clauseContentNode = new IsmlNode(isifTagContent, state.currentElement.startingLineNumber, state.currentPos);
 
     multiClauseNode.addChild(clauseContentNode);
-    TreeBuilder.parse(content, state, clauseContentNode);
+
+    if (content.trim()) {
+        TreeBuilder.parse(content, state, clauseContentNode);
+    } else {
+        clauseContentNode.value += content;
+    }
 
     return clauseContentNode;
 };
@@ -57,7 +62,12 @@ const parseElseClause = (multiClauseNode, content, state) => {
     const clauseContentNode       = new IsmlNode(clauseValue, isifTagLineNumber + accumulatedLineBreakQty, globalPos);
 
     multiClauseNode.addChild(clauseContentNode);
-    TreeBuilder.parse(clauseInnerContent, state, clauseContentNode);
+
+    if (content.trim()) {
+        TreeBuilder.parse(clauseInnerContent, state, clauseContentNode);
+    } else {
+        clauseContentNode.value += content;
+    }
 
     return clauseContentNode;
 };

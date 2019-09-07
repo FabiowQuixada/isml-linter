@@ -60,6 +60,18 @@ describe(targetObjName, () => {
         expect(multiClauseNode.children[1].value).toEqual('<iselseif condition="${second}">');
         expect(multiClauseNode.children[2].value).toEqual('<iselse>');
     });
+
+    it('creates no child for empty <isif> tag', () => {
+        const multiClauseNode = getMulticlauseNodeFromTemplate(0);
+
+        expect(multiClauseNode.children[0].children.length).toEqual(0);
+    });
+
+    it('creates no child for empty <iselse> tag', () => {
+        const multiClauseNode = getMulticlauseNodeFromTemplate(0);
+
+        expect(multiClauseNode.children[1].children.length).toEqual(0);
+    });
 });
 
 const getTemplatePath = number => {
