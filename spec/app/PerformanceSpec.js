@@ -1,10 +1,10 @@
-const path        = require('path');
-const fs          = require('fs-extra');
-const SpecHelper  = require('../SpecHelper');
-const Constants   = require('../../src/app/Constants');
-const IsmlLinter  = require('../../src/app/IsmlLinter');
+const path       = require('path');
+const fs         = require('fs-extra');
+const SpecHelper = require('../SpecHelper');
+const Constants  = require('../../src/app/Constants');
+// const IsmlLinter  = require('../../src/app/IsmlLinter');
 const FileUtils   = require('../../src/app/util/FileUtils');
-const ConfigUtils = require('../../src/app/util/ConfigUtils');
+// const ConfigUtils = require('../../src/app/util/ConfigUtils');
 
 const TEMPLATE_QTY = 10;
 
@@ -46,28 +46,28 @@ const createTemporaryTemplates = () => {
     }
 };
 
-const setConfig = () => {
-    ConfigUtils.load({
-        'rules': {
-            // Line by line rules;
-            'enforce-require': {},
-            'no-br': {},
-            'no-git-conflict': {},
-            'no-import-package': {},
-            'no-inline-style': {},
-            'no-isscript': {},
-            'no-space-only-lines': {},
-            'no-tabs': {},
-            'no-trailing-spaces': {},
+// const setConfig = () => {
+//     ConfigUtils.load({
+//         'rules': {
+//             // Line by line rules;
+//             'enforce-require': {},
+//             'no-br': {},
+//             'no-git-conflict': {},
+//             'no-import-package': {},
+//             'no-inline-style': {},
+//             'no-isscript': {},
+//             'no-space-only-lines': {},
+//             'no-tabs': {},
+//             'no-trailing-spaces': {},
 
-            // Tree rules;
-            'indent': {},
-            'max-depth': {},
-            'no-embedded-isml': {},
-            'no-hardcode': {},
-            'no-require-in-loop': {},
-            'one-element-per-line': {}
-        }
-    });
-};
+//             // Tree rules;
+//             'indent': {},
+//             'max-depth': {},
+//             'no-embedded-isml': {},
+//             'no-hardcode': {},
+//             'no-require-in-loop': {},
+//             'one-element-per-line': {}
+//         }
+//     });
+// };
 
