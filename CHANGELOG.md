@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.19.0] - 2019-09-08
+
+### Added
+ - Line ending configuration;
+ - ESLint configuration file: ".js" is now allowed;
+
+### Changed
+ - Optimized npm package size;
+
 ## [5.18.8] - 2019-09-05
 
 ### Fixed
@@ -501,6 +510,7 @@
 - Linter is published;
 
 
+[5.19.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.8...v5.19.0
 [5.18.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.7...v5.18.8
 [5.18.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.6...v5.18.7
 [5.18.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.5...v5.18.6
