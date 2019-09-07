@@ -2,14 +2,15 @@ require('../src/app/util/NativeExtensionUtils');
 // TODO: Find a better way to set this;
 process.env.NODE_ENV = 'test';
 
-const FileUtils   = require('../src/app/util/FileUtils');
-const Constants   = require('../src/app/Constants');
-const TreeBuilder = require('../src/app/isml_tree/TreeBuilder');
-const ConfigUtils = require('../src/app/util/ConfigUtils');
-const snake       = require('to-snake-case');
-const path        = require('path');
-const fs          = require('fs');
-const eol         = require('eol');
+const FileUtils    = require('../src/app/util/FileUtils');
+const Constants    = require('../src/app/Constants');
+const TreeBuilder  = require('../src/app/isml_tree/TreeBuilder');
+const ConfigUtils  = require('../src/app/util/ConfigUtils');
+const GeneralUtils = require('../src/app/util/GeneralUtils');
+const snake        = require('to-snake-case');
+const path         = require('path');
+const fs           = require('fs');
+const eol          = require('eol');
 
 const specTempDir = Constants.specTempDir;
 
@@ -72,7 +73,7 @@ module.exports = {
         const brokenTemplatePath    = getBrokenTemplatePath(ruleDirName, templateNumber);
         const fixedTemplatePath     = getFixedTemplatePath(ruleDirName, templateNumber);
         const fixedTemplateContent  = fs.readFileSync(fixedTemplatePath, 'utf-8');
-        const brokenTemplateContent = fs.readFileSync(brokenTemplatePath, 'utf-8');
+        const brokenTemplateContent = GeneralUtils.toLF(fs.readFileSync(brokenTemplatePath, 'utf-8'));
         const actualContent         = rule.getFixedContent(brokenTemplateContent);
 
         return {

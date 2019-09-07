@@ -8,6 +8,7 @@ const MaskUtils        = require('../MaskUtils');
 const ClosingTagFinder = require('./ClosingTagFinder');
 const Constants        = require('../../Constants');
 const SfccTags         = require('../../enums/SfccTags');
+const GeneralUtils     = require('../../util/GeneralUtils');
 
 const ISIF = '<isif';
 
@@ -69,7 +70,7 @@ module.exports.getLineBreakQty = string => (string.match(new RegExp(Constants.EO
 
 const getNextNonEmptyCharPos = content => {
     const firstNonEmptyChar = getNextNonEmptyChar(content);
-    return content.indexOf(firstNonEmptyChar);
+    return GeneralUtils.toLF(content).indexOf(firstNonEmptyChar);
 };
 
 module.exports.getNextNonEmptyCharPos = getNextNonEmptyCharPos;

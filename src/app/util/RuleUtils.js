@@ -6,6 +6,7 @@ const ConfigUtils           = require('./ConfigUtils');
 const lowercaseFilenameRule = require('../rules/line_by_line/lowercase-filename');
 const customTagContainer    = require('./CustomTagUtils');
 const CustomModulesRule     = require('../rules/tree/custom-tags');
+const GeneralUtils          = require('./GeneralUtils');
 
 const lineByLineRules = [];
 const treeRules       = [];
@@ -189,7 +190,7 @@ const checkCustomModules = () => {
 
 const checkTemplate = (templatePath, content, templateName) => {
     const config          = ConfigUtils.load();
-    const templateContent = content || fs.readFileSync(templatePath, 'utf-8');
+    const templateContent = GeneralUtils.toLF(content || fs.readFileSync(templatePath, 'utf-8'));
     const lineResults     = checkLineByLineRules(templatePath, templateContent, config);
     const treeResults     = checkTreeRules(templatePath, templateContent, config) || { errors : [] };
     const filenameResults = checkFileName(templateName, templateContent);

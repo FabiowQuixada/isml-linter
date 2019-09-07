@@ -1,5 +1,6 @@
 const SingleLineRulePrototype = require('../prototypes/SingleLineRulePrototype');
 const Constants               = require('../../Constants');
+const GeneralUtils            = require('../../util/GeneralUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Blank space at the end of the line detected';
@@ -11,7 +12,7 @@ Rule.init(ruleId, description);
 Rule.isBroken = function(line) { return (line.endsWith(' ') || line.endsWith(' \r')) && line.replace(/\s/g, '').length; };
 
 Rule.getFixedContent = function(templateContent) {
-    const lineArray = templateContent.split(Constants.EOL);
+    const lineArray = GeneralUtils.toLF(templateContent).split(Constants.EOL);
     const result    = [];
 
     for (let i = 0; i < lineArray.length; i++) {

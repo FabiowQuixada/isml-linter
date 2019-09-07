@@ -23,4 +23,8 @@ const mergeDeep  = (target, ...sources) => {
     return mergeDeep(target, ...sources);
 };
 
+module.exports.toLF = content => {
+    return content.replace(/\r\n/g, '\n');
+};
+
 module.exports.mergeDeep = mergeDeep;

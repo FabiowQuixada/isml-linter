@@ -1,7 +1,8 @@
 const path    = require('path');
 const appRoot = require('app-root-path');
 const fs      = require('fs');
-const EOL     = require('os').EOL;
+const OS_EOL  = require('os').EOL;
+const EOL     = '\n'; // Internal processing line break;
 
 // Environments;
 const ENV_DEV  = 'dev';
@@ -121,4 +122,5 @@ module.exports = {
     voidElementsArray,
     leadingElementsChecking,
     EOL,
+    OS_EOL
 };

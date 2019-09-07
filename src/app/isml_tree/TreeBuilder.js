@@ -4,6 +4,7 @@ const StateUtils      = require('./components/StateUtils');
 const ParseUtils      = require('./components/ParseUtils');
 const MultiClauseNode = require('./MultiClauseNode');
 const ExceptionUtils  = require('../util/ExceptionUtils');
+const GeneralUtils    = require('../util/GeneralUtils');
 const MaskUtils       = require('./MaskUtils');
 const fs              = require('fs');
 
@@ -46,7 +47,7 @@ const build = (templatePath, content) => {
     };
 
     try {
-        const templateContent = content || fs.readFileSync(templatePath, 'utf-8');
+        const templateContent = GeneralUtils.toLF(content || fs.readFileSync(templatePath, 'utf-8'));
         result.rootNode       = parse(templateContent, undefined, undefined, templatePath);
         result.data           = postProcess(result.rootNode);
 
@@ -63,7 +64,7 @@ const build = (templatePath, content) => {
 
 const parse = (content, parentState, parentNode = new IsmlNode(), templatePath) => {
 
-    const state = StateUtils.getInitialState(content, parentState, parentNode, templatePath);
+    const state = StateUtils.getInitialState(GeneralUtils.toLF(content), parentState, parentNode, templatePath);
 
     for (let i = 0; i < content.length; i++) {
         initializeLoopState(state, i);
