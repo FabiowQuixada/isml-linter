@@ -74,22 +74,6 @@ const getNextNonEmptyCharPos = content => {
 
 module.exports.getNextNonEmptyCharPos = getNextNonEmptyCharPos;
 
-module.exports.getPostClosingTagContentUpToLneBreak = (content, startPos) => {
-    let postContent = '';
-
-    for (let i = startPos + 1; i < content.length; i++) {
-        const currentChar = content.charAt(i);
-
-        if (currentChar !== Constants.EOL && currentChar !== '\t') {
-            break;
-        }
-
-        postContent += currentChar;
-    }
-
-    return postContent;
-};
-
 module.exports.isOpeningElem = state => {
 
     const content     = state.content;
