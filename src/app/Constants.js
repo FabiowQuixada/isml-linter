@@ -13,6 +13,7 @@ const ENV_PROD = 'prod';
 const configPreferredFileName = 'ismllinter.config.js';
 const configFileName          = '.ismllinter.json';
 const eslintConfigFileName    = '.eslintrc.json';
+const eslintConfigFileName2   = '.eslintrc.js';
 
 const clientAppDir    = appRoot.toString();
 const productionDir   = path.join(clientAppDir, 'node_modules', 'isml-linter');
@@ -52,6 +53,7 @@ const specJsRegex = path.join('spec', '**', '*.js');
 const configPreferredFilePath = path.join(clientAppDir, configPreferredFileName);
 const configFilePath          = path.join(clientAppDir, configFileName);
 const eslintConfigFilePath    = path.join(clientAppDir, eslintConfigFileName);
+const eslintConfigFilePath2   = path.join(clientAppDir, eslintConfigFileName2);
 
 // Links;
 const repositoryUrl = 'https://github.com/FabiowQuixada/isml-linter';
@@ -108,6 +110,7 @@ module.exports = {
     configPreferredFilePath,
     configFilePath,
     eslintConfigFilePath,
+    eslintConfigFilePath2,
 
     // Regex;
     srcJsRegex,

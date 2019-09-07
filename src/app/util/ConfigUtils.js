@@ -70,7 +70,13 @@ const loadEslintConfig = eslintConfigParam => {
         throw ExceptionUtils.noEslintConfigError();
     }
 
-    const eslintConfig = JSON.parse(fs.readFileSync(Constants.eslintConfigFilePath));
+    let eslintConfig = null;
+
+    try {
+        eslintConfig = JSON.parse(fs.readFileSync(Constants.eslintConfigFilePath));
+    } catch (err) {
+        eslintConfig = JSON.parse(fs.readFileSync(Constants.eslintConfigFilePath2));
+    }
 
     return eslintConfig;
 };
@@ -117,7 +123,8 @@ const existConfigFile = () => {
 const existEslintConfigFile = () => {
     return eslintConfigData ||
         configData && configData.eslintConfig && FileUtils.fileExists(configData.eslintConfig) ||
-        FileUtils.fileExists(Constants.eslintConfigFileName);
+        FileUtils.fileExists(Constants.eslintConfigFileName) ||
+        FileUtils.fileExists(Constants.eslintConfigFileName2);
 };
 
 const isTestEnv = () => process.env.NODE_ENV === Constants.ENV_TEST;
@@ -142,12 +149,17 @@ const setLocalConfig = () => {
 
 const setLocalEslintConfig = () => {
     try {
+        // TODO: Find a better way to do this;
         if (configData && configData.eslintConfig) {
             if (FileUtils.fileExists(configData.eslintConfig)) {
                 eslintConfigData = require(path.join(Constants.clientAppDir, configData.eslintConfig));
             }
         } else {
-            eslintConfigData = require(Constants.eslintConfigFilePath);
+            try {
+                eslintConfigData = require(Constants.eslintConfigFilePath);
+            } catch (err) {
+                eslintConfigData = require(Constants.eslintConfigFilePath2);
+            }
         }
     } catch (err) {
         // Configuration will be loaded through setConfig() method;
