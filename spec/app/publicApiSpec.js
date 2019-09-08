@@ -27,8 +27,8 @@ describe(targetObjName, () => {
     });
 
     it('builds path', () => {
-        const actualResult   = publicApi.build();
-        const expectedResult = Builder.run();
+        const actualResult   = publicApi.build('./cartridges');
+        const expectedResult = Builder.run('./cartridges');
 
         expect(actualResult).toEqual(expectedResult);
     });

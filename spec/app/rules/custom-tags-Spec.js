@@ -68,7 +68,7 @@ describe(rule.id, () => {
         ConfigUtils.load({ rules: { 'custom-tags': {} } });
         const IsmlLinter = require('../../../src/app/IsmlLinter');
 
-        const result     = IsmlLinter.run();
+        const result     = IsmlLinter.run('./cartridges');
         const occurrence = result.errors[rule.id][0];
 
         expect(occurrence.line      ).toEqual('');
