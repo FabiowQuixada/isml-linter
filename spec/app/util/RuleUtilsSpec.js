@@ -1,15 +1,15 @@
 const path       = require('path');
 const SpecHelper = require('../../SpecHelper');
-const RuleUtils  = require('../../../src/app/util/RuleUtils');
-const Constants  = require('../../../src/app/Constants');
+const RuleUtils  = require('../../../src/util/RuleUtils');
+const Constants  = require('../../../src/Constants');
 
-const ConfigUtils          = require('../../../src/app/util/ConfigUtils');
-const NoIsscriptRule       = require('../../../src/app/rules/line_by_line/no-isscript');
-const NoSpaceOnlyLinesRule = require('../../../src/app/rules/line_by_line/no-space-only-lines');
-const NoInlineStyleRule    = require('../../../src/app/rules/line_by_line/no-inline-style');
-const NoRequireInLoopRule  = require('../../../src/app/rules/tree/no-require-in-loop');
-const NoHardcodeRule       = require('../../../src/app/rules/tree/no-hardcode');
-const EnforceIsprintRule   = require('../../../src/app/rules/line_by_line/enforce-isprint');
+const ConfigUtils          = require('../../../src/util/ConfigUtils');
+const NoIsscriptRule       = require('../../../src/rules/line_by_line/no-isscript');
+const NoSpaceOnlyLinesRule = require('../../../src/rules/line_by_line/no-space-only-lines');
+const NoInlineStyleRule    = require('../../../src/rules/line_by_line/no-inline-style');
+const NoRequireInLoopRule  = require('../../../src/rules/tree/no-require-in-loop');
+const NoHardcodeRule       = require('../../../src/rules/tree/no-hardcode');
+const EnforceIsprintRule   = require('../../../src/rules/line_by_line/enforce-isprint');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 

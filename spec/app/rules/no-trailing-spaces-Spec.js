@@ -1,5 +1,5 @@
 const SpecHelper   = require('../../SpecHelper');
-const Constants    = require('../../../src/app/Constants');
+const Constants    = require('../../../src/Constants');
 const specFileName = require('path').basename(__filename);
 const rule         = SpecHelper.getRule(specFileName);
 

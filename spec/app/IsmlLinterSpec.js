@@ -2,13 +2,13 @@ const path = require('path');
 const glob = require('glob');
 // const fs                   = require('fs');
 const SpecHelper           = require('../SpecHelper');
-const IsmlLinter           = require('../../src/app/IsmlLinter');
-const Constants            = require('../../src/app/Constants');
-const NoSpaceOnlyLinesRule = require('../../src/app/rules/line_by_line/no-space-only-lines');
-const NoInlineStyleRule    = require('../../src/app/rules/line_by_line/no-inline-style');
-const EnforceIsprintRule   = require('../../src/app/rules/line_by_line/enforce-isprint');
-const ExceptionUtils       = require('../../src/app/util/ExceptionUtils');
-const ConfigUtils          = require('../../src/app/util/ConfigUtils');
+const IsmlLinter           = require('../../src/IsmlLinter');
+const Constants            = require('../../src/Constants');
+const NoSpaceOnlyLinesRule = require('../../src/rules/line_by_line/no-space-only-lines');
+const NoInlineStyleRule    = require('../../src/rules/line_by_line/no-inline-style');
+const EnforceIsprintRule   = require('../../src/rules/line_by_line/enforce-isprint');
+const ExceptionUtils       = require('../../src/util/ExceptionUtils');
+const ConfigUtils          = require('../../src/util/ConfigUtils');
 
 const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
 const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
@@ -197,7 +197,7 @@ describe(targetObjName, () => {
     it('lists inconsistent filenames', () => {
         ConfigUtils.load({ rules: { 'lowercase-filename': {} } });
 
-        const rule    = require('../../src/app/rules/line_by_line/lowercase-filename');
+        const rule    = require('../../src/rules/line_by_line/lowercase-filename');
         const dirPath = path.join(Constants.clientAppDir, specFilenameTemplate);
         const result  = IsmlLinter.run(dirPath);
         const error   = result.errors[rule.id][path.join(dirPath, 'camelCaseTemplate.isml')][0];

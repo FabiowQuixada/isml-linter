@@ -1,5 +1,5 @@
 const SpecHelper   = require('../../SpecHelper');
-const ConfigUtils  = require('../../../src/app/util/ConfigUtils');
+const ConfigUtils  = require('../../../src/util/ConfigUtils');
 const specFileName = require('path').basename(__filename);
 const rule         = SpecHelper.getRule(specFileName);
 

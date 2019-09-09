@@ -1,9 +1,9 @@
 const SpecHelper     = require('../../SpecHelper');
-const TreeBuilder    = require('../../../src/app/isml_tree/TreeBuilder');
-const Constants      = require('../../../src/app/Constants');
-const ParseStatus    = require('../../../src/app/enums/ParseStatus');
-const ExceptionUtils = require('../../../src/app/util/ExceptionUtils');
-const ConfigUtils    = require('../../../src/app/util/ConfigUtils');
+const TreeBuilder    = require('../../../src/isml_tree/TreeBuilder');
+const Constants      = require('../../../src/Constants');
+const ParseStatus    = require('../../../src/enums/ParseStatus');
+const ExceptionUtils = require('../../../src/util/ExceptionUtils');
+const ConfigUtils    = require('../../../src/util/ConfigUtils');
 
 describe('Invalid Template', () => {
 

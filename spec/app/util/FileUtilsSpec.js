@@ -1,7 +1,7 @@
 const path       = require('path');
 const SpecHelper = require('../../SpecHelper');
-const Constants  = require('../../../src/app/Constants');
-const FileUtils  = require('../../../src/app/util/FileUtils');
+const Constants  = require('../../../src/Constants');
+const FileUtils  = require('../../../src/util/FileUtils');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 

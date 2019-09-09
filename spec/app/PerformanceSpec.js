@@ -1,10 +1,10 @@
 const path       = require('path');
 const fs         = require('fs-extra');
 const SpecHelper = require('../SpecHelper');
-const Constants  = require('../../src/app/Constants');
-// const IsmlLinter  = require('../../src/app/IsmlLinter');
-const FileUtils   = require('../../src/app/util/FileUtils');
-// const ConfigUtils = require('../../src/app/util/ConfigUtils');
+const Constants  = require('../../src/Constants');
+// const IsmlLinter  = require('../../src/IsmlLinter');
+const FileUtils   = require('../../src/util/FileUtils');
+// const ConfigUtils = require('../../src/util/ConfigUtils');
 
 const TEMPLATE_QTY = 10;
 

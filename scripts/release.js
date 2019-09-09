@@ -2,7 +2,7 @@
 
 const { exec }  = require('child_process');
 const path      = require('path');
-const Constants = require('../src/app/Constants');
+const Constants = require('../src/Constants');
 
 const currentVersion = require(path.join(Constants.clientAppDir, 'package.json')).version;
 const tag            = `v${currentVersion}`;

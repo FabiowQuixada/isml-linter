@@ -1,5 +1,5 @@
 instrumentation:
-    root: src/app
+    root: src
     extensions:
         - .js
     excludes: []

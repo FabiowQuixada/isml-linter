@@ -1,7 +1,7 @@
 const sinon           = require('sinon');
 const SpecHelper      = require('../../SpecHelper');
-const IsmlNode        = require('../../../src/app/isml_tree/IsmlNode');
-const MultiClauseNode = require('../../../src/app/isml_tree/MultiClauseNode');
+const IsmlNode        = require('../../../src/isml_tree/IsmlNode');
+const MultiClauseNode = require('../../../src/isml_tree/MultiClauseNode');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 

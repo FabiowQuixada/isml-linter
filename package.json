@@ -3,7 +3,7 @@
   "version": "5.19.0",
   "author": "Fabiow Quixadá <ftquixada@gmail.com>",
   "license": "ISC",
-  "main": "src/app/publicApi.js",
+  "main": "src/publicApi.js",
   "engines": {
     "node": ">=10.0.0"
   },

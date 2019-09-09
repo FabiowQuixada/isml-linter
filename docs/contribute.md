@@ -11,7 +11,7 @@ Before checking any rules, Isml Linter builds an Isml DOM and then traverses it,
 
 ## Creating a New Rule 
 
-Once you fork the project, create a new file, say, "my-new-rule.js", under ./src/app/rules/tree/ with the following content:
+Once you fork the project, create a new file, say, "my-new-rule.js", under ./src/rules/tree/ with the following content:
 
 ```js
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
@@ -61,7 +61,7 @@ Please keep in mind that new rules need to be as much generic as possible so tha
 
 That's it! Now you're ready to create a PR! Once you have forked the repository and applied your changes, please create a PR so that, after analyzed and approved, it can be available for the whole community! :D
 
-[indent-rule]: <../src/app/rules/tree/indent.js>
-[one-element-per-line-rule]: <../src/app/rules/tree/one-element-per-line.js>
-[isml-node]: <../src/app/isml_tree/IsmlNode.js>
+[indent-rule]: <../src/rules/tree/indent.js>
+[one-element-per-line-rule]: <../src/rules/tree/one-element-per-line.js>
+[isml-node]: <../src/isml_tree/IsmlNode.js>
 [one-element-per-line-spec]: <../spec/app/rules/one-element-per-line-Spec.js>

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-require('../src/app/util/NativeExtensionUtils');
+require('../src/util/NativeExtensionUtils');
 
-const ConfigUtils = require('../src/app/util/ConfigUtils');
+const ConfigUtils = require('../src/util/ConfigUtils');
 
 try {
     for (let i = 0; i < process.argv.length; i++) {
@@ -20,7 +20,7 @@ try {
     }
 
 } catch (e) {
-    const ConsoleUtils = require('../src/app/util/ConsoleUtils');
+    const ConsoleUtils = require('../src/util/ConsoleUtils');
     ConsoleUtils.printExceptionMsg(e.stack || e);
     process.exit(1);
 }

@@ -1,6 +1,6 @@
 const SpecHelper  = require('../SpecHelper');
-const Builder     = require('../../src/app/Builder');
-const ConfigUtils = require('../../src/app/util/ConfigUtils');
+const Builder     = require('../../src/Builder');
+const ConfigUtils = require('../../src/util/ConfigUtils');
 const path        = require('path');
 
 const targetPath = path.join('cartridges', 'a_single_cartridge_project');

@@ -1,6 +1,6 @@
 const SpecHelper  = require('../../../SpecHelper');
-const Constants   = require('../../../../src/app/Constants');
-const TreeBuilder = require('../../../../src/app/isml_tree/TreeBuilder');
+const Constants   = require('../../../../src/Constants');
+const TreeBuilder = require('../../../../src/isml_tree/TreeBuilder');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 

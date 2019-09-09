@@ -1,6 +1,6 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../SpecHelper');
-const Constants    = require('../../../src/app/Constants');
+const Constants    = require('../../../src/Constants');
 
 const rule = SpecHelper.getTreeRule(specFileName);
 

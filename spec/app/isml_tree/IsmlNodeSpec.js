@@ -1,9 +1,9 @@
 const sinon       = require('sinon');
 const SpecHelper  = require('../../SpecHelper');
-const IsmlNode    = require('../../../src/app/isml_tree/IsmlNode');
-const ConfigUtils = require('../../../src/app/util/ConfigUtils');
-const TreeBuilder = require('../../../src/app/isml_tree/TreeBuilder');
-const Constants   = require('../../../src/app/Constants');
+const IsmlNode    = require('../../../src/isml_tree/IsmlNode');
+const ConfigUtils = require('../../../src/util/ConfigUtils');
+const TreeBuilder = require('../../../src/isml_tree/TreeBuilder');
+const Constants   = require('../../../src/Constants');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 

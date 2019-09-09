@@ -38,7 +38,7 @@ const specComplexTemplatesDir        = path.join(specIsmlTreeTemplateDir, 'compl
 const specElementBalanceTemplatesDir = path.join(specIsmlTreeTemplateDir, 'element_balance');
 const specAutofixTemplatesDir        = path.join(specTemplateDir, 'autofix');
 const specIsifTagParserTemplateDir   = path.join(specTemplateDir, 'isml_tree', 'components', 'isif_tag_parser');
-const rulesDir                       = path.join(linterModuleDir, 'src', 'app', 'rules');
+const rulesDir                       = path.join(linterModuleDir, 'src', 'rules');
 const lineByLineRulesDir             = path.join(rulesDir, 'line_by_line');
 const treeRulesDir                   = path.join(rulesDir, 'tree');
 const sampleProductionProjectName    = 'sample-production-project';
@@ -46,7 +46,7 @@ const sampleProductionProjectDir     = path.join(clientAppDir, 'scaffold_files',
 
 // Regex;
 const srcJsRegex  = path.join('src', '**', '*.js');
-const appJsRegex  = path.join('src', 'app', '**', '*.js');
+const appJsRegex  = path.join('src', '**', '*.js');
 const specJsRegex = path.join('spec', '**', '*.js');
 
 // File paths;

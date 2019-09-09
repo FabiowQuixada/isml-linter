@@ -1,10 +1,10 @@
 const path        = require('path');
 const SpecHelper  = require('../SpecHelper');
-const IsmlLinter  = require('../../src/app/IsmlLinter');
-const Builder     = require('../../src/app/Builder');
-const ConfigUtils = require('../../src/app/util/ConfigUtils');
-const Constants   = require('../../src/app/Constants');
-const publicApi   = require('../../src/app/publicApi');
+const IsmlLinter  = require('../../src/IsmlLinter');
+const Builder     = require('../../src/Builder');
+const ConfigUtils = require('../../src/util/ConfigUtils');
+const Constants   = require('../../src/Constants');
+const publicApi   = require('../../src/publicApi');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 

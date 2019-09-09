@@ -1,9 +1,9 @@
 const path        = require('path');
 const SpecHelper  = require('../../SpecHelper');
-const ConfigUtils = require('../../../src/app/util/ConfigUtils');
-const Constants   = require('../../../src/app/Constants');
-const RuleUtils   = require('../../../src/app/util/RuleUtils');
-const NoTabsRule  = require('../../../src/app/rules/line_by_line/no-tabs');
+const ConfigUtils = require('../../../src/util/ConfigUtils');
+const Constants   = require('../../../src/Constants');
+const RuleUtils   = require('../../../src/util/RuleUtils');
+const NoTabsRule  = require('../../../src/rules/line_by_line/no-tabs');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 

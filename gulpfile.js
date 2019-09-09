@@ -4,7 +4,7 @@ const eslint        = require('gulp-eslint');
 const eslintIfFixed = require('gulp-eslint-if-fixed');
 const istanbul      = require('gulp-istanbul');
 const run           = require('gulp-run');
-const Constants     = require('./src/app/Constants');
+const Constants     = require('./src/Constants');
 const config        = require('./.ismllinter.json');
 
 const ismlRegex = config.rootTemplateDir + '**/*.isml';

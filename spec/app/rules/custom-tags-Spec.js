@@ -1,6 +1,6 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../SpecHelper');
-const ConfigUtils  = require('../../../src/app/util/ConfigUtils');
+const ConfigUtils  = require('../../../src/util/ConfigUtils');
 
 const rule = SpecHelper.getTreeRule(specFileName);
 
@@ -66,7 +66,7 @@ describe(rule.id, () => {
 
     it('allows only lowercase custom module attributes', () => {
         ConfigUtils.load({ rules: { 'custom-tags': {} } });
-        const IsmlLinter = require('../../../src/app/IsmlLinter');
+        const IsmlLinter = require('../../../src/IsmlLinter');
 
         const result     = IsmlLinter.run('./cartridges');
         const occurrence = result.errors[rule.id][0];

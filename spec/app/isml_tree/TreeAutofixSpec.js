@@ -1,8 +1,8 @@
 const fs           = require('fs');
 const SpecHelper   = require('../../SpecHelper');
-const TreeBuilder  = require('../../../src/app/isml_tree/TreeBuilder');
-const Constants    = require('../../../src/app/Constants');
-const GeneralUtils = require('../../../src/app/util/GeneralUtils');
+const TreeBuilder  = require('../../../src/isml_tree/TreeBuilder');
+const Constants    = require('../../../src/Constants');
+const GeneralUtils = require('../../../src/util/GeneralUtils');
 
 describe('Tree auto-fix', () => {
 

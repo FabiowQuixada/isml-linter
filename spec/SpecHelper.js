@@ -1,12 +1,12 @@
-require('../src/app/util/NativeExtensionUtils');
+require('../src/util/NativeExtensionUtils');
 // TODO: Find a better way to set this;
 process.env.NODE_ENV = 'test';
 
-const FileUtils    = require('../src/app/util/FileUtils');
-const Constants    = require('../src/app/Constants');
-const TreeBuilder  = require('../src/app/isml_tree/TreeBuilder');
-const ConfigUtils  = require('../src/app/util/ConfigUtils');
-const GeneralUtils = require('../src/app/util/GeneralUtils');
+const FileUtils    = require('../src/util/FileUtils');
+const Constants    = require('../src/Constants');
+const TreeBuilder  = require('../src/isml_tree/TreeBuilder');
+const ConfigUtils  = require('../src/util/ConfigUtils');
+const GeneralUtils = require('../src/util/GeneralUtils');
 const snake        = require('to-snake-case');
 const path         = require('path');
 const fs           = require('fs');
@@ -32,13 +32,13 @@ const getTreeRuleSpecTemplatePath = (rule, templateNumber) => {
 module.exports = {
     getRule: specFileName => {
         const ruleId = specFileName.substr(0, specFileName.indexOf('-Spec'));
-        const rule   = require(`../src/app/rules/line_by_line/${ruleId}`);
+        const rule   = require(`../src/rules/line_by_line/${ruleId}`);
         return rule;
     },
 
     getTreeRule: specFileName => {
         const ruleId = specFileName.substr(0, specFileName.indexOf('-Spec'));
-        const rule   = require(`../src/app/rules/tree/${ruleId}`);
+        const rule   = require(`../src/rules/tree/${ruleId}`);
         return rule;
     },
 

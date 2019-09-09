@@ -3,8 +3,8 @@
 // const rimraf       = require('rimraf');
 // const { execSync } = require('child_process');
 // const SpecHelper   = require('../SpecHelper');
-// const Constants    = require('../../src/app/Constants');
-// const ConfigUtils  = require('../../src/app/util/ConfigUtils');
+// const Constants    = require('../../src/Constants');
+// const ConfigUtils  = require('../../src/util/ConfigUtils');
 
 // const targetDir             = path.join(Constants.clientAppDir, '..', Constants.sampleProductionProjectName);
 // const targetPackageBasePath = path.join(targetDir, 'package_base.json');
