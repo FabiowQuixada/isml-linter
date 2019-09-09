@@ -20,7 +20,7 @@ Rule.isBroken = function(node) {
 
     attrList.some( nodeAttribute => {
         for (const sfccAttr in obj.attributes) {
-            if (obj.attributes.hasOwnProperty(sfccAttr) && nodeAttribute.name === sfccAttr) {
+            if (Object.prototype.hasOwnProperty.call(obj.attributes, sfccAttr) && nodeAttribute.name === sfccAttr) {
                 const attr              = obj.attributes[sfccAttr];
                 const isValueDeprecated = attr.deprecatedValues &&
                     attr.deprecatedValues.indexOf(nodeAttribute.value) !== -1;

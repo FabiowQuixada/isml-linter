@@ -35,7 +35,7 @@ const treeRules       = [];
 })();
 
 const checkCustomTag = tag => {
-    if (customTagContainer.hasOwnProperty(tag)) {
+    if (Object.prototype.hasOwnProperty.call(customTagContainer, tag)) {
         const attrList = customTagContainer[tag].attrList;
 
         for (let i = 0; i < attrList.length; i++) {
