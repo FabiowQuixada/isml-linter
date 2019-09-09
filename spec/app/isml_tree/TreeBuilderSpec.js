@@ -492,6 +492,13 @@ describe(targetObjName, () => {
 
         expect(iscontentNode.value).toEqual('<iscontent type="text/html" charset="UTF-8">');
     });
+
+    it('allows slashy <isif> tags: <isif condition="${...}" />', () => {
+        const rootNode      = getRootNodeFromTemplate(49);
+        const iscontentNode = rootNode.children[0];
+
+        expect(iscontentNode.value).toEqual('<div>');
+    });
 });
 
 const getTemplatePath = number => {

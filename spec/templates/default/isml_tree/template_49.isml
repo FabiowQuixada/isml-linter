@@ -1,0 +1,5 @@
+<div>
+    <isif condition="${!lineItem.isBonusProductLineItem}"/>
+        <div></div>
+    </isif>
+</div>

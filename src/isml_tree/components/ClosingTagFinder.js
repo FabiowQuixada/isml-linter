@@ -145,11 +145,12 @@ const removeFirstElement = internalState => {
 const initializeLoopState = (internalState, openingElemRegex, closingElemRegex) => {
     openingElemRegex.lastIndex = 0;
     closingElemRegex.lastIndex = 0;
+    const elementType = ParseUtils.getFirstElementType(internalState.maskedContent);
 
     internalState.firstClosingElemPos  = internalState.maskedContent.indexOf('>') + 1;
     internalState.isSelfClosingElement =
         internalState.maskedContent.charAt(internalState.firstClosingElemPos - 2) === '/' &&
-        !internalState.maskedContent.startsWith('<isif');
+        elementType !== 'isif';
 
     internalState.openingElemPos    = Number.POSITIVE_INFINITY;
     internalState.closingElementPos = Number.POSITIVE_INFINITY;
