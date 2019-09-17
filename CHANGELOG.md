@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.19.1] - 2019-09-16
+
+### Changed
+ - Moved source code up in the directory tree;
+
+### Fixed
+ - Tree build: Allow slashy &lt;isif/> tag;
+
 ## [5.19.0] - 2019-09-08
 
 ### Added
@@ -510,6 +518,7 @@
 - Linter is published;
 
 
+[5.19.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.19.0...v5.19.1
 [5.19.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.8...v5.19.0
 [5.18.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.7...v5.18.8
 [5.18.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.6...v5.18.7
