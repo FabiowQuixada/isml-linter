@@ -26,6 +26,7 @@ class IsmlNode {
         this.suffixGlobalPos  = -1;         // 207
         this.parent           = null;       // Parent isml node;
         this.children         = [];         // Child isml nodes;
+        this.childNo          = 0;
     }
 
     // Suffix is the element corresponding closing tag, such as </div>
@@ -106,6 +107,7 @@ class IsmlNode {
         if (newNode.value.trim()) {
             newNode.depth        = this.depth + 1;
             newNode.parent       = this;
+            newNode.childNo      = this.children.length;
             this.children.push(newNode);
             this.newestChildNode = newNode;
         } else {
@@ -186,6 +188,34 @@ class IsmlNode {
 
     isCommentContent() {
         return this.parent && this.parent.isIsmlComment();
+    }
+
+    getPreviousSibling() {
+        if (!this.parent || this.isFirstChild()) {
+            return null;
+        }
+
+        const sibling = this.parent.children[this.childNo - 1];
+
+        if (sibling.isMulticlause()) {
+            return sibling.children[0];
+        }
+
+        return sibling;
+    }
+
+    getNextSibling() {
+        if (!this.parent || this.parent.children.length < this.childNo) {
+            return null;
+        }
+
+        const sibling = this.parent.children[this.childNo + 1];
+
+        if (sibling.isMulticlause()) {
+            return sibling.children[0];
+        }
+
+        return sibling;
     }
 
     // Checks if node is HTML 5 void element;

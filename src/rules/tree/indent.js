@@ -119,6 +119,7 @@ const addCorrectIndentation = node => {
         !(node.parent && node.parent.isMulticlause() && !node.isLastChild());
 
     const shouldAddIndentationToValue = !node.isRoot() &&
+        (node.isFirstChild() || node.getPreviousSibling() && node.lineNumber !== node.getPreviousSibling().lineNumber) &&
         node.value && node.lineNumber !== node.parent.endLineNumber;
 
     if (shouldAddIndentationToValue) {

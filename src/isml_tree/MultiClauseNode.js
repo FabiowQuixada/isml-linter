@@ -20,6 +20,7 @@ class MultiClauseNode extends IsmlNode {
     addChild(clause) {
         clause.depth         = this.depth;
         clause.parent        = this;
+        clause.childNo       = this.children.length;
         this.newestChildNode = clause;
         this.children.push(clause);
     }

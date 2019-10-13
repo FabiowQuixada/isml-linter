@@ -117,4 +117,9 @@ describe(rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('does not add indentation to a same-line sibling', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 12);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
