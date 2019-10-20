@@ -1,7 +1,6 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
-// const ParseUtils        = require('../../isml_tree/components/ParseUtils');
-// const Constants         = require('../../Constants');
-// const GeneralUtils      = require('../../util/GeneralUtils');
+const ParseUtils        = require('../../isml_tree/components/ParseUtils');
+const Constants         = require('../../Constants');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Line incorrectly indented';
@@ -72,52 +71,70 @@ Rule.check = function(node, result) {
     return this.result;
 };
 
-// Rule.getFixedContent = function(node, stream = '') {
-//     const indentation = this.getIndentation(node.depth - 1);
-//     stream            = addValue(node, stream, indentation);
-//     node.children.forEach( node => stream = this.getFixedContent(node, stream) );
-//     stream            = addSuffix(node, stream, indentation);
+const removeIndentation = content => {
+    const startingPos            = ParseUtils.getNextNonEmptyCharPos(content);
+    const endingPos              = content.length - ParseUtils.getNextNonEmptyCharPos(content.split('').reverse().join(''));
+    const fullLeadingContent     = content.substring(0, startingPos);
+    const actualContent          = content.substring(startingPos, endingPos);
+    const preLineBreakContent    = fullLeadingContent.substring(0, fullLeadingContent.lastIndexOf(Constants.EOL) + 1);
+    const fullTrailingContent    = content.substring(endingPos);
+    const lastLineBreakPos       = fullTrailingContent.lastIndexOf(Constants.EOL);
+    const trimmedTrailingContent = lastLineBreakPos === -1 ?
+        fullTrailingContent :
+        fullTrailingContent.substring(0, lastLineBreakPos + 1);
 
-//     return GeneralUtils.applyActiveLinebreaks(stream);
-// };
+    return preLineBreakContent + actualContent + trimmedTrailingContent;
+};
 
-// const addValue = (node, stream, indentation) => {
-//     const preLineBreakContent = ParseUtils.getPreLineBreakContent(node);
-//     let localStream           = stream;
+const addIndentation = (content, node) => {
+    const startingPos         = ParseUtils.getNextNonEmptyCharPos(content);
+    const endingPos           = content.length - ParseUtils.getNextNonEmptyCharPos(content.split('').reverse().join(''));
+    const fullLeadingContent  = content.substring(0, startingPos);
+    const actualContent       = content.substring(startingPos, endingPos);
+    const preLineBreakContent = fullLeadingContent.substring(0, fullLeadingContent.lastIndexOf(Constants.EOL) + 1);
+    const fullTrailingContent = content.substring(endingPos);
+    const correctIndentation  = node.isInSameLineAsParent() ? '' : Rule.getIndentation(node.depth - 1);
 
-//     if (!node.isRoot() && !node.isMulticlause() && node.value.trim()) {
-//         localStream += (node.isInSameLineAsParent() ? '' : preLineBreakContent + indentation) +
-//             node.value.trim();
+    return preLineBreakContent + correctIndentation + actualContent + fullTrailingContent;
+};
 
-//         const trailingBlankContent = ParseUtils.getTrailingBlankContent(node);
-//         const lineBreakQty         = ParseUtils.getLineBreakQty(trailingBlankContent);
+const removeAllIndentation = node => {
+    if (node.value) {
+        node.value = removeIndentation(node.value);
+    }
 
-//         for (let i = 0; i < lineBreakQty; i++) {
-//             localStream += Constants.EOL;
-//         }
-//     }
+    if (node.suffixValue) {
+        node.suffixValue = removeIndentation(node.suffixValue);
+    }
 
-//     return localStream;
-// };
+    for (let i = 0; i < node.children.length; i++) {
+        removeAllIndentation(node.children[i]);
+    }
+};
 
-// const addSuffix = (node, stream, indentation) => {
-//     const suffixValue             = node.suffixValue;
-//     const leadingContent          = suffixValue.substring(0, ParseUtils.getNextNonEmptyCharPos(suffixValue));
-//     const contentAboveCurrentLine = leadingContent.substring(0, leadingContent.lastIndexOf(Constants.EOL) + 1);
-//     const trailingContent         = ParseUtils.getSuffixTrailingBlankContent(node);
-//     const trimmedTrailingContent  = trailingContent.substring(0, trailingContent.lastIndexOf(Constants.EOL) + 1);
-//     let localStream               = stream;
+const addCorrectIndentation = node => {
+    if (node.value) {
+        node.value = addIndentation(node.value, node);
+    }
 
-//     if (suffixValue) {
-//         localStream +=
-//             (node.getLastChild() && node.getLastChild().isInSameLineAsParent() ? '' : contentAboveCurrentLine + indentation) +
-//             suffixValue.trim() +
-//             (node.isLastChild() ? trimmedTrailingContent : trailingContent) ;
-//     } else if (!node.isRoot() && !node.isMulticlause() && node.parent.isRoot()) {
-//         localStream += node.value;
-//     }
+    if (node.suffixValue &&
+        (!node.hasChildren() && node.lineNumber !== node.suffixLineNumber) ||
+        node.getLastChild() && !node.getLastChild().isInSameLineAsParent() &&
+        !(node.parent && node.parent.isMulticlause() && !node.isLastChild())
+    ) {
+        node.suffixValue = addIndentation(node.suffixValue, node);
+    }
 
-//     return localStream;
-// };
+    for (let i = 0; i < node.children.length; i++) {
+        addCorrectIndentation(node.children[i]);
+    }
+};
+
+Rule.getFixedContent = rootNode => {
+    removeAllIndentation(rootNode);
+    addCorrectIndentation(rootNode);
+
+    return rootNode.toString();
+};
 
 module.exports = Rule;
