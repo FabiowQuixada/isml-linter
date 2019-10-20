@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.20.0] - 2019-11-09
+
+### Added
+ - "Indent" rule autofix feature;
+
 ## [5.19.2] - 2019-11-06
 
 ### Fixed
@@ -523,6 +528,7 @@
 - Linter is published;
 
 
+[5.20.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.19.2...v5.20.0
 [5.19.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.19.1...v5.19.2
 [5.19.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.19.0...v5.19.1
 [5.19.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.8...v5.19.0
