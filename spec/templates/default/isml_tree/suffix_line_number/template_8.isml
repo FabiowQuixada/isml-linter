@@ -1,0 +1,7 @@
+<div>
+    <div>
+        <a>
+            ${aVariable}
+        </a>
+    </div>
+</div>

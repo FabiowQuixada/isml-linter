@@ -189,15 +189,16 @@ const parseNewNodeInnerContent = state => {
 };
 
 const getSuffixLineNumber = state => {
-    const closingTagStackCopy   = [...state.closingElementsStack];
-    const elem                  = closingTagStackCopy.pop();
-    const trimmedElem           = elem.trim();
-    const suffixElemIndex       = elem.indexOf(trimmedElem);
-    const lineBreaksInSuffix    = closingTagStackCopy.length > 0 ? ParseUtils.getLineBreakQty(elem.substring(0, suffixElemIndex)) : 0;
-    const suffixGlobalIndex     = state.content.indexOf(elem);
-    const contentUpToCurrentPos = state.content.substring(state.currentPos, suffixGlobalIndex);
-    const contentLength         = ParseUtils.getLineBreakQty(contentUpToCurrentPos);
-    const suffixLineNumber      = state.currentLineNumber + contentLength + lineBreaksInSuffix;
+    const closingTagStackCopy = [...state.closingElementsStack];
+    const elem                = closingTagStackCopy.pop();
+    const currentNode         = state.parentNode.getLastChild();
+
+    const innerContent             = ParseUtils.getInnerContent(state);
+    const nodeValueLineBreakQty    = ParseUtils.getLineBreakQty(currentNode.value.trim());
+    const innerContentLineBreakQty = ParseUtils.getLineBreakQty(innerContent);
+    const suffixLineNumber         = elem.indexOf('</isif>') !== -1 ?
+        state.currentLineNumber :
+        currentNode.lineNumber + nodeValueLineBreakQty + innerContentLineBreakQty;
 
     return suffixLineNumber;
 };

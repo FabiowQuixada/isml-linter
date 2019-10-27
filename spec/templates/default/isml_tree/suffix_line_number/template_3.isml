@@ -1,0 +1,5 @@
+<div>
+    <a>
+        <isprint value="${someValue}" />
+    </a>
+</div>

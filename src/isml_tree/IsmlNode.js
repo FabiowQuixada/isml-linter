@@ -113,6 +113,7 @@ class IsmlNode {
 
     getLastChild()        { return this.children[this.children.length - 1]; }
     getNumberOfChildren() { return this.children.length;                    }
+    hasChildren()         { return this.children.length > 0;                }
 
     getIndentationSize() {
         const precedingEmptySpacesLength = this.value.search(/\S|$/);

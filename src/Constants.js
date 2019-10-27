@@ -20,30 +20,31 @@ const productionDir   = path.join(clientAppDir, 'node_modules', 'isml-linter');
 const linterModuleDir = fs.existsSync(productionDir) ? productionDir : clientAppDir;
 
 // Directories;
-const specDir                        = path.join(appRoot.toString(), 'spec');
-const specTempDir                    = path.join(specDir, 'temp');
-const specTemplateDir                = path.join(specDir, 'templates', 'default');
-const specFileParserTemplate         = path.join(specTemplateDir, 'file_parser');
-const specLinterTemplate             = path.join(specTemplateDir, 'isml_linter');
-const specSpecificDirLinterTemplate  = path.join('spec', 'templates', 'default', 'isml_linter', 'specific_directory_to_be_linted');
-const specFilenameTemplate           = path.join('spec', 'templates', 'default', 'isml_linter', 'filenames');
-const specConfigTemplate             = path.join('spec', 'templates', 'default', 'config');
-const specIgnoreDirLinterTemplateDir = path.join(specLinterTemplate, 'ignore_config');
-const specRuleTemplateDir            = path.join(specTemplateDir, 'rules');
-const specIsmlTreeTemplateDir        = path.join(specTemplateDir, 'isml_tree');
-const specPerformanceTemplateDir     = path.join(specTemplateDir, 'performance');
-const specLineNumberTemplateDir      = path.join(specIsmlTreeTemplateDir, 'line_numbers');
-const specInvalidTemplateDir         = path.join(specIsmlTreeTemplateDir, 'invalid_templates');
-const specGlobalPosTemplateDir       = path.join(specIsmlTreeTemplateDir, 'global_position');
-const specComplexTemplatesDir        = path.join(specIsmlTreeTemplateDir, 'complex_templates');
-const specElementBalanceTemplatesDir = path.join(specIsmlTreeTemplateDir, 'element_balance');
-const specAutofixTemplatesDir        = path.join(specTemplateDir, 'autofix');
-const specIsifTagParserTemplateDir   = path.join(specTemplateDir, 'isml_tree', 'components', 'isif_tag_parser');
-const rulesDir                       = path.join(linterModuleDir, 'src', 'rules');
-const lineByLineRulesDir             = path.join(rulesDir, 'line_by_line');
-const treeRulesDir                   = path.join(rulesDir, 'tree');
-const sampleProductionProjectName    = 'sample-production-project';
-const sampleProductionProjectDir     = path.join(clientAppDir, 'scaffold_files', sampleProductionProjectName);
+const specDir                          = path.join(appRoot.toString(), 'spec');
+const specTempDir                      = path.join(specDir, 'temp');
+const specTemplateDir                  = path.join(specDir, 'templates', 'default');
+const specFileParserTemplate           = path.join(specTemplateDir, 'file_parser');
+const specLinterTemplate               = path.join(specTemplateDir, 'isml_linter');
+const specSpecificDirLinterTemplate    = path.join('spec', 'templates', 'default', 'isml_linter', 'specific_directory_to_be_linted');
+const specFilenameTemplate             = path.join('spec', 'templates', 'default', 'isml_linter', 'filenames');
+const specConfigTemplate               = path.join('spec', 'templates', 'default', 'config');
+const specIgnoreDirLinterTemplateDir   = path.join(specLinterTemplate, 'ignore_config');
+const specRuleTemplateDir              = path.join(specTemplateDir, 'rules');
+const specIsmlTreeTemplateDir          = path.join(specTemplateDir, 'isml_tree');
+const specPerformanceTemplateDir       = path.join(specTemplateDir, 'performance');
+const specLineNumberTemplateDir        = path.join(specIsmlTreeTemplateDir, 'line_numbers');
+const specInvalidTemplateDir           = path.join(specIsmlTreeTemplateDir, 'invalid_templates');
+const specGlobalPosTemplateDir         = path.join(specIsmlTreeTemplateDir, 'global_position');
+const specComplexTemplatesDir          = path.join(specIsmlTreeTemplateDir, 'complex_templates');
+const specElementBalanceTemplatesDir   = path.join(specIsmlTreeTemplateDir, 'element_balance');
+const specSuffixLineNumberTemplatesDir = path.join(specIsmlTreeTemplateDir, 'suffix_line_number');
+const specAutofixTemplatesDir          = path.join(specTemplateDir, 'autofix');
+const specIsifTagParserTemplateDir     = path.join(specTemplateDir, 'isml_tree', 'components', 'isif_tag_parser');
+const rulesDir                         = path.join(linterModuleDir, 'src', 'rules');
+const lineByLineRulesDir               = path.join(rulesDir, 'line_by_line');
+const treeRulesDir                     = path.join(rulesDir, 'tree');
+const sampleProductionProjectName      = 'sample-production-project';
+const sampleProductionProjectDir       = path.join(clientAppDir, 'scaffold_files', sampleProductionProjectName);
 
 // Regex;
 const srcJsRegex  = path.join('src', '**', '*.js');
@@ -99,6 +100,7 @@ module.exports = {
     specComplexTemplatesDir,
     specAutofixTemplatesDir,
     specElementBalanceTemplatesDir,
+    specSuffixLineNumberTemplatesDir,
     specDir,
     sampleProductionProjectDir,
     sampleProductionProjectName,

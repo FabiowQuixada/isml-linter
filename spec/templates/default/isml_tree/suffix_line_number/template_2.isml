@@ -1,0 +1,5 @@
+<div class="modal-footer">
+    <button>Confirm</button>
+    <button
+    >Cancel</button>
+</div>

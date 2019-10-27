@@ -1,0 +1,8 @@
+<isif condition="${pdict.showError}">
+    <pre><code>
+            <isprint value=${pdict.error.errorText} encoding="htmlcontent" />
+            <isif condition="${pdict.error.controllerName}">
+                in controller ${pdict.error.controllerName}
+            </isif>
+    </code></pre>
+</isif>
