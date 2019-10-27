@@ -113,15 +113,19 @@ const removeAllIndentation = node => {
 };
 
 const addCorrectIndentation = node => {
-    if (node.value) {
+    const shouldAddIndentationToSuffix = node.suffixValue &&
+        (!node.hasChildren() && node.lineNumber !== node.suffixLineNumber) ||
+        node.getLastChild() && !node.getLastChild().isInSameLineAsParent() &&
+        !(node.parent && node.parent.isMulticlause() && !node.isLastChild());
+
+    const shouldAddIndentationToValue = !node.isRoot() &&
+        node.value && node.lineNumber !== node.parent.endLineNumber;
+
+    if (shouldAddIndentationToValue) {
         node.value = addIndentation(node.value, node);
     }
 
-    if (node.suffixValue &&
-        (!node.hasChildren() && node.lineNumber !== node.suffixLineNumber) ||
-        node.getLastChild() && !node.getLastChild().isInSameLineAsParent() &&
-        !(node.parent && node.parent.isMulticlause() && !node.isLastChild())
-    ) {
+    if (shouldAddIndentationToSuffix) {
         node.suffixValue = addIndentation(node.suffixValue, node);
     }
 

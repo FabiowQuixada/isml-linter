@@ -110,4 +110,11 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('keeps suffix indentation for a single-child node', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 8);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
 });

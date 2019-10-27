@@ -3,6 +3,7 @@ const MAX_TEXT_DISPLAY_SIZE = 30;
 const ConfigUtils = require('../util/ConfigUtils');
 const Constants   = require('../Constants');
 const SfccTags    = require('../enums/SfccTags');
+const ParseUtils  = require('./components/ParseUtils');
 
 let ID_COUNTER = 0;
 
@@ -17,6 +18,7 @@ class IsmlNode {
         this.id               = ID_COUNTER++;
         this.value            = value;      // '<div class="my_class">'
         this.lineNumber       = lineNumber; // 7
+        this.endLineNumber    = lineNumber + ParseUtils.getLineBreakQty(value.trim()); // 9
         this.globalPos        = globalPos;  // 184
         this.depth            = 0;          // Isml dom tree node depth
         this.suffixValue      = '';         // '</div>'
