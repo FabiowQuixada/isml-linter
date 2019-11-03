@@ -129,6 +129,12 @@ describe(rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('keeps indentation for a after-non-tag-same-line element', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 11);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('does not add indentation to a same-line sibling', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 12);
 

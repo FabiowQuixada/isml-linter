@@ -1,0 +1,4 @@
+<isloop>
+    ${label}
+    - <isprint />
+</isloop>

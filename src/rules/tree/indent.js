@@ -71,6 +71,13 @@ Rule.check = function(node, result) {
     return this.result;
 };
 
+Rule.getFixedContent = rootNode => {
+    removeAllIndentation(rootNode);
+    addCorrectIndentation(rootNode);
+
+    return rootNode.toString();
+};
+
 const removeIndentation = content => {
     const startingPos            = ParseUtils.getNextNonEmptyCharPos(content);
     const endingPos              = content.length - ParseUtils.getNextNonEmptyCharPos(content.split('').reverse().join(''));
@@ -113,15 +120,8 @@ const removeAllIndentation = node => {
 };
 
 const addCorrectIndentation = node => {
-    const shouldAddIndentationToSuffix = node.suffixValue &&
-        (!node.hasChildren() && node.lineNumber !== node.suffixLineNumber) ||
-        node.getLastChild() && node.suffixLineNumber !== node.getLastChild().getLastLineNumber() &&
-        node.getLastChild() && !node.getLastChild().isInSameLineAsParent() &&
-        !(node.parent && node.parent.isMulticlause() && !node.isLastChild());
-
-    const shouldAddIndentationToValue = !node.isRoot() &&
-        (node.isFirstChild() || node.getPreviousSibling() && node.lineNumber !== node.getPreviousSibling().lineNumber) &&
-        node.value && node.lineNumber !== node.parent.endLineNumber;
+    const shouldAddIndentationToValue  = checkIfShouldAddIndentationToValue(node);
+    const shouldAddIndentationToSuffix = checkIfShouldAddIndentationToSuffix(node);
 
     if (shouldAddIndentationToValue) {
         node.value = addIndentation(node.value, node);
@@ -136,11 +136,35 @@ const addCorrectIndentation = node => {
     }
 };
 
-Rule.getFixedContent = rootNode => {
-    removeAllIndentation(rootNode);
-    addCorrectIndentation(rootNode);
+const checkIfShouldAddIndentationToValue = node => {
+    const isInSameLineAsPrevSiblingLastLine = !node.isRoot() &&
+        !node.isFirstChild() &&
+        !node.getPreviousSibling().isTag() &&
+        node.lineNumber !== node.getPreviousSibling().lastLineNumber;
 
-    return rootNode.toString();
+    const shouldAdd = !node.isRoot() &&
+        !isInSameLineAsPrevSiblingLastLine &&
+        (node.isFirstChild() || node.getPreviousSibling() && node.lineNumber !== node.getPreviousSibling().lineNumber) &&
+        node.value && node.lineNumber !== node.parent.endLineNumber;
+
+    return shouldAdd;
+};
+
+const checkIfShouldAddIndentationToSuffix = node => {
+    const hasSuffix                 = !!node.suffixValue;
+    const isLastClause              = !!node.parent && node.parent.isMulticlause() && !node.isLastChild();
+    const isInSameLineAsChild       = !node.hasChildren() || node.getLastChild().isInSameLineAsParent();
+    const isSuffixInSameLineAsChild = !node.hasChildren() || node.suffixLineNumber === node.getLastChild().getLastLineNumber();
+    const isBrokenIntoMultipleLines = !node.hasChildren() && node.suffixLineNumber !== -1 && node.lineNumber !== node.suffixLineNumber;
+
+    const shouldAdd = hasSuffix &&
+        !isSuffixInSameLineAsChild &&
+        !isInSameLineAsChild &&
+        !isLastClause
+    ||
+        isBrokenIntoMultipleLines;
+
+    return shouldAdd;
 };
 
 module.exports = Rule;
