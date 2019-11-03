@@ -61,6 +61,12 @@ class IsmlNode {
         return value.match(regex)[0].slice(1, -1);
     }
 
+    getLastLineNumber() {
+        return this.suffixLineNumber !== -1 ?
+            this.suffixLineNumber :
+            this.endLineNumber;
+    }
+
     isDocType() {
         return this.value.toLowerCase().trim().startsWith('<!doctype ');
     }

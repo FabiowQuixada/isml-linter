@@ -115,6 +115,7 @@ const removeAllIndentation = node => {
 const addCorrectIndentation = node => {
     const shouldAddIndentationToSuffix = node.suffixValue &&
         (!node.hasChildren() && node.lineNumber !== node.suffixLineNumber) ||
+        node.getLastChild() && node.suffixLineNumber !== node.getLastChild().getLastLineNumber() &&
         node.getLastChild() && !node.getLastChild().isInSameLineAsParent() &&
         !(node.parent && node.parent.isMulticlause() && !node.isLastChild());
 

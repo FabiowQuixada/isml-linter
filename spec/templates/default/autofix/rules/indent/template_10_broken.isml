@@ -1,0 +1,6 @@
+<div>
+    <div class="form-group required">
+        <input/>
+        <div class="inner"></div>
+    </div>
+</div>

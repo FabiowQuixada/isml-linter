@@ -117,6 +117,18 @@ describe(rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('keeps indentation for a multi-line value node\'s child', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 9);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('keeps indentation for a second child, childless node', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 10);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('does not add indentation to a same-line sibling', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 12);
 

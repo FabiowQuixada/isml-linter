@@ -1,0 +1,4 @@
+<div class="modal-footer">
+    <button data-dismiss="modal"
+    >${Resource.msg('button.confirm','address',null)}</button>
+</div>
