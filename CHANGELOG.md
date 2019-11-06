@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.19.2] - 2019-11-06
+
+### Fixed
+ - "rootDir" config option;
+
 ## [5.19.1] - 2019-09-16
 
 ### Changed
@@ -518,6 +523,7 @@
 - Linter is published;
 
 
+[5.19.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.19.1...v5.19.2
 [5.19.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.19.0...v5.19.1
 [5.19.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.8...v5.19.0
 [5.18.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.18.7...v5.18.8
