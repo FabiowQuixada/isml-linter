@@ -125,7 +125,7 @@ const addCustomModuleResults = finalResult => {
     }
 };
 
-Linter.run = (pathData = appRoot.toString(), content) => {
+Linter.run = (pathData, content) => {
 
     ConfigUtils.setLocalConfig();
     ConfigUtils.setLocalEslintConfig();
@@ -146,7 +146,7 @@ Linter.run = (pathData = appRoot.toString(), content) => {
     RuleUtils         = require('./util/RuleUtils');
 
     const config            = ConfigUtils.load();
-    pathData                = pathData || config.rootDir;
+    pathData                = pathData || config.rootDir || appRoot.toString();
     const templatePathArray = getTemplatePathArray(pathData);
     let finalResult         = getEmptyResult();
 

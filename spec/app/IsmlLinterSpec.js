@@ -210,4 +210,24 @@ describe(targetObjName, () => {
         expect(error.message                        ).toEqual(rule.description);
         expect(result[ExceptionUtils.UNKNOWN_ERROR] ).toBe(undefined);
     });
+
+    it('lints ISML templates under "rootDir" config directory', () => {
+        const rootDirName        = 'directory_1';
+        const rootDirSiblingName = 'directory_2';
+        const ruleID             = 'no-space-only-lines';
+        const rootDir            = path.join('.', Constants.specConfigTemplate, rootDirName);
+
+        ConfigUtils.load({
+            rootDir,
+            rules: { 'no-space-only-lines': {} }
+        });
+
+        const result       = IsmlLinter.run();
+        const ruleErrorObj = result.errors[ruleID];
+
+        for (const templatePath in ruleErrorObj) {
+            expect(templatePath).toContain(rootDirName);
+            expect(templatePath).not.toContain(rootDirSiblingName);
+        }
+    });
 });
