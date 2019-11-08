@@ -140,4 +140,22 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('keeps indentation for a after-tag-same-line element', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 13);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('keeps indentation for an element in the same line as parent\'s value end', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 14);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('keeps indentation for single child element', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 15);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

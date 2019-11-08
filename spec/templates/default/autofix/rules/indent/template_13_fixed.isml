@@ -1,0 +1,5 @@
+<div>
+    <span>
+        ${aValue}
+    </span><br/>
+</div>

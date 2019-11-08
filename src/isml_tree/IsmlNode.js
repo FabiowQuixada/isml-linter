@@ -34,6 +34,7 @@ class IsmlNode {
         this.suffixValue      += value;
         this.suffixLineNumber = lineNumber;
         this.suffixGlobalPos  = globalPos;
+        this.endLineNumber    = lineNumber;
     }
 
     // Returns a string. Examples: 'div', 'isprint', 'doctype';

@@ -137,15 +137,18 @@ const addCorrectIndentation = node => {
 };
 
 const checkIfShouldAddIndentationToValue = node => {
+    const previousSibling                   = node.getPreviousSibling();
+    const parentValueEndLineNumber          = node.parent ? node.parent.lineNumber + ParseUtils.getLineBreakQty(node.parent.value.trim()) : -1;
     const isInSameLineAsPrevSiblingLastLine = !node.isRoot() &&
-        !node.isFirstChild() &&
-        !node.getPreviousSibling().isTag() &&
-        node.lineNumber !== node.getPreviousSibling().lastLineNumber;
+        previousSibling &&
+        node.lineNumber === previousSibling.getLastLineNumber();
+    const isInSameLineAsParentValueEnd      = parentValueEndLineNumber === node.lineNumber;
 
     const shouldAdd = !node.isRoot() &&
         !isInSameLineAsPrevSiblingLastLine &&
-        (node.isFirstChild() || node.getPreviousSibling() && node.lineNumber !== node.getPreviousSibling().lineNumber) &&
-        node.value && node.lineNumber !== node.parent.endLineNumber;
+        !isInSameLineAsParentValueEnd &&
+        (node.isFirstChild() || previousSibling && node.lineNumber !== previousSibling.lineNumber) &&
+        node.value && node.lineNumber !== node.parent.parentValueEndLineNumber;
 
     return shouldAdd;
 };

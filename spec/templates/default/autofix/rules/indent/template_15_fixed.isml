@@ -1,0 +1,7 @@
+<div>
+    <option
+    <isif condition="${aCondition}">
+            selected
+    </isif> >
+        <isprint /></option>
+</div>
