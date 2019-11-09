@@ -5,6 +5,7 @@ Verifies if template indentation is consistent.
 ## Notes
 
 - Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
+- Auto-fixable;
 - Elements in the same line as their parent is considered valid indentation. Please see examples below;
 
 ## Configuration
