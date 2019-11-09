@@ -20,19 +20,6 @@ const run = (content, state) => {
         state.currentElement.startingLineNumber += lineNumber;
     }
 
-    // TODO: Under certain scenarios, there is a duplicated "isif" tag.
-    // The code below merges both "isif" nodes;
-    if (multiClauseNode.getNumberOfChildren() > 1 && multiClauseNode.children[1].isOfType('isif')) {
-        const firstIsifNode = multiClauseNode.children[0];
-        const children      = multiClauseNode.children[1].children;
-
-        for (let i = 0; i < children.length; i++) {
-            firstIsifNode.addChild(children[i]);
-        }
-
-        multiClauseNode.children.splice(1, 1);
-    }
-
     return multiClauseNode;
 };
 
@@ -47,6 +34,19 @@ const parseMainClause = (multiClauseNode, content, state) => {
         TreeBuilder.parse(content, state, clauseContentNode);
     } else {
         clauseContentNode.value += content;
+    }
+
+    // TODO: Under certain scenarios, there is a buggy duplicated
+    // "isif" tag. The code below merges both "isif" nodes;
+    if (multiClauseNode.getNumberOfChildren() > 1 && multiClauseNode.children[1].isOfType('isif')) {
+        const firstIsifNode = multiClauseNode.children[0];
+        const children      = multiClauseNode.children[1].children;
+
+        for (let i = 0; i < children.length; i++) {
+            firstIsifNode.addChild(children[i]);
+        }
+
+        multiClauseNode.children.splice(1, 1);
     }
 
     return clauseContentNode;

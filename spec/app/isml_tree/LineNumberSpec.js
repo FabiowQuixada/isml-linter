@@ -137,6 +137,14 @@ describe('TreeBuilder', () => {
         expect(nonTagNode.lineNumber       ).toEqual(8);
         expect(nonTagNode.getNumberOfChildren() ).toEqual(0);
     });
+
+    it('sets line number for <iselse> element', () => {
+        const rootNode   = TreeBuilder.build(getTemplatePath(10)).rootNode;
+        const divNode    = rootNode.children[0];
+        const iselseNode = divNode.children[0].children[1];
+
+        expect(iselseNode.lineNumber).toEqual(4);
+    });
 });
 
 const getTemplatePath = number => {
