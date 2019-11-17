@@ -2,21 +2,27 @@
 
 require('../src/util/NativeExtensionUtils');
 
-const ConfigUtils = require('../src/util/ConfigUtils');
+const CommandLineUtils = require('../src/util/CommandLineUtils');
+const ConfigUtils      = require('../src/util/ConfigUtils');
 
 try {
-    for (let i = 0; i < process.argv.length; i++) {
-        if (process.argv[i] === '--init') {
-            ConfigUtils.init() &&
-            process.exit(0);
-        }
+    const commandObj = CommandLineUtils.parseCommand();
+
+    if (!commandObj) {
+        process.exit(0);
     }
 
-    const IsmlLinter = require('isml-linter');
-    const exitCode   = IsmlLinter.build();
+    if (commandObj.options.indexOf('--init') !== -1) {
+        ConfigUtils.init();
+        process.exit(0);
+    }
 
-    for (let i = 0; i < process.argv.length; i++) {
-        process.argv[i] === '--build' && process.exit(exitCode);
+    const IsmlLinter       = require('../src/publicApi');
+    const filePatternArray = commandObj.files;
+    const exitCode         = IsmlLinter.build(filePatternArray);
+
+    if (commandObj.options.indexOf('--build') !== -1) {
+        process.exit(exitCode);
     }
 
 } catch (e) {

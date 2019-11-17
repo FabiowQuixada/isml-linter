@@ -122,6 +122,13 @@ const displayConfigError = () => {
     console.log(Constants.EOL + '\t' + chalk.yellow('./node_modules/.bin/isml-linter --init') + Constants.EOL);
 };
 
+const displayInvalidCommandError = () => {
+    console.log('\nInvalid command detected. Please use the following format:');
+    console.log(Constants.EOL + '\t' + chalk.yellow('./node_modules/.bin/isml-linter [options] [file|dir]*') + Constants.EOL);
+    console.log('For example:');
+    console.log(Constants.EOL + '\t' + chalk.yellow('./node_modules/.bin/isml-linter --autofix template1.isml directory1/ directory2/') + Constants.EOL);
+};
+
 const displayEslintConfigError = () => {
     const config               = ConfigUtils.load();
     const eslintConfigFileName = config.eslintConfig || '.eslintrc.json';
@@ -133,5 +140,6 @@ module.exports = {
     displayErrors,
     displayConfigError,
     displayEslintConfigError,
+    displayInvalidCommandError,
     printExceptionMsg
 };

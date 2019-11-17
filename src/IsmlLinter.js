@@ -26,15 +26,28 @@ const ignoreFiles = file => {
     return false;
 };
 
+const addIfNotBlacklisted = (templateArray, templatePath) => {
+    if (!ignoreFiles(templatePath)) {
+        templateArray.push(templatePath);
+    }
+};
+
 const getTemplatePathArray = pathData => {
     if (Array.isArray(pathData)) {
         const result = [];
 
         for (let i = 0; i < pathData.length; i++) {
-            const template = pathData[i];
+            const paramPath = pathData[i];
 
-            if (!ignoreFiles(template)) {
-                result.push(template);
+            if (fs.lstatSync(paramPath).isFile()) {
+                addIfNotBlacklisted(result, paramPath);
+            } else {
+                const templateArray = readDir.readSync(paramPath, ['**.isml']);
+
+                for (let j = 0; j < templateArray.length; j++) {
+                    const templatePath = path.join(paramPath, templateArray[j]);
+                    addIfNotBlacklisted(result, templatePath);
+                }
             }
         }
 
@@ -47,11 +60,8 @@ const getTemplatePathArray = pathData => {
             const result        = [];
 
             for (let i = 0; i < templateArray.length; i++) {
-                const template = templateArray[i];
-
-                if (!ignoreFiles(template)) {
-                    result.push(template);
-                }
+                const templatePath = templateArray[i];
+                addIfNotBlacklisted(result, templatePath);
             }
 
             return result;

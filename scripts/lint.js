@@ -2,9 +2,17 @@
 
 require('../src/util/NativeExtensionUtils');
 
-const IsmlLinter = require('../src/publicApi');
-const exitCode   = IsmlLinter.build();
+const IsmlLinter       = require('../src/publicApi');
+const CommandLineUtils = require('../src/util/CommandLineUtils');
 
-for (let i = 0; i < process.argv.length; i++) {
-    process.argv[i] === '--build' && process.exit(exitCode);
+const commandObj = CommandLineUtils.parseCommand();
+
+if (!commandObj) {
+    process.exit(0);
+}
+
+const exitCode = IsmlLinter.build(commandObj.files);
+
+if (commandObj.options.indexOf('--build') !== -1) {
+    process.exit(exitCode);
 }
