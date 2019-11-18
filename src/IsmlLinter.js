@@ -26,18 +26,26 @@ const ignoreFiles = file => {
     return false;
 };
 
-const addIfNotBlacklisted = (templateArray, templatePath) => {
+const addIfNotBlacklisted = (result, templatePath) => {
     if (!ignoreFiles(templatePath)) {
-        templateArray.push(templatePath);
+        result.templates.push(templatePath);
     }
 };
 
-const getTemplatePathArray = pathData => {
-    if (Array.isArray(pathData)) {
-        const result = [];
+const getTemplatePaths = pathData => {
+    const result = {
+        templates : [],
+        notFound  : []
+    };
 
+    if (Array.isArray(pathData)) {
         for (let i = 0; i < pathData.length; i++) {
             const paramPath = pathData[i];
+
+            if (!fs.existsSync(paramPath)) {
+                result.notFound.push(paramPath);
+                continue;
+            }
 
             if (fs.lstatSync(paramPath).isFile()) {
                 addIfNotBlacklisted(result, paramPath);
@@ -50,23 +58,20 @@ const getTemplatePathArray = pathData => {
                 }
             }
         }
-
-        return result;
     } else {
         if (fs.lstatSync(pathData).isFile()) {
-            return [pathData];
+            result.templates.push(pathData);
         } else {
             const templateArray = readDir.readSync(pathData, ['**.isml']);
-            const result        = [];
 
             for (let i = 0; i < templateArray.length; i++) {
                 const templatePath = templateArray[i];
                 addIfNotBlacklisted(result, templatePath);
             }
-
-            return result;
         }
     }
+
+    return result;
 };
 
 const getEmptyResult = () => {
@@ -152,13 +157,19 @@ Linter.run = (pathData, content) => {
         throw ExceptionUtils.noEslintConfigError();
     }
 
-    const ProgressBar = require('./util/ProgressBar');
-    RuleUtils         = require('./util/RuleUtils');
+    const ProgressBar  = require('./util/ProgressBar');
+    const ConsoleUtils = require('./util/ConsoleUtils');
+    RuleUtils          = require('./util/RuleUtils');
 
     const config            = ConfigUtils.load();
     pathData                = pathData || config.rootDir || appRoot.toString();
-    const templatePathArray = getTemplatePathArray(pathData);
+    const templateData      = getTemplatePaths(pathData);
+    const templatePathArray = templateData.templates;
     let finalResult         = getEmptyResult();
+
+    if (templateData.notFound.length > 0) {
+        ConsoleUtils.displayInvalidTemplatesPaths(templateData.notFound);
+    }
 
     ProgressBar.start(templatePathArray.length);
 

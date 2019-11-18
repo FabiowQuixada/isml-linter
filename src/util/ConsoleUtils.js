@@ -117,6 +117,17 @@ const displayErrors = jsonErrors => {
     }
 };
 
+const displayInvalidTemplatesPaths = templatePathArray => {
+    console.log(Constants.EOL + chalk`{red.bold Could not find the following templates:}`);
+
+    for (let i = 0; i < templatePathArray.length; i++) {
+        const invalidPath = templatePathArray[i];
+        console.log(chalk.gray(i) + '\t' + invalidPath);
+    }
+
+    console.log(Constants.EOL);
+};
+
 const displayConfigError = () => {
     console.log('No configuration found. Please run the following command to create a default configuration file:');
     console.log(Constants.EOL + '\t' + chalk.yellow('./node_modules/.bin/isml-linter --init') + Constants.EOL);
@@ -140,6 +151,7 @@ module.exports = {
     displayErrors,
     displayConfigError,
     displayEslintConfigError,
+    displayInvalidTemplatesPaths,
     displayInvalidCommandError,
     printExceptionMsg
 };
