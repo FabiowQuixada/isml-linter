@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.22.0] - 2019-11-24
+
+### Added
+ -  [Issue #4][issue#4] ".eslintrc" filename as an acceptable config filename;
+
+### Fixed
+ - Command Line - If no directory or template parameter is passed, configured root directory or default directory is used;
+ 
 ## [5.21.0] - 2019-11-17
 
 ### Added
@@ -533,6 +541,7 @@
 - Linter is published;
 
 
+[5.22.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.21.0...v5.22.0
 [5.21.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.20.0...v5.21.0
 [5.20.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.19.2...v5.20.0
 [5.19.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.19.1...v5.19.2
@@ -601,6 +610,7 @@
 
 [issue#2]: https://github.com/FabiowQuixada/isml-linter/issues/2
 [issue#3]: https://github.com/FabiowQuixada/isml-linter/issues/3
+[issue#4]: https://github.com/FabiowQuixada/isml-linter/issues/4
 [issue#5]: https://github.com/FabiowQuixada/isml-linter/issues/5
 [issue#6]: https://github.com/FabiowQuixada/isml-linter/issues/6
 
