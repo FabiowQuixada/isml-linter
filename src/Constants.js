@@ -10,10 +10,8 @@ const ENV_TEST = 'test';
 const ENV_PROD = 'prod';
 
 // File names;
-const configPreferredFileName = 'ismllinter.config.js';
-const configFileName          = '.ismllinter.json';
-const eslintConfigFileName    = '.eslintrc.json';
-const eslintConfigFileName2   = '.eslintrc.js';
+const configFileNameList       = ['ismllinter.config.js', '.ismllinter.json'];
+const eslintConfigFileNameList = ['.eslintrc.json', '.eslintrc.js'];
 
 const clientAppDir    = appRoot.toString();
 const productionDir   = path.join(clientAppDir, 'node_modules', 'isml-linter');
@@ -52,10 +50,8 @@ const appJsRegex  = path.join('src', '**', '*.js');
 const specJsRegex = path.join('spec', '**', '*.js');
 
 // File paths;
-const configPreferredFilePath = path.join(clientAppDir, configPreferredFileName);
-const configFilePath          = path.join(clientAppDir, configFileName);
-const eslintConfigFilePath    = path.join(clientAppDir, eslintConfigFileName);
-const eslintConfigFilePath2   = path.join(clientAppDir, eslintConfigFileName2);
+const configFilePathList       = configFileNameList.map( fileName => path.join(clientAppDir, fileName));
+const eslintConfigFilePathList = eslintConfigFileNameList.map( fileName => path.join(clientAppDir, fileName));
 
 // Links;
 const repositoryUrl = 'https://github.com/FabiowQuixada/isml-linter';
@@ -106,15 +102,12 @@ module.exports = {
     sampleProductionProjectName,
 
     // File names;
-    configPreferredFileName,
-    configFileName,
-    eslintConfigFileName,
+    configFileNameList,
+    eslintConfigFileNameList,
 
     // File paths;
-    configPreferredFilePath,
-    configFilePath,
-    eslintConfigFilePath,
-    eslintConfigFilePath2,
+    configFilePathList,
+    eslintConfigFilePathList,
 
     // Regex;
     srcJsRegex,

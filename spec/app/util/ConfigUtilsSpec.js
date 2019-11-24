@@ -79,7 +79,7 @@ describe(targetObjName, () => {
         });
         ConfigUtils.clearConfig();
 
-        const specConfigPath = path.join(Constants.specDir, Constants.configPreferredFileName);
+        const specConfigPath = path.join(Constants.specDir, Constants.configFileNameList[0]);
         const expectedConfig = require(specConfigPath);
         const actualConfig   = ConfigUtils.load();
 

@@ -5,7 +5,7 @@ const rule         = SpecHelper.getTreeRule(specFileName);
 const ConfigUtils  = require('../../../src/util/ConfigUtils');
 const Constants    = require('../../../src/Constants');
 
-const specEslintConfig =  require(path.join('..', '..', Constants.eslintConfigFileName));
+const specEslintConfig =  require(path.join('..', '..', Constants.eslintConfigFileNameList[0]));
 
 describe(rule.id, () => {
     beforeEach(() => {
