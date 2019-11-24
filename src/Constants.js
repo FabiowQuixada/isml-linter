@@ -11,7 +11,7 @@ const ENV_PROD = 'prod';
 
 // File names;
 const configFileNameList       = ['ismllinter.config.js', '.ismllinter.json'];
-const eslintConfigFileNameList = ['.eslintrc.json', '.eslintrc.js'];
+const eslintConfigFileNameList = ['.eslintrc.json', '.eslintrc.js', '.eslintrc'];
 
 const clientAppDir    = appRoot.toString();
 const productionDir   = path.join(clientAppDir, 'node_modules', 'isml-linter');

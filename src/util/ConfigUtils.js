@@ -148,7 +148,10 @@ const setLocalEslintConfig = () => {
             for (let i = 0; i < Constants.eslintConfigFilePathList.length; i++) {
                 const configFilePath = Constants.eslintConfigFilePathList[i];
                 if (FileUtils.fileExists(configFilePath)) {
-                    eslintConfigData = require(configFilePath);
+                    eslintConfigData = configFilePath.endsWith('.eslintrc') ?
+                        JSON.parse(fs.readFileSync(configFilePath).toString()) :
+                        require(configFilePath);
+
                     break;
                 }
             }
