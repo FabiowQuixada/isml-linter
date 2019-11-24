@@ -3,9 +3,9 @@
 ## [5.21.0] - 2019-11-17
 
 ### Added
- - Feature to lint specific file or directory through command line;
+ - [Issue #6][issue#6] Feature to lint specific file or directory through [command line][cli-docs];
  
- ## [5.20.0] - 2019-11-09
+## [5.20.0] - 2019-11-09
 
 ### Added
  - "Indent" rule autofix feature;
@@ -13,7 +13,7 @@
 ## [5.19.2] - 2019-11-06
 
 ### Fixed
- - "rootDir" config option;
+ - [Issue #5][issue#5] "rootDir" config option;
 
 ## [5.19.1] - 2019-09-16
 
@@ -601,3 +601,7 @@
 
 [issue#2]: https://github.com/FabiowQuixada/isml-linter/issues/2
 [issue#3]: https://github.com/FabiowQuixada/isml-linter/issues/3
+[issue#5]: https://github.com/FabiowQuixada/isml-linter/issues/5
+[issue#6]: https://github.com/FabiowQuixada/isml-linter/issues/6
+
+[cli-docs]: <docs/cli.md>
