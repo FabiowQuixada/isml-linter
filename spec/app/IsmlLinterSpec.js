@@ -256,4 +256,16 @@ describe(targetObjName, () => {
             }
         }
     });
+
+    it('runs over configured or default directory if no parameter is passed', () => {
+        const result = IsmlLinter.run();
+
+        expect(result.issueQty).toBeGreaterThan(0);
+    });
+
+    it('runs over configured or default directory if an empty array is passed as a parameter', () => {
+        const result = IsmlLinter.run([]);
+
+        expect(result.issueQty).toBeGreaterThan(0);
+    });
 });

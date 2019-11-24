@@ -33,10 +33,18 @@ const addIfNotBlacklisted = (result, templatePath) => {
 };
 
 const getTemplatePaths = pathData => {
+    const config = ConfigUtils.load();
     const result = {
         templates : [],
-        notFound  : []
+        notFound  : [],
+        pathData  : null
     };
+
+    pathData = pathData !== undefined && (!Array.isArray(pathData) || pathData.length > 0) ?
+        pathData :
+        config.rootDir || appRoot.toString();
+
+    result.pathData = pathData;
 
     if (Array.isArray(pathData)) {
         for (let i = 0; i < pathData.length; i++) {
@@ -161,8 +169,6 @@ Linter.run = (pathData, content) => {
     const ConsoleUtils = require('./util/ConsoleUtils');
     RuleUtils          = require('./util/RuleUtils');
 
-    const config            = ConfigUtils.load();
-    pathData                = pathData || config.rootDir || appRoot.toString();
     const templateData      = getTemplatePaths(pathData);
     const templatePathArray = templateData.templates;
     let finalResult         = getEmptyResult();
@@ -175,9 +181,9 @@ Linter.run = (pathData, content) => {
 
     for (let i = 0; i < templatePathArray.length; i++) {
         const templateName = templatePathArray[i];
-        const templatePath = Array.isArray(pathData) || path.isAbsolute(templateName) ?
+        const templatePath = Array.isArray(templateData.pathData) || path.isAbsolute(templateName) ?
             templateName :
-            path.join(pathData, templateName);
+            path.join(templateData.pathData, templateName);
 
         if (!FileUtils.isIgnored(templatePath)) {
             const templateResults = checkTemplate(content, templatePath, templateName);
