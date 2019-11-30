@@ -44,38 +44,42 @@ Rule.check = function(node, result) {
         occurrences : []
     };
 
-    for (let i = 0; i < node.children.length; i++) {
-        this.check(node.children[i], this.result);
-    }
+    if (node.isRoot() || !node.parent.isOfType('script')) {
+        for (let i = 0; i < node.children.length; i++) {
+            this.check(node.children[i], this.result);
+        }
 
-    const config    = this.getConfigs();
-    const globalPos = node.globalPos - node.getIndentationSize();
+        const config    = this.getConfigs();
+        const globalPos = node.globalPos - node.getIndentationSize();
 
-    if (this.isBroken(node)) {
-        this.add(
-            node.value.trim(),
-            node.lineNumber - 1,
-            globalPos,
-            node.getIndentationSize(),
-            description
-        );
-    }
+        if (this.isBroken(node)) {
+            this.add(
+                node.value.trim(),
+                node.lineNumber - 1,
+                globalPos,
+                node.getIndentationSize(),
+                description
+            );
+        }
 
-    if (this.result.occurrences.length &&
+        if (this.result.occurrences.length &&
         config.autoFix &&
         this.getFixedContent &&
         node.isRoot()) {
-        this.result.fixedContent = this.getFixedContent(node);
+            this.result.fixedContent = this.getFixedContent(node);
+        }
     }
 
     return this.result;
 };
 
-Rule.getFixedContent = rootNode => {
-    removeAllIndentation(rootNode);
-    addCorrectIndentation(rootNode);
+Rule.getFixedContent = node => {
+    if (node.isRoot() || !node.parent.isOfType('script')) {
+        removeAllIndentation(node);
+        addCorrectIndentation(node);
+    }
 
-    return rootNode.toString();
+    return node.toString();
 };
 
 const removeIndentation = content => {

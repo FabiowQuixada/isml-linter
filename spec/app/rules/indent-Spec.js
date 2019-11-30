@@ -158,4 +158,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('does not apply to <script> tag content', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 6);
+
+        expect(result.length).toEqual(0);
+    });
 });

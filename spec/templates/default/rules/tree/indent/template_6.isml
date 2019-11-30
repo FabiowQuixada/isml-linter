@@ -1,0 +1,4 @@
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.gtmSitePreferences = <isprint value="${JSON.stringify(require('int_gtm').gtmSitePreferences())}" encoding="off"/>;
+</script>
