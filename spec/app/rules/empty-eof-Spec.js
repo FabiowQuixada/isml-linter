@@ -39,4 +39,16 @@ describe(rule.id, () => {
         expect(occurrence.rule      ).toEqual(rule.id);
         expect(occurrence.message   ).toEqual(rule.description);
     });
+
+    it('raises no error if last element is a <isif> element', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('detects issue for a last <isif> element', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4);
+
+        expect(result.length).toEqual(1);
+    });
 });

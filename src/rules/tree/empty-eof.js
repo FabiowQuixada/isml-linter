@@ -10,9 +10,11 @@ const Rule = Object.create(TreeRulePrototype);
 Rule.init(ruleId, description);
 
 Rule.isBroken = function(node) {
-    return !(node.suffixValue ?
-        node.suffixValue.endsWith(Constants.EOL) :
-        node.value.endsWith(Constants.EOL));
+    const tempNode = node.isMulticlause() ? node.getLastChild() : node;
+
+    return !(tempNode.suffixValue ?
+        tempNode.suffixValue.endsWith(Constants.EOL) :
+        tempNode.value.endsWith(Constants.EOL));
 };
 
 Rule.check = function(rootNode, result) {
