@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.22.1] - 2019-11-30
+
+### Fixed
+ - [Issue #7][issue#7], [issue #11][issue#11]: "one-element-per-line" rule;
+ - [Issue #9][issue#9]: "empty-eof" rule;
+ - "No hardcode" and "Indent" rules: ignore &lt;script> tag content;
+ 
 ## [5.22.0] - 2019-11-24
 
 ### Added
@@ -541,6 +548,7 @@
 - Linter is published;
 
 
+[5.22.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.0...v5.22.1
 [5.22.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.21.0...v5.22.0
 [5.21.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.20.0...v5.21.0
 [5.20.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.19.2...v5.20.0
@@ -613,5 +621,8 @@
 [issue#4]: https://github.com/FabiowQuixada/isml-linter/issues/4
 [issue#5]: https://github.com/FabiowQuixada/isml-linter/issues/5
 [issue#6]: https://github.com/FabiowQuixada/isml-linter/issues/6
+[issue#7]: https://github.com/FabiowQuixada/isml-linter/issues/7
+[issue#9]: https://github.com/FabiowQuixada/isml-linter/issues/9
+[issue#11]: https://github.com/FabiowQuixada/isml-linter/issues/11
 
 [cli-docs]: <docs/cli.md>
