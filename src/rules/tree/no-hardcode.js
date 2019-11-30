@@ -8,7 +8,9 @@ const Rule = Object.create(TreeRulePrototype);
 Rule.init(ruleId, description);
 
 Rule.isBroken = function(node) {
-    return node.value.trim() &&
+    return !node.isRoot() &&
+    !node.parent.isOfType('script') &&
+        node.value.trim() &&
         !node.isRoot() &&
         !node.isMulticlause() &&
         !node.isTag() &&

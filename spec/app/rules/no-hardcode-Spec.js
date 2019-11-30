@@ -64,4 +64,10 @@ describe(rule.id, () => {
         expect(result.message   ).toEqual('Hardcoded string is not allowed');
         expect(result.rule      ).toEqual('no-hardcode');
     });
+
+    it('does not apply to <script> tag content', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5);
+
+        expect(result.length).toEqual(0);
+    });
 });
