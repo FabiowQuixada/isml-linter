@@ -31,6 +31,12 @@ describe(rule.id, () => {
         expect(result).toEqual([]);
     });
 
+    it('ignores multiclause nodes', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2);
+
+        expect(result.length).toEqual(0);
+    });
+
     // it('fixes a simple template', () => {
     //     const results = SpecHelper.getTreeRuleFixData(rule, 0);
 

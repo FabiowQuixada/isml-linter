@@ -12,6 +12,7 @@ Rule.init(ruleId, description);
 
 Rule.isBroken = function(node) {
     return !node.isRoot() &&
+        !node.isMulticlause() &&
         node.lineNumber === node.parent.lineNumber;
 };
 

@@ -1,0 +1,5 @@
+<isif condition="${aCondition}">
+    <isprint value="${aValue}" />
+<iselseif condition="${snotherCondition}">
+    <isprint value="${anotherValue}" />
+</isif>
