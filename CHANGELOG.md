@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.22.2] - 2019-12-07
+
+### Added
+ - Accepted isml configuration file names to README file;
+
+### Fixed
+ - Command line "init" option;
+ 
 ## [5.22.1] - 2019-11-30
 
 ### Fixed
@@ -548,6 +556,7 @@
 - Linter is published;
 
 
+[5.22.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.1...v5.22.2
 [5.22.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.0...v5.22.1
 [5.22.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.21.0...v5.22.0
 [5.21.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.20.0...v5.21.0
