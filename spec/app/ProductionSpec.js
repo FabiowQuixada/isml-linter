@@ -64,7 +64,7 @@
 // };
 
 // const removeConfigs = () => {
-//     rimraf.sync(path.join(targetDir, Constants.configPreferredFileName));
+//     rimraf.sync(path.join(targetDir, Constants.configFileNameList[0]));
 //     rimraf.sync(path.join(targetDir, Constants.configFileName));
 //     ConfigUtils.clearConfig();
 //     ConfigUtils.clearEslintConfig();

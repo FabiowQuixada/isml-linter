@@ -8,7 +8,7 @@ let eslintConfigData = null;
 
 const init = (
     targetDir = Constants.clientAppDir,
-    configFileName = Constants.configPreferredFileName
+    configFileName = Constants.configFileNameList[0]
 ) => {
     return createConfigFile(targetDir, configFileName);
 };
