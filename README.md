@@ -54,6 +54,8 @@ After adding the above scripts to package.json, run the following command to gen
 npm run init:isml
 ```
 
+Alternatively, you can manually create a configuration file, make sure it is in the project root directory and has one of the following names: `ismllinter.config.js` or `.ismllinter.json`.
+
 You can disable any rule by removing it from the config file. You may also find these configuration options useful:
 
 | Config            | Description                              |
@@ -136,11 +138,11 @@ And, to avoid possible doubts, here is an extra piece of information: it is allo
 
 This is a more robust, less powerful mode. It only has a few set of rules available and is indicated for cases where there are many, many lint errors and you want fix them gradually. It is also recommended in cases you don't want to force templates to be parseable (see previous section). This mode is ideally temporary, as it cannot take advantages of even some simple rules, such as indentation checking.
 
-### Command Line Interface
+## Command Line Interface
 
 Please check [CLI docs][cli-docs].
 
-### Git Hooks (Optional)
+## Git Hooks (Optional)
 
 To prevent new errors to be introduced in next pushes, we recommend using some git hook npm package, such as [husky][npm-husky] or [ghooks][npm-ghooks]. The following example works for ghook:
 
