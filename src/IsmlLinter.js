@@ -144,7 +144,9 @@ const addCustomModuleResults = finalResult => {
     const customModuleResults = RuleUtils.checkCustomModules();
 
     if (customModuleResults.errors.length) {
-        finalResult.errors[CustomModulesRule.id] = customModuleResults.errors;
+        finalResult.errors[CustomModulesRule.id] = finalResult.errors[CustomModulesRule.id] || {};
+        // TODO: Add actual modules template path;
+        finalResult.errors[CustomModulesRule.id]['modules.isml'] = customModuleResults.errors;
     }
 };
 

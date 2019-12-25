@@ -69,7 +69,7 @@ describe(rule.id, () => {
         const IsmlLinter = require('../../../src/IsmlLinter');
 
         const result     = IsmlLinter.run('./cartridges');
-        const occurrence = result.errors[rule.id][0];
+        const occurrence = result.errors[rule.id]['modules.isml'][0];
 
         expect(occurrence.line      ).toEqual('');
         expect(occurrence.lineNumber).toEqual(1);

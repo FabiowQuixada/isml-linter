@@ -268,4 +268,15 @@ describe(targetObjName, () => {
 
         expect(result.issueQty).toBeGreaterThan(0);
     });
+
+    it('correctly processes custom tags', () => {
+        ConfigUtils.load({
+            rootDir : 'spec/templates/default/util/',
+            rules: { 'custom-tags': {} }
+        });
+        const result = IsmlLinter.run();
+
+        expect(Array.isArray(result.errors['custom-tags'])).toBe(false);
+        expect(Array.isArray(result.errors['custom-tags']['modules.isml'])).toBe(true);
+    });
 });
