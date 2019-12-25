@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.22.3] - 2019-12-25
+
+### Changed
+ - Lint result error messages;
+
+### Fixed
+ - "custom-tags" rule;
+
 ## [5.22.2] - 2019-12-07
 
 ### Added
@@ -556,6 +564,7 @@
 - Linter is published;
 
 
+[5.22.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.2...v5.22.3
 [5.22.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.1...v5.22.2
 [5.22.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.0...v5.22.1
 [5.22.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.21.0...v5.22.0
