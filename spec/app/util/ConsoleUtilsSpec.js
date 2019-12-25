@@ -83,13 +83,14 @@ describe(targetObjName, () => {
 
 const expectedObject = {
     'errors': {
-        'Wrap expression in <isprint> tag': {
+        'enforce-isprint': {
             'a_multi_cartridge_project/int_cartridge_1/templates/default/sample_file.isml': [
                 {
                     'line': '                <a data-pid="${lineItem.productID}" class="button notifyme ${lineItem.productID}-notifyme">',
                     'lineNumber': 13,
                     'globalPos': 654,
-                    'length': 21
+                    'length': 21,
+                    'message': 'Wrap expression in <isprint> tag'
                 }
             ],
             'a_multi_cartridge_project/int_cartridge_1/templates/default/some_folder/sample_file.isml': [
@@ -97,13 +98,15 @@ const expectedObject = {
                     'line': '        <div class="productLineItemId">${lineItem.getUUID()}</div>',
                     'lineNumber': 39,
                     'globalPos': 2565,
-                    'length': 21
+                    'length': 21,
+                    'message': 'Wrap expression in <isprint> tag'
                 },
                 {
                     'line': '            <span class="product_id_label">${Resource.msg("global.itemno", "locale", null)}</span>',
                     'lineNumber': 59,
                     'globalPos': 3197,
-                    'length': 48
+                    'length': 48,
+                    'message': 'Wrap expression in <isprint> tag'
                 }
             ]
         }

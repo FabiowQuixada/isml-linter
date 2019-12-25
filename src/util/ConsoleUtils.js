@@ -17,7 +17,7 @@ const printExceptionMsg = e => {
     }
 };
 
-const printLintingError = (error, partialSum, rule) => {
+const printLintingError = (error, partialSum) => {
     let displayText = error.line;
 
     if (displayText.length > 30) {
@@ -25,7 +25,7 @@ const printLintingError = (error, partialSum, rule) => {
     }
 
     if (partialSum < MAX_LISTED_ERRORS) {
-        console.log(chalk.gray(error.lineNumber) + '\t' + chalk.red('error') + '\t' + rule);
+        console.log(chalk.gray(error.lineNumber) + '\t' + chalk.red('error') + '\t' + error.message);
     }
 };
 
@@ -45,7 +45,7 @@ const displayLintingErrors = jsonErrors => {
                 const errorArray = jsonErrors.errors[rule][template];
 
                 for (let i = 0; i < errorArray.length; i++) {
-                    printLintingError(errorArray[i], partialSum, rule);
+                    printLintingError(errorArray[i], partialSum);
                     partialSum++;
                 }
             }
