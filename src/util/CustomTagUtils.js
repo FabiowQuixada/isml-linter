@@ -12,23 +12,27 @@ if (fs.existsSync(templatePath)) {
 
     for (let j = 0; j < ismoduleTagArray.length; j++) {
         const ismoduleTag = ismoduleTagArray[j];
-        const attrArray   = ismoduleTag.replace(/\t/g, ' ').split(' ').slice(1);
-        const tag         = {
-            attrList : []
-        };
 
-        for (let i = 0; i < attrArray.length; i++) {
-            const stringifiedAttr = attrArray[i];
+        if (ismoduleTag) {
 
-            const attr = stringifiedAttr.split('=');
-            const val  = attr[1].substring(1, attr[1].length - 1);
+            const attrArray = ismoduleTag.replace(/\t/g, ' ').split(' ').slice(1);
+            const tag       = {
+                attrList : []
+            };
 
-            attr[0] === 'attribute' ?
-                tag.attrList.push(val) :
-                tag[attr[0]] = val;
+            for (let i = 0; i < attrArray.length; i++) {
+                const stringifiedAttr = attrArray[i];
+
+                const attr = stringifiedAttr.split('=');
+                const val  = attr[1].substring(1, attr[1].length - 1);
+
+                attr[0] === 'attribute' ?
+                    tag.attrList.push(val) :
+                    tag[attr[0]] = val;
+            }
+
+            customTagContainer['is' + tag.name] = tag;
         }
-
-        customTagContainer['is' + tag.name] = tag;
     }
 }
 
