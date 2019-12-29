@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.22.4] - 2019-12-29
+
+### Security
+ - Updated vulnerable dependencies;
+
 ## [5.22.3] - 2019-12-25
 
 ### Changed
@@ -564,6 +569,7 @@
 - Linter is published;
 
 
+[5.22.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.3...v5.22.4
 [5.22.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.2...v5.22.3
 [5.22.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.1...v5.22.2
 [5.22.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.0...v5.22.1
