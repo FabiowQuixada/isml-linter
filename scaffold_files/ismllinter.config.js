@@ -12,10 +12,12 @@ const config = {
         'no-import-package'   : {},
         'no-inline-style'     : {},
         'no-isscript'         : {},
+        'no-script'           : {},
         'no-space-only-lines' : {},
         'no-tabs'             : {},
         'no-trailing-spaces'  : {},
         'max-lines'           : {},
+
 
         // Tree rules;
         'indent'               : {},
