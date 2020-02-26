@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.23.0] - 2020-02-26
+
+### Added
+ - "warning" and "info" broken rule occurrence levels;
+
 ## [5.22.4] - 2019-12-29
 
 ### Security
@@ -569,6 +574,7 @@
 - Linter is published;
 
 
+[5.23.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.4...v5.23.0
 [5.22.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.3...v5.22.4
 [5.22.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.2...v5.22.3
 [5.22.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.1...v5.22.2
