@@ -67,6 +67,12 @@ const lineBreak         = {
     windows : '\r\n',
     unix    : '\n'
 };
+const occurrenceLevels  = {
+    ERROR    : 'error',
+    WARNINGS : 'warning',
+    INFO     : 'info',
+    toArray  : () => ['info', 'warning', 'error']
+};
 
 const leadingElementsChecking = 4;
 
@@ -125,6 +131,7 @@ module.exports = {
     // Other;
     voidElementsArray,
     leadingElementsChecking,
+    occurrenceLevels,
     EOL,
     OS_EOL,
     lineBreak

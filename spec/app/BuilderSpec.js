@@ -32,6 +32,6 @@ describe(targetObjName, () => {
 
         const result = Builder.run(targetPath);
 
-        expect(result).toEqual(0);
+        expect(result).toEqual(1);
     });
 });

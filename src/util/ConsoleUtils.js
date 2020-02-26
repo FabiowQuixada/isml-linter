@@ -3,7 +3,7 @@ const Constants      = require('../Constants');
 const ExceptionUtils = require('./ExceptionUtils');
 const ConfigUtils    = require('./ConfigUtils');
 
-const MAX_LISTED_ERRORS = 100;
+const MAX_LISTED_ERRORS = 30;
 
 const printExceptionMsg = e => {
     const Constants = require('../Constants');
@@ -17,45 +17,46 @@ const printExceptionMsg = e => {
     }
 };
 
-const printLintingError = (error, partialSum) => {
-    let displayText = error.line;
+const displayLintingOccurrences = lintResult => {
 
-    if (displayText.length > 30) {
-        displayText = displayText.substring(0, 30) + '...';
-    }
+    const occurrenceLevels = Constants.occurrenceLevels.toArray();
+    const errorData        = getErrorsData(lintResult);
+    const warningData      = getWarningsData(lintResult);
+    const infoData         = getInfoData(lintResult);
 
-    if (partialSum < MAX_LISTED_ERRORS) {
-        console.log(chalk.gray(error.lineNumber) + '\t' + chalk.red('error') + '\t' + error.message);
-    }
-};
+    const data = {
+        error : {
+            messages : errorData.outputMsgList,
+            qty      : errorData.qty
+        },
+        warning : {
+            messages : warningData.outputMsgList,
+            qty      : warningData.qty
+        },
+        info : {
+            messages : infoData.outputMsgList,
+            qty      : infoData.qty
+        },
+        total : errorData.qty + warningData.qty + infoData.qty
+    };
 
-const displayLintingErrors = jsonErrors => {
+    for (let j = 0; j < occurrenceLevels.length; j++) {
+        const occurrenceGroup = occurrenceLevels[j];
 
-    let partialSum = 0;
-
-    if (jsonErrors.errors && Object.keys(jsonErrors.errors).length > 0) {
-        console.log(chalk`{red.bold ${Constants.EOL}The following linting errors were found in the templates:}`);
-
-        for (const rule in jsonErrors.errors) {
-            for (const template in jsonErrors.errors[rule]) {
-                if (partialSum < MAX_LISTED_ERRORS) {
-                    console.log(Constants.EOL + template);
+        if (data[occurrenceGroup].qty > 0) {
+            for (let i = 0; i < data[occurrenceGroup].messages.length; i++) {
+                if (i > MAX_LISTED_ERRORS) {
+                    break;
                 }
-
-                const errorArray = jsonErrors.errors[rule][template];
-
-                for (let i = 0; i < errorArray.length; i++) {
-                    printLintingError(errorArray[i], partialSum);
-                    partialSum++;
-                }
+                console.log(data[occurrenceGroup].messages[i]);
             }
         }
     }
 
-    return partialSum;
+    return data;
 };
 
-const displayUnparseableErrors = jsonErrors => {
+const displayUnparseableErrors = lintResult => {
 
     const config   = ConfigUtils.load();
     let partialSum = 0;
@@ -64,11 +65,11 @@ const displayUnparseableErrors = jsonErrors => {
 
         const INVALID_TEMPLATE = ExceptionUtils.types.INVALID_TEMPLATE;
 
-        if (jsonErrors[INVALID_TEMPLATE] && jsonErrors[INVALID_TEMPLATE].length > 0) {
+        if (lintResult[INVALID_TEMPLATE] && lintResult[INVALID_TEMPLATE].length > 0) {
             console.log(chalk`{red.bold ${Constants.EOL}An Isml abstract syntax tree could not be built for the following templates:}`);
 
-            for (let i = 0; i < jsonErrors[INVALID_TEMPLATE].length; i++) {
-                const error = jsonErrors[INVALID_TEMPLATE][i];
+            for (let i = 0; i < lintResult[INVALID_TEMPLATE].length; i++) {
+                const error = lintResult[INVALID_TEMPLATE][i];
                 console.log(chalk.gray(i) + ' ' + error.templatePath + ':' + error.lineNumber);
                 console.log('\t' + chalk`{red.bold >> }` + `${error.message}${Constants.EOL}`);
                 partialSum++;
@@ -79,14 +80,14 @@ const displayUnparseableErrors = jsonErrors => {
     return partialSum;
 };
 
-const displayUnknownErrors = jsonErrors => {
+const displayUnknownErrors = lintResult => {
     const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
     let partialSum      = 0;
 
-    if (jsonErrors[UNKNOWN_ERROR] && jsonErrors[UNKNOWN_ERROR].length > 0) {
+    if (lintResult[UNKNOWN_ERROR] && lintResult[UNKNOWN_ERROR].length > 0) {
         console.log(chalk`{red.bold ${Constants.EOL}An unexpected error happened while parsing the following templates:}`);
 
-        const unknownErrorArray = jsonErrors[UNKNOWN_ERROR];
+        const unknownErrorArray = lintResult[UNKNOWN_ERROR];
 
         for (let i = 0; i < unknownErrorArray.length; i++) {
             console.log(chalk.gray(i) + '\t' + unknownErrorArray[i]);
@@ -99,21 +100,50 @@ const displayUnknownErrors = jsonErrors => {
     return partialSum;
 };
 
-const displayErrors = jsonErrors => {
+const displayOccurrences = lintResult => {
 
-    let errorQty = 0;
+    displayUnparseableErrors(lintResult);
+    displayUnknownErrors(lintResult);
 
-    errorQty         += displayUnparseableErrors(jsonErrors);
-    errorQty         += displayUnknownErrors(jsonErrors);
-    const lintErrors = displayLintingErrors(jsonErrors);
-    errorQty         += lintErrors;
+    const occurrences = displayLintingOccurrences(lintResult);
 
-    if (errorQty > 0) {
-        console.log(Constants.EOL + chalk`{red.bold ${errorQty} errors found in templates.}`);
+    const isThereAnyOccurrence = occurrences.error.qty > 0 ||
+        occurrences.warning.qty > 0 ||
+        occurrences.info.qty > 0 ||
+        lintResult.INVALID_TEMPLATE && lintResult.INVALID_TEMPLATE.length > 0 ||
+        lintResult.UNKNOWN_ERROR && lintResult.UNKNOWN_ERROR.length > 0;
 
-        if (lintErrors >= MAX_LISTED_ERRORS) {
-            console.log(chalk`{red.bold Displaying the first ${MAX_LISTED_ERRORS} errors.}` + Constants.EOL);
+    if (isThereAnyOccurrence) {
+
+        console.log(Constants.EOL + '=====================================================');
+
+        if (occurrences.error.qty > 0) {
+            console.log(Constants.EOL + chalk`{bold ${occurrences.error.qty} error(s) found.}`);
         }
+
+        if (occurrences.warning.qty > 0) {
+            console.log(chalk`{bold ${occurrences.warning.qty} warning(s) found.}`);
+        }
+
+        if (occurrences.info.qty > 0) {
+            console.log(chalk`{bold ${occurrences.info.qty} info(s) found.}`);
+        }
+
+        if (lintResult.INVALID_TEMPLATE && lintResult.INVALID_TEMPLATE.length > 0) {
+            console.log(chalk`{bold ${lintResult.INVALID_TEMPLATE.length} template(s) have an invalid ISML tree.}`);
+        }
+
+        if (lintResult.UNKNOWN_ERROR && lintResult.UNKNOWN_ERROR.length > 0) {
+            if (lintResult.UNKNOWN_ERROR.length > 1) {
+                console.log(chalk`{bold There were ${lintResult.UNKNOWN_ERROR.length} unknown errors while parsing templates.}`);
+            } else {
+                console.log(chalk`{bold There was 1 unknown error while parsing templates.}`);
+            }
+        }
+
+        console.log(chalk`{bold Displaying the first ${MAX_LISTED_ERRORS} occurrences of each group.}` + Constants.EOL);
+    } else {
+        console.log(chalk`{green.bold Not issues found! Congrats!}`);
     }
 };
 
@@ -147,8 +177,104 @@ const displayEslintConfigError = () => {
     console.log(`The "eslint-to-isscript" rule is enabled, but an ESLint configuration "${eslintConfigFileName}" file could not be found in the project root directory.`);
 };
 
+const getErrorsData = lintResult => {
+    const outputMsgList = [];
+    let qty             = 0;
+
+    outputMsgList.push(chalk`{red.bold ${Constants.EOL}The following linting errors were found in the templates:}`);
+
+    for (const rule in lintResult.errors) {
+        for (const template in lintResult.errors[rule]) {
+            outputMsgList.push(Constants.EOL + template);
+
+            const occurrenceList = lintResult.errors[rule][template];
+
+            for (let i = 0; i < occurrenceList.length; i++) {
+                const occurrence  = occurrenceList[i];
+
+                outputMsgList.push(
+                    chalk.gray(occurrence.lineNumber) + '\t' +
+                        chalk.red('error') + '\t' +
+                        occurrence.message
+                );
+
+                qty++;
+            }
+        }
+    }
+
+    return {
+        outputMsgList,
+        qty
+    };
+};
+
+const getWarningsData = lintResult => {
+    const outputMsgList = [];
+    let qty             = 0;
+
+    outputMsgList.push(chalk`{yellow.bold ${Constants.EOL}The following linting warnings were found in the templates:}`);
+
+    for (const rule in lintResult.warnings) {
+        for (const template in lintResult.warnings[rule]) {
+            outputMsgList.push(Constants.EOL + template);
+
+            const occurrenceList = lintResult.warnings[rule][template];
+
+            for (let i = 0; i < occurrenceList.length; i++) {
+                const occurrence  = occurrenceList[i];
+
+                outputMsgList.push(
+                    chalk.gray(occurrence.lineNumber) + '\t' +
+                        chalk.yellow('warning') + '\t' +
+                        occurrence.message
+                );
+
+                qty++;
+            }
+        }
+    }
+
+    return {
+        outputMsgList,
+        qty
+    };
+};
+
+const getInfoData = lintResult => {
+    const outputMsgList = [];
+    let qty             = 0;
+
+    outputMsgList.push(chalk`{cyan.bold ${Constants.EOL}The following linting info items were found in the templates:}`);
+
+    for (const rule in lintResult.info) {
+        for (const template in lintResult.info[rule]) {
+            outputMsgList.push(Constants.EOL + template);
+
+            const occurrenceList = lintResult.info[rule][template];
+
+            for (let i = 0; i < occurrenceList.length; i++) {
+                const occurrence  = occurrenceList[i];
+
+                outputMsgList.push(
+                    chalk.gray(occurrence.lineNumber) + '\t' +
+                        chalk.cyan('info') + '\t' +
+                        occurrence.message
+                );
+
+                qty++;
+            }
+        }
+    }
+
+    return {
+        outputMsgList,
+        qty
+    };
+};
+
 module.exports = {
-    displayErrors,
+    displayOccurrences,
     displayConfigError,
     displayEslintConfigError,
     displayInvalidTemplatesPaths,

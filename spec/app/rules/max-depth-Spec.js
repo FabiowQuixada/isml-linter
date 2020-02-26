@@ -21,4 +21,10 @@ describe(rule.id, () => {
         expect(occurrences.rule      ).toEqual(rule.id);
         expect(occurrences.message   ).toEqual(rule.description);
     });
+
+    it('detects a too-deeply-nested template as a warning-level occurrence', () => {
+        const occurrences = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
+
+        expect(occurrences.level).toEqual('warning');
+    });
 });

@@ -1,5 +1,6 @@
 const ConfigUtils  = require('../../util/ConfigUtils');
 const GeneralUtils = require('../../util/GeneralUtils');
+const Constants    = require('../../Constants');
 
 const RulePrototype = {
 
@@ -19,6 +20,7 @@ const RulePrototype = {
             length,
             lineNumber : lineNumber + 1,
             rule       : this.id,
+            level      : this.getConfigs().level || Constants.occurrenceLevels.ERROR,
             message    : description || this.description
         });
     },

@@ -85,6 +85,8 @@ const getTemplatePaths = pathData => {
 const getEmptyResult = () => {
     return {
         errors           : {},
+        warnings         : {},
+        info             : {},
         UNKNOWN_ERROR    : [],
         INVALID_TEMPLATE : [],
         issueQty         : 0,
@@ -107,6 +109,16 @@ const checkTemplate = (content, templatePath, templateName) => {
             templateResults.errors[rule]                        = templateResults.errors[rule] || {};
             templateResults.errors[rule][formattedTemplatePath] = parseResult.errors[rule];
             templateResults.issueQty++;
+        }
+
+        for (const rule in parseResult.warnings) {
+            templateResults.warnings[rule]                        = templateResults.warnings[rule] || {};
+            templateResults.warnings[rule][formattedTemplatePath] = parseResult.warnings[rule];
+        }
+
+        for (const rule in parseResult.info) {
+            templateResults.info[rule]                        = templateResults.info[rule] || {};
+            templateResults.info[rule][formattedTemplatePath] = parseResult.info[rule];
         }
     }
     catch (e) {
@@ -132,6 +144,8 @@ const checkTemplate = (content, templatePath, templateName) => {
 const merge = (finalResult, templateResults) => {
     return {
         errors           : GeneralUtils.mergeDeep(finalResult.errors,   templateResults.errors),
+        warnings         : GeneralUtils.mergeDeep(finalResult.warnings, templateResults.warnings),
+        info             : GeneralUtils.mergeDeep(finalResult.info,     templateResults.info),
         issueQty         : finalResult.issueQty                       + templateResults.issueQty,
         templatesFixed   : finalResult.templatesFixed                 + templateResults.templatesFixed,
         UNKNOWN_ERROR    : [...finalResult[UNKNOWN_ERROR],           ...templateResults[UNKNOWN_ERROR]],

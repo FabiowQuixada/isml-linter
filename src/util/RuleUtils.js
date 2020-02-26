@@ -60,15 +60,20 @@ const applyRuleResult = (config, ruleResult, templatePath, templateResults, rule
         templateResults.fixed = true;
     }
     else if (ruleResult.occurrences && ruleResult.occurrences.length) {
-        const errorObj         = getErrorObj(rule, ruleResult.occurrences);
-        templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
+        const occurrenceObj      = getOccurrenceObj(rule, ruleResult.occurrences);
+
+        templateResults.errors   = Object.assign(templateResults.errors,   occurrenceObj.errors);
+        templateResults.warnings = Object.assign(templateResults.warnings, occurrenceObj.warnings);
+        templateResults.info     = Object.assign(templateResults.info,     occurrenceObj.info);
     }
 };
 
 const applyRuleOnTemplate = (ruleArray, templatePath, root, config) => {
     const templateResults = {
-        fixed  : false,
-        errors : {}
+        fixed    : false,
+        errors   : {},
+        warnings : {},
+        info     : {}
     };
 
     for (let i = 0; i < ruleArray.length; i++) {
@@ -111,17 +116,21 @@ const isTypeAmongTheFirstElements = (rootNode, type) => {
     return result;
 };
 
-const getErrorObj = (rule, occurrenceArray) => {
-    const errorObj                = {};
-    errorObj[rule.level]          = {};
-    errorObj[rule.level][rule.id] = [];
+const getOccurrenceObj = (rule, occurrenceArray) => {
+    const occurrenceGroup = rule.level === 'errors' ? 'errors'  :
+        rule.level === 'warning' ? 'warnings' :
+            'info';
+
+    const occurrenceObj                     = {};
+    occurrenceObj[occurrenceGroup]          = {};
+    occurrenceObj[occurrenceGroup][rule.id] = [];
 
     for (let i = 0; i < occurrenceArray.length; i++) {
         const occurrence = occurrenceArray[i];
-        errorObj[rule.level][rule.id].push(occurrence);
+        occurrenceObj[occurrenceGroup][rule.id].push(occurrence);
     }
 
-    return errorObj;
+    return occurrenceObj;
 };
 
 const checkFileName = (filename, templateContent) => {
@@ -134,7 +143,7 @@ const checkFileName = (filename, templateContent) => {
         const ruleResult = lowercaseFilenameRule.check(filename, templateContent);
 
         if (ruleResult) {
-            const errorObj         = getErrorObj(lowercaseFilenameRule, ruleResult.occurrences);
+            const errorObj         = getOccurrenceObj(lowercaseFilenameRule, ruleResult.occurrences);
             templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
         }
     }
@@ -202,6 +211,16 @@ const checkTemplate = (templatePath, content, templateName) => {
             ...lineResults.errors,
             ...treeResults.errors,
             ...filenameResults.errors
+        },
+        warnings   : {
+            ...lineResults.warnings,
+            ...treeResults.warnings,
+            ...filenameResults.warnings
+        },
+        info   : {
+            ...lineResults.info,
+            ...treeResults.info,
+            ...filenameResults.info
         }
     };
 };
@@ -213,6 +232,9 @@ const getEnabledLineRules  = () => {
 
     for (let i = 0; i < lineByLineRules.length; i++) {
         const rule = lineByLineRules[i];
+
+        // TODO Do this in a better way;
+        rule.level = rule.getConfigs().level || 'errors';
 
         if (rule.isEnabled() && rule.id !== 'lowercase-filename') {
             result.push(rule);
@@ -227,6 +249,9 @@ const getEnabledTreeRules = () => {
 
     for (let i = 0; i < treeRules.length; i++) {
         const rule = treeRules[i];
+
+        // TODO Do this in a better way;
+        rule.level = rule.getConfigs().level || 'errors';
 
         if (rule.isEnabled()) {
             result.push(rule);

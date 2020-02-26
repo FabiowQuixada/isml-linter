@@ -71,8 +71,8 @@ const applyRuleResult = (config, ruleResult, templatePath, templateResults, rule
         templateResults.fixed = true;
     }
     else if (ruleResult.occurrences && ruleResult.occurrences.length) {
-        const errorObj         = getErrorObj(rule, ruleResult.occurrences);
-        templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
+        const occurrenceObj    = getOccurrenceObj(rule, ruleResult.occurrences);
+        templateResults.errors = Object.assign(templateResults.errors, occurrenceObj.errors);
     }
 };
 
@@ -122,17 +122,21 @@ const isTypeAmongTheFirstElements = (rootNode, type) => {
     return result;
 };
 
-const getErrorObj = (rule, occurrenceArray) => {
-    const errorObj                = {};
-    errorObj[rule.level]          = {};
-    errorObj[rule.level][rule.id] = [];
+const getOccurrenceObj = (rule, occurrenceArray) => {
+    const occurrenceGroup = rule.level === 'error' ? 'errors' :
+        rule.level === 'warning' ? 'warnings' :
+            'info';
+
+    const occurrenceObj                     = {};
+    occurrenceObj[occurrenceGroup]          = {};
+    occurrenceObj[occurrenceGroup][rule.id] = [];
 
     for (let i = 0; i < occurrenceArray.length; i++) {
         const occurrence = occurrenceArray[i];
-        errorObj[rule.level][rule.id].push(occurrence);
+        occurrenceObj[occurrenceGroup][rule.id].push(occurrence);
     }
 
-    return errorObj;
+    return occurrenceObj;
 };
 
 const checkFileName = (filename, templateContent) => {
@@ -145,8 +149,8 @@ const checkFileName = (filename, templateContent) => {
         const ruleResult = lowercaseFilenameRule.check(filename, templateContent);
 
         if (ruleResult) {
-            const errorObj         = getErrorObj(lowercaseFilenameRule, ruleResult.occurrences);
-            templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
+            const occurrenceObj    = getOccurrenceObj(lowercaseFilenameRule, ruleResult.occurrences);
+            templateResults.errors = Object.assign(templateResults.errors, occurrenceObj.errors);
         }
     }
 

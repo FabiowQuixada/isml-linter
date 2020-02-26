@@ -24,7 +24,11 @@ const config = {
         'no-require-in-loop'  : {
             'ignore': ['pt_']
         },
-        'no-tabs'             : {}
+        'no-tabs'             : {},
+        'max-depth'           : {
+            level : 'warning',
+            value : 10
+        }
     }
 };
 

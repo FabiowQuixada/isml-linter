@@ -5,7 +5,7 @@ const run = path => {
 
     const lintResults = IsmlLinter.run(path);
 
-    ConsoleUtils.displayErrors(lintResults);
+    ConsoleUtils.displayOccurrences(lintResults);
 
     return lintResults.issueQty > 0 ? 1 : 0;
 };
