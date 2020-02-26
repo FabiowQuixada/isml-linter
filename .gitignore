@@ -2,6 +2,7 @@
 /.vscode/
 coverage/
 isml-linter/
+scaffold_files/sample-production-project/cartridges/
 spec/temp/
 
 *.log

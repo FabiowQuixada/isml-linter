@@ -1,3 +1,0 @@
-<div class="line-item-name">
-    <span>${lineItem.productName}</span>
-</div>

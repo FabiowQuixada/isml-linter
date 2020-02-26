@@ -1,5 +1,0 @@
-<div class="recommendations">
-    <h5>${Resource.msg('label.noresults.recommendations', 'search', null)}</h5>
-    <isset name="end" value="${5}" scope="page" />
-    <isinclude template="components/products" />
-</div>

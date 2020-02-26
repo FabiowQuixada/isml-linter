@@ -1,8 +1,0 @@
-<iscomment>
-    This template sets the price context for the pricing/main template when routed through an Ajax
-    call.  Price is accessed from the param object per the dw.util.Template.render(params : Map) call
-    (Please see https://documentation.demandware.com/DOC1/topic/com.demandware.dochelp/DWAPI/scriptapi/html/api/class_dw_util_Template.html).
-</iscomment>
-
-<isset name="price" value="${param.price}" scope="page" />
-<isinclude template="product/components/pricing/main" />

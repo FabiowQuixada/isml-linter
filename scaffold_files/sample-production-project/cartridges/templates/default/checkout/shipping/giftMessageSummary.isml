@@ -1,6 +1,0 @@
-<div class="summary-details gift-summary ${shippingModel.isGift ? '' : 'd-none'}">
-    <p class="summary-section-label">${Resource.msg('heading.gift.message', 'checkout', null)}</p>
-    <div class="gift-message-summary">
-        ${shippingModel.giftMessage ? shippingModel.giftMessage : ''}
-    </div>
-</div>

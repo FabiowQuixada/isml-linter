@@ -1,6 +1,0 @@
-<iscomment>
-    This template sets the context for the productCardProductRenderedTotalPrice template
-</iscomment>
-
-<isset name="lineItem" value="${pdict.lineItem}" scope="page" />
-<isinclude template="checkout/productCard/productCardProductTotalPrice" />

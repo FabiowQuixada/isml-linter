@@ -1,9 +1,0 @@
-<isloop items="${option.values}" var="value">
-    <isif condition="${value.id === option.selectedValueId}">
-        <div class="col-md-10 col-12 product-option"
-             data-option-id="${option.id}"
-             data-option-value-id="${value.id}">
-            <div>${option.name}: ${value.displayValue}</div>
-        </div>
-    </isif>
-</isloop>

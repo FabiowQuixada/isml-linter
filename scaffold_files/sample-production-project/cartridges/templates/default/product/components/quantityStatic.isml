@@ -1,3 +1,0 @@
-<label class="quantity" data-quantity="${product.selectedQuantity}">
-    ${Resource.msg('label.quantity', 'common', null) + ': ' + parseInt(product.selectedQuantity, 10).toString()}
-</label>
