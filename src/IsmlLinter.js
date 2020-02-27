@@ -156,11 +156,12 @@ const merge = (finalResult, templateResults) => {
 const addCustomModuleResults = finalResult => {
     const CustomModulesRule   = require('./rules/tree/custom-tags');
     const customModuleResults = RuleUtils.checkCustomModules();
+    const occurrenceGroup     = RuleUtils.getLevelGroup(CustomModulesRule.level);
 
-    if (customModuleResults.errors.length) {
-        finalResult.errors[CustomModulesRule.id] = finalResult.errors[CustomModulesRule.id] || {};
+    if (customModuleResults[occurrenceGroup].length) {
+        finalResult[occurrenceGroup][CustomModulesRule.id] = finalResult[occurrenceGroup][CustomModulesRule.id] || {};
         // TODO: Add actual modules template path;
-        finalResult.errors[CustomModulesRule.id]['modules.isml'] = customModuleResults.errors;
+        finalResult[occurrenceGroup][CustomModulesRule.id]['modules.isml'] = customModuleResults[occurrenceGroup];
     }
 };
 

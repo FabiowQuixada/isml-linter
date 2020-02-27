@@ -28,7 +28,13 @@ const config = {
         'max-depth'           : {
             level : 'warning',
             value : 10
-        }
+        },
+        'lowercase-filename'  : {
+            level : 'warning'
+        },
+        'custom-tags'         : {
+            level : 'info'
+        },
     }
 };
 

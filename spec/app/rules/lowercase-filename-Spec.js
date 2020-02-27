@@ -30,6 +30,15 @@ describe(rule.id, () => {
 
         expect(result.occurrences.length).not.toEqual(0);
     });
+
+    it('sets level occurrence level properly', () => {
+        const templateName    = 'Template_1';
+        const templateContent = getRuleSpecTemplateContent(rule, templateName);
+        const result          = rule.check(templateName, templateContent);
+        const occurrence      = result.occurrences[0];
+
+        expect(occurrence.level).toEqual('warning');
+    });
 });
 
 const getRuleSpecTemplateContent = (rule, templateName) => {

@@ -34,6 +34,12 @@ const treeRules       = [];
     }
 })();
 
+const getLevelGroup = level => {
+    return level === 'errors' ? 'errors'  :
+        level === 'warning' ? 'warnings' :
+            'info';
+};
+
 const checkCustomTag = tag => {
     if (Object.prototype.hasOwnProperty.call(customTagContainer, tag)) {
         const attrList = customTagContainer[tag].attrList;
@@ -46,6 +52,7 @@ const checkCustomTag = tag => {
                     globalPos  : 0,
                     length     : 10,
                     lineNumber : 1,
+                    level      : CustomModulesRule.level,
                     rule       : CustomModulesRule.id,
                     message    : `Module properties need to be lower case: "${tag}" module has the invalid "${attr}" attribute`
                 };
@@ -117,9 +124,7 @@ const isTypeAmongTheFirstElements = (rootNode, type) => {
 };
 
 const getOccurrenceObj = (rule, occurrenceArray) => {
-    const occurrenceGroup = rule.level === 'errors' ? 'errors'  :
-        rule.level === 'warning' ? 'warnings' :
-            'info';
+    const occurrenceGroup = getLevelGroup(rule.level);
 
     const occurrenceObj                     = {};
     occurrenceObj[occurrenceGroup]          = {};
@@ -134,17 +139,20 @@ const getOccurrenceObj = (rule, occurrenceArray) => {
 };
 
 const checkFileName = (filename, templateContent) => {
+    const occurrenceGroup = getLevelGroup(lowercaseFilenameRule.level);
     const templateResults = {
-        fixed  : false,
-        errors : {}
+        fixed    : false,
+        errors   : {},
+        warnings : {},
+        info     : {}
     };
 
     if (lowercaseFilenameRule.isEnabled()) {
         const ruleResult = lowercaseFilenameRule.check(filename, templateContent);
 
-        if (ruleResult) {
-            const errorObj         = getOccurrenceObj(lowercaseFilenameRule, ruleResult.occurrences);
-            templateResults.errors = Object.assign(templateResults.errors, errorObj.errors);
+        if (ruleResult.occurrences.length > 0) {
+            const occurrenceObj              = getOccurrenceObj(lowercaseFilenameRule, ruleResult.occurrences);
+            templateResults[occurrenceGroup] = Object.assign(templateResults[occurrenceGroup], occurrenceObj[occurrenceGroup]);
         }
     }
 
@@ -180,16 +188,19 @@ const checkLineByLineRules = (templatePath, templateContent, config) => {
 };
 
 const checkCustomModules = () => {
-    const moduleResults = {
-        errors : []
+    const occurrenceGroup = getLevelGroup(CustomModulesRule.level);
+    const moduleResults   = {
+        errors   : [],
+        warnings : [],
+        info     : []
     };
 
     if (CustomModulesRule.isEnabled()) {
         for (const tag in customTagContainer) {
-            const errorObj = checkCustomTag(tag);
+            const occurrenceObj = checkCustomTag(tag);
 
-            if (errorObj) {
-                moduleResults.errors.push(errorObj);
+            if (occurrenceObj) {
+                moduleResults[occurrenceGroup].push(occurrenceObj);
             }
         }
     }
@@ -197,7 +208,7 @@ const checkCustomModules = () => {
     return moduleResults;
 };
 
-const checkTemplate = (templatePath, content, templateName) => {
+const checkTemplate = (templatePath, content = '', templateName = '') => {
     const config          = ConfigUtils.load();
     const templateContent = GeneralUtils.toLF(content || fs.readFileSync(templatePath, 'utf-8'));
     const lineResults     = checkLineByLineRules(templatePath, templateContent, config);
@@ -267,3 +278,4 @@ module.exports.isTypeAmongTheFirstElements = isTypeAmongTheFirstElements;
 module.exports.checkTemplate               = checkTemplate;
 module.exports.checkCustomModules          = checkCustomModules;
 module.exports.getAvailableRulesQty        = getAvailableRulesQty;
+module.exports.getLevelGroup               = getLevelGroup;

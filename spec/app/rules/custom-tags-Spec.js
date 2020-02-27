@@ -78,4 +78,16 @@ describe(rule.id, () => {
         expect(occurrence.rule      ).toEqual(rule.id);
         expect(occurrence.message   ).toEqual('Module properties need to be lower case: "ismodulethree" module has the invalid "uppercaseAttribute" attribute');
     });
+
+    it('sets occurrence level properly', () => {
+        ConfigUtils.load({ rules: { 'custom-tags': {
+            level : 'info'
+        } } });
+        const IsmlLinter = require('../../../src/IsmlLinter');
+
+        const result     = IsmlLinter.run('./cartridges');
+        const occurrence = result.info[rule.id]['modules.isml'][0];
+
+        expect(occurrence.level).toEqual('info');
+    });
 });
