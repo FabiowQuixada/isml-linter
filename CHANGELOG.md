@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.23.1] - 2020-03-02
+
+### Fixed
+ - Public API print result method;
+ - Occurrence level issues;
+ 
 ## [5.23.0] - 2020-02-26
 
 ### Added
@@ -574,6 +580,7 @@
 - Linter is published;
 
 
+[5.23.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.23.0...v5.23.1
 [5.23.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.4...v5.23.0
 [5.22.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.3...v5.22.4
 [5.22.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.2...v5.22.3
