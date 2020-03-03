@@ -1,4 +1,6 @@
 const path        = require('path');
+const sinon       = require('sinon');
+const chalk       = require('chalk');
 const SpecHelper  = require('../SpecHelper');
 const IsmlLinter  = require('../../src/IsmlLinter');
 const Builder     = require('../../src/Builder');
@@ -64,5 +66,18 @@ describe(targetObjName, () => {
         const errorQty     = Object.keys(result.errors).length;
 
         expect(errorQty).toEqual(1);
+    });
+
+    it('prints lint result', () => {
+        const spy             = sinon.spy(console, 'log');
+        const dirPath         = Constants.specSpecificDirLinterTemplate;
+        const expectedMessage = chalk`{cyan.bold ${Constants.EOL}The following linting info items were found in the templates:}`;
+
+        publicApi.parse(dirPath);
+        publicApi.printResults();
+
+        expect(spy.getCall(0).args[0]).toEqual(expectedMessage);
+
+        spy.restore();
     });
 });
