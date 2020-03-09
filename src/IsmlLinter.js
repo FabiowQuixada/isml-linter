@@ -90,6 +90,7 @@ const getEmptyResult = () => {
         UNKNOWN_ERROR    : [],
         INVALID_TEMPLATE : [],
         issueQty         : 0,
+        occurrenceQty    : 0,
         templatesFixed   : 0
     };
 };
@@ -109,16 +110,19 @@ const checkTemplate = (content, templatePath, templateName) => {
             templateResults.errors[rule]                        = templateResults.errors[rule] || {};
             templateResults.errors[rule][formattedTemplatePath] = parseResult.errors[rule];
             templateResults.issueQty++;
+            templateResults.occurrenceQty++;
         }
 
         for (const rule in parseResult.warnings) {
             templateResults.warnings[rule]                        = templateResults.warnings[rule] || {};
             templateResults.warnings[rule][formattedTemplatePath] = parseResult.warnings[rule];
+            templateResults.occurrenceQty++;
         }
 
         for (const rule in parseResult.info) {
             templateResults.info[rule]                        = templateResults.info[rule] || {};
             templateResults.info[rule][formattedTemplatePath] = parseResult.info[rule];
+            templateResults.occurrenceQty++;
         }
     }
     catch (e) {
@@ -136,6 +140,7 @@ const checkTemplate = (content, templatePath, templateName) => {
         }
 
         templateResults.issueQty++;
+        templateResults.occurrenceQty++;
     }
 
     return templateResults;
