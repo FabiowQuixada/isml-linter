@@ -50,6 +50,11 @@ module.exports.applyActiveLinebreaks = content => {
         .replace(new RegExp(Constants.lineBreak.unix, 'g'), activeLinebreak);
 };
 
+module.exports.parseISOString = isoString => {
+    const isoArray = isoString.split(/\D+/);
+    return new Date(Date.UTC(isoArray[0], --isoArray[1], isoArray[2], isoArray[3], isoArray[4], isoArray[5], isoArray[6]));
+};
+
 module.exports.getActiveLinebreak = getActiveLinebreak;
 
 module.exports.mergeDeep = mergeDeep;

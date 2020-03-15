@@ -64,11 +64,12 @@ You can disable any rule by removing it from the config file. You may also find 
 | disableHtml5      | Disallows HTML5-defined unclosed tags, such as input, img and meta. Default: false |
 | ignoreUnparseable | Does not raise an error if an unparseable template is found. Default: false. Please check "Parse Modes - Tree" section below |
 | ignore            | If a template path contains (as a substring) any string defined here, that template will be ignored by the linter |
-| indent            | Indentation size. Default: 4 |
+| indent            | Indentation size. Default: **4** |
 | linebreakStyle    | **unix** or **windows**. Default: **unix** |
 | eslintConfig      | Path to a eslint configuration file, to be applied within &lt;isscript> tags. Default: .eslintrc.json |
-| autoFix           | Applies fixes for enabled rules. Default: 'false' |
-| disableTreeParse  | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: 'false' |
+| enableCache       | <span style="color:red">[Experimental]</span> Please check [cache docs][cache-docs]. Default: **false** |
+| autoFix           | Applies fixes for enabled rules. Default: **false** |
+| disableTreeParse  | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: **false** |
 | rules             | Defines which rules to check. See available rules below |
 
 **Note:** If you explicitly set "ignoreUnparseable" config to true, unparseable templates may contain errors that will not be detected by Isml Linter.
@@ -227,9 +228,10 @@ You are more than welcome to contribute with us! Please check the [contribute se
 [max-lines-readme]:              <docs/rules/max-lines.md>
 [align-isset-readme]:            <docs/rules/align-isset.md>
 
-[api-docs]: <docs/api.md>
-[cli-docs]: <docs/cli.md>
+[api-docs]:        <docs/api.md>
+[cli-docs]:        <docs/cli.md>
 [contribute-docs]: <docs/contribute.md>
+[cache-docs]:      <docs/cache.md>
 
-[npm-husky]: <https://www.npmjs.com/package/husky>
+[npm-husky]:  <https://www.npmjs.com/package/husky>
 [npm-ghooks]: <https://www.npmjs.com/package/ghooks>

@@ -1,9 +1,10 @@
-/node_modules/
-/.vscode/
+node_modules/
+.vscode/
 coverage/
 isml-linter/
 scaffold_files/sample-production-project/cartridges/
 spec/temp/
 
+*.db
 *.log
 *.tgz

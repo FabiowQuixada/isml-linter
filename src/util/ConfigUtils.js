@@ -114,6 +114,16 @@ const existConfigFile = () => {
         FileUtils.fileExists(Constants.configFilePathList[1]);
 };
 
+const getConfigFilePath = () => {
+    if (FileUtils.fileExists(Constants.configFilePathList[0])) {
+        return Constants.configFilePathList[0];
+    }
+
+    if (FileUtils.fileExists(Constants.configFilePathList[1])) {
+        return Constants.configFilePathList[1];
+    }
+};
+
 const existEslintConfigFile = () => {
     return eslintConfigData ||
         configData && configData.eslintConfig && FileUtils.fileExists(configData.eslintConfig) ||
@@ -170,3 +180,4 @@ module.exports.clearConfig          = clearConfig;
 module.exports.clearEslintConfig    = clearEslintConfig;
 module.exports.isConfigSet          = isConfigSet;
 module.exports.isEslintConfigSet    = isEslintConfigSet;
+module.exports.getConfigFilePath    = getConfigFilePath;

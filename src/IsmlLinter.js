@@ -6,6 +6,7 @@ const ConfigUtils    = require('./util/ConfigUtils');
 const ExceptionUtils = require('./util/ExceptionUtils');
 const FileUtils      = require('./util/FileUtils');
 const GeneralUtils   = require('./util/GeneralUtils');
+const DatabaseUtils  = require('./util/DatabaseUtils');
 let RuleUtils        = null;
 
 const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
@@ -84,14 +85,16 @@ const getTemplatePaths = pathData => {
 
 const getEmptyResult = () => {
     return {
-        errors           : {},
-        warnings         : {},
-        info             : {},
-        UNKNOWN_ERROR    : [],
-        INVALID_TEMPLATE : [],
-        issueQty         : 0,
-        occurrenceQty    : 0,
-        templatesFixed   : 0
+        errors             : {},
+        warnings           : {},
+        info               : {},
+        UNKNOWN_ERROR      : [],
+        INVALID_TEMPLATE   : [],
+        issueQty           : 0,
+        occurrenceQty      : 0,
+        templatesFixed     : 0,
+        totalTemplatesQty  : 0,
+        cachedTemplatesQty : 0
     };
 };
 
@@ -148,13 +151,15 @@ const checkTemplate = (content, templatePath, templateName) => {
 
 const merge = (finalResult, templateResults) => {
     return {
-        errors           : GeneralUtils.mergeDeep(finalResult.errors,   templateResults.errors),
-        warnings         : GeneralUtils.mergeDeep(finalResult.warnings, templateResults.warnings),
-        info             : GeneralUtils.mergeDeep(finalResult.info,     templateResults.info),
-        issueQty         : finalResult.issueQty                       + templateResults.issueQty,
-        templatesFixed   : finalResult.templatesFixed                 + templateResults.templatesFixed,
-        UNKNOWN_ERROR    : [...finalResult[UNKNOWN_ERROR],           ...templateResults[UNKNOWN_ERROR]],
-        INVALID_TEMPLATE : [...finalResult[UNPARSEABLE],             ...templateResults[UNPARSEABLE]]
+        errors             : GeneralUtils.mergeDeep(finalResult.errors,   templateResults.errors),
+        warnings           : GeneralUtils.mergeDeep(finalResult.warnings, templateResults.warnings),
+        info               : GeneralUtils.mergeDeep(finalResult.info,     templateResults.info),
+        issueQty           : finalResult.issueQty                       + templateResults.issueQty,
+        templatesFixed     : finalResult.templatesFixed                 + templateResults.templatesFixed,
+        UNKNOWN_ERROR      : [...finalResult[UNKNOWN_ERROR],           ...templateResults[UNKNOWN_ERROR]],
+        INVALID_TEMPLATE   : [...finalResult[UNPARSEABLE],             ...templateResults[UNPARSEABLE]],
+        cachedTemplatesQty : finalResult.cachedTemplatesQty,
+        totalTemplatesQty  : finalResult.totalTemplatesQty
     };
 };
 
@@ -168,6 +173,16 @@ const addCustomModuleResults = finalResult => {
         // TODO: Add actual modules template path;
         finalResult[occurrenceGroup][CustomModulesRule.id]['modules.isml'] = customModuleResults[occurrenceGroup];
     }
+};
+
+const checkIfConfigFileWasModified = () => {
+    const configFilePath        = ConfigUtils.getConfigFilePath();
+    const configStats           = fs.statSync(configFilePath);
+    const configLastModified    = configStats.mtime;
+    const configDbDate          = DatabaseUtils.getConfigFileModificationDate();
+    const wasConfigFileModified = !configDbDate || configLastModified > configDbDate;
+
+    return wasConfigFileModified;
 };
 
 Linter.run = (pathData, content) => {
@@ -199,25 +214,57 @@ Linter.run = (pathData, content) => {
         ConsoleUtils.displayInvalidTemplatesPaths(templateData.notFound);
     }
 
-    ProgressBar.start(templatePathArray.length);
+    try {
+        DatabaseUtils.initDb();
+        const dbData                = DatabaseUtils.loadData();
+        const lintDate              = new Date();
+        const isCacheEnabled        = ConfigUtils.load().enableCache;
+        const wasConfigFileModified = checkIfConfigFileWasModified();
 
-    for (let i = 0; i < templatePathArray.length; i++) {
-        const templateName = templatePathArray[i];
-        const templatePath = Array.isArray(templateData.pathData) || path.isAbsolute(templateName) ?
-            templateName :
-            path.join(templateData.pathData, templateName);
+        ProgressBar.start(templatePathArray.length);
+        DatabaseUtils.updateConfigDate(lintDate);
 
-        if (!FileUtils.isIgnored(templatePath)) {
-            const templateResults = checkTemplate(content, templatePath, templateName);
+        for (let i = 0; i < templatePathArray.length; i++) {
+            const templateName             = templatePathArray[i];
+            const templatePath             = Array.isArray(templateData.pathData) || path.isAbsolute(templateName) ?
+                templateName :
+                path.join(templateData.pathData, templateName);
+            const stats                    = fs.statSync(templatePath);
+            const lastModified             = stats.mtime;
+            const templateDbData           = dbData[templatePath];
+            const wasModifiedAfterLastLint = !templateDbData || lastModified > templateDbData.lastLinted;
+            const isIgnored                = FileUtils.isIgnored(templatePath);
 
-            finalResult = merge(finalResult, templateResults);
+            if (!isIgnored) {
+                if (!isCacheEnabled || (wasModifiedAfterLastLint || wasConfigFileModified)) {
+                    const templateResults = checkTemplate(content, templatePath, templateName);
+
+                    DatabaseUtils.insertOrReplaceData(templatePath, lintDate, templateResults);
+                    finalResult = merge(finalResult, templateResults);
+                } else if (templateDbData.lintResult.occurrenceQty > 0) {
+                    finalResult = merge(finalResult, templateDbData.lintResult);
+                    finalResult.cachedTemplatesQty++;
+                } else {
+                    finalResult.cachedTemplatesQty++;
+                }
+
+                finalResult.totalTemplatesQty++;
+            }
+
+            ProgressBar.increment();
         }
 
-        ProgressBar.increment();
-    }
+        addCustomModuleResults(finalResult);
 
-    addCustomModuleResults(finalResult);
-    ProgressBar.stop();
+    } catch (e) {
+        const ConsoleUtils = require('../src/util/ConsoleUtils');
+        ConsoleUtils.printExceptionMsg(e.stack || e);
+        process.exit(1);
+
+    } finally {
+        ProgressBar.stop();
+        DatabaseUtils.closeDb();
+    }
 
     return finalResult;
 };

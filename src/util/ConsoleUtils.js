@@ -105,7 +105,8 @@ const displayOccurrences = lintResult => {
     displayUnparseableErrors(lintResult);
     displayUnknownErrors(lintResult);
 
-    const occurrences = displayLintingOccurrences(lintResult);
+    const occurrences    = displayLintingOccurrences(lintResult);
+    const isCacheEnabled = ConfigUtils.load().enableCache;
 
     const isThereAnyOccurrence = occurrences.error.qty > 0 ||
         occurrences.warning.qty > 0 ||
@@ -117,8 +118,14 @@ const displayOccurrences = lintResult => {
 
         console.log(Constants.EOL + '=====================================================');
 
+        if (lintResult.cachedTemplatesQty > 0) {
+            console.log(Constants.EOL + chalk`{bold Linted ${lintResult.totalTemplatesQty} templates, ${lintResult.cachedTemplatesQty} of which were cached.}`);
+        } else {
+            console.log(Constants.EOL + chalk`{bold Linted ${lintResult.totalTemplatesQty} templates.}`);
+        }
+
         if (occurrences.error.qty > 0) {
-            console.log(Constants.EOL + chalk`{bold ${occurrences.error.qty} error(s) found.}`);
+            console.log(chalk`{bold ${occurrences.error.qty} error(s) found.}`);
         }
 
         if (occurrences.warning.qty > 0) {
@@ -144,6 +151,11 @@ const displayOccurrences = lintResult => {
         console.log(chalk`{bold Displaying the first ${MAX_LISTED_ERRORS} occurrences of each group.}` + Constants.EOL);
     } else {
         console.log(chalk`{green.bold Not issues found! Congrats!}`);
+    }
+
+    if (!isCacheEnabled) {
+        console.log(chalk`{bold Consider enabling cache for better performance.}` );
+        console.log(chalk`{bold Please visit: ${Constants.repositoryUrl}/docs/cache.md}` + Constants.EOL);
     }
 };
 
