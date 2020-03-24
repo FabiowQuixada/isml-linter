@@ -226,7 +226,7 @@ Linter.run = (pathData, content) => {
 
         for (let i = 0; i < templatePathArray.length; i++) {
             const templateName             = templatePathArray[i];
-            const templatePath             = Array.isArray(templateData.pathData) || path.isAbsolute(templateName) ?
+            const templatePath             = Array.isArray(templateData.pathData) || path.isAbsolute(templateName) || templateData.pathData === templateName ?
                 templateName :
                 path.join(templateData.pathData, templateName);
             const stats                    = fs.statSync(templatePath);
