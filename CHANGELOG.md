@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.24.0] - 2020-03-24
+
+### Fixed
+ - Cache Feature
+
 ## [5.23.1] - 2020-03-02
 
 ### Fixed
@@ -579,7 +584,7 @@
 ### Added
 - Linter is published;
 
-
+[5.24.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.23.1...v5.24.0
 [5.23.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.23.0...v5.23.1
 [5.23.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.4...v5.23.0
 [5.22.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.22.3...v5.22.4
