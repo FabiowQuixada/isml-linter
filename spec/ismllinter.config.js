@@ -20,6 +20,9 @@ const config = {
         'no-isscript'         : {
             'ignore' : ['pt_']
         },
+        'disallow-tags' : {
+            values : ['isscript', 'style']
+        },
         'no-hardcode'         : {},
         'no-require-in-loop'  : {
             'ignore': ['pt_']

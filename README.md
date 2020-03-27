@@ -180,6 +180,7 @@ Check the [API docs][api-docs].
 | :small_orange_diamond: [no-require-in-loop][no-require-in-loop-readme]               | No `require()` calls from within a loop in the template |
 | :small_orange_diamond: [no-embedded-isml][no-embedded-isml-readme]                   | Disallows embedded isml tags, such as in <div &lt;isif /> />, except for &lt;isprint /> |
 | :small_orange_diamond: [max-depth][max-depth-readme]                                 | Sets the maximum of nested elements in a template |
+| :boom: :small_orange_diamond: [disallow-tags][disallow-tags-readme]                  | Disallows tags specified at rule level |
 | :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]  | One element per line |
 | :wrench: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]        | Ensures &lt;iscontent> tag is the first element in the template if present |
 | :wrench: :small_orange_diamond: [leading-iscache][leading-iscache-readme]            | Ensures &lt;iscache> tag is among the first element in the template if present |
@@ -227,6 +228,7 @@ You are more than welcome to contribute with us! Please check the [contribute se
 [empty-eof-readme]:              <docs/rules/empty-eof.md>
 [max-lines-readme]:              <docs/rules/max-lines.md>
 [align-isset-readme]:            <docs/rules/align-isset.md>
+[disallow-tags-readme]:          <docs/rules/disallow-tags.md>
 
 [api-docs]:        <docs/api.md>
 [cli-docs]:        <docs/cli.md>

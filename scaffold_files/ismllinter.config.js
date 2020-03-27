@@ -33,6 +33,7 @@ const config = {
         'no-iselse-slash'      : {},
         'empty-eof'            : {},
         'align-isset'          : {},
+        'disallow-tags'        : {},
 
         // Other
         'lowercase-filename' : {}
