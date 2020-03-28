@@ -1,12 +1,18 @@
-const Database = require('better-sqlite3');
+const path      = require('path');
+const Database  = require('better-sqlite3');
+const FileUtils = require('./FileUtils');
 
 const { parseISOString } = require('./GeneralUtils');
 
-const DATABASE_NAME = 'db/isml-linter.db';
+const DB_DIRECTORY  = 'db';
+const DATABASE_PATH = path.join(DB_DIRECTORY, 'isml-linter.db');
 let db;
 
-const initDb = (dbName = DATABASE_NAME) => {
-    db = new Database(dbName);
+const initDb = (dbPath = DATABASE_PATH) => {
+
+    FileUtils.createDirIfDoesNotExist(DB_DIRECTORY);
+
+    db = new Database(dbPath);
 
     db.prepare(`CREATE TABLE IF NOT EXISTS TEMPLATE_DATA(
         PATH        TEXT PRIMARY KEY,
