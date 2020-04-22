@@ -1,9 +1,17 @@
 # Changelog
 
+## [5.25.0] - 2020-04-22
+
+### Added
+ - "[disallow-tags][disallow-tags-readme]" rule;
+ 
 ## [5.24.1] - 2020-03-27
 
 ### Fixed
  - Cache feature on database creation;
+
+### Security
+ - Updated dependencies;
  
 ## [5.24.0] - 2020-03-24
 
@@ -589,6 +597,7 @@
 ### Added
 - Linter is published;
 
+[5.25.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.24.1...v5.25.0
 [5.24.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.24.0...v5.24.1
 [5.24.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.23.1...v5.24.0
 [5.23.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.23.0...v5.23.1
@@ -674,3 +683,5 @@
 [issue#11]: https://github.com/FabiowQuixada/isml-linter/issues/11
 
 [cli-docs]: <docs/cli.md>
+
+[disallow-tags-readme]: <docs/rules/disallow-tags.md>
