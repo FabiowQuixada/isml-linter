@@ -186,6 +186,7 @@ const checkIfConfigFileWasModified = () => {
 };
 
 Linter.run = (pathData, content) => {
+    const EslintToIsscriptRule = require('./rules/tree/eslint-to-isscript');
 
     ConfigUtils.setLocalConfig();
     ConfigUtils.setLocalEslintConfig();
@@ -196,7 +197,7 @@ Linter.run = (pathData, content) => {
         throw ExceptionUtils.noConfigError();
     }
 
-    if (!ConfigUtils.isEslintConfigSet()) {
+    if (EslintToIsscriptRule.isEnabled() && !ConfigUtils.isEslintConfigSet()) {
         const ConsoleUtils = require('./util/ConsoleUtils');
         ConsoleUtils.displayEslintConfigError();
         throw ExceptionUtils.noEslintConfigError();
