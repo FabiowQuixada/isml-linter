@@ -1,5 +1,13 @@
 # Enabling Cache
 
+To enable cache, simply add the "enableCache" attribute to your Isml Linter config file and set it to **true**:
+```js
+{ 
+    "enableCache": true,
+    "rules" : {}
+}
+```
+
 This is an experimental feature that optimizes linting process by caching template rule occurrences. Cache is triggered based on template's "last modified" system information.
 
 Every time Isml Linter runs, it caches each template rule occurrences. Therefore if a template has not been modified since last lint run, it will not be linted again, as cached information will be used instead.
