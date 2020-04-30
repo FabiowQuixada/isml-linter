@@ -1,10 +1,11 @@
 const path      = require('path');
 const Database  = require('better-sqlite3');
 const FileUtils = require('./FileUtils');
+const Constants = require('../Constants');
 
 const { parseISOString } = require('./GeneralUtils');
 
-const DB_DIRECTORY  = 'db';
+const DB_DIRECTORY  = path.join(Constants.linterModuleDir, 'db');
 const DATABASE_PATH = path.join(DB_DIRECTORY, 'isml-linter.db');
 let db;
 
