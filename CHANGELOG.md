@@ -1,9 +1,17 @@
 # Changelog
 
+## [5.25.2] - 2020-04-30
+
+### Added
+ - Possibility for the configuration file to be ".ismllintrc.js";
+
+### Fixed
+ - Moved database file to the proper directory;
+
 ## [5.25.1] - 2020-04-29
 
 ### Added
- - extra description to cache docs;
+ - Extra description to cache docs;
 
 ### Fixed
  - "eslint-to-isscript" rule validation;
@@ -605,6 +613,7 @@
 ### Added
 - Linter is published;
 
+[5.25.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.1...v5.25.2
 [5.25.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.0...v5.25.1
 [5.25.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.24.1...v5.25.0
 [5.24.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.24.0...v5.24.1
