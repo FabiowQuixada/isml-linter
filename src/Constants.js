@@ -10,7 +10,7 @@ const ENV_TEST = 'test';
 const ENV_PROD = 'prod';
 
 // File names;
-const configFileNameList       = ['ismllinter.config.js', '.ismllinter.json'];
+const configFileNameList       = ['ismllinter.config.js', '.ismllinter.json', '.ismllintrc.js'];
 const eslintConfigFileNameList = ['.eslintrc.json', '.eslintrc.js', '.eslintrc'];
 
 const clientAppDir    = appRoot.toString();
@@ -106,6 +106,7 @@ module.exports = {
     specDir,
     sampleProductionProjectDir,
     sampleProductionProjectName,
+    linterModuleDir,
 
     // File names;
     configFileNameList,

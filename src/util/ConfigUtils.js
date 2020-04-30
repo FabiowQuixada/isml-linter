@@ -115,13 +115,15 @@ const existConfigFile = () => {
 };
 
 const getConfigFilePath = () => {
-    if (FileUtils.fileExists(Constants.configFilePathList[0])) {
-        return Constants.configFilePathList[0];
+    for (let index = 0; index < Constants.configFilePathList.length; index++) {
+        const configPath = Constants.configFilePathList[index];
+
+        if (FileUtils.fileExists(configPath)) {
+            return configPath;
+        }
     }
 
-    if (FileUtils.fileExists(Constants.configFilePathList[1])) {
-        return Constants.configFilePathList[1];
-    }
+    return null;
 };
 
 const existEslintConfigFile = () => {
