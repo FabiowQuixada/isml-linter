@@ -44,11 +44,11 @@
     "better-sqlite3": "^7.0.1",
     "chalk": "^4.0.0",
     "cli-progress": "^3.8.2",
-    "eslint": "^6.3.0",
     "readdir": "^1.0.1"
   },
   "devDependencies": {
     "eol": "^0.9.1",
+    "eslint": "^6.8.0",
     "eslint-plugin-jasmine": "^4.1.1",
     "eslint-plugin-varspacing": "^1.2.1",
     "execSync": "^1.0.2",
