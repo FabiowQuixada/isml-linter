@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.25.3] - 2020-05-07
+
+### Added 
+ - License file;
+
+### Changed
+ - Set some dependencies as "dev" dependencies;  
+
+### Security
+ - Upgraded dependencies;
+
 ## [5.25.2] - 2020-04-30
 
 ### Added
@@ -613,6 +624,7 @@
 ### Added
 - Linter is published;
 
+[5.25.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.2...v5.25.3
 [5.25.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.1...v5.25.2
 [5.25.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.0...v5.25.1
 [5.25.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.24.1...v5.25.0
