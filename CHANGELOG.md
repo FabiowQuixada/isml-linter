@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.25.4] - 2020-05-17
+
+### Fixed
+ - [Issue #17][issue#17]: "contextual-attrs" rule;
+
 ## [5.25.3] - 2020-05-07
 
 ### Added 
@@ -624,6 +629,7 @@
 ### Added
 - Linter is published;
 
+[5.25.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.3...v5.25.4
 [5.25.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.2...v5.25.3
 [5.25.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.1...v5.25.2
 [5.25.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.0...v5.25.1
@@ -703,14 +709,15 @@
 [2.0.0]: https://github.com/FabiowQuixada/isml-linter/compare/1.0.1...2.0.0
 [1.0.1]: https://github.com/FabiowQuixada/isml-linter/compare/1.0.0...1.0.1
 
-[issue#2]: https://github.com/FabiowQuixada/isml-linter/issues/2
-[issue#3]: https://github.com/FabiowQuixada/isml-linter/issues/3
-[issue#4]: https://github.com/FabiowQuixada/isml-linter/issues/4
-[issue#5]: https://github.com/FabiowQuixada/isml-linter/issues/5
-[issue#6]: https://github.com/FabiowQuixada/isml-linter/issues/6
-[issue#7]: https://github.com/FabiowQuixada/isml-linter/issues/7
-[issue#9]: https://github.com/FabiowQuixada/isml-linter/issues/9
+[issue#2]:  https://github.com/FabiowQuixada/isml-linter/issues/2
+[issue#3]:  https://github.com/FabiowQuixada/isml-linter/issues/3
+[issue#4]:  https://github.com/FabiowQuixada/isml-linter/issues/4
+[issue#5]:  https://github.com/FabiowQuixada/isml-linter/issues/5
+[issue#6]:  https://github.com/FabiowQuixada/isml-linter/issues/6
+[issue#7]:  https://github.com/FabiowQuixada/isml-linter/issues/7
+[issue#9]:  https://github.com/FabiowQuixada/isml-linter/issues/9
 [issue#11]: https://github.com/FabiowQuixada/isml-linter/issues/11
+[issue#17]: https://github.com/FabiowQuixada/isml-linter/issues/17
 
 [cli-docs]: <docs/cli.md>
 
