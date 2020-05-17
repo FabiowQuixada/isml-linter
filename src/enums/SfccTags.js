@@ -90,14 +90,20 @@ const TAG_DATA = {
         }
     },
     'iselse': {
-        'condition' : {},
+        'attributes': {
+            'condition' : {}
+        },
         'self-closing' : true
     },
     'isif': {
-        'condition' : {}
+        'attributes': {
+            'condition' : {}
+        }
     },
     'iselseif': {
-        'condition' : {},
+        'attributes': {
+            'condition' : {}
+        },
         'self-closing' : true
     },
     'isinclude' : {

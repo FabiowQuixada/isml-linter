@@ -82,4 +82,16 @@ describe(rule.id, () => {
         expect(result.length    ).toEqual(29);
         expect(result.rule      ).toEqual(rule.id);
     });
+
+    it('correctly processes "isif" tags', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('correctly processes custom tags', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2);
+
+        expect(result.length).toEqual(0);
+    });
 });

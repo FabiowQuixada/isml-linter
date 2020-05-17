@@ -9,7 +9,7 @@ const Rule = Object.create(TreeRulePrototype);
 Rule.init(ruleId, description);
 
 Rule.isBroken = function(node) {
-    if (!node.isIsmlTag()) {
+    if (!node.isIsmlTag() || node.isCustomIsmlTag()) {
         return false;
     }
 
