@@ -4,6 +4,8 @@
  * symbol. The same is valid for <isscript> and <iscomment> tags;
  */
 
+const ParseUtils = require('./components/ParseUtils');
+
 const placeholderSymbol = '_';
 
 const maskIgnorableContent = (content, isMaskBorders) => {
@@ -30,9 +32,14 @@ const maskIgnorableContent = (content, isMaskBorders) => {
  */
 const maskNestedIsmlElements = content => {
 
-    let result    = '';
-    let depth     = 0;
-    let firstTime = true;
+    const isContentUnbalanced = checkIfUnbalanced(content);
+    let result                = '';
+    let depth                 = 0;
+    let firstTime             = true;
+
+    if (isContentUnbalanced) {
+        return isContentUnbalanced;
+    }
 
     for (let i = 0; i < content.length; i++) {
         const currentChar = content.charAt(i);
@@ -168,6 +175,42 @@ const mask = content => {
     }
 
     return maskedContent;
+};
+
+const checkIfUnbalanced = content => {
+    const openingCharQty = ParseUtils.getCharOccurrenceQty(content, '<');
+    const closingCharQty = ParseUtils.getCharOccurrenceQty(content, '>');
+    let depth            = 0;
+
+    if (openingCharQty !== closingCharQty) {
+        for (let i = 0; i < content.length; i++) {
+            const currentChar = content.charAt(i);
+
+            if (currentChar === '<') {
+                depth += 1;
+
+                const isNextElementIsmlTag = content[i + 1] + content[i + 2] === 'is' || content[i + 1] + content[i + 2]  + content[i + 3] === '/is';
+
+                if (depth > 1 && !isNextElementIsmlTag) {
+                    const lineNumber = ParseUtils.getLineBreakQty(content.substring(0, i)) + 1;
+                    return {
+                        error: {
+                            character    : '<',
+                            lineNumber   : lineNumber,
+                            globalPos    : i,
+                            elemLength   : 1
+                        }
+                    };
+                }
+            }
+
+            if (content.charAt(i - 1) === '>') {
+                depth -= 1;
+            }
+        }
+    }
+
+    return false;
 };
 
 module.exports = {

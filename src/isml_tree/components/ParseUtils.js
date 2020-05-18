@@ -68,6 +68,8 @@ const getFirstElementType = elementAsString => {
 
 module.exports.getLineBreakQty = string => (string.match(new RegExp(Constants.EOL, 'g')) || []).length;
 
+module.exports.getCharOccurrenceQty = (string, char) => (string.match(new RegExp(char, 'g')) || []).length;
+
 const getNextNonEmptyCharPos = content => {
     const firstNonEmptyChar = getNextNonEmptyChar(content);
     return GeneralUtils.toLF(content).indexOf(firstNonEmptyChar);

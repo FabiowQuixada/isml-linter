@@ -27,6 +27,11 @@ const getCorrespondentClosingElementPosition = (content, parentState) => {
     const internalState = getInitialState(content, parentState);
     const obj           = getPosition(internalState.content);
 
+    if (obj.error) {
+        obj.error.templatePath = parentState.templatePath;
+        throwInvalidCharacterException(obj.error);
+    }
+
     internalState.currentElement.endPosition = obj.currentElemEndPosition;
     internalState.maskedContent              = obj.content;
     internalState.initialMaskedContent       = obj.content;
@@ -199,7 +204,12 @@ const updateElementStack = (internalState, currentElementStartingLineNumber, par
 
 const getPosition = content => {
 
-    content                      = MaskUtils.maskIgnorableContent(content);
+    content = MaskUtils.maskIgnorableContent(content);
+
+    if (content.error) {
+        return content;
+    }
+
     const currentElemEndPosition = content.indexOf('<');
 
     return {

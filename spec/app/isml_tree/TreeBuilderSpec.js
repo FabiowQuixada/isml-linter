@@ -499,6 +499,24 @@ describe(targetObjName, () => {
 
         expect(iscontentNode.value).toEqual('<div>');
     });
+
+    it('identifies missing closing char', () => {
+        const tree = getTreeFromTemplate(50);
+
+        expect(tree.exception.type       ).toEqual(ExceptionUtils.types.INVALID_CHARACTER);
+        expect(tree.exception.globalPos  ).toEqual(74);
+        expect(tree.exception.length     ).toEqual(1);
+        expect(tree.exception.lineNumber ).toEqual(5);
+    });
+
+    it('identifies missing closing char II', () => {
+        const tree = getTreeFromTemplate(51);
+
+        expect(tree.exception.type       ).toEqual(ExceptionUtils.types.INVALID_CHARACTER);
+        expect(tree.exception.globalPos  ).toEqual(101);
+        expect(tree.exception.length     ).toEqual(1);
+        expect(tree.exception.lineNumber ).toEqual(5);
+    });
 });
 
 const getTemplatePath = number => {
