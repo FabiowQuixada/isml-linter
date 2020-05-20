@@ -234,7 +234,16 @@ const isBalanced = (content, state) => {
 
         if (char === '<' && isNextCharALetter && depth === 0) {
             depth++;
-            const elem                   = ParseUtils.getNextElementValue(content.substring(i));
+            const elem = ParseUtils.getNextElementValue(content.substring(i));
+
+            if (elem.error) {
+                throw ExceptionUtils.unclosedDeprecatedIsmlComment(
+                    state.currentLineNumber + elem.error.localLineNumber,
+                    state.currentElement.initPosition + elem.error.localPos,
+                    elem.error.length,
+                    state.templatePath
+                );
+            }
             const currentLocalLineNumber = ParseUtils.getLineBreakQty(content.substring(0, i));
             let maskedContent            = MaskUtils.maskInBetween(elem, 'iscomment');
 

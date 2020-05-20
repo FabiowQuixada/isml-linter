@@ -91,7 +91,12 @@ module.exports.isStackable = isStackable;
 
 module.exports.getNextElementValue = content => {
     const maskedContent = MaskUtils.maskInBetween(content, '<!---', '--->', true);
-    const index         = maskedContent.indexOf('>');
+
+    if (maskedContent.error) {
+        return maskedContent;
+    }
+
+    const index = maskedContent.indexOf('>');
 
     return content.substring(0, index + 1);
 };

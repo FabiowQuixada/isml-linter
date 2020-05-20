@@ -1,10 +1,11 @@
 const Constants = require('../Constants');
 
 const types = {
-    UNKNOWN_ERROR     : 'UNKNOWN_ERROR',
-    INVALID_TEMPLATE  : 'INVALID_TEMPLATE',
-    INVALID_CHARACTER : 'INVALID_CHARACTER',
-    NO_CONFIG         : 'NO_CONFIG',
+    UNKNOWN_ERROR                    : 'UNKNOWN_ERROR',
+    UNCLOSED_DEPRECATED_ISML_COMMENT : 'UNCLOSED_DEPRECATED_ISML_COMMENT',
+    INVALID_TEMPLATE                 : 'INVALID_TEMPLATE',
+    INVALID_CHARACTER                : 'INVALID_CHARACTER',
+    NO_CONFIG                        : 'NO_CONFIG',
 };
 
 const unbalancedElementError = (elementType, lineNumber, globalPos, length, templatePath) => {
@@ -16,6 +17,18 @@ const unbalancedElementError = (elementType, lineNumber, globalPos, length, temp
         lineNumber   : lineNumber,
         isCustom     : true,
         type         : types.INVALID_TEMPLATE
+    };
+};
+
+const unclosedDeprecatedIsmlComment = (lineNumber, globalPos, length, templatePath) => {
+    return {
+        message      : '"<!---" element not correctly closed: use "--->" instead of "-->"',
+        templatePath : templatePath,
+        globalPos,
+        length,
+        lineNumber   : lineNumber,
+        isCustom     : true,
+        type         : types.UNCLOSED_DEPRECATED_ISML_COMMENT
     };
 };
 
@@ -67,6 +80,7 @@ const isLinterException = e => e && e.isCustom;
 
 module.exports = {
     parseError,
+    unclosedDeprecatedIsmlComment,
     unbalancedElementError,
     invalidCharacterError,
     noConfigError,

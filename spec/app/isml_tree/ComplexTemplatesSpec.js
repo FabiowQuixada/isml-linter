@@ -90,7 +90,7 @@ describe(targetObjName, () => {
         expect(firstDivNode.lineNumber).toEqual(2);
         expect(firstDivNode.getNumberOfChildren()).toEqual(2);
 
-        expect(htmlCommentNode.value).toEqual(`${Constants.EOL}${Constants.EOL}<!--- make drop down -->`);
+        expect(htmlCommentNode.value).toEqual(`${Constants.EOL}${Constants.EOL}<!--- make drop down --->`);
         expect(htmlCommentNode.lineNumber).toEqual(71);
         expect(htmlCommentNode.getNumberOfChildren()).toEqual(0);
 

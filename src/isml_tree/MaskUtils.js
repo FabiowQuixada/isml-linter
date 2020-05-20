@@ -111,6 +111,36 @@ const maskInBetweenForTagWithAttributes = (content, rawStartString) => {
     return getMatchingIndexes(content, endString, startingString);
 };
 
+const checkIfDeprecatedIsmlCommentIsUnbalanced = (content, startString, openingMatchList, closingMatchList) => {
+    if (startString === '<!---' && openingMatchList.length !== closingMatchList.length) {
+        let localPos;
+        let length;
+
+        for (let i = 0; i < openingMatchList.length; i++) {
+            const openingElementPos = openingMatchList[i];
+            const closingElementPos = closingMatchList[i];
+
+            if (!closingElementPos || closingElementPos < openingElementPos) {
+                const elemContent = content.substring(openingElementPos, content.indexOf('-->') + 3);
+                localPos          = openingElementPos;
+                length            = elemContent.length;
+            }
+        }
+
+        const localLineNumber = ParseUtils.getLineBreakQty(content.substring(0, localPos));
+
+        return {
+            error : {
+                localPos,
+                localLineNumber,
+                length
+            }
+        };
+    }
+
+    return false;
+};
+
 const getMatchingIndexes = (content, endString, startString, isMaskBorders) => {
     const matchingLists     = getMatchingLists(content, startString, endString);
     const openingMatchList  = matchingLists.openingMatchList;
@@ -121,6 +151,12 @@ const getMatchingIndexes = (content, endString, startString, isMaskBorders) => {
         endingGlobalPos : null,
         arrayIndex         : null
     };
+
+    const isDeprecatedIsmlCommentUnbalanced = checkIfDeprecatedIsmlCommentIsUnbalanced(content, startString, openingMatchList, closingMatchList);
+
+    if (isDeprecatedIsmlCommentUnbalanced) {
+        return isDeprecatedIsmlCommentUnbalanced;
+    }
 
     for (let i = 0; i < content.length; ++i) {
         if (isInBetween) {
@@ -193,6 +229,7 @@ const checkIfUnbalanced = content => {
 
                 if (depth > 1 && !isNextElementIsmlTag) {
                     const lineNumber = ParseUtils.getLineBreakQty(content.substring(0, i)) + 1;
+
                     return {
                         error: {
                             character    : '<',

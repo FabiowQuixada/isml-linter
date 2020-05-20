@@ -517,6 +517,24 @@ describe(targetObjName, () => {
         expect(tree.exception.length     ).toEqual(1);
         expect(tree.exception.lineNumber ).toEqual(5);
     });
+
+    it('ensures deprecated ISML comments are correctly closed I', () => {
+        const tree = getTreeFromTemplate(52);
+
+        expect(tree.exception.type       ).toEqual(ExceptionUtils.types.UNCLOSED_DEPRECATED_ISML_COMMENT);
+        expect(tree.exception.globalPos  ).toEqual(10);
+        expect(tree.exception.length     ).toEqual(24);
+        expect(tree.exception.lineNumber ).toEqual(2);
+    });
+
+    it('ensures deprecated ISML comments are correctly closed II', () => {
+        const tree = getTreeFromTemplate(53);
+
+        expect(tree.exception.type       ).toEqual(ExceptionUtils.types.UNCLOSED_DEPRECATED_ISML_COMMENT);
+        expect(tree.exception.globalPos  ).toEqual(47);
+        expect(tree.exception.length     ).toEqual(24);
+        expect(tree.exception.lineNumber ).toEqual(5);
+    });
 });
 
 const getTemplatePath = number => {
