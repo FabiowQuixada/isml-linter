@@ -23,20 +23,14 @@ const getCorrespondentClosingElementPosition = (content, parentState) => {
 
     const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
     const closingElemRegex = /<\/.[a-zA-Z]*>/;
+    const internalState    = getInitialState(content, parentState);
 
-    const internalState = getInitialState(content, parentState);
-    const obj           = getPosition(internalState.content);
-
-    if (obj.error) {
-        obj.error.templatePath = parentState.templatePath;
-        throwInvalidCharacterException(obj.error);
+    if (internalState.error) {
+        internalState.error.templatePath = parentState.templatePath;
+        throwInvalidCharacterException(internalState.error);
     }
 
-    internalState.currentElement.endPosition = obj.currentElemEndPosition;
-    internalState.maskedContent              = obj.content;
-    internalState.initialMaskedContent       = obj.content;
-    internalState.initialContent             = content;
-    let previousContent                      = null;
+    let previousContent = null;
 
     parentState.currentElement.endPosition = internalState.maskedContent.indexOf('>');
 
@@ -105,17 +99,30 @@ const throwInvalidCharacterException = error => {
 };
 
 const getInitialState = (content, parentState) => {
-    return {
-        parentState       : parentState,
+    const internalState = {
+        parentState,
+        content,
         currentElement    : {},
         currentLineNumber : parentState.currentLineNumber,
-        content           : content,
         openingElemPos    : -1,
         closingElementPos : -1,
         result            : -1,
         currentReadingPos : 0,
         elementStack      : []
     };
+
+    const positionData = getPosition(internalState.content);
+
+    if (positionData.error) {
+        return positionData;
+    }
+
+    internalState.currentElement.endPosition = positionData.currentElemEndPosition;
+    internalState.maskedContent              = positionData.content;
+    internalState.initialMaskedContent       = positionData.content;
+    internalState.initialContent             = content;
+
+    return internalState;
 };
 
 const updateState = (internalState, currentElementStartingLineNumber, parentState) => {
@@ -247,6 +254,7 @@ const isBalanced = (content, state) => {
             const currentLocalLineNumber = ParseUtils.getLineBreakQty(content.substring(0, i));
             let maskedContent            = MaskUtils.maskInBetween(elem, 'iscomment');
 
+            // TODO Wrap all of this into MaskUtils?
             maskedContent = MaskUtils.maskInBetween(maskedContent, '${', '}');
             maskedContent = MaskUtils.maskInBetween(maskedContent, 'isscript');
             maskedContent = MaskUtils.maskInBetweenForTagWithAttributes(maskedContent, 'script');

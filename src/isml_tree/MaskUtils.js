@@ -76,7 +76,7 @@ const maskInBetween = (content, startString, endString, isMaskBorders) => {
         processedEndString      = `</${startString}>`;
     }
 
-    return getMatchingIndexes(content, processedEndString, processedStartingString, isMaskBorders);
+    return getMatchingIndexes(content, processedStartingString, processedEndString, isMaskBorders);
 };
 
 const getMatchingLists = (content, startString, endString) => {
@@ -141,7 +141,7 @@ const checkIfDeprecatedIsmlCommentIsUnbalanced = (content, startString, openingM
     return false;
 };
 
-const getMatchingIndexes = (content, endString, startString, isMaskBorders) => {
+const getMatchingIndexes = (content, startString, endString, isMaskBorders) => {
     const matchingLists     = getMatchingLists(content, startString, endString);
     const openingMatchList  = matchingLists.openingMatchList;
     const closingMatchList  = matchingLists.closingMatchList;

@@ -66,9 +66,11 @@ const getFirstElementType = elementAsString => {
     return result;
 };
 
-module.exports.getLineBreakQty = string => (string.match(new RegExp(Constants.EOL, 'g')) || []).length;
+const getCharOccurrenceQty = (string, char) => (string.match(new RegExp(char, 'g')) || []).length;
 
-module.exports.getCharOccurrenceQty = (string, char) => (string.match(new RegExp(char, 'g')) || []).length;
+module.exports.getLineBreakQty = string => getCharOccurrenceQty(string, Constants.EOL);
+
+module.exports.getCharOccurrenceQty = getCharOccurrenceQty;
 
 const getNextNonEmptyCharPos = content => {
     const firstNonEmptyChar = getNextNonEmptyChar(content);
