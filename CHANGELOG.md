@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.25.5] - 2020-05-30
+
+### Fixed
+ - Parse handling of missing closing char ">";
+ - Parse handling of unclosed ISML deprecated comment;
+ 
 ## [5.25.4] - 2020-05-17
 
 ### Fixed
@@ -629,6 +635,7 @@
 ### Added
 - Linter is published;
 
+[5.25.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.4...v5.25.5
 [5.25.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.3...v5.25.4
 [5.25.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.2...v5.25.3
 [5.25.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.1...v5.25.2
