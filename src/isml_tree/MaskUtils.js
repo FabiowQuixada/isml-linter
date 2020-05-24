@@ -108,7 +108,7 @@ const maskInBetweenForTagWithAttributes = (content, rawStartString) => {
 
     const startingString = `<${rawStartString}>`;
     const endString      = `</${rawStartString}>`;
-    return getMatchingIndexes(content, endString, startingString);
+    return getMatchingIndexes(content, startingString, endString);
 };
 
 const checkIfDeprecatedIsmlCommentIsUnbalanced = (content, startString, openingMatchList, closingMatchList) => {
