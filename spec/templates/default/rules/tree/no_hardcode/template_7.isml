@@ -1,0 +1,9 @@
+<style>
+    p {
+        text-align: center;
+        color: red;
+    <isif condition="${aCondition}">
+        --text-primary: ${someValue};
+    </isif>
+    } 
+</style>

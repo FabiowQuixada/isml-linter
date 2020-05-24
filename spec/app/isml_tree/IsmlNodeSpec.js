@@ -221,6 +221,22 @@ describe(targetObjName, () => {
         expect(newNode.parent.id).toEqual(rootNode.id);
         expect(rootNode.getNumberOfChildren()).toEqual(childrenQty + 1);
     });
+
+    it('knows if a node is a descendant of a node of given type', () => {
+        const tree          = TreeBuilder.build(getTemplatePath(0));
+        const rootNode      = tree.rootNode;
+        const customTagNode = rootNode.children[11].children[0].children[0];
+
+        expect(customTagNode.isDescendantOf('td')).toEqual(true);
+    });
+
+    it('knows if a node is not a descendant of a node of given type', () => {
+        const tree          = TreeBuilder.build(getTemplatePath(0));
+        const rootNode      = tree.rootNode;
+        const customTagNode = rootNode.children[11].children[0].children[0];
+
+        expect(customTagNode.isDescendantOf('iscomment')).toEqual(false);
+    });
 });
 
 const getTemplatePath = number => {

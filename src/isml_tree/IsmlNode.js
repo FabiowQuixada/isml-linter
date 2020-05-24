@@ -167,6 +167,20 @@ class IsmlNode {
         return this.isIsmlTag() && !SfccTags[this.getType()];
     }
 
+    isDescendantOf(nodeType) {
+        let iterator = this.parent;
+
+        while (iterator !== null) {
+            if (iterator.isOfType(nodeType)) {
+                return true;
+            }
+
+            iterator = iterator.parent;
+        }
+
+        return false;
+    }
+
     // For an unwrapped ${someVariable} element, returns true;
     // For tags and hardcoded strings          , returns false;
     isExpression() {

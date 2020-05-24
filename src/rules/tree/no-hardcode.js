@@ -9,8 +9,8 @@ Rule.init(ruleId, description);
 
 Rule.isBroken = function(node) {
     return !node.isRoot() &&
-        !node.parent.isOfType('script') &&
-        !node.parent.isOfType('style') &&
+        !node.isDescendantOf('script') &&
+        !node.isDescendantOf('style') &&
         node.value.trim() &&
         !node.isRoot() &&
         !node.isMulticlause() &&

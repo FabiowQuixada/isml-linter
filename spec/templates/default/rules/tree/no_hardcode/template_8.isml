@@ -1,0 +1,6 @@
+<style data-info>
+    p {
+        text-align: center;
+        color: red;
+    } 
+</style>

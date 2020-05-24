@@ -76,4 +76,16 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('does not apply to <style> tag content with ISML tags within it', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 7);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('does not apply to <style [some attribute]> tag content', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 8);
+
+        expect(result.length).toEqual(0);
+    });
 });
