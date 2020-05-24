@@ -171,7 +171,7 @@ Check the [API docs][api-docs].
 | :wrench: [no-space-only-lines][no-space-only-lines-readme]                           | Disallows lines that contain only blank spaces, i.e., unnecessarily indented |
 | [no-inline-style][no-inline-style-readme]                                            | Disallows use of "style" HTML attribute. Enable this rule if you prefer style to be fully handled via CSS |
 | :wrench: [no-tabs][no-tabs-readme]                                                   | Disallows use of tabs |
-| [enforce-isprint][enforce-isprint-readme]                                            | Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
+| [enforce-isprint][enforce-isprint-readme]                                            | [[KNOWN BUG][enforce-isprint-readme]] Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
 | [enforce-require][enforce-require-readme]                                            | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
 | [lowercase-filename][lowercase-filename-readme]                                      | Disallows template names to have uppercase characters |
 | :boom: [max-lines][max-lines-readme]                                                 | Limits the size of templates |

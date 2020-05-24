@@ -2,6 +2,9 @@
 
 Enforces any hardcoded string or ISML expression to be wrapped in a &lt;isprint /> tag.
 
+## Known Bug
+"enforce-isprint" has a known bug that will be fixed only on version 6.0.0, as it will introduce breaking changes.
+
 ## Notes
 
 - This rule does **not** dependent on abstract tree build;
