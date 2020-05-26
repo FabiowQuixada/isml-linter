@@ -164,4 +164,10 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('does not take multiclause nodes into account', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 7);
+
+        expect(result.length).toEqual(0);
+    });
 });

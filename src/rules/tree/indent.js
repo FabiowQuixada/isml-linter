@@ -33,6 +33,7 @@ Rule.isBroken = function(node) {
     const actualIndentation   = node.getIndentationSize();
 
     return !node.isRoot() &&
+        !node.isMulticlause() &&
         !node.isEmpty() &&
         !node.isInSameLineAsParent() &&
         expectedIndentation !== actualIndentation;
