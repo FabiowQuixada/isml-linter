@@ -1,12 +1,18 @@
 # Changelog
 
+## [5.25.7] - 2020-05-25
+
+### Fixed
+ - "indent" rule line number 0 issue;
+ - "no-hardcode" rule for &lt;script> tag with ISML tags within its content;
+ 
 ## [5.25.6] - 2020-05-24
 
 ### Added
  - Known "enforce-isprint" rule bug report to documentation;
 
 ### Fixed
- - "no-hardcode" to ignore &lt;style> tag content;
+ - "no-hardcode" rule to ignore &lt;style> tag content;
  
 ## [5.25.5] - 2020-05-20
 
@@ -643,6 +649,7 @@
 ### Added
 - Linter is published;
 
+[5.25.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.6...v5.25.7
 [5.25.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.5...v5.25.6
 [5.25.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.4...v5.25.5
 [5.25.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.3...v5.25.4
