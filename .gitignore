@@ -6,5 +6,6 @@ scaffold_files/sample-production-project/cartridges/
 spec/temp/
 
 *.db
+*.db-journal
 *.log
 *.tgz
