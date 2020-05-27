@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.26.0] - 2020-05-26
+
+### Added
+ - "printPartialResults" configuration option;
+ 
 ## [5.25.7] - 2020-05-25
 
 ### Fixed
@@ -649,6 +654,7 @@
 ### Added
 - Linter is published;
 
+[5.26.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.7...v5.26.0
 [5.25.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.6...v5.25.7
 [5.25.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.5...v5.25.6
 [5.25.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.4...v5.25.5
