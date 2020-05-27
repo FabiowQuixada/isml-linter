@@ -58,19 +58,20 @@ Alternatively, you can manually create a configuration file, make sure it is in 
 
 You can disable any rule by removing it from the config file. You may also find these configuration options useful:
 
-| Config            | Description                              |
-| ----------------- |:-----------------------------------------|
-| rootDir           | The root directory under which the linter will run. Defaults to the directory where the package.json file is |
-| disableHtml5      | Disallows HTML5-defined unclosed tags, such as input, img and meta. Default: false |
-| ignoreUnparseable | Does not raise an error if an unparseable template is found. Default: false. Please check "Parse Modes - Tree" section below |
-| ignore            | If a template path contains (as a substring) any string defined here, that template will be ignored by the linter |
-| indent            | Indentation size. Default: **4** |
-| linebreakStyle    | **unix** or **windows**. Default: **unix** |
-| eslintConfig      | Path to a eslint configuration file, to be applied within &lt;isscript> tags. Default: .eslintrc.json |
-| enableCache       | <span style="color:red">[Experimental]</span> Please check [cache docs][cache-docs]. Default: **false** |
-| autoFix           | Applies fixes for enabled rules. Default: **false** |
-| disableTreeParse  | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: **false** |
-| rules             | Defines which rules to check. See available rules below |
+| Config              | Description                              |
+| ------------------- |:-----------------------------------------|
+| rootDir             | The root directory under which the linter will run. Defaults to the directory where the package.json file is |
+| disableHtml5        | Disallows HTML5-defined unclosed tags, such as input, img and meta. Default: false |
+| ignoreUnparseable   | Does not raise an error if an unparseable template is found. Default: false. Please check "Parse Modes - Tree" section below |
+| ignore              | If a template path contains (as a substring) any string defined here, that template will be ignored by the linter |
+| indent              | Indentation size. Default: **4** |
+| linebreakStyle      | **unix** or **windows**. Default: **unix** |
+| eslintConfig        | Path to a eslint configuration file, to be applied within &lt;isscript> tags. Default: .eslintrc.json |
+| enableCache         | <span style="color:red">[Experimental]</span> Please check [cache docs][cache-docs]. Default: **false** |
+| autoFix             | Applies fixes for enabled rules. Default: **false** |
+| printPartialResults | Prints partial results. Useful to get overall picture in case of many errors. Default: **false** |
+| disableTreeParse    | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: **false** |
+| rules               | Defines which rules to check. See available rules below |
 
 **Note:** If you explicitly set "ignoreUnparseable" config to true, unparseable templates may contain errors that will not be detected by Isml Linter.
 

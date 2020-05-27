@@ -19,6 +19,7 @@ const printExceptionMsg = e => {
 
 const displayLintingOccurrences = lintResult => {
 
+    const config           = ConfigUtils.load();
     const occurrenceLevels = Constants.occurrenceLevels.toArray();
     const errorData        = getErrorsData(lintResult);
     const warningData      = getWarningsData(lintResult);
@@ -45,7 +46,7 @@ const displayLintingOccurrences = lintResult => {
 
         if (data[occurrenceGroup].qty > 0) {
             for (let i = 0; i < data[occurrenceGroup].messages.length; i++) {
-                if (i > MAX_LISTED_ERRORS) {
+                if (config.printPartialResults && i > MAX_LISTED_ERRORS) {
                     break;
                 }
                 console.log(data[occurrenceGroup].messages[i]);
@@ -105,6 +106,8 @@ const displayOccurrences = lintResult => {
     displayUnparseableErrors(lintResult);
     displayUnknownErrors(lintResult);
 
+    // TODO Add this 'config' as a global const;
+    const config         = ConfigUtils.load();
     const occurrences    = displayLintingOccurrences(lintResult);
     const isCacheEnabled = ConfigUtils.load().enableCache;
 
@@ -148,7 +151,9 @@ const displayOccurrences = lintResult => {
             }
         }
 
-        console.log(chalk`{bold Displaying the first ${MAX_LISTED_ERRORS} occurrences of each group.}` + Constants.EOL);
+        if (config.printPartialResults) {
+            console.log(chalk`{bold Displaying the first ${MAX_LISTED_ERRORS} occurrences of each group.}` + Constants.EOL);
+        }
     } else {
         console.log(chalk`{green.bold Not issues found! Congrats!}`);
     }
