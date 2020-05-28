@@ -323,13 +323,14 @@ const parseTextNode = (state, nodeInnerContent) => {
 const getTextNodeValue = (nodeInnerContent, content, parentNode) => {
     let textNodeValue = nodeInnerContent;
 
-    const maskedText  = MaskUtils.maskIgnorableContent(textNodeValue);
+    const maskedText          = MaskUtils.maskIgnorableContent(textNodeValue);
+    const firstOpeningCharPos = maskedText.indexOf('<');
 
     if (ParseUtils.isNextElementAnIsmlExpression(content)) {
-        textNodeValue = content.substring(0, maskedText.indexOf('<')) || textNodeValue;
+        textNodeValue = content.substring(0, firstOpeningCharPos) || textNodeValue;
     }
     else if (!parentNode.isOfType(['iscomment', 'isscript'])) {
-        textNodeValue = maskedText.substring(0, maskedText.indexOf('<')) || textNodeValue;
+        textNodeValue = maskedText.substring(0, firstOpeningCharPos) || textNodeValue;
     }
 
     return textNodeValue;
