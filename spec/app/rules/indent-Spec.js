@@ -170,4 +170,10 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('applies for elements that have a hardcode as first sibling', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 8);
+
+        expect(result.length).toEqual(0);
+    });
 });

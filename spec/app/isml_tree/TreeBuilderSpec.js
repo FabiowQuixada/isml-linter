@@ -535,6 +535,13 @@ describe(targetObjName, () => {
         expect(tree.exception.length     ).toEqual(24);
         expect(tree.exception.lineNumber ).toEqual(5);
     });
+
+    it('parses correctly element that has a hardcode element as first child', () => {
+        const tree  = getTreeFromTemplate(54);
+        const pNode = tree.rootNode.children[0];
+
+        expect(pNode.children.length).toEqual(2);
+    });
 });
 
 const getTemplatePath = number => {

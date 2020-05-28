@@ -6,6 +6,7 @@ const MultiClauseNode = require('./MultiClauseNode');
 const ExceptionUtils  = require('../util/ExceptionUtils');
 const GeneralUtils    = require('../util/GeneralUtils');
 const MaskUtils       = require('./MaskUtils');
+const Constants       = require('../Constants');
 const fs              = require('fs');
 
 const postProcess = (node, data = {}) => {
@@ -327,7 +328,14 @@ const getTextNodeValue = (nodeInnerContent, content, parentNode) => {
     const firstOpeningCharPos = maskedText.indexOf('<');
 
     if (ParseUtils.isNextElementAnIsmlExpression(content)) {
-        textNodeValue = content.substring(0, firstOpeningCharPos) || textNodeValue;
+        if (parentNode.isMulticlause()) {
+            textNodeValue = content.substring(0, firstOpeningCharPos) || textNodeValue;
+        } else {
+            const textNodeContent                  = content.substring(0, firstOpeningCharPos);
+            const lastEOLBeforeFirstOpeningCharPos = textNodeContent.lastIndexOf(Constants.EOL);
+
+            textNodeValue = content.substring(0, lastEOLBeforeFirstOpeningCharPos) || textNodeValue;
+        }
     }
     else if (!parentNode.isOfType(['iscomment', 'isscript'])) {
         textNodeValue = maskedText.substring(0, firstOpeningCharPos) || textNodeValue;
