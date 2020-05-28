@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.26.1] - 2020-05-28
+
+### Fixed
+ - Tree build process;
+ - License in package.json, from "ISC" to "MIT", to be in accordance with the [LICENSE][license] file;
+ 
 ## [5.26.0] - 2020-05-26
 
 ### Added
@@ -654,6 +660,7 @@
 ### Added
 - Linter is published;
 
+[5.26.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.0...v5.26.1
 [5.26.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.7...v5.26.0
 [5.25.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.6...v5.25.7
 [5.25.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.5...v5.25.6
@@ -749,5 +756,6 @@
 [issue#17]: https://github.com/FabiowQuixada/isml-linter/issues/17
 
 [cli-docs]: <docs/cli.md>
+[license]:  <LICENSE>
 
 [disallow-tags-readme]: <docs/rules/disallow-tags.md>
