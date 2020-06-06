@@ -155,7 +155,7 @@ const displayOccurrences = lintResult => {
             console.log(chalk`{bold Displaying the first ${MAX_LISTED_ERRORS} occurrences of each group.}` + Constants.EOL);
         }
     } else {
-        console.log(chalk`{green.bold Not issues found! Congrats!}`);
+        console.log(chalk`{green.bold No issues found!}`);
     }
 
     if (!isCacheEnabled) {
