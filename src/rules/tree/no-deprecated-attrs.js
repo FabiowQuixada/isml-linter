@@ -18,23 +18,25 @@ Rule.isBroken = function(node) {
     const obj      = SfccTags[nodeType];
     let result     = null;
 
-    attrList.some( nodeAttribute => {
-        for (const sfccAttr in obj.attributes) {
-            if (Object.prototype.hasOwnProperty.call(obj.attributes, sfccAttr) && nodeAttribute.name === sfccAttr) {
-                const attr              = obj.attributes[sfccAttr];
-                const isValueDeprecated = attr.deprecatedValues &&
+    if (node.isStandardIsmlTag()) {
+        attrList.some( nodeAttribute => {
+            for (const sfccAttr in obj.attributes) {
+                if (Object.prototype.hasOwnProperty.call(obj.attributes, sfccAttr) && nodeAttribute.name === sfccAttr) {
+                    const attr              = obj.attributes[sfccAttr];
+                    const isValueDeprecated = attr.deprecatedValues &&
                     attr.deprecatedValues.indexOf(nodeAttribute.value) !== -1;
 
-                if (isValueDeprecated) {
-                    result         = nodeAttribute;
-                    result.message = `"${nodeAttribute.value}" value is deprecated for "${nodeAttribute.name}" attribute`;
-                    return true;
+                    if (isValueDeprecated) {
+                        result         = nodeAttribute;
+                        result.message = `"${nodeAttribute.value}" value is deprecated for "${nodeAttribute.name}" attribute`;
+                        return true;
+                    }
                 }
             }
-        }
 
-        return false;
-    });
+            return false;
+        });
+    }
 
     return result;
 };

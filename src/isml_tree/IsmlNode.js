@@ -163,8 +163,12 @@ class IsmlNode {
         return this.value.trim().startsWith('<is');
     }
 
+    isStandardIsmlTag() {
+        return !!SfccTags[this.getType()];
+    }
+
     isCustomIsmlTag() {
-        return this.isIsmlTag() && !SfccTags[this.getType()];
+        return this.isIsmlTag() && !this.isStandardIsmlTag();
     }
 
     isDescendantOf(nodeType) {

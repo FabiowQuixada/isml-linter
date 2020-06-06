@@ -45,4 +45,10 @@ describe(rule.id, () => {
         expect(result.length    ).toEqual(12);
         expect(result.rule      ).toEqual(rule.id);
     });
+
+    it('ignores custom tags', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+
+        expect(result.length).toEqual(0);
+    });
 });
