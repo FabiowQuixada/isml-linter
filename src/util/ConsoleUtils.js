@@ -122,9 +122,9 @@ const displayOccurrences = lintResult => {
         console.log(Constants.EOL + '=====================================================');
 
         if (lintResult.cachedTemplatesQty > 0) {
-            console.log(Constants.EOL + chalk`{bold Linted ${lintResult.totalTemplatesQty} templates, ${lintResult.cachedTemplatesQty} of which were cached.}`);
+            console.log(Constants.EOL + chalk`{bold Linted ${lintResult.totalTemplatesQty} templates, ${lintResult.cachedTemplatesQty} of which were cached, in ${lintResult.elapsedTime} seconds.}`);
         } else {
-            console.log(Constants.EOL + chalk`{bold Linted ${lintResult.totalTemplatesQty} templates.}`);
+            console.log(Constants.EOL + chalk`{bold Linted ${lintResult.totalTemplatesQty} templates in ${lintResult.elapsedTime} seconds.}`);
         }
 
         if (occurrences.error.qty > 0) {

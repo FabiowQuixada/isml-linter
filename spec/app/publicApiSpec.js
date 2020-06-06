@@ -25,6 +25,10 @@ describe(targetObjName, () => {
         const actualResult   = publicApi.parse(dirPath);
         const expectedResult = IsmlLinter.run(dirPath);
 
+        // Ignores elapsed time data;
+        delete actualResult.elapsedTime;
+        delete expectedResult.elapsedTime;
+
         expect(actualResult).toEqual(expectedResult);
     });
 
@@ -53,6 +57,10 @@ describe(targetObjName, () => {
         const lintPath           = Constants.specSpecificDirLinterTemplate;
         const actualLintResult   = publicApi.parse(lintPath);
         const expectedLintResult = IsmlLinter.run(lintPath);
+
+        // Ignores elapsed time data;
+        delete actualLintResult.elapsedTime;
+        delete expectedLintResult.elapsedTime;
 
         expect(actualResult    ).toEqual(expectedResult);
         expect(actualResult    ).toEqual(config);

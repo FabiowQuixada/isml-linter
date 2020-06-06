@@ -218,12 +218,12 @@ Linter.run = (pathData, content) => {
     try {
         DatabaseUtils.initDb();
         const dbData                = DatabaseUtils.loadData();
-        const lintDate              = new Date();
+        const lintStartTime         = new Date();
         const isCacheEnabled        = ConfigUtils.load().enableCache;
         const wasConfigFileModified = checkIfConfigFileWasModified();
 
         ProgressBar.start(templatePathArray.length);
-        DatabaseUtils.updateConfigDate(lintDate);
+        DatabaseUtils.updateConfigDate(lintStartTime);
 
         for (let i = 0; i < templatePathArray.length; i++) {
             const templateName             = templatePathArray[i];
@@ -240,7 +240,7 @@ Linter.run = (pathData, content) => {
                 if (!isCacheEnabled || (wasModifiedAfterLastLint || wasConfigFileModified)) {
                     const templateResults = checkTemplate(content, templatePath, templateName);
 
-                    DatabaseUtils.insertOrReplaceData(templatePath, lintDate, templateResults);
+                    DatabaseUtils.insertOrReplaceData(templatePath, lintStartTime, templateResults);
                     finalResult = merge(finalResult, templateResults);
                 } else if (templateDbData.lintResult.occurrenceQty > 0) {
                     finalResult = merge(finalResult, templateDbData.lintResult);
@@ -256,6 +256,9 @@ Linter.run = (pathData, content) => {
         }
 
         addCustomModuleResults(finalResult);
+
+        const lintEndTime       = new Date();
+        finalResult.elapsedTime = (lintEndTime.getTime() - lintStartTime.getTime()) / 1000;
 
     } catch (e) {
         const ConsoleUtils = require('../src/util/ConsoleUtils');
