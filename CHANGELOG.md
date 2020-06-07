@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.26.2] - 2020-06-07
+
+### Fixed
+ - "no-deprecated-attrs" rule;
+ 
 ## [5.26.1] - 2020-05-28
 
 ### Fixed
@@ -660,6 +665,7 @@
 ### Added
 - Linter is published;
 
+[5.26.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.1...v5.26.2
 [5.26.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.0...v5.26.1
 [5.26.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.7...v5.26.0
 [5.25.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.25.6...v5.25.7
