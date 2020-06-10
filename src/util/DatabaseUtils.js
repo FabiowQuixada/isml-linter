@@ -1,77 +1,70 @@
 const path      = require('path');
-const Database  = require('better-sqlite3');
 const FileUtils = require('./FileUtils');
 const Constants = require('../Constants');
 
-const { parseISOString } = require('./GeneralUtils');
-
 const DB_DIRECTORY  = path.join(Constants.linterModuleDir, 'db');
-const DATABASE_PATH = path.join(DB_DIRECTORY, 'isml-linter.db');
-let db;
+const DB_FILENAME   = 'database.json';
+const DATABASE_PATH = path.join(DB_DIRECTORY, DB_FILENAME);
+let dbData;
 
-const initDb = (dbPath = DATABASE_PATH) => {
+const emptyDBStructure = {
+    lastLintVersion      : '',
+    configFileLastLinted : '',
+    templates            : {
+        // '' : {
+        //     lastLinted : '',
+        //     lintResult : ''
+        // }
+    }
+};
 
-    FileUtils.createDirIfDoesNotExist(DB_DIRECTORY);
+const initDb = () => {
+    if (FileUtils.fileExists(DATABASE_PATH)) {
+        const rawData = require(DATABASE_PATH);
 
-    db = new Database(dbPath);
+        dbData  = {
+            configFileLastLinted : new Date(rawData.configFileLastLinted),
+            templates            : {}
+        };
 
-    db.prepare(`CREATE TABLE IF NOT EXISTS TEMPLATE_DATA(
-        PATH        TEXT PRIMARY KEY,
-        LAST_LINTED DATE NOT NULL,
-        LINT_RESULT TEXT NOT NULL
-    );`).run();
+        for (const templatePath in rawData.templates) {
+            const rawTemplateData = rawData.templates[templatePath];
 
-    db.prepare(`CREATE TABLE IF NOT EXISTS CONFIGURATION_FILE(
-        ID          INTEGER PRIMARY KEY AUTOINCREMENT,
-        LAST_LINTED DATE NOT NULL
-    );`).run();
+            dbData.templates[templatePath] = {
+                lastLinted : new Date(rawTemplateData.lastLinted),
+                lintResult : rawTemplateData.lintResult
+            };
+        }
+
+    } else {
+        dbData = emptyDBStructure;
+        FileUtils.createDirIfDoesNotExist(DB_DIRECTORY);
+        FileUtils.saveToJsonFile(DB_DIRECTORY, DB_FILENAME, dbData);
+    }
 };
 
 const loadData = () => {
-    const queryResult = db.prepare('SELECT * FROM TEMPLATE_DATA').all();
-    const dbData      = {};
-
-    if (queryResult) {
-        for (let i = 0; i < queryResult.length; i++) {
-            const templateRow = queryResult[i];
-            const lastLinted  = parseISOString(templateRow.LAST_LINTED);
-            const lintResult  = JSON.parse(templateRow.LINT_RESULT);
-
-            dbData[templateRow.PATH] = {
-                lastLinted,
-                lintResult
-            };
-        }
-    }
-
-    return dbData;
+    return dbData.templates;
 };
 
-const insertOrReplaceData = (path, lastLinted, parseData) => {
-    const statement = db.prepare(`INSERT OR REPLACE INTO TEMPLATE_DATA
-        (PATH, LAST_LINTED, LINT_RESULT) VALUES
-        (?, ?, ?)`);
-
-    statement.run(path, lastLinted.toISOString(), JSON.stringify(parseData));
+const insertOrReplaceData = (path, lastLinted, lintResult) => {
+    dbData.templates[path] = {
+        lastLinted,
+        lintResult
+    };
 };
 
 const getConfigFileModificationDate = () => {
-    const queryResult = db.prepare('SELECT * FROM CONFIGURATION_FILE').get();
-
-    return queryResult &&
-        queryResult.LAST_LINTED &&
-        parseISOString(queryResult.LAST_LINTED);
+    return dbData.configFileLastLinted;
 };
 
 const updateConfigDate = lastModified => {
-    const statement = db.prepare(`INSERT OR REPLACE INTO CONFIGURATION_FILE 
-        (ID, LAST_LINTED) VALUES 
-        (1, ?)`);
-
-    statement.run(lastModified.toISOString());
+    dbData.configFileLastLinted = lastModified;
 };
 
-const closeDb = () => db.close();
+const closeDb = () => {
+    FileUtils.saveToJsonFile(DB_DIRECTORY, DB_FILENAME, dbData);
+};
 
 module.exports.initDb                        = initDb;
 module.exports.loadData                      = loadData;

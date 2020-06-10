@@ -41,7 +41,6 @@
   ],
   "dependencies": {
     "app-root-path": "^3.0.0",
-    "better-sqlite3": "^7.0.1",
     "chalk": "^4.0.0",
     "cli-progress": "^3.8.2",
     "readdir": "^1.0.1"
