@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.26.4] - 2020-06-11
+
+### Fixed
+ - Npm-ignore database directory;
+ 
 ## [5.26.3] - 2020-06-09
 
 ### Fixed
@@ -670,6 +675,7 @@
 ### Added
 - Linter is published;
 
+[5.26.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.3...v5.26.4
 [5.26.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.2...v5.26.3
 [5.26.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.1...v5.26.2
 [5.26.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.0...v5.26.1
