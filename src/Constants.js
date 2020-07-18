@@ -73,6 +73,7 @@ const occurrenceLevels  = {
     INFO     : 'info',
     toArray  : () => ['info', 'warning', 'error']
 };
+const lineBreakOffset   = OS_EOL.length - 1;
 
 const leadingElementsChecking = 4;
 
@@ -135,5 +136,6 @@ module.exports = {
     occurrenceLevels,
     EOL,
     OS_EOL,
-    lineBreak
+    lineBreak,
+    lineBreakOffset
 };

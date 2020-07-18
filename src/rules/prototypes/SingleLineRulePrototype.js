@@ -18,7 +18,7 @@ SingleLineRulePrototype.check = function(templateContent) {
         const line       = lineArray[lineNumber];
         const occurrence = this.getFirstOccurrence(line);
         if (occurrence) {
-            this.add(line, lineNumber, globalPos + occurrence.globalPos, occurrence.length);
+            this.add(line, lineNumber, globalPos + occurrence.globalPos + Constants.lineBreakOffset * lineNumber, occurrence.length);
         }
 
         globalPos += line.length + 1;

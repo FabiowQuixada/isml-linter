@@ -70,4 +70,22 @@ describe(rule.id, () => {
 
         expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
     });
+
+    it('identifies issue global position', () => {
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 4);
+        const result          = rule.check(templateContent);
+        const occurrence      = result.occurrences[0];
+
+        expect(occurrence.globalPos).toEqual(59 + Constants.lineBreakOffset * (occurrence.lineNumber - 1));
+    });
+
+    it('identifies issue global position II', () => {
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 5);
+        const result          = rule.check(templateContent);
+        const occurrence      = result.occurrences[0];
+        const occurrence2     = result.occurrences[1];
+
+        expect(occurrence.globalPos).toEqual(55   + Constants.lineBreakOffset * (occurrence.lineNumber - 1));
+        expect(occurrence2.globalPos).toEqual(106 + Constants.lineBreakOffset * (occurrence2.lineNumber - 1));
+    });
 });

@@ -1,4 +1,5 @@
 const SpecHelper   = require('../../SpecHelper');
+const Constants    = require('../../../src/Constants');
 const specFileName = require('path').basename(__filename);
 const rule         = SpecHelper.getRule(specFileName);
 
@@ -45,7 +46,7 @@ describe(rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('<div><br /></div>');
         expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(6);
+        expect(firstOccurrence.globalPos ).toEqual(6 + Constants.lineBreakOffset * (firstOccurrence.lineNumber - 1));
         expect(firstOccurrence.length    ).toEqual(6);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual(rule.description);
@@ -84,7 +85,7 @@ describe(rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('<br/>');
         expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(1);
+        expect(firstOccurrence.globalPos ).toEqual(1 + Constants.lineBreakOffset * (firstOccurrence.lineNumber - 1));
         expect(firstOccurrence.length    ).toEqual(5);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual(rule.description);

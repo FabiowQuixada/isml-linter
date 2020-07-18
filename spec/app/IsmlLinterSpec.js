@@ -59,7 +59,7 @@ describe(targetObjName, () => {
 
         expect(blankLineError.line       ).toEqual('   ');
         expect(blankLineError.lineNumber ).toEqual(2);
-        expect(blankLineError.globalPos  ).toEqual(50);
+        expect(blankLineError.globalPos  ).toEqual(50 + Constants.lineBreakOffset * (blankLineError.lineNumber - 1));
         expect(blankLineError.length     ).toEqual(4);
         expect(blankLineError.rule       ).toEqual(NoSpaceOnlyLinesRule.id);
         expect(blankLineError.message    ).toEqual(NoSpaceOnlyLinesRule.description);
@@ -101,7 +101,7 @@ describe(targetObjName, () => {
 
         expect(blankLineError.line       ).toEqual('   ');
         expect(blankLineError.lineNumber ).toEqual(2);
-        expect(blankLineError.globalPos  ).toEqual(50);
+        expect(blankLineError.globalPos  ).toEqual(50 + Constants.lineBreakOffset * (blankLineError.lineNumber - 1));
         expect(blankLineError.length     ).toEqual(4);
         expect(blankLineError.rule       ).toEqual(NoSpaceOnlyLinesRule.id);
         expect(blankLineError.message    ).toEqual(NoSpaceOnlyLinesRule.description);
