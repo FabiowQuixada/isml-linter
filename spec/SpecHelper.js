@@ -55,8 +55,7 @@ module.exports = {
     },
 
     getRuleSpecTemplateContent: (rule, templateNumber) => {
-        const fs           = require('fs');
-        const templatePath = `${Constants.specRuleTemplateDir}/line_by_line/${snake(rule.id)}/template_${templateNumber}.isml`;
+        const templatePath = path.join(Constants.specRuleTemplateDir, 'line_by_line', snake(rule.id), `template_${templateNumber}.isml`);
         return fs.readFileSync(templatePath, 'utf-8');
     },
 

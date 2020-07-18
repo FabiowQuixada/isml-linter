@@ -232,7 +232,7 @@ describe(targetObjName, () => {
     });
 
     it('accepts a single-file-to-be-linted as parameter', () => {
-        const paramPath     = 'spec/templates/default/isml_linter/specific_directory_to_be_linted/template_1.isml';
+        const paramPath     = path.join('spec', 'templates', 'default', 'isml_linter', 'specific_directory_to_be_linted', 'template_1.isml');
         const filePathArray = [paramPath];
         const result        = IsmlLinter.run(filePathArray);
 
@@ -245,7 +245,7 @@ describe(targetObjName, () => {
     });
 
     it('accepts a directory-to-be-linted as parameter', () => {
-        const paramPath     = 'spec/templates/default/isml_linter/specific_directory_to_be_linted/';
+        const paramPath     = path.join('spec', 'templates', 'default', 'isml_linter', 'specific_directory_to_be_linted');
         const filePathArray = [paramPath];
         const result        = IsmlLinter.run(filePathArray);
 
