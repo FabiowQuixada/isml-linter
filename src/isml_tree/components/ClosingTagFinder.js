@@ -21,8 +21,8 @@ const getCorrespondentClosingElementPosition = (content, parentState) => {
         throwInvalidCharacterException(balanceCheckResult.error);
     }
 
-    const openingElemRegex = /<[a-zA-Z]*(\s|>|\/)/;
-    const closingElemRegex = /<\/.[a-zA-Z]*>/;
+    const openingElemRegex = /<[a-zA-Z]+(\s|>|\/)/;
+    const closingElemRegex = /<\/[a-zA-Z]*>/;
     const internalState    = getInitialState(content, parentState);
 
     if (internalState.error) {
