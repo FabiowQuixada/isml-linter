@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.26.5] - 2020-07-18
+
+### Fixed
+ - "indent" rule;
+ - Cross-OS issues;
+ 
 ## [5.26.4] - 2020-06-11
 
 ### Fixed
@@ -675,6 +681,7 @@
 ### Added
 - Linter is published;
 
+[5.26.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.4...v5.26.5
 [5.26.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.3...v5.26.4
 [5.26.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.2...v5.26.3
 [5.26.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.1...v5.26.2
