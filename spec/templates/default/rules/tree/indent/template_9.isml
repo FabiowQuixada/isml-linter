@@ -1,0 +1,7 @@
+<div>
+    <isif condition="${aCondition}">
+        <isinclude template="template1" />
+    <iselseif condition="${anotherCondition}">
+        <isinclude template="template2" />
+    </isif>
+</div>

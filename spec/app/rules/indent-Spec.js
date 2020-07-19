@@ -176,4 +176,16 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('checks if indentation is set as previous node trailing spaces', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 9);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('checks if indentation is set as previous node trailing spaces II', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 10);
+
+        expect(result.length).toEqual(0);
+    });
 });

@@ -30,7 +30,7 @@ Rule.isBroken = function(node) {
 
     const configIndentSize    = this.getConfigs().size;
     const expectedIndentation = (node.depth - 1) * configIndentSize;
-    const actualIndentation   = node.getIndentationSize();
+    const actualIndentation   = node.getIndentationSize() + getPreviousNodeTrailingSpacesQty(node);
 
     return !node.isRoot() &&
         !node.isMulticlause() &&
@@ -173,6 +173,32 @@ const checkIfShouldAddIndentationToSuffix = node => {
         isBrokenIntoMultipleLines;
 
     return shouldAdd;
+};
+
+/**
+ * It might happen that spaces end up as trailing spaces of the previous
+ * node instead of leading spaces of the current node. This case is handled here;
+ */
+const getPreviousNodeTrailingSpacesQty = node => {
+    const previousSibling = node.getPreviousSibling();
+
+    if (previousSibling) {
+        const nephewNode              = previousSibling.getLastChild();
+        let valueTrailingSpaces       = -1;
+        let suffixValueTrailingSpaces = -1;
+
+        if (nephewNode) {
+            valueTrailingSpaces       = ParseUtils.getTrailingBlankContent(nephewNode);
+            suffixValueTrailingSpaces = ParseUtils.getSuffixTrailingBlankContent(nephewNode);
+        } else {
+            valueTrailingSpaces       = ParseUtils.getTrailingBlankContent(previousSibling);
+            suffixValueTrailingSpaces = ParseUtils.getSuffixTrailingBlankContent(previousSibling);
+        }
+
+        return (suffixValueTrailingSpaces || valueTrailingSpaces).substring(1).length;
+    }
+
+    return 0;
 };
 
 module.exports = Rule;

@@ -1,0 +1,7 @@
+<span class="address-list-container">
+    <div class="address-direction">
+        <isprint value="${address.address.address1}" encoding="off" />  
+        <isprint value="${address.address.city}" encoding="off" />  
+        <isprint value="${address.address.stateCode}" encoding="off" />
+    </div>
+</span>
