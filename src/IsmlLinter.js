@@ -186,26 +186,24 @@ const checkIfConfigFileWasModified = () => {
 };
 
 Linter.run = (pathData, content) => {
+    const ConsoleUtils         = require('./util/ConsoleUtils');
+    const ProgressBar          = require('./util/ProgressBar');
     const EslintToIsscriptRule = require('./rules/tree/eslint-to-isscript');
 
     ConfigUtils.setLocalConfig();
     ConfigUtils.setLocalEslintConfig();
 
     if (!ConfigUtils.isConfigSet()) {
-        const ConsoleUtils = require('./util/ConsoleUtils');
         ConsoleUtils.displayConfigError();
         throw ExceptionUtils.noConfigError();
     }
 
     if (EslintToIsscriptRule.isEnabled() && !ConfigUtils.isEslintConfigSet()) {
-        const ConsoleUtils = require('./util/ConsoleUtils');
         ConsoleUtils.displayEslintConfigError();
         throw ExceptionUtils.noEslintConfigError();
     }
 
-    const ProgressBar  = require('./util/ProgressBar');
-    const ConsoleUtils = require('./util/ConsoleUtils');
-    RuleUtils          = require('./util/RuleUtils');
+    RuleUtils = require('./util/RuleUtils');
 
     const templateData      = getTemplatePaths(pathData);
     const templatePathArray = templateData.templates;
@@ -261,7 +259,6 @@ Linter.run = (pathData, content) => {
         finalResult.elapsedTime = (lintEndTime.getTime() - lintStartTime.getTime()) / 1000;
 
     } catch (e) {
-        const ConsoleUtils = require('../src/util/ConsoleUtils');
         ConsoleUtils.printExceptionMsg(e.stack || e);
         process.exit(1);
 
