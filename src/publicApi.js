@@ -1,12 +1,12 @@
 const IsmlLinter   = require('./IsmlLinter');
 const Builder      = require('./Builder');
-const ConfigUtils  = require('./util/ConfigUtils');
 const ConsoleUtils = require('./util/ConsoleUtils');
 
 let linterResult = {};
 
 module.exports = {
-    setConfig    : json  => ConfigUtils.load(json),
+    setConfig    : json  => IsmlLinter.setConfig(json),
+    getConfig    : ()    => IsmlLinter.getConfig(),
     parse        : (path, content)  => {
         linterResult = IsmlLinter.run(path, content);
         return linterResult;

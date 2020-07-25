@@ -13,6 +13,9 @@ const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
 const UNPARSEABLE   = ExceptionUtils.types.INVALID_TEMPLATE;
 const Linter        = {};
 
+// Configuration set through the public API;
+let globalConfig;
+
 const ignoreFiles = file => {
     if (file.indexOf('node_modules') !== -1) {
         return true;
@@ -185,12 +188,18 @@ const checkIfConfigFileWasModified = () => {
     return wasConfigFileModified;
 };
 
+Linter.setConfig = newConfig => {
+    globalConfig = newConfig;
+};
+
+Linter.getConfig = () => globalConfig;
+
 Linter.run = (pathData, content) => {
     const ConsoleUtils         = require('./util/ConsoleUtils');
     const ProgressBar          = require('./util/ProgressBar');
     const EslintToIsscriptRule = require('./rules/tree/eslint-to-isscript');
 
-    ConfigUtils.setLocalConfig();
+    ConfigUtils.setLocalConfig(globalConfig);
     ConfigUtils.setLocalEslintConfig();
 
     if (!ConfigUtils.isConfigSet()) {

@@ -40,9 +40,12 @@ describe(targetObjName, () => {
     });
 
     it('sets config', () => {
-        const configPath     = '../publicApi_config.json';
-        const config         = require(configPath);
-        const actualResult   = publicApi.setConfig(config);
+        const configPath = '../publicApi_config.json';
+        const config     = require(configPath);
+
+        publicApi.setConfig(config);
+
+        const actualResult   = publicApi.getConfig();
         const expectedResult = ConfigUtils.load(config);
 
         expect(actualResult).toEqual(expectedResult);
@@ -50,9 +53,12 @@ describe(targetObjName, () => {
     });
 
     it('uses defined config', () => {
-        const configPath         = '../publicApi_config.json';
-        const config             = require(configPath);
-        const actualResult       = publicApi.setConfig(config);
+        const configPath = '../publicApi_config.json';
+        const config     = require(configPath);
+
+        publicApi.setConfig(config);
+
+        const actualResult       = publicApi.getConfig();
         const expectedResult     = ConfigUtils.load(config);
         const lintPath           = Constants.specSpecificDirLinterTemplate;
         const actualLintResult   = publicApi.parse(lintPath);

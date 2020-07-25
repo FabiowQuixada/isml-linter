@@ -18,6 +18,8 @@ const isEslintConfigSet = () => eslintConfigData !== null;
 
 const load = configParam => {
 
+    addParamsToConfig(configData);
+
     if (configParam) {
         configData = configParam;
         return configParam;
@@ -41,8 +43,6 @@ const load = configParam => {
     }
 
     setLocalConfig();
-
-    addParamsToConfig(configData);
 
     return configData;
 };
@@ -136,8 +136,13 @@ const existEslintConfigFile = () => {
 
 const isTestEnv = () => process.env.NODE_ENV === Constants.ENV_TEST;
 
-const setLocalConfig = () => {
+const setLocalConfig = configParam => {
     if (isTestEnv()) {
+        return;
+    }
+
+    if (configParam) {
+        configData = configParam;
         return;
     }
 
