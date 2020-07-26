@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.26.6] - 2020-07-26
+
+### Fixed
+ - Command line interface parameters;
+ 
 ## [5.26.5] - 2020-07-18
 
 ### Fixed
@@ -681,6 +686,7 @@
 ### Added
 - Linter is published;
 
+[5.26.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.5...v5.26.6
 [5.26.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.4...v5.26.5
 [5.26.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.3...v5.26.4
 [5.26.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.2...v5.26.3
