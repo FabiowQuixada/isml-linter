@@ -17,6 +17,10 @@ const isSfccSelfClosing = elem => {
         SfccTags[elem] && SfccTags[elem]['self-closing'];
 };
 
+const isSfccCustomTag = elem => {
+    return elem.startsWith('is') && !SfccTags[elem];
+};
+
 const pickInnerContent = (state, content) => {
     const innerContentStartPos = state.currentElement.endPosition + 1;
     const innerContentEndPos   = state.currentElemClosingTagInitPos;
@@ -51,7 +55,8 @@ const isStackable = elem => {
         elem !== 'iselse' &&
         elem !== 'iselseif' &&
         (!elem.startsWith('is') ||
-        !isSfccSelfClosing(elem));
+        !isSfccSelfClosing(elem)) &&
+        !isSfccCustomTag(elem);
 };
 
 const getFirstElementType = elementAsString => {

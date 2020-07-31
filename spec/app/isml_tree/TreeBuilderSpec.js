@@ -542,6 +542,12 @@ describe(targetObjName, () => {
 
         expect(pNode.children.length).toEqual(2);
     });
+
+    it('allows custom tags to not self-close', () => {
+        const tree = getTreeFromTemplate(55);
+
+        expect(tree.rootNode).not.toEqual(null);
+    });
 });
 
 const getTemplatePath = number => {
