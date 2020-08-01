@@ -2,16 +2,17 @@
 // at https://www.npmjs.com/package/isml-linter.
 
 const config = {
+    'enableCache': true,
     'rules': {
 
         // Line by line rules;
-        'enforce-isprint'     : {},
+        // 'enforce-isprint'  : {}, // Known issue, will be fixed on v6.0.0;
         'enforce-require'     : {},
         'no-br'               : {},
         'no-git-conflict'     : {},
         'no-import-package'   : {},
         'no-inline-style'     : {},
-        'no-isscript'         : {},
+        // 'no-isscript'      : {}, Make sure you have an ESLint file configured before enabling this rule;
         'no-space-only-lines' : {},
         'no-tabs'             : {},
         'no-trailing-spaces'  : {},
@@ -33,7 +34,9 @@ const config = {
         'no-iselse-slash'      : {},
         'empty-eof'            : {},
         'align-isset'          : {},
-        'disallow-tags'        : {},
+        'disallow-tags'        : {
+            values : ['isscript', 'br', 'style', 'iframe']
+        },
 
         // Other
         'lowercase-filename' : {}
