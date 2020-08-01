@@ -1,0 +1,3 @@
+<isloop items="${attr.values}" var="attrValue">
+        ${attrValue.displayValue}
+</isloop>

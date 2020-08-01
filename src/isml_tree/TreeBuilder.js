@@ -219,9 +219,9 @@ const getCurrentStateStartingPos = state => {
 const createTextNodeFromMainLoop = state => {
     if (state.nonTagBuffer && state.nonTagBuffer.replace(/\s/g, '').length) {
         const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(state.nonTagBuffer);
-        const globalPos    = ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer);
+        const localPos     = ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer);
         const lineNumber   = state.currentLineNumber + lineBreakQty;
-        const node         = new IsmlNode(state.nonTagBuffer, lineNumber, globalPos);
+        const node         = new IsmlNode(state.nonTagBuffer, lineNumber, state.currentPos + localPos);
 
         state.currentLineNumber                 += ParseUtils.getLineBreakQty(state.nonTagBuffer);
         state.parentNode.addChild(node);

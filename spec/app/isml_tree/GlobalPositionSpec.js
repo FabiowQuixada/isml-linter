@@ -83,6 +83,15 @@ describe('GlobalPosition', () => {
         expect(divNode2.globalPos).toEqual(61);
         expect(inputNode.globalPos).toEqual(105);
     });
+
+    it('VII', () => {
+        const rootNode   = parseTemplate(6);
+        const isloopNode = rootNode.children[0];
+        const expNode    = isloopNode.children[0];
+
+        expect(isloopNode.globalPos).toEqual(0);
+        expect(expNode.globalPos).toEqual(56);
+    });
 });
 
 const parseTemplate = number => {
