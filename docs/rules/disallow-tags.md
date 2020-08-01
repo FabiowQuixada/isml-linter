@@ -5,7 +5,7 @@ Disallows tags defined at rule level.
 ## Notes
 
 - Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
-- Recommended tags to be disallowed: "isscript", "br", "style";
+- Recommended tags to be disallowed: "isscript", "br", "style", "[iframe][iframe]";
 
 ## Configuration
 
@@ -23,7 +23,7 @@ Check the [Generic Configurations for Rules][generic-config].
 
 ```js
 "disallow-tags": {
-    values : ["isscript", "br", "style"]
+    values : ["isscript", "br", "style", "iframe"]
 }
 ```
 
@@ -44,4 +44,5 @@ For the above configuration, the following scenarios may happen:
 </isif>
 ```
 
+[iframe]: <https://www.ostraining.com/blog/webdesign/against-using-iframes/#:~:text=Reason%20%233.&text=IFrames%20are%20sometimes%20used%20to%20display%20content%20on%20web%20pages.&text=We%20recommend%20that%20you%20avoid,crawl%20and%20index%20this%20content.>
 [generic-config]: <../generic-rule-config.md>
