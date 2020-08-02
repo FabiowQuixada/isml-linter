@@ -92,6 +92,24 @@ describe('GlobalPosition', () => {
         expect(isloopNode.globalPos).toEqual(0);
         expect(expNode.globalPos).toEqual(56);
     });
+
+    it('VIII', () => {
+        const rootNode   = parseTemplate(7);
+        const isloopNode = rootNode.children[0];
+        const optionNode = isloopNode.children[0];
+
+        expect(isloopNode.globalPos).toEqual(0);
+        expect(optionNode.globalPos).toEqual(52 + SpecHelper.offset(optionNode.lineNumber));
+    });
+
+    it('IX', () => {
+        const rootNode   = parseTemplate(13);
+        const isloopNode = rootNode.children[0];
+        const optionNode = isloopNode.children[0];
+
+        expect(isloopNode.globalPos).toEqual(0);
+        expect(optionNode.globalPos).toEqual(53);
+    });
 });
 
 const parseTemplate = number => {

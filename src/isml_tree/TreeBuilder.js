@@ -130,9 +130,10 @@ const updateStateWhetherItIsInsideExpression = state => {
 };
 
 const createNode = oldState => {
-    const state     = Object.assign({}, oldState);
+    const state        = Object.assign({}, oldState);
     updateStateLinesData(state);
-    const globalPos = ParseUtils.getGlobalPos(state);
+    const lineBreakQty = ParseUtils.getLineBreakQty(state.currentElement.asString.trim());
+    const globalPos    = ParseUtils.getGlobalPos(state) + GeneralUtils.offset(state.currentLineNumber) - lineBreakQty;
 
     const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
     const node       = isIsifNode ?

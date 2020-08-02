@@ -1,0 +1,8 @@
+<isloop items="${attr.values}" var="attrValue">
+    <option data-gtm="${require('cartridge')}"
+        data-one="one"
+        data-two="two"
+    >
+        ${attrValue.displayValue}
+    </option>
+</isloop>
