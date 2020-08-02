@@ -14,11 +14,11 @@ const fs           = require('fs');
 const specTempDir = Constants.specTempDir;
 
 const getBrokenTemplatePath = (ruleDirName, number) => {
-    return `${Constants.specAutofixTemplatesDir}/rules/${ruleDirName}/template_${number}_broken.isml`;
+    return path.join(Constants.specAutofixTemplatesDir, 'rules', ruleDirName, `template_${number}_broken.isml`);
 };
 
 const getFixedTemplatePath = (ruleDirName, number) => {
-    return `${Constants.specAutofixTemplatesDir}/rules/${ruleDirName}/template_${number}_fixed.isml`;
+    return path.join(Constants.specAutofixTemplatesDir, 'rules', ruleDirName, `template_${number}_fixed.isml`);
 };
 
 const cleanTempDirectory = () => {
@@ -26,7 +26,7 @@ const cleanTempDirectory = () => {
 };
 
 const getTreeRuleSpecTemplatePath = (rule, templateNumber) => {
-    return `${Constants.specRuleTemplateDir}/tree/${snake(rule.id)}/template_${templateNumber}.isml`;
+    return path.join(Constants.specRuleTemplateDir, 'tree', snake(rule.id), `template_${templateNumber}.isml`);
 };
 
 module.exports = {

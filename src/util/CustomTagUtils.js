@@ -1,7 +1,8 @@
 const fs        = require('fs');
+const path      = require('path');
 const Constants = require('../Constants');
 
-const templatePath       = Constants.specTemplateDir + '/util/modules.isml';
+const templatePath       = path.join(Constants.specTemplateDir, 'util', 'modules.isml');
 const customTagContainer = {};
 
 if (fs.existsSync(templatePath)) {

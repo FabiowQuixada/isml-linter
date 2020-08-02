@@ -3,6 +3,7 @@ const SpecHelper   = require('../../SpecHelper');
 const TreeBuilder  = require('../../../src/isml_tree/TreeBuilder');
 const Constants    = require('../../../src/Constants');
 const GeneralUtils = require('../../../src/util/GeneralUtils');
+const path         = require('path');
 
 describe('Tree auto-fix', () => {
 
@@ -75,5 +76,5 @@ const compareResultForTemplate = number => {
 };
 
 const getTemplatePath = number => {
-    return `${Constants.specAutofixTemplatesDir}/template_${number}.isml`;
+    return path.join(Constants.specAutofixTemplatesDir, `template_${number}.isml`);
 };
