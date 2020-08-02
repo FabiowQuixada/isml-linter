@@ -41,7 +41,7 @@ describe(rule.id, () => {
 
         expect(result.line      ).toEqual('<iscache status="off" />');
         expect(result.lineNumber).toEqual(2);
-        expect(result.globalPos ).toEqual(19);
+        expect(result.globalPos ).toEqual(19 + SpecHelper.offset(result.lineNumber));
         expect(result.length    ).toEqual(12);
         expect(result.rule      ).toEqual(rule.id);
     });

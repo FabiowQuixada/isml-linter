@@ -38,7 +38,7 @@ describe(rule.id, () => {
 
         expect(result.line      ).toEqual('<ismoduleone p_product="${productLineItem.product}" />');
         expect(result.lineNumber).toEqual(4);
-        expect(result.globalPos ).toEqual(119);
+        expect(result.globalPos ).toEqual(119 + SpecHelper.offset(result.lineNumber));
         expect(result.length    ).toEqual(54);
         expect(result.rule      ).toEqual(rule.id);
         expect(result.message   ).toEqual('Custom tag "ismoduleone" could not be identified. Maybe you forgot to include the modules template?');
@@ -58,7 +58,7 @@ describe(rule.id, () => {
 
         expect(result.line      ).toEqual('<isproductprice p_product="${productLineItem.product}" />');
         expect(result.lineNumber).toEqual(4);
-        expect(result.globalPos ).toEqual(119);
+        expect(result.globalPos ).toEqual(119 + SpecHelper.offset(result.lineNumber));
         expect(result.length    ).toEqual(57);
         expect(result.rule      ).toEqual(rule.id);
         expect(result.message   ).toEqual('Unknown tag "isproductprice". Maybe you forgot to add it to util/modules template?');

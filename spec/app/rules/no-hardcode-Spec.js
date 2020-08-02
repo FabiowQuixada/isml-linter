@@ -18,14 +18,14 @@ describe(rule.id, () => {
 
         expect(occurrence1.line      ).toEqual('I\'m a hardcoded-text');
         expect(occurrence1.lineNumber).toEqual(4);
-        expect(occurrence1.globalPos ).toEqual(90);
+        expect(occurrence1.globalPos ).toEqual(90 + SpecHelper.offset(occurrence1.lineNumber));
         expect(occurrence1.length    ).toEqual(20);
         expect(occurrence1.rule      ).toEqual(rule.id);
         expect(occurrence1.message   ).toEqual(rule.description);
 
         expect(occurrence2.line      ).toEqual('I\'m another hardcoded-text');
         expect(occurrence2.lineNumber).toEqual(7);
-        expect(occurrence2.globalPos ).toEqual(162);
+        expect(occurrence2.globalPos ).toEqual(162 + SpecHelper.offset(occurrence2.lineNumber));
         expect(occurrence2.length    ).toEqual(26);
         expect(occurrence2.rule      ).toEqual(rule.id);
         expect(occurrence2.message   ).toEqual(rule.description);
@@ -46,7 +46,7 @@ describe(rule.id, () => {
     it('detects a 1-length-long hardcoded text', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3)[0];
 
-        expect(result.globalPos ).toEqual(28);
+        expect(result.globalPos ).toEqual(28 + SpecHelper.offset(result.lineNumber));
         expect(result.length    ).toEqual(1);
         expect(result.line      ).toEqual('g');
         expect(result.lineNumber).toEqual(6);
@@ -57,7 +57,7 @@ describe(rule.id, () => {
     it('detects lonely hardcoded text', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4)[0];
 
-        expect(result.globalPos ).toEqual(7);
+        expect(result.globalPos ).toEqual(7 + SpecHelper.offset(result.lineNumber));
         expect(result.length    ).toEqual(4);
         expect(result.line      ).toEqual('test');
         expect(result.lineNumber).toEqual(3);

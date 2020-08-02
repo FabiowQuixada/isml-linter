@@ -16,8 +16,8 @@ describe(rule.id, () => {
 
         expect(result.line      ).toEqual('<isset name="basket" value="${require(\'dw.order.Basket\')}" scope="page"/>');
         expect(result.lineNumber).toEqual(3);
-        expect(result.globalPos ).toEqual(80);
-        expect(result.length    ).toEqual(73);
+        expect(result.globalPos ).toEqual(110 + SpecHelper.offset(result.lineNumber));
+        expect(result.length    ).toEqual(26);
         expect(result.rule      ).toEqual(rule.id);
         expect(result.message   ).toEqual(rule.description);
     });
@@ -37,7 +37,7 @@ describe(rule.id, () => {
     it('provides occurrence global position', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3)[0];
 
-        expect(result.globalPos).toEqual(73);
+        expect(result.globalPos).toEqual(72 + SpecHelper.offset(result.lineNumber));
     });
 
     it('provides occurrence global position II', () => {

@@ -19,7 +19,7 @@ describe(rule.id, () => {
 
         expect(result.line      ).toEqual('${Resource.msg(\'field.billing.address.last.name\',\'address\',null)}');
         expect(result.lineNumber).toEqual(7);
-        expect(result.globalPos ).toEqual(360);
+        expect(result.globalPos ).toEqual(360 + SpecHelper.offset(result.lineNumber));
         expect(result.length    ).toEqual(65);
         expect(result.rule      ).toEqual(rule.id);
         expect(result.message   ).toEqual(rule.description);

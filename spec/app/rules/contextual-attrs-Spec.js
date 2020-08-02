@@ -78,7 +78,7 @@ describe(rule.id, () => {
 
         expect(result.line      ).toEqual('<isslot context="category" />');
         expect(result.lineNumber).toEqual(2);
-        expect(result.globalPos ).toEqual(10);
+        expect(result.globalPos ).toEqual(10 + SpecHelper.offset(result.lineNumber));
         expect(result.length    ).toEqual(29);
         expect(result.rule      ).toEqual(rule.id);
     });
