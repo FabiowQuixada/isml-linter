@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.26.7] - 2020-08-02
+
+### Changed
+ - Scaffold configuration file: removed known buggy rules and enabled cache;
+
+### Fixed
+ - Custom tags don't need to be self-closing;
+
 ## [5.26.6] - 2020-07-26
 
 ### Fixed
@@ -686,6 +694,7 @@
 ### Added
 - Linter is published;
 
+[5.26.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.6...v5.26.7
 [5.26.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.5...v5.26.6
 [5.26.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.4...v5.26.5
 [5.26.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.3...v5.26.4
