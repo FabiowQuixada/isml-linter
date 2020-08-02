@@ -33,4 +33,22 @@ describe(rule.id, () => {
 
         expect(result).toEqual([]);
     });
+
+    it('provides occurrence global position', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3)[0];
+
+        expect(result.globalPos).toEqual(73);
+    });
+
+    it('provides occurrence global position II', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4)[0];
+
+        expect(result.globalPos).toEqual(155 + SpecHelper.offset(result.lineNumber));
+    });
+
+    it('provides occurrence length', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3)[0];
+
+        expect(result.length).toEqual(20);
+    });
 });
