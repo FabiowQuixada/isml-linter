@@ -57,4 +57,8 @@ module.exports.parseISOString = isoString => {
 
 module.exports.getActiveLinebreak = getActiveLinebreak;
 
+module.exports.offset = lineNumber => {
+    return Constants.lineBreakOffset * (lineNumber - 1);
+};
+
 module.exports.mergeDeep = mergeDeep;

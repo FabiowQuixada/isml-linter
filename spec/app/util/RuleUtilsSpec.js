@@ -98,21 +98,21 @@ describe(targetObjName, () => {
 
         expect(isprintError0.line).toEqual('<isset name="pageUrl" value="${URLUtils.https(\'Reorder-ListingPage\')}" scope="page"/>');
         expect(isprintError0.lineNumber).toEqual(2);
-        expect(isprintError0.globalPos).toEqual(30 + Constants.lineBreakOffset * (isprintError0.lineNumber - 1));
+        expect(isprintError0.globalPos).toEqual(30 + SpecHelper.offset(isprintError0.lineNumber));
         expect(isprintError0.length).toEqual(40);
         expect(isprintError0.rule).toEqual(EnforceIsprintRule.id);
         expect(isprintError0.message).toEqual(EnforceIsprintRule.description);
 
         expect(isprintError1.line).toEqual('<div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>');
         expect(isprintError1.lineNumber).toEqual(3);
-        expect(isprintError1.globalPos).toEqual(136 + Constants.lineBreakOffset * (isprintError1.lineNumber - 1));
+        expect(isprintError1.globalPos).toEqual(136 + SpecHelper.offset(isprintError1.lineNumber));
         expect(isprintError1.length).toEqual(15);
         expect(isprintError1.rule).toEqual(EnforceIsprintRule.id);
         expect(isprintError1.message).toEqual(EnforceIsprintRule.description);
 
         expect(inlineStyleError.line).toEqual('<div class="addToCartUrl" style="display: none;">${addToCartUrl}</div>');
         expect(inlineStyleError.lineNumber).toEqual(3);
-        expect(inlineStyleError.globalPos).toEqual(113 + Constants.lineBreakOffset * (inlineStyleError.lineNumber - 1));
+        expect(inlineStyleError.globalPos).toEqual(113 + SpecHelper.offset(inlineStyleError.lineNumber));
         expect(inlineStyleError.length).toEqual(5);
         expect(inlineStyleError.rule).toEqual(NoInlineStyleRule.id);
         expect(inlineStyleError.message).toEqual(NoInlineStyleRule.description);
