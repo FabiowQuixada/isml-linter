@@ -177,7 +177,7 @@ describe(rule.id, () => {
         expect(result.length).toEqual(0);
     });
 
-    it('checks if indentation is set as previous node trailing spaces', () => {
+    it('checks if indentation is set as previous node trailing spaces I', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 9);
 
         expect(result.length).toEqual(0);
@@ -187,5 +187,24 @@ describe(rule.id, () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 10);
 
         expect(result.length).toEqual(0);
+    });
+
+    it('checks if indentation is set as previous node trailing spaces III', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 11);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('checks if indentation is set as previous node trailing spaces IV', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 12);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('detects zero-indented lines', () => {
+        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 13)[0];
+
+        expect(occurrence.globalPos).toEqual(13);
+        expect(occurrence.length).toEqual(11);
     });
 });

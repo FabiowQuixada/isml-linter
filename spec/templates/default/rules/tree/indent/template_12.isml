@@ -1,0 +1,5 @@
+<div class="attribute">
+    <isif condition="${aCondition}">
+    <iselse>
+    </isif>
+</div>

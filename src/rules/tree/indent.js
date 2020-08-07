@@ -50,19 +50,25 @@ Rule.check = function(node, result) {
             this.check(node.children[i], this.result);
         }
 
-        const config    = this.getConfigs();
-        const globalPos = node.globalPos - node.getIndentationSize();
+        const config  = this.getConfigs();
+        let globalPos = node.globalPos - node.getIndentationSize();
 
         if (this.isBroken(node)) {
             const configIndentSize = this.getConfigs().size;
             const expected         = getExpectedIndentation(node, configIndentSize);
             const actual           = getActualIndentation(node);
+            let length             = node.getIndentationSize();
+
+            if (actual === 0) {
+                globalPos += 1;
+                length    = node.value.trim().length;
+            }
 
             this.add(
                 node.value.trim(),
                 node.lineNumber - 1,
                 globalPos,
-                node.getIndentationSize(),
+                length,
                 getOccurrenceDescription(expected, actual)
             );
         }
@@ -185,19 +191,13 @@ const checkIfShouldAddIndentationToSuffix = node => {
  */
 const getPreviousNodeTrailingSpacesQty = node => {
     const previousSibling = node.getPreviousSibling();
+    const previousNode    = previousSibling && node.parent.isMulticlause() && previousSibling.getLastChild() ?
+        previousSibling.getLastChild() :
+        previousSibling;
 
-    if (previousSibling) {
-        const nephewNode              = previousSibling.getLastChild();
-        let valueTrailingSpaces       = -1;
-        let suffixValueTrailingSpaces = -1;
-
-        if (nephewNode) {
-            valueTrailingSpaces       = ParseUtils.getTrailingBlankContent(nephewNode);
-            suffixValueTrailingSpaces = ParseUtils.getSuffixTrailingBlankContent(nephewNode);
-        } else {
-            valueTrailingSpaces       = ParseUtils.getTrailingBlankContent(previousSibling);
-            suffixValueTrailingSpaces = ParseUtils.getSuffixTrailingBlankContent(previousSibling);
-        }
+    if (previousNode && previousNode.geTrailingValue().endsWith(' ')) {
+        const valueTrailingSpaces       = ParseUtils.getTrailingBlankContent(previousNode);
+        const suffixValueTrailingSpaces = ParseUtils.getSuffixTrailingBlankContent(previousNode);
 
         return (suffixValueTrailingSpaces || valueTrailingSpaces).substring(1).length;
     }

@@ -1,0 +1,7 @@
+<isif condition="${someCondition}">
+    <span>
+        ${someValue}
+    </span>
+
+    <!-- Some comment -->
+</isif>

@@ -243,6 +243,10 @@ class IsmlNode {
         return sibling;
     }
 
+    geTrailingValue() {
+        return this.suffixValue || this.value;
+    }
+
     // Checks if node is HTML 5 void element;
     isVoidElement() {
         const config = ConfigUtils.load();
