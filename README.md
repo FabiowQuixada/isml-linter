@@ -8,10 +8,6 @@ Isml Linter is a tool for examining if your project's templates follow a specifi
 
 Please feel free to make suggestions and help make this linter better. :) The set of currently available rules can be found below.
 
-## VSCode Extension
-
-Isml Linter is also available as a VSCode extension. Please check https://marketplace.visualstudio.com/items?itemName=fabiowquixada.vscode-isml-linter and give it a try! :) There is a Prophet extension incompatibility, which we expect to be solved soon.
-
 ### Donations
 
 If you think Isml Linter is useful and has helped improving and speeding up your project development, please consider making a donation!
