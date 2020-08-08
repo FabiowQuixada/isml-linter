@@ -20,7 +20,7 @@ describe(rule.id, () => {
         expect(result.globalPos ).toEqual(6);
         expect(result.length    ).toEqual(3);
         expect(result.rule      ).toEqual(rule.id);
-        expect(result.message   ).toEqual(rule.description);
+        expect(result.message   ).toEqual('Expected indentation of 4 spaces but found 3');
     });
 
     it('detects wrong indentation with previous empty line', () => {
@@ -31,7 +31,7 @@ describe(rule.id, () => {
         expect(result.globalPos ).toEqual(7);
         expect(result.length    ).toEqual(3);
         expect(result.rule      ).toEqual(rule.id);
-        expect(result.message   ).toEqual(rule.description);
+        expect(result.message   ).toEqual('Expected indentation of 4 spaces but found 3');
     });
 
     it('ignores indentation for elements in the same line as their parents', () => {
@@ -48,7 +48,7 @@ describe(rule.id, () => {
         expect(result.globalPos ).toEqual(87);
         expect(result.length    ).toEqual(5);
         expect(result.rule      ).toEqual(rule.id);
-        expect(result.message   ).toEqual(rule.description);
+        expect(result.message   ).toEqual('Expected indentation of 4 spaces but found 5');
     });
 
     it('checks indentation for elements at depth 0', () => {

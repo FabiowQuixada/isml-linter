@@ -29,8 +29,8 @@ Rule.getIndentation = function(depth = 1) {
 Rule.isBroken = function(node) {
 
     const configIndentSize    = this.getConfigs().size;
-    const expectedIndentation = (node.depth - 1) * configIndentSize;
-    const actualIndentation   = node.getIndentationSize() + getPreviousNodeTrailingSpacesQty(node);
+    const expectedIndentation = getExpectedIndentation(node, configIndentSize);
+    const actualIndentation   = getActualIndentation(node);
 
     return !node.isRoot() &&
         !node.isMulticlause() &&
@@ -54,12 +54,16 @@ Rule.check = function(node, result) {
         const globalPos = node.globalPos - node.getIndentationSize();
 
         if (this.isBroken(node)) {
+            const configIndentSize = this.getConfigs().size;
+            const expected         = getExpectedIndentation(node, configIndentSize);
+            const actual           = getActualIndentation(node);
+
             this.add(
                 node.value.trim(),
                 node.lineNumber - 1,
                 globalPos,
                 node.getIndentationSize(),
-                description
+                getOccurrenceDescription(expected, actual)
             );
         }
 
@@ -200,5 +204,9 @@ const getPreviousNodeTrailingSpacesQty = node => {
 
     return 0;
 };
+
+const getOccurrenceDescription = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;
+const getExpectedIndentation   = (node, configIndentSize) => (node.depth - 1) * configIndentSize;
+const getActualIndentation     = node => node.getIndentationSize() + getPreviousNodeTrailingSpacesQty(node);
 
 module.exports = Rule;
