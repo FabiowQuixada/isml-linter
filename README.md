@@ -8,12 +8,6 @@ Isml Linter is a tool for examining if your project's templates follow a specifi
 
 Please feel free to make suggestions and help make this linter better. :) The set of currently available rules can be found below.
 
-### Donations
-
-If you think Isml Linter is useful and has helped improving and speeding up your project development, please consider making a donation!
-
-[![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=M22U4NRUFHELS&currency_code=USD&source=url)
-
 ## Installation
 
 Prerequisite: Node.js (>=10.0.0).
@@ -191,6 +185,12 @@ Check the [API docs][api-docs].
 
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
+
+## Donations
+
+This project was conceived by its author without any financial support, with the intention to help the community improving and speeding up any projects that involve ISML templates. If you think Isml Linter has helped you and your team, please consider making a donation, it will be much appreciated!
+
+[![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=M22U4NRUFHELS&currency_code=USD&source=url)
 
 ## Iconography
 :exclamation: Deprecated feature<br/>
