@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.26.8] - 2020-08-06
+
+### Changed
+ - Indent rule occurrence message;
+
+### Fixed
+ - Indent rule;
+
+### Removed
+ - VSCode extension README section (temporarily);
+ 
 ## [5.26.7] - 2020-08-02
 
 ### Changed
@@ -694,6 +705,7 @@
 ### Added
 - Linter is published;
 
+[5.26.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.7...v5.26.8
 [5.26.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.6...v5.26.7
 [5.26.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.5...v5.26.6
 [5.26.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.4...v5.26.5
