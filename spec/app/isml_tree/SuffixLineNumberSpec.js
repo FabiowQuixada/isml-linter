@@ -123,7 +123,7 @@ describe(targetObjName, () => {
 });
 
 const getTemplatePath = number => {
-    return `${Constants.specSuffixLineNumberTemplatesDir}/template_${number}.isml`;
+    return SpecHelper.getTemplatePath(Constants.specSuffixLineNumberTemplatesDir, number);
 };
 
 const getTreeFromTemplate = number => {

@@ -58,5 +58,5 @@ describe('Invalid Template', () => {
 });
 
 const getTemplatePath = number => {
-    return `${Constants.specInvalidTemplateDir}/template_${number}.isml`;
+    return SpecHelper.getTemplatePath(Constants.specInvalidTemplateDir, number);
 };

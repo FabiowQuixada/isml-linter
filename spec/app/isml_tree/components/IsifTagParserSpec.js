@@ -75,7 +75,7 @@ describe(targetObjName, () => {
 });
 
 const getTemplatePath = number => {
-    return `${Constants.specIsifTagParserTemplateDir}/template_${number}.isml`;
+    return SpecHelper.getTemplatePath(Constants.specIsifTagParserTemplateDir, number);
 };
 
 const getMulticlauseNodeFromTemplate = number => {

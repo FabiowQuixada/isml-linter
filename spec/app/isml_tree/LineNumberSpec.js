@@ -148,5 +148,5 @@ describe('TreeBuilder', () => {
 });
 
 const getTemplatePath = number => {
-    return `${Constants.specLineNumberTemplateDir}/template_${number}.isml`;
+    return SpecHelper.getTemplatePath(Constants.specLineNumberTemplateDir, number);
 };

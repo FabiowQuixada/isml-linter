@@ -165,5 +165,5 @@ describe(targetObjName, () => {
 });
 
 const getTemplatePath = number => {
-    return `${Constants.specComplexTemplatesDir}/template_${number}.isml`;
+    return SpecHelper.getTemplatePath(Constants.specComplexTemplatesDir, number);
 };

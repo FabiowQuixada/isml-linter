@@ -50,7 +50,7 @@ describe('TreeBuilder', () => {
 });
 
 const getTemplatePath = number => {
-    return `${Constants.specElementBalanceTemplatesDir}/template_${number}.isml`;
+    return SpecHelper.getTemplatePath(Constants.specElementBalanceTemplatesDir, number);
 };
 
 const getTreeFromTemplate = number => {

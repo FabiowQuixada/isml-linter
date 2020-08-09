@@ -551,7 +551,7 @@ describe(targetObjName, () => {
 });
 
 const getTemplatePath = number => {
-    return `${Constants.specIsmlTreeTemplateDir}/template_${number}.isml`;
+    return SpecHelper.getTemplatePath(Constants.specIsmlTreeTemplateDir, number);
 };
 
 const getTreeFromTemplate = number => {

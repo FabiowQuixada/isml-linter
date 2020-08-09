@@ -98,6 +98,8 @@ module.exports = {
         return GeneralUtils.offset(lineNumber);
     },
 
+    getTemplatePath: (dir, number) => path.join(dir, `template_${number}.isml`),
+
     /**
      * The name of the object under test is inferred from the spec file name. So for example: from
      * the "IsmlLinterSpec.js" file name (which is passed as param), it is implicitly inferred that
