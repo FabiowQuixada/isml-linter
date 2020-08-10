@@ -110,6 +110,16 @@ describe('GlobalPosition', () => {
         expect(isloopNode.globalPos).toEqual(0);
         expect(optionNode.globalPos).toEqual(53);
     });
+
+    it('X', () => {
+        const rootNode      = parseTemplate(14);
+        const iscommentNode = rootNode.children[0];
+        const textNode      = iscommentNode.children[0];
+
+        expect(iscommentNode.globalPos).toEqual(0);
+        expect(textNode.globalPos).toEqual(15 + SpecHelper.offset(textNode.lineNumber));
+    });
+
 });
 
 const parseTemplate = number => {

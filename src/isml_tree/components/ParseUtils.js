@@ -73,6 +73,22 @@ const getFirstElementType = elementAsString => {
 
 const getCharOccurrenceQty = (string, char) => (string.match(new RegExp(char, 'g')) || []).length;
 
+const getPrecedingEmptyLinesQty = content => {
+
+    const lineArray  = content.split(Constants.EOL);
+    let lineBreakQty = 0;
+
+    lineArray.some( line => {
+        if (!line.trim()) {
+            lineBreakQty++;
+            return false;
+        }
+        return true;
+    });
+
+    return lineBreakQty;
+};
+
 module.exports.getLineBreakQty = string => getCharOccurrenceQty(string, Constants.EOL);
 
 module.exports.getCharOccurrenceQty = getCharOccurrenceQty;
@@ -155,21 +171,7 @@ module.exports.getInnerContent = state => {
     return pickInnerContent(state, content);
 };
 
-module.exports.getPrecedingEmptyLinesQty = content => {
-
-    const lineArray  = content.split(Constants.EOL);
-    let lineBreakQty = 0;
-
-    lineArray.some( line => {
-        if (!line.trim()) {
-            lineBreakQty++;
-            return false;
-        }
-        return true;
-    });
-
-    return lineBreakQty;
-};
+module.exports.getPrecedingEmptyLinesQty = getPrecedingEmptyLinesQty;
 
 module.exports.isSkipIteraction = state => {
     return state.ignoreUntil && state.ignoreUntil >= state.currentPos ||
@@ -324,8 +326,9 @@ module.exports.getGlobalPos = state => {
 };
 
 module.exports.getTextGlobalPos = (state, text) => {
-    const precedingEmptySpacesQty = getNextNonEmptyCharPos(text);
-    const accumulatedPos          = getAccumulatedPos(state);
+    const nextNonEmptyCharPos = getNextNonEmptyCharPos(text);
+    const accumulatedPos      = getAccumulatedPos(state);
+    const textLineNumber      = state.currentLineNumber + getPrecedingEmptyLinesQty(text);
 
-    return accumulatedPos + precedingEmptySpacesQty;
+    return accumulatedPos + nextNonEmptyCharPos + GeneralUtils.offset(textLineNumber);
 };
