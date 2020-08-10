@@ -70,7 +70,7 @@ const parse = (content, parentState, parentNode = new IsmlNode(), templatePath) 
     for (let i = 0; i < content.length; i++) {
         initializeLoopState(state, i);
 
-        if (!ParseUtils.isSkipIteraction(state)) {
+        if (!ParseUtils.shouldSkipIteration(state)) {
             parseState(state);
         }
     }

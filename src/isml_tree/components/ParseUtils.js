@@ -173,7 +173,7 @@ module.exports.getInnerContent = state => {
 
 module.exports.getPrecedingEmptyLinesQty = getPrecedingEmptyLinesQty;
 
-module.exports.isSkipIteraction = state => {
+module.exports.shouldSkipIteration = state => {
     return state.ignoreUntil && state.ignoreUntil >= state.currentPos ||
             state.insideTag && state.insideExpression;
 };
