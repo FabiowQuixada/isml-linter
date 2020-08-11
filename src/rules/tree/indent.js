@@ -57,8 +57,9 @@ Rule.check = function(node, result) {
             const configIndentSize  = this.getConfigs().size;
             const expected          = getExpectedIndentation(node, configIndentSize);
             const actualIndentation = getActualIndentation(node);
+            const nodeValue         = node.value.trim();
             const occurrenceLength  = actualIndentation === 0 ?
-                node.value.trim().length :
+                nodeValue.length +  ParseUtils.getLineBreakQty(nodeValue) :
                 node.getIndentationSize();
 
             this.add(

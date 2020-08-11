@@ -208,10 +208,17 @@ describe(rule.id, () => {
         expect(occurrence.length).toEqual(11);
     });
 
-    it('identifies occurrence global position', () => {
+    it('identifies occurrence global position and length', () => {
         const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 14)[0];
 
         expect(occurrence.globalPos).toEqual(12 + SpecHelper.offset(occurrence.lineNumber));
         expect(occurrence.length).toEqual(1);
+    });
+
+    it('identifies occurrence global position and length II', () => {
+        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 15)[0];
+
+        expect(occurrence.globalPos).toEqual(13 + SpecHelper.offset(occurrence.lineNumber));
+        expect(occurrence.length).toEqual(40);
     });
 });
