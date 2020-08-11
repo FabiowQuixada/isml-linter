@@ -221,4 +221,10 @@ describe(rule.id, () => {
         expect(occurrence.globalPos).toEqual(13 + SpecHelper.offset(occurrence.lineNumber));
         expect(occurrence.length).toEqual(40);
     });
+
+    it('checks if indentation is set as previous node trailing spaces V', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 16);
+
+        expect(result.length).toEqual(0);
+    });
 });

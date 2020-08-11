@@ -295,9 +295,11 @@ module.exports.getTrailingBlankContent = node => {
 };
 
 module.exports.getSuffixTrailingBlankContent = node => {
-    const reverseValue          = node.suffixValue.split('').reverse().join('');
-    const leadingBlankSpacesQty = getNextNonEmptyCharPos(reverseValue);
-    const postValueBlankContent = reverseValue.substring(0, leadingBlankSpacesQty).split('').reverse().join('');
+    const reverseValue              = node.suffixValue.split('').reverse().join('');
+    const leadingBlankSpacesQty     = getNextNonEmptyCharPos(reverseValue);
+    const fullPostValueBlankContent = reverseValue.substring(0, leadingBlankSpacesQty).split('').reverse().join('');
+    const lastLineBreakPos          = fullPostValueBlankContent.lastIndexOf(Constants.EOL);
+    const postValueBlankContent     = fullPostValueBlankContent.substring(lastLineBreakPos);
 
     return postValueBlankContent;
 };
