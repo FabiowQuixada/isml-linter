@@ -287,11 +287,13 @@ module.exports.getPreLineBreakContent = node => {
 };
 
 module.exports.getTrailingBlankContent = node => {
-    const reverseValue          = node.value.split('').reverse().join('');
-    const leadingBlankSpacesQty = getNextNonEmptyCharPos(reverseValue);
-    const postValueBlankContent = reverseValue.substring(0, leadingBlankSpacesQty).split('').reverse().join('');
+    const reverseValue              = node.value.split('').reverse().join('');
+    const leadingBlankSpacesQty     = getNextNonEmptyCharPos(reverseValue);
+    const fullPostValueBlankContent = reverseValue.substring(0, leadingBlankSpacesQty).split('').reverse().join('');
+    const lastLineBreakPos          = fullPostValueBlankContent.lastIndexOf(Constants.EOL);
+    const suffixValueTrailingSpaces = fullPostValueBlankContent.substring(lastLineBreakPos);
 
-    return postValueBlankContent;
+    return suffixValueTrailingSpaces;
 };
 
 module.exports.getSuffixTrailingBlankContent = node => {
