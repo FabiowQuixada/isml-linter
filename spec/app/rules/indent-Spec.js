@@ -204,7 +204,14 @@ describe(rule.id, () => {
     it('detects zero-indented lines', () => {
         const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 13)[0];
 
-        expect(occurrence.globalPos).toEqual(13 + SpecHelper.offset(occurrence.lineNumber));
+        expect(occurrence.globalPos).toEqual(12 + SpecHelper.offset(occurrence.lineNumber));
         expect(occurrence.length).toEqual(11);
+    });
+
+    it('identifies occurrence global position', () => {
+        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 14)[0];
+
+        expect(occurrence.globalPos).toEqual(12 + SpecHelper.offset(occurrence.lineNumber));
+        expect(occurrence.length).toEqual(1);
     });
 });

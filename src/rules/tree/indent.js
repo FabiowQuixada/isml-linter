@@ -50,26 +50,23 @@ Rule.check = function(node, result) {
             this.check(node.children[i], this.result);
         }
 
-        const config  = this.getConfigs();
-        let globalPos = node.globalPos - node.getIndentationSize();
+        const config    = this.getConfigs();
+        const globalPos = node.globalPos - node.getIndentationSize();
 
         if (this.isBroken(node)) {
-            const configIndentSize = this.getConfigs().size;
-            const expected         = getExpectedIndentation(node, configIndentSize);
-            const actual           = getActualIndentation(node);
-            let length             = node.getIndentationSize();
-
-            if (actual === 0) {
-                globalPos += 1;
-                length    = node.value.trim().length;
-            }
+            const configIndentSize  = this.getConfigs().size;
+            const expected          = getExpectedIndentation(node, configIndentSize);
+            const actualIndentation = getActualIndentation(node);
+            const occurrenceLength  = actualIndentation === 0 ?
+                node.value.trim().length :
+                node.getIndentationSize();
 
             this.add(
                 node.value.trim(),
                 node.lineNumber - 1,
                 globalPos,
-                length,
-                getOccurrenceDescription(expected, actual)
+                occurrenceLength,
+                getOccurrenceDescription(expected, actualIndentation)
             );
         }
 
