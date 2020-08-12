@@ -95,7 +95,9 @@ module.exports.getCharOccurrenceQty = getCharOccurrenceQty;
 
 const getNextNonEmptyCharPos = content => {
     const firstNonEmptyChar = getNextNonEmptyChar(content);
-    return content.indexOf(firstNonEmptyChar);
+    const index             = content.indexOf(firstNonEmptyChar);
+
+    return Math.max(index, 0);
 };
 
 module.exports.getNextNonEmptyCharPos = getNextNonEmptyCharPos;

@@ -233,4 +233,11 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('checks indentation for first element at line 1', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 18)[0];
+
+        expect(result.globalPos).toEqual(0);
+        expect(result.length).toEqual(8);
+    });
 });

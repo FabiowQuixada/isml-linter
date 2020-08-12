@@ -129,8 +129,12 @@ class IsmlNode {
     getIndentationSize() {
         const precedingEmptySpacesLength = this.value.search(/\S|$/);
         const precedingEmptySpaces       = this.value.substring(0, precedingEmptySpacesLength);
-        const lastLineBreakPos           = precedingEmptySpaces.lastIndexOf(Constants.EOL);
+        const lastLineBreakPos           = Math.max(precedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
         const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
+
+        if (this.lineNumber === 1 && this.parent && this.parent.isRoot() && this.isFirstChild()) {
+            return Math.max(indentationSize, 0);
+        }
 
         return Math.max(indentationSize - 1, 0);
     }
