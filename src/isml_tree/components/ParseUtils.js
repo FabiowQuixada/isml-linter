@@ -208,17 +208,16 @@ module.exports.getClauseInnerContent = content => {
 
 module.exports.getAllConditionalTags = content => {
 
+    const ISIF_TAG_LIST = ['isif', 'iselse', 'iselse/', 'iselseif', '/isif'];
     const tagList       = [];
     const maskedContent = MaskUtils.maskIgnorableContent(content);
 
     for (let i = 0; i < maskedContent.length; i++) {
         if (content.charAt(i - 1) === '<') {
-            let end = Math.min(maskedContent.substring(i).indexOf(' '), maskedContent.substring(i).indexOf('>'));
-            if (end === -1) {
-                end = Math.max(maskedContent.substring(i).indexOf(' '), maskedContent.substring(i).indexOf('>'));
-            }
+            const end = Math.min(maskedContent.substring(i).indexOf(' '), maskedContent.substring(i).indexOf('>'));
             const tag = content.substring(i, i + end);
-            if (['isif', 'iselse', 'iselse/', 'iselseif', '/isif'].indexOf(tag) !== -1) {
+
+            if (ISIF_TAG_LIST.indexOf(tag) !== -1) {
                 tagList.push({
                     tag,
                     startPos : i - 1
