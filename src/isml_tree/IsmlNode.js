@@ -131,7 +131,8 @@ class IsmlNode {
         const precedingEmptySpaces       = this.value.substring(0, precedingEmptySpacesLength);
         const lastLineBreakPos           = Math.max(precedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
         const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
-        const isFirstElement             = this.parent && (this.parent.isRoot() || this.parent.parent.isRoot()) && this.isFirstChild();
+        const isIsifElement              = this.parent && this.parent.isMulticlause() && this.isOfType('isif');
+        const isFirstElement             = this.parent && (this.parent.isRoot() || this.parent.parent.isRoot() && isIsifElement) && this.isFirstChild();
 
         if (this.lineNumber === 1 && isFirstElement) {
             return Math.max(indentationSize, 0);

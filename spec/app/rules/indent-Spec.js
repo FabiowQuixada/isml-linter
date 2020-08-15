@@ -247,4 +247,11 @@ describe(rule.id, () => {
         expect(result.globalPos).toEqual(0);
         expect(result.length).toEqual(4);
     });
+
+    it('identifies occurrence global position and length III', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 20)[0];
+
+        expect(result.globalPos).toEqual(39);
+        expect(result.length).toEqual(4);
+    });
 });

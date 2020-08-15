@@ -51,7 +51,7 @@ Rule.check = function(node, result) {
         }
 
         const config    = this.getConfigs();
-        const globalPos = node.globalPos - node.getIndentationSize();
+        const globalPos = node.globalPos - getActualIndentation(node);
 
         if (this.isBroken(node)) {
             const configIndentSize    = this.getConfigs().size;
@@ -60,7 +60,7 @@ Rule.check = function(node, result) {
             const nodeValue           = node.value.trim();
             const occurrenceLength    = actualIndentation === 0 ?
                 nodeValue.length +  ParseUtils.getLineBreakQty(nodeValue) :
-                node.getIndentationSize();
+                getActualIndentation(node);
 
             this.add(
                 node.value.trim(),
