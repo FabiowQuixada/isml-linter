@@ -120,6 +120,16 @@ describe('GlobalPosition', () => {
         expect(textNode.globalPos).toEqual(15 + SpecHelper.offset(textNode.lineNumber));
     });
 
+    it('XI', () => {
+        const rootNode        = parseTemplate(8);
+        const multiclauseNode = rootNode.children[0];
+        const iselseNode      = multiclauseNode.children[1];
+        const divNode         = iselseNode.children[0];
+
+        expect(iselseNode.globalPos).toEqual(37 + SpecHelper.offset(iselseNode.lineNumber));
+        expect(divNode.globalPos   ).toEqual(51 + SpecHelper.offset(divNode.lineNumber));
+    });
+
 });
 
 const parseTemplate = number => {

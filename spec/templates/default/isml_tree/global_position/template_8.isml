@@ -1,0 +1,4 @@
+<isif condition="${attr.swatchable}">
+<iselse>
+    <div />
+</isif>

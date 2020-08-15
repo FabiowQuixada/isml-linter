@@ -1,6 +1,7 @@
-const IsmlNode    = require('../IsmlNode');
-const TreeBuilder = require('../TreeBuilder');
-const ParseUtils  = require('./ParseUtils');
+const IsmlNode     = require('../IsmlNode');
+const TreeBuilder  = require('../TreeBuilder');
+const ParseUtils   = require('./ParseUtils');
+const GeneralUtils = require('../../util/GeneralUtils');
 
 const run = (content, state) => {
 
@@ -62,11 +63,16 @@ const parseElseClause = (multiClauseNode, content, state) => {
 
     multiClauseNode.addChild(clauseContentNode);
 
+    const currentPos = state.currentPos;
+    state.currentPos = globalPos + clauseValue.length - GeneralUtils.offset(state.currentLineNumber);
+
     if (content.trim()) {
         TreeBuilder.parse(clauseInnerContent, state, clauseContentNode);
     } else {
         clauseContentNode.value += content;
     }
+
+    state.currentPos = currentPos;
 
     return clauseContentNode;
 };
