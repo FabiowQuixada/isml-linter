@@ -240,4 +240,11 @@ describe(rule.id, () => {
         expect(result.globalPos).toEqual(0);
         expect(result.length).toEqual(8);
     });
+
+    it('checks indentation for first "isif" element at line 1', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 19)[0];
+
+        expect(result.globalPos).toEqual(0);
+        expect(result.length).toEqual(4);
+    });
 });

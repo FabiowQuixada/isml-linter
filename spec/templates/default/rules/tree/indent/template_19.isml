@@ -1,0 +1,6 @@
+    <isif condition="${attr.swatchable}">
+    <iselse>
+        <select>
+            
+        </select>
+    </isif>

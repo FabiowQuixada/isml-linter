@@ -132,7 +132,7 @@ class IsmlNode {
         const lastLineBreakPos           = Math.max(precedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
         const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
 
-        if (this.lineNumber === 1 && this.parent && this.parent.isRoot() && this.isFirstChild()) {
+        if (this.lineNumber === 1 && this.parent && (this.parent.isRoot() || this.parent.parent.isRoot()) && this.isFirstChild()) {
             return Math.max(indentationSize, 0);
         }
 
