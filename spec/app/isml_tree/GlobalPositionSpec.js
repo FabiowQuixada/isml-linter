@@ -126,8 +126,18 @@ describe('GlobalPosition', () => {
         const iselseNode      = multiclauseNode.children[1];
         const divNode         = iselseNode.children[0];
 
-        expect(iselseNode.globalPos).toEqual(37 + SpecHelper.offset(iselseNode.lineNumber));
-        expect(divNode.globalPos   ).toEqual(51 + SpecHelper.offset(divNode.lineNumber));
+    });
+
+    it('XII', () => {
+        const rootNode        = parseTemplate(9);
+        const multiclauseNode = rootNode.children[0];
+        const isifNode        = multiclauseNode.children[0];
+        const iselseNode      = multiclauseNode.children[1];
+        const divNode         = iselseNode.children[0];
+
+        expect(isifNode.globalPos  ).toEqual( 4 + SpecHelper.offset(isifNode.lineNumber));
+        expect(iselseNode.globalPos).toEqual(46 + SpecHelper.offset(iselseNode.lineNumber));
+        expect(divNode.globalPos   ).toEqual(64 + SpecHelper.offset(divNode.lineNumber));
     });
 
 });

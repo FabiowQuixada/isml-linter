@@ -26,7 +26,8 @@ const run = (content, state) => {
 const parseMainClause = (multiClauseNode, content, state) => {
 
     const isifTagContent    = state.currentElement.asString;
-    const clauseContentNode = new IsmlNode(isifTagContent, state.currentElement.startingLineNumber, state.currentPos);
+    const globalPos         = state.currentPos - isifTagContent.trim().length + 1;
+    const clauseContentNode = new IsmlNode(isifTagContent, state.currentElement.startingLineNumber, globalPos);
 
     multiClauseNode.addChild(clauseContentNode);
 
@@ -56,15 +57,16 @@ const parseElseClause = (multiClauseNode, content, state) => {
 
     const clauseValue             = ParseUtils.getClauseContent(content);
     const clauseInnerContent      = ParseUtils.getClauseInnerContent(content);
-    const globalPos               = state.content.indexOf(content);
     const isifTagLineNumber       = multiClauseNode.children[0].lineNumber;
     const accumulatedLineBreakQty = ParseUtils.getLineBreakQty(multiClauseNode.toString().trimStart());
-    const clauseContentNode       = new IsmlNode(clauseValue, isifTagLineNumber + accumulatedLineBreakQty, globalPos);
+    const clauseLineNumber        = isifTagLineNumber + accumulatedLineBreakQty;
+    const clauseGlobalPos         = state.content.indexOf(content) + GeneralUtils.offset(state.currentLineNumber);
+    const clauseContentNode       = new IsmlNode(clauseValue, clauseLineNumber, clauseGlobalPos);
 
     multiClauseNode.addChild(clauseContentNode);
 
     const currentPos = state.currentPos;
-    state.currentPos = globalPos + clauseValue.length - GeneralUtils.offset(state.currentLineNumber);
+    state.currentPos = clauseGlobalPos + clauseValue.length - GeneralUtils.offset(state.currentLineNumber);
 
     if (content.trim()) {
         TreeBuilder.parse(clauseInnerContent, state, clauseContentNode);
