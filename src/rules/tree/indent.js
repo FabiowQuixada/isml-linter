@@ -54,11 +54,11 @@ Rule.check = function(node, result) {
         const globalPos = node.globalPos - node.getIndentationSize();
 
         if (this.isBroken(node)) {
-            const configIndentSize  = this.getConfigs().size;
-            const expected          = getExpectedIndentation(node, configIndentSize);
-            const actualIndentation = getActualIndentation(node);
-            const nodeValue         = node.value.trim();
-            const occurrenceLength  = actualIndentation === 0 ?
+            const configIndentSize    = this.getConfigs().size;
+            const expectedIndentation = getExpectedIndentation(node, configIndentSize);
+            const actualIndentation   = getActualIndentation(node);
+            const nodeValue           = node.value.trim();
+            const occurrenceLength    = actualIndentation === 0 ?
                 nodeValue.length +  ParseUtils.getLineBreakQty(nodeValue) :
                 node.getIndentationSize();
 
@@ -67,7 +67,7 @@ Rule.check = function(node, result) {
                 node.lineNumber - 1,
                 globalPos,
                 occurrenceLength,
-                getOccurrenceDescription(expected, actualIndentation)
+                getOccurrenceDescription(expectedIndentation, actualIndentation)
             );
         }
 
