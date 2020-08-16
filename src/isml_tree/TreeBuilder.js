@@ -286,8 +286,12 @@ const parseRemainingContent = state => {
     if (trailingTextValue) {
         if (trailingTextValue.trim()) {
             const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(trailingTextValue);
-            const globalPos    = ParseUtils.getNextNonEmptyCharPos(trailingTextValue);
-            const node         = new IsmlNode(trailingTextValue, state.currentLineNumber + lineBreakQty, globalPos);
+            const lineNumber   = state.currentLineNumber + lineBreakQty;
+            const globalPos    = state.parentState ?
+                state.parentState.currentPos + ParseUtils.getNextNonEmptyCharPos(trailingTextValue) + GeneralUtils.offset(state.currentLineNumber + lineBreakQty) :
+                state.content.lastIndexOf(trailingTextValue.trim()) + GeneralUtils.offset(lineNumber);
+
+            const node = new IsmlNode(trailingTextValue, lineNumber, globalPos);
 
             state.parentNode.addChild(node);
         } else {

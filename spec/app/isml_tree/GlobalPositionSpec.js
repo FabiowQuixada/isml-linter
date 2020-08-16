@@ -140,6 +140,21 @@ describe('GlobalPosition', () => {
         expect(divNode.globalPos   ).toEqual(64 + SpecHelper.offset(divNode.lineNumber));
     });
 
+    it('XIII', () => {
+        const rootNode        = parseTemplate(10);
+        const multiclauseNode = rootNode.children[0];
+        const iselseNode      = multiclauseNode.children[1];
+        const expNode         = iselseNode.children[0];
+
+        expect(expNode.globalPos).toEqual(53 + SpecHelper.offset(expNode.lineNumber));
+    });
+
+    it('XIV', () => {
+        const rootNode = parseTemplate(11);
+        const textNode = rootNode.children[1];
+
+        expect(textNode.globalPos).toEqual(18 + SpecHelper.offset(textNode.lineNumber));
+    });
 });
 
 const parseTemplate = number => {
