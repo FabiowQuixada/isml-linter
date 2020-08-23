@@ -59,7 +59,7 @@ const parseElseClause = (multiClauseNode, content, state) => {
     const isifTagLineNumber       = multiClauseNode.children[0].lineNumber;
     const accumulatedLineBreakQty = ParseUtils.getLineBreakQty(multiClauseNode.toString().trimStart());
     const clauseLineNumber        = isifTagLineNumber + accumulatedLineBreakQty;
-    const clauseGlobalPos         = state.content.indexOf(content) + GeneralUtils.offset(state.currentLineNumber);
+    const clauseGlobalPos         = getIselseNodeGlobalPos(multiClauseNode);
     const clauseContentNode       = new IsmlNode(clauseValue, clauseLineNumber, clauseGlobalPos);
 
     multiClauseNode.addChild(clauseContentNode);
@@ -76,6 +76,17 @@ const parseElseClause = (multiClauseNode, content, state) => {
     state.currentPos = currentPos;
 
     return clauseContentNode;
+};
+
+const getIselseNodeGlobalPos = multiClauseNode => {
+    const stringifiedSiblings = multiClauseNode.toString().trimStart();
+    const lineBreakQty        = ParseUtils.getLineBreakQty(stringifiedSiblings);
+
+    const clauseGlobalPos = multiClauseNode.globalPos +
+        stringifiedSiblings.length +
+        lineBreakQty;
+
+    return clauseGlobalPos;
 };
 
 module.exports.run = run;

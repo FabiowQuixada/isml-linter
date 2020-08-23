@@ -1,0 +1,6 @@
+<div>
+    <isif condition="${isTrue}">
+    <iselse>
+            <div />
+    </isif>
+</div>

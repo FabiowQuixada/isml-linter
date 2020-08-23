@@ -182,6 +182,15 @@ describe('GlobalPosition', () => {
 
         expect(isifNode.globalPos).toEqual(14 + SpecHelper.offset(isifNode.lineNumber));
     });
+
+    it('XVIII', () => {
+        const rootNode   = parseTemplate(17);
+        const iselseNode = rootNode.children[0].children[0].children[1];
+        const divNode    = iselseNode.children[0];
+
+        expect(iselseNode.globalPos).toEqual(43 + SpecHelper.offset(iselseNode.lineNumber));
+        expect(divNode.globalPos   ).toEqual(64 + SpecHelper.offset(divNode.lineNumber));
+    });
 });
 
 const parseTemplate = number => {
