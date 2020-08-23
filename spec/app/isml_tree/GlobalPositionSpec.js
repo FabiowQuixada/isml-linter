@@ -155,6 +155,20 @@ describe('GlobalPosition', () => {
 
         expect(textNode.globalPos).toEqual(18 + SpecHelper.offset(textNode.lineNumber));
     });
+
+    it('XV', () => {
+        const rootNode = parseTemplate(16);
+        const isifNode = rootNode.children[0].children[0].children[0];
+
+        expect(isifNode.globalPos).toEqual(14 + SpecHelper.offset(isifNode.lineNumber));
+    });
+
+    it('XVI', () => {
+        const rootNode = parseTemplate(12);
+        const isifNode = rootNode.children[0].children[0].children[0];
+
+        expect(isifNode.globalPos).toEqual(14 + SpecHelper.offset(isifNode.lineNumber));
+    });
 });
 
 const parseTemplate = number => {

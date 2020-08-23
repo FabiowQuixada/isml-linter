@@ -10,9 +10,10 @@ const IsmlNode = require('./IsmlNode');
 
 class MultiClauseNode extends IsmlNode {
 
-    constructor() {
+    constructor(globalPos) {
         super();
-        this.value = '(Multiclause node)';
+        this.value     = '(Multiclause node)';
+        this.globalPos = globalPos;
     }
 
     isMulticlause() { return true; }

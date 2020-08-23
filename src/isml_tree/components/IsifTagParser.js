@@ -26,8 +26,7 @@ const run = (content, state) => {
 const parseMainClause = (multiClauseNode, content, state) => {
 
     const isifTagContent    = state.currentElement.asString;
-    const globalPos         = state.currentPos - isifTagContent.trim().length + 1;
-    const clauseContentNode = new IsmlNode(isifTagContent, state.currentElement.startingLineNumber, globalPos);
+    const clauseContentNode = new IsmlNode(isifTagContent, state.currentElement.startingLineNumber, multiClauseNode.globalPos);
 
     multiClauseNode.addChild(clauseContentNode);
 

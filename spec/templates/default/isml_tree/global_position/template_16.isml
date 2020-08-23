@@ -1,0 +1,4 @@
+<div>
+        <isif condition="${aCondition}">
+    </isif>
+</div>
