@@ -1,5 +1,5 @@
 <isloop items="${attr.values}" var="attrValue">
-    <option data-gtm="${require('cartridge')}">
+    <option data-abc="${require('cartridge')}">
         ${attrValue.displayValue}
     </option>
 </isloop>

@@ -2,7 +2,7 @@
     <option value="${attrValue.url}" 
         data-one="one"
         data-two="two"
-        data-gtm="${require('cartridge')}"
+        data-abc="${require('cartridge')}"
     >
         ${attrValue.displayValue}
     </option>

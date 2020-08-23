@@ -368,7 +368,7 @@
         <script type="text/javascript">
             jQuery(function(){
                 if (app && app.page){
-                    app.page.setEeProductsOnPage(<isprint value="${JSON.stringify(require('tools/gtm').addEeProductOnPage(new Object(), Product))}" encoding="off" />);
+                    app.page.setEeProductsOnPage(<isprint value="${JSON.stringify(require('cartridge').addEeProductOnPage(new Object(), Product))}" encoding="off" />);
                 }
             });
         </script>
