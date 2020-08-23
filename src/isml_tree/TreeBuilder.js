@@ -134,9 +134,7 @@ const createNode = oldState => {
 
     updateStateLinesData(state);
 
-    const lineBreakQty = ParseUtils.getLineBreakQty(state.currentElement.asString.trim());
-    const globalPos    = ParseUtils.getGlobalPos(state) + GeneralUtils.offset(state.currentLineNumber) - lineBreakQty;
-
+    const globalPos  = getCurrentElementGlobalPos(state);
     const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
     const node       = isIsifNode ?
         new MultiClauseNode(globalPos) :
@@ -349,6 +347,30 @@ const getTextNodeValue = (nodeInnerContent, content, parentNode) => {
     }
 
     return textNodeValue;
+};
+
+const getCurrentElementGlobalPos = state => {
+    const lineBreakQty = ParseUtils.getLineBreakQty(state.currentElement.asString.trim());
+    let globalPos      = ParseUtils.getGlobalPos(state) +
+        GeneralUtils.offset(state.currentLineNumber) -
+        lineBreakQty;
+
+    if (state.parentNode && !state.parentNode.isRoot()) {
+        let previousSiblingsLength = 0;
+
+        for (let i = 0; i < state.parentNode.children.length; i++) {
+            const stringifiedSibling = state.parentNode.children[i].toString();
+            previousSiblingsLength   += stringifiedSibling.length + ParseUtils.getLineBreakQty(stringifiedSibling);
+        }
+
+        globalPos = state.parentNode.globalPos +
+            state.parentNode.value.trim().length +
+            previousSiblingsLength +
+            ParseUtils.getNextNonEmptyCharPos(state.currentElement.asString) +
+            ParseUtils.getPrecedingEmptyLinesQty(state.currentElement.asString);
+    }
+
+    return globalPos;
 };
 
 module.exports.build = build;

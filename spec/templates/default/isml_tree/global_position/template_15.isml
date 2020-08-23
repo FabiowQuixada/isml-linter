@@ -1,0 +1,6 @@
+<isif condition="${aCondition}">
+<iselse>
+    <isloop items="${itemList}">
+        <div data-abc="${require('int_cartridge')}" />
+    </isloop>
+</isif>
