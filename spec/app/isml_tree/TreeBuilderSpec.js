@@ -548,6 +548,13 @@ describe(targetObjName, () => {
 
         expect(tree.rootNode).not.toEqual(null);
     });
+
+    it('builds tree with nested elements that have the same value as a descendant', () => {
+        const tree     = getTreeFromTemplate(56);
+        const rootNode = tree.rootNode;
+
+        expect(rootNode).not.toEqual(null);
+    });
 });
 
 const getTemplatePath = number => {

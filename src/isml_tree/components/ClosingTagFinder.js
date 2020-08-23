@@ -38,14 +38,14 @@ const getCorrespondentClosingElementPosition = (content, parentState) => {
 
         if (ParseUtils.isNextElementATag(internalState.maskedContent)) {
             const nextOpeningCharPosition       = internalState.maskedContent.indexOf('<');
-            const pastContentLength             = internalState.initialMaskedContent.indexOf(internalState.maskedContent);
+            const pastContentLength             = getPastContentLength(internalState);
             const contentUpToCurrentPosition    = internalState.initialMaskedContent.substring(0, pastContentLength + nextOpeningCharPosition);
             const currentElemStartingLineNumber = ParseUtils.getLineBreakQty(contentUpToCurrentPosition) + parentState.currentLineNumber;
 
             initializeLoopState(internalState, openingElemRegex, closingElemRegex);
             updateState(internalState, currentElemStartingLineNumber, parentState);
 
-            if (!internalState.elementStack.length) {
+            if (internalState.elementStack.length === 0) {
                 parentState.currentElemClosingTagInitPos = contentUpToCurrentPosition.length;
                 return parentState;
             }
@@ -61,6 +61,25 @@ const getCorrespondentClosingElementPosition = (content, parentState) => {
     }
 
     throwUnbalancedElementException(internalState);
+};
+
+const getPastContentLength = internalState => {
+    const initialContent = internalState.initialMaskedContent;
+    const content        = internalState.maskedContent;
+    const indices        = [];
+    let startIndex       = 0;
+    let index;
+
+    if (content.length === 0) {
+        return [];
+    }
+
+    while ((index = initialContent.indexOf(content, startIndex)) >= 0) {
+        indices.push(index);
+        startIndex = index + content.length;
+    }
+
+    return indices[indices.length - 1];
 };
 
 const throwParseException = (previousContent, parentState) => {
