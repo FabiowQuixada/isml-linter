@@ -142,17 +142,6 @@ describe('GlobalPosition', () => {
         expect(divNode.globalPos   ).toEqual(63 + SpecHelper.offset(divNode.lineNumber));
     });
 
-    it('XVII', () => {
-        const rootNode   = parseTemplate(15);
-        const iselseNode = rootNode.children[0].children[1];
-        const isloopNode = iselseNode.children[0];
-        const divNode    = isloopNode.children[0];
-
-        expect(iselseNode.globalPos).toEqual(32 + SpecHelper.offset(isloopNode.lineNumber));
-        expect(isloopNode.globalPos).toEqual(46 + SpecHelper.offset(isloopNode.lineNumber));
-        expect(divNode.globalPos   ).toEqual(83 + SpecHelper.offset(divNode.lineNumber));
-    });
-
     it('XIII', () => {
         const rootNode        = parseTemplate(10);
         const multiclauseNode = rootNode.children[0];
@@ -181,6 +170,17 @@ describe('GlobalPosition', () => {
         const isifNode = rootNode.children[0].children[0].children[0];
 
         expect(isifNode.globalPos).toEqual(14 + SpecHelper.offset(isifNode.lineNumber));
+    });
+
+    it('XVII', () => {
+        const rootNode   = parseTemplate(15);
+        const iselseNode = rootNode.children[0].children[1];
+        const isloopNode = iselseNode.children[0];
+        const divNode    = isloopNode.children[0];
+
+        expect(iselseNode.globalPos).toEqual(32 + SpecHelper.offset(isloopNode.lineNumber));
+        expect(isloopNode.globalPos).toEqual(46 + SpecHelper.offset(isloopNode.lineNumber));
+        expect(divNode.globalPos   ).toEqual(83 + SpecHelper.offset(divNode.lineNumber));
     });
 
     it('XVIII', () => {
