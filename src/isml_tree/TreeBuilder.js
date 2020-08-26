@@ -137,7 +137,7 @@ const createNode = oldState => {
     const globalPos  = getCurrentElementGlobalPos(state);
     const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
     const node       = isIsifNode ?
-        new MultiClauseNode(globalPos) :
+        new MultiClauseNode(state.currentElement.startingLineNumber, globalPos) :
         new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber, globalPos);
 
     state.parentNode.addChild(node);

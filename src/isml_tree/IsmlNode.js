@@ -79,7 +79,7 @@ class IsmlNode {
     }
 
     isInSameLineAsParent() {
-        return this.parent && this.parent.lineNumber === this.lineNumber;
+        return this.parent && !this.parent.isMulticlause() && this.parent.lineNumber === this.lineNumber;
     }
 
     /**
@@ -127,6 +127,11 @@ class IsmlNode {
     hasChildren()         { return this.children.length > 0;                }
 
     getIndentationSize() {
+
+        if (this.isMulticlause()) {
+            return 0;
+        }
+
         const precedingEmptySpacesLength = this.value.search(/\S|$/);
         const precedingEmptySpaces       = this.value.substring(0, precedingEmptySpacesLength);
         const lastLineBreakPos           = Math.max(precedingEmptySpaces.lastIndexOf(Constants.EOL), 0);

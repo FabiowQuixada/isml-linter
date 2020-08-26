@@ -155,7 +155,7 @@ const checkIfShouldAddIndentationToValue = node => {
     const isInSameLineAsPrevSiblingLastLine = !node.isRoot() &&
         previousSibling &&
         node.lineNumber === previousSibling.getLastLineNumber();
-    const isInSameLineAsParentValueEnd      = parentValueEndLineNumber === node.lineNumber;
+    const isInSameLineAsParentValueEnd      = parentValueEndLineNumber === node.lineNumber && !node.parent.isMulticlause();
 
     const shouldAdd = !node.isRoot() &&
         !isInSameLineAsPrevSiblingLastLine &&
