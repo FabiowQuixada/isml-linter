@@ -191,6 +191,23 @@ describe('GlobalPosition', () => {
         expect(iselseNode.globalPos).toEqual(43 + SpecHelper.offset(iselseNode.lineNumber));
         expect(divNode.globalPos   ).toEqual(64 + SpecHelper.offset(divNode.lineNumber));
     });
+
+    it('XX', () => {
+        const rootNode   = parseTemplate(18);
+        const iselseNode = rootNode.children[0].children[1].children[0];
+        const divNode    = iselseNode.children[0];
+        const expNode    = divNode.children[0];
+
+        expect(expNode.globalPos).toEqual(66 + SpecHelper.offset(expNode.lineNumber));
+    });
+
+    it('XXI', () => {
+        const rootNode  = parseTemplate(19);
+        const divNode   = rootNode.children[0];
+        const labelNode = divNode.children[0];
+
+        expect(labelNode.globalPos).toEqual(29 + SpecHelper.offset(labelNode.lineNumber));
+    });
 });
 
 const parseTemplate = number => {

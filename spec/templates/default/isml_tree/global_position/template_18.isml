@@ -1,0 +1,6 @@
+<isif condition="${aCondition}">
+<iselse>
+    <div>
+        <span>${pdict.valid.message}</span>
+    </div>
+</isif>

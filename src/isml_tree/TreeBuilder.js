@@ -235,9 +235,13 @@ const createTextNodeFromMainLoop = state => {
 
 const createTextNodeFromInnerContent = (text, state, parentNode) => {
     if (text) {
-        const lineBreakQty  = ParseUtils.getPrecedingEmptyLinesQty(text);
-        const globalPos     = ParseUtils.getTextGlobalPos(state, text);
-        const innerTextNode = new IsmlNode(text, state.currentLineNumber + lineBreakQty, globalPos);
+        const lineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
+        const globalPos  = parentNode.globalPos +
+            parentNode.value.trimStart().length +
+            ParseUtils.getNextNonEmptyCharPos(text) +
+            ParseUtils.getPrecedingEmptyLinesQty(text);
+
+        const innerTextNode = new IsmlNode(text, lineNumber, globalPos);
 
         state.currentLineNumber += ParseUtils.getLineBreakQty(text);
 
@@ -365,6 +369,7 @@ const getCurrentElementGlobalPos = state => {
 
         globalPos = state.parentNode.globalPos +
             state.parentNode.value.trim().length +
+            ParseUtils.getLineBreakQty(state.parentNode.value.trim()) +
             previousSiblingsLength +
             ParseUtils.getNextNonEmptyCharPos(state.currentElement.asString) +
             ParseUtils.getPrecedingEmptyLinesQty(state.currentElement.asString);
