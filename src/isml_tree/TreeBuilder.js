@@ -242,11 +242,11 @@ const createTextNodeFromInnerContent = (text, state, parentNode) => {
             ParseUtils.getNextNonEmptyCharPos(text) +
             ParseUtils.getPrecedingEmptyLinesQty(text);
 
-        const innerTextNode = new IsmlNode(text, lineNumber, globalPos);
+        const textNode = new IsmlNode(text, lineNumber, globalPos);
 
         state.currentLineNumber += ParseUtils.getLineBreakQty(text);
 
-        parentNode.addChild(innerTextNode);
+        parentNode.addChild(textNode);
     }
 };
 

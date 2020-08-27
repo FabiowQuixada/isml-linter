@@ -8,7 +8,6 @@ const MaskUtils        = require('../MaskUtils');
 const ClosingTagFinder = require('./ClosingTagFinder');
 const Constants        = require('../../Constants');
 const SfccTags         = require('../../enums/SfccTags');
-const GeneralUtils     = require('../../util/GeneralUtils');
 
 const ISIF = '<isif';
 
@@ -328,12 +327,4 @@ module.exports.getGlobalPos = state => {
     const accumulatedPos = getAccumulatedPos(state);
 
     return accumulatedPos - currentElement.trim().length;
-};
-
-module.exports.getTextGlobalPos = (state, text) => {
-    const nextNonEmptyCharPos = getNextNonEmptyCharPos(text);
-    const accumulatedPos      = getAccumulatedPos(state);
-    const textLineNumber      = state.currentLineNumber + getPrecedingEmptyLinesQty(text);
-
-    return accumulatedPos + nextNonEmptyCharPos + GeneralUtils.offset(textLineNumber);
 };
