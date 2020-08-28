@@ -12,7 +12,7 @@ const config = {
         'no-git-conflict'     : {},
         'no-import-package'   : {},
         'no-inline-style'     : {},
-        // 'no-isscript'      : {}, Make sure you have an ESLint file configured before enabling this rule;
+        'no-isscript'         : {},
         'no-space-only-lines' : {},
         'no-tabs'             : {},
         'no-trailing-spaces'  : {},

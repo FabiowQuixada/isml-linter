@@ -40,7 +40,7 @@ describe(targetObjName, () => {
         ConfigUtils.load(scaffoldConfig);
         const defaultConfigRules = Object.keys(ConfigUtils.load().rules);
 
-        expect(defaultConfigRules.length).toEqual(availableRulesQty - 2);
+        expect(defaultConfigRules.length).toEqual(availableRulesQty - 1);
     });
 
     // it('does not create a config file if it already exists', () => {

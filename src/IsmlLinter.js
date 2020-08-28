@@ -195,9 +195,8 @@ Linter.setConfig = newConfig => {
 Linter.getConfig = () => globalConfig;
 
 Linter.run = (pathData, content) => {
-    const ConsoleUtils         = require('./util/ConsoleUtils');
-    const ProgressBar          = require('./util/ProgressBar');
-    const EslintToIsscriptRule = require('./rules/tree/eslint-to-isscript');
+    const ConsoleUtils = require('./util/ConsoleUtils');
+    const ProgressBar  = require('./util/ProgressBar');
 
     ConfigUtils.setLocalConfig(globalConfig);
     ConfigUtils.setLocalEslintConfig();
@@ -205,11 +204,6 @@ Linter.run = (pathData, content) => {
     if (!ConfigUtils.isConfigSet()) {
         ConsoleUtils.displayConfigError();
         throw ExceptionUtils.noConfigError();
-    }
-
-    if (EslintToIsscriptRule.isEnabled() && !ConfigUtils.isEslintConfigSet()) {
-        ConsoleUtils.displayEslintConfigError();
-        throw ExceptionUtils.noEslintConfigError();
     }
 
     RuleUtils = require('./util/RuleUtils');
