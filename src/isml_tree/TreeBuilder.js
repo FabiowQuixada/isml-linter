@@ -238,6 +238,7 @@ const createTextNodeFromInnerContent = (text, state, parentNode) => {
         const lineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
         const globalPos  = parentNode.globalPos +
             parentNode.value.trimStart().length +
+            ParseUtils.getLineBreakQty(parentNode.value.trimStart()) +
             ParseUtils.getNextNonEmptyCharPos(text) +
             ParseUtils.getPrecedingEmptyLinesQty(text);
 

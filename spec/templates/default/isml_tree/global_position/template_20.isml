@@ -1,0 +1,7 @@
+<div class="multi-ship-action-buttons">
+    <button
+        data-action="enter"
+    >
+        Click me
+    </button>
+</div>
