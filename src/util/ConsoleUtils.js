@@ -189,9 +189,9 @@ const displayInvalidCommandError = () => {
 
 const displayEslintConfigError = () => {
     const config               = ConfigUtils.load();
-    const eslintConfigFileName = config.eslintConfig || '.eslintrc.json';
+    const eslintConfigFileName = config.eslintConfig;
 
-    console.log(`The "eslint-to-isscript" rule is enabled, but an ESLint configuration "${eslintConfigFileName}" file could not be found in the project root directory.`);
+    console.log(`The "eslint-to-isscript" rule is enabled, but an ESLint configuration file ${eslintConfigFileName ? '"' + eslintConfigFileName  + '" ' : ''}could not be found in the project root directory.'`);
 };
 
 const getErrorsData = lintResult => {
