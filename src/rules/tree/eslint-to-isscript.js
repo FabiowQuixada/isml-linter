@@ -53,8 +53,8 @@ Rule.check = function(node) {
         };
 
         for (let index = 0; index < isscriptContentArray.length; index++) {
-            const node  = isscriptContentArray[index];
-            let content = node.value;
+            const jsContentNode = isscriptContentArray[index];
+            let content         = jsContentNode.value;
 
             const ismlIndentation = getIndentation(content);
 
@@ -63,7 +63,7 @@ Rule.check = function(node) {
             const errorArray = linter.verify(content, eslintConfig);
 
             for (let i = 0; i < errorArray.length; i++) {
-                this.addError(node, errorArray[i], ismlIndentation, linter);
+                this.addError(jsContentNode, errorArray[i], ismlIndentation, linter);
             }
         }
 
