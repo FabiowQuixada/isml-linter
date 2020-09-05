@@ -1,3 +1,4 @@
+const path       = require('path');
 const ParseUtils = require('./ParseUtils');
 const Constants  = require('../../Constants');
 
@@ -9,6 +10,7 @@ module.exports = {
             parentState,
             parentNode,
             templatePath,
+            templateName          : parentState ? parentState.templateName : path.parse(templatePath).base,
             stateDepth            : parentState ? parentState.stateDepth + 1 : 0,
             currentElement        : {},
             lineBreakPositionList : [0],
