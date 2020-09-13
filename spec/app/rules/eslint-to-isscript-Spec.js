@@ -110,6 +110,18 @@ describe(rule.id, () => {
         expect(result[3].globalPos).toEqual(127);
     });
 
+    it('identifies eslint parsing issues', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 7);
+        const firstOccurrence = result[0];
+
+        expect(firstOccurrence.line      ).toEqual('        vfar variableTwo = 2;');
+        expect(firstOccurrence.lineNumber).toEqual(4);
+        expect(firstOccurrence.globalPos ).toEqual(26);
+        expect(firstOccurrence.length    ).toEqual(21);
+        expect(firstOccurrence.rule      ).toEqual(rule.id);
+        expect(firstOccurrence.message   ).toEqual('Parsing error: Unexpected token variableTwo');
+    });
+
     it('fixes a simple template', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 0);
 

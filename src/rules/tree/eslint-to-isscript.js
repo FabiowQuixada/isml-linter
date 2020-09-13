@@ -14,7 +14,10 @@ let isscriptContentArray = [];
 Rule.init(ruleId, description);
 
 Rule.addError = function(node, error, ismlIndentation, linter) {
-    const errorLine        = linter.getSourceCode().lines[error.line - 1];
+    const errorLine = linter.getSourceCode() ?
+        linter.getSourceCode().lines[error.line - 1] :
+        node.value.split('\n')[error.line - 1];
+
     const duplicatedOffset = ParseUtils.getNextNonEmptyCharPos(node.value);
     const errorLocalPos    = node.value.indexOf(errorLine.trim()) - duplicatedOffset;
     const errorGlobalPos   = node.globalPos + errorLocalPos + error.line - 2;
