@@ -34,7 +34,7 @@ describe(targetObjName, () => {
         const multiClauseNode = getMulticlauseNodeFromTemplate(1);
         const iselseNode      = multiClauseNode.children[1];
 
-        expect(iselseNode.globalPos).toEqual(38 + SpecHelper.offset(iselseNode.lineNumber));
+        expect(iselseNode.globalPos).toEqual(40);
     });
 
     it('sets correct global position for <iselseif> tags', () => {
@@ -42,8 +42,8 @@ describe(targetObjName, () => {
         const iselseifNode    = multiClauseNode.children[1];
         const iselseNode      = multiClauseNode.children[2];
 
-        expect(iselseifNode.globalPos).toEqual(39 + SpecHelper.offset(iselseifNode.lineNumber));
-        expect(iselseNode.globalPos).toEqual(86 + SpecHelper.offset(iselseNode.lineNumber));
+        expect(iselseifNode.globalPos).toEqual(41);
+        expect(iselseNode.globalPos).toEqual(90);
     });
 
     it('sets the children of a multiclause node correctly, with no duplicates', () => {

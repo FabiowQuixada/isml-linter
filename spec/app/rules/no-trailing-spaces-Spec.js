@@ -76,7 +76,7 @@ describe(rule.id, () => {
         const result          = rule.check(templateContent);
         const occurrence      = result.occurrences[0];
 
-        expect(occurrence.globalPos).toEqual(59 + SpecHelper.offset(occurrence.lineNumber));
+        expect(occurrence.globalPos).toEqual(63);
     });
 
     it('identifies issue global position II', () => {
@@ -85,7 +85,7 @@ describe(rule.id, () => {
         const occurrence      = result.occurrences[0];
         const occurrence2     = result.occurrences[1];
 
-        expect(occurrence.globalPos).toEqual(55   + SpecHelper.offset(occurrence.lineNumber));
-        expect(occurrence2.globalPos).toEqual(106 + SpecHelper.offset(occurrence2.lineNumber));
+        expect(occurrence.globalPos ).toEqual(56);
+        expect(occurrence2.globalPos).toEqual(108);
     });
 });

@@ -24,7 +24,7 @@ describe(rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('    let foo = bar;    ');
         expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(15 + SpecHelper.offset(firstOccurrence.lineNumber));
+        expect(firstOccurrence.globalPos ).toEqual(16);
         expect(firstOccurrence.length    ).toEqual(18);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual('Trailing spaces not allowed.');
@@ -35,7 +35,7 @@ describe(rule.id, () => {
 
         expect(secondOccurrence.line      ).toEqual('    let bar = baz;  ');
         expect(secondOccurrence.lineNumber).toEqual(4);
-        expect(secondOccurrence.globalPos ).toEqual(39 + SpecHelper.offset(secondOccurrence.lineNumber));
+        expect(secondOccurrence.globalPos ).toEqual(42);
         expect(secondOccurrence.length    ).toEqual(16);
         expect(secondOccurrence.rule      ).toEqual(rule.id);
         expect(secondOccurrence.message   ).toEqual('Trailing spaces not allowed.');
@@ -46,7 +46,7 @@ describe(rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('           disabledAttr = \' disabled="disabled"\';  ');
         expect(firstOccurrence.lineNumber).toEqual(12);
-        expect(firstOccurrence.globalPos ).toEqual(476 + SpecHelper.offset(firstOccurrence.lineNumber));
+        expect(firstOccurrence.globalPos ).toEqual(487);
         expect(firstOccurrence.length    ).toEqual(40);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual('Expected indentation of 8 spaces but found 7.');
@@ -59,14 +59,14 @@ describe(rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('    var product = pdict.Product;');
         expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(15 + SpecHelper.offset(firstOccurrence.lineNumber));
+        expect(firstOccurrence.globalPos ).toEqual(16);
         expect(firstOccurrence.length    ).toEqual(28);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');
 
         expect(secondOccurrence.line      ).toEqual('    var pid = pdict.Product.getID();');
         expect(secondOccurrence.lineNumber).toEqual(3);
-        expect(secondOccurrence.globalPos ).toEqual(48 + SpecHelper.offset(secondOccurrence.lineNumber));
+        expect(secondOccurrence.globalPos ).toEqual(50);
         expect(secondOccurrence.length    ).toEqual(32);
         expect(secondOccurrence.rule      ).toEqual(rule.id);
         expect(secondOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');
@@ -77,7 +77,7 @@ describe(rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('    var pid = pdict.Product.getID();');
         expect(firstOccurrence.lineNumber).toEqual(3);
-        expect(firstOccurrence.globalPos ).toEqual(48 + SpecHelper.offset(firstOccurrence.lineNumber));
+        expect(firstOccurrence.globalPos ).toEqual(50);
         expect(firstOccurrence.length    ).toEqual(32);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');
@@ -88,7 +88,7 @@ describe(rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('    var pid = pdict.Product.getID();');
         expect(firstOccurrence.lineNumber).toEqual(110);
-        expect(firstOccurrence.globalPos ).toEqual(4058 + SpecHelper.offset(firstOccurrence.lineNumber));
+        expect(firstOccurrence.globalPos ).toEqual(4167);
         expect(firstOccurrence.length    ).toEqual(32);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');

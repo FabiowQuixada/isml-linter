@@ -18,7 +18,7 @@ describe(rule.id, () => {
 
         expect(occurrence.line      ).toEqual('<iscache status="on" />');
         expect(occurrence.lineNumber).toEqual(2);
-        expect(occurrence.globalPos ).toEqual(10 + SpecHelper.offset(occurrence.lineNumber));
+        expect(occurrence.globalPos ).toEqual(11);
         expect(occurrence.length    ).toEqual(23);
         expect(occurrence.rule      ).toEqual(rule.id);
         expect(occurrence.message   ).toEqual(rule.description);
@@ -35,7 +35,7 @@ describe(rule.id, () => {
 
         expect(occurrence.line      ).toEqual('<iscache status="on" />');
         expect(occurrence.lineNumber).toEqual(3);
-        expect(occurrence.globalPos ).toEqual(9 + SpecHelper.offset(occurrence.lineNumber));
+        expect(occurrence.globalPos ).toEqual(11);
         expect(occurrence.length    ).toEqual(23);
         expect(occurrence.rule      ).toEqual(rule.id);
         expect(occurrence.message   ).toEqual(rule.description);

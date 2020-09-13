@@ -26,14 +26,14 @@ describe(rule.id, () => {
 
         expect(occurrence0.line       ).toEqual('<iselseif condition="${anotherCondition}"/>');
         expect(occurrence0.lineNumber ).toEqual(3);
-        expect(occurrence0.globalPos  ).toEqual(46 + SpecHelper.offset(occurrence0.lineNumber));
+        expect(occurrence0.globalPos  ).toEqual(48);
         expect(occurrence0.length     ).toEqual(43);
         expect(occurrence0.rule       ).toEqual(rule.id);
         expect(occurrence0.message    ).toEqual(rule.description);
 
         expect(occurrence1.line       ).toEqual('<iselse/>');
         expect(occurrence1.lineNumber ).toEqual(5);
-        expect(occurrence1.globalPos  ).toEqual(103 + SpecHelper.offset(occurrence1.lineNumber));
+        expect(occurrence1.globalPos  ).toEqual(107);
         expect(occurrence1.length     ).toEqual(9);
         expect(occurrence1.rule       ).toEqual(rule.id);
         expect(occurrence1.message    ).toEqual(rule.description);

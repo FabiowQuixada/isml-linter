@@ -54,7 +54,7 @@ describe(rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('const productLineItem : dw.order.ProductLineItem; // Some comment');
         expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(25 + SpecHelper.offset(firstOccurrence.lineNumber));
+        expect(firstOccurrence.globalPos ).toEqual(26);
         expect(firstOccurrence.length    ).toEqual(24);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual(rule.description);

@@ -23,7 +23,7 @@ describe(rule.id, () => {
 
         expect(occurrence.line      ).toEqual('I\'m a hardcoded-text');
         expect(occurrence.lineNumber).toEqual(4);
-        expect(occurrence.globalPos ).toEqual(18 + SpecHelper.offset(occurrence.lineNumber));
+        expect(occurrence.globalPos ).toEqual(21);
         expect(occurrence.length    ).toEqual(1);
         expect(occurrence.rule      ).toEqual(rule.id);
         expect(occurrence.message   ).toEqual(rule.description);

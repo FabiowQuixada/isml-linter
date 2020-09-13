@@ -16,7 +16,7 @@ describe(rule.id, () => {
 
         expect(occurrence.line      ).toEqual('<isprint class="lvl-11" />');
         expect(occurrence.lineNumber).toEqual(11);
-        expect(occurrence.globalPos ).toEqual(490 + SpecHelper.offset(occurrence.lineNumber));
+        expect(occurrence.globalPos ).toEqual(500);
         expect(occurrence.length    ).toEqual(26);
         expect(occurrence.rule      ).toEqual(rule.id);
         expect(occurrence.message   ).toEqual(rule.description);

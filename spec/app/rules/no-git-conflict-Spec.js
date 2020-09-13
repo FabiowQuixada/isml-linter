@@ -40,7 +40,7 @@ describe(rule.id, () => {
 
         expect(occurrence2.line      ).toEqual('=======');
         expect(occurrence2.lineNumber).toEqual(3);
-        expect(occurrence2.globalPos ).toEqual(25 + SpecHelper.offset(occurrence2.lineNumber));
+        expect(occurrence2.globalPos ).toEqual(27);
         expect(occurrence2.length    ).toEqual(7);
         expect(occurrence2.rule      ).toEqual(rule.id);
 

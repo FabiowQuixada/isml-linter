@@ -95,10 +95,6 @@ module.exports = {
         };
     },
 
-    offset : lineNumber => {
-        return GeneralUtils.offset(lineNumber);
-    },
-
     getTemplatePath: (dir, number) => path.join(dir, `template_${number}.isml`),
 
     /**

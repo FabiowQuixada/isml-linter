@@ -17,7 +17,7 @@ describe(rule.id, () => {
 
         expect(result.line      ).toEqual('<br/>');
         expect(result.lineNumber).toEqual(2);
-        expect(result.globalPos ).toEqual(6 + SpecHelper.offset(result.lineNumber));
+        expect(result.globalPos ).toEqual(7);
         expect(result.length    ).toEqual(3);
         expect(result.rule      ).toEqual(rule.id);
         expect(result.message   ).toEqual('Expected indentation of 4 spaces but found 3');
@@ -28,7 +28,7 @@ describe(rule.id, () => {
 
         expect(result.line      ).toEqual('<br/>');
         expect(result.lineNumber).toEqual(3);
-        expect(result.globalPos ).toEqual(7 + SpecHelper.offset(result.lineNumber));
+        expect(result.globalPos ).toEqual(9);
         expect(result.length    ).toEqual(3);
         expect(result.rule      ).toEqual(rule.id);
         expect(result.message   ).toEqual('Expected indentation of 4 spaces but found 3');
@@ -45,7 +45,7 @@ describe(rule.id, () => {
 
         expect(result.line      ).toEqual('<input type="text" />');
         expect(result.lineNumber).toEqual(3);
-        expect(result.globalPos ).toEqual(87 + SpecHelper.offset(result.lineNumber));
+        expect(result.globalPos ).toEqual(89);
         expect(result.length    ).toEqual(5);
         expect(result.rule      ).toEqual(rule.id);
         expect(result.message   ).toEqual('Expected indentation of 4 spaces but found 5');
@@ -204,21 +204,21 @@ describe(rule.id, () => {
     it('detects zero-indented lines', () => {
         const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 13)[0];
 
-        expect(occurrence.globalPos).toEqual(12 + SpecHelper.offset(occurrence.lineNumber));
+        expect(occurrence.globalPos).toEqual(13);
         expect(occurrence.length).toEqual(11);
     });
 
     it('identifies occurrence global position and length', () => {
         const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 14)[0];
 
-        expect(occurrence.globalPos).toEqual(12 + SpecHelper.offset(occurrence.lineNumber));
+        expect(occurrence.globalPos).toEqual(13);
         expect(occurrence.length).toEqual(1);
     });
 
     it('identifies occurrence global position and length II', () => {
         const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 15)[0];
 
-        expect(occurrence.globalPos).toEqual(13 + SpecHelper.offset(occurrence.lineNumber));
+        expect(occurrence.globalPos).toEqual(15);
         expect(occurrence.length).toEqual(40);
     });
 

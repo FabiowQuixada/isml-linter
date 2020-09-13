@@ -25,7 +25,7 @@ describe(rule.id, () => {
 
         expect(occurrence1.line      ).toEqual('<isset name="var11" value="${value11}" scope="page"/>');
         expect(occurrence1.lineNumber).toEqual(2);
-        expect(occurrence1.globalPos ).toEqual(52 + SpecHelper.offset(occurrence1.lineNumber));
+        expect(occurrence1.globalPos ).toEqual(53);
         expect(occurrence1.length    ).toEqual(53);
         expect(occurrence1.rule      ).toEqual(rule.id);
         expect(occurrence1.message   ).toEqual(rule.description);
@@ -45,7 +45,7 @@ describe(rule.id, () => {
 
         expect(occurrence.line      ).toEqual('<isset name="var11" value="${value11}" scope="page"/>');
         expect(occurrence.lineNumber).toEqual(3);
-        expect(occurrence.globalPos ).toEqual(64 + SpecHelper.offset(occurrence.lineNumber));
+        expect(occurrence.globalPos ).toEqual(66);
         expect(occurrence.length    ).toEqual(53);
         expect(occurrence.rule      ).toEqual(rule.id);
         expect(occurrence.message   ).toEqual(rule.description);
