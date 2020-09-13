@@ -80,9 +80,12 @@ const parseElseClause = (multiClauseNode, content, state) => {
 
 const getIselseNodeGlobalPos = (multiClauseNode, clauseLineNumber) => {
     const stringifiedSiblings = multiClauseNode.toString().trimStart();
-    const clauseGlobalPos     = multiClauseNode.globalPos +
-        stringifiedSiblings.length +
-        GeneralUtils.offset(clauseLineNumber - multiClauseNode.lineNumber + 1);
+    let clauseGlobalPos       = multiClauseNode.globalPos +
+        stringifiedSiblings.length;
+
+    if (global.isWindows) {
+        clauseGlobalPos += GeneralUtils.offset(clauseLineNumber - multiClauseNode.lineNumber + 1);
+    }
 
     return clauseGlobalPos;
 };

@@ -42,7 +42,8 @@ module.exports = {
         return rule;
     },
 
-    beforeEach: () => {
+    beforeEach: (isWindows = true) => {
+        global.isWindows     = isWindows;
         process.env.NODE_ENV = Constants.ENV_TEST;
         ConfigUtils.load();
         cleanTempDirectory();

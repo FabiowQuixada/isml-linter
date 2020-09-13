@@ -33,18 +33,6 @@ const getUpdateContent = state => {
     return content;
 };
 
-const getAccumulatedPos = state => {
-    let accumulatedValue = 0;
-    let iterator         = state;
-
-    do {
-        accumulatedValue += iterator.currentPos + 1;
-        iterator         = iterator.parentState;
-    } while (iterator);
-
-    return accumulatedValue;
-};
-
 const getNextNonEmptyChar = content => {
     return content.replace(new RegExp(Constants.EOL, 'g'), '').trim()[0];
 };
@@ -321,10 +309,3 @@ module.exports.isBlack = state => state.depthColor === DEPTH_COLOR.BLACK;
 
 module.exports.darken  = state => state.depthColor++;
 module.exports.lighten = state => state.depthColor--;
-
-module.exports.getGlobalPos = state => {
-    const currentElement = state.currentElement.asString;
-    const accumulatedPos = getAccumulatedPos(state);
-
-    return accumulatedPos - currentElement.trim().length;
-};

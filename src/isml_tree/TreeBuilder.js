@@ -134,7 +134,7 @@ const createNode = oldState => {
 
     updateStateLinesData(state);
 
-    const globalPos  = getCurrentElementGlobalPos(state);
+    const globalPos  = getCurrentElementGlobalPos(state, state.currentElement.asString);
     const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
     const node       = isIsifNode ?
         new MultiClauseNode(state.currentElement.startingLineNumber, globalPos) :
@@ -236,13 +236,8 @@ const createTextNodeFromMainLoop = state => {
 const createTextNodeFromInnerContent = (text, state, parentNode) => {
     if (text) {
         const lineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
-        const globalPos  = parentNode.globalPos +
-            parentNode.value.trimStart().length +
-            ParseUtils.getLineBreakQty(parentNode.value.trimStart()) +
-            ParseUtils.getNextNonEmptyCharPos(text) +
-            ParseUtils.getPrecedingEmptyLinesQty(text);
-
-        const textNode = new IsmlNode(text, lineNumber, globalPos);
+        const globalPos  = getCurrentElementGlobalPos(state, text);
+        const textNode   = new IsmlNode(text, lineNumber, globalPos);
 
         state.currentLineNumber += ParseUtils.getLineBreakQty(text);
 
@@ -292,9 +287,17 @@ const parseRemainingContent = state => {
         if (trailingTextValue.trim()) {
             const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(trailingTextValue);
             const lineNumber   = state.currentLineNumber + lineBreakQty;
-            const globalPos    = state.parentState ?
-                state.parentState.currentPos + ParseUtils.getNextNonEmptyCharPos(trailingTextValue) + GeneralUtils.offset(state.currentLineNumber + lineBreakQty) :
-                state.content.lastIndexOf(trailingTextValue.trim()) + GeneralUtils.offset(lineNumber);
+            let globalPos      = state.parentState ?
+                state.parentState.currentPos + 1 + ParseUtils.getNextNonEmptyCharPos(trailingTextValue) + lineBreakQty :
+                state.content.lastIndexOf(trailingTextValue) + 1;
+
+            if (global.isWindows) {
+                if (state.parentState) {
+                    globalPos += 1;
+                } else {
+                    globalPos += ParseUtils.getLineBreakQty(state.content.substring(0, globalPos));
+                }
+            }
 
             const node = new IsmlNode(trailingTextValue, lineNumber, globalPos);
 
@@ -354,26 +357,32 @@ const getTextNodeValue = (nodeInnerContent, content, parentNode) => {
     return textNodeValue;
 };
 
-const getCurrentElementGlobalPos = state => {
-    const lineBreakQty = ParseUtils.getLineBreakQty(state.currentElement.asString.trim());
-    let globalPos      = ParseUtils.getGlobalPos(state) +
-        GeneralUtils.offset(state.currentLineNumber) -
-        lineBreakQty;
+const getCurrentElementGlobalPos = (state, element) => {
 
-    if (state.parentNode && !state.parentNode.isRoot()) {
-        let previousSiblingsLength = 0;
+    const trimmedElement = element.trim();
+    let iterator         = state;
+    let referenceState   = state;
+    let stateInitialPos  = 0;
 
-        for (let i = 0; i < state.parentNode.children.length; i++) {
-            const stringifiedSibling = state.parentNode.children[i].toString();
-            previousSiblingsLength   += stringifiedSibling.length + ParseUtils.getLineBreakQty(stringifiedSibling);
+    while (iterator.parentState) {
+        const currentStateInitialPos = iterator.parentState ? iterator.parentState.content.indexOf(iterator.content) : 0;
+
+        stateInitialPos += currentStateInitialPos;
+        referenceState  = iterator;
+        iterator        = iterator.parentState;
+    }
+
+    let globalPos = stateInitialPos + state.content.indexOf(trimmedElement);
+
+    if (global.isWindows) {
+        while (referenceState.parentState) {
+            referenceState = referenceState.parentState;
         }
 
-        globalPos = state.parentNode.globalPos +
-            state.parentNode.value.trim().length +
-            ParseUtils.getLineBreakQty(state.parentNode.value.trim()) +
-            previousSiblingsLength +
-            ParseUtils.getNextNonEmptyCharPos(state.currentElement.asString) +
-            ParseUtils.getPrecedingEmptyLinesQty(state.currentElement.asString);
+        const precedingContent = referenceState.content.substring(0, referenceState.content.indexOf(trimmedElement));
+        const offset           = ParseUtils.getLineBreakQty(precedingContent);
+
+        globalPos += offset;
     }
 
     return globalPos;
