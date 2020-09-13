@@ -1,0 +1,7 @@
+<div/>
+
+<isscript>
+    // Some comment
+    var variableOne = 1;
+    var variableTwo = 2;
+</isscript>

@@ -1,0 +1,9 @@
+<div/>
+
+<isscript>
+    // Some comment
+    var variableOne = 1;
+    var variableTwo = 2;
+    var variableThree = 3;
+    var variableFour = 4;
+</isscript>
