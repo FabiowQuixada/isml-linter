@@ -4,8 +4,9 @@ const Constants         = require('../../Constants');
 const ConfigUtils       = require('../../util/ConfigUtils');
 const GeneralUtils      = require('../../util/GeneralUtils');
 
-const ruleId      = require('path').basename(__filename).slice(0, -3);
-const description = 'Not eslint-valid';
+const ruleId          = require('path').basename(__filename).slice(0, -3);
+const description     = 'Not eslint-valid';
+const notFoundMessage = 'No eslint configuration file found: ' + ConfigUtils.getEslintConfigFilePath();
 
 const Rule = Object.create(TreeRulePrototype);
 
@@ -37,7 +38,7 @@ Rule.check = function(node) {
     try {
         eslintConfig = ConfigUtils.loadEslintConfig();
     } catch (err) {
-        this.add(null, 0, 0, 1, 'No eslint configuration file found.');
+        this.add(null, 0, 0, 1, notFoundMessage);
         return this.result;
     }
 
@@ -83,7 +84,7 @@ Rule.getFixedContent = function(node) {
     try {
         eslintConfig = ConfigUtils.loadEslintConfig();
     } catch (err) {
-        this.add(null, 0, 0, 1, 'No eslint configuration file found.');
+        this.add(null, 0, 0, 1, notFoundMessage);
         return this.result;
     }
 

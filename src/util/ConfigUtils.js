@@ -126,6 +126,18 @@ const getConfigFilePath = () => {
     return null;
 };
 
+const getEslintConfigFilePath = () => {
+    for (let index = 0; index < Constants.eslintConfigFilePathList.length; index++) {
+        const eslintConfigPath = Constants.configFilePathList[index];
+
+        if (FileUtils.fileExists(eslintConfigPath)) {
+            return eslintConfigPath;
+        }
+    }
+
+    return null;
+};
+
 const existEslintConfigFile = () => {
     return eslintConfigData ||
         configData && configData.eslintConfig && FileUtils.fileExists(configData.eslintConfig) ||
@@ -178,13 +190,14 @@ const setLocalEslintConfig = () => {
     }
 };
 
-module.exports.init                 = init;
-module.exports.setLocalConfig       = setLocalConfig;
-module.exports.setLocalEslintConfig = setLocalEslintConfig;
-module.exports.load                 = load;
-module.exports.loadEslintConfig     = loadEslintConfig;
-module.exports.clearConfig          = clearConfig;
-module.exports.clearEslintConfig    = clearEslintConfig;
-module.exports.isConfigSet          = isConfigSet;
-module.exports.isEslintConfigSet    = isEslintConfigSet;
-module.exports.getConfigFilePath    = getConfigFilePath;
+module.exports.init                    = init;
+module.exports.setLocalConfig          = setLocalConfig;
+module.exports.setLocalEslintConfig    = setLocalEslintConfig;
+module.exports.load                    = load;
+module.exports.loadEslintConfig        = loadEslintConfig;
+module.exports.clearConfig             = clearConfig;
+module.exports.clearEslintConfig       = clearEslintConfig;
+module.exports.isConfigSet             = isConfigSet;
+module.exports.isEslintConfigSet       = isEslintConfigSet;
+module.exports.getConfigFilePath       = getConfigFilePath;
+module.exports.getEslintConfigFilePath = getEslintConfigFilePath;
