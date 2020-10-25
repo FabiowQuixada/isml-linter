@@ -119,12 +119,14 @@ const addIndentation = (content, node) => {
 };
 
 const removeAllIndentation = node => {
-    if (node.value) {
-        node.value = removeIndentation(node.value);
-    }
+    if (!node.isRoot() && !node.isMulticlause()) {
+        if (node.value) {
+            node.value = removeIndentation(node.value);
+        }
 
-    if (node.suffixValue) {
-        node.suffixValue = removeIndentation(node.suffixValue);
+        if (node.suffixValue) {
+            node.suffixValue = removeIndentation(node.suffixValue);
+        }
     }
 
     for (let i = 0; i < node.children.length; i++) {
@@ -133,15 +135,17 @@ const removeAllIndentation = node => {
 };
 
 const addCorrectIndentation = node => {
-    const shouldAddIndentationToValue  = checkIfShouldAddIndentationToValue(node);
-    const shouldAddIndentationToSuffix = checkIfShouldAddIndentationToSuffix(node);
+    if (!node.isRoot() && !node.isMulticlause()) {
+        const shouldAddIndentationToValue  = checkIfShouldAddIndentationToValue(node);
+        const shouldAddIndentationToSuffix = checkIfShouldAddIndentationToSuffix(node);
 
-    if (shouldAddIndentationToValue) {
-        node.value = addIndentation(node.value, node);
-    }
+        if (shouldAddIndentationToValue) {
+            node.value = addIndentation(node.value, node);
+        }
 
-    if (shouldAddIndentationToSuffix) {
-        node.suffixValue = addIndentation(node.suffixValue, node);
+        if (shouldAddIndentationToSuffix) {
+            node.suffixValue = addIndentation(node.suffixValue, node);
+        }
     }
 
     for (let i = 0; i < node.children.length; i++) {
