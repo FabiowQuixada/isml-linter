@@ -288,12 +288,12 @@ const parseRemainingContent = state => {
             const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(trailingTextValue);
             const lineNumber   = state.currentLineNumber + lineBreakQty;
             let globalPos      = state.parentState ?
-                state.parentState.currentPos + 1 + ParseUtils.getNextNonEmptyCharPos(trailingTextValue) + lineBreakQty :
-                state.content.lastIndexOf(trailingTextValue) + 1;
+                state.parentState.content.lastIndexOf(trailingTextValue.trim()) :
+                state.content.lastIndexOf(trailingTextValue.trim());
 
             if (global.isWindows) {
                 if (state.parentState) {
-                    globalPos += 1;
+                    globalPos += 2;
                 } else {
                     globalPos += ParseUtils.getLineBreakQty(state.content.substring(0, globalPos));
                 }

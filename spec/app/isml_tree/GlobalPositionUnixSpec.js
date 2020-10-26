@@ -218,6 +218,13 @@ describe('Global Position on Unix', () => {
 
         expect(textNode.globalPos).toEqual(94);
     });
+
+    it('XXIII', () => {
+        const rootNode = parseTemplate(21);
+        const textNode = rootNode.children[0];
+
+        expect(textNode.globalPos).toEqual(7);
+    });
 });
 
 const parseTemplate = number => {

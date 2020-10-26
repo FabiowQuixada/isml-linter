@@ -217,6 +217,13 @@ describe('Global Position on Windows', () => {
 
         expect(textNode.globalPos).toEqual(98);
     });
+
+    it('XXIII', () => {
+        const rootNode = parseTemplate(21);
+        const textNode = rootNode.children[0];
+
+        expect(textNode.globalPos).toEqual(9);
+    });
 });
 
 const parseTemplate = number => {
