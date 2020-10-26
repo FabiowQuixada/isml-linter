@@ -46,11 +46,16 @@ Rule.check = function(node, result = { occurrences : [] }) {
         const lineOffset     = ParseUtils.getLineBreakQty(beforeStartPos);
         const afterStartPos  = trimmedValue.substring(startPos);
         const length         = afterStartPos.indexOf(')') + 1;
+        let globalPos        = node.globalPos + startPos;
+
+        if (global.isWindows) {
+            globalPos += lineOffset;
+        }
 
         this.add(
             node.value.trim(),
             node.lineNumber - 1,
-            node.globalPos + startPos + lineOffset,
+            globalPos,
             length
         );
     }

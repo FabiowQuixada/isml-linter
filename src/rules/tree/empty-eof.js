@@ -37,7 +37,11 @@ Rule.check = function(rootNode, result) {
             const trailingSpaces   = node.suffixValue.substring(lastLineBreakPos + 1);
 
             if (trailingSpaces.length) {
-                globalPos = node.globalPos + node.toString().length + GeneralUtils.offset(lineBreakQty) - trailingSpaces.length;
+                globalPos = node.globalPos + node.toString().length - trailingSpaces.length;
+
+                if (global.isWindows) {
+                    globalPos += GeneralUtils.offset(lineBreakQty);
+                }
             }
         }
 

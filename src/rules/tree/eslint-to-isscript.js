@@ -20,8 +20,14 @@ Rule.addError = function(node, error, ismlIndentation, linter) {
         node.value.split('\n')[error.line - 1];
 
     const duplicatedOffset = ParseUtils.getNextNonEmptyCharPos(node.value);
-    const errorLocalPos    = node.value.indexOf(errorLine.trim()) - duplicatedOffset;
-    const errorGlobalPos   = node.globalPos + errorLocalPos + error.line - 2;
+    const errorLocalPos    = node.value.indexOf(errorLine.trimStart()) - duplicatedOffset;
+    let errorGlobalPos     = node.globalPos;
+
+    if (global.isWindows) {
+        errorGlobalPos += errorLocalPos + error.line - 2;
+    } else {
+        errorGlobalPos += node.value.trimStart().indexOf(errorLine.trimStart());
+    }
 
     this.add(
         ismlIndentation + errorLine,

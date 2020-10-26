@@ -17,8 +17,15 @@ SingleLineRulePrototype.check = function(templateContent) {
     for (let lineNumber = 0; lineNumber < lineArray.length; lineNumber++) {
         const line       = lineArray[lineNumber];
         const occurrence = this.getFirstOccurrence(line);
+
         if (occurrence) {
-            this.add(line, lineNumber, globalPos + occurrence.globalPos + Constants.lineBreakOffset * lineNumber, occurrence.length);
+            let occurrenceGlobalPos = globalPos + occurrence.globalPos;
+
+            if (global.isWindows) {
+                occurrenceGlobalPos += lineNumber;
+            }
+
+            this.add(line, lineNumber, occurrenceGlobalPos, occurrence.length);
         }
 
         globalPos += line.length + 1;

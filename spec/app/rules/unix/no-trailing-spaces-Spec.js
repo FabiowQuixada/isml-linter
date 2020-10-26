@@ -77,7 +77,7 @@ describe('On Unix, ' + rule.id, () => {
         const result          = rule.check(templateContent);
         const occurrence      = result.occurrences[0];
 
-        expect(occurrence.globalPos).toEqual(63);
+        expect(occurrence.globalPos).toEqual(59);
     });
 
     it('identifies issue global position II', () => {
@@ -86,7 +86,7 @@ describe('On Unix, ' + rule.id, () => {
         const occurrence      = result.occurrences[0];
         const occurrence2     = result.occurrences[1];
 
-        expect(occurrence.globalPos ).toEqual(56);
-        expect(occurrence2.globalPos).toEqual(108);
+        expect(occurrence.globalPos ).toEqual(55);
+        expect(occurrence2.globalPos).toEqual(106);
     });
 });

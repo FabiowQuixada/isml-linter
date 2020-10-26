@@ -21,7 +21,7 @@ Rule.getFirstOccurrence = function(line) {
 
         result = {
             globalPos : matchPos,
-            length      : temp[0].length -  1
+            length    : temp[0].length -  1
         };
     }
 

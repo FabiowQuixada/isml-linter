@@ -34,7 +34,7 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(occurrence.line      ).toEqual('   ');
         expect(occurrence.lineNumber).toEqual(3);
-        expect(occurrence.globalPos ).toEqual(20);
+        expect(occurrence.globalPos ).toEqual(18);
         expect(occurrence.length    ).toEqual(1);
         expect(occurrence.rule      ).toEqual(rule.id);
         expect(occurrence.message   ).toEqual(rule.description);

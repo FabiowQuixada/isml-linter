@@ -46,7 +46,7 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('<div><br /></div>');
         expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(7);
+        expect(firstOccurrence.globalPos ).toEqual(6);
         expect(firstOccurrence.length    ).toEqual(6);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual(rule.description);
@@ -85,7 +85,7 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('<br/>');
         expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(2);
+        expect(firstOccurrence.globalPos ).toEqual(1);
         expect(firstOccurrence.length    ).toEqual(5);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual(rule.description);
