@@ -1,4 +1,4 @@
-const SpecHelper   = require('../../SpecHelper');
+const SpecHelper   = require('../../../SpecHelper');
 const specFileName = require('path').basename(__filename);
 
 const rule = SpecHelper.getRule(specFileName);
@@ -19,22 +19,22 @@ describe(rule.id, () => {
         expect(result.occurrences).not.toEqual([]);
     });
 
-    it('ignores empty lines', () => {
+    it('accepts code that is not related to the rule', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
         const result          = rule.check(templateContent);
 
         expect(result.occurrences).toEqual([]);
     });
 
-    it('detects simple style occurrence', () => {
+    it('detects "importPackage" usage', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
         const result          = rule.check(templateContent);
         const firstOccurrence = result.occurrences[0];
 
-        expect(firstOccurrence.line      ).toEqual('<div style="display: none;">');
+        expect(firstOccurrence.line      ).toEqual('importPackage( dw.system );');
         expect(firstOccurrence.lineNumber).toEqual(1);
-        expect(firstOccurrence.globalPos ).toEqual(5);
-        expect(firstOccurrence.length    ).toEqual(5);
+        expect(firstOccurrence.globalPos ).toEqual(0);
+        expect(firstOccurrence.length    ).toEqual(13);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual(rule.description);
     });

@@ -1,6 +1,6 @@
 const specFileName = require('path').basename(__filename);
-const Constants    = require('../../../src/Constants');
-const SpecHelper   = require('../../SpecHelper');
+const Constants    = require('../../../../src/Constants');
+const SpecHelper   = require('../../../SpecHelper');
 
 const rule = SpecHelper.getTreeRule(specFileName);
 
@@ -13,42 +13,36 @@ describe(rule.id, () => {
         SpecHelper.afterEach();
     });
 
-    it('detects a non-root <iscache> element', () => {
+    it('detects a non-root <iscontent> element', () => {
         const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
 
-        expect(occurrence.line      ).toEqual('<iscache status="on" />');
+        expect(occurrence.line      ).toEqual('<iscontent type="text/html" charset="UTF-8" compact="true" />');
         expect(occurrence.lineNumber).toEqual(2);
         expect(occurrence.globalPos ).toEqual(11);
-        expect(occurrence.length    ).toEqual(23);
+        expect(occurrence.length    ).toEqual(61);
         expect(occurrence.rule      ).toEqual(rule.id);
         expect(occurrence.message   ).toEqual(rule.description);
     });
 
-    it('does not raise an issue if <iscache> is the first element in template', () => {
+    it('does not raise an issue if <iscontent> is the first element in template', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
 
         expect(result).toEqual([]);
     });
 
-    it('detects a root-level, but non-first <iscache> element', () => {
+    it('detects a root-level, but non-first <iscontent> element', () => {
         const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 2)[0];
 
-        expect(occurrence.line      ).toEqual('<iscache status="on" />');
+        expect(occurrence.line      ).toEqual('<iscontent type="text/html" charset="UTF-8" compact="true" />');
         expect(occurrence.lineNumber).toEqual(3);
         expect(occurrence.globalPos ).toEqual(11);
-        expect(occurrence.length    ).toEqual(23);
+        expect(occurrence.length    ).toEqual(61);
         expect(occurrence.rule      ).toEqual(rule.id);
         expect(occurrence.message   ).toEqual(rule.description);
     });
 
-    it('does not raise an issue if <iscache> is not present in the template', () => {
+    it('does not raise an issue if <iscontent> is not present in the template', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
-
-        expect(result).toEqual([]);
-    });
-
-    it('does not raise an issue if <iscache> tag is right after a <iscontent> tag', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4);
 
         expect(result).toEqual([]);
     });
@@ -67,12 +61,6 @@ describe(rule.id, () => {
 
     it('does not modify the template if element is among the "k" first', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 2);
-
-        expect(results.actualContent).toEqual(results.fixedTemplateContent);
-    });
-
-    it('does not modify the template if <iscache> tag is right after <iscontent> tag', () => {
-        const results = SpecHelper.getTreeRuleFixData(rule, 3);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });

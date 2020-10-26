@@ -1,5 +1,5 @@
-const SpecHelper   = require('../../SpecHelper');
 const specFileName = require('path').basename(__filename);
+const SpecHelper   = require('../../../SpecHelper');
 
 const rule = SpecHelper.getRule(specFileName);
 
@@ -12,25 +12,26 @@ describe(rule.id, () => {
         SpecHelper.afterEach();
     });
 
-    it('detects inadequate code in the middle of the line', () => {
+    it('detects inadequate code', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
         const result          = rule.check(templateContent);
 
         expect(result.occurrences).not.toEqual([]);
     });
 
-    it('detects inadequate and indented code', () => {
+    it('detects inadequate code in the middle of the line', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
         const result          = rule.check(templateContent);
+        const expectedResult  = [{
+            line        : '<a href="${dw.catalog.ProductSearchModel.urlForCategory(\'Search-Show\',cat.ID)}"',
+            lineNumber  : 0,
+            globalPos   : 11,
+            length      : 29,
+            rule        : rule.id,
+            message     : rule.description
+        }];
 
-        expect(result.occurrences).not.toEqual([]);
-    });
-
-    it('detects unwrapped expressions inside HTML elements', () => {
-        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 5);
-        const result          = rule.check(templateContent);
-
-        expect(result.occurrences).not.toEqual([]);
+        expect(result.occurrences).not.toEqual(expectedResult);
     });
 
     it('accepts good code', () => {
@@ -47,15 +48,15 @@ describe(rule.id, () => {
         expect(result.occurrences).toEqual([]);
     });
 
-    it('detects expression in the beginning of the line', () => {
+    it('detects inadequate code upon declaration and no assignment', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 4);
         const result          = rule.check(templateContent);
         const firstOccurrence = result.occurrences[0];
 
-        expect(firstOccurrence.line      ).toEqual('${\'some ds code\'}');
-        expect(firstOccurrence.lineNumber).toEqual(1);
-        expect(firstOccurrence.globalPos ).toEqual(0);
-        expect(firstOccurrence.length    ).toEqual(17);
+        expect(firstOccurrence.line      ).toEqual('const productLineItem : dw.order.ProductLineItem; // Some comment');
+        expect(firstOccurrence.lineNumber).toEqual(2);
+        expect(firstOccurrence.globalPos ).toEqual(26);
+        expect(firstOccurrence.length    ).toEqual(24);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual(rule.description);
     });

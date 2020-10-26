@@ -1,5 +1,6 @@
-const SpecHelper   = require('../../SpecHelper');
 const specFileName = require('path').basename(__filename);
+const SpecHelper   = require('../../../SpecHelper');
+const Constants    = require('../../../../src/Constants');
 
 const rule = SpecHelper.getRule(specFileName);
 
@@ -26,16 +27,34 @@ describe(rule.id, () => {
         expect(result.occurrences).toEqual([]);
     });
 
-    it('detects "importPackage" usage', () => {
+    it('detects tab character position', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
         const result          = rule.check(templateContent);
         const firstOccurrence = result.occurrences[0];
 
-        expect(firstOccurrence.line      ).toEqual('importPackage( dw.system );');
+        expect(firstOccurrence.line      ).toEqual('	');
         expect(firstOccurrence.lineNumber).toEqual(1);
         expect(firstOccurrence.globalPos ).toEqual(0);
-        expect(firstOccurrence.length    ).toEqual(13);
+        expect(firstOccurrence.length    ).toEqual(1);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
         expect(firstOccurrence.message   ).toEqual(rule.description);
+    });
+
+    it('fixes a simple template', () => {
+        const results = SpecHelper.getLineRuleFixData(rule, 0);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('fixes a complex template', () => {
+        const results = SpecHelper.getLineRuleFixData(rule, 1);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('sets Unix line breaks on autofix feature', () => {
+        const results = SpecHelper.getLineRuleFixData(rule, 0);
+
+        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
     });
 });

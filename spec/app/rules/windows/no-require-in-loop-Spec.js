@@ -1,5 +1,5 @@
 const specFileName = require('path').basename(__filename);
-const SpecHelper   = require('../../SpecHelper');
+const SpecHelper   = require('../../../SpecHelper');
 
 const rule = SpecHelper.getTreeRule(specFileName);
 

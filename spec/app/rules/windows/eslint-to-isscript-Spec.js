@@ -1,9 +1,9 @@
 const path             = require('path');
 const specFileName     = path.basename(__filename);
-const SpecHelper       = require('../../SpecHelper');
-const ConfigUtils      = require('../../../src/util/ConfigUtils');
-const Constants        = require('../../../src/Constants');
-const specEslintConfig = require(path.join('..', '..', Constants.eslintConfigFileNameList[0]));
+const SpecHelper       = require('../../../SpecHelper');
+const ConfigUtils      = require('../../../../src/util/ConfigUtils');
+const Constants        = require('../../../../src/Constants');
+const specEslintConfig = require(path.join('..', '..', '..', Constants.eslintConfigFileNameList[0]));
 
 const rule = SpecHelper.getTreeRule(specFileName);
 

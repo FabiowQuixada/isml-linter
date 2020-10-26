@@ -1,4 +1,4 @@
-const SpecHelper   = require('../../SpecHelper');
+const SpecHelper   = require('../../../SpecHelper');
 const specFileName = require('path').basename(__filename);
 
 const rule = SpecHelper.getRule(specFileName);
