@@ -1,7 +1,8 @@
 const SpecHelper   = require('../../SpecHelper');
 const specFileName = require('path').basename(__filename);
-const rule         = SpecHelper.getTreeRule(specFileName);
 const IsmlNode     = require('../../../src/isml_tree/IsmlNode');
+
+const rule = SpecHelper.getTreeRule(specFileName);
 
 describe(rule.id, () => {
     beforeEach(() => {

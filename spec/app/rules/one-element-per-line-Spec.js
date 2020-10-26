@@ -3,7 +3,7 @@ const SpecHelper   = require('../../SpecHelper');
 // const ConfigUtils  = require('../../../src/util/ConfigUtils');
 // const Constants = require('../../../src/Constants');
 
-const rule         = SpecHelper.getTreeRule(specFileName);
+const rule = SpecHelper.getTreeRule(specFileName);
 
 describe(rule.id, () => {
     beforeEach(() => {

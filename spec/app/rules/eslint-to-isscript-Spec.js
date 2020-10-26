@@ -1,11 +1,11 @@
-const path         = require('path');
-const specFileName = path.basename(__filename);
-const SpecHelper   = require('../../SpecHelper');
-const rule         = SpecHelper.getTreeRule(specFileName);
-const ConfigUtils  = require('../../../src/util/ConfigUtils');
-const Constants    = require('../../../src/Constants');
+const path             = require('path');
+const specFileName     = path.basename(__filename);
+const SpecHelper       = require('../../SpecHelper');
+const ConfigUtils      = require('../../../src/util/ConfigUtils');
+const Constants        = require('../../../src/Constants');
+const specEslintConfig = require(path.join('..', '..', Constants.eslintConfigFileNameList[0]));
 
-const specEslintConfig =  require(path.join('..', '..', Constants.eslintConfigFileNameList[0]));
+const rule = SpecHelper.getTreeRule(specFileName);
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -111,7 +111,7 @@ describe(rule.id, () => {
     });
 
     it('identifies eslint parsing issues', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 7);
+        const result          = SpecHelper.parseAndApplyRuleToTemplate(rule, 7);
         const firstOccurrence = result[0];
 
         expect(firstOccurrence.line      ).toEqual('        vfar variableTwo = 2;');

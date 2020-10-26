@@ -1,6 +1,7 @@
 const SpecHelper   = require('../../SpecHelper');
 const specFileName = require('path').basename(__filename);
-const rule         = SpecHelper.getRule(specFileName);
+
+const rule = SpecHelper.getRule(specFileName);
 
 describe(rule.id, () => {
     beforeEach(() => {
