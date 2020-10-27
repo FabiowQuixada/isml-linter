@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.28.0] - 2020-11-28
+
+### Changed
+ - Big refactoring;
+
+### Fixed
+ - Tree build edge case;
+ - ISML nodes global position;
+ - Rules occurrence global position;
+ - "eslint-to-isscript" rule behavior upon file change;
+ - "indent" rule various issues;
+
 ## [5.27.0] - 2020-11-15
 
 ### Added
@@ -715,6 +727,7 @@
 ### Added
 - Linter is published;
 
+[5.28.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.27.0...v5.28.0
 [5.27.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.9...v5.27.0
 [5.26.9]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.8...v5.26.9
 [5.26.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.7...v5.26.8
