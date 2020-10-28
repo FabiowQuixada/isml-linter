@@ -1,6 +1,6 @@
-const SpecHelper = require('../../../../SpecHelper');
-const IsmlNode   = require('../../../../../src/isml_tree/IsmlNode');
-const Constants  = require('../../../../../src/Constants');
+const SpecHelper = require('../../../SpecHelper');
+const IsmlNode   = require('../../../../src/isml_tree/IsmlNode');
+const Constants  = require('../../../../src/Constants');
 
 describe('IsmlNode', () => {
 
