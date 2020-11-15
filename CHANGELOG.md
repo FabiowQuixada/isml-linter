@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.27.0] - 2020-11-15
+
+### Added
+ - "[enforce-security][enforce-security-readme]" rule;
+
 ## [5.26.9] - 2020-08-28
 
 ### Fixed
@@ -710,6 +715,7 @@
 ### Added
 - Linter is published;
 
+[5.27.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.9...v5.27.0
 [5.26.9]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.8...v5.26.9
 [5.26.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.7...v5.26.8
 [5.26.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.6...v5.26.7
@@ -817,3 +823,4 @@
 [license]:  <LICENSE>
 
 [disallow-tags-readme]: <docs/rules/disallow-tags.md>
+[enforce-security-readme]: <docs/rules/enforce-security.md>
