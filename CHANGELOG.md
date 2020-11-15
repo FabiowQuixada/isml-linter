@@ -3,7 +3,7 @@
 ## [5.27.0] - 2020-11-15
 
 ### Added
- - "[enforce-security][enforce-security-readme]" rule;
+ - [Issue #20][issue#20]: "[enforce-security][enforce-security-readme]" rule;
 
 ## [5.26.9] - 2020-08-28
 
@@ -818,6 +818,7 @@
 [issue#9]:  https://github.com/FabiowQuixada/isml-linter/issues/9
 [issue#11]: https://github.com/FabiowQuixada/isml-linter/issues/11
 [issue#17]: https://github.com/FabiowQuixada/isml-linter/issues/17
+[issue#20]: https://github.com/FabiowQuixada/isml-linter/issues/20
 
 [cli-docs]: <docs/cli.md>
 [license]:  <LICENSE>
