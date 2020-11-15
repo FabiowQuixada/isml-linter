@@ -165,23 +165,24 @@ Check the [API docs][api-docs].
 | [enforce-isprint][enforce-isprint-readme]                                            | [[KNOWN BUG][enforce-isprint-readme]] Enforces every ${string} to be wrapped by an &lt;isprint/> tag |
 | [enforce-require][enforce-require-readme]                                            | Disallows direct calls to a DigitalScript class, such as in:<br/>`var PaymentMgr = dw.order.PaymentMgr;`<br/>For this case, it is recommended to use instead:<br/>`var PaymentMgr = require('dw/order/PaymentMgr');` |
 | [lowercase-filename][lowercase-filename-readme]                                      | Disallows template names to have uppercase characters |
-| :boom: [max-lines][max-lines-readme]                                                 | Limits the size of templates |
+| [max-lines][max-lines-readme]                                                        | Limits the size of templates |
 | :small_orange_diamond: [no-hardcode][no-hardcode-readme]                             | Disallows hardcoded strings outside ISML expressions |
 | :wrench: :small_orange_diamond: [indent][indent-readme]                                       | Sets indentation size |
 | :small_orange_diamond: [no-require-in-loop][no-require-in-loop-readme]               | No `require()` calls from within a loop in the template |
 | :small_orange_diamond: [no-embedded-isml][no-embedded-isml-readme]                   | Disallows embedded isml tags, such as in <div &lt;isif /> />, except for &lt;isprint /> |
 | :small_orange_diamond: [max-depth][max-depth-readme]                                 | Sets the maximum of nested elements in a template |
-| :boom: :small_orange_diamond: [disallow-tags][disallow-tags-readme]                  | Disallows tags specified at rule level |
-| :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]  | One element per line |
+| :small_orange_diamond: [disallow-tags][disallow-tags-readme]                         | Disallows tags specified at rule level |
+| :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]           | One element per line |
 | :wrench: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]        | Ensures &lt;iscontent> tag is the first element in the template if present |
 | :wrench: :small_orange_diamond: [leading-iscache][leading-iscache-readme]            | Ensures &lt;iscache> tag is among the first element in the template if present |
 | :small_orange_diamond: [no-deprecated-attrs][no-deprecated-attrs-readme]             | Disallows deprecated attributes or attribute values |
 | :small_orange_diamond: [contextual-attrs][contextual-attrs-readme]                   | Disallows presence of mutually exclusive attributes |
 | :small_orange_diamond: [custom-tags][custom-tags-readme]                             | Checks if "util/modules" template is actually needed or if it is missing |
 | :wrench: :small_orange_diamond: [eslint-to-isscript][eslint-to-isscript-readme]      | Applies ESLint rules to &lt;isscript> tag content |
-| :wrench: :small_orange_diamond: [no-iselse-slash][no-iselse-slash-readme]                     | Disallows self-closing &lt;iselse> and &lt;iselseif> tags |
+| :wrench: :small_orange_diamond: [no-iselse-slash][no-iselse-slash-readme]            | Disallows self-closing &lt;iselse> and &lt;iselseif> tags |
 | :small_orange_diamond: [empty-eof][empty-eof-readme]                                 | Enforces a empty line at the end of the template |
-| :boom: :small_orange_diamond: [align-isset][align-isset-readme]                      | Aligns contiguous &lt;isset> tags attributes' columns |
+| :small_orange_diamond: [align-isset][align-isset-readme]                             | Aligns contiguous &lt;isset> tags attributes' columns |
+| :boom: :small_orange_diamond: [enforce-security][enforce-security-readme]            | Enforces security measures |
 
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
@@ -226,6 +227,7 @@ This project was conceived by its author without any financial support, with the
 [max-lines-readme]:              <docs/rules/max-lines.md>
 [align-isset-readme]:            <docs/rules/align-isset.md>
 [disallow-tags-readme]:          <docs/rules/disallow-tags.md>
+[enforce-security-readme]:       <docs/rules/enforce-security.md>
 
 [api-docs]:        <docs/api.md>
 [cli-docs]:        <docs/cli.md>

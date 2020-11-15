@@ -37,6 +37,7 @@ const config = {
         'disallow-tags'        : {
             values : ['isscript', 'br', 'style', 'iframe']
         },
+        'enforce-security'     : {},
 
         // Other
         'lowercase-filename' : {}

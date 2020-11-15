@@ -1,0 +1,8 @@
+<a 
+    href="http://example.com"
+    target="_blank"
+    class="some-class"
+    rel="noopener"
+>
+    Link
+</a>
