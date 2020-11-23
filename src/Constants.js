@@ -73,7 +73,11 @@ const occurrenceLevels  = {
     INFO     : 'info',
     toArray  : () => ['info', 'warning', 'error']
 };
-const lineBreakOffset   = OS_EOL.length - 1;
+
+// TODO Windows offset;
+const lineBreakOffset        = OS_EOL.length - 1;
+const windowsLineBreakOffset = 1;
+const unixLineBreakOffset    = OS_EOL.length - 1;
 
 const leadingElementsChecking = 4;
 
@@ -137,5 +141,7 @@ module.exports = {
     EOL,
     OS_EOL,
     lineBreak,
-    lineBreakOffset
+    lineBreakOffset,
+    windowsLineBreakOffset,
+    unixLineBreakOffset
 };

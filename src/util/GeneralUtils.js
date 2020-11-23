@@ -58,7 +58,11 @@ module.exports.parseISOString = isoString => {
 module.exports.getActiveLinebreak = getActiveLinebreak;
 
 module.exports.offset = lineNumber => {
-    return Constants.lineBreakOffset * (lineNumber - 1);
+    const offset = global.isWindows ?
+        Constants.windowsLineBreakOffset :
+        Constants.unixLineBreakOffset;
+
+    return offset * (lineNumber - 1);
 };
 
 module.exports.mergeDeep = mergeDeep;
