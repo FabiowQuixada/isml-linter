@@ -47,6 +47,12 @@ const load = configParam => {
     return configData;
 };
 
+const setConfig = (attr, value) => {
+    const config = load();
+    config[attr] = value;
+    load(config);
+};
+
 const loadEslintConfig = eslintConfigParam => {
 
     if (eslintConfigParam) {
@@ -194,6 +200,7 @@ module.exports.init                    = init;
 module.exports.setLocalConfig          = setLocalConfig;
 module.exports.setLocalEslintConfig    = setLocalEslintConfig;
 module.exports.load                    = load;
+module.exports.setConfig               = setConfig;
 module.exports.loadEslintConfig        = loadEslintConfig;
 module.exports.clearConfig             = clearConfig;
 module.exports.clearEslintConfig       = clearEslintConfig;

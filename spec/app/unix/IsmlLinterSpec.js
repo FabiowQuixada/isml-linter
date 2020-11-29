@@ -10,13 +10,14 @@ const EnforceIsprintRule   = require('../../../src/rules/line_by_line/enforce-is
 const ExceptionUtils       = require('../../../src/util/ExceptionUtils');
 const ConfigUtils          = require('../../../src/util/ConfigUtils');
 
-const specSpecificDirLinterTemplate  = Constants.specSpecificDirLinterTemplate;
-const specIgnoreDirLinterTemplateDir = Constants.specIgnoreDirLinterTemplateDir;
-const specFilenameTemplate           = Constants.specFilenameTemplate;
-const UNPARSEABLE                    = ExceptionUtils.types.INVALID_TEMPLATE;
-const unparseableTemplatePath        = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
-const template0Path                  = path.join(specSpecificDirLinterTemplate, 'template_1.isml');
-const template1Path                  = path.join(specSpecificDirLinterTemplate, 'template_2.isml');
+const specSpecificDirLinterTemplate    = Constants.specSpecificDirLinterTemplate;
+const specUnparseableDirLinterTemplate = Constants.specUnparseableDirLinterTemplate;
+const specIgnoreDirLinterTemplateDir   = Constants.specIgnoreDirLinterTemplateDir;
+const specFilenameTemplate             = Constants.specFilenameTemplate;
+const UNPARSEABLE                      = ExceptionUtils.types.INVALID_TEMPLATE;
+const unparseableTemplatePath          = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
+const template0Path                    = path.join(specSpecificDirLinterTemplate, 'template_1.isml');
+const template1Path                    = path.join(specSpecificDirLinterTemplate, 'template_2.isml');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -30,6 +31,8 @@ describe('On Unix, ' + targetObjName, () => {
     });
 
     it('lints ISML templates in a given directory', () => {
+        ConfigUtils.setConfig('ignoreUnparseable', false);
+
         const result           = IsmlLinter.run(specSpecificDirLinterTemplate);
         const isprintError0    = result.errors[EnforceIsprintRule.id][template0Path][0];
         const isprintError1    = result.errors[EnforceIsprintRule.id][template1Path][0];
@@ -71,6 +74,8 @@ describe('On Unix, ' + targetObjName, () => {
     });
 
     it('lints ISML templates in a given array of template paths', () => {
+        ConfigUtils.setConfig('ignoreUnparseable', false);
+
         const templatePathArray = glob.sync('spec/templates/default/isml_linter/specific_directory_to_be_linted/**/*.isml');
         const result            = IsmlLinter.run(templatePathArray);
         const isprintError0     = result.errors[EnforceIsprintRule.id][template0Path][0];
@@ -168,6 +173,8 @@ describe('On Unix, ' + targetObjName, () => {
     });
 
     it('accepts template absolute path as parameter', () => {
+        ConfigUtils.setConfig('ignoreUnparseable', false);
+
         const absoluteTemplatePath = path.join(Constants.clientAppDir, specSpecificDirLinterTemplate, 'template_0.isml');
         const result               = IsmlLinter.run(absoluteTemplatePath);
         const expectedMessage      = ExceptionUtils.unbalancedElementError('div', 2).message;
@@ -278,5 +285,23 @@ describe('On Unix, ' + targetObjName, () => {
 
         expect(Array.isArray(result.errors['custom-tags'])).toBe(false);
         expect(Array.isArray(result.errors['custom-tags']['modules.isml'])).toBe(true);
+    });
+
+    it('raises no parse errors if "ignoreUnparseable" option is set to false', () => {
+        ConfigUtils.setConfig('ignoreUnparseable', false);
+
+        const results = IsmlLinter.run(specUnparseableDirLinterTemplate);
+
+        expect(results.issueQty).toEqual(1);
+        expect(results.INVALID_TEMPLATE.length).toEqual(1);
+    });
+
+    it('raises parse errors if "ignoreUnparseable" option is set to true', () => {
+        ConfigUtils.setConfig('ignoreUnparseable', true);
+
+        const results = IsmlLinter.run(specUnparseableDirLinterTemplate);
+
+        expect(results.issueQty).toEqual(0);
+        expect(results.INVALID_TEMPLATE.length).toEqual(0);
     });
 });

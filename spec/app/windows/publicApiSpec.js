@@ -83,6 +83,8 @@ describe(targetObjName, () => {
     });
 
     it('prints lint result', () => {
+        ConfigUtils.setConfig('ignoreUnparseable', true);
+
         const spy             = sinon.spy(console, 'log');
         const dirPath         = Constants.specSpecificDirLinterTemplate;
         const expectedMessage = chalk`{cyan.bold ${Constants.EOL}The following linting info items were found in the templates:}`;

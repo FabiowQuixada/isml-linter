@@ -3,6 +3,7 @@ const sinon        = require('sinon');
 const SpecHelper   = require('../../../SpecHelper');
 const ConsoleUtils = require('../../../../src/util/ConsoleUtils');
 const Constants    = require('../../../../src/Constants');
+const ConfigUtils  = require('../../../../src/util/ConfigUtils');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -36,6 +37,8 @@ describe(targetObjName, () => {
     });
 
     it('displays build occurrences', () => {
+        ConfigUtils.setConfig('ignoreUnparseable', true);
+
         ConsoleUtils.displayOccurrences(expectedObject);
 
         const expectedResult1 = chalk.gray('13') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
@@ -51,10 +54,7 @@ describe(targetObjName, () => {
 
     it('displays invalid template errors when config is enabled', () => {
 
-        const ConfigUtils = require('../../../../src/util/ConfigUtils');
-        ConfigUtils.load({
-            'ignoreUnparseable' : false
-        });
+        ConfigUtils.setConfig('ignoreUnparseable', false);
         ConsoleUtils.displayOccurrences(expectedObject);
 
         //const expectedResult1 = `${chalk.grey(0)} cartridges/a_multi_cartridge_project/int_cartridge_1/templates/default/template_2.isml:289`;
@@ -65,6 +65,7 @@ describe(targetObjName, () => {
     });
 
     it('does not display invalid template occurrences when config is disabled', () => {
+        ConfigUtils.setConfig('ignoreUnparseable', true);
 
         ConsoleUtils.displayOccurrences(expectedObject);
 

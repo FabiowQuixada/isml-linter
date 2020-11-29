@@ -132,10 +132,15 @@ const checkTemplate = (content, templatePath, templateName) => {
         }
     }
     catch (e) {
+        const config = ConfigUtils.load();
+
         if (!ExceptionUtils.isLinterException(e) || e.type === UNKNOWN_ERROR) {
             templateResults[UNKNOWN_ERROR].push(formattedTemplatePath);
-        }
-        else {
+
+            templateResults.issueQty++;
+            templateResults.occurrenceQty++;
+
+        } else if (!config.ignoreUnparseable) {
             templateResults[UNPARSEABLE].push({
                 templatePath : formattedTemplatePath,
                 message      : e.message,
@@ -143,10 +148,10 @@ const checkTemplate = (content, templatePath, templateName) => {
                 length       : e.length,
                 lineNumber   : e.lineNumber
             });
-        }
 
-        templateResults.issueQty++;
-        templateResults.occurrenceQty++;
+            templateResults.issueQty++;
+            templateResults.occurrenceQty++;
+        }
     }
 
     return templateResults;
