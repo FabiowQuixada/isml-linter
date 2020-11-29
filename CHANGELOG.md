@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.28.1] - 2020-11-29
+
+### Fixed
+ - "ignoreUnparseable" config option;
+ 
 ## [5.28.0] - 2020-11-28
 
 ### Changed
@@ -727,6 +732,7 @@
 ### Added
 - Linter is published;
 
+[5.28.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.28.0...v5.28.1
 [5.28.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.27.0...v5.28.0
 [5.27.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.9...v5.27.0
 [5.26.9]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.8...v5.26.9
