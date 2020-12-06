@@ -8,10 +8,20 @@ Enforces nodes that compose the ISML tree to not start at the same line number a
 
 ## Configuration
 
-No configuration is available for this rule. Check the [Generic Configurations for Rules][generic-config].
+Following are the available configurations for this rule, with default values:
+
+```js
+"one-element-per-line": {
+    except: [] // Possible values: "non-tag" and "iscomment";
+}
+```
+
+ Check the [Generic Configurations for Rules][generic-config].
 
 
 ## Examples
+
+### Example #1
 
 ```js
 "one-element-per-line": {}
@@ -27,6 +37,34 @@ For the above configuration, the following scenarios may happen:
 <div>
     ${value}        // Valid;
 </div>
+```
+
+#### Example #2
+
+```js
+"one-element-per-line": {
+    except: ["non-tag"]
+}
+```
+
+For the above configuration, the following scenarios may happen:
+
+```
+<div>${value}</div> // Valid;
+```
+
+#### Example #3
+
+```js
+"one-element-per-line": {
+    except: ["iscomment"]
+}
+```
+
+For the above configuration, the following scenarios may happen:
+
+```
+<iscomment>My comment</iscomment> // Valid;
 ```
 
 [generic-config]: <../generic-rule-config.md>

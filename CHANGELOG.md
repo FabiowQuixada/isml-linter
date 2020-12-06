@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.29.0] - 2020-12-06
+
+### Added
+ - [Issue #8][issue#8]: "non-tag" and "iscomment" exception options to "one-element-per-line" rule;
+
+### Fixed
+ - Tree build edge case;
+ - "indent" rule edge case;
+
 ## [5.28.1] - 2020-11-29
 
 ### Fixed
@@ -732,6 +741,7 @@
 ### Added
 - Linter is published;
 
+[5.29.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.28.1...v5.29.0
 [5.28.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.28.0...v5.28.1
 [5.28.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.27.0...v5.28.0
 [5.27.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.26.9...v5.27.0
@@ -834,6 +844,7 @@
 [issue#5]:  https://github.com/FabiowQuixada/isml-linter/issues/5
 [issue#6]:  https://github.com/FabiowQuixada/isml-linter/issues/6
 [issue#7]:  https://github.com/FabiowQuixada/isml-linter/issues/7
+[issue#8]:  https://github.com/FabiowQuixada/isml-linter/issues/8
 [issue#9]:  https://github.com/FabiowQuixada/isml-linter/issues/9
 [issue#11]: https://github.com/FabiowQuixada/isml-linter/issues/11
 [issue#17]: https://github.com/FabiowQuixada/isml-linter/issues/17
