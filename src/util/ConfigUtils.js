@@ -30,7 +30,7 @@ const load = configParam => {
     }
 
     if (isTestEnv()) {
-        configData = require(path.join('..', '..', 'spec', Constants.configFileNameList[0]));
+        configData = require(`../../spec/${Constants.configFileNameList[0]}`);
         return configData;
     }
 
@@ -45,6 +45,12 @@ const load = configParam => {
     setLocalConfig();
 
     return configData;
+};
+
+const setRuleConfig = (attr, value) => {
+    const config       = load();
+    config.rules[attr] = value;
+    load(config);
 };
 
 const setConfig = (attr, value) => {
@@ -200,6 +206,7 @@ module.exports.init                    = init;
 module.exports.setLocalConfig          = setLocalConfig;
 module.exports.setLocalEslintConfig    = setLocalEslintConfig;
 module.exports.load                    = load;
+module.exports.setRuleConfig           = setRuleConfig;
 module.exports.setConfig               = setConfig;
 module.exports.loadEslintConfig        = loadEslintConfig;
 module.exports.clearConfig             = clearConfig;

@@ -1,0 +1,1 @@
+<div>${Resource.msg('key','filename',null)}</div>

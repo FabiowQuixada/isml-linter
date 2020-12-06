@@ -1,6 +1,6 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
-// const ConfigUtils  = require('../../../src/util/ConfigUtils');
+const ConfigUtils  = require('../../../../src/util/ConfigUtils');
 // const Constants = require('../../../src/Constants');
 
 const rule = SpecHelper.getTreeRule(specFileName);
@@ -72,4 +72,50 @@ describe(rule.id, () => {
 
     // expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
     // });
+
+    it('does not raise an error if "iscomment" option is set as exception', () => {
+        ConfigUtils.setRuleConfig('one-element-per-line', {
+            except: ['iscomment']
+        });
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('raises an error if "iscomment" option is not set as exception', () => {
+        ConfigUtils.setRuleConfig('one-element-per-line', {});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+
+        expect(result.length).toEqual(1);
+    });
+
+    it('does not raise an error if "non-tag" option is set as exception', () => {
+        ConfigUtils.setRuleConfig('one-element-per-line', {
+            except: ['non-tag']
+        });
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('raises an error if "non-tag" option is not set as exception', () => {
+        ConfigUtils.setRuleConfig('one-element-per-line', {});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4);
+
+        expect(result.length).toEqual(1);
+    });
+
+    it('does not raise an error if "non-tag" option is set as exception and elements are not in the same line', () => {
+        ConfigUtils.setRuleConfig('one-element-per-line', {
+            except: ['non-tag']
+        });
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5);
+
+        expect(result.length).toEqual(0);
+    });
 });

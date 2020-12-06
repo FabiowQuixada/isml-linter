@@ -1,5 +1,5 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
-// const ConfigUtils       = require('../../util/ConfigUtils');
+const ConfigUtils       = require('../../util/ConfigUtils');
 // const Constants         = require('../../Constants');
 // const GeneralUtils = require('../../util/GeneralUtils');
 
@@ -11,6 +11,21 @@ const Rule = Object.create(TreeRulePrototype);
 Rule.init(ruleId, description);
 
 Rule.isBroken = function(node) {
+
+    const config     = ConfigUtils.load();
+    const ruleConfig = config.rules[ruleId];
+
+    if (ruleConfig && ruleConfig.except) {
+
+        if (node.parent && node.parent.isOfType('iscomment') && ruleConfig.except.indexOf('iscomment') >= 0) {
+            return false;
+        }
+
+        if (!node.isIsmlTag() && !node.isHtmlTag() && ruleConfig.except.indexOf('non-tag') >= 0) {
+            return false;
+        }
+    }
+
     return !node.isRoot() &&
         !node.parent.isMulticlause() &&
         node.lineNumber === node.parent.lineNumber;
