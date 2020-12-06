@@ -1,0 +1,4 @@
+<div class="cookie-address-tooltip">
+
+    Seiya ${isCookieAddressEnabled}
+</div>

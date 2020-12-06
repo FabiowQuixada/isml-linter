@@ -337,21 +337,27 @@ const parseTextNode = (state, nodeInnerContent) => {
 const getTextNodeValue = (nodeInnerContent, content, parentNode) => {
     let textNodeValue = nodeInnerContent;
 
-    const maskedText          = MaskUtils.maskIgnorableContent(textNodeValue);
-    const firstOpeningCharPos = maskedText.indexOf('<');
+    const maskedText                           = MaskUtils.maskIgnorableContent(textNodeValue);
+    const firstOpeningTagCharPos               = maskedText.indexOf('<');
+    const firstOpeningExpressionCharPos        = maskedText.indexOf('${');
+    const hasTextBeforeExpression              = !!content.substring(0, firstOpeningExpressionCharPos).trimStart();
+    const hasOpeningExpressionBeforeOpeningTag = firstOpeningTagCharPos === -1 || firstOpeningTagCharPos !== -1 && firstOpeningExpressionCharPos < firstOpeningTagCharPos;
+    const isTextFollowedByExpression           = firstOpeningExpressionCharPos >= 0 && hasOpeningExpressionBeforeOpeningTag && hasTextBeforeExpression;
 
-    if (ParseUtils.isNextElementAnIsmlExpression(content)) {
+    if (isTextFollowedByExpression) {
+        textNodeValue = content.substring(0, firstOpeningExpressionCharPos) || textNodeValue;
+    } else if (ParseUtils.isNextElementAnIsmlExpression(content)) {
         if (parentNode.isMulticlause()) {
-            textNodeValue = content.substring(0, firstOpeningCharPos) || textNodeValue;
+            textNodeValue = content.substring(0, firstOpeningTagCharPos) || textNodeValue;
         } else {
-            const textNodeContent                  = content.substring(0, firstOpeningCharPos);
+            const textNodeContent                  = content.substring(0, firstOpeningTagCharPos);
             const lastEOLBeforeFirstOpeningCharPos = textNodeContent.lastIndexOf(Constants.EOL);
 
             textNodeValue = content.substring(0, lastEOLBeforeFirstOpeningCharPos) || textNodeValue;
         }
     }
     else if (!parentNode.isOfType(['iscomment', 'isscript'])) {
-        textNodeValue = maskedText.substring(0, firstOpeningCharPos) || textNodeValue;
+        textNodeValue = maskedText.substring(0, firstOpeningTagCharPos) || textNodeValue;
     }
 
     return textNodeValue;

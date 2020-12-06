@@ -555,6 +555,13 @@ describe(targetObjName, () => {
 
         expect(rootNode).not.toEqual(null);
     });
+
+    it('identifies two different children if text is followed by expression', () => {
+        const tree    = getTreeFromTemplate(57);
+        const divNode = tree.rootNode.children[0];
+
+        expect(divNode.children.length).toEqual(2);
+    });
 });
 
 const getTemplatePath = number => {
