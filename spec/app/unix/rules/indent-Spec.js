@@ -255,4 +255,10 @@ describe('On Unix, ' + rule.id, () => {
         expect(result.globalPos).toEqual(38);
         expect(result.length).toEqual(4);
     });
+
+    it('ignores indentation if element is in the same line as previous sibling', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 21);
+
+        expect(result.length).toEqual(0);
+    });
 });

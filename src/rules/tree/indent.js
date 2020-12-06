@@ -28,15 +28,18 @@ Rule.getIndentation = function(depth = 1) {
 
 Rule.isBroken = function(node) {
 
-    const configIndentSize    = this.getConfigs().size;
-    const expectedIndentation = getExpectedIndentation(node, configIndentSize);
-    const actualIndentation   = getActualIndentation(node);
+    const configIndentSize              = this.getConfigs().size;
+    const expectedIndentation           = getExpectedIndentation(node, configIndentSize);
+    const actualIndentation             = getActualIndentation(node);
+    const previousSibling               = node.getPreviousSibling();
+    const isInSameLineAsPreviousSibling = previousSibling && previousSibling.lineNumber === node.lineNumber;
 
     return !node.isRoot() &&
         !node.isMulticlause() &&
         !node.isEmpty() &&
         !node.isInSameLineAsParent() &&
-        expectedIndentation !== actualIndentation;
+        expectedIndentation !== actualIndentation &&
+        !isInSameLineAsPreviousSibling;
 };
 
 Rule.check = function(node, result) {
