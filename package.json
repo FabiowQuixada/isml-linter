@@ -18,11 +18,6 @@
     "prepush": "npm run lint && npm test --silent && npm run check-coverage",
     "release": "node scripts/release"
   },
-  "config": {
-    "ghooks": {
-      "pre-push": "npm run prepush"
-    }
-  },
   "bin": {
     "isml-linter": "./bin/isml-linter.js"
   },
