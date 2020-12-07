@@ -178,10 +178,13 @@ const parseNewNodeInnerContent = state => {
     }
 
     const stateStartingPos          = state.parentState ? getCurrentStateStartingPos(state.parentState) : 0;
-    const index                     = state.content.lastIndexOf('<');
-    const currentStateContentLength = state.content.substring(0, index).length;
-    const suffixGlobalPos           = stateStartingPos + currentStateContentLength;
+    const currentStateContentLength = state.content.lastIndexOf('</');
+    let suffixGlobalPos             = stateStartingPos + currentStateContentLength;
     const currentLineNumber         = getSuffixLineNumber(state);
+
+    if (global.isWindows) {
+        suffixGlobalPos += currentLineNumber - 1;
+    }
 
     return {
         innerContentLastPosition : state.currentPos + nodeInnerContent.length,
