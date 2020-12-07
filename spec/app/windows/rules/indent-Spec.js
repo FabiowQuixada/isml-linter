@@ -261,4 +261,15 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('identifies wrong indentation on node suffix value', () => {
+        const result                = SpecHelper.parseAndApplyRuleToTemplate(rule, 18);
+        const valueOccurrence       = result[0];
+        const suffixValueOccurrence = result[1];
+
+        expect(valueOccurrence.globalPos      ).toEqual(0);
+        expect(valueOccurrence.length         ).toEqual(8);
+        expect(suffixValueOccurrence.globalPos).toEqual(18);
+        expect(suffixValueOccurrence.length   ).toEqual(10);
+    });
 });

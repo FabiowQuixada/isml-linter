@@ -42,6 +42,22 @@ Rule.isBroken = function(node) {
         !isInSameLineAsPreviousSibling;
 };
 
+Rule.isBrokenForSuffix = function(node) {
+
+    const configIndentSize              = this.getConfigs().size;
+    const expectedIndentation           = getExpectedIndentation(node, configIndentSize);
+    const actualIndentation             = getActualIndentation(node);
+    const previousSibling               = node.getPreviousSibling();
+    const isInSameLineAsPreviousSibling = previousSibling && previousSibling.lineNumber === node.lineNumber;
+
+    return !node.isRoot() &&
+        !node.isMulticlause() &&
+        !node.isEmpty() &&
+        !node.isInSameLineAsParent() &&
+        expectedIndentation !== actualIndentation &&
+        !isInSameLineAsPreviousSibling;
+};
+
 Rule.check = function(node, result) {
 
     this.result = result || {
@@ -56,6 +72,7 @@ Rule.check = function(node, result) {
         const config    = this.getConfigs();
         const globalPos = node.globalPos - getActualIndentation(node);
 
+        // Checks node value;
         if (this.isBroken(node)) {
             const configIndentSize    = this.getConfigs().size;
             const expectedIndentation = getExpectedIndentation(node, configIndentSize);
@@ -74,10 +91,31 @@ Rule.check = function(node, result) {
             );
         }
 
+        // Checks node suffix value;
+        if (node.suffixValue && this.isBrokenForSuffix(node)) {
+            const configIndentSize    = this.getConfigs().size;
+            const expectedIndentation = getExpectedIndentation(node, configIndentSize);
+            const actualIndentation   = getActualIndentation(node);
+            const nodeSuffixValue     = node.suffixValue.trim();
+            const occurrenceLength    = actualIndentation === 0 ?
+                nodeSuffixValue.length +  ParseUtils.getLineBreakQty(nodeSuffixValue) :
+                getActualIndentationForSuffix(node);
+            const suffixGlobalPos     = node.suffixGlobalPos - getActualIndentationForSuffix(node);
+
+            this.add(
+                node.suffixValue.trim(),
+                node.suffixLineNumber - 1,
+                suffixGlobalPos,
+                occurrenceLength,
+                getOccurrenceDescription(expectedIndentation, actualIndentation)
+            );
+        }
+
         if (this.result.occurrences.length &&
-        config.autoFix &&
-        this.getFixedContent &&
-        node.isRoot()) {
+            config.autoFix &&
+            this.getFixedContent &&
+            node.isRoot()
+        ) {
             this.result.fixedContent = this.getFixedContent(node);
         }
     }
@@ -210,8 +248,34 @@ const getPreviousNodeTrailingSpacesQty = node => {
     return 0;
 };
 
-const getOccurrenceDescription = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;
-const getExpectedIndentation   = (node, configIndentSize) => (node.depth - 1) * configIndentSize;
-const getActualIndentation     = node => node.getIndentationSize() + getPreviousNodeTrailingSpacesQty(node);
+/**
+ * It might happen that spaces end up as trailing spaces of the last
+ * child instead of leading spaces of the current node. This case is handled here;
+ */
+const getLastChildTrailingSpacesQty = node => {
+    const lastChild    = node.getLastChild();
+
+    if (!lastChild) {
+        return 0;
+    }
+
+    const previousNode = lastChild && node.parent.isMulticlause() && lastChild.getLastChild() ?
+        lastChild.getLastChild() :
+        lastChild;
+
+    if (previousNode && previousNode.geTrailingValue().endsWith(' ')) {
+        const valueTrailingSpaces       = ParseUtils.getTrailingBlankContent(previousNode);
+        const suffixValueTrailingSpaces = ParseUtils.getSuffixTrailingBlankContent(previousNode);
+
+        return (suffixValueTrailingSpaces || valueTrailingSpaces).substring(1).length;
+    }
+
+    return 0;
+};
+
+const getOccurrenceDescription      = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;
+const getExpectedIndentation        = (node, configIndentSize) => (node.depth - 1) * configIndentSize;
+const getActualIndentation          = node => node.getIndentationSize()       + getPreviousNodeTrailingSpacesQty(node);
+const getActualIndentationForSuffix = node => node.getSuffixIndentationSize() + getLastChildTrailingSpacesQty(node);
 
 module.exports = Rule;
