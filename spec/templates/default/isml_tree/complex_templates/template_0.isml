@@ -14,7 +14,7 @@
 <iscomment>Variables</iscomment>
 <isset name="productLineItem" value="${lineItem}" scope="page" />
 <isset name="message" value="${productLineItem.custom.message}" scope="page"/>
-<isset name="url" value="${URLUtils.url('Controller-Route'}" scope="page" />
+<isset name="url" value="${URLUtils.url('Controller-Route')}" scope="page" />
 <isset name="ProductUtils" value="${require('file_path/cartridge/scripts/product/ProductUtils')}" scope="page" />
 <isset name="isOutOfStock" value="${ProductUtils.outofstock(productLineItem.product)}" scope="page"/>
 
