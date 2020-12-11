@@ -158,7 +158,7 @@ Check the [API docs][api-docs].
 | [no-git-conflict][no-git-conflict-readme]                                            | Disallows unresolved Git conflicts |
 | [no-import-package][no-import-package-readme]                                        | Disallows `importPackage()` function. It is recommended by SalesForce to use require() instead |
 | [no-isscript][no-isscript-readme]                                                    | Disallows &lt;isscript/> tag in template. Enable this rule if you prefer logic to be kept in a separate .ds/.js file |
-| :wrench: [no-trailing-spaces][no-isscript-readme]                                    | Disallows trailing blank spaces |
+| :wrench: [no-trailing-spaces][no-trailing-spaces-readme]                             | Disallows trailing blank spaces |
 | :wrench: [no-space-only-lines][no-space-only-lines-readme]                           | Disallows lines that contain only blank spaces, i.e., unnecessarily indented |
 | [no-inline-style][no-inline-style-readme]                                            | Disallows use of "style" HTML attribute. Enable this rule if you prefer style to be fully handled via CSS |
 | :wrench: [no-tabs][no-tabs-readme]                                                   | Disallows use of tabs |
