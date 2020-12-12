@@ -148,11 +148,16 @@ const createNode = oldState => {
 
     const innerParseResult    = parseNewNodeInnerContent(state);
     const innerContentLastPos = innerParseResult.innerContentLastPosition;
+    const nodeInnerContent    = innerParseResult.content;
+    const suffixLineNumber    = innerParseResult.suffixLineNumber;
     const suffixableNode      = isIsifNode ? node.getLastChild() : node;
+    const suffixValue         = state.closingElementsStack.pop().trim();
 
-    const suffixValue      = state.closingElementsStack.pop().trim();
-    const suffixLineNumber = innerParseResult.suffixLineNumber;
-    const suffixGlobalPos  = innerParseResult.suffixGlobalPos;
+    let suffixGlobalPos = node.globalPos + node.value.trim().length + nodeInnerContent.length;
+
+    if (global.isWindows) {
+        suffixGlobalPos += ParseUtils.getLineBreakQty(nodeInnerContent);
+    }
 
     suffixableNode.setSuffix(suffixValue, suffixLineNumber, suffixGlobalPos);
 
@@ -177,19 +182,12 @@ const parseNewNodeInnerContent = state => {
         }
     }
 
-    const stateStartingPos          = state.parentState ? getCurrentStateStartingPos(state.parentState) : 0;
-    const currentStateContentLength = state.content.lastIndexOf('</');
-    let suffixGlobalPos             = stateStartingPos + currentStateContentLength;
-    const currentLineNumber         = getSuffixLineNumber(state);
-
-    if (global.isWindows) {
-        suffixGlobalPos += currentLineNumber - 1;
-    }
+    const currentLineNumber = getSuffixLineNumber(state);
 
     return {
         innerContentLastPosition : state.currentPos + nodeInnerContent.length,
         suffixLineNumber         : currentLineNumber,
-        suffixGlobalPos          : suffixGlobalPos
+        content                  : nodeInnerContent,
     };
 };
 
