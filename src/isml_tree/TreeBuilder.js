@@ -220,17 +220,45 @@ const getCurrentStateStartingPos = state => {
 
 const createTextNodeFromMainLoop = state => {
     if (state.nonTagBuffer && state.nonTagBuffer.replace(/\s/g, '').length) {
-        const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(state.nonTagBuffer);
-        const localPos     = ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer);
-        const lineNumber   = state.currentLineNumber + lineBreakQty;
-        const node         = new IsmlNode(state.nonTagBuffer, lineNumber, state.currentPos + localPos);
+        const expressionPos = state.nonTagBuffer.indexOf('${');
 
-        state.currentLineNumber                 += ParseUtils.getLineBreakQty(state.nonTagBuffer);
-        state.parentNode.addChild(node);
-        StateUtils.initializeCurrentElement(state);
-        state.currentElement.startingLineNumber = state.currentLineNumber;
-        state.currentElement.asString           = '<';
-        state.ignoreUntil                       += state.nonTagBuffer.length - 1;
+        // TODO: Refactor this code;
+        if (expressionPos >= 0) {
+            const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(state.nonTagBuffer);
+            const localPos     = ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer);
+
+            const textValue      = state.nonTagBuffer.substring(0, expressionPos);
+            const textLineNumber = state.currentLineNumber + lineBreakQty;
+            const textGlobalPos  = state.currentPos + localPos;
+
+            const expValue      = state.nonTagBuffer.substring(expressionPos);
+            const expLineNumber = state.currentLineNumber + lineBreakQty;
+            const expGlobalPos  = textGlobalPos + expressionPos;
+
+            const textNode       = new IsmlNode(textValue, textLineNumber, state.currentPos + localPos);
+            const expressionNode = new IsmlNode(expValue, expLineNumber, expGlobalPos);
+
+            state.currentLineNumber                 += ParseUtils.getLineBreakQty(state.nonTagBuffer);
+            state.parentNode.addChild(textNode);
+            state.parentNode.addChild(expressionNode);
+            StateUtils.initializeCurrentElement(state);
+            state.currentElement.startingLineNumber = state.currentLineNumber;
+            state.currentElement.asString           = '<';
+            state.ignoreUntil                       += state.nonTagBuffer.length - 1;
+
+        } else {
+            const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(state.nonTagBuffer);
+            const localPos     = ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer);
+            const lineNumber   = state.currentLineNumber + lineBreakQty;
+            const node         = new IsmlNode(state.nonTagBuffer, lineNumber, state.currentPos + localPos);
+
+            state.currentLineNumber                 += ParseUtils.getLineBreakQty(state.nonTagBuffer);
+            state.parentNode.addChild(node);
+            StateUtils.initializeCurrentElement(state);
+            state.currentElement.startingLineNumber = state.currentLineNumber;
+            state.currentElement.asString           = '<';
+            state.ignoreUntil                       += state.nonTagBuffer.length - 1;
+        }
     }
 };
 

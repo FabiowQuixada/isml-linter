@@ -1,0 +1,7 @@
+<iscomment></iscomment>
+<div>
+    <isset name="variable" value="${value}" scope="page" />
+
+    Hard-coded Text ${aVariable}
+    <div />
+</div>
