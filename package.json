@@ -32,7 +32,9 @@
     "linter",
     "demandware",
     "salesforce",
-    "digital-script"
+    "digital-script",
+    "sfra",
+    "site-genesis"
   ],
   "dependencies": {
     "app-root-path": "^3.0.0",
