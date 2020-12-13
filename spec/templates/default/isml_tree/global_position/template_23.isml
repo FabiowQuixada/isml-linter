@@ -1,0 +1,8 @@
+<div>
+    <input
+        type="radio"
+        checked="checked"
+        value="${Resource.msg("key", "file", null)}"
+    >
+    <label>${Resource.msg("key", "file", null)}</label>
+</div>

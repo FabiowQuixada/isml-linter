@@ -268,11 +268,22 @@ module.exports.getClauseList = content => {
 };
 
 module.exports.getPreLineBreakContent = node => {
-    const leadingBlankSpacesQty    = getNextNonEmptyCharPos(node.value);
-    const leadingBlankSpacesString = node.value.substring(0, leadingBlankSpacesQty);
+    const leadingBlankSpacesString = getLeadingEmptyChars(node.value);
     const preLineBreakContent      = leadingBlankSpacesString.substring(0, leadingBlankSpacesString.lastIndexOf(Constants.EOL) + 1);
 
     return preLineBreakContent;
+};
+
+const getLeadingEmptyChars = string => {
+    const leadingBlankSpacesQty = getNextNonEmptyCharPos(string);
+
+    return string.substring(0, leadingBlankSpacesQty);
+};
+
+const getLeadingLineBreakQty = string => {
+    const leadingString = getLeadingEmptyChars(string);
+
+    return this.getLineBreakQty(leadingString);
 };
 
 module.exports.getTrailingBlankContent = node => {
@@ -309,3 +320,6 @@ module.exports.isBlack = state => state.depthColor === DEPTH_COLOR.BLACK;
 
 module.exports.darken  = state => state.depthColor++;
 module.exports.lighten = state => state.depthColor--;
+
+module.exports.getLeadingEmptyChars   = getLeadingEmptyChars;
+module.exports.getLeadingLineBreakQty = getLeadingLineBreakQty;

@@ -237,7 +237,7 @@ const createTextNodeFromMainLoop = state => {
 const createTextNodeFromInnerContent = (text, state, parentNode) => {
     if (text) {
         const lineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
-        const globalPos  = getCurrentElementGlobalPos(state, text);
+        const globalPos  = getCurrentElementGlobalPos(state, text, parentNode);
         const textNode   = new IsmlNode(text, lineNumber, globalPos);
 
         state.currentLineNumber += ParseUtils.getLineBreakQty(text);
@@ -364,29 +364,48 @@ const getTextNodeValue = (nodeInnerContent, content, parentNode) => {
     return textNodeValue;
 };
 
-const getCurrentElementGlobalPos = (state, element) => {
+const getCurrentElementGlobalPos = (state, element, parentNode) => {
 
     const trimmedElement = element.trim();
     let iterator         = state;
-    let referenceState   = state;
+    let rootState        = state;
     let stateInitialPos  = 0;
+    let globalPos;
+
+    if (parentNode && !parentNode.isOfType('isscript')) {
+        while (rootState.parentState) {
+            rootState = rootState.parentState;
+        }
+
+        const remainingContent    = rootState.content.substring(parentNode.globalPos);
+        const leadingLineBreakQty = ParseUtils.getLeadingLineBreakQty(element);
+        const localPos            = remainingContent.indexOf(element.trim());
+
+        globalPos = parentNode.globalPos + localPos;
+
+        if (global.isWindows) {
+            globalPos += state.currentLineNumber + leadingLineBreakQty - 1;
+        }
+
+        return globalPos;
+    }
 
     while (iterator.parentState) {
         const currentStateInitialPos = iterator.parentState ? iterator.parentState.content.indexOf(iterator.content) : 0;
 
         stateInitialPos += currentStateInitialPos;
-        referenceState  = iterator;
+        rootState       = iterator;
         iterator        = iterator.parentState;
     }
 
-    let globalPos = stateInitialPos + state.content.indexOf(trimmedElement);
+    globalPos = stateInitialPos + state.content.indexOf(trimmedElement);
 
     if (global.isWindows) {
-        while (referenceState.parentState) {
-            referenceState = referenceState.parentState;
+        while (rootState.parentState) {
+            rootState = rootState.parentState;
         }
 
-        const precedingContent = referenceState.content.substring(0, referenceState.content.indexOf(trimmedElement));
+        const precedingContent = rootState.content.substring(0, rootState.content.indexOf(trimmedElement));
         const offset           = ParseUtils.getLineBreakQty(precedingContent);
 
         globalPos += offset;
