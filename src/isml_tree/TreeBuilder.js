@@ -206,18 +206,6 @@ const getSuffixLineNumber = state => {
     return suffixLineNumber;
 };
 
-const getCurrentStateStartingPos = state => {
-    let accumulatedValue = 0;
-    let iterator         = state;
-
-    do {
-        accumulatedValue += iterator.currentElement.asString.length;
-        iterator         = iterator.parentState;
-    } while (iterator);
-
-    return accumulatedValue;
-};
-
 const createTextNodeFromMainLoop = state => {
     if (state.nonTagBuffer && state.nonTagBuffer.replace(/\s/g, '').length) {
         const expressionPos = state.nonTagBuffer.indexOf('${');
