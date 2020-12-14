@@ -244,6 +244,16 @@ describe('Global Position on Windows', () => {
 
         expect(expNode.globalPos).toEqual(140);
     });
+
+    it('XXVI', () => {
+        const rootNode = parseTemplate(24);
+        const divNode  = rootNode.children[1];
+        const textNode = divNode.children[1];
+        const expNode  = divNode.children[2];
+
+        expect(textNode.globalPos).toEqual(99);
+        expect(expNode.globalPos ).toEqual(104);
+    });
 });
 
 const parseTemplate = number => {

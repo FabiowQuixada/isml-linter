@@ -573,6 +573,17 @@ describe(targetObjName, () => {
         expect(textNode.lineNumber).toEqual(5);
         expect(expNode.lineNumber).toEqual(5);
     });
+
+    it('identifies two different children if text is followed by expression III', () => {
+        const tree     = getTreeFromTemplate(59);
+        const divNode  = tree.rootNode.children[1];
+        const textNode = divNode.children[1];
+        const expNode  = divNode.children[2];
+
+        expect(divNode.children.length).toEqual(4);
+        expect(textNode.lineNumber).toEqual(5);
+        expect(expNode.lineNumber).toEqual(6);
+    });
 });
 
 const getTemplatePath = number => {
