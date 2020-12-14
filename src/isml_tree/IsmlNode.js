@@ -241,11 +241,13 @@ class IsmlNode {
     }
 
     getPreviousSibling() {
-        if (!this.parent || this.isFirstChild()) {
+        if (!this.parent || !this.parent.isMulticlause() && this.isFirstChild() || this.parent.isMulticlause() && this.parent.isFirstChild() && this.isFirstChild()) {
             return null;
         }
 
-        const sibling = this.parent.children[this.childNo - 1];
+        const sibling = this.parent.isMulticlause() && this.isFirstChild() ?
+            this.parent.parent.children[this.parent.childNo - 1] :
+            this.parent.children[this.childNo - 1];
 
         if (sibling.isMulticlause()) {
             return sibling.children[0];

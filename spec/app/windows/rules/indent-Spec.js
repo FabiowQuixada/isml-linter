@@ -272,4 +272,10 @@ describe(rule.id, () => {
         expect(suffixValueOccurrence.globalPos).toEqual(18);
         expect(suffixValueOccurrence.length   ).toEqual(10);
     });
+
+    it('checks indentation for an "isif" tag after an expression', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 22);
+
+        expect(result.length).toEqual(0);
+    });
 });
