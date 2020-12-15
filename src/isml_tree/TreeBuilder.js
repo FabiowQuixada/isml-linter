@@ -153,15 +153,27 @@ const createNode = oldState => {
     const suffixableNode      = isIsifNode ? node.getLastChild() : node;
     const suffixValue         = state.closingElementsStack.pop().trim();
 
-    let suffixGlobalPos = node.globalPos + node.value.trim().length + nodeInnerContent.length;
+    const multiClauseNodeRemainingContent = getMultiClauseRemainingContent(nodeInnerContent, suffixableNode);
+
+    let suffixGlobalPos = node.isMulticlause() ?
+        suffixableNode.globalPos + suffixableNode.value.trim().length + multiClauseNodeRemainingContent.length :
+        node.globalPos + node.value.trim().length + nodeInnerContent.length;
 
     if (global.isWindows) {
-        suffixGlobalPos += ParseUtils.getLineBreakQty(nodeInnerContent);
+        suffixGlobalPos += node.isMulticlause() ?
+            ParseUtils.getLineBreakQty(multiClauseNodeRemainingContent) :
+            ParseUtils.getLineBreakQty(nodeInnerContent);
     }
 
     suffixableNode.setSuffix(suffixValue, suffixLineNumber, suffixGlobalPos);
 
     return innerContentLastPos;
+};
+
+const getMultiClauseRemainingContent = (nodeInnerContent, suffixableNode) => {
+    const remainingContentStartingPos = nodeInnerContent.indexOf(suffixableNode.value) + suffixableNode.value.trim().length;
+
+    return nodeInnerContent.substring(remainingContentStartingPos);
 };
 
 const parseNewNodeInnerContent = state => {

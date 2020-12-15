@@ -255,6 +255,14 @@ describe('Global Position on Unix', () => {
         expect(textNode.globalPos).toEqual(95);
         expect(expNode.globalPos ).toEqual(100);
     });
+
+
+    it('XXVIII', () => {
+        const rootNode   = parseTemplate(26);
+        const iselseNode = rootNode.children[0].children[1];
+
+        expect(iselseNode.suffixGlobalPos).toEqual(52);
+    });
 });
 
 const parseTemplate = number => {
