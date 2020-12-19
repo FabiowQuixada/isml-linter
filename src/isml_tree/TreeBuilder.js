@@ -224,14 +224,15 @@ const createTextNodeFromMainLoop = state => {
 
         // TODO: Refactor this code;
         if (expressionPos >= 0) {
-            const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(state.nonTagBuffer);
-            const localPos     = ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer) + 1;
-
+            const lineBreakQty   = ParseUtils.getPrecedingEmptyLinesQty(state.nonTagBuffer);
             const textValue      = state.nonTagBuffer.substring(0, expressionPos);
             const textLineNumber = state.currentLineNumber + lineBreakQty;
-            let textGlobalPos    = state.currentPos + localPos;
 
-            const textTrailingContent = ParseUtils.getTrailingBlankContent({value:textValue});
+            let textGlobalPos = state.parentNode.globalPos
+                + state.parentNode.toString().trimStart().length
+                + ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer);
+
+            const textTrailingContent = ParseUtils.getTrailingBlankContent({ value : textValue });
             const midLineBreak        = ParseUtils.getLineBreakQty(textTrailingContent);
 
             const expValue      = state.nonTagBuffer.substring(expressionPos);
@@ -239,8 +240,8 @@ const createTextNodeFromMainLoop = state => {
             let expGlobalPos    = textGlobalPos + textValue.trimStart().length;
 
             if (global.isWindows) {
-                textGlobalPos += textLineNumber - 1;
-                expGlobalPos  += expLineNumber - 1;
+                textGlobalPos += ParseUtils.getLeadingLineBreakQty(state.nonTagBuffer) + 1;
+                expGlobalPos  += ParseUtils.getLeadingLineBreakQty(state.nonTagBuffer) + 1;
             }
 
             const textNode       = new IsmlNode(textValue, textLineNumber, textGlobalPos);

@@ -1,0 +1,8 @@
+<div class="my-class">
+    <isset name="variable" value="${someValue}" scope="page" />
+
+    Test ${someValue}
+    <isif condition="${aCondition}">
+
+    </isif>
+</div>
