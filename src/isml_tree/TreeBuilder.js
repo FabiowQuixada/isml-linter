@@ -401,6 +401,7 @@ const getTextNodeValue = (nodeInnerContent, content, parentNode) => {
     return textNodeValue;
 };
 
+// TODO This function needs serious refactoring;
 const getCurrentElementGlobalPos = (state, element, parentNode) => {
 
     const trimmedElement = element.trim();
@@ -435,15 +436,28 @@ const getCurrentElementGlobalPos = (state, element, parentNode) => {
         iterator        = iterator.parentState;
     }
 
-    globalPos = stateInitialPos + state.content.indexOf(trimmedElement);
+    const previousSiblingsContent = state.parentNode && state.parentNode.children[0] && state.parentNode.children[0].toString();
+    const siblingsContentLength   = previousSiblingsContent && previousSiblingsContent.length || 0;
+    const currentElementContent   = state.content.substring(siblingsContentLength);
+
+    globalPos = stateInitialPos + siblingsContentLength + currentElementContent.indexOf(trimmedElement);
 
     if (global.isWindows) {
+        let offset = 0;
+
         while (rootState.parentState) {
             rootState = rootState.parentState;
         }
 
-        const precedingContent = rootState.content.substring(0, rootState.content.indexOf(trimmedElement));
-        const offset           = ParseUtils.getLineBreakQty(precedingContent);
+        if (parentNode && parentNode.isOfType('isscript')) {
+            const precedingContent = rootState.content.substring(0, rootState.content.indexOf(trimmedElement));
+            offset                 = ParseUtils.getLineBreakQty(precedingContent);
+
+        } else {
+            const elementLeadingLineBreakQty = ParseUtils.getLineBreakQty(element.trimStart());
+
+            offset = state.currentLineNumber - elementLeadingLineBreakQty - 1;
+        }
 
         globalPos += offset;
     }
