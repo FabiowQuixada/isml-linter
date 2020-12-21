@@ -256,10 +256,18 @@ const createTextNodeFromMainLoop = state => {
             state.ignoreUntil                       += state.nonTagBuffer.length - 1;
 
         } else {
-            const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(state.nonTagBuffer);
-            const localPos     = ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer);
-            const lineNumber   = state.currentLineNumber + lineBreakQty;
-            const node         = new IsmlNode(state.nonTagBuffer, lineNumber, state.currentPos + localPos);
+            const previousSiblingsContent = state.parentNode.toString();
+            const siblingsLength          = previousSiblingsContent.length;
+            const lineBreakQty            = ParseUtils.getPrecedingEmptyLinesQty(state.nonTagBuffer);
+            const localPos                = ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer);
+            const lineNumber              = state.currentLineNumber + lineBreakQty;
+            let globalPos                 = siblingsLength + localPos;
+
+            if (global.isWindows) {
+                globalPos += ParseUtils.getLeadingLineBreakQty(state.nonTagBuffer);
+            }
+
+            const node = new IsmlNode(state.nonTagBuffer, lineNumber, globalPos);
 
             state.currentLineNumber                 += ParseUtils.getLineBreakQty(state.nonTagBuffer);
             state.parentNode.addChild(node);

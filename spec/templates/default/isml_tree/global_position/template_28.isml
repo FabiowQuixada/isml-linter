@@ -1,0 +1,6 @@
+<isset name="aVariable" value="${someValue}" scope="page"/>
+
+Text
+
+<!--- Html comment --->
+<input />

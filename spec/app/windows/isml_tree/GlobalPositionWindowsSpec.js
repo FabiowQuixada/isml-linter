@@ -281,6 +281,19 @@ describe('Global Position on Windows', () => {
         expect(commentNode1.globalPos).toEqual(11);
         expect(commentNode2.globalPos).toEqual(51);
     });
+
+    it('XXX', () => {
+        const rootNode        = parseTemplate(28);
+        const issetNode       = rootNode.children[0];
+        const textNode        = rootNode.children[1];
+        const htmlCommentNode = rootNode.children[2];
+        const inputNode       = rootNode.children[3];
+
+        expect(issetNode.globalPos      ).toEqual(0);
+        expect(textNode.globalPos       ).toEqual(63);
+        expect(htmlCommentNode.globalPos).toEqual(71);
+        expect(inputNode.globalPos      ).toEqual(96);
+    });
 });
 
 const parseTemplate = number => {
