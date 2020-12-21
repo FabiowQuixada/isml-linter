@@ -261,4 +261,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('checks indentation for nested "isif" tags', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 23);
+
+        expect(result.length).toEqual(0);
+    });
 });

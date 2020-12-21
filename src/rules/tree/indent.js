@@ -234,9 +234,13 @@ const checkIfShouldAddIndentationToSuffix = node => {
  */
 const getPreviousNodeTrailingSpacesQty = node => {
     const previousSibling = node.getPreviousSibling();
-    const previousNode    = previousSibling && node.parent.isMulticlause() && previousSibling.getLastChild() ?
+    let previousNode      = previousSibling && node.parent.isMulticlause() && previousSibling.getLastChild() ?
         previousSibling.getLastChild() :
         previousSibling;
+
+    if (previousNode && previousNode.isMulticlause()) {
+        previousNode = previousNode.getLastChild();
+    }
 
     if (previousNode && previousNode.geTrailingValue().endsWith(' ')) {
         const valueTrailingSpaces       = ParseUtils.getTrailingBlankContent(previousNode);
