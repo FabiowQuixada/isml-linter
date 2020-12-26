@@ -584,6 +584,13 @@ describe(targetObjName, () => {
         expect(textNode.lineNumber).toEqual(5);
         expect(expNode.lineNumber).toEqual(6);
     });
+
+    it('identifies a "<" character within an non-embedded expression', () => {
+        const rootNode = getRootNodeFromTemplate(60);
+        const expNode  = rootNode.children[0];
+
+        expect(expNode.value).toEqual('\n    ${someValue < 3}\n');
+    });
 });
 
 const getTemplatePath = number => {

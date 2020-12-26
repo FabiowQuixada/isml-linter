@@ -102,10 +102,11 @@ const initializeLoopState = (state, i) => {
 };
 
 const parseState = state => {
-    const currentElement   = state.currentElement.asString.trim();
-    const isHtmlComment    = currentElement.startsWith('<!--') && currentElement.endsWith('-->');
-    const isOpeningTagChar = state.currentChar === '<';
-    const isClosingTagChar = state.currentChar === '>' && !currentElement.startsWith('<!--') || isHtmlComment;
+    const currentElement     = state.currentElement.asString.trim();
+    const isHtmlComment      = currentElement.startsWith('<!--') && currentElement.endsWith('-->');
+    const isWithinExpression = currentElement.indexOf('${') >= 0 && currentElement.indexOf('}') === -1;
+    const isOpeningTagChar   = state.currentChar === '<' && !isWithinExpression;
+    const isClosingTagChar   = state.currentChar === '>' && !currentElement.startsWith('<!--') || isHtmlComment;
 
     if (isOpeningTagChar && !currentElement.startsWith('<!--')) {
         prepareStateForOpeningElement(state);
