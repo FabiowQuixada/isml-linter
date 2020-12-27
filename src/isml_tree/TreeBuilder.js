@@ -280,15 +280,49 @@ const createTextNodeFromMainLoop = state => {
     }
 };
 
+// TODO This function needs serious refactoring;
 const createTextNodeFromInnerContent = (text, state, parentNode) => {
     if (text) {
-        const lineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
-        const globalPos  = getCurrentElementGlobalPos(state, text, parentNode);
-        const textNode   = new IsmlNode(text, lineNumber, globalPos);
+        const hasExpression = text.indexOf('${') >= 0 && text.indexOf('}') >= 0 && text.indexOf('${') < text.indexOf('}');
 
-        state.currentLineNumber += ParseUtils.getLineBreakQty(text);
+        if (hasExpression) {
+            if (text.trim().startsWith('${') && text.trim().endsWith('}')) {
+                const lineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
+                const globalPos  = getCurrentElementGlobalPos(state, text, parentNode);
+                const textNode   = new IsmlNode(text, lineNumber, globalPos);
 
-        parentNode.addChild(textNode);
+                state.currentLineNumber += ParseUtils.getLineBreakQty(text);
+
+                parentNode.addChild(textNode);
+            } else if (text.trim().startsWith('${')) {
+                const expValue  = text.substring(0, text.indexOf('}') + 1);
+                const textValue = text.substring(text.indexOf('}') + 1);
+
+                const lineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
+                const globalPos  = getCurrentElementGlobalPos(state, text, parentNode);
+                const expNode    = new IsmlNode(expValue, lineNumber, globalPos);
+
+                state.currentLineNumber += ParseUtils.getLineBreakQty(expValue.trimStart());
+
+                const textLineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
+                const textGlobalPos  = getCurrentElementGlobalPos(state, text, parentNode);
+                const textNode       = new IsmlNode(textValue, textLineNumber, textGlobalPos);
+
+                state.currentLineNumber += ParseUtils.getLineBreakQty(textValue.trimStart());
+
+                parentNode.addChild(expNode);
+                parentNode.addChild(textNode);
+            }
+
+        } else {
+            const lineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
+            const globalPos  = getCurrentElementGlobalPos(state, text, parentNode);
+            const textNode   = new IsmlNode(text, lineNumber, globalPos);
+
+            state.currentLineNumber += ParseUtils.getLineBreakQty(text);
+
+            parentNode.addChild(textNode);
+        }
     }
 };
 

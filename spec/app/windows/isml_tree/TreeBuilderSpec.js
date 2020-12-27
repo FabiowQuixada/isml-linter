@@ -591,6 +591,17 @@ describe(targetObjName, () => {
 
         expect(expNode.value).toEqual('\n    ${someValue < 3}\n');
     });
+
+    it('identifies children correctly if first is an expression', () => {
+        const rootNode = getRootNodeFromTemplate(61);
+        const divNode  = rootNode.children[0];
+        const expNode  = divNode.children[0];
+        const brNode   = divNode.children[1];
+
+        expect(divNode.children.length).toEqual(2);
+        expect(expNode.lineNumber).toEqual(2);
+        expect(brNode.lineNumber).toEqual(2);
+    });
 });
 
 const getTemplatePath = number => {
