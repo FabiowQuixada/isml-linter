@@ -300,7 +300,7 @@ const parseTemplate = number => {
     const templatePath        = path.join(Constants.specGlobalPosTemplateDir, `template_${number}.isml`);
     const templateContent     = fs.readFileSync(templatePath, 'utf-8');
     const crlfTemplateContent = templateContent;
-    const root                = TreeBuilder.parse(crlfTemplateContent, undefined, undefined, templatePath);
+    const root                = TreeBuilder.parse(crlfTemplateContent, templatePath);
 
     return root;
 };

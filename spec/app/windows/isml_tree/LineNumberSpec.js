@@ -129,13 +129,13 @@ describe('TreeBuilder', () => {
         const ifNode     = rootNode.children[0].children[0].children[0].children[0];
         const nonTagNode = ifNode.children[0].children[1].children[0];
 
-        expect(ifNode.value               ).toEqual(`${Constants.EOL}        <isif condition="\${pdict.customer.registeredUser}">`);
-        expect(ifNode.lineNumber          ).toEqual(4);
-        expect(ifNode.getNumberOfChildren()    ).toEqual(1);
+        expect(ifNode.value                ).toEqual(`${Constants.EOL}        <isif condition="\${pdict.customer.registeredUser}">`);
+        expect(ifNode.lineNumber           ).toEqual(4);
+        expect(ifNode.getNumberOfChildren()).toEqual(1);
 
-        expect(nonTagNode.value            ).toEqual(`${Constants.EOL}                    \${creditFields.saveCard.label}${Constants.EOL}                `);
-        expect(nonTagNode.lineNumber       ).toEqual(8);
-        expect(nonTagNode.getNumberOfChildren() ).toEqual(0);
+        expect(nonTagNode.value                ).toEqual(`${Constants.EOL}                    \${creditFields.saveCard.label}`);
+        expect(nonTagNode.lineNumber           ).toEqual(8);
+        expect(nonTagNode.getNumberOfChildren()).toEqual(0);
     });
 
     it('sets line number for <iselse> element', () => {

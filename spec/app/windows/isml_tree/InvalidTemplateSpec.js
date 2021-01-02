@@ -22,7 +22,7 @@ describe('Invalid Template', () => {
         const result = TreeBuilder.build(getTemplatePath(0));
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
-        expect(result.exception.globalPos).toEqual(96);
+        expect(result.exception.globalPos).toEqual(103);
         expect(result.exception.length).toEqual(20);
         expect(result.exception.lineNumber).toEqual(8);
         expect(result.exception.message).toEqual('Unbalanced <input> element');

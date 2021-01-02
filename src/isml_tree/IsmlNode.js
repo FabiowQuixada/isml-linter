@@ -288,7 +288,7 @@ class IsmlNode {
             this.isDocType() ||
             this.isVoidElement() ||
             this.isHtmlComment() ||
-            this.isTag() && this.value.endsWith('/>')) ||
+            this.isTag() && this.value.trim().endsWith('/>')) ||
             this.isCustomIsmlTag() ||
             this.isIsmlTag() && SfccTags[this.getType()] && SfccTags[this.getType()]['self-closing'];
     }

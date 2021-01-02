@@ -4,274 +4,25 @@
  * simply analyze it and return relevant information;
  */
 
-const MaskUtils        = require('../MaskUtils');
-const ClosingTagFinder = require('./ClosingTagFinder');
-const Constants        = require('../../Constants');
-const SfccTags         = require('../../enums/SfccTags');
-
-const ISIF = '<isif';
-
-const isSfccSelfClosing = elem => {
-    return !elem.startsWith('is') ||
-        SfccTags[elem] && SfccTags[elem]['self-closing'];
-};
-
-const isSfccCustomTag = elem => {
-    return elem.startsWith('is') && !SfccTags[elem];
-};
-
-const pickInnerContent = (state, content) => {
-    const innerContentStartPos = state.currentElement.endPosition + 1;
-    const innerContentEndPos   = state.currentElemClosingTagInitPos;
-    return content.substring(innerContentStartPos, innerContentEndPos);
-};
-
-const getUpdateContent = state => {
-    let content                      = state.content;
-    const currentElementInitPosition = state.currentElement.initPosition;
-    content                          = content.substring(currentElementInitPosition, content.length);
-    return content;
-};
+const Constants      = require('../../Constants');
+const ExceptionUtils = require('../../util/ExceptionUtils');
+const SfccTags       = require('../../enums/SfccTags');
+const GeneralUtils   = require('../../util/GeneralUtils');
+const MaskUtils      = require('../MaskUtils');
 
 const getNextNonEmptyChar = content => {
     return content.replace(new RegExp(Constants.EOL, 'g'), '').trim()[0];
 };
 
-const isStackable = elem => {
-    return !elem.startsWith('!--') &&
-        elem !== 'iselse' &&
-        elem !== 'iselseif' &&
-        (!elem.startsWith('is') ||
-        !isSfccSelfClosing(elem)) &&
-        !isSfccCustomTag(elem);
-};
-
-const getFirstElementType = elementAsString => {
-    const elementEndPos = elementAsString.indexOf('>') === -1 ? elementAsString.length : elementAsString.indexOf('>');
-    let result          = elementAsString.substring(elementAsString.indexOf('<') + 1, elementEndPos);
-
-    // In case the tag has attributes;
-    if (result.indexOf(' ') !== -1) {
-        result = result.split(' ')[0];
-    }
-
-    return result;
-};
-
 const getCharOccurrenceQty = (string, char) => (string.match(new RegExp(char, 'g')) || []).length;
 
-const getPrecedingEmptyLinesQty = content => {
-
-    const lineArray  = content.split(Constants.EOL);
-    let lineBreakQty = 0;
-
-    lineArray.some( line => {
-        if (!line.trim()) {
-            lineBreakQty++;
-            return false;
-        }
-        return true;
-    });
-
-    return lineBreakQty;
-};
-
-module.exports.getLineBreakQty = string => getCharOccurrenceQty(string, Constants.EOL);
-
-module.exports.getCharOccurrenceQty = getCharOccurrenceQty;
+const getLineBreakQty = string => getCharOccurrenceQty(string, Constants.EOL);
 
 const getNextNonEmptyCharPos = content => {
     const firstNonEmptyChar = getNextNonEmptyChar(content);
     const index             = content.indexOf(firstNonEmptyChar);
 
     return Math.max(index, 0);
-};
-
-module.exports.getNextNonEmptyCharPos = getNextNonEmptyCharPos;
-
-module.exports.isOpeningElem = state => {
-
-    const content     = state.content;
-    const currPos     = state.currentElement.initPosition;
-    const currentChar = content.charAt(currPos);
-    const nextChar    = content.charAt(currPos + 1);
-
-    return currentChar === '<' && nextChar !== '/';
-};
-
-module.exports.isStackable = isStackable;
-
-module.exports.getNextElementValue = content => {
-    const maskedContent = MaskUtils.maskInBetween(content, '<!---', '--->', true);
-
-    if (maskedContent.error) {
-        return maskedContent;
-    }
-
-    const index = maskedContent.indexOf('>');
-
-    return content.substring(0, index + 1);
-};
-
-module.exports.isNextElementATag = content => {
-    return getNextNonEmptyChar(content) === '<';
-};
-
-module.exports.isNextElementAnIsmlExpression = content => {
-    return content.trim().startsWith('${');
-};
-
-module.exports.isNextElementIsifTag = content => {
-    return content.trim().startsWith(ISIF);
-};
-
-module.exports.isNextElementHtmlComment = content => {
-    return content.trim().startsWith('<!--');
-};
-
-module.exports.isCurrentElementIsifTag = state => {
-    return state.currentElement.asString.trim().startsWith(ISIF);
-};
-
-module.exports.isOpeningIsmlExpression = state => {
-
-    const content    = state.content;
-    const currentPos = state.currentPos;
-    const currChar   = content.charAt(currentPos);
-    const nextChar   = content.charAt(currentPos + 1);
-
-    return currChar === '$' && nextChar === '{';
-};
-
-module.exports.isClosingIsmlExpression = state => {
-
-    const content          = state.content;
-    const currentPos       = state.currentPos;
-    const insideExpression = state.insideExpression;
-
-    return insideExpression && content.charAt(currentPos - 1) === '}';
-};
-
-module.exports.getInnerContent = state => {
-    const content = getUpdateContent(state);
-
-    ClosingTagFinder.getCorrespondentClosingElementPosition(content, state);
-
-    return pickInnerContent(state, content);
-};
-
-module.exports.getPrecedingEmptyLinesQty = getPrecedingEmptyLinesQty;
-
-module.exports.shouldSkipIteration = state => {
-    return state.ignoreUntil && state.ignoreUntil >= state.currentPos ||
-            state.insideTag && state.insideExpression;
-};
-
-module.exports.isCorrespondentElement = (state, elem) => {
-    return `/${state.elementStack[state.elementStack.length - 1].elem}` === elem;
-
-};
-
-module.exports.getFirstElementType = getFirstElementType;
-
-module.exports.getCurrentElementEndPosition = content => {
-
-    content                      = MaskUtils.maskIgnorableContent(content);
-    const currentElemEndPosition = content.indexOf('<');
-
-    return {
-        currentElemEndPosition,
-        content
-    };
-};
-
-module.exports.getClauseContent = content => {
-    const maskedContent = MaskUtils.maskIgnorableContent(content);
-    return content.substring(0, maskedContent.indexOf('>') + 1);
-};
-
-module.exports.getClauseInnerContent = content => {
-    const maskedContent = MaskUtils.maskIgnorableContent(content);
-    return content.substring(maskedContent.indexOf('>') + 1, maskedContent.length);
-};
-
-module.exports.getAllConditionalTags = content => {
-
-    const ISIF_TAG_LIST = ['isif', 'iselse', 'iselse/', 'iselseif', '/isif'];
-    const tagList       = [];
-    const maskedContent = MaskUtils.maskIgnorableContent(content);
-
-    for (let i = 0; i < maskedContent.length; i++) {
-        if (content.charAt(i - 1) === '<') {
-            const end = Math.min(maskedContent.substring(i).indexOf(' '), maskedContent.substring(i).indexOf('>'));
-            const tag = content.substring(i, i + end);
-
-            if (ISIF_TAG_LIST.indexOf(tag) !== -1) {
-                tagList.push({
-                    tag,
-                    startPos : i - 1
-                });
-            }
-        }
-    }
-
-    return tagList;
-};
-
-module.exports.getOuterConditionalTagList = tagList => {
-
-    let depth    = 0;
-    const result = [];
-
-    for (let i = 0; i < tagList.length; i++) {
-        const tagObj = tagList[i];
-
-        if (tagObj.tag.startsWith('isif')) {
-            depth += 1;
-        }
-
-        if (depth === 0) {
-            result.push(tagObj);
-        }
-
-        if (tagObj.tag === '/isif') {
-            depth -= 1;
-        }
-    }
-
-    return result;
-};
-
-module.exports.isStopIgnoring = state => {
-    return state.ignoreUntil &&
-        state.ignoreUntil < state.currentPos &&
-        state.ignoreUntil !== state.content.length + 1;
-};
-
-module.exports.getClauseList = content => {
-
-    const clauseStringList = [];
-
-    let tagList = this.getAllConditionalTags(content);
-    tagList     = this.getOuterConditionalTagList(tagList);
-
-    let lastIndex = 0;
-    for (let i = 0; i < tagList.length; i++) {
-        const tagObj = tagList[i];
-        clauseStringList.push(content.substring(lastIndex, tagObj.startPos));
-        lastIndex    = tagObj.startPos;
-    }
-
-    clauseStringList.push(content.substring(lastIndex, content.length));
-
-    return clauseStringList;
-};
-
-module.exports.getPreLineBreakContent = node => {
-    const leadingBlankSpacesString = getLeadingEmptyChars(node.value);
-    const preLineBreakContent      = leadingBlankSpacesString.substring(0, leadingBlankSpacesString.lastIndexOf(Constants.EOL) + 1);
-
-    return preLineBreakContent;
 };
 
 const getLeadingEmptyChars = string => {
@@ -286,40 +37,202 @@ const getLeadingLineBreakQty = string => {
     return this.getLineBreakQty(leadingString);
 };
 
-module.exports.getTrailingBlankContent = node => {
-    const reverseValue              = node.value.split('').reverse().join('');
-    const leadingBlankSpacesQty     = getNextNonEmptyCharPos(reverseValue);
-    const fullPostValueBlankContent = reverseValue.substring(0, leadingBlankSpacesQty).split('').reverse().join('');
-    const lastLineBreakPos          = fullPostValueBlankContent.lastIndexOf(Constants.EOL);
-    const suffixValueTrailingSpaces = fullPostValueBlankContent.substring(lastLineBreakPos);
+const checkBalance = (node, templatePath) => {
 
-    return suffixValueTrailingSpaces;
+    for (let i = 0; i < node.children.length; i++) {
+        checkBalance(node.children[i]);
+    }
+
+    if (!node.isRoot() &&
+        node.parent && !node.parent.isMulticlause() &&
+        (node.isHtmlTag() || node.isIsmlTag()) &&
+        !node.isSelfClosing() && !node.suffixValue
+    ) {
+        throw ExceptionUtils.unbalancedElementError(
+            node.getType(),
+            node.lineNumber,
+            node.globalPos,
+            node.value.trim().length,
+            templatePath
+        );
+    }
 };
 
-module.exports.getSuffixTrailingBlankContent = node => {
-    const reverseValue              = node.suffixValue.split('').reverse().join('');
-    const leadingBlankSpacesQty     = getNextNonEmptyCharPos(reverseValue);
-    const fullPostValueBlankContent = reverseValue.substring(0, leadingBlankSpacesQty).split('').reverse().join('');
-    const lastLineBreakPos          = fullPostValueBlankContent.lastIndexOf(Constants.EOL);
-    const postValueBlankContent     = fullPostValueBlankContent.substring(lastLineBreakPos);
+const getElementType = trimmedElement => {
+    if (trimmedElement.startsWith('</')) {
+        const suffixElementType = trimmedElement.slice(2, -1);
 
-    return postValueBlankContent;
+        if (suffixElementType.startsWith('${')) {
+            return 'dynamic_element';
+        }
+
+        return suffixElementType;
+    } else {
+
+        const typeValueLastPos = Math.min(...[
+            trimmedElement.indexOf(' '),
+            trimmedElement.indexOf('/'),
+            trimmedElement.indexOf('>')
+        ].filter(j => j !== -1));
+
+        const elementType = trimmedElement.substring(1, typeValueLastPos).trim();
+
+        if (elementType.startsWith('${')) {
+            return 'dynamic_element';
+        }
+
+        return elementType;
+    }
 };
 
-const DEPTH_COLOR = {
-    WHITE : 0,
-    GRAY  : 1,
-    BLACK : 2
+
+function isSelfClosing(trimmedElement) {
+    const ConfigUtils = require('../../util/ConfigUtils');
+
+    const config               = ConfigUtils.load();
+    const isTag                = trimmedElement.startsWith('<') && !trimmedElement.startsWith('<!--');
+    const elementType          = getElementType(trimmedElement);
+    const isDocType            = trimmedElement.startsWith('<!doctype ');
+    const isVoidElement        = !config.disableHtml5 && Constants.voidElementsArray.indexOf(elementType) >= 0;
+    const isHtmlComment        = trimmedElement.startsWith('<!--') && trimmedElement.endsWith('-->');
+    const isClosingTag         = trimmedElement.endsWith('/>');
+    const isIsmlTag            = trimmedElement.startsWith('<is');
+    const isStandardIsmlTag    = !!SfccTags[elementType];
+    const isCustomIsmlTag      = isIsmlTag && !isStandardIsmlTag;
+    const isExpression         = trimmedElement.startsWith('${') && trimmedElement.endsWith('}');
+    const isSfccSelfClosingTag = SfccTags[elementType] && SfccTags[elementType]['self-closing'];
+
+    // 'isif' tag is never self-closing;
+    if (['isif'].indexOf(elementType) >= 0) {
+        return false;
+    }
+
+    return isDocType ||
+        isVoidElement ||
+        isExpression ||
+        isHtmlComment ||
+        isTag && isClosingTag ||
+        isCustomIsmlTag ||
+        isIsmlTag && isSfccSelfClosingTag;
+}
+
+
+const getElementList = (templateContent, templatePath) => {
+
+    const originalContent       = GeneralUtils.toLF(templateContent);
+    const originalShadowContent = MaskUtils.maskIgnorableContent(originalContent, null, templatePath);
+    const elementList           = [];
+    let remainingContent        = originalContent;
+    let remainingShadowContent  = originalShadowContent;
+    let pastContent             = '';
+
+    do {
+        const nextOpeningTagOrExpressionInitPos = Math.min(...[
+            remainingShadowContent.indexOf('<'),
+            remainingShadowContent.indexOf('<--'),
+            remainingShadowContent.indexOf('${')
+        ].filter(j => j !== -1)) + 1;
+
+        let nextClosingTagOrExpressionEndPos = Math.min(...[
+            remainingShadowContent.indexOf('>'),
+            remainingShadowContent.indexOf('-->'),
+            remainingShadowContent.indexOf('}')
+        ].filter(j => j !== -1)) + 1;
+
+        let elementValue = remainingContent.substring(0, nextClosingTagOrExpressionEndPos);
+        let elementType;
+        let elementGlobalPos;
+        let elementLineNumber;
+        let isElementSelfClosing;
+        let isClosingTag;
+        let tagType;
+        let cutSpot      = null;
+
+        // If there is any leading hard coded text;
+        if (remainingShadowContent.substring(0, nextOpeningTagOrExpressionInitPos - 1).trim().length > 0) {
+            cutSpot = remainingShadowContent.substring(0, nextOpeningTagOrExpressionInitPos - 1).length;
+
+            nextClosingTagOrExpressionEndPos = nextOpeningTagOrExpressionInitPos;
+            elementValue                     = remainingContent.substring(0, cutSpot);
+
+            remainingShadowContent = remainingShadowContent.substring(cutSpot);
+            remainingContent       = remainingContent.substring(cutSpot);
+            pastContent            = originalContent.substring(0, pastContent.length + cutSpot);
+        }
+
+        // If there is no element left (only blank spaces and / or line breaks);
+        if (!isFinite(nextClosingTagOrExpressionEndPos)) {
+            nextClosingTagOrExpressionEndPos = remainingShadowContent.length - 1;
+        }
+
+        const trimmedElement = elementValue.trim();
+
+        if (trimmedElement.startsWith('<') || trimmedElement.startsWith('${')) {
+            const isTag               = trimmedElement.startsWith('<') && !trimmedElement.startsWith('<!--');
+            const isExpression        = trimmedElement.startsWith('${');
+            const isHtmlOrIsmlComment = trimmedElement.startsWith('<!--');
+
+            elementValue = remainingContent.substring(0, nextClosingTagOrExpressionEndPos);
+
+            // html comment, isml comment?
+            elementType = isTag ? trimmedElement.startsWith('<is') || trimmedElement.startsWith('</is') ? 'ismlTag' : 'htmlTag' :
+                isHtmlOrIsmlComment ? 'htmlOrIsmlComment' :
+                    isExpression ? 'expression' :
+                        'text';
+
+            if (isTag) {
+                tagType = getElementType(trimmedElement);
+            }
+
+            isElementSelfClosing = isSelfClosing(trimmedElement);
+
+            isClosingTag      = isTag && trimmedElement.startsWith('</');
+            elementLineNumber = getLineBreakQty(pastContent) + getLeadingLineBreakQty(elementValue) + 1;
+            elementGlobalPos  = pastContent.length + getLeadingEmptyChars(elementValue).length;
+        } else {
+            elementType          = 'text';
+            elementLineNumber    = getLineBreakQty(pastContent.substring(0, pastContent.length - cutSpot))
+                + getLeadingLineBreakQty(elementValue) + 1;
+            elementGlobalPos     = pastContent.length - cutSpot + getLeadingEmptyChars(elementValue).length;
+            isElementSelfClosing = true;
+        }
+
+        if (global.isWindows) {
+            elementGlobalPos += elementLineNumber - 1;
+        }
+
+        elementList.push({
+            value         : elementValue,
+            type          : elementType,
+            globalPos     : elementGlobalPos,
+            lineNumber    : elementLineNumber,
+            isSelfClosing : isElementSelfClosing,
+            isClosingTag  : isClosingTag,
+            tagType       : tagType
+        });
+
+        if (!cutSpot) {
+            remainingShadowContent = remainingShadowContent.substring(elementValue.length);
+            remainingContent       = remainingContent.substring(elementValue.length);
+            pastContent            = originalContent.substring(0, pastContent.length + elementValue.length);
+        }
+    } while (remainingShadowContent.length > 0);
+
+    const lastElement       = elementList[elementList.length - 1];
+    const secondLastElement = elementList[elementList.length - 2];
+
+    if (lastElement.value.trim().length === 0) {
+        secondLastElement.value += lastElement.value;
+        elementList.pop();
+    }
+
+    return elementList;
 };
 
-module.exports.DEPTH_COLOR = DEPTH_COLOR;
-
-module.exports.isWhite = state => state.depthColor === DEPTH_COLOR.WHITE;
-module.exports.isGray  = state => state.depthColor === DEPTH_COLOR.GRAY;
-module.exports.isBlack = state => state.depthColor === DEPTH_COLOR.BLACK;
-
-module.exports.darken  = state => state.depthColor++;
-module.exports.lighten = state => state.depthColor--;
-
+module.exports.getElementList         = getElementList;
+module.exports.checkBalance           = checkBalance;
+module.exports.getLineBreakQty        = getLineBreakQty;
+module.exports.getCharOccurrenceQty   = getCharOccurrenceQty;
+module.exports.getNextNonEmptyCharPos = getNextNonEmptyCharPos;
 module.exports.getLeadingEmptyChars   = getLeadingEmptyChars;
 module.exports.getLeadingLineBreakQty = getLeadingLineBreakQty;

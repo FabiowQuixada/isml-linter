@@ -4,22 +4,63 @@
  * symbol. The same is valid for <isscript> and <iscomment> tags;
  */
 
-const ParseUtils = require('./components/ParseUtils');
+const ParseUtils     = require('./components/ParseUtils');
+const ExceptionUtils = require('../util/ExceptionUtils');
 
 const placeholderSymbol = '_';
 
-const maskIgnorableContent = (content, isMaskBorders) => {
+const maskIgnorableContent = (content, isMaskBorders, templatePath) => {
 
     content = maskInBetween(content, 'iscomment', isMaskBorders);
     content = maskInBetween(content, '${', '}', isMaskBorders);
-    content = maskInBetween(content, 'isscript', isMaskBorders);
-    content = maskInBetweenForTagWithAttributes(content, 'script');
-    content = maskInBetweenForTagWithAttributes(content, 'style');
     content = maskInBetween(content, '<!---', '--->', isMaskBorders);
     content = maskInBetween(content, '<!--', '-->', isMaskBorders);
+    content = maskInBetweenIsscriptTags(content);
+
+    checkTagBalance(content, templatePath);
+
+
+    content = maskInBetween2(content, '<', '>');
+    content = maskInBetweenForTagWithAttributes(content, 'script');
+    content = maskInBetweenForTagWithAttributes(content, 'style');
     content = maskNestedIsmlElements(content);
 
     return content;
+};
+
+const checkTagBalance = (content, templatePath) => {
+    let depth = 0;
+
+    for (let i = 0; i < content.length; i++) {
+        const char             = content[i];
+        const remainingContent = content.substring(i);
+
+        if (char === '<') {
+            depth++;
+        }
+
+        if (char === '>') {
+            depth--;
+        }
+
+        // Only ISML tags can be within HTML tags;
+        if (depth === 2 &&
+            remainingContent.startsWith('<') &&
+            !remainingContent.startsWith('<is') &&
+            !remainingContent.startsWith('<!') &&
+            !remainingContent.startsWith('</is')
+        ) {
+            const lineNumber = ParseUtils.getLineBreakQty(content.substring(0, i)) + 1;
+
+            throw ExceptionUtils.invalidCharacterError(
+                '<',
+                lineNumber,
+                i,
+                1,
+                templatePath
+            );
+        }
+    }
 };
 
 /**
@@ -113,7 +154,7 @@ const maskInBetweenForTagWithAttributes = (content, rawStartString) => {
 
 const checkIfDeprecatedIsmlCommentIsUnbalanced = (content, startString, openingMatchList, closingMatchList) => {
     if (startString === '<!---' && openingMatchList.length !== closingMatchList.length) {
-        let localPos;
+        let globalPos;
         let length;
 
         for (let i = 0; i < openingMatchList.length; i++) {
@@ -122,23 +163,64 @@ const checkIfDeprecatedIsmlCommentIsUnbalanced = (content, startString, openingM
 
             if (!closingElementPos || closingElementPos < openingElementPos) {
                 const elemContent = content.substring(openingElementPos, content.indexOf('-->') + 3);
-                localPos          = openingElementPos;
+                globalPos         = openingElementPos;
                 length            = elemContent.length;
             }
         }
 
-        const localLineNumber = ParseUtils.getLineBreakQty(content.substring(0, localPos));
+        const lineNumber = ParseUtils.getLineBreakQty(content.substring(0, globalPos)) + 1;
 
-        return {
-            error : {
-                localPos,
-                localLineNumber,
-                length
-            }
+        throw {
+            type : ExceptionUtils.types.UNCLOSED_DEPRECATED_ISML_COMMENT,
+            globalPos,
+            lineNumber,
+            length
         };
     }
 
     return false;
+};
+
+const maskInBetween2 = (content, startString, endString) => {
+    let depth  = 0;
+    let result = '';
+
+    for (let i = 0; i < content.length; i++) {
+        const element = content[i];
+
+        if (element === endString) {
+            depth--;
+        }
+
+        result += depth > 0 ? '_' : element;
+
+        if (element === startString) {
+            depth++;
+        }
+    }
+
+    return result;
+};
+
+const maskInBetweenIsscriptTags = content => {
+    let result  = '';
+
+    const startString = '<isscript>';
+    const endString   = '</isscript>';
+
+    const contentToBeMaskedStartPos = content.indexOf(startString) + startString.length - 1;
+    const contentToBeMaskedEndPos   = content.indexOf(endString);
+
+
+    for (let i = 0; i < content.length; i++) {
+        const element = content[i];
+
+        result += contentToBeMaskedStartPos < i  && i < contentToBeMaskedEndPos ?
+            '_' :
+            element;
+    }
+
+    return result;
 };
 
 const getMatchingIndexes = (content, startString, endString, isMaskBorders) => {

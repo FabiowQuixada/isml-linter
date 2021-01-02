@@ -49,7 +49,7 @@ describe(targetObjName, () => {
     it('parses <isif> tag with a "<" character in its condition', () => {
         const rootNode = getRootNodeFromTemplate(3);
 
-        expect(rootNode.children[0].children[0].children[0].value).toEqual(`${Constants.EOL}    <div class="clause_1" />${Constants.EOL}`);
+        expect(rootNode.children[0].children[0].children[0].value).toEqual(`${Constants.EOL}    <div class="clause_1" />`);
     });
 
     it('recognizes an isml element within a html element', () => {
@@ -81,7 +81,7 @@ describe(targetObjName, () => {
     it('recognizes an isml expression within an isml/html tag', () => {
         const rootNode = getRootNodeFromTemplate(8);
 
-        expect(rootNode.children[0].children[0].children[0].value).toEqual(`${Constants.EOL}    <isset name="opliID" value="\${opli.ID}" scope="page" />${Constants.EOL}`);
+        expect(rootNode.children[0].children[0].children[0].value).toEqual(`${Constants.EOL}    <isset name="opliID" value="\${opli.ID}" scope="page" />`);
         expect(rootNode.children[0].children[0].children[0].getNumberOfChildren()).toEqual(0);
     });
 
@@ -230,7 +230,7 @@ describe(targetObjName, () => {
 
         expect(rootNode.getNumberOfChildren()).toEqual(2);
 
-        expect(htmlCommentNode.value).toEqual(`${Constants.EOL}<!--- make drop down -->`);
+        expect(htmlCommentNode.value).toEqual(`${Constants.EOL}<!-- make drop down -->`);
         expect(htmlCommentNode.lineNumber).toEqual(2);
         expect(htmlCommentNode.getNumberOfChildren()).toEqual(0);
 
@@ -285,7 +285,7 @@ describe(targetObjName, () => {
         expect(isifNode.lineNumber).toEqual(1);
         expect(isifNode.getNumberOfChildren()).toEqual(1);
 
-        expect(divNode.value).toEqual(`${Constants.EOL}    <div/>${Constants.EOL}`);
+        expect(divNode.value).toEqual(`${Constants.EOL}    <div/>`);
         expect(divNode.lineNumber).toEqual(2);
         expect(divNode.getNumberOfChildren()).toEqual(0);
     });
@@ -325,7 +325,7 @@ describe(targetObjName, () => {
         expect(hardcodeNode.lineNumber).toEqual(3);
         expect(hardcodeNode.getNumberOfChildren()).toEqual(0);
 
-        expect(isprintNode.value).toEqual(`<isprint value="\${Resource.msg('reorder.productdiscontinued','reorder',null)}" />${Constants.EOL}`);
+        expect(isprintNode.value).toEqual('<isprint value="${Resource.msg(\'reorder.productdiscontinued\',\'reorder\',null)}" />');
         expect(isprintNode.lineNumber).toEqual(4);
         expect(isprintNode.getNumberOfChildren()).toEqual(0);
     });
@@ -362,7 +362,7 @@ describe(targetObjName, () => {
         const rootNode  = getRootNodeFromTemplate(38);
         const issetNode = rootNode.children[0].children[0];
 
-        expect(issetNode.value).toEqual(`${Constants.EOL}    <isset name="isLowPrice" value="\${}" scope="page" />${Constants.EOL}`);
+        expect(issetNode.value).toEqual(`${Constants.EOL}    <isset name="isLowPrice" value="\${}" scope="page" />`);
     });
 
     it('accepts a hardcoded string as last element', () => {
@@ -400,16 +400,16 @@ describe(targetObjName, () => {
         const a3Node   = a2Node.children[0];
         const a4Node   = a3Node.children[0];
 
-        expect(a1Node.suffixValue).toEqual(`</a1>${Constants.EOL}`);
+        expect(a1Node.suffixValue).toEqual(`${Constants.EOL}</a1>${Constants.EOL}`);
         expect(a1Node.suffixGlobalPos).toEqual(47);
 
-        expect(a2Node.suffixValue).toEqual(`</a2>${Constants.EOL}`);
+        expect(a2Node.suffixValue).toEqual(`${Constants.EOL}</a2>`);
         expect(a2Node.suffixGlobalPos).toEqual(40);
 
-        expect(a3Node.suffixValue).toEqual(`</a3>${Constants.EOL}`);
+        expect(a3Node.suffixValue).toEqual(`${Constants.EOL}</a3>`);
         expect(a3Node.suffixGlobalPos).toEqual(33);
 
-        expect(a4Node.suffixValue).toEqual(`${Constants.EOL}${Constants.EOL}</a4>${Constants.EOL}`);
+        expect(a4Node.suffixValue).toEqual(`${Constants.EOL}${Constants.EOL}</a4>`);
         expect(a4Node.suffixGlobalPos).toEqual(26);
     });
 
@@ -420,16 +420,16 @@ describe(targetObjName, () => {
         const a3Node   = a2Node.children[0];
         const a4Node   = a3Node.children[0];
 
-        expect(a1Node.suffixValue).toEqual(`</a1>${Constants.EOL}`);
+        expect(a1Node.suffixValue).toEqual(`${Constants.EOL}</a1>${Constants.EOL}`);
         expect(a1Node.suffixLineNumber).toEqual(13);
 
-        expect(a2Node.suffixValue).toEqual(`</a2>${Constants.EOL}`);
+        expect(a2Node.suffixValue).toEqual(`${Constants.EOL}${Constants.EOL}</a2>`);
         expect(a2Node.suffixLineNumber).toEqual(12);
 
-        expect(a3Node.suffixValue).toEqual(`</a3>${Constants.EOL}${Constants.EOL}`);
+        expect(a3Node.suffixValue).toEqual(`${Constants.EOL}</a3>`);
         expect(a3Node.suffixLineNumber).toEqual(10);
 
-        expect(a4Node.suffixValue).toEqual(`${Constants.EOL}${Constants.EOL}${Constants.EOL}${Constants.EOL}</a4>${Constants.EOL}`);
+        expect(a4Node.suffixValue).toEqual(`${Constants.EOL}${Constants.EOL}${Constants.EOL}${Constants.EOL}</a4>`);
         expect(a4Node.suffixLineNumber).toEqual(9);
     });
 
@@ -447,7 +447,7 @@ describe(targetObjName, () => {
         const rootNode    = getRootNodeFromTemplate(43);
         const dynamicNode = rootNode.children[0];
 
-        expect(dynamicNode.suffixValue).toEqual('</${pdict.isForm === \'true\' ? \'form\' : \'div\'}>' + Constants.EOL);
+        expect(dynamicNode.suffixValue).toEqual(Constants.EOL + '</${pdict.isForm === \'true\' ? \'form\' : \'div\'}>' + Constants.EOL);
     });
 
     it('ignores opening comment strings within comments', () => {
@@ -458,7 +458,7 @@ describe(targetObjName, () => {
 
         expect(headNode.value).toEqual('<head>');
         expect(htmlComment0.value).toEqual(`${Constants.EOL}    <!--[if gt IE 9]><!-->`);
-        expect(htmlComment1.value).toEqual(`${Constants.EOL}    <!--<![endif]-->${Constants.EOL}`);
+        expect(htmlComment1.value).toEqual(`${Constants.EOL}    <!--<![endif]-->`);
     });
 
     it('allows an HTML element as first child of a parent node', () => {
@@ -468,8 +468,8 @@ describe(targetObjName, () => {
         const divNode      = rootNode.children[1];
         const htmlComment1 = divNode.children[0];
 
-        expect(htmlComment0.value).toEqual(`${Constants.EOL}    <!-- Comment 1 -->${Constants.EOL}`);
-        expect(htmlComment1.value).toEqual(`${Constants.EOL}    <!-- Comment 2 -->${Constants.EOL}`);
+        expect(htmlComment0.value).toEqual(`${Constants.EOL}    <!-- Comment 1 -->`);
+        expect(htmlComment1.value).toEqual(`${Constants.EOL}    <!-- Comment 2 -->`);
     });
 
     it('allows an ISML expression within HTML comment', () => {
@@ -483,7 +483,7 @@ describe(targetObjName, () => {
         const rootNode    = getRootNodeFromTemplate(47);
         const isprintNode = rootNode.children[0].children[0];
 
-        expect(isprintNode.value).toEqual(`${Constants.EOL}    <isprint value="\${pdict.response[pdict.serviceReply]['reasonCode']}">${Constants.EOL}`);
+        expect(isprintNode.value).toEqual(`${Constants.EOL}    <isprint value="\${pdict.response[pdict.serviceReply]['reasonCode']}">`);
     });
 
     it('allows unclosed <iscontent> tag', () => {

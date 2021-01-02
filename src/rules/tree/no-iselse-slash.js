@@ -19,7 +19,7 @@ Rule.getFixedContent = function(node) {
         const child = node.children[i];
 
         if (child.isOfType('iselse') || child.isOfType('iselseif')) {
-            const slashPos = MaskUtils.maskIgnorableContent(child.value).lastIndexOf('/');
+            const slashPos = MaskUtils.maskInBetween(child.value, '${', '}').lastIndexOf('/');
 
             if (slashPos !== -1) {
                 child.value = child.value.slice(0, slashPos) + child.value.slice(slashPos + 1);

@@ -1,13 +1,90 @@
+const fs              = require('fs');
 const IsmlNode        = require('./IsmlNode');
-const IsifTagParser   = require('./components/IsifTagParser');
-const StateUtils      = require('./components/StateUtils');
 const ParseUtils      = require('./components/ParseUtils');
 const MultiClauseNode = require('./MultiClauseNode');
 const ExceptionUtils  = require('../util/ExceptionUtils');
 const GeneralUtils    = require('../util/GeneralUtils');
-const MaskUtils       = require('./MaskUtils');
-const Constants       = require('../Constants');
-const fs              = require('fs');
+
+const parse = (content, templatePath) => {
+
+    const elementList = ParseUtils.getElementList(content, templatePath);
+    const rootNode    = new IsmlNode();
+    let currentParent = rootNode;
+
+    for (let i = 0; i < elementList.length; i++) {
+        const element = elementList[i];
+        const newNode = new IsmlNode(element.value, element.lineNumber, element.globalPos);
+        let containerNode;
+
+        // Container parsing;
+        if (element.tagType === 'isif' && !element.isClosingTag) {
+            containerNode = new MultiClauseNode();
+            currentParent.addChild(containerNode);
+            containerNode.addChild(newNode);
+            currentParent = newNode;
+            continue;
+
+        } else if (element.tagType === 'iselse' || element.tagType === 'iselseif') {
+            currentParent = currentParent.parent;
+            currentParent.addChild(newNode);
+            currentParent = newNode;
+            continue;
+
+        } else if (element.tagType === 'isif' && element.isClosingTag) {
+
+            if (!currentParent.isOfType('iselseif') &&
+                !currentParent.isOfType('iselse') &&
+                currentParent.getType() !== element.tagType
+            ) {
+                throw ExceptionUtils.unbalancedElementError(
+                    currentParent.getType(),
+                    currentParent.lineNumber,
+                    currentParent.globalPos,
+                    currentParent.value.trim().length,
+                    templatePath
+                );
+            }
+
+            currentParent.setSuffix(element.value, element.lineNumber, element.globalPos);
+            currentParent = currentParent.parent.parent;
+            continue;
+        }
+
+        // Other elements parsing;
+        if (element.isSelfClosing) {
+            currentParent.addChild(newNode);
+        } else if (!element.isClosingTag  && element.tagType !== 'isif') {
+            currentParent.addChild(newNode);
+
+            if (!element.isSelfClosing) {
+                currentParent = newNode;
+            }
+        } else if (element.isClosingTag) {
+
+            if (element.tagType === currentParent.getType()) {
+                currentParent.setSuffix(element.value, element.lineNumber, element.globalPos);
+            } else {
+                throw ExceptionUtils.unbalancedElementError(
+                    currentParent.getType(),
+                    currentParent.lineNumber,
+                    currentParent.globalPos,
+                    currentParent.value.trim().length,
+                    templatePath
+                );
+            }
+
+            currentParent = currentParent.parent;
+
+            if (element.tagType === 'isif' && element.isClosingTag) {
+                currentParent = currentParent.parent;
+            }
+        }
+    }
+
+    ParseUtils.checkBalance(rootNode, templatePath);
+
+    return rootNode;
+};
 
 const postProcess = (node, data = {}) => {
     for (let i = 0; i < node.children.length; i++) {
@@ -49,7 +126,7 @@ const build = (templatePath, content) => {
 
     try {
         const templateContent = GeneralUtils.toLF(content || fs.readFileSync(templatePath, 'utf-8'));
-        result.rootNode       = parse(templateContent, undefined, undefined, templatePath);
+        result.rootNode       = parse(templateContent, templatePath);
         result.data           = postProcess(result.rootNode);
 
     } catch (e) {
@@ -61,451 +138,6 @@ const build = (templatePath, content) => {
     }
 
     return result;
-};
-
-const parse = (content, parentState, parentNode = new IsmlNode(), templatePath) => {
-
-    const state = StateUtils.getInitialState(GeneralUtils.toLF(content), parentState, parentNode, templatePath);
-
-    for (let i = 0; i < content.length; i++) {
-        initializeLoopState(state, i);
-
-        if (!ParseUtils.shouldSkipIteration(state)) {
-            parseState(state);
-        }
-    }
-
-    parseRemainingContent(state);
-
-    return state.parentNode;
-};
-
-const initializeLoopState = (state, i) => {
-    updateStateWhetherItIsInsideExpression(state);
-
-    state.currentPos              = i;
-    state.currentChar             = state.content.charAt(state.currentPos);
-    state.currentElement.asString += state.currentChar;
-
-    if (ParseUtils.isWhite(state)) {
-        state.currentElement.startingLineNumber = state.currentLineNumber;
-    }
-
-    if (ParseUtils.isStopIgnoring(state)) {
-        state.ignoreUntil = null;
-
-        // TODO: There is probably a better way to handle deprecated ISML comments and HTML comments;
-        if (state.currentElement.asString.trim().startsWith('<!--')) {
-            state.currentElement.asString = state.currentChar;
-        }
-    }
-};
-
-const parseState = state => {
-    const currentElement     = state.currentElement.asString.trim();
-    const isHtmlComment      = currentElement.startsWith('<!--') && currentElement.endsWith('-->');
-    const isWithinExpression = currentElement.indexOf('${') >= 0 && currentElement.indexOf('}') === -1;
-    const isOpeningTagChar   = state.currentChar === '<' && !isWithinExpression;
-    const isClosingTagChar   = state.currentChar === '>' && !currentElement.startsWith('<!--') || isHtmlComment;
-
-    if (isOpeningTagChar && !currentElement.startsWith('<!--')) {
-        prepareStateForOpeningElement(state);
-    } else if (isClosingTagChar) {
-        createNodeForCurrentElement(state);
-    } else if (ParseUtils.isWhite(state) || currentElement.startsWith('<!--')) {
-        state.nonTagBuffer += state.currentChar;
-    } else if (state.content.substring(state.currentPos).startsWith('!-')) {
-        state.nonTagBuffer += '<!-';
-    }
-};
-
-const updateStateWhetherItIsInsideExpression = state => {
-    if (!ParseUtils.isWhite(state)) {
-        if (ParseUtils.isOpeningIsmlExpression(state) && !state.nonTagBuffer.trim().startsWith('<!--')) {
-            state.insideExpression = true;
-            state.ignoreUntil      = state.currentPos + state.content.substring(state.currentPos).indexOf('}');
-        } else if (ParseUtils.isClosingIsmlExpression(state)) {
-            state.insideExpression = false;
-        }
-    }
-};
-
-const createNode = oldState => {
-    const state = Object.assign({}, oldState);
-
-    updateStateLinesData(state);
-
-    const globalPos  = getCurrentElementGlobalPos(state, state.currentElement.asString);
-    const isIsifNode = ParseUtils.isCurrentElementIsifTag(state);
-    const node       = isIsifNode ?
-        new MultiClauseNode(state.currentElement.startingLineNumber, globalPos) :
-        new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber, globalPos);
-
-    state.parentNode.addChild(node);
-
-    if (node.isSelfClosing()) {
-        return null;
-    }
-
-    const innerParseResult    = parseNewNodeInnerContent(state);
-    const innerContentLastPos = innerParseResult.innerContentLastPosition;
-    const nodeInnerContent    = innerParseResult.content;
-    const suffixLineNumber    = innerParseResult.suffixLineNumber;
-    const suffixableNode      = isIsifNode ? node.getLastChild() : node;
-    const suffixValue         = state.closingElementsStack.pop().trim();
-
-    const multiClauseNodeRemainingContent = getMultiClauseRemainingContent(nodeInnerContent, suffixableNode);
-
-    let suffixGlobalPos = node.isMulticlause() ?
-        suffixableNode.globalPos + suffixableNode.value.trim().length + multiClauseNodeRemainingContent.length :
-        node.globalPos + node.value.trim().length + nodeInnerContent.length;
-
-    if (global.isWindows) {
-        suffixGlobalPos += node.isMulticlause() ?
-            ParseUtils.getLineBreakQty(multiClauseNodeRemainingContent) :
-            ParseUtils.getLineBreakQty(nodeInnerContent);
-    }
-
-    suffixableNode.setSuffix(suffixValue, suffixLineNumber, suffixGlobalPos);
-
-    return innerContentLastPos;
-};
-
-const getMultiClauseRemainingContent = (nodeInnerContent, suffixableNode) => {
-    const remainingContentStartingPos = nodeInnerContent.indexOf(suffixableNode.value) + suffixableNode.value.trim().length;
-
-    return nodeInnerContent.substring(remainingContentStartingPos);
-};
-
-const parseNewNodeInnerContent = state => {
-
-    const parentNode       = state.parentNode.newestChildNode;
-    const nodeInnerContent = ParseUtils.getInnerContent(state);
-    let remainingContent   = nodeInnerContent;
-
-    if (!ParseUtils.isNextElementATag(nodeInnerContent)) {
-        remainingContent = parseTextNode(state, nodeInnerContent);
-    }
-
-    if (remainingContent) {
-        if (ParseUtils.isCurrentElementIsifTag(state)) {
-            IsifTagParser.run(remainingContent, state);
-        } else {
-            parse(remainingContent, state, parentNode);
-        }
-    }
-
-    const currentLineNumber = getSuffixLineNumber(state);
-
-    return {
-        innerContentLastPosition : state.currentPos + nodeInnerContent.length,
-        suffixLineNumber         : currentLineNumber,
-        content                  : nodeInnerContent,
-    };
-};
-
-const getSuffixLineNumber = state => {
-    const closingTagStackCopy = [...state.closingElementsStack];
-    const elem                = closingTagStackCopy.pop();
-    const currentNode         = state.parentNode.getLastChild();
-
-    const innerContent             = ParseUtils.getInnerContent(state);
-    const nodeValueLineBreakQty    = ParseUtils.getLineBreakQty(currentNode.value.trim());
-    const innerContentLineBreakQty = ParseUtils.getLineBreakQty(innerContent);
-    const suffixLineNumber         = elem.indexOf('</isif>') !== -1 ?
-        state.currentLineNumber :
-        currentNode.lineNumber + nodeValueLineBreakQty + innerContentLineBreakQty;
-
-    return suffixLineNumber;
-};
-
-const createTextNodeFromMainLoop = state => {
-    if (state.nonTagBuffer && state.nonTagBuffer.replace(/\s/g, '').length) {
-        const expressionPos = state.nonTagBuffer.indexOf('${');
-
-        // TODO: Refactor this code;
-        if (expressionPos >= 0) {
-            const lineBreakQty   = ParseUtils.getPrecedingEmptyLinesQty(state.nonTagBuffer);
-            const textValue      = state.nonTagBuffer.substring(0, expressionPos);
-            const textLineNumber = state.currentLineNumber + lineBreakQty;
-
-            let textGlobalPos = state.parentNode.globalPos
-                + state.parentNode.toString().trimStart().length
-                + ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer);
-
-            const textTrailingContent = ParseUtils.getTrailingBlankContent({ value : textValue });
-            const midLineBreak        = ParseUtils.getLineBreakQty(textTrailingContent);
-
-            const expValue      = state.nonTagBuffer.substring(expressionPos);
-            const expLineNumber = state.currentLineNumber + lineBreakQty + midLineBreak;
-            let expGlobalPos    = textGlobalPos + textValue.trimStart().length;
-
-            if (global.isWindows) {
-                textGlobalPos += ParseUtils.getLeadingLineBreakQty(state.nonTagBuffer) + 1;
-                expGlobalPos  += ParseUtils.getLeadingLineBreakQty(state.nonTagBuffer) + 1;
-            }
-
-            const textNode       = new IsmlNode(textValue, textLineNumber, textGlobalPos);
-            const expressionNode = new IsmlNode(expValue, expLineNumber, expGlobalPos);
-
-            state.currentLineNumber                 += ParseUtils.getLineBreakQty(state.nonTagBuffer);
-            state.parentNode.addChild(textNode);
-            state.parentNode.addChild(expressionNode);
-            StateUtils.initializeCurrentElement(state);
-            state.currentElement.startingLineNumber = state.currentLineNumber;
-            state.currentElement.asString           = '<';
-            state.ignoreUntil                       += state.nonTagBuffer.length - 1;
-
-        } else {
-            const previousSiblingsContent = state.parentNode.toString();
-            const siblingsLength          = previousSiblingsContent.length;
-            const lineBreakQty            = ParseUtils.getPrecedingEmptyLinesQty(state.nonTagBuffer);
-            const localPos                = ParseUtils.getNextNonEmptyCharPos(state.nonTagBuffer);
-            const lineNumber              = state.currentLineNumber + lineBreakQty;
-            let globalPos                 = siblingsLength + localPos;
-
-            if (global.isWindows) {
-                globalPos += ParseUtils.getLeadingLineBreakQty(state.nonTagBuffer);
-            }
-
-            const node = new IsmlNode(state.nonTagBuffer, lineNumber, globalPos);
-
-            state.currentLineNumber                 += ParseUtils.getLineBreakQty(state.nonTagBuffer);
-            state.parentNode.addChild(node);
-            StateUtils.initializeCurrentElement(state);
-            state.currentElement.startingLineNumber = state.currentLineNumber;
-            state.currentElement.asString           = '<';
-            state.ignoreUntil                       += state.nonTagBuffer.length - 1;
-        }
-    }
-};
-
-// TODO This function needs serious refactoring;
-const createTextNodeFromInnerContent = (text, state, parentNode) => {
-    if (text) {
-        const hasExpression = text.indexOf('${') >= 0 && text.indexOf('}') >= 0 && text.indexOf('${') < text.indexOf('}');
-
-        if (hasExpression) {
-            if (text.trim().startsWith('${') && text.trim().endsWith('}')) {
-                const lineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
-                const globalPos  = getCurrentElementGlobalPos(state, text, parentNode);
-                const textNode   = new IsmlNode(text, lineNumber, globalPos);
-
-                state.currentLineNumber += ParseUtils.getLineBreakQty(text);
-
-                parentNode.addChild(textNode);
-            } else if (text.trim().startsWith('${')) {
-                const expValue  = text.substring(0, text.indexOf('}') + 1);
-                const textValue = text.substring(text.indexOf('}') + 1);
-
-                const lineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
-                const globalPos  = getCurrentElementGlobalPos(state, text, parentNode);
-                const expNode    = new IsmlNode(expValue, lineNumber, globalPos);
-
-                state.currentLineNumber += ParseUtils.getLineBreakQty(expValue.trimStart());
-
-                const textLineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
-                const textGlobalPos  = getCurrentElementGlobalPos(state, text, parentNode);
-                const textNode       = new IsmlNode(textValue, textLineNumber, textGlobalPos);
-
-                state.currentLineNumber += ParseUtils.getLineBreakQty(textValue.trimStart());
-
-                parentNode.addChild(expNode);
-                parentNode.addChild(textNode);
-            }
-
-        } else {
-            const lineNumber = state.currentLineNumber + ParseUtils.getPrecedingEmptyLinesQty(text);
-            const globalPos  = getCurrentElementGlobalPos(state, text, parentNode);
-            const textNode   = new IsmlNode(text, lineNumber, globalPos);
-
-            state.currentLineNumber += ParseUtils.getLineBreakQty(text);
-
-            parentNode.addChild(textNode);
-        }
-    }
-};
-
-const createNodeForCurrentElement = state => {
-    ParseUtils.lighten(state);
-
-    if (ParseUtils.isWhite(state)) {
-        const lineBreakQty = ParseUtils.getLineBreakQty(state.currentElement.asString);
-
-        state.currentLineNumber += lineBreakQty;
-
-        if (ParseUtils.isOpeningElem(state)) {
-            state.ignoreUntil = createNode(state);
-        }
-
-        StateUtils.initializeCurrentElement(state);
-    }
-};
-
-const prepareStateForOpeningElement = state => {
-    createTextNodeFromMainLoop(state);
-
-    if (ParseUtils.isWhite(state)) {
-        state.currentElement.initPosition = state.currentPos;
-    }
-
-    ParseUtils.darken(state);
-};
-
-const updateStateLinesData = state => {
-    const emptyLinesQty                     = ParseUtils.getPrecedingEmptyLinesQty(state.currentElement.asString);
-    state.currentElement.startingLineNumber += emptyLinesQty;
-
-    if (state.parentState && !state.node.isMulticlause()) {
-        state.parentState.currentElement.startingLineNumber += emptyLinesQty;
-    }
-};
-
-const parseRemainingContent = state => {
-    const trailingTextValue = state.nonTagBuffer;
-
-    if (trailingTextValue) {
-        if (trailingTextValue.trim()) {
-            const lineBreakQty = ParseUtils.getPrecedingEmptyLinesQty(trailingTextValue);
-            const lineNumber   = state.currentLineNumber + lineBreakQty;
-            let globalPos      = state.parentState ?
-                state.parentState.content.lastIndexOf(trailingTextValue.trim()) :
-                state.content.lastIndexOf(trailingTextValue.trim());
-
-            if (global.isWindows) {
-                if (state.parentState) {
-                    globalPos += 2;
-                } else {
-                    globalPos += ParseUtils.getLineBreakQty(state.content.substring(0, globalPos));
-                }
-            }
-
-            const node = new IsmlNode(trailingTextValue, lineNumber, globalPos);
-
-            state.parentNode.addChild(node);
-        } else {
-            let lastNode = state.parentNode.getLastChild() || state.parentNode;
-
-            if (lastNode.isMulticlause()) {
-                lastNode = lastNode.getLastChild();
-            }
-
-            lastNode.suffixValue ?
-                lastNode.suffixValue += trailingTextValue :
-                lastNode.value       += trailingTextValue ;
-        }
-    }
-};
-
-const parseTextNode = (state, nodeInnerContent) => {
-    const parentNode    = state.parentNode.newestChildNode;
-    let content         = nodeInnerContent;
-    let textNodeParent  = state.parentNode.newestChildNode;
-    const textNodeValue = getTextNodeValue(nodeInnerContent, content, parentNode);
-
-    if (parentNode.isMulticlause()) {
-        const node     = new IsmlNode(state.currentElement.asString, state.currentElement.startingLineNumber, parentNode.globalPos);
-        textNodeParent = node;
-        parentNode.addChild(node);
-    }
-
-    createTextNodeFromInnerContent(textNodeValue, state, textNodeParent);
-    content = content.substring(textNodeValue.length);
-
-    return content;
-};
-
-const getTextNodeValue = (nodeInnerContent, content, parentNode) => {
-    let textNodeValue = nodeInnerContent;
-
-    const maskedText                           = MaskUtils.maskIgnorableContent(textNodeValue);
-    const firstOpeningTagCharPos               = maskedText.indexOf('<');
-    const firstOpeningExpressionCharPos        = maskedText.indexOf('${');
-    const hasTextBeforeExpression              = !!content.substring(0, firstOpeningExpressionCharPos).trimStart();
-    const hasOpeningExpressionBeforeOpeningTag = firstOpeningTagCharPos === -1 || firstOpeningTagCharPos !== -1 && firstOpeningExpressionCharPos < firstOpeningTagCharPos;
-    const isTextFollowedByExpression           = firstOpeningExpressionCharPos >= 0 && hasOpeningExpressionBeforeOpeningTag && hasTextBeforeExpression;
-
-    if (isTextFollowedByExpression) {
-        textNodeValue = content.substring(0, firstOpeningExpressionCharPos) || textNodeValue;
-    } else if (ParseUtils.isNextElementAnIsmlExpression(content)) {
-        if (parentNode.isMulticlause()) {
-            textNodeValue = content.substring(0, firstOpeningTagCharPos) || textNodeValue;
-        } else {
-            const textNodeContent                  = content.substring(0, firstOpeningTagCharPos);
-            const lastEOLBeforeFirstOpeningCharPos = textNodeContent.lastIndexOf(Constants.EOL);
-
-            textNodeValue = content.substring(0, lastEOLBeforeFirstOpeningCharPos) || textNodeValue;
-        }
-    }
-    else if (!parentNode.isOfType(['iscomment', 'isscript'])) {
-        textNodeValue = maskedText.substring(0, firstOpeningTagCharPos) || textNodeValue;
-    }
-
-    return textNodeValue;
-};
-
-// TODO This function needs serious refactoring;
-const getCurrentElementGlobalPos = (state, element, parentNode) => {
-
-    const trimmedElement = element.trim();
-    let iterator         = state;
-    let rootState        = state;
-    let stateInitialPos  = 0;
-    let globalPos;
-
-    if (parentNode && !parentNode.isOfType('isscript')) {
-        while (rootState.parentState) {
-            rootState = rootState.parentState;
-        }
-
-        const remainingContent    = rootState.content.substring(parentNode.globalPos);
-        const leadingLineBreakQty = ParseUtils.getLeadingLineBreakQty(element);
-        const localPos            = remainingContent.indexOf(element.trim());
-
-        globalPos = parentNode.globalPos + localPos;
-
-        if (global.isWindows) {
-            globalPos += state.currentLineNumber + leadingLineBreakQty - 1;
-        }
-
-        return globalPos;
-    }
-
-    while (iterator.parentState) {
-        const currentStateInitialPos = iterator.parentState ? iterator.parentState.content.indexOf(iterator.content) : 0;
-
-        stateInitialPos += currentStateInitialPos;
-        rootState       = iterator;
-        iterator        = iterator.parentState;
-    }
-
-    const previousSiblingsContent = state.parentNode && state.parentNode.children[0] && state.parentNode.children[0].toString();
-    const siblingsContentLength   = previousSiblingsContent && previousSiblingsContent.length || 0;
-    const currentElementContent   = state.content.substring(siblingsContentLength);
-
-    globalPos = stateInitialPos + siblingsContentLength + currentElementContent.indexOf(trimmedElement);
-
-    if (global.isWindows) {
-        let offset = 0;
-
-        while (rootState.parentState) {
-            rootState = rootState.parentState;
-        }
-
-        if (parentNode && parentNode.isOfType('isscript')) {
-            const precedingContent = rootState.content.substring(0, rootState.content.indexOf(trimmedElement));
-            offset                 = ParseUtils.getLineBreakQty(precedingContent);
-
-        } else {
-            const elementLeadingLineBreakQty = ParseUtils.getLineBreakQty(element.trimStart());
-
-            offset = state.currentLineNumber - elementLeadingLineBreakQty - 1;
-        }
-
-        globalPos += offset;
-    }
-
-    return globalPos;
 };
 
 module.exports.build = build;

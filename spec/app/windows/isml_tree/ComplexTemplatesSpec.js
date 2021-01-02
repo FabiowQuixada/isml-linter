@@ -158,7 +158,7 @@ describe(targetObjName, () => {
         expect(phoneRowNode.lineNumber).toEqual(94);
         expect(phoneRowNode.getNumberOfChildren()).toEqual(2);
 
-        expect(tooltipMessageNode.value).toEqual(`${Constants.EOL}                    \${Resource.msg('tooltip.phone.number','creditCard',null)}${Constants.EOL}                `);
+        expect(tooltipMessageNode.value).toEqual(`${Constants.EOL}                    \${Resource.msg('tooltip.phone.number','creditCard',null)}`);
         expect(tooltipMessageNode.lineNumber).toEqual(119);
         expect(tooltipMessageNode.getNumberOfChildren()).toEqual(0);
     });
