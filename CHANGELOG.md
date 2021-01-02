@@ -1,5 +1,21 @@
 # Changelog
 
+## [5.30.0] - 2021-01-12
+
+### Changed
+ - Complete tree build redesign, Isml Linter now runs 40 times faster;
+ - Treat &lt;iscomment> tag children as plain text;
+ - ESLint indentation reporting;
+
+### Fixes
+ - "indent" rule;
+ - "max-depth" rule;
+ - Some occurrences length;
+ - autofix issue due to "enableCache" option;
+
+### Deprecated
+ - "enableCache" option;
+
 ## [5.29.2] - 2020-12-27
 
 ### Fixed
@@ -752,6 +768,7 @@
 ### Added
 - Linter is published;
 
+[5.30.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.29.2...v5.30.0
 [5.29.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.29.1...v5.29.2
 [5.29.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.29.0...v5.29.1
 [5.29.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.28.1...v5.29.0
