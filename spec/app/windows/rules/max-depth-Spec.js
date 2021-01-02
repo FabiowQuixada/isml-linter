@@ -28,4 +28,11 @@ describe(rule.id, () => {
 
         expect(occurrences.level).toEqual('warning');
     });
+
+    it('detects too-deeply-nested element length', () => {
+        const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+        const occurrence = result[0];
+
+        expect(occurrence.length).toEqual(288);
+    });
 });

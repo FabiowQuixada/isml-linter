@@ -19,7 +19,7 @@ describe(rule.id, () => {
         expect(result.line      ).toEqual(`<input${Constants.EOL}    type="text"${Constants.EOL}    class="form-control <isif condition="\${condition}">billingAddressCity</isif>"${Constants.EOL}    id="billingAddressCity"${Constants.EOL}    autocomplete="billing address-level2"/>`);
         expect(result.lineNumber).toEqual(1);
         expect(result.globalPos ).toEqual(0);
-        expect(result.length    ).toEqual(176);
+        expect(result.length    ).toEqual(180);
         expect(result.rule      ).toEqual(rule.id);
         expect(result.message   ).toEqual(rule.description);
     });

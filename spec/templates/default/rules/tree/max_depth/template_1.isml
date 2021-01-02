@@ -1,0 +1,26 @@
+<div>
+    <div>
+        <div>
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <div>
+                                <select>
+                                    <isloop items="${itemList}" var="item">
+                                        <option value="${item.value}"
+                                            data-abc="${item.abc}"
+                                            data-def="${item.def}"
+                                            ${item.selected ? 'selected' : ''}
+                                        >
+                                        </option>
+                                    </isloop>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

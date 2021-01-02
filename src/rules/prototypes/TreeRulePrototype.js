@@ -1,5 +1,6 @@
 const RulePrototype = require('./RulePrototype');
 const ConfigUtils   = require('../../util/ConfigUtils');
+const ParseUtils    = require('../../isml_tree/components/ParseUtils');
 
 const TreeRulePrototype = Object.create(RulePrototype);
 
@@ -15,11 +16,17 @@ TreeRulePrototype.check = function(node, result = { occurrences : [] }) {
     }
 
     if (this.isBroken(node)) {
+        let length = node.value.trim().length;
+
+        if (global.isWindows) {
+            length += ParseUtils.getLineBreakQty(node.value.trim());
+        }
+
         this.add(
             node.value.trim(),
             node.lineNumber - 1,
             node.globalPos,
-            node.value.trim().length
+            length
         );
     }
 
