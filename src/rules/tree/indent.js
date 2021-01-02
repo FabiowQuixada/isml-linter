@@ -228,58 +228,9 @@ const checkIfShouldAddIndentationToSuffix = node => {
     return shouldAdd;
 };
 
-/**
- * It might happen that spaces end up as trailing spaces of the previous
- * node instead of leading spaces of the current node. This case is handled here;
- */
-const getPreviousNodeTrailingSpacesQty = node => {
-    const previousSibling = node.getPreviousSibling();
-    let previousNode      = previousSibling && node.parent.isMulticlause() && previousSibling.getLastChild() ?
-        previousSibling.getLastChild() :
-        previousSibling;
-
-    if (previousNode && previousNode.isMulticlause()) {
-        previousNode = previousNode.getLastChild();
-    }
-
-    if (previousNode && previousNode.geTrailingValue().endsWith(' ')) {
-        const valueTrailingSpaces       = ParseUtils.getTrailingBlankContent(previousNode);
-        const suffixValueTrailingSpaces = ParseUtils.getSuffixTrailingBlankContent(previousNode);
-
-        return (suffixValueTrailingSpaces || valueTrailingSpaces).substring(1).length;
-    }
-
-    return 0;
-};
-
-/**
- * It might happen that spaces end up as trailing spaces of the last
- * child instead of leading spaces of the current node. This case is handled here;
- */
-const getLastChildTrailingSpacesQty = node => {
-    const lastChild    = node.getLastChild();
-
-    if (!lastChild) {
-        return 0;
-    }
-
-    const previousNode = lastChild && node.parent.isMulticlause() && lastChild.getLastChild() ?
-        lastChild.getLastChild() :
-        lastChild;
-
-    if (previousNode && previousNode.geTrailingValue().endsWith(' ')) {
-        const valueTrailingSpaces       = ParseUtils.getTrailingBlankContent(previousNode);
-        const suffixValueTrailingSpaces = ParseUtils.getSuffixTrailingBlankContent(previousNode);
-
-        return (suffixValueTrailingSpaces || valueTrailingSpaces).substring(1).length;
-    }
-
-    return 0;
-};
-
 const getOccurrenceDescription      = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;
 const getExpectedIndentation        = (node, configIndentSize) => (node.depth - 1) * configIndentSize;
-const getActualIndentation          = node => node.getIndentationSize()       + getPreviousNodeTrailingSpacesQty(node);
-const getActualIndentationForSuffix = node => node.getSuffixIndentationSize() + getLastChildTrailingSpacesQty(node);
+const getActualIndentation          = node => node.getIndentationSize();
+const getActualIndentationForSuffix = node => node.getSuffixIndentationSize();
 
 module.exports = Rule;

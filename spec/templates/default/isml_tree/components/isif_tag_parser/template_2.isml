@@ -1,7 +1,0 @@
-<isif condition="${first}">
-    <hey/>
-<iselseif condition="${second}">    
-    <ho/>
-<iselse>
-    <letsgo/>
-</isif>

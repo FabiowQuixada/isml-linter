@@ -1,5 +1,0 @@
-<isif condition="${true}">
-    <hey/>
-<iselse>
-    <ho/>
-</isif>
