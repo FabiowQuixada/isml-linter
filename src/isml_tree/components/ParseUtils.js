@@ -58,6 +58,71 @@ const checkBalance = (node, templatePath) => {
     }
 };
 
+const parseNextElement = state => {
+    const newElement = getNewElement(state);
+    processLeadingHardCodedTexts(state, newElement);
+
+    const trimmedElement = newElement.value.trim();
+
+    trimmedElement.startsWith('<') || trimmedElement.startsWith('${') ?
+        parseTagOrExpressionElement(state, newElement) :
+        parseTextElement(state, newElement);
+
+    if (global.isWindows) {
+        newElement.globalPos += newElement.lineNumber - 1;
+    }
+
+    state.elementList.push(newElement);
+
+    return newElement;
+};
+
+const processLeadingHardCodedTexts = (state, newElement) => {
+    if (state.remainingShadowContent.substring(0, state.nextOpeningTagOrExpressionInitPos - 1).trim().length > 0) {
+        state.cutSpot = state.remainingShadowContent.substring(0, state.nextOpeningTagOrExpressionInitPos - 1).length;
+
+        state.nextClosingTagOrExpressionEndPos = state.nextOpeningTagOrExpressionInitPos;
+        newElement.value                       = state.remainingContent.substring(0, state.cutSpot);
+
+        state.remainingShadowContent = state.remainingShadowContent.substring(state.cutSpot);
+        state.remainingContent       = state.remainingContent.substring(state.cutSpot);
+        state.pastContent            = state.originalContent.substring(0, state.pastContent.length + state.cutSpot);
+    }
+};
+
+const parseTagOrExpressionElement = (state, newElement) => {
+    const trimmedElement      = newElement.value.trim();
+    const isTag               = trimmedElement.startsWith('<') && !trimmedElement.startsWith('<!--');
+    const isExpression        = trimmedElement.startsWith('${');
+    const isHtmlOrIsmlComment = trimmedElement.startsWith('<!--');
+
+    newElement.value = state.remainingContent.substring(0, state.nextClosingTagOrExpressionEndPos);
+
+    // html comment, isml comment?
+    newElement.type = isTag ? trimmedElement.startsWith('<is') || trimmedElement.startsWith('</is') ? 'ismlTag' : 'htmlTag' :
+        isHtmlOrIsmlComment ? 'htmlOrIsmlComment' :
+            isExpression ? 'expression' :
+                'text';
+
+    if (isTag) {
+        newElement.tagType = getElementType(trimmedElement);
+    }
+
+    newElement.isSelfClosing = isSelfClosing(trimmedElement);
+
+    newElement.isClosingTag = isTag && trimmedElement.startsWith('</');
+    newElement.lineNumber   = getLineBreakQty(state.pastContent) + getLeadingLineBreakQty(newElement.value) + 1;
+    newElement.globalPos    = state.pastContent.length + getLeadingEmptyChars(newElement.value).length;
+};
+
+const parseTextElement = (state, newElement) => {
+    newElement.type          = 'text';
+    newElement.lineNumber    = getLineBreakQty(state.pastContent.substring(0, state.pastContent.length - state.cutSpot))
+        + getLeadingLineBreakQty(newElement.value) + 1;
+    newElement.globalPos     = state.pastContent.length - state.cutSpot + getLeadingEmptyChars(newElement.value).length;
+    newElement.isSelfClosing = true;
+};
+
 const getElementType = trimmedElement => {
     if (trimmedElement.startsWith('</')) {
         const suffixElementType = trimmedElement.slice(2, -1);
@@ -84,7 +149,6 @@ const getElementType = trimmedElement => {
         return elementType;
     }
 };
-
 
 function isSelfClosing(trimmedElement) {
     const ConfigUtils = require('../../util/ConfigUtils');
@@ -116,108 +180,60 @@ function isSelfClosing(trimmedElement) {
         isIsmlTag && isSfccSelfClosingTag;
 }
 
+const getNextOpeningTagOrExpressionInitPos = content => {
+    return Math.min(...[
+        content.indexOf('<'),
+        content.indexOf('<--'),
+        content.indexOf('${')
+    ].filter(j => j !== -1)) + 1;
+};
 
-const getElementList = (templateContent, templatePath) => {
+const getNextClosingTagOrExpressionEndPos = content => {
+    return Math.min(...[
+        content.indexOf('>'),
+        content.indexOf('-->'),
+        content.indexOf('}')
+    ].filter(j => j !== -1)) + 1;
+};
 
+const getInitialState = (templateContent, templatePath) => {
     const originalContent       = GeneralUtils.toLF(templateContent);
     const originalShadowContent = MaskUtils.maskIgnorableContent(originalContent, null, templatePath);
-    const elementList           = [];
-    let remainingContent        = originalContent;
-    let remainingShadowContent  = originalShadowContent;
-    let pastContent             = '';
 
-    do {
-        const nextOpeningTagOrExpressionInitPos = Math.min(...[
-            remainingShadowContent.indexOf('<'),
-            remainingShadowContent.indexOf('<--'),
-            remainingShadowContent.indexOf('${')
-        ].filter(j => j !== -1)) + 1;
+    return {
+        originalContent        : originalContent,
+        originalShadowContent  : originalShadowContent,
+        remainingContent       : originalContent,
+        remainingShadowContent : originalShadowContent,
+        pastContent            : '',
+        elementList            : [],
+        cutSpot                : null
+    };
+};
 
-        let nextClosingTagOrExpressionEndPos = Math.min(...[
-            remainingShadowContent.indexOf('>'),
-            remainingShadowContent.indexOf('-->'),
-            remainingShadowContent.indexOf('}')
-        ].filter(j => j !== -1)) + 1;
+const initLoopState = state => {
+    state.nextOpeningTagOrExpressionInitPos = getNextOpeningTagOrExpressionInitPos(state.remainingShadowContent);
+    state.nextClosingTagOrExpressionEndPos  = getNextClosingTagOrExpressionEndPos(state.remainingShadowContent);
+    state.cutSpot                           = null;
+};
 
-        let elementValue = remainingContent.substring(0, nextClosingTagOrExpressionEndPos);
-        let elementType;
-        let elementGlobalPos;
-        let elementLineNumber;
-        let isElementSelfClosing;
-        let isClosingTag;
-        let tagType;
-        let cutSpot      = null;
+const finishLoopState = state => {
+    const newElement = state.elementList[state.elementList.length - 1];
 
-        // If there is any leading hard coded text;
-        if (remainingShadowContent.substring(0, nextOpeningTagOrExpressionInitPos - 1).trim().length > 0) {
-            cutSpot = remainingShadowContent.substring(0, nextOpeningTagOrExpressionInitPos - 1).length;
+    // If there is no element left (only blank spaces and / or line breaks);
+    if (!isFinite(state.nextClosingTagOrExpressionEndPos)) {
+        state.nextClosingTagOrExpressionEndPos = state.remainingShadowContent.length - 1;
+    }
 
-            nextClosingTagOrExpressionEndPos = nextOpeningTagOrExpressionInitPos;
-            elementValue                     = remainingContent.substring(0, cutSpot);
+    if (!state.cutSpot) {
+        state.remainingShadowContent = state.remainingShadowContent.substring(newElement.value.length);
+        state.remainingContent       = state.remainingContent.substring(newElement.value.length);
+        state.pastContent            = state.originalContent.substring(0, state.pastContent.length + newElement.value.length);
+    }
+};
 
-            remainingShadowContent = remainingShadowContent.substring(cutSpot);
-            remainingContent       = remainingContent.substring(cutSpot);
-            pastContent            = originalContent.substring(0, pastContent.length + cutSpot);
-        }
-
-        // If there is no element left (only blank spaces and / or line breaks);
-        if (!isFinite(nextClosingTagOrExpressionEndPos)) {
-            nextClosingTagOrExpressionEndPos = remainingShadowContent.length - 1;
-        }
-
-        const trimmedElement = elementValue.trim();
-
-        if (trimmedElement.startsWith('<') || trimmedElement.startsWith('${')) {
-            const isTag               = trimmedElement.startsWith('<') && !trimmedElement.startsWith('<!--');
-            const isExpression        = trimmedElement.startsWith('${');
-            const isHtmlOrIsmlComment = trimmedElement.startsWith('<!--');
-
-            elementValue = remainingContent.substring(0, nextClosingTagOrExpressionEndPos);
-
-            // html comment, isml comment?
-            elementType = isTag ? trimmedElement.startsWith('<is') || trimmedElement.startsWith('</is') ? 'ismlTag' : 'htmlTag' :
-                isHtmlOrIsmlComment ? 'htmlOrIsmlComment' :
-                    isExpression ? 'expression' :
-                        'text';
-
-            if (isTag) {
-                tagType = getElementType(trimmedElement);
-            }
-
-            isElementSelfClosing = isSelfClosing(trimmedElement);
-
-            isClosingTag      = isTag && trimmedElement.startsWith('</');
-            elementLineNumber = getLineBreakQty(pastContent) + getLeadingLineBreakQty(elementValue) + 1;
-            elementGlobalPos  = pastContent.length + getLeadingEmptyChars(elementValue).length;
-        } else {
-            elementType          = 'text';
-            elementLineNumber    = getLineBreakQty(pastContent.substring(0, pastContent.length - cutSpot))
-                + getLeadingLineBreakQty(elementValue) + 1;
-            elementGlobalPos     = pastContent.length - cutSpot + getLeadingEmptyChars(elementValue).length;
-            isElementSelfClosing = true;
-        }
-
-        if (global.isWindows) {
-            elementGlobalPos += elementLineNumber - 1;
-        }
-
-        elementList.push({
-            value         : elementValue,
-            type          : elementType,
-            globalPos     : elementGlobalPos,
-            lineNumber    : elementLineNumber,
-            isSelfClosing : isElementSelfClosing,
-            isClosingTag  : isClosingTag,
-            tagType       : tagType
-        });
-
-        if (!cutSpot) {
-            remainingShadowContent = remainingShadowContent.substring(elementValue.length);
-            remainingContent       = remainingContent.substring(elementValue.length);
-            pastContent            = originalContent.substring(0, pastContent.length + elementValue.length);
-        }
-    } while (remainingShadowContent.length > 0);
-
+const mergeTrailingSpacesWithLastElement = state => {
+    const elementList       = state.elementList;
     const lastElement       = elementList[elementList.length - 1];
     const secondLastElement = elementList[elementList.length - 2];
 
@@ -225,6 +241,32 @@ const getElementList = (templateContent, templatePath) => {
         secondLastElement.value += lastElement.value;
         elementList.pop();
     }
+};
+
+const getNewElement = state => {
+    return {
+        value         : state.remainingContent.substring(0, state.nextClosingTagOrExpressionEndPos),
+        type          : undefined,
+        globalPos     : undefined,
+        lineNumber    : undefined,
+        isSelfClosing : undefined,
+        isClosingTag  : undefined,
+        tagType       : undefined
+    };
+};
+
+const getElementList = (templateContent, templatePath) => {
+
+    const state       = getInitialState(templateContent, templatePath);
+    const elementList = state.elementList;
+
+    do {
+        initLoopState(state);
+        parseNextElement(state);
+        finishLoopState(state);
+    } while (state.remainingShadowContent.length > 0);
+
+    mergeTrailingSpacesWithLastElement(state);
 
     return elementList;
 };
