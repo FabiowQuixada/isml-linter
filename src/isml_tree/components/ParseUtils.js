@@ -4,6 +4,7 @@
  * simply analyze it and return relevant information;
  */
 
+const path           = require('path');
 const Constants      = require('../../Constants');
 const ExceptionUtils = require('../../util/ExceptionUtils');
 const SfccTags       = require('../../enums/SfccTags');
@@ -215,6 +216,8 @@ const getInitialState = (templateContent, templatePath) => {
     const originalShadowContent = MaskUtils.maskIgnorableContent(originalContent, null, templatePath);
 
     return {
+        templatePath           : templatePath,
+        templateName           : path.basename(templatePath),
         originalContent        : originalContent,
         originalShadowContent  : originalShadowContent,
         remainingContent       : originalContent,
