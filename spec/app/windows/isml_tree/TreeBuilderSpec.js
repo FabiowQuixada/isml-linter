@@ -602,6 +602,15 @@ describe(targetObjName, () => {
         expect(expNode.lineNumber).toEqual(2);
         expect(brNode.lineNumber).toEqual(2);
     });
+
+    it('interprets a tag inside an <iscomment> tag as plain text', () => {
+        const rootNode      = getRootNodeFromTemplate(62);
+        const iscommentNode = rootNode.children[0];
+        const textNode      = iscommentNode.children[0];
+
+        expect(textNode.value).toEqual(' <isif condition="${aCondition}"> ');
+        expect(textNode.getType()).toEqual('text');
+    });
 });
 
 const getTemplatePath = number => {

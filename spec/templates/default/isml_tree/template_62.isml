@@ -1,0 +1,3 @@
+<iscomment> <isif condition="${aCondition}"> </iscomment>
+<div/>
+<iscomment> </isif> </iscomment>

@@ -39,6 +39,10 @@ class IsmlNode {
 
     // Returns a string. Examples: 'div', 'isprint', 'doctype';
     getType() {
+        if (this.parent && this.parent.isOfType('iscomment')) {
+            return 'text';
+        }
+
         const value = this.value.trim();
 
         if (value.startsWith('<!--')) {

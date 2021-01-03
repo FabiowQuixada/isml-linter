@@ -47,6 +47,7 @@ const checkBalance = (node, templatePath) => {
         node.parent && !node.parent.isMulticlause() &&
         (node.isHtmlTag() || node.isIsmlTag()) &&
         !node.isSelfClosing() && !node.suffixValue
+        && !node.parent.isOfType('iscomment')
     ) {
         throw ExceptionUtils.unbalancedElementError(
             node.getType(),
@@ -62,11 +63,24 @@ const parseNextElement = state => {
     const newElement = getNewElement(state);
     processLeadingHardCodedTexts(state, newElement);
 
-    const trimmedElement = newElement.value.trim();
+    const trimmedElement  = newElement.value.trim();
+    const previousElement = state.elementList[state.elementList.length - 1] || {};
 
-    trimmedElement.startsWith('<') || trimmedElement.startsWith('${') ?
-        parseTagOrExpressionElement(state, newElement) :
-        parseTextElement(state, newElement);
+    if (previousElement.tagType === 'iscomment' && !previousElement.isClosingTag && trimmedElement !== '</iscomment>') {
+        newElement.lineNumber    = getLineBreakQty(state.pastContent) + getLeadingLineBreakQty(newElement.value) + 1;
+        newElement.globalPos     = state.pastContent.length - newElement.value.length + getLeadingEmptyChars(newElement.value).length;
+        newElement.type          = 'text';
+        newElement.isSelfClosing = true;
+
+        // TODO: Maybe there is a better way of checking this?
+        if (global.isWindows) {
+            newElement.globalPos -= getLineBreakQty(newElement.value);
+        }
+    } else {
+        trimmedElement.startsWith('<') || trimmedElement.startsWith('${') ?
+            parseTagOrExpressionElement(state, newElement) :
+            parseTextElement(state, newElement);
+    }
 
     if (global.isWindows) {
         newElement.globalPos += newElement.lineNumber - 1;
@@ -244,8 +258,20 @@ const mergeTrailingSpacesWithLastElement = state => {
 };
 
 const getNewElement = state => {
+    let lastContiguousMaskedCharPos;
+    for (let i = 0; i < state.remainingShadowContent.length; i++) {
+        if (state.remainingShadowContent[i] !== '_') {
+            lastContiguousMaskedCharPos = i;
+            break;
+        }
+    }
+
+    const elementValue = state.remainingShadowContent.startsWith('_') ?
+        state.remainingContent.substring(0, lastContiguousMaskedCharPos) :
+        state.remainingContent.substring(0, state.nextClosingTagOrExpressionEndPos);
+
     return {
-        value         : state.remainingContent.substring(0, state.nextClosingTagOrExpressionEndPos),
+        value         : elementValue,
         type          : undefined,
         globalPos     : undefined,
         lineNumber    : undefined,
