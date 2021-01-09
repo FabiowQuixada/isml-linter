@@ -14,27 +14,36 @@ let isscriptContentArray = [];
 
 Rule.init(ruleId, description);
 
-Rule.addError = function(node, error, ismlIndentation, linter) {
+Rule.addError = function(node, eslintError, ismlOffset, linter) {
     const errorLine = linter.getSourceCode() ?
-        linter.getSourceCode().lines[error.line - 1] :
-        node.value.split('\n')[error.line - 1];
+        linter.getSourceCode().lines[eslintError.line - 1] :
+        node.value.split('\n')[eslintError.line - 1];
 
     const duplicatedOffset = ParseUtils.getNextNonEmptyCharPos(node.value);
     const errorLocalPos    = node.value.indexOf(errorLine.trimStart()) - duplicatedOffset;
     let errorGlobalPos     = node.globalPos;
+    let length             = errorLine.trimStart().length;
+    let message;
 
-    if (global.isWindows) {
-        errorGlobalPos += errorLocalPos + error.line - 2;
+    errorGlobalPos += global.isWindows ?
+        errorLocalPos + eslintError.line - 2 :
+        node.value.trimStart().indexOf(errorLine.trimStart());
+
+    if (eslintError.ruleId === 'indent') {
+        length         = getIndentErrorLength(eslintError, ismlOffset);
+        message        = getIsmlIdentMessage(eslintError, ismlOffset);
+        errorGlobalPos -= length;
+
     } else {
-        errorGlobalPos += node.value.trimStart().indexOf(errorLine.trimStart());
+        message = eslintError.message;
     }
 
     this.add(
-        ismlIndentation + errorLine,
-        node.lineNumber + error.line - 3,
+        ismlOffset + errorLine,
+        node.lineNumber + eslintError.line - 3,
         errorGlobalPos,
-        errorLine.trimStart().length,
-        error.message
+        length,
+        message
     );
 };
 
@@ -149,6 +158,21 @@ const getIsmlOffset = node => {
     }
 
     return ismlIndentation;
+};
+
+const getIndentErrorLength = (eslintError, ismlOffset) => {
+    const messageWordList = eslintError.message.split(' ');
+
+    return Number(messageWordList[7].slice(0, -1)) + ismlOffset.length;
+};
+
+const getIsmlIdentMessage = (eslintError, ismlOffset) => {
+    const messageWordList = eslintError.message.split(' ');
+
+    messageWordList[3] = Number(messageWordList[3]) + ismlOffset.length;
+    messageWordList[7] = Number(messageWordList[7].slice(0, -1)) + ismlOffset.length + '.';
+
+    return messageWordList.join(' ');
 };
 
 module.exports = Rule;

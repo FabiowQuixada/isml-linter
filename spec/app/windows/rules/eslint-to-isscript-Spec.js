@@ -46,10 +46,10 @@ describe(rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('           disabledAttr = \' disabled="disabled"\';  ');
         expect(firstOccurrence.lineNumber).toEqual(12);
-        expect(firstOccurrence.globalPos ).toEqual(487);
-        expect(firstOccurrence.length    ).toEqual(40);
+        expect(firstOccurrence.globalPos ).toEqual(476);
+        expect(firstOccurrence.length    ).toEqual(11);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual('Expected indentation of 8 spaces but found 7.');
+        expect(firstOccurrence.message   ).toEqual('Expected indentation of 12 spaces but found 11.');
     });
 
     it('identifies a simple eslint "var" occurrence', () => {
@@ -129,17 +129,17 @@ describe(rule.id, () => {
 
         expect(firstOccurrence.line      ).toEqual('      const variableOne = 1;');
         expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(18);
-        expect(firstOccurrence.length    ).toEqual(22);
+        expect(firstOccurrence.globalPos ).toEqual(12);
+        expect(firstOccurrence.length    ).toEqual(6);
         expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual('Expected indentation of 0 spaces but found 2.');
+        expect(firstOccurrence.message   ).toEqual('Expected indentation of 4 spaces but found 6.');
 
         expect(secondOccurrence.line      ).toEqual('       const variableTwo = 2;');
         expect(secondOccurrence.lineNumber).toEqual(3);
-        expect(secondOccurrence.globalPos ).toEqual(49);
-        expect(secondOccurrence.length    ).toEqual(22);
+        expect(secondOccurrence.globalPos ).toEqual(42);
+        expect(secondOccurrence.length    ).toEqual(7);
         expect(secondOccurrence.rule      ).toEqual(rule.id);
-        expect(secondOccurrence.message   ).toEqual('Expected indentation of 0 spaces but found 3.');
+        expect(secondOccurrence.message   ).toEqual('Expected indentation of 4 spaces but found 7.');
     });
 
     it('fixes a simple template', () => {
