@@ -123,6 +123,26 @@ describe('On Unix, ' + rule.id, () => {
         expect(firstOccurrence.message   ).toEqual('Parsing error: Unexpected token variableTwo');
     });
 
+    it('identifies eslint indentation issues', () => {
+        const result           = SpecHelper.parseAndApplyRuleToTemplate(rule, 8);
+        const firstOccurrence  = result[0];
+        const secondOccurrence = result[1];
+
+        expect(firstOccurrence.line      ).toEqual('      const variableOne = 1;');
+        expect(firstOccurrence.lineNumber).toEqual(2);
+        expect(firstOccurrence.globalPos ).toEqual(17);
+        expect(firstOccurrence.length    ).toEqual(22);
+        expect(firstOccurrence.rule      ).toEqual(rule.id);
+        expect(firstOccurrence.message   ).toEqual('Expected indentation of 0 spaces but found 2.');
+
+        expect(secondOccurrence.line      ).toEqual('       const variableTwo = 2;');
+        expect(secondOccurrence.lineNumber).toEqual(3);
+        expect(secondOccurrence.globalPos ).toEqual(47);
+        expect(secondOccurrence.length    ).toEqual(22);
+        expect(secondOccurrence.rule      ).toEqual(rule.id);
+        expect(secondOccurrence.message   ).toEqual('Expected indentation of 0 spaces but found 3.');
+    });
+
     it('fixes a simple template', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 0);
 

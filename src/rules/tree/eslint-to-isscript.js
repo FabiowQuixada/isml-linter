@@ -67,14 +67,14 @@ Rule.check = function(node) {
             const jsContentNode = isscriptContentArray[index];
             let content         = jsContentNode.value;
 
-            const ismlIndentation = getIndentation(content);
+            const ismlOffset = getIsmlOffset(jsContentNode);
 
-            content = unindent(content, ismlIndentation.length);
+            content = unindent(content, ismlOffset.length);
 
             const errorArray = linter.verify(content, eslintConfig);
 
             for (let i = 0; i < errorArray.length; i++) {
-                this.addError(jsContentNode, errorArray[i], ismlIndentation, linter);
+                this.addError(jsContentNode, errorArray[i], ismlOffset, linter);
             }
         }
 
@@ -99,16 +99,16 @@ Rule.getFixedContent = function(node) {
     }
 
     if (node.isIsscriptContent()) {
-        const Linter          = require('eslint').Linter;
-        const linter          = new Linter();
-        let content           = node.value;
-        const ismlIndentation = getIndentation(content);
+        const Linter     = require('eslint').Linter;
+        const linter     = new Linter();
+        let content      = node.value;
+        const ismlOffset = getIsmlOffset(node);
 
         this.result.fixedContent = content = linter.verifyAndFix(content, eslintConfig).output;
 
-        content = reindent(content, ismlIndentation);
+        content = reindent(content, ismlOffset);
 
-        node.value = content + ismlIndentation.substring(4);
+        node.value = content + ismlOffset.substring(4);
     }
 
     return GeneralUtils.applyActiveLinebreaks(node.toString());
@@ -140,9 +140,8 @@ const reindent = (content, ismlIndentation) => {
     return result.join(Constants.EOL);
 };
 
-const getIndentation = content => {
-    const tempContent   = content.substring(1);
-    const indentSize    = ParseUtils.getNextNonEmptyCharPos(tempContent);
+const getIsmlOffset = node => {
+    const indentSize    = (node.depth - 1) * 4;
     let ismlIndentation = '';
 
     for (let i = 0; i < indentSize; i = i + 1) {
