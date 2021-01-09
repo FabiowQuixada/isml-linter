@@ -183,7 +183,9 @@ const setLocalEslintConfig = () => {
     try {
         if (configData && configData.eslintConfig) {
             if (FileUtils.fileExists(configData.eslintConfig)) {
-                eslintConfigData = require(path.join(Constants.clientAppDir, configData.eslintConfig));
+                eslintConfigData = path.isAbsolute(configData.eslintConfig) ?
+                    require(configData.eslintConfig) :
+                    require(path.join(Constants.clientAppDir, configData.eslintConfig));
             }
         } else {
             for (let i = 0; i < Constants.eslintConfigFilePathList.length; i++) {
