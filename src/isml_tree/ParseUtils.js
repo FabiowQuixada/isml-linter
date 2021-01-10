@@ -45,7 +45,7 @@ const checkBalance = (node, templatePath) => {
     }
 
     if (!node.isRoot() &&
-        node.parent && !node.parent.isMulticlause() &&
+        node.parent && !node.parent.isContainer() &&
         (node.isHtmlTag() || node.isIsmlTag()) &&
         !node.isSelfClosing() && !node.suffixValue
         && !node.parent.isOfType('iscomment')

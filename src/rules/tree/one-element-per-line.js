@@ -27,7 +27,7 @@ Rule.isBroken = function(node) {
     }
 
     return !node.isRoot() &&
-        !node.parent.isMulticlause() &&
+        !node.parent.isContainer() &&
         node.lineNumber === node.parent.lineNumber;
 };
 

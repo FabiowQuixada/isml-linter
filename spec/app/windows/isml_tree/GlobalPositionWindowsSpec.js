@@ -121,21 +121,21 @@ describe('Global Position on Windows', () => {
     });
 
     it('XI', () => {
-        const rootNode        = parseTemplate(8);
-        const multiclauseNode = rootNode.children[0];
-        const iselseNode      = multiclauseNode.children[1];
-        const divNode         = iselseNode.children[0];
+        const rootNode      = parseTemplate(8);
+        const containerNode = rootNode.children[0];
+        const iselseNode    = containerNode.children[1];
+        const divNode       = iselseNode.children[0];
 
         expect(iselseNode.globalPos).toEqual(39);
         expect(divNode.globalPos   ).toEqual(53);
     });
 
     it('XII', () => {
-        const rootNode        = parseTemplate(9);
-        const multiclauseNode = rootNode.children[0];
-        const isifNode        = multiclauseNode.children[0];
-        const iselseNode      = multiclauseNode.children[1];
-        const divNode         = iselseNode.children[0];
+        const rootNode      = parseTemplate(9);
+        const containerNode = rootNode.children[0];
+        const isifNode      = containerNode.children[0];
+        const iselseNode    = containerNode.children[1];
+        const divNode       = iselseNode.children[0];
 
         expect(isifNode.globalPos  ).toEqual( 4);
         expect(iselseNode.globalPos).toEqual(47);
@@ -143,10 +143,10 @@ describe('Global Position on Windows', () => {
     });
 
     it('XIII', () => {
-        const rootNode        = parseTemplate(10);
-        const multiclauseNode = rootNode.children[0];
-        const iselseNode      = multiclauseNode.children[1];
-        const expNode         = iselseNode.children[0];
+        const rootNode      = parseTemplate(10);
+        const containerNode = rootNode.children[0];
+        const iselseNode    = containerNode.children[1];
+        const expNode       = iselseNode.children[0];
 
         expect(expNode.globalPos).toEqual(55);
     });

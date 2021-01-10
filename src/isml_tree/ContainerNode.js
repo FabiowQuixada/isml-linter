@@ -1,6 +1,7 @@
 const IsmlNode = require('./IsmlNode');
+
 /**
- * This is container node that holds values for multiclause tags, such as
+ * This is container node that holds values for multi-clause tags, such as
  * an <isif> ... <iselseif> ... </isif> chain.
  *
  * It is not printed when the isml dom tree is printed;
@@ -8,16 +9,16 @@ const IsmlNode = require('./IsmlNode');
  * It is used ONLY to hold <isif>, <iselse>, <iselseif> nodes together;
  */
 
-class MultiClauseNode extends IsmlNode {
+class ContainerNode extends IsmlNode {
 
     constructor(lineNumber, globalPos) {
         super();
-        this.value      = '(Multiclause node)';
+        this.value      = '(Container node)';
         this.lineNumber = lineNumber;
         this.globalPos  = globalPos;
     }
 
-    isMulticlause() { return true; }
+    isContainer() { return true; }
 
     addChild(clause) {
         clause.depth         = this.depth;
@@ -34,4 +35,4 @@ class MultiClauseNode extends IsmlNode {
     }
 }
 
-module.exports = MultiClauseNode;
+module.exports = ContainerNode;

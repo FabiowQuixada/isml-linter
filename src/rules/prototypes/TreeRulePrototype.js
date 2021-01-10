@@ -42,7 +42,7 @@ TreeRulePrototype.check = function(node, result = { occurrences : [] }) {
 
 TreeRulePrototype.fix = function(stream = '') {
 
-    if (!this.isRoot() && !this.isMulticlause()) {
+    if (!this.isRoot() && !this.isContainer()) {
         stream += this.value;
     }
 
@@ -53,7 +53,7 @@ TreeRulePrototype.fix = function(stream = '') {
             this.getFixedContent(node, stream);
     }
 
-    if (!this.isRoot() && !this.isMulticlause()) {
+    if (!this.isRoot() && !this.isContainer()) {
         stream += this.suffix;
     }
 

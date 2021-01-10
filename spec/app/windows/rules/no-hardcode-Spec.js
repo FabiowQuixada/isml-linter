@@ -32,7 +32,7 @@ describe(rule.id, () => {
         expect(occurrence2.message   ).toEqual(rule.description);
     });
 
-    it('ignores multiclause nodes', () => {
+    it('ignores container nodes', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
 
         expect(result.length).toEqual(0);

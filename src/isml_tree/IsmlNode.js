@@ -51,7 +51,7 @@ class IsmlNode {
             return 'doctype';
         } else if (this.isDynamicElement()) {
             return 'dynamic_element';
-        } else if (this.isMulticlause()) {
+        } else if (this.isContainer()) {
             return 'multi_clause';
         } else if (!value) {
             return 'empty';
@@ -83,7 +83,7 @@ class IsmlNode {
     }
 
     isInSameLineAsParent() {
-        return this.parent && !this.parent.isMulticlause() && this.parent.lineNumber === this.lineNumber;
+        return this.parent && !this.parent.isContainer() && this.parent.lineNumber === this.lineNumber;
     }
 
     /**
@@ -132,7 +132,7 @@ class IsmlNode {
 
     getIndentationSize() {
 
-        if (this.isMulticlause()) {
+        if (this.isContainer()) {
             return 0;
         }
 
@@ -140,7 +140,7 @@ class IsmlNode {
         const precedingEmptySpaces       = this.value.substring(0, precedingEmptySpacesLength);
         const lastLineBreakPos           = Math.max(precedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
         const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
-        const isIsifElement              = this.parent && this.parent.isMulticlause() && this.isOfType('isif');
+        const isIsifElement              = this.parent && this.parent.isContainer() && this.isOfType('isif');
         const isFirstElement             = this.parent && (this.parent.isRoot() || this.parent.parent.isRoot() && isIsifElement) && this.isFirstChild();
 
         if (this.lineNumber === 1 && isFirstElement) {
@@ -152,7 +152,7 @@ class IsmlNode {
 
     getSuffixIndentationSize() {
 
-        if (this.isMulticlause()) {
+        if (this.isContainer()) {
             return 0;
         }
 
@@ -166,8 +166,8 @@ class IsmlNode {
 
     isRoot() { return !this.parent; }
 
-    // Always returns false. It is true only for the container elements, please check MultiClauseNode class;
-    isMulticlause() { return false; }
+    // Always returns false. It is true only for the container elements, please check ContainerNode class;
+    isContainer() { return false; }
 
     isScriptContent() {
         return this.parent && this.parent.isOfType('isscript');
@@ -245,15 +245,15 @@ class IsmlNode {
     }
 
     getPreviousSibling() {
-        if (!this.parent || !this.parent.isMulticlause() && this.isFirstChild() || this.parent.isMulticlause() && this.parent.isFirstChild() && this.isFirstChild()) {
+        if (!this.parent || !this.parent.isContainer() && this.isFirstChild() || this.parent.isContainer() && this.parent.isFirstChild() && this.isFirstChild()) {
             return null;
         }
 
-        const sibling = this.parent.isMulticlause() && this.isFirstChild() ?
+        const sibling = this.parent.isContainer() && this.isFirstChild() ?
             this.parent.parent.children[this.parent.childNo - 1] :
             this.parent.children[this.childNo - 1];
 
-        if (sibling.isMulticlause()) {
+        if (sibling.isContainer()) {
             return sibling.children[0];
         }
 
@@ -267,7 +267,7 @@ class IsmlNode {
 
         const sibling = this.parent.children[this.childNo + 1];
 
-        if (sibling.isMulticlause()) {
+        if (sibling.isContainer()) {
             return sibling.children[0];
         }
 
@@ -288,7 +288,7 @@ class IsmlNode {
     // For <div />    , returns true;
     // For <div></div>, returns false;
     isSelfClosing() {
-        return !this.isMulticlause() && (
+        return !this.isContainer() && (
             this.isDocType() ||
             this.isVoidElement() ||
             this.isHtmlComment() ||
@@ -349,11 +349,11 @@ class IsmlNode {
 
     toString(stream = '') {
 
-        if (!this.isMulticlause() && this.isEmpty() && !this.isLastChild()) {
+        if (!this.isContainer() && this.isEmpty() && !this.isLastChild()) {
             return stream;
         }
 
-        if (!this.isRoot() && !this.isMulticlause()) {
+        if (!this.isRoot() && !this.isContainer()) {
             stream += this.value;
         }
 
@@ -362,7 +362,7 @@ class IsmlNode {
             stream      = child.toString(stream);
         }
 
-        if (!this.isRoot() && !this.isMulticlause()) {
+        if (!this.isRoot() && !this.isContainer()) {
             stream += this.suffixValue;
         }
 

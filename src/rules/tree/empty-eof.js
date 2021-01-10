@@ -11,7 +11,7 @@ const Rule = Object.create(TreeRulePrototype);
 Rule.init(ruleId, description);
 
 Rule.isBroken = function(node) {
-    const tempNode = node.isMulticlause() ? node.getLastChild() : node;
+    const tempNode = node.isContainer() ? node.getLastChild() : node;
 
     return !(tempNode.suffixValue ?
         tempNode.suffixValue.endsWith(Constants.EOL) :

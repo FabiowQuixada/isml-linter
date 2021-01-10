@@ -13,7 +13,7 @@ Rule.isBroken = function(node) {
         !node.isDescendantOf('style') &&
         node.value.trim() &&
         !node.isRoot() &&
-        !node.isMulticlause() &&
+        !node.isContainer() &&
         !node.isTag() &&
         !node.isScriptContent() &&
         !node.isExpression() &&

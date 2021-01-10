@@ -1,7 +1,7 @@
 const fs              = require('fs');
 const IsmlNode        = require('./IsmlNode');
 const ParseUtils      = require('./ParseUtils');
-const MultiClauseNode = require('./MultiClauseNode');
+const ContainerNode = require('./ContainerNode');
 const ExceptionUtils  = require('../util/ExceptionUtils');
 const GeneralUtils    = require('../util/GeneralUtils');
 
@@ -18,7 +18,7 @@ const parse = (content, templatePath) => {
 
         // Container parsing;
         if (element.tagType === 'isif' && !element.isClosingTag) {
-            containerNode = new MultiClauseNode();
+            containerNode = new ContainerNode();
             currentParent.addChild(containerNode);
             containerNode.addChild(newNode);
             currentParent = newNode;

@@ -35,7 +35,7 @@ Rule.isBroken = function(node) {
     const isInSameLineAsPreviousSibling = previousSibling && previousSibling.lineNumber === node.lineNumber;
 
     return !node.isRoot() &&
-        !node.isMulticlause() &&
+        !node.isContainer() &&
         !node.isEmpty() &&
         !node.isInSameLineAsParent() &&
         expectedIndentation !== actualIndentation &&
@@ -51,7 +51,7 @@ Rule.isBrokenForSuffix = function(node) {
     const isInSameLineAsPreviousSibling = previousSibling && previousSibling.lineNumber === node.lineNumber;
 
     return !node.isRoot() &&
-        !node.isMulticlause() &&
+        !node.isContainer() &&
         !node.isEmpty() &&
         !node.isInSameLineAsParent() &&
         expectedIndentation !== actualIndentation &&
@@ -160,7 +160,7 @@ const addIndentation = (content, node) => {
 };
 
 const removeAllIndentation = node => {
-    if (!node.isRoot() && !node.isMulticlause()) {
+    if (!node.isRoot() && !node.isContainer()) {
         if (node.value) {
             node.value = removeIndentation(node.value);
         }
@@ -176,7 +176,7 @@ const removeAllIndentation = node => {
 };
 
 const addCorrectIndentation = node => {
-    if (!node.isRoot() && !node.isMulticlause()) {
+    if (!node.isRoot() && !node.isContainer()) {
         const shouldAddIndentationToValue  = checkIfShouldAddIndentationToValue(node);
         const shouldAddIndentationToSuffix = checkIfShouldAddIndentationToSuffix(node);
 
@@ -200,7 +200,7 @@ const checkIfShouldAddIndentationToValue = node => {
     const isInSameLineAsPrevSiblingLastLine = !node.isRoot() &&
         previousSibling &&
         node.lineNumber === previousSibling.getLastLineNumber();
-    const isInSameLineAsParentValueEnd      = parentValueEndLineNumber === node.lineNumber && !node.parent.isMulticlause();
+    const isInSameLineAsParentValueEnd      = parentValueEndLineNumber === node.lineNumber && !node.parent.isContainer();
 
     const shouldAdd = !node.isRoot() &&
         !isInSameLineAsPrevSiblingLastLine &&
@@ -213,7 +213,7 @@ const checkIfShouldAddIndentationToValue = node => {
 
 const checkIfShouldAddIndentationToSuffix = node => {
     const hasSuffix                 = !!node.suffixValue;
-    const isLastClause              = !!node.parent && node.parent.isMulticlause() && !node.isLastChild();
+    const isLastClause              = !!node.parent && node.parent.isContainer() && !node.isLastChild();
     const isInSameLineAsChild       = !node.hasChildren() || node.getLastChild().isInSameLineAsParent();
     const isSuffixInSameLineAsChild = !node.hasChildren() || node.suffixLineNumber === node.getLastChild().getLastLineNumber();
     const isBrokenIntoMultipleLines = !node.hasChildren() && node.suffixLineNumber !== -1 && node.lineNumber !== node.suffixLineNumber;
