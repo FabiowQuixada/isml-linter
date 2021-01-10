@@ -42,18 +42,17 @@ Rule.isBroken = function(node) {
 
 Rule.isBrokenForSuffix = function(node) {
 
-    const configIndentSize              = this.getConfigs().size;
-    const expectedIndentation           = getExpectedIndentation(node, configIndentSize);
-    const actualIndentation             = getActualIndentation(node);
-    const previousSibling               = node.getPreviousSibling();
-    const isInSameLineAsPreviousSibling = previousSibling && previousSibling.lineNumber === node.lineNumber;
+    const configIndentSize         = this.getConfigs().size;
+    const expectedIndentation      = getExpectedIndentation(node, configIndentSize);
+    const actualIndentation        = getActualIndentationForSuffix(node);
+    const isInSameLineAsOpeningTag = node.lineNumber === node.suffixLineNumber;
 
     return !node.isRoot() &&
         !node.isContainer() &&
         !node.isEmpty() &&
         !node.isInSameLineAsParent() &&
         expectedIndentation !== actualIndentation &&
-        !isInSameLineAsPreviousSibling;
+        !isInSameLineAsOpeningTag;
 };
 
 Rule.check = function(node, result) {
@@ -93,7 +92,7 @@ Rule.check = function(node, result) {
         if (node.suffixValue && this.isBrokenForSuffix(node)) {
             const configIndentSize    = this.getConfigs().size;
             const expectedIndentation = getExpectedIndentation(node, configIndentSize);
-            const actualIndentation   = getActualIndentation(node);
+            const actualIndentation   = getActualIndentationForSuffix(node);
             const nodeSuffixValue     = node.suffixValue.trim();
             const occurrenceLength    = actualIndentation === 0 ?
                 nodeSuffixValue.length +  ParseUtils.getLineBreakQty(nodeSuffixValue) :

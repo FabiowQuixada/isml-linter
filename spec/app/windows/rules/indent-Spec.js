@@ -214,6 +214,24 @@ describe(rule.id, () => {
         expect(result.length).toEqual(0);
     });
 
+    it('raises only one issue if only a node opening tag is miss-indented', () => {
+        const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 14);
+        const occurrence = result[0];
+
+        expect(result.length        ).toEqual(1);
+        expect(occurrence.lineNumber).toEqual(2);
+        expect(occurrence.message   ).toEqual('Expected indentation of 4 spaces but found 5');
+    });
+
+    it('raises an issue if only a node closing tag is miss-indented', () => {
+        const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 15);
+        const occurrence = result[0];
+
+        expect(result.length        ).toEqual(1);
+        expect(occurrence.lineNumber).toEqual(4);
+        expect(occurrence.message   ).toEqual('Expected indentation of 4 spaces but found 6');
+    });
+
     it('checks if indentation is set as previous node trailing spaces V', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 16);
 
