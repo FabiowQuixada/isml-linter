@@ -3,7 +3,7 @@ const MAX_TEXT_DISPLAY_SIZE = 30;
 const ConfigUtils = require('../util/ConfigUtils');
 const Constants   = require('../Constants');
 const SfccTags    = require('../enums/SfccTags');
-const ParseUtils  = require('./components/ParseUtils');
+const ParseUtils  = require('./ParseUtils');
 
 let ID_COUNTER = 0;
 

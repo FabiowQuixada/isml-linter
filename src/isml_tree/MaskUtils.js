@@ -4,7 +4,7 @@
  * symbol. The same is valid for <isscript> and <iscomment> tags;
  */
 
-const ParseUtils     = require('./components/ParseUtils');
+const ParseUtils     = require('./ParseUtils');
 const ExceptionUtils = require('../util/ExceptionUtils');
 
 const placeholderSymbol = '_';

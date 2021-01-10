@@ -1,6 +1,6 @@
 const fs              = require('fs');
 const IsmlNode        = require('./IsmlNode');
-const ParseUtils      = require('./components/ParseUtils');
+const ParseUtils      = require('./ParseUtils');
 const MultiClauseNode = require('./MultiClauseNode');
 const ExceptionUtils  = require('../util/ExceptionUtils');
 const GeneralUtils    = require('../util/GeneralUtils');

@@ -1,6 +1,6 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const ConfigUtils       = require('../../util/ConfigUtils');
-const ParseUtils        = require('../../isml_tree/components/ParseUtils');
+const ParseUtils        = require('../../isml_tree/ParseUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = '"require()" call is not allowed within a loop';

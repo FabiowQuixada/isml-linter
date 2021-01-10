@@ -1,6 +1,6 @@
 const RulePrototype = require('./RulePrototype');
 const ConfigUtils   = require('../../util/ConfigUtils');
-const ParseUtils    = require('../../isml_tree/components/ParseUtils');
+const ParseUtils    = require('../../isml_tree/ParseUtils');
 
 const TreeRulePrototype = Object.create(RulePrototype);
 

@@ -1,5 +1,5 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
-const ParseUtils        = require('../../isml_tree/components/ParseUtils');
+const ParseUtils        = require('../../isml_tree/ParseUtils');
 const Constants         = require('../../Constants');
 const ConfigUtils       = require('../../util/ConfigUtils');
 const GeneralUtils      = require('../../util/GeneralUtils');

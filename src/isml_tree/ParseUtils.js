@@ -5,11 +5,11 @@
  */
 
 const path           = require('path');
-const Constants      = require('../../Constants');
-const ExceptionUtils = require('../../util/ExceptionUtils');
-const SfccTags       = require('../../enums/SfccTags');
-const GeneralUtils   = require('../../util/GeneralUtils');
-const MaskUtils      = require('../MaskUtils');
+const Constants      = require('../Constants');
+const ExceptionUtils = require('../util/ExceptionUtils');
+const SfccTags       = require('../enums/SfccTags');
+const GeneralUtils   = require('../util/GeneralUtils');
+const MaskUtils      = require('./MaskUtils');
 
 const getNextNonEmptyChar = content => {
     return content.replace(new RegExp(Constants.EOL, 'g'), '').trim()[0];
@@ -166,7 +166,7 @@ const getElementType = trimmedElement => {
 };
 
 function isSelfClosing(trimmedElement) {
-    const ConfigUtils = require('../../util/ConfigUtils');
+    const ConfigUtils = require('../util/ConfigUtils');
 
     const config               = ConfigUtils.load();
     const isTag                = trimmedElement.startsWith('<') && !trimmedElement.startsWith('<!--');
