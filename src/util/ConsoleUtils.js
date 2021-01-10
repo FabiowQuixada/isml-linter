@@ -107,9 +107,8 @@ const displayOccurrences = lintResult => {
     displayUnknownErrors(lintResult);
 
     // TODO Add this 'config' as a global const;
-    const config         = ConfigUtils.load();
-    const occurrences    = displayLintingOccurrences(lintResult);
-    const isCacheEnabled = ConfigUtils.load().enableCache;
+    const config      = ConfigUtils.load();
+    const occurrences = displayLintingOccurrences(lintResult);
 
     const isThereAnyOccurrence = occurrences.error.qty > 0 ||
         occurrences.warning.qty > 0 ||
@@ -120,12 +119,7 @@ const displayOccurrences = lintResult => {
     if (isThereAnyOccurrence) {
 
         console.log(Constants.EOL + '=====================================================');
-
-        if (lintResult.cachedTemplatesQty > 0) {
-            console.log(Constants.EOL + chalk`{bold Linted ${lintResult.totalTemplatesQty} templates, ${lintResult.cachedTemplatesQty} of which were cached, in ${lintResult.elapsedTime} seconds.}`);
-        } else {
-            console.log(Constants.EOL + chalk`{bold Linted ${lintResult.totalTemplatesQty} templates in ${lintResult.elapsedTime} seconds.}`);
-        }
+        console.log(Constants.EOL + chalk`{bold Linted ${lintResult.totalTemplatesQty} templates in ${lintResult.elapsedTime} seconds.}`);
 
         if (occurrences.error.qty > 0) {
             console.log(chalk`{bold ${occurrences.error.qty} error(s) found.}`);
@@ -156,11 +150,6 @@ const displayOccurrences = lintResult => {
         }
     } else {
         console.log(chalk`{green.bold No issues found!}`);
-    }
-
-    if (!isCacheEnabled) {
-        console.log(chalk`{bold Consider enabling cache for better performance.}` );
-        console.log(chalk`{bold Please visit: ${Constants.repositoryUrl}/docs/cache.md}` + Constants.EOL);
     }
 };
 

@@ -6,7 +6,6 @@ const ConfigUtils    = require('./util/ConfigUtils');
 const ExceptionUtils = require('./util/ExceptionUtils');
 const FileUtils      = require('./util/FileUtils');
 const GeneralUtils   = require('./util/GeneralUtils');
-const DatabaseUtils  = require('./util/DatabaseUtils');
 let RuleUtils        = null;
 
 const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
@@ -96,8 +95,7 @@ const getEmptyResult = () => {
         issueQty           : 0,
         occurrenceQty      : 0,
         templatesFixed     : 0,
-        totalTemplatesQty  : 0,
-        cachedTemplatesQty : 0
+        totalTemplatesQty  : 0
     };
 };
 
@@ -166,7 +164,6 @@ const merge = (finalResult, templateResults) => {
         templatesFixed     : finalResult.templatesFixed                 + templateResults.templatesFixed,
         UNKNOWN_ERROR      : [...finalResult[UNKNOWN_ERROR],           ...templateResults[UNKNOWN_ERROR]],
         INVALID_TEMPLATE   : [...finalResult[UNPARSEABLE],             ...templateResults[UNPARSEABLE]],
-        cachedTemplatesQty : finalResult.cachedTemplatesQty,
         totalTemplatesQty  : finalResult.totalTemplatesQty
     };
 };
@@ -181,16 +178,6 @@ const addCustomModuleResults = finalResult => {
         // TODO: Add actual modules template path;
         finalResult[occurrenceGroup][CustomModulesRule.id]['modules.isml'] = customModuleResults[occurrenceGroup];
     }
-};
-
-const checkIfConfigFileWasModified = () => {
-    const configFilePath        = ConfigUtils.getConfigFilePath();
-    const configStats           = fs.statSync(configFilePath);
-    const configLastModified    = configStats.mtime;
-    const configDbDate          = DatabaseUtils.getConfigFileModificationDate();
-    const wasConfigFileModified = !configDbDate || configLastModified > configDbDate;
-
-    return wasConfigFileModified;
 };
 
 Linter.setConfig = newConfig => {
@@ -222,38 +209,21 @@ Linter.run = (pathData, content) => {
     }
 
     try {
-        DatabaseUtils.initDb();
-        const dbData                = DatabaseUtils.loadData();
-        const lintStartTime         = new Date();
-        const isCacheEnabled        = ConfigUtils.load().enableCache;
-        const wasConfigFileModified = checkIfConfigFileWasModified();
+        const lintStartTime = new Date();
 
         ProgressBar.start(templatePathArray.length);
-        DatabaseUtils.updateConfigDate(lintStartTime);
 
         for (let i = 0; i < templatePathArray.length; i++) {
-            const templateName             = templatePathArray[i];
-            const templatePath             = Array.isArray(templateData.pathData) || path.isAbsolute(templateName) || templateData.pathData === templateName ?
+            const templateName = templatePathArray[i];
+            const templatePath = Array.isArray(templateData.pathData) || path.isAbsolute(templateName) || templateData.pathData === templateName ?
                 templateName :
                 path.join(templateData.pathData, templateName);
-            const stats                    = fs.statSync(templatePath);
-            const lastModified             = stats.mtime;
-            const templateDbData           = dbData[templatePath];
-            const wasModifiedAfterLastLint = !templateDbData || lastModified > templateDbData.lastLinted;
-            const isIgnored                = FileUtils.isIgnored(templatePath);
+            const isIgnored    = FileUtils.isIgnored(templatePath);
 
             if (!isIgnored) {
-                if (!isCacheEnabled || (wasModifiedAfterLastLint || wasConfigFileModified)) {
-                    const templateResults = checkTemplate(content, templatePath, templateName);
+                const templateResults = checkTemplate(content, templatePath, templateName);
 
-                    DatabaseUtils.insertOrReplaceData(templatePath, lintStartTime, templateResults);
-                    finalResult = merge(finalResult, templateResults);
-                } else if (templateDbData.lintResult.occurrenceQty > 0) {
-                    finalResult = merge(finalResult, templateDbData.lintResult);
-                    finalResult.cachedTemplatesQty++;
-                } else {
-                    finalResult.cachedTemplatesQty++;
-                }
+                finalResult = merge(finalResult, templateResults);
 
                 finalResult.totalTemplatesQty++;
             }
@@ -272,7 +242,6 @@ Linter.run = (pathData, content) => {
 
     } finally {
         ProgressBar.stop();
-        DatabaseUtils.closeDb();
     }
 
     return finalResult;
