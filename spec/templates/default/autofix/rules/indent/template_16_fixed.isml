@@ -1,0 +1,3 @@
+<p>
+    ${aVariable} <isprint value="${anotherVariable}" formatter="##" />
+</p>

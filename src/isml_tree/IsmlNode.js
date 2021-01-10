@@ -86,6 +86,11 @@ class IsmlNode {
         return this.parent && !this.parent.isContainer() && this.parent.lineNumber === this.lineNumber;
     }
 
+    isInSameLineAsPreviousSibling() {
+        const previousSibling = this.getPreviousSibling();
+        return previousSibling && previousSibling.lineNumber === this.lineNumber;
+    }
+
     /**
      * Gets an array of attributes. For <div class="my_class_1 my my_class_2" style="fancy">, returns:
      *

@@ -160,6 +160,12 @@ describe(rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('does not affect elements in the same line', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 16);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('does not apply to <script> tag content', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 6);
 

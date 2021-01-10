@@ -28,18 +28,16 @@ Rule.getIndentation = function(depth = 1) {
 
 Rule.isBroken = function(node) {
 
-    const configIndentSize              = this.getConfigs().size;
-    const expectedIndentation           = getExpectedIndentation(node, configIndentSize);
-    const actualIndentation             = getActualIndentation(node);
-    const previousSibling               = node.getPreviousSibling();
-    const isInSameLineAsPreviousSibling = previousSibling && previousSibling.lineNumber === node.lineNumber;
+    const configIndentSize    = this.getConfigs().size;
+    const expectedIndentation = getExpectedIndentation(node, configIndentSize);
+    const actualIndentation   = getActualIndentation(node);
 
     return !node.isRoot() &&
         !node.isContainer() &&
         !node.isEmpty() &&
         !node.isInSameLineAsParent() &&
         expectedIndentation !== actualIndentation &&
-        !isInSameLineAsPreviousSibling;
+        !node.isInSameLineAsPreviousSibling();
 };
 
 Rule.isBrokenForSuffix = function(node) {
@@ -161,7 +159,7 @@ const addIndentation = (content, node) => {
 
 const removeAllIndentation = node => {
     if (!node.isRoot() && !node.isContainer()) {
-        if (node.value) {
+        if (node.value && !node.isInSameLineAsPreviousSibling()) {
             node.value = removeIndentation(node.value);
         }
 
