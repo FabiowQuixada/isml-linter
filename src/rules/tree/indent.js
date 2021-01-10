@@ -64,7 +64,7 @@ Rule.check = function(node, result) {
         occurrences : []
     };
 
-    if (node.isRoot() || !node.parent.isOfType('script')) {
+    if (node.isRoot() || !node.parent.isOfType('script') && !node.parent.isOfType('iscomment')) {
         for (let i = 0; i < node.children.length; i++) {
             this.check(node.children[i], this.result);
         }

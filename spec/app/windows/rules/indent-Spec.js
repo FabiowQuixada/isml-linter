@@ -202,25 +202,10 @@ describe(rule.id, () => {
         expect(result.length).toEqual(0);
     });
 
-    it('detects zero-indented lines', () => {
-        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 13)[0];
+    it('ignores <iscomment> content', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 13);
 
-        expect(occurrence.globalPos).toEqual(13);
-        expect(occurrence.length).toEqual(11);
-    });
-
-    it('identifies occurrence global position and length', () => {
-        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 14)[0];
-
-        expect(occurrence.globalPos).toEqual(13);
-        expect(occurrence.length).toEqual(1);
-    });
-
-    it('identifies occurrence global position and length II', () => {
-        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 15)[0];
-
-        expect(occurrence.globalPos).toEqual(15);
-        expect(occurrence.length).toEqual(40);
+        expect(result.length).toEqual(0);
     });
 
     it('checks if indentation is set as previous node trailing spaces V', () => {
@@ -275,6 +260,12 @@ describe(rule.id, () => {
 
     it('checks indentation for an "isif" tag after an expression', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 22);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('checks indentation for nested "isif" tags', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 23);
 
         expect(result.length).toEqual(0);
     });
