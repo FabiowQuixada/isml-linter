@@ -1,6 +1,6 @@
-const sinon           = require('sinon');
-const SpecHelper      = require('../../../SpecHelper');
-const IsmlNode        = require('../../../../src/isml_tree/IsmlNode');
+const sinon         = require('sinon');
+const SpecHelper    = require('../../../SpecHelper');
+const IsmlNode      = require('../../../../src/isml_tree/IsmlNode');
 const ContainerNode = require('../../../../src/isml_tree/ContainerNode');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);

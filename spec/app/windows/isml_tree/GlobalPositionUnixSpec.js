@@ -122,21 +122,21 @@ describe('Global Position on Unix', () => {
     });
 
     it('XI', () => {
-        const rootNode        = parseTemplate(8);
+        const rootNode      = parseTemplate(8);
         const containerNode = rootNode.children[0];
-        const iselseNode      = containerNode.children[1];
-        const divNode         = iselseNode.children[0];
+        const iselseNode    = containerNode.children[1];
+        const divNode       = iselseNode.children[0];
 
         expect(iselseNode.globalPos).toEqual(38);
         expect(divNode.globalPos   ).toEqual(51);
     });
 
     it('XII', () => {
-        const rootNode        = parseTemplate(9);
+        const rootNode      = parseTemplate(9);
         const containerNode = rootNode.children[0];
-        const isifNode        = containerNode.children[0];
-        const iselseNode      = containerNode.children[1];
-        const divNode         = iselseNode.children[0];
+        const isifNode      = containerNode.children[0];
+        const iselseNode    = containerNode.children[1];
+        const divNode       = iselseNode.children[0];
 
         expect(isifNode.globalPos  ).toEqual( 4);
         expect(iselseNode.globalPos).toEqual(46);
@@ -144,10 +144,10 @@ describe('Global Position on Unix', () => {
     });
 
     it('XIII', () => {
-        const rootNode        = parseTemplate(10);
+        const rootNode      = parseTemplate(10);
         const containerNode = rootNode.children[0];
-        const iselseNode      = containerNode.children[1];
-        const expNode         = iselseNode.children[0];
+        const iselseNode    = containerNode.children[1];
+        const expNode       = iselseNode.children[0];
 
         expect(expNode.globalPos).toEqual(53);
     });
