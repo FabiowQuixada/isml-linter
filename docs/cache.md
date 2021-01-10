@@ -1,5 +1,7 @@
 # Enabling Cache
 
+**<span style="color:red">Important!</span>** Release 5.30.0 introduced a performance improvement that makes Isml Linter run 40x faster, which made the "enableCache" option useless and therefore deprecated.
+
 To enable cache, simply add the "enableCache" attribute to your Isml Linter config file and set it to **true**:
 ```js
 { 
