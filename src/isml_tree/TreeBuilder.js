@@ -14,84 +14,116 @@ const parse = (content, templatePath) => {
     for (let i = 0; i < elementList.length; i++) {
         const element = elementList[i];
         const newNode = new IsmlNode(element.value, element.lineNumber, element.globalPos);
-        let containerNode;
 
-        // Container parsing;
-        if (element.tagType === 'isif' && !element.isClosingTag) {
-            containerNode = new ContainerNode();
-            currentParent.addChild(containerNode);
-            containerNode.addChild(newNode);
-            currentParent = newNode;
-            continue;
+        const containerResult = parseContainerElements(element, currentParent, newNode, templatePath);
 
-        } else if (element.tagType === 'iselse' || element.tagType === 'iselseif') {
-            currentParent = currentParent.parent;
-            currentParent.addChild(newNode);
-            currentParent = newNode;
-            continue;
+        currentParent = containerResult.currentParent;
 
-        } else if (element.tagType === 'isif' && element.isClosingTag) {
-
-            if (!currentParent.isOfType('iselseif') &&
-                !currentParent.isOfType('iselse') &&
-                currentParent.getType() !== element.tagType
-            ) {
-                throw ExceptionUtils.unbalancedElementError(
-                    currentParent.getType(),
-                    currentParent.lineNumber,
-                    currentParent.globalPos,
-                    currentParent.value.trim().length,
-                    templatePath
-                );
-            }
-
-            currentParent.setSuffix(element.value, element.lineNumber, element.globalPos);
-            currentParent = currentParent.parent.parent;
+        if (containerResult.continue) {
             continue;
         }
 
-        // Other elements parsing;
-        if (element.isSelfClosing) {
-            currentParent.addChild(newNode);
-        } else if (!element.isClosingTag  && element.tagType !== 'isif') {
-            currentParent.addChild(newNode);
-
-            if (!element.isSelfClosing) {
-                currentParent = newNode;
-            }
-        } else if (element.isClosingTag) {
-
-            if (element.tagType === currentParent.getType()) {
-                currentParent.setSuffix(element.value, element.lineNumber, element.globalPos);
-            } else if (element.isClosingTag && currentParent.isRoot()) {
-                throw ExceptionUtils.unbalancedElementError(
-                    element.tagType,
-                    element.lineNumber,
-                    element.globalPos,
-                    element.value.trim().length,
-                    templatePath
-                );
-            } else {
-                throw ExceptionUtils.unbalancedElementError(
-                    currentParent.getType(),
-                    currentParent.lineNumber,
-                    currentParent.globalPos,
-                    currentParent.value.trim().length,
-                    templatePath
-                );
-            }
-
-            currentParent = currentParent.parent;
-
-            if (element.tagType === 'isif' && element.isClosingTag) {
-                currentParent = currentParent.parent;
-            }
-        }
+        currentParent = parseNonContainerElements(element, currentParent, newNode, templatePath);
     }
 
     ParseUtils.checkBalance(rootNode, templatePath);
 
     return rootNode;
+};
+
+const parseContainerElements = (element, currentParent, newNode, templatePath) => {
+
+    if (element.tagType === 'isif' && !element.isClosingTag) {
+        const containerNode = new ContainerNode();
+        currentParent.addChild(containerNode);
+        containerNode.addChild(newNode);
+        currentParent       = newNode;
+
+        return {
+            continue      : true,
+            currentParent : currentParent
+        };
+
+    } else if (element.tagType === 'iselse' || element.tagType === 'iselseif') {
+        currentParent = currentParent.parent;
+        currentParent.addChild(newNode);
+        currentParent = newNode;
+
+        return {
+            continue      : true,
+            currentParent : currentParent
+        };
+
+    } else if (element.tagType === 'isif' && element.isClosingTag) {
+
+        if (!currentParent.isOfType('iselseif') &&
+            !currentParent.isOfType('iselse') &&
+            currentParent.getType() !== element.tagType
+        ) {
+            throw ExceptionUtils.unbalancedElementError(
+                currentParent.getType(),
+                currentParent.lineNumber,
+                currentParent.globalPos,
+                currentParent.value.trim().length,
+                templatePath
+            );
+        }
+
+        currentParent.setSuffix(element.value, element.lineNumber, element.globalPos);
+        currentParent = currentParent.parent.parent;
+
+        return {
+            continue      : true,
+            currentParent : currentParent
+        };
+    }
+
+    return {
+        continue      : false,
+        currentParent : currentParent
+    };
+};
+
+const parseNonContainerElements = (element, currentParent, newNode, templatePath) => {
+    if (element.isSelfClosing) {
+        currentParent.addChild(newNode);
+    } else if (!element.isClosingTag && element.tagType !== 'isif') {
+        currentParent.addChild(newNode);
+
+        if (!element.isSelfClosing) {
+            currentParent = newNode;
+        }
+    } else if (element.isClosingTag) {
+
+        if (element.tagType === currentParent.getType()) {
+            currentParent.setSuffix(element.value, element.lineNumber, element.globalPos);
+
+        } else if (element.isClosingTag && currentParent.isRoot()) {
+            throw ExceptionUtils.unbalancedElementError(
+                element.tagType,
+                element.lineNumber,
+                element.globalPos,
+                element.value.trim().length,
+                templatePath
+            );
+        } else {
+            throw ExceptionUtils.unbalancedElementError(
+                currentParent.getType(),
+                currentParent.lineNumber,
+                currentParent.globalPos,
+                currentParent.value.trim().length,
+                templatePath
+            );
+        }
+
+        currentParent = currentParent.parent;
+
+        if (element.tagType === 'isif' && element.isClosingTag) {
+            currentParent = currentParent.parent;
+        }
+    }
+
+    return currentParent;
 };
 
 const postProcess = (node, data = {}) => {
