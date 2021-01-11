@@ -63,6 +63,14 @@ const parse = (content, templatePath) => {
 
             if (element.tagType === currentParent.getType()) {
                 currentParent.setSuffix(element.value, element.lineNumber, element.globalPos);
+            } else if (element.isClosingTag && currentParent.isRoot()) {
+                throw ExceptionUtils.unbalancedElementError(
+                    element.tagType,
+                    element.lineNumber,
+                    element.globalPos,
+                    element.value.trim().length,
+                    templatePath
+                );
             } else {
                 throw ExceptionUtils.unbalancedElementError(
                     currentParent.getType(),

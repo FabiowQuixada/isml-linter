@@ -47,6 +47,12 @@ describe('TreeBuilder', () => {
 
         expect(tree.exception.globalPos).toEqual(97);
     });
+
+    it('detects a closing tag without a corresponding opening tag', () => {
+        const tree = getTreeFromTemplate(3);
+
+        expect(tree.exception.globalPos).toEqual(52);
+    });
 });
 
 const getTemplatePath = number => {
