@@ -12,13 +12,13 @@ TreeRulePrototype.check = function(node, result = { occurrences : [] }, data) {
     };
 
     for (let i = 0; i < node.children.length; i++) {
-        this.check(node.children[i], this.result);
+        this.check(node.children[i], this.result, data);
     }
 
     if (this.isBroken(node)) {
         let length = node.value.trim().length;
 
-        if (global.isWindows) {
+        if (data.isCrlfLineBreak) {
             length += ParseUtils.getLineBreakQty(node.value.trim());
         }
 

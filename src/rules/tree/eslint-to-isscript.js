@@ -14,7 +14,7 @@ let isscriptContentArray = [];
 
 Rule.init(ruleId, description);
 
-Rule.addError = function(node, eslintError, ismlOffset, linter) {
+Rule.addError = function(node, eslintError, ismlOffset, linter, data) {
     const errorLine = linter.getSourceCode() ?
         linter.getSourceCode().lines[eslintError.line - 1] :
         node.value.split('\n')[eslintError.line - 1];
@@ -25,7 +25,7 @@ Rule.addError = function(node, eslintError, ismlOffset, linter) {
     let length             = errorLine.trimStart().length;
     let message;
 
-    errorGlobalPos += global.isWindows ?
+    errorGlobalPos += data.isCrlfLineBreak ?
         errorLocalPos + eslintError.line - 2 :
         node.value.trimStart().indexOf(errorLine.trimStart());
 
@@ -47,7 +47,7 @@ Rule.addError = function(node, eslintError, ismlOffset, linter) {
     );
 };
 
-Rule.check = function(node) {
+Rule.check = function(node, result, data) {
     let eslintConfig = null;
 
     try {
@@ -58,7 +58,7 @@ Rule.check = function(node) {
     }
 
     for (let i = 0; i < node.children.length; i++) {
-        this.check(node.children[i]);
+        this.check(node.children[i], result, data);
     }
 
     if (node.isIsscriptContent()) {
@@ -83,7 +83,7 @@ Rule.check = function(node) {
             const errorArray = linter.verify(content, eslintConfig);
 
             for (let i = 0; i < errorArray.length; i++) {
-                this.addError(jsContentNode, errorArray[i], ismlOffset, linter);
+                this.addError(jsContentNode, errorArray[i], ismlOffset, linter, data);
             }
         }
 

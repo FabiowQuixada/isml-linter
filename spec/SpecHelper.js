@@ -64,7 +64,7 @@ module.exports = {
         const templatePath = getTreeRuleSpecTemplatePath(rule, templateNumber);
         const tree         = TreeBuilder.build(templatePath);
 
-        tree.isCrlfLineBreak = isCrlfLineBreak;
+        tree.data.isCrlfLineBreak = isCrlfLineBreak;
 
         return rule.check(tree.rootNode, { occurrences : [] }, tree.data).occurrences;
     },

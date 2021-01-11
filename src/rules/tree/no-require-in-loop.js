@@ -36,7 +36,7 @@ Rule.check = function(node, result = { occurrences : [] }, data) {
     };
 
     for (let i = 0; i < node.children.length; i++) {
-        this.check(node.children[i], this.result);
+        this.check(node.children[i], this.result, data);
     }
 
     if (this.isBroken(node)) {
@@ -48,7 +48,7 @@ Rule.check = function(node, result = { occurrences : [] }, data) {
         const length         = afterStartPos.indexOf(')') + 1;
         let globalPos        = node.globalPos + startPos;
 
-        if (global.isWindows) {
+        if (data.isCrlfLineBreak) {
             globalPos += lineOffset;
         }
 

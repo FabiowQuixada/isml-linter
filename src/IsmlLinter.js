@@ -99,12 +99,13 @@ const getEmptyResult = () => {
     };
 };
 
-const checkTemplate = (content, templatePath, templateName) => {
+// TODO Reorder params;
+const checkTemplate = (content, templatePath, templateName, data) => {
     const formattedTemplatePath = GeneralUtils.formatTemplatePath(templatePath);
     const templateResults       = getEmptyResult();
 
     try {
-        const parseResult = RuleUtils.checkTemplate(templatePath, content, templateName);
+        const parseResult = RuleUtils.checkTemplate(templatePath, data, content, templateName);
 
         if (parseResult.fixed) {
             templateResults.templatesFixed++;
@@ -186,7 +187,7 @@ Linter.setConfig = newConfig => {
 
 Linter.getConfig = () => globalConfig;
 
-Linter.run = (pathData, content) => {
+Linter.run = (pathData, content, data) => {
     const ConsoleUtils = require('./util/ConsoleUtils');
     const ProgressBar  = require('./util/ProgressBar');
 
@@ -221,7 +222,7 @@ Linter.run = (pathData, content) => {
             const isIgnored    = FileUtils.isIgnored(templatePath);
 
             if (!isIgnored) {
-                const templateResults = checkTemplate(content, templatePath, templateName);
+                const templateResults = checkTemplate(content, templatePath, templateName, data);
 
                 finalResult = merge(finalResult, templateResults);
 

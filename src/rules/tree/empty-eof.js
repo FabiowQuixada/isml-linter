@@ -17,7 +17,7 @@ Rule.isBroken = function(node) {
         tempNode.value.endsWith(Constants.EOL));
 };
 
-Rule.check = function(rootNode, result) {
+Rule.check = function(rootNode, result, data) {
 
     this.result = result || {
         occurrences : []
@@ -38,7 +38,7 @@ Rule.check = function(rootNode, result) {
             if (trailingSpaces.length) {
                 globalPos = node.globalPos + node.toString().length - trailingSpaces.length;
 
-                if (global.isWindows) {
+                if (data.isCrlfLineBreak) {
                     globalPos += lineBreakQty - 1;
                 }
             }

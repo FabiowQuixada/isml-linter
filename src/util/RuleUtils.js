@@ -75,12 +75,13 @@ const applyRuleResult = (config, ruleResult, templatePath, templateResults, rule
     }
 };
 
-const applyRuleOnTemplate = (ruleArray, templatePath, root, config) => {
+const applyRuleOnTemplate = (ruleArray, templatePath, root, config, data) => {
     const templateResults = {
         fixed    : false,
         errors   : {},
         warnings : {},
-        info     : {}
+        info     : {},
+        data
     };
 
     for (let i = 0; i < ruleArray.length; i++) {
@@ -159,7 +160,7 @@ const checkFileName = (filename, templateContent) => {
     return templateResults;
 };
 
-const checkTreeRules = (templatePath, templateContent, config) => {
+const checkTreeRules = (templatePath, templateContent, config, data) => {
     if (!config.disableTreeParse) {
         const tree = TreeBuilder.build(templatePath, templateContent);
 
@@ -173,7 +174,8 @@ const checkTreeRules = (templatePath, templateContent, config) => {
             ruleArray,
             templatePath,
             tree.rootNode,
-            config);
+            config,
+            data);
     }
 };
 
@@ -208,11 +210,11 @@ const checkCustomModules = () => {
     return moduleResults;
 };
 
-const checkTemplate = (templatePath, content = '', templateName = '') => {
+const checkTemplate = (templatePath, data, content = '', templateName = '') => {
     const config          = ConfigUtils.load();
     const templateContent = GeneralUtils.toLF(content || fs.readFileSync(templatePath, 'utf-8'));
     const lineResults     = checkLineByLineRules(templatePath, templateContent, config);
-    const treeResults     = checkTreeRules(templatePath, templateContent, config) || { errors : [] };
+    const treeResults     = checkTreeRules(templatePath, templateContent, config, data) || { errors : [] };
     const filenameResults = checkFileName(templateName, templateContent);
 
     return {

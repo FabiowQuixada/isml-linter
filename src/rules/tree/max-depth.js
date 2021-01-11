@@ -19,14 +19,14 @@ Rule.isBroken = function(node) {
     return !node.isEmpty() && node.depth > configMaxDepth;
 };
 
-Rule.check = function(node, result) {
+Rule.check = function(node, result, data) {
 
     this.result = result || {
         occurrences : []
     };
 
     for (let i = 0; i < node.children.length; i++) {
-        this.check(node.children[i], this.result);
+        this.check(node.children[i], this.result, data);
     }
 
     const config = this.getConfigs();
@@ -35,7 +35,7 @@ Rule.check = function(node, result) {
         const stringifiedNode = node.toString().trim();
         let length            = stringifiedNode.length;
 
-        if (global.isWindows) {
+        if (data.isCrlfLineBreak) {
             length += ParseUtils.getLineBreakQty(stringifiedNode);
         }
 
