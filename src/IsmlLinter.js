@@ -187,7 +187,7 @@ Linter.setConfig = newConfig => {
 
 Linter.getConfig = () => globalConfig;
 
-Linter.run = (pathData, content, data) => {
+Linter.run = (pathData, content, data = {}) => {
     const ConsoleUtils = require('./util/ConsoleUtils');
     const ProgressBar  = require('./util/ProgressBar');
 

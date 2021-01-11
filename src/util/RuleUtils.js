@@ -179,14 +179,15 @@ const checkTreeRules = (templatePath, templateContent, config, data) => {
     }
 };
 
-const checkLineByLineRules = (templatePath, templateContent, config) => {
+const checkLineByLineRules = (templatePath, templateContent, config, data) => {
     const ruleArray = getEnabledLineRules();
 
     return applyRuleOnTemplate(
         ruleArray,
         templatePath,
         templateContent,
-        config);
+        config,
+        data);
 };
 
 const checkCustomModules = () => {
@@ -213,7 +214,7 @@ const checkCustomModules = () => {
 const checkTemplate = (templatePath, data, content = '', templateName = '') => {
     const config          = ConfigUtils.load();
     const templateContent = GeneralUtils.toLF(content || fs.readFileSync(templatePath, 'utf-8'));
-    const lineResults     = checkLineByLineRules(templatePath, templateContent, config);
+    const lineResults     = checkLineByLineRules(templatePath, templateContent, config, data);
     const treeResults     = checkTreeRules(templatePath, templateContent, config, data) || { errors : [] };
     const filenameResults = checkFileName(templateName, templateContent);
 

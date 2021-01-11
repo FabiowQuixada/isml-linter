@@ -1,7 +1,8 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
 
-const rule = SpecHelper.getRule(specFileName);
+const rule            = SpecHelper.getRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -14,21 +15,21 @@ describe(rule.id, () => {
 
     it('detects inadequate code', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
 
         expect(result.occurrences).not.toEqual([]);
     });
 
     it('accepts code that is not related to the rule', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
 
         expect(result.occurrences).toEqual([]);
     });
 
     it('detects <br> (no space nor slash) tag within another tag', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
         const firstOccurrence = result.occurrences[0];
 
         expect(firstOccurrence.line      ).toEqual('<div><br></div>');
@@ -41,7 +42,7 @@ describe(rule.id, () => {
 
     it('detects <br /> (space, slash) tag within another tag', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 3);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
         const firstOccurrence = result.occurrences[0];
 
         expect(firstOccurrence.line      ).toEqual('<div><br /></div>');
@@ -54,7 +55,7 @@ describe(rule.id, () => {
 
     it('detects <br/> (slash only) tag within another tag', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 4);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
         const firstOccurrence = result.occurrences[0];
 
         expect(firstOccurrence.line      ).toEqual('<div><br/></div>');
@@ -67,7 +68,7 @@ describe(rule.id, () => {
 
     it('detects standalone <br> tag (no space nor slash)', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 5);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
         const firstOccurrence = result.occurrences[0];
 
         expect(firstOccurrence.line      ).toEqual('<br>');
@@ -80,7 +81,7 @@ describe(rule.id, () => {
 
     it('detects standalone <br/> tag (slash)', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 6);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
         const firstOccurrence = result.occurrences[0];
 
         expect(firstOccurrence.line      ).toEqual('<br/>');

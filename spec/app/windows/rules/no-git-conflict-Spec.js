@@ -1,7 +1,8 @@
 const SpecHelper   = require('../../../SpecHelper');
 const specFileName = require('path').basename(__filename);
 
-const rule = SpecHelper.getRule(specFileName);
+const rule            = SpecHelper.getRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -14,21 +15,21 @@ describe(rule.id, () => {
 
     it('detects unresolved conflict', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
 
         expect(result.occurrences).not.toEqual([]);
     });
 
     it('accepts code that is not related to the rule', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
 
         expect(result.occurrences).toEqual([]);
     });
 
     it('detects position and length of space-only lines', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
         const occurrence1     = result.occurrences[0];
         const occurrence2     = result.occurrences[1];
 

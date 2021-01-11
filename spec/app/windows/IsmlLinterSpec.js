@@ -18,6 +18,7 @@ const UNPARSEABLE                      = ExceptionUtils.types.INVALID_TEMPLATE;
 const unparseableTemplatePath          = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
 const template0Path                    = path.join(specSpecificDirLinterTemplate, 'template_1.isml');
 const template1Path                    = path.join(specSpecificDirLinterTemplate, 'template_2.isml');
+const isCrlfLineBreak                  = true;
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -33,7 +34,7 @@ describe(targetObjName, () => {
     it('lints ISML templates in a given directory', () => {
         ConfigUtils.setConfig('ignoreUnparseable', false);
 
-        const result           = IsmlLinter.run(specSpecificDirLinterTemplate);
+        const result           = IsmlLinter.run(specSpecificDirLinterTemplate, null, { isCrlfLineBreak });
         const isprintError0    = result.errors[EnforceIsprintRule.id][template0Path][0];
         const isprintError1    = result.errors[EnforceIsprintRule.id][template1Path][0];
         const inlineStyleError = result.errors[NoInlineStyleRule.id][template0Path][0];
@@ -77,7 +78,7 @@ describe(targetObjName, () => {
         ConfigUtils.setConfig('ignoreUnparseable', false);
 
         const templatePathArray = glob.sync('spec/templates/default/isml_linter/specific_directory_to_be_linted/**/*.isml');
-        const result            = IsmlLinter.run(templatePathArray);
+        const result            = IsmlLinter.run(templatePathArray, null, { isCrlfLineBreak });
         const isprintError0     = result.errors[EnforceIsprintRule.id][template0Path][0];
         const isprintError1     = result.errors[EnforceIsprintRule.id][template1Path][0];
         const inlineStyleError  = result.errors[NoInlineStyleRule.id][template0Path][0];
@@ -118,14 +119,14 @@ describe(targetObjName, () => {
     });
 
     it('ignores templates under the node_modules/ directory', () => {
-        const result       = IsmlLinter.run(specSpecificDirLinterTemplate);
+        const result       = IsmlLinter.run(specSpecificDirLinterTemplate, null, { isCrlfLineBreak });
         const stringResult = JSON.stringify(result);
 
         expect(stringResult.indexOf('node_modules')).toBe(-1);
     });
 
     it('processes the correct line in result json data', () => {
-        const result = IsmlLinter.run(specSpecificDirLinterTemplate);
+        const result = IsmlLinter.run(specSpecificDirLinterTemplate, null, { isCrlfLineBreak });
 
         expect(result.errors[EnforceIsprintRule.id][template0Path][0].line   ).toEqual('<div style="display: none;">${addToCartUrl}</div>');
         expect(result.errors[EnforceIsprintRule.id][template1Path][0].line   ).toEqual(' ${URLUtils.https(\'Reorder-ListingPage\')}');
@@ -134,35 +135,35 @@ describe(targetObjName, () => {
     });
 
     it('does not consider errors in directories defined to be ignored in the config file', () => {
-        const lintResult = IsmlLinter.run(specIgnoreDirLinterTemplateDir);
+        const lintResult = IsmlLinter.run(specIgnoreDirLinterTemplateDir, null, { isCrlfLineBreak });
         const result     = JSON.stringify(lintResult);
 
         expect(result.indexOf('this_directory_is_to_be_ignored')).toEqual(-1);
     });
 
     it('does not consider errors in templates defined to be ignored in the config file', () => {
-        const lintResult = IsmlLinter.run(specIgnoreDirLinterTemplateDir);
+        const lintResult = IsmlLinter.run(specIgnoreDirLinterTemplateDir, null, { isCrlfLineBreak });
         const result     = JSON.stringify(lintResult);
 
         expect(result.indexOf('Email.isml')).toEqual(-1);
     });
 
     it('considers errors in templates not defined to be ignored in the config file', () => {
-        const lintResult = IsmlLinter.run(specIgnoreDirLinterTemplateDir);
+        const lintResult = IsmlLinter.run(specIgnoreDirLinterTemplateDir, null, { isCrlfLineBreak });
         const result     = JSON.stringify(lintResult);
 
         expect(result.indexOf('this_directory_should_be_tested')).not.toEqual(-1);
     });
 
     it('parses templates only under a given directory', () => {
-        const lintResult = IsmlLinter.run(specIgnoreDirLinterTemplateDir);
+        const lintResult = IsmlLinter.run(specIgnoreDirLinterTemplateDir, null, { isCrlfLineBreak });
         const result     = JSON.stringify(lintResult);
 
         expect(result.indexOf('this_directory_is_to_be_ignored')).toEqual(-1);
     });
 
     it('lists invalid templates as "unparseable"', () => {
-        const result          = IsmlLinter.run(specSpecificDirLinterTemplate);
+        const result          = IsmlLinter.run(specSpecificDirLinterTemplate, null, { isCrlfLineBreak });
         const expectedMessage = ExceptionUtils.unbalancedElementError('div', 2).message;
         const actualResult    = result[UNPARSEABLE][0];
         const templatePath    = path.join(specSpecificDirLinterTemplate, 'template_0.isml');
@@ -176,7 +177,7 @@ describe(targetObjName, () => {
         ConfigUtils.setConfig('ignoreUnparseable', false);
 
         const absoluteTemplatePath = path.join(Constants.clientAppDir, specSpecificDirLinterTemplate, 'template_0.isml');
-        const result               = IsmlLinter.run(absoluteTemplatePath);
+        const result               = IsmlLinter.run(absoluteTemplatePath, null, { isCrlfLineBreak });
         const expectedMessage      = ExceptionUtils.unbalancedElementError('div', 2).message;
         const actualResult         = result[UNPARSEABLE][0];
 
@@ -195,7 +196,7 @@ describe(targetObjName, () => {
 
     //     const templatePath    = path.join(Constants.clientAppDir, specSpecificDirLinterTemplate, 'template_1.isml');
     //     const originalContent = fs.readFileSync(templatePath, 'utf-8');
-    //     const result          = IsmlLinter.run(templatePath);
+    //     const result          = IsmlLinter.run(templatePath, null, { isCrlfLineBreak });
 
     //     expect(result.templatesFixed).toEqual(1);
     //     fs.writeFileSync(templatePath, originalContent);
@@ -206,7 +207,7 @@ describe(targetObjName, () => {
 
         const rule    = require('../../../src/rules/line_by_line/lowercase-filename');
         const dirPath = path.join(Constants.clientAppDir, specFilenameTemplate);
-        const result  = IsmlLinter.run(dirPath);
+        const result  = IsmlLinter.run(dirPath, null, { isCrlfLineBreak });
         const error   = result.errors[rule.id][path.join(dirPath, 'camelCaseTemplate.isml')][0];
 
         expect(error.line                           ).toEqual('');
@@ -229,7 +230,7 @@ describe(targetObjName, () => {
             rules: { 'no-space-only-lines': {} }
         });
 
-        const result       = IsmlLinter.run();
+        const result       = IsmlLinter.run(undefined, null, { isCrlfLineBreak });
         const ruleErrorObj = result.errors[ruleID];
 
         for (const templatePath in ruleErrorObj) {
@@ -241,7 +242,7 @@ describe(targetObjName, () => {
     it('accepts a single-file-to-be-linted as parameter', () => {
         const paramPath     = path.join('spec', 'templates', 'default', 'isml_linter', 'specific_directory_to_be_linted', 'template_1.isml');
         const filePathArray = [paramPath];
-        const result        = IsmlLinter.run(filePathArray);
+        const result        = IsmlLinter.run(filePathArray, null, { isCrlfLineBreak });
 
         for (const ruleID in result.errors) {
             const ruleErrorObj = result.errors[ruleID];
@@ -254,7 +255,7 @@ describe(targetObjName, () => {
     it('accepts a directory-to-be-linted as parameter', () => {
         const paramPath     = path.join('spec', 'templates', 'default', 'isml_linter', 'specific_directory_to_be_linted');
         const filePathArray = [paramPath];
-        const result        = IsmlLinter.run(filePathArray);
+        const result        = IsmlLinter.run(filePathArray, null, { isCrlfLineBreak });
 
         for (const ruleID in result.errors) {
             const ruleErrorObj = result.errors[ruleID];
@@ -265,13 +266,13 @@ describe(targetObjName, () => {
     });
 
     it('runs over configured or default directory if no parameter is passed', () => {
-        const result = IsmlLinter.run();
+        const result = IsmlLinter.run(undefined, null, { isCrlfLineBreak });
 
         expect(result.issueQty).toBeGreaterThan(0);
     });
 
     it('runs over configured or default directory if an empty array is passed as a parameter', () => {
-        const result = IsmlLinter.run([]);
+        const result = IsmlLinter.run([], null, { isCrlfLineBreak });
 
         expect(result.issueQty).toBeGreaterThan(0);
     });
@@ -281,7 +282,7 @@ describe(targetObjName, () => {
             rootDir : 'spec/templates/default/util/',
             rules: { 'custom-tags': {} }
         });
-        const result = IsmlLinter.run();
+        const result = IsmlLinter.run(undefined, null, { isCrlfLineBreak });
 
         expect(Array.isArray(result.errors['custom-tags'])).toBe(false);
         expect(Array.isArray(result.errors['custom-tags']['modules.isml'])).toBe(true);
@@ -290,7 +291,7 @@ describe(targetObjName, () => {
     it('raises no parse errors if "ignoreUnparseable" option is set to false', () => {
         ConfigUtils.setConfig('ignoreUnparseable', false);
 
-        const results = IsmlLinter.run(specUnparseableDirLinterTemplate);
+        const results = IsmlLinter.run(specUnparseableDirLinterTemplate, null, { isCrlfLineBreak });
 
         expect(results.issueQty).toEqual(1);
         expect(results.INVALID_TEMPLATE.length).toEqual(1);
@@ -299,7 +300,7 @@ describe(targetObjName, () => {
     it('raises parse errors if "ignoreUnparseable" option is set to true', () => {
         ConfigUtils.setConfig('ignoreUnparseable', true);
 
-        const results = IsmlLinter.run(specUnparseableDirLinterTemplate);
+        const results = IsmlLinter.run(specUnparseableDirLinterTemplate, null, { isCrlfLineBreak });
 
         expect(results.issueQty).toEqual(0);
         expect(results.INVALID_TEMPLATE.length).toEqual(0);

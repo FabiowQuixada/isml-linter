@@ -5,7 +5,7 @@ const GeneralUtils  = require('../../util/GeneralUtils');
 
 const SingleLineRulePrototype = Object.create(RulePrototype);
 
-SingleLineRulePrototype.check = function(templateContent) {
+SingleLineRulePrototype.check = function(templateContent, results, data = { isCrlfLineBreak : false }) {
 
     const config    = ConfigUtils.load();
     const lineArray = GeneralUtils.toLF(templateContent).split(Constants.EOL);
@@ -21,7 +21,7 @@ SingleLineRulePrototype.check = function(templateContent) {
         if (occurrence) {
             let occurrenceGlobalPos = globalPos + occurrence.globalPos;
 
-            if (global.isWindows) {
+            if (data.isCrlfLineBreak) {
                 occurrenceGlobalPos += lineNumber;
             }
 

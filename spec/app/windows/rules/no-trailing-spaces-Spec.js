@@ -2,7 +2,8 @@ const SpecHelper   = require('../../../SpecHelper');
 const Constants    = require('../../../../src/Constants');
 const specFileName = require('path').basename(__filename);
 
-const rule = SpecHelper.getRule(specFileName);
+const rule            = SpecHelper.getRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -15,35 +16,35 @@ describe(rule.id, () => {
 
     it('detects inadequate code', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
 
         expect(result.occurrences).not.toEqual([]);
     });
 
     it('does not apply to spaces-only lines', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
 
         expect(result.occurrences).toEqual([]);
     });
 
     it('does not apply to empty lines', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
 
         expect(result.occurrences).toEqual([]);
     });
 
     it('accepts good code', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 3);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
 
         expect(result.occurrences).toEqual([]);
     });
 
     it('detects trailing space chain position and length', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
         const firstOccurrence = result.occurrences[0];
 
         expect(firstOccurrence.line      ).toEqual('const sum = 0;    ');
@@ -74,7 +75,7 @@ describe(rule.id, () => {
 
     it('identifies issue global position', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 4);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
         const occurrence      = result.occurrences[0];
 
         expect(occurrence.globalPos).toEqual(63);
@@ -82,7 +83,7 @@ describe(rule.id, () => {
 
     it('identifies issue global position II', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 5);
-        const result          = rule.check(templateContent);
+        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
         const occurrence      = result.occurrences[0];
         const occurrence2     = result.occurrences[1];
 
