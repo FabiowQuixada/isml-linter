@@ -29,10 +29,10 @@ describe('On Unix, ' + rule.id, () => {
         expect(occurrences.level).toEqual('warning');
     });
 
-    it('detects too-deeply-nested element length', () => {
+    it('detects the whole element body, including suffix and inner content', () => {
         const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
         const occurrence = result[0];
 
-        expect(occurrence.length).toEqual(284);
+        expect(occurrence.length).toEqual(334);
     });
 });
