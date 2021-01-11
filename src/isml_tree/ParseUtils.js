@@ -260,6 +260,37 @@ const mergeTrailingSpacesWithLastElement = state => {
     }
 };
 
+const adjustTrailingSpaces = state => {
+
+    // Note that last element is not iterated over;
+    for (let i = 0; i < state.elementList.length - 1; i++) {
+        const previousElement = i > 0 ? state.elementList[i - 1] : null;
+        const currentElement  = state.elementList[i];
+
+        if (currentElement.type === 'text'
+            && previousElement
+            && previousElement.tagType !== 'iscomment'
+            && previousElement.tagType !== 'isscript'
+        ) {
+
+            const trailingSpacesQty = currentElement.value
+                .replace(/\r\n/g, '_')
+                .split('')
+                .reverse()
+                .join('')
+                .search(/\S/);
+
+            if (trailingSpacesQty > 0) {
+                const trailingSpaces = currentElement.value.slice(-trailingSpacesQty);
+
+                currentElement.value = currentElement.value.slice(0, -trailingSpacesQty);
+                const nextElement    = state.elementList[i + 1];
+                nextElement.value    = trailingSpaces + nextElement.value;
+            }
+        }
+    }
+};
+
 const getNewElement = state => {
     let lastContiguousMaskedCharPos;
     for (let i = 0; i < state.remainingShadowContent.length; i++) {
@@ -295,6 +326,7 @@ const getElementList = (templateContent, templatePath) => {
         finishLoopState(state);
     } while (state.remainingShadowContent.length > 0);
 
+    adjustTrailingSpaces(state);
     mergeTrailingSpacesWithLastElement(state);
 
     return elementList;

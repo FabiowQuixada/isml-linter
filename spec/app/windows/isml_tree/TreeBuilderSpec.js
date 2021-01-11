@@ -321,11 +321,11 @@ describe(targetObjName, () => {
         expect(divNode.lineNumber).toEqual(1);
         expect(divNode.getNumberOfChildren()).toEqual(2);
 
-        expect(hardcodeNode.value).toEqual(`${Constants.EOL}${Constants.EOL}a${Constants.EOL}    `);
+        expect(hardcodeNode.value).toEqual(`${Constants.EOL}${Constants.EOL}a`);
         expect(hardcodeNode.lineNumber).toEqual(3);
         expect(hardcodeNode.getNumberOfChildren()).toEqual(0);
 
-        expect(isprintNode.value).toEqual('<isprint value="${Resource.msg(\'reorder.productdiscontinued\',\'reorder\',null)}" />');
+        expect(isprintNode.value).toEqual(`${Constants.EOL}    <isprint value="\${Resource.msg('reorder.productdiscontinued',\'reorder\',null)}" />`);
         expect(isprintNode.lineNumber).toEqual(4);
         expect(isprintNode.getNumberOfChildren()).toEqual(0);
     });

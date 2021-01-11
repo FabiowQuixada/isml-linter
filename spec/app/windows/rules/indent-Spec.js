@@ -293,4 +293,10 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('check indentation of closing tag after a hardcoded text', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 24);
+
+        expect(result.length).toEqual(0);
+    });
 });
