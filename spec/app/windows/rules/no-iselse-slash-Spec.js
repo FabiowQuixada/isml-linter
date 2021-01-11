@@ -2,7 +2,8 @@ const specFileName = require('path').basename(__filename);
 const Constants    = require('../../../../src/Constants');
 const SpecHelper   = require('../../../SpecHelper');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -14,13 +15,13 @@ describe(rule.id, () => {
     });
 
     it('allows non-slashy <iselse> elements', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('detects slashy <iselse> elements', () => {
-        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak);
         const occurrence0 = result[0];
         const occurrence1 = result[1];
 

@@ -1,7 +1,8 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -13,7 +14,7 @@ describe(rule.id, () => {
     });
 
     it('disallows config-defined tags', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak);
 
         expect(result.length).toEqual(2);
         expect(result[0].message).toEqual('Tag "isscript" is not allowed.');
@@ -21,13 +22,13 @@ describe(rule.id, () => {
     });
 
     it('allows non-config-defined tags', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('ignores non-tag elements', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });

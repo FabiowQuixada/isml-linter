@@ -2,7 +2,8 @@ const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
 const IsmlNode     = require('../../../../src/isml_tree/IsmlNode');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -68,13 +69,13 @@ describe(rule.id, () => {
     });
 
     it('displays tag-specific message', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
         expect(result.message).toEqual('"context-object" attribute is expected when "context" attribute has value of "category"');
     });
 
     it('retrieves error metadata', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
         expect(result.line      ).toEqual('<isslot context="category" />');
         expect(result.lineNumber).toEqual(2);
@@ -84,13 +85,13 @@ describe(rule.id, () => {
     });
 
     it('correctly processes "isif" tags', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('correctly processes custom tags', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });

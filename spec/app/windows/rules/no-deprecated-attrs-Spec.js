@@ -2,7 +2,8 @@ const specFileName = require('path').basename(__filename);
 const IsmlNode     = require('../../../../src/isml_tree/IsmlNode');
 const SpecHelper   = require('../../../SpecHelper');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -32,13 +33,13 @@ describe(rule.id, () => {
     });
 
     it('displays tag-specific message', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
         expect(result.message).toEqual('"off" value is deprecated for "status" attribute');
     });
 
     it('retrieves error metadata', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
         expect(result.line      ).toEqual('<iscache status="off" />');
         expect(result.lineNumber).toEqual(2);
@@ -48,7 +49,7 @@ describe(rule.id, () => {
     });
 
     it('ignores custom tags', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });

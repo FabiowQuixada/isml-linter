@@ -34,7 +34,7 @@ Rule.isBroken = function(node) {
     return errorList;
 };
 
-Rule.check = function(node, result = { occurrences : [] }) {
+Rule.check = function(node, result = { occurrences : [] }, data) {
 
     const config = ConfigUtils.load();
     this.result  = result || {

@@ -4,7 +4,7 @@ const ParseUtils    = require('../../isml_tree/ParseUtils');
 
 const TreeRulePrototype = Object.create(RulePrototype);
 
-TreeRulePrototype.check = function(node, result = { occurrences : [] }) {
+TreeRulePrototype.check = function(node, result = { occurrences : [] }, data) {
 
     const config = ConfigUtils.load();
     this.result  = result || {

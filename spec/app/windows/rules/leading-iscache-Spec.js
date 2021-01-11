@@ -2,7 +2,8 @@ const specFileName = require('path').basename(__filename);
 const Constants    = require('../../../../src/Constants');
 const SpecHelper   = require('../../../SpecHelper');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -14,7 +15,7 @@ describe(rule.id, () => {
     });
 
     it('detects a non-root <iscache> element', () => {
-        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
+        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
         expect(occurrence.line      ).toEqual('<iscache status="on" />');
         expect(occurrence.lineNumber).toEqual(2);
@@ -25,13 +26,13 @@ describe(rule.id, () => {
     });
 
     it('does not raise an issue if <iscache> is the first element in template', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak);
 
         expect(result).toEqual([]);
     });
 
     it('detects a root-level, but non-first <iscache> element', () => {
-        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 2)[0];
+        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 2, isCrlfLineBreak)[0];
 
         expect(occurrence.line      ).toEqual('<iscache status="on" />');
         expect(occurrence.lineNumber).toEqual(3);
@@ -42,13 +43,13 @@ describe(rule.id, () => {
     });
 
     it('does not raise an issue if <iscache> is not present in the template', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak);
 
         expect(result).toEqual([]);
     });
 
     it('does not raise an issue if <iscache> tag is right after a <iscontent> tag', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak);
 
         expect(result).toEqual([]);
     });

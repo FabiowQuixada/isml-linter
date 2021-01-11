@@ -2,7 +2,8 @@ const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
 const ConfigUtils  = require('../../../../src/util/ConfigUtils');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -15,14 +16,14 @@ describe(rule.id, () => {
 
     it('identifies if custom modules is included and used', () => {
         ConfigUtils.load({ rules: {'custom-attributes': {}}});
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak);
 
         expect(result).toEqual([]);
     });
 
     it('identifies if custom modules is not included, but a custom tag is used', () => {
         ConfigUtils.load({ rules: {'custom-attributes': {}}});
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak)[0];
 
         expect(result.line      ).toEqual('<isinclude template="util/modules" />');
         expect(result.lineNumber).toEqual(1);
@@ -34,7 +35,7 @@ describe(rule.id, () => {
 
     it('identifies if custom modules is included, but no custom tag is used', () => {
         ConfigUtils.load({ rules: {'custom-attributes': {}}});
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2, isCrlfLineBreak)[0];
 
         expect(result.line      ).toEqual('<ismoduleone p_product="${productLineItem.product}" />');
         expect(result.lineNumber).toEqual(4);
@@ -47,14 +48,14 @@ describe(rule.id, () => {
 
     it('identifies if custom modules is nor included, nor used', () => {
         ConfigUtils.load({ rules: {'custom-attributes': {}}});
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak);
 
         expect(result).toEqual([]);
     });
 
     it('identifies if custom modules is included, but no custom tag is declared in util/modules', () => {
         ConfigUtils.load({ rules: {'custom-attributes': {}}});
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak)[0];
 
         expect(result.line      ).toEqual('<isproductprice p_product="${productLineItem.product}" />');
         expect(result.lineNumber).toEqual(4);

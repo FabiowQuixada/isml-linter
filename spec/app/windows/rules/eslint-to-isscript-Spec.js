@@ -5,7 +5,8 @@ const ConfigUtils      = require('../../../../src/util/ConfigUtils');
 const Constants        = require('../../../../src/Constants');
 const specEslintConfig = require(path.join('..', '..', '..', Constants.eslintConfigFileNameList[0]));
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -19,7 +20,7 @@ describe(rule.id, () => {
     });
 
     it('identifies the simplest eslint case', () => {
-        const result          = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const result          = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak);
         const firstOccurrence = result[0];
 
         expect(firstOccurrence.line      ).toEqual('    let foo = bar;    ');
@@ -31,7 +32,7 @@ describe(rule.id, () => {
     });
 
     it('identifies a second eslint occurrence', () => {
-        const secondOccurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[1];
+        const secondOccurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[1];
 
         expect(secondOccurrence.line      ).toEqual('    let bar = baz;  ');
         expect(secondOccurrence.lineNumber).toEqual(4);
@@ -42,7 +43,7 @@ describe(rule.id, () => {
     });
 
     it('identifies a complex eslint occurrence', () => {
-        const firstOccurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 1)[0];
+        const firstOccurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak)[0];
 
         expect(firstOccurrence.line      ).toEqual('           disabledAttr = \' disabled="disabled"\';  ');
         expect(firstOccurrence.lineNumber).toEqual(12);
@@ -53,7 +54,7 @@ describe(rule.id, () => {
     });
 
     it('identifies a simple eslint "var" occurrence', () => {
-        const result           = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+        const result           = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak);
         const firstOccurrence  = result[0];
         const secondOccurrence = result[1];
 
@@ -73,7 +74,7 @@ describe(rule.id, () => {
     });
 
     it('identifies a complex eslint "var" occurrence', () => {
-        const firstOccurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 2)[0];
+        const firstOccurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 2, isCrlfLineBreak)[0];
 
         expect(firstOccurrence.line      ).toEqual('    var pid = pdict.Product.getID();');
         expect(firstOccurrence.lineNumber).toEqual(3);
@@ -84,7 +85,7 @@ describe(rule.id, () => {
     });
 
     it('identifies a complex eslint "var" occurrence in a complex template', () => {
-        const firstOccurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 4)[0];
+        const firstOccurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak)[0];
 
         expect(firstOccurrence.line      ).toEqual('    var pid = pdict.Product.getID();');
         expect(firstOccurrence.lineNumber).toEqual(110);
@@ -95,14 +96,14 @@ describe(rule.id, () => {
     });
 
     it('identifies occurrence global position', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5, isCrlfLineBreak);
 
         expect(result[0].globalPos).toEqual(47);
         expect(result[1].globalPos).toEqual(73);
     });
 
     it('identifies occurrence global position II', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 6);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 6, isCrlfLineBreak);
 
         expect(result[0].globalPos).toEqual(47);
         expect(result[1].globalPos).toEqual(73);
@@ -111,7 +112,7 @@ describe(rule.id, () => {
     });
 
     it('identifies eslint parsing issues', () => {
-        const result          = SpecHelper.parseAndApplyRuleToTemplate(rule, 7);
+        const result          = SpecHelper.parseAndApplyRuleToTemplate(rule, 7, isCrlfLineBreak);
         const firstOccurrence = result[0];
 
         expect(firstOccurrence.line      ).toEqual('        vfar variableTwo = 2;');
@@ -123,7 +124,7 @@ describe(rule.id, () => {
     });
 
     it('identifies eslint indentation issues', () => {
-        const result           = SpecHelper.parseAndApplyRuleToTemplate(rule, 8);
+        const result           = SpecHelper.parseAndApplyRuleToTemplate(rule, 8, isCrlfLineBreak);
         const firstOccurrence  = result[0];
         const secondOccurrence = result[1];
 

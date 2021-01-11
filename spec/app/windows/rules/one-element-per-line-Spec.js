@@ -3,7 +3,8 @@ const SpecHelper   = require('../../../SpecHelper');
 const ConfigUtils  = require('../../../../src/util/ConfigUtils');
 // const Constants = require('../../../src/Constants');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -15,7 +16,7 @@ describe(rule.id, () => {
     });
 
     it('detects elements in the same line', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
         expect(result.line      ).toEqual('${Resource.msg(\'field.billing.address.last.name\',\'address\',null)}');
         expect(result.lineNumber).toEqual(7);
@@ -26,13 +27,13 @@ describe(rule.id, () => {
     });
 
     it('allows one element per line', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak);
 
         expect(result).toEqual([]);
     });
 
     it('ignores container nodes', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -78,7 +79,7 @@ describe(rule.id, () => {
             except: ['iscomment']
         });
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -86,7 +87,7 @@ describe(rule.id, () => {
     it('raises an error if "iscomment" option is not set as exception', () => {
         ConfigUtils.setRuleConfig('one-element-per-line', {});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak);
 
         expect(result.length).toEqual(1);
     });
@@ -96,7 +97,7 @@ describe(rule.id, () => {
             except: ['non-tag']
         });
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -104,7 +105,7 @@ describe(rule.id, () => {
     it('raises an error if "non-tag" option is not set as exception', () => {
         ConfigUtils.setRuleConfig('one-element-per-line', {});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak);
 
         expect(result.length).toEqual(1);
     });
@@ -114,7 +115,7 @@ describe(rule.id, () => {
             except: ['non-tag']
         });
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });

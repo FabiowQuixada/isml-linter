@@ -60,9 +60,11 @@ module.exports = {
         return fs.readFileSync(templatePath, 'utf-8');
     },
 
-    parseAndApplyRuleToTemplate: (rule, templateNumber) => {
+    parseAndApplyRuleToTemplate: (rule, templateNumber, isCrlfLineBreak) => {
         const templatePath = getTreeRuleSpecTemplatePath(rule, templateNumber);
         const tree         = TreeBuilder.build(templatePath);
+
+        tree.isCrlfLineBreak = isCrlfLineBreak;
 
         return rule.check(tree.rootNode, { occurrences : [] }, tree.data).occurrences;
     },

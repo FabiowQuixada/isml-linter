@@ -2,7 +2,8 @@ const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
 const ConfigUtils  = require('../../../../src/util/ConfigUtils');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -14,7 +15,7 @@ describe(rule.id, () => {
     });
 
     it('identifies a reverse tabnabbing security hole', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
         expect(result.line      ).toEqual('<a href="http://example.com" target="_blank">');
         expect(result.lineNumber).toEqual(1);
@@ -25,13 +26,13 @@ describe(rule.id, () => {
     });
 
     it('ignores reverse-tabnabbing-safe elements', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('identifies a reverse tabnabbing security hole in a multiline element', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2, isCrlfLineBreak)[0];
 
         expect(result.line      ).toEqual('<a \n    href="http://example.com"\n    target="_blank"\n    class="some-class"\n>');
         expect(result.lineNumber).toEqual(1);
@@ -42,7 +43,7 @@ describe(rule.id, () => {
     });
 
     it('ignores reverse-tabnabbing-safe multi-line elements', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -53,13 +54,13 @@ describe(rule.id, () => {
                 'prevent-reverse-tabnabbing' : false
             }
         });
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('allows "rel" attribute to have multiple values when preventing reverse tabnabbing', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });

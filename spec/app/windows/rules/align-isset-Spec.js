@@ -1,7 +1,8 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -13,7 +14,7 @@ describe(rule.id, () => {
     });
 
     it('detects simplest wrong miss-alignment case', () => {
-        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak);
         const occurrence0 = result[0];
         const occurrence1 = result[1];
 
@@ -35,13 +36,13 @@ describe(rule.id, () => {
     });
 
     it('allows aligned attributes', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('checks alignment only for consecutive tags', () => {
-        const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+        const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak);
         const occurrence = result[0];
 
         expect(occurrence.line      ).toEqual('<isset name="var11" value="${value11}" scope="page"/>');

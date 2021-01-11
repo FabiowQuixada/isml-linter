@@ -17,7 +17,7 @@ Rule.isBroken = function(node) {
     return disallowedTagList.indexOf(node.getType()) >= 0;
 };
 
-Rule.check = function(node, result = { occurrences : [] }) {
+Rule.check = function(node, result = { occurrences : [] }, data) {
 
     const config = ConfigUtils.load();
     this.result  = result || {

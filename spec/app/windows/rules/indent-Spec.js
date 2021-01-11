@@ -2,7 +2,8 @@ const specFileName = require('path').basename(__filename);
 const Constants    = require('../../../../src/Constants');
 const SpecHelper   = require('../../../SpecHelper');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -14,7 +15,7 @@ describe(rule.id, () => {
     });
 
     it('detects simplest wrong indentation case', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
         expect(result.line      ).toEqual('<br/>');
         expect(result.lineNumber).toEqual(2);
@@ -25,7 +26,7 @@ describe(rule.id, () => {
     });
 
     it('detects wrong indentation with previous empty line', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak)[0];
 
         expect(result.line      ).toEqual('<br/>');
         expect(result.lineNumber).toEqual(3);
@@ -36,13 +37,13 @@ describe(rule.id, () => {
     });
 
     it('ignores indentation for elements in the same line as their parents', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2, isCrlfLineBreak);
 
         expect(result).toEqual([]);
     });
 
     it('detects wrong indentation with previous sibling element', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak)[0];
 
         expect(result.line      ).toEqual('<input type="text" />');
         expect(result.lineNumber).toEqual(3);
@@ -53,7 +54,7 @@ describe(rule.id, () => {
     });
 
     it('checks indentation for elements at depth 0', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5, isCrlfLineBreak);
 
         expect(result).toEqual([]);
     });
@@ -167,55 +168,55 @@ describe(rule.id, () => {
     });
 
     it('does not apply to <script> tag content', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 6);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 6, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('does not take container nodes into account', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 7);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 7, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('applies for elements that have a hardcode as first sibling', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 8);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 8, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('checks if indentation is set as previous node trailing spaces I', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 9);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 9, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('checks if indentation is set as previous node trailing spaces II', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 10);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 10, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('checks if indentation is set as previous node trailing spaces III', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 11);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 11, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('checks if indentation is set as previous node trailing spaces IV', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 12);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 12, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('ignores <iscomment> content', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 13);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 13, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('raises only one issue if only a node opening tag is miss-indented', () => {
-        const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 14);
+        const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 14, isCrlfLineBreak);
         const occurrence = result[0];
 
         expect(result.length        ).toEqual(1);
@@ -224,7 +225,7 @@ describe(rule.id, () => {
     });
 
     it('raises an issue if only a node closing tag is miss-indented', () => {
-        const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 15);
+        const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 15, isCrlfLineBreak);
         const occurrence = result[0];
 
         expect(result.length        ).toEqual(1);
@@ -233,46 +234,46 @@ describe(rule.id, () => {
     });
 
     it('checks if indentation is set as previous node trailing spaces V', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 16);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 16, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('checks if indentation is set as previous node trailing spaces VI', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 17);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 17, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('checks indentation for first element at line 1', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 18)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 18, isCrlfLineBreak)[0];
 
         expect(result.globalPos).toEqual(0);
         expect(result.length).toEqual(8);
     });
 
     it('checks indentation for first "isif" element at line 1', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 19)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 19, isCrlfLineBreak)[0];
 
         expect(result.globalPos).toEqual(0);
         expect(result.length).toEqual(4);
     });
 
     it('identifies occurrence global position and length III', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 20)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 20, isCrlfLineBreak)[0];
 
         expect(result.globalPos).toEqual(39);
         expect(result.length).toEqual(4);
     });
 
     it('ignores indentation if element is in the same line as previous sibling', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 21);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 21, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('identifies wrong indentation on node suffix value', () => {
-        const result                = SpecHelper.parseAndApplyRuleToTemplate(rule, 18);
+        const result                = SpecHelper.parseAndApplyRuleToTemplate(rule, 18, isCrlfLineBreak);
         const valueOccurrence       = result[0];
         const suffixValueOccurrence = result[1];
 
@@ -283,19 +284,19 @@ describe(rule.id, () => {
     });
 
     it('checks indentation for an "isif" tag after an expression', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 22);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 22, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('checks indentation for nested "isif" tags', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 23);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 23, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('check indentation of closing tag after a hardcoded text', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 24);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 24, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });

@@ -1,7 +1,8 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -13,13 +14,13 @@ describe(rule.id, () => {
     });
 
     it('allows an empty last line', () => {
-        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak);
 
         expect(occurrence.length).toEqual(0);
     });
 
     it('detects a non-empty-last line', () => {
-        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 1)[0];
+        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak)[0];
 
         expect(occurrence.line      ).toEqual('I\'m a hardcoded-text');
         expect(occurrence.lineNumber).toEqual(4);
@@ -30,7 +31,7 @@ describe(rule.id, () => {
     });
 
     it('detects a last line with blank spaces', () => {
-        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 2)[0];
+        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 2, isCrlfLineBreak)[0];
 
         expect(occurrence.line      ).toEqual('   ');
         expect(occurrence.lineNumber).toEqual(3);
@@ -41,13 +42,13 @@ describe(rule.id, () => {
     });
 
     it('raises no error if last element is a <isif> element', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('detects issue for a last <isif> element', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak);
 
         expect(result.length).toEqual(1);
     });

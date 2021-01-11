@@ -1,7 +1,8 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = true;
 
 describe(rule.id, () => {
     beforeEach(() => {
@@ -13,7 +14,7 @@ describe(rule.id, () => {
     });
 
     it('detects hardcoded texts', () => {
-        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak);
         const occurrence1 = result[0];
         const occurrence2 = result[1];
 
@@ -33,19 +34,19 @@ describe(rule.id, () => {
     });
 
     it('ignores container nodes', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('ignores isscript node content', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('detects a 1-length-long hardcoded text', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak)[0];
 
         expect(result.globalPos ).toEqual(33);
         expect(result.length    ).toEqual(1);
@@ -56,7 +57,7 @@ describe(rule.id, () => {
     });
 
     it('detects lonely hardcoded text', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak)[0];
 
         expect(result.globalPos ).toEqual(9);
         expect(result.length    ).toEqual(4);
@@ -67,25 +68,25 @@ describe(rule.id, () => {
     });
 
     it('does not apply to <script> tag content', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('does not apply to <style> tag content', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 6);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 6, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('does not apply to <style> tag content with ISML tags within it', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 7);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 7, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('does not apply to <style [some attribute]> tag content', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 8);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 8, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
