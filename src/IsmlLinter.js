@@ -99,8 +99,7 @@ const getEmptyResult = () => {
     };
 };
 
-// TODO Reorder params;
-const checkTemplate = (content, templatePath, templateName, data) => {
+const checkTemplate = (templatePath, data, content, templateName) => {
     const formattedTemplatePath = GeneralUtils.formatTemplatePath(templatePath);
     const templateResults       = getEmptyResult();
 
@@ -222,7 +221,7 @@ Linter.run = (pathData, content, data = {}) => {
             const isIgnored    = FileUtils.isIgnored(templatePath);
 
             if (!isIgnored) {
-                const templateResults = checkTemplate(content, templatePath, templateName, data);
+                const templateResults = checkTemplate(templatePath, data, content, templateName);
 
                 finalResult = merge(finalResult, templateResults);
             }
