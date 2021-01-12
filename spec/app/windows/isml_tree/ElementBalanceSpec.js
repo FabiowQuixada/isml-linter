@@ -2,6 +2,8 @@ const SpecHelper  = require('../../../SpecHelper');
 const TreeBuilder = require('../../../../src/isml_tree/TreeBuilder');
 const Constants   = require('../../../../src/Constants');
 
+const isCrlfLineBreak = true;
+
 describe('TreeBuilder', () => {
 
     beforeEach(() => {
@@ -61,5 +63,5 @@ const getTemplatePath = number => {
 
 const getTreeFromTemplate = number => {
     const templatePath = getTemplatePath(number);
-    return TreeBuilder.build(templatePath);
+    return TreeBuilder.build(templatePath, undefined, isCrlfLineBreak);
 };

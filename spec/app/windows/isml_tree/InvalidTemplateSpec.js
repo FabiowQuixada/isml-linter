@@ -5,6 +5,8 @@ const ParseStatus    = require('../../../../src/enums/ParseStatus');
 const ExceptionUtils = require('../../../../src/util/ExceptionUtils');
 const ConfigUtils    = require('../../../../src/util/ConfigUtils');
 
+const isCrlfLineBreak = true;
+
 describe('Invalid Template', () => {
 
     beforeEach(() => {
@@ -19,7 +21,7 @@ describe('Invalid Template', () => {
         ConfigUtils.load({
             disableHtml5: true
         });
-        const result = TreeBuilder.build(getTemplatePath(0));
+        const result = TreeBuilder.build(getTemplatePath(0), undefined, isCrlfLineBreak);
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
         expect(result.exception.globalPos).toEqual(103);
@@ -32,7 +34,7 @@ describe('Invalid Template', () => {
         ConfigUtils.load({
             disableHtml5: true
         });
-        const result          = TreeBuilder.build(getTemplatePath(1));
+        const result          = TreeBuilder.build(getTemplatePath(1), undefined, isCrlfLineBreak);
         const expectedMessage = ExceptionUtils.unbalancedElementError('input', 5, -1, -1).message;
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
@@ -41,7 +43,7 @@ describe('Invalid Template', () => {
 
     it('identifies the line number of an unbalanced element', () => {
         const templatePath = getTemplatePath(2);
-        const result       = TreeBuilder.build(templatePath);
+        const result       = TreeBuilder.build(templatePath, undefined, isCrlfLineBreak);
         const exceptionObj = ExceptionUtils.unbalancedElementError('div', 3, 95, 35, templatePath);
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
@@ -49,7 +51,7 @@ describe('Invalid Template', () => {
     });
 
     it('identifies the line number of an unbalanced element II', () => {
-        const result          = TreeBuilder.build(getTemplatePath(3));
+        const result          = TreeBuilder.build(getTemplatePath(3), undefined, isCrlfLineBreak);
         const expectedMessage = ExceptionUtils.unbalancedElementError('select', 4, -1, -1).message;
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);

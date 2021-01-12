@@ -82,7 +82,7 @@ const parseNextElement = state => {
             parseTextElement(state, newElement);
     }
 
-    if (global.isWindows) {
+    if (state.isCrlfLineBreak) {
         newElement.globalPos += newElement.lineNumber - 1;
     }
 

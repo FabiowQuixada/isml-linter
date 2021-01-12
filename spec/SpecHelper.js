@@ -62,7 +62,7 @@ module.exports = {
 
     parseAndApplyRuleToTemplate: (rule, templateNumber, isCrlfLineBreak) => {
         const templatePath = getTreeRuleSpecTemplatePath(rule, templateNumber);
-        const tree         = TreeBuilder.build(templatePath);
+        const tree         = TreeBuilder.build(templatePath, undefined, isCrlfLineBreak);
 
         tree.data.isCrlfLineBreak = isCrlfLineBreak;
 

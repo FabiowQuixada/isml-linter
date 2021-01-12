@@ -3,7 +3,8 @@ const TreeBuilder    = require('../../../../src/isml_tree/TreeBuilder');
 const Constants      = require('../../../../src/Constants');
 const ExceptionUtils = require('../../../../src/util/ExceptionUtils');
 
-const targetObjName = SpecHelper.getTargetObjName(__filename);
+const targetObjName   = SpecHelper.getTargetObjName(__filename);
+const isCrlfLineBreak = true;
 
 describe(targetObjName, () => {
 
@@ -630,7 +631,7 @@ const getTemplatePath = number => {
 
 const getTreeFromTemplate = number => {
     const templatePath  = getTemplatePath(number);
-    return TreeBuilder.build(templatePath);
+    return TreeBuilder.build(templatePath, undefined, isCrlfLineBreak);
 };
 
 const getRootNodeFromTemplate = number => {

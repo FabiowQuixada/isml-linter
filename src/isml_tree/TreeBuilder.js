@@ -155,7 +155,7 @@ const postProcess = (node, data = {}) => {
     return data;
 };
 
-const build = (templatePath, content) => {
+const build = (templatePath, content, isCrlfLineBreak) => {
 
     const ParseStatus = require('../enums/ParseStatus');
 
@@ -166,7 +166,7 @@ const build = (templatePath, content) => {
 
     try {
         const templateContent = GeneralUtils.toLF(content || fs.readFileSync(templatePath, 'utf-8'));
-        result.rootNode       = parse(templateContent, templatePath);
+        result.rootNode       = parse(templateContent, templatePath, isCrlfLineBreak);
         result.data           = postProcess(result.rootNode);
 
     } catch (e) {
