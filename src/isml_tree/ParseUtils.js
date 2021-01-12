@@ -113,11 +113,21 @@ const parseTagOrExpressionElement = (state, newElement) => {
 
     newElement.value = state.remainingContent.substring(0, state.nextClosingTagOrExpressionEndPos);
 
-    // html comment, isml comment?
-    newElement.type = isTag ? trimmedElement.startsWith('<is') || trimmedElement.startsWith('</is') ? 'ismlTag' : 'htmlTag' :
-        isHtmlOrIsmlComment ? 'htmlOrIsmlComment' :
-            isExpression ? 'expression' :
-                'text';
+    if (isTag) {
+        if (trimmedElement.startsWith('<is') || trimmedElement.startsWith('</is')) {
+            newElement.type = 'ismlTag';
+        } else if (trimmedElement.startsWith('<!DOCTYPE')) {
+            newElement.type = 'doctype';
+        } else {
+            newElement.type = 'htmlTag';
+        }
+    } else if (isHtmlOrIsmlComment) {
+        newElement.type = 'htmlOrIsmlComment';
+    } else if (isExpression) {
+        newElement.type = 'expression';
+    } else {
+        newElement.type = 'text';
+    }
 
     if (isTag) {
         newElement.tagType = getElementType(trimmedElement);
@@ -171,7 +181,7 @@ function isSelfClosing(trimmedElement) {
     const config               = ConfigUtils.load();
     const isTag                = trimmedElement.startsWith('<') && !trimmedElement.startsWith('<!--');
     const elementType          = getElementType(trimmedElement);
-    const isDocType            = trimmedElement.startsWith('<!doctype ');
+    const isDocType            = trimmedElement.toLowerCase().startsWith('<!doctype ');
     const isVoidElement        = !config.disableHtml5 && Constants.voidElementsArray.indexOf(elementType) >= 0;
     const isHtmlComment        = trimmedElement.startsWith('<!--') && trimmedElement.endsWith('-->');
     const isClosingTag         = trimmedElement.endsWith('/>');

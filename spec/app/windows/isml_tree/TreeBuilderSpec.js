@@ -611,6 +611,17 @@ describe(targetObjName, () => {
         expect(textNode.value).toEqual(' <isif condition="${aCondition}"> ');
         expect(textNode.getType()).toEqual('text');
     });
+
+    it('identifies <!DOCTYPE> tags as self-closing', () => {
+        const rootNode    = getRootNodeFromTemplate(63);
+        const docTypeNode = rootNode.children[0];
+        const divNode     = rootNode.children[1];
+
+        expect(rootNode.children.length).toEqual(2);
+        expect(docTypeNode.isDocType() ) .toEqual(true);
+        expect(docTypeNode.value       ).toEqual('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">');
+        expect(divNode.value           ).toEqual(`${Constants.EOL}<div>`);
+    });
 });
 
 const getTemplatePath = number => {
