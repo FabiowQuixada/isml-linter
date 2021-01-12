@@ -225,8 +225,6 @@ Linter.run = (pathData, content, data = {}) => {
                 const templateResults = checkTemplate(content, templatePath, templateName, data);
 
                 finalResult = merge(finalResult, templateResults);
-
-                finalResult.totalTemplatesQty++;
             }
 
             ProgressBar.increment();
@@ -234,8 +232,9 @@ Linter.run = (pathData, content, data = {}) => {
 
         addCustomModuleResults(finalResult);
 
-        const lintEndTime       = new Date();
-        finalResult.elapsedTime = (lintEndTime.getTime() - lintStartTime.getTime()) / 1000;
+        const lintEndTime             = new Date();
+        finalResult.elapsedTime       = (lintEndTime.getTime() - lintStartTime.getTime()) / 1000;
+        finalResult.totalTemplatesQty = templatePathArray.length;
 
     } catch (e) {
         ConsoleUtils.printExceptionMsg(e.stack || e);
