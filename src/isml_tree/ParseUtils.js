@@ -73,8 +73,7 @@ const parseNextElement = state => {
         newElement.type          = 'text';
         newElement.isSelfClosing = true;
 
-        // TODO: Maybe there is a better way of checking this?
-        if (global.isWindows) {
+        if (state.isCrlfLineBreak) {
             newElement.globalPos -= getLineBreakQty(newElement.value);
         }
     } else {
@@ -221,7 +220,7 @@ const getNextClosingTagOrExpressionEndPos = content => {
     ].filter(j => j !== -1)) + 1;
 };
 
-const getInitialState = (templateContent, templatePath) => {
+const getInitialState = (templateContent, templatePath, isCrlfLineBreak) => {
     const originalContent       = GeneralUtils.toLF(templateContent);
     const originalShadowContent = MaskUtils.maskIgnorableContent(originalContent, null, templatePath);
 
@@ -234,7 +233,8 @@ const getInitialState = (templateContent, templatePath) => {
         remainingShadowContent : originalShadowContent,
         pastContent            : '',
         elementList            : [],
-        cutSpot                : null
+        cutSpot                : null,
+        isCrlfLineBreak
     };
 };
 
@@ -325,9 +325,9 @@ const getNewElement = state => {
     };
 };
 
-const getElementList = (templateContent, templatePath) => {
+const getElementList = (templateContent, templatePath, isCrlfLineBreak) => {
 
-    const state       = getInitialState(templateContent, templatePath);
+    const state       = getInitialState(templateContent, templatePath, isCrlfLineBreak);
     const elementList = state.elementList;
 
     do {

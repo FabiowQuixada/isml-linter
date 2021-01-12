@@ -5,9 +5,9 @@ const ContainerNode  = require('./ContainerNode');
 const ExceptionUtils = require('../util/ExceptionUtils');
 const GeneralUtils   = require('../util/GeneralUtils');
 
-const parse = (content, templatePath) => {
+const parse = (content, templatePath, isCrlfLineBreak) => {
 
-    const elementList = ParseUtils.getElementList(content, templatePath);
+    const elementList = ParseUtils.getElementList(content, templatePath, isCrlfLineBreak);
     const rootNode    = new IsmlNode();
     let currentParent = rootNode;
 

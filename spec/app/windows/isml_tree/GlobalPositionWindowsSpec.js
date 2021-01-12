@@ -4,6 +4,8 @@ const SpecHelper  = require('../../../SpecHelper');
 const Constants   = require('../../../../src/Constants');
 const TreeBuilder = require('../../../../src/isml_tree/TreeBuilder');
 
+const isCrlfLineBreak = true;
+
 describe('Global Position on Windows', () => {
 
     beforeEach(() => {
@@ -300,7 +302,7 @@ const parseTemplate = number => {
     const templatePath        = path.join(Constants.specGlobalPosTemplateDir, `template_${number}.isml`);
     const templateContent     = fs.readFileSync(templatePath, 'utf-8');
     const crlfTemplateContent = templateContent;
-    const root                = TreeBuilder.parse(crlfTemplateContent, templatePath);
+    const root                = TreeBuilder.parse(crlfTemplateContent, templatePath, isCrlfLineBreak);
 
     return root;
 };
