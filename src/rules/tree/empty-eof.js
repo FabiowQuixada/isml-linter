@@ -1,7 +1,6 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const Constants         = require('../../Constants');
 const ParseUtils        = require('../../isml_tree/ParseUtils');
-const GeneralUtils      = require('../../util/GeneralUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'A blank line at the end of the file is required';
@@ -40,7 +39,7 @@ Rule.check = function(rootNode, result) {
                 globalPos = node.globalPos + node.toString().length - trailingSpaces.length;
 
                 if (global.isWindows) {
-                    globalPos += GeneralUtils.offset(lineBreakQty);
+                    globalPos += lineBreakQty - 1;
                 }
             }
         }
