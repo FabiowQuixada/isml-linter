@@ -5,7 +5,7 @@ const rule = SpecHelper.getTreeRule(specFileName);
 
 describe('On Unix, ' + rule.id, () => {
     beforeEach(() => {
-        SpecHelper.beforeEach(false);
+        SpecHelper.beforeEach();
     });
 
     afterEach(() => {

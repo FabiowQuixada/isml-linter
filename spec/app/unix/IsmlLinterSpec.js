@@ -24,7 +24,7 @@ const targetObjName                    = SpecHelper.getTargetObjName(__filename)
 
 describe('On Unix, ' + targetObjName, () => {
     beforeEach(() => {
-        SpecHelper.beforeEach(false);
+        SpecHelper.beforeEach();
     });
 
     afterEach(() => {

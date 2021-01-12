@@ -10,7 +10,7 @@ const isCrlfLineBreak = false;
 describe('Global Position on Unix', () => {
 
     beforeEach(() => {
-        SpecHelper.beforeEach(false);
+        SpecHelper.beforeEach();
     });
 
     afterEach(() => {

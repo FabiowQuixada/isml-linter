@@ -18,7 +18,7 @@ const isCrlfLineBreak = false;
 
 describe('On Unix' + targetObjName, () => {
     beforeEach(() => {
-        SpecHelper.beforeEach(false);
+        SpecHelper.beforeEach();
     });
 
     afterEach(() => {
