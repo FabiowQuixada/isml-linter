@@ -12,7 +12,7 @@ describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
         ConfigUtils.loadEslintConfig(specEslintConfig);
-        rule.occurrences       = [];
+        rule.occurrenceList       = [];
     });
 
     afterEach(() => {

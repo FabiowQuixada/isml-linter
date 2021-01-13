@@ -56,7 +56,7 @@ Rule.check = function(node, data) {
         eslintConfig = ConfigUtils.loadEslintConfig();
     } catch (err) {
         const error = this.getError(null, 0, 0, 1, notFoundMessage);
-        return { occurrences : [error] };
+        return { occurrenceList : [error] };
     }
 
     this.checkChildren(node, data);
@@ -66,9 +66,9 @@ Rule.check = function(node, data) {
     }
 
     if (node.isRoot()) {
-        const Linter      = require('eslint').Linter;
-        const linter      = new Linter();
-        const occurrences = [];
+        const Linter         = require('eslint').Linter;
+        const linter         = new Linter();
+        const occurrenceList = [];
 
         for (let index = 0; index < isscriptContentArray.length; index++) {
             const jsContentNode = isscriptContentArray[index];
@@ -82,13 +82,13 @@ Rule.check = function(node, data) {
 
             for (let i = 0; i < errorArray.length; i++) {
                 const error = this.addError(jsContentNode, errorArray[i], ismlOffset, linter, data);
-                occurrences.push(error);
+                occurrenceList.push(error);
             }
         }
 
         isscriptContentArray = [];
 
-        return { occurrences };
+        return { occurrenceList };
     }
 };
 
@@ -99,7 +99,7 @@ Rule.getFixedContent = function(node) {
         eslintConfig = ConfigUtils.loadEslintConfig();
     } catch (err) {
         const error = this.getError(null, 0, 0, 1, notFoundMessage);
-        return { occurrences : [error] };
+        return { occurrenceList : [error] };
     }
 
     for (let i = 0; i < node.children.length; i++) {

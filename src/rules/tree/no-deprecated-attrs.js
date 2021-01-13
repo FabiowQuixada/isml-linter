@@ -43,7 +43,7 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(node, data) {
 
-    const occurrences = this.checkChildren(node, data);
+    const occurrenceList = this.checkChildren(node, data);
 
     const occurrence = this.isBroken(node);
     if (occurrence) {
@@ -55,12 +55,12 @@ Rule.check = function(node, data) {
             occurrence.message
         );
 
-        occurrences.push(error);
+        occurrenceList.push(error);
     }
 
     return node.isRoot() ?
-        { occurrences } :
-        occurrences;
+        { occurrenceList } :
+        occurrenceList;
 };
 
 module.exports = Rule;

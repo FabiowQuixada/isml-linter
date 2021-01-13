@@ -19,8 +19,8 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(node, data) {
 
-    const config      = ConfigUtils.load();
-    const occurrences = this.checkChildren(node, data);
+    const config         = ConfigUtils.load();
+    const occurrenceList = this.checkChildren(node, data);
 
     if (this.isBroken(node)) {
         const error = this.getError(
@@ -31,10 +31,10 @@ Rule.check = function(node, data) {
             `Tag "${node.getType()}" is not allowed.`
         );
 
-        occurrences.push(error);
+        occurrenceList.push(error);
     }
 
-    return this.return(node, occurrences, config);
+    return this.return(node, occurrenceList, config);
 };
 
 module.exports = Rule;

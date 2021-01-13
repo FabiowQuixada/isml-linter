@@ -12,7 +12,7 @@ describe('On Unix, ' + rule.id, () => {
         SpecHelper.beforeEach();
         ConfigUtils.loadEslintConfig(specEslintConfig);
 
-        rule.occurrences = [];
+        rule.occurrenceList = [];
     });
 
     afterEach(() => {

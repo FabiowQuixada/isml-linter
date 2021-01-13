@@ -11,12 +11,12 @@ Rule.isBroken = function(fileName) { return fileName !== fileName.toLowerCase();
 
 Rule.check = function(fileName, templateContent) {
     const result = {
-        occurrences : []
+        occurrenceList : []
     };
 
     if (this.isBroken(fileName)) {
         const error = this.getError('', -1, 0, templateContent.length);
-        result.occurrences.push(error);
+        result.occurrenceList.push(error);
     }
 
     return result;

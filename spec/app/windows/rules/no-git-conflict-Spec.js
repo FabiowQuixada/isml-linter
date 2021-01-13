@@ -17,21 +17,21 @@ describe(rule.id, () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
         const result          = rule.check(templateContent, null, { isCrlfLineBreak });
 
-        expect(result.occurrences).not.toEqual([]);
+        expect(result.occurrenceList).not.toEqual([]);
     });
 
     it('accepts code that is not related to the rule', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
         const result          = rule.check(templateContent, null, { isCrlfLineBreak });
 
-        expect(result.occurrences).toEqual([]);
+        expect(result.occurrenceList).toEqual([]);
     });
 
     it('detects position and length of space-only lines', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
         const result          = rule.check(templateContent, null, { isCrlfLineBreak });
-        const occurrence1     = result.occurrences[0];
-        const occurrence2     = result.occurrences[1];
+        const occurrence1     = result.occurrenceList[0];
+        const occurrence2     = result.occurrenceList[1];
 
         expect(occurrence1.line      ).toEqual('<<<<<<< HEAD');
         expect(occurrence1.lineNumber).toEqual(1);
@@ -46,6 +46,6 @@ describe(rule.id, () => {
         expect(occurrence2.length    ).toEqual(7);
         expect(occurrence2.rule      ).toEqual(rule.id);
 
-        expect(result.occurrences.length).toEqual(2);
+        expect(result.occurrenceList.length).toEqual(2);
     });
 });

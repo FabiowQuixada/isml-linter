@@ -16,7 +16,7 @@ describe('On Unix, ' + rule.id, () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
         const result          = rule.check(templateContent);
 
-        expect(result.occurrences).not.toEqual([]);
+        expect(result.occurrenceList).not.toEqual([]);
     });
 
     it('detects inadequate code in the middle of the line', () => {
@@ -31,27 +31,27 @@ describe('On Unix, ' + rule.id, () => {
             message     : rule.description
         }];
 
-        expect(result.occurrences).not.toEqual(expectedResult);
+        expect(result.occurrenceList).not.toEqual(expectedResult);
     });
 
     it('accepts good code', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
         const result          = rule.check(templateContent);
 
-        expect(result.occurrences).toEqual([]);
+        expect(result.occurrenceList).toEqual([]);
     });
 
     it('accepts code that is not related to the rule', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 3);
         const result          = rule.check(templateContent);
 
-        expect(result.occurrences).toEqual([]);
+        expect(result.occurrenceList).toEqual([]);
     });
 
     it('detects inadequate code upon declaration and no assignment', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 4);
         const result          = rule.check(templateContent);
-        const firstOccurrence = result.occurrences[0];
+        const firstOccurrence = result.occurrenceList[0];
 
         expect(firstOccurrence.line      ).toEqual('const productLineItem : dw.order.ProductLineItem; // Some comment');
         expect(firstOccurrence.lineNumber).toEqual(2);

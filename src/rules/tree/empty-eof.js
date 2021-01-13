@@ -19,7 +19,7 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(rootNode, data) {
 
-    const occurrences = [];
+    const occurrenceList = [];
 
     const node = rootNode.getLastChild();
 
@@ -49,11 +49,11 @@ Rule.check = function(rootNode, data) {
             1
         );
 
-        occurrences.push(error);
+        occurrenceList.push(error);
     }
 
     return {
-        occurrences
+        occurrenceList
     };
 };
 

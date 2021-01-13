@@ -17,18 +17,16 @@ Rule.init(ruleId, description);
 
 Rule.check = function(templateContent) {
 
-    const maxLines  = this.getConfigs().max;
-    const lineArray = GeneralUtils.toLF(templateContent).split(Constants.EOL);
-    const result2   = {
-        occurrences : []
-    };
+    const maxLines       = this.getConfigs().max;
+    const lineArray      = GeneralUtils.toLF(templateContent).split(Constants.EOL);
+    const occurrenceList = [];
 
     if (lineArray.length > maxLines) {
         const error = this.getError(lineArray[0], 0, 0, 0);
-        result2.occurrences.push(error);
+        occurrenceList.push(error);
     }
 
-    return result2;
+    return occurrenceList;
 };
 
 module.exports = Rule;

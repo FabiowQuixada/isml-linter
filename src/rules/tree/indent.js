@@ -57,11 +57,11 @@ Rule.isBrokenForSuffix = function(node) {
 
 Rule.check = function(node, data) {
 
-    const config    = this.getConfigs();
-    let occurrences = [];
+    const config       = this.getConfigs();
+    let occurrenceList = [];
 
     if (node.isRoot() || !node.parent.isOfType('script') && !node.parent.isOfType('iscomment')) {
-        occurrences = this.checkChildren(node, data);
+        occurrenceList = this.checkChildren(node, data);
 
         const globalPos = node.globalPos - getActualIndentation(node);
 
@@ -83,7 +83,7 @@ Rule.check = function(node, data) {
                 getOccurrenceDescription(expectedIndentation, actualIndentation)
             );
 
-            occurrences.push(error);
+            occurrenceList.push(error);
         }
 
         // Checks node suffix value;
@@ -105,11 +105,11 @@ Rule.check = function(node, data) {
                 getOccurrenceDescription(expectedIndentation, actualIndentation)
             );
 
-            occurrences.push(error);
+            occurrenceList.push(error);
         }
     }
 
-    return this.return(node, occurrences, config);
+    return this.return(node, occurrenceList, config);
 };
 
 Rule.getFixedContent = node => {

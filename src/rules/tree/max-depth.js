@@ -21,8 +21,8 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(node, data) {
 
-    const config      = this.getConfigs();
-    const occurrences = this.checkChildren(node, data);
+    const config         = this.getConfigs();
+    const occurrenceList = this.checkChildren(node, data);
 
     if (this.isBroken(node)) {
         const stringifiedNode = node.toString().trim();
@@ -39,10 +39,10 @@ Rule.check = function(node, data) {
             length
         );
 
-        occurrences.push(error);
+        occurrenceList.push(error);
     }
 
-    return this.return(node, occurrences, config);
+    return this.return(node, occurrenceList, config);
 };
 
 module.exports = Rule;

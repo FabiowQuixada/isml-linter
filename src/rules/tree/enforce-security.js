@@ -37,7 +37,7 @@ Rule.isBroken = function(node) {
 Rule.check = function(node, data) {
 
     const config           = ConfigUtils.load();
-    const occurrences      = this.checkChildren(node, data);
+    const occurrenceList   = this.checkChildren(node, data);
     const errorMessageList = this.isBroken(node);
 
     for (let i = 0; i < errorMessageList.length; i++) {
@@ -49,10 +49,10 @@ Rule.check = function(node, data) {
             errorMessageList[i]
         );
 
-        occurrences.push(error);
+        occurrenceList.push(error);
     }
 
-    return this.return(node, occurrences, config);
+    return this.return(node, occurrenceList, config);
 };
 
 const checkReverseTabNabbing = node => {

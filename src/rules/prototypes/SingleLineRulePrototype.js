@@ -5,14 +5,12 @@ const GeneralUtils  = require('../../util/GeneralUtils');
 
 const SingleLineRulePrototype = Object.create(RulePrototype);
 
-SingleLineRulePrototype.check = function(templateContent, results, data = { isCrlfLineBreak : false }) {
+SingleLineRulePrototype.check = function(templateContent, data = { isCrlfLineBreak : false }) {
 
-    const config    = ConfigUtils.load();
-    const lineArray = GeneralUtils.toLF(templateContent).split(Constants.EOL);
-    const result2   = {
-        occurrences : []
-    };
-    let globalPos   = 0;
+    const config         = ConfigUtils.load();
+    const lineArray      = GeneralUtils.toLF(templateContent).split(Constants.EOL);
+    const occurrenceList = [];
+    let globalPos        = 0;
 
     for (let lineNumber = 0; lineNumber < lineArray.length; lineNumber++) {
         const line       = lineArray[lineNumber];
@@ -27,19 +25,22 @@ SingleLineRulePrototype.check = function(templateContent, results, data = { isCr
 
             const error = this.getError(line, lineNumber, occurrenceGlobalPos, occurrence.length);
 
-            result2.occurrences.push(error);
+            occurrenceList.push(error);
         }
 
         globalPos += line.length + 1;
     }
 
-    if (result2.occurrences.length &&
+    if (occurrenceList.length &&
         config.autoFix &&
         this.getFixedContent) {
-        result2.fixedContent = this.getFixedContent(templateContent);
+        return {
+            occurrenceList,
+            fixedContent : this.getFixedContent(templateContent)
+        };
     }
 
-    return result2;
+    return occurrenceList;
 };
 
 module.exports = SingleLineRulePrototype;

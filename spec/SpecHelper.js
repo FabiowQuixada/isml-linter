@@ -65,7 +65,7 @@ module.exports = {
 
         tree.data.isCrlfLineBreak = isCrlfLineBreak;
 
-        return rule.check(tree.rootNode, tree.data).occurrences;
+        return rule.check(tree.rootNode, tree.data).occurrenceList;
     },
 
     getLineRuleFixData: (rule, templateNumber) => {

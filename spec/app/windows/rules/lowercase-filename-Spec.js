@@ -20,7 +20,7 @@ describe(rule.id, () => {
         const templateContent = getRuleSpecTemplateContent(rule, templateName);
         const result          = rule.check(templateName, templateContent);
 
-        expect(result.occurrences.length).toEqual(0);
+        expect(result.occurrenceList.length).toEqual(0);
     });
 
     it('detects non-lower-case file names', () => {
@@ -28,14 +28,14 @@ describe(rule.id, () => {
         const templateContent = getRuleSpecTemplateContent(rule, templateName);
         const result          = rule.check(templateName, templateContent);
 
-        expect(result.occurrences.length).not.toEqual(0);
+        expect(result.occurrenceList.length).not.toEqual(0);
     });
 
     it('sets level occurrence level properly', () => {
         const templateName    = 'Template_1';
         const templateContent = getRuleSpecTemplateContent(rule, templateName);
         const result          = rule.check(templateName, templateContent);
-        const occurrence      = result.occurrences[0];
+        const occurrence      = result.occurrenceList[0];
 
         expect(occurrence.level).toEqual('warning');
     });

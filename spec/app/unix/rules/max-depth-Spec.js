@@ -24,9 +24,9 @@ describe('On Unix, ' + rule.id, () => {
     });
 
     it('detects a too-deeply-nested template as a warning-level occurrence', () => {
-        const occurrences = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
+        const occurrenceList = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
 
-        expect(occurrences.level).toEqual('warning');
+        expect(occurrenceList.level).toEqual('warning');
     });
 
     it('detects the whole element body, including suffix and inner content', () => {

@@ -17,19 +17,19 @@ describe(rule.id, () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
         const result          = rule.check(templateContent);
 
-        expect(result.occurrences).toEqual([]);
+        expect(result.occurrenceList).toEqual([]);
     });
 
     it('allows on-the-limit templates', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
         const result          = rule.check(templateContent);
 
-        expect(result.occurrences).toEqual([]);
+        expect(result.occurrenceList).toEqual([]);
     });
 
     it('detects over the edge templates', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
-        const occurrence      = rule.check(templateContent).occurrences[0];
+        const occurrence      = rule.check(templateContent).occurrenceList[0];
 
         expect(occurrence.line      ).toEqual('first line');
         expect(occurrence.lineNumber).toEqual(1);
@@ -44,7 +44,7 @@ describe(rule.id, () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 3);
         const result          = rule.check(templateContent);
 
-        expect(result.occurrences).toEqual([]);
+        expect(result.occurrenceList).toEqual([]);
     });
 
     it('allows on-the-limit templates with custom max configuration', () => {
@@ -52,13 +52,13 @@ describe(rule.id, () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 4);
         const result          = rule.check(templateContent);
 
-        expect(result.occurrences).toEqual([]);
+        expect(result.occurrenceList).toEqual([]);
     });
 
     it('detects over the edge templates with custom max configuration', () => {
         ConfigUtils.load({ rules : { 'max-lines': { max: 7 } } });
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 5);
-        const occurrence      = rule.check(templateContent).occurrences[0];
+        const occurrence      = rule.check(templateContent).occurrenceList[0];
 
         expect(occurrence.line      ).toEqual('first line');
         expect(occurrence.lineNumber).toEqual(1);

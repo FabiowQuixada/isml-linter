@@ -11,7 +11,7 @@ module.exports = {
         linterResult = IsmlLinter.run(path, content);
         return linterResult;
     },
-    printResults : ()    => ConsoleUtils.displayOccurrences(linterResult),
+    printResults : ()    => ConsoleUtils.displayoccurrenceList(linterResult),
     build        : path  => Builder.run(path),
 
     IsmlLinter,

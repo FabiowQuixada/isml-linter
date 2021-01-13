@@ -40,19 +40,19 @@ Rule.isBroken = function(node) {
 const checkForExclusiveAttributes = (sfccTagObj, nodeAttribute, attrList) => {
     let result = null;
     if (sfccTagObj && sfccTagObj.requires && sfccTagObj.requires.exclusive) {
-        const exclusiveAttributeObj          = sfccTagObj.requires.exclusive;
-        const exclusiveAttributesOccurrences = [];
+        const exclusiveAttributeObj             = sfccTagObj.requires.exclusive;
+        const exclusiveAttributesoccurrenceList = [];
 
         for (let i = 0; i < attrList.length; i++) {
             const attr = attrList[i];
             if (exclusiveAttributeObj.indexOf(attr.name) !== -1) {
-                exclusiveAttributesOccurrences.push(attr.name);
+                exclusiveAttributesoccurrenceList.push(attr.name);
             }
         }
 
-        if (exclusiveAttributesOccurrences.length > 1) {
+        if (exclusiveAttributesoccurrenceList.length > 1) {
             result         = {};
-            result.message = `The "${nodeAttribute.node.getType()}" tag cannot have "${exclusiveAttributesOccurrences[0]}" and "${exclusiveAttributesOccurrences[1]}" attributes simultaneously`;
+            result.message = `The "${nodeAttribute.node.getType()}" tag cannot have "${exclusiveAttributesoccurrenceList[0]}" and "${exclusiveAttributesoccurrenceList[1]}" attributes simultaneously`;
         }
 
     }
@@ -81,7 +81,7 @@ const checkForConditionalAttributes = (sfccAttr, nodeAttribute, attrList) => {
 
 Rule.check = function(node, data) {
 
-    const occurrences = this.checkChildren(node, data);
+    const occurrenceList = this.checkChildren(node, data);
 
     const occurrence = this.isBroken(node);
     if (occurrence) {
@@ -93,12 +93,12 @@ Rule.check = function(node, data) {
             occurrence.message
         );
 
-        occurrences.push(error);
+        occurrenceList.push(error);
     }
 
     return node.isRoot() ?
-        { occurrences } :
-        occurrences;
+        { occurrenceList } :
+        occurrenceList;
 };
 
 module.exports = Rule;

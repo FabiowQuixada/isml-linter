@@ -17,7 +17,7 @@ const printExceptionMsg = e => {
     }
 };
 
-const displayLintingOccurrences = lintResult => {
+const displayLintingoccurrenceList = lintResult => {
 
     const config           = ConfigUtils.load();
     const occurrenceLevels = Constants.occurrenceLevels.toArray();
@@ -101,18 +101,18 @@ const displayUnknownErrors = lintResult => {
     return partialSum;
 };
 
-const displayOccurrences = lintResult => {
+const displayoccurrenceList = lintResult => {
 
     displayUnparseableErrors(lintResult);
     displayUnknownErrors(lintResult);
 
     // TODO Add this 'config' as a global const;
-    const config      = ConfigUtils.load();
-    const occurrences = displayLintingOccurrences(lintResult);
+    const config         = ConfigUtils.load();
+    const occurrenceList = displayLintingoccurrenceList(lintResult);
 
-    const isThereAnyOccurrence = occurrences.error.qty > 0 ||
-        occurrences.warning.qty > 0 ||
-        occurrences.info.qty > 0 ||
+    const isThereAnyOccurrence = occurrenceList.error.qty > 0 ||
+        occurrenceList.warning.qty > 0 ||
+        occurrenceList.info.qty > 0 ||
         lintResult.INVALID_TEMPLATE && lintResult.INVALID_TEMPLATE.length > 0 ||
         lintResult.UNKNOWN_ERROR && lintResult.UNKNOWN_ERROR.length > 0;
 
@@ -121,16 +121,16 @@ const displayOccurrences = lintResult => {
         console.log(Constants.EOL + '=====================================================');
         console.log(Constants.EOL + chalk`{bold Linted ${lintResult.totalTemplatesQty} templates in ${lintResult.elapsedTime} seconds.}`);
 
-        if (occurrences.error.qty > 0) {
-            console.log(chalk`{bold ${occurrences.error.qty} error(s) found.}`);
+        if (occurrenceList.error.qty > 0) {
+            console.log(chalk`{bold ${occurrenceList.error.qty} error(s) found.}`);
         }
 
-        if (occurrences.warning.qty > 0) {
-            console.log(chalk`{bold ${occurrences.warning.qty} warning(s) found.}`);
+        if (occurrenceList.warning.qty > 0) {
+            console.log(chalk`{bold ${occurrenceList.warning.qty} warning(s) found.}`);
         }
 
-        if (occurrences.info.qty > 0) {
-            console.log(chalk`{bold ${occurrences.info.qty} info(s) found.}`);
+        if (occurrenceList.info.qty > 0) {
+            console.log(chalk`{bold ${occurrenceList.info.qty} info(s) found.}`);
         }
 
         if (lintResult.INVALID_TEMPLATE && lintResult.INVALID_TEMPLATE.length > 0) {
@@ -146,7 +146,7 @@ const displayOccurrences = lintResult => {
         }
 
         if (config.printPartialResults) {
-            console.log(chalk`{bold Displaying the first ${MAX_LISTED_ERRORS} occurrences of each group.}` + Constants.EOL);
+            console.log(chalk`{bold Displaying the first ${MAX_LISTED_ERRORS} occurrenceList of each group.}` + Constants.EOL);
         }
     } else {
         console.log(chalk`{green.bold No issues found!}`);
@@ -280,7 +280,7 @@ const getInfoData = lintResult => {
 };
 
 module.exports = {
-    displayOccurrences,
+    displayoccurrenceList,
     displayConfigError,
     displayEslintConfigError,
     displayInvalidTemplatesPaths,

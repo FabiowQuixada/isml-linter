@@ -66,8 +66,8 @@ const applyRuleResult = (config, ruleResult, templatePath, templateResults, rule
         fs.writeFileSync(templatePath, ruleResult.fixedContent);
         templateResults.fixed = true;
     }
-    else if (ruleResult.occurrences && ruleResult.occurrences.length) {
-        const occurrenceObj      = getOccurrenceObj(rule, ruleResult.occurrences);
+    else if (ruleResult.occurrenceList && ruleResult.occurrenceList.length) {
+        const occurrenceObj      = getOccurrenceObj(rule, ruleResult.occurrenceList);
 
         templateResults.errors   = Object.assign(templateResults.errors,   occurrenceObj.errors);
         templateResults.warnings = Object.assign(templateResults.warnings, occurrenceObj.warnings);
@@ -87,7 +87,7 @@ const applyRuleOnTemplate = (ruleArray, templatePath, root, config, data) => {
     for (let i = 0; i < ruleArray.length; i++) {
         const rule = ruleArray[i];
         if (!rule.isIgnore(templatePath)) {
-            const ruleResults = rule.check(root, { occurrences: [] }, templateResults.data);
+            const ruleResults = rule.check(root, { occurrenceList: [] }, templateResults.data);
             applyRuleResult(config, ruleResults, templatePath, templateResults, rule);
         }
     }
@@ -151,8 +151,8 @@ const checkFileName = (filename, templateContent) => {
     if (lowercaseFilenameRule.isEnabled()) {
         const ruleResult = lowercaseFilenameRule.check(filename, templateContent);
 
-        if (ruleResult.occurrences.length > 0) {
-            const occurrenceObj              = getOccurrenceObj(lowercaseFilenameRule, ruleResult.occurrences);
+        if (ruleResult.occurrenceList.length > 0) {
+            const occurrenceObj              = getOccurrenceObj(lowercaseFilenameRule, ruleResult.occurrenceList);
             templateResults[occurrenceGroup] = Object.assign(templateResults[occurrenceGroup], occurrenceObj[occurrenceGroup]);
         }
     }

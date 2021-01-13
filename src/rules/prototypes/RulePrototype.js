@@ -9,7 +9,7 @@ const RulePrototype = {
         this.description = description;
         this.level       = 'errors';
         this.result      = {
-            occurrences : []
+            occurrenceList : []
         };
     },
 
@@ -60,17 +60,17 @@ const RulePrototype = {
     },
 
     checkChildren(node, data) {
-        const occurrences = [];
+        const occurrenceList = [];
 
         for (let i = 0; i < node.children.length; i++) {
-            const childOccurrences = this.check(node.children[i], data);
+            const childoccurrenceList = this.check(node.children[i], data);
 
-            if (childOccurrences) {
-                occurrences.push(...childOccurrences);
+            if (childoccurrenceList) {
+                occurrenceList.push(...childoccurrenceList);
             }
         }
 
-        return occurrences;
+        return occurrenceList;
     }
 };
 
