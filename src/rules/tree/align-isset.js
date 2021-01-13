@@ -22,13 +22,9 @@ Rule.check = function(node, data) {
 
     occurrences.push(...alignmentOccurrences);
 
-    if (node.isRoot()) {
-        return {
-            occurrences
-        };
-    }
-
-    return occurrences;
+    return node.isRoot() ?
+        { occurrences } :
+        occurrences;
 };
 
 const getConsecutiveIssetTagChildren = node => {

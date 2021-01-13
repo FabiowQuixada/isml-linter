@@ -90,11 +90,7 @@ Rule.check = function(node, data) {
 
         isscriptContentArray = [];
 
-        if (node.isRoot()) {
-            return {
-                occurrences
-            };
-        }
+        return { occurrences };
     }
 };
 

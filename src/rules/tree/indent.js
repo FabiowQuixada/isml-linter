@@ -124,13 +124,9 @@ Rule.check = function(node, data) {
         }
     }
 
-    if (node.isRoot()) {
-        return {
-            occurrences
-        };
-    }
-
-    return occurrences;
+    return node.isRoot() ?
+        { occurrences } :
+        occurrences;
 };
 
 Rule.getFixedContent = node => {
