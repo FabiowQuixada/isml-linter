@@ -9,22 +9,26 @@ Rule.init(ruleId, description);
 
 Rule.check = function(node, data) {
 
-    const result2 = {
-        occurrences : []
-    };
+    const occurrences = [];
 
-    const childrenResult = this.checkChildren(node, data);
+    const childrenOccurrences = this.checkChildren(node, data);
 
-    result2.occurrences.push(...childrenResult.occurrences);
+    occurrences.push(...childrenOccurrences);
 
     const issetChildren    = getConsecutiveIssetTagChildren(node);
     const attrPosContainer = getCorrectAttributePositions(issetChildren);
 
-    const a = this.checkAttributesAlignments(issetChildren, attrPosContainer);
+    const alignmentOccurrences = this.checkAttributesAlignments(issetChildren, attrPosContainer);
 
-    result2.occurrences.push(...a.occurrences);
+    occurrences.push(...alignmentOccurrences);
 
-    return result2;
+    if (node.isRoot()) {
+        return {
+            occurrences
+        };
+    }
+
+    return occurrences;
 };
 
 const getConsecutiveIssetTagChildren = node => {
@@ -64,9 +68,8 @@ const getCorrectAttributePositions = issetChildren => {
 };
 
 Rule.checkAttributesAlignments = function(issetChildren, attrPosContainer) {
-    const result = {
-        occurrences : []
-    };
+    const occurrences = [];
+
     for (const issetNode of issetChildren) {
         const attrArray = issetNode.getAttributeList();
 
@@ -81,14 +84,13 @@ Rule.checkAttributesAlignments = function(issetChildren, attrPosContainer) {
                     description
                 );
 
-                result.occurrences.push(error);
-
+                occurrences.push(error);
                 break;
             }
         }
     }
 
-    return result;
+    return occurrences;
 };
 
 module.exports = Rule;

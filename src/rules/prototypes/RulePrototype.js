@@ -60,19 +60,17 @@ const RulePrototype = {
     },
 
     checkChildren(node, data) {
-        const result2 = {
-            occurrences : []
-        };
+        const occurrences = [];
 
         for (let i = 0; i < node.children.length; i++) {
-            const childResult = this.check(node.children[i], data);
+            const childOccurrences = this.check(node.children[i], data);
 
-            if (childResult) {
-                result2.occurrences.push(...childResult.occurrences);
+            if (childOccurrences) {
+                occurrences.push(...childOccurrences);
             }
         }
 
-        return result2;
+        return occurrences;
     }
 };
 

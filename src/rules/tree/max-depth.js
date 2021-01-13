@@ -21,14 +21,12 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(node, data) {
 
-    const result2 = {
-        occurrences : []
-    };
+    const occurrences = [];
 
-    const childrenResult = this.checkChildren(node, data);
+    const childrenOccurrences = this.checkChildren(node, data);
 
-    if (childrenResult) {
-        result2.occurrences.push(...childrenResult.occurrences);
+    if (childrenOccurrences) {
+        occurrences.push(...childrenOccurrences);
     }
 
     const config = this.getConfigs();
@@ -48,18 +46,27 @@ Rule.check = function(node, data) {
             length
         );
 
-        result2.occurrences.push(error);
+        occurrences.push(error);
     }
 
-    if (result2.occurrences.length &&
+    if (occurrences.length &&
             config.autoFix &&
             this.getFixedContent &&
             node.isRoot()
     ) {
-        result2.fixedContent = this.getFixedContent(node);
+        return {
+            occurrences,
+            fixedContent : this.getFixedContent(node)
+        };
     }
 
-    return result2;
+    if (node.isRoot()) {
+        return {
+            occurrences
+        };
+    }
+
+    return occurrences;
 };
 
 module.exports = Rule;

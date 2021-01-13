@@ -20,14 +20,12 @@ Rule.addError = function(node, message) {
 
 Rule.check = function(node, data) {
 
-    const result2 = {
-        occurrences : []
-    };
+    const occurrences = [];
 
-    const childrenResult = this.checkChildren(node, data);
+    const childrenOccurrences = this.checkChildren(node, data);
 
-    if (childrenResult) {
-        result2.occurrences.push(...childrenResult.occurrences);
+    if (childrenOccurrences) {
+        occurrences.push(...childrenOccurrences);
     }
 
     if (data) {
@@ -38,7 +36,7 @@ Rule.check = function(node, data) {
 
             if (isUnnecessaryDefinition) {
                 const error = this.addError(node, 'Unnecessary inclusion of the modules template');
-                result2.occurrences.push(error);
+                occurrences.push(error);
             }
         }
 
@@ -49,11 +47,17 @@ Rule.check = function(node, data) {
                     `Unknown tag "${node.getType()}". Maybe you forgot to add it to util/modules template?`
             );
 
-            result2.occurrences.push(error);
+            occurrences.push(error);
         }
     }
 
-    return result2;
+    if (node.isRoot()) {
+        return {
+            occurrences
+        };
+    }
+
+    return occurrences;
 };
 
 module.exports = Rule;

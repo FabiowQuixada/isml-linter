@@ -68,11 +68,9 @@ Rule.check = function(node, data) {
     }
 
     if (node.isRoot()) {
-        const Linter  = require('eslint').Linter;
-        const linter  = new Linter();
-        const result2 = {
-            occurrences : []
-        };
+        const Linter      = require('eslint').Linter;
+        const linter      = new Linter();
+        const occurrences = [];
 
         for (let index = 0; index < isscriptContentArray.length; index++) {
             const jsContentNode = isscriptContentArray[index];
@@ -86,13 +84,17 @@ Rule.check = function(node, data) {
 
             for (let i = 0; i < errorArray.length; i++) {
                 const error = this.addError(jsContentNode, errorArray[i], ismlOffset, linter, data);
-                result2.occurrences.push(error);
+                occurrences.push(error);
             }
         }
 
         isscriptContentArray = [];
 
-        return result2;
+        if (node.isRoot()) {
+            return {
+                occurrences
+            };
+        }
     }
 };
 

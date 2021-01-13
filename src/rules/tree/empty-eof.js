@@ -19,9 +19,7 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(rootNode, data) {
 
-    const result2 = {
-        occurrences : []
-    };
+    const occurrences = [];
 
     const node = rootNode.getLastChild();
 
@@ -51,10 +49,12 @@ Rule.check = function(rootNode, data) {
             1
         );
 
-        result2.occurrences.push(error);
+        occurrences.push(error);
     }
 
-    return result2;
+    return {
+        occurrences
+    };
 };
 
 module.exports = Rule;
