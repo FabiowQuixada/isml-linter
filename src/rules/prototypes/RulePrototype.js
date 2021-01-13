@@ -30,7 +30,7 @@ const RulePrototype = {
         return config && config.rules && this.id in config.rules;
     },
 
-    isIgnore(templatePath) {
+    shouldIgnore(templatePath) {
         const ignoreArray = this.getConfigs().ignore;
 
         if (ignoreArray) {
