@@ -20,13 +20,7 @@ Rule.isBroken = function(node) {
 Rule.check = function(node, data) {
 
     const config      = ConfigUtils.load();
-    const occurrences = [];
-
-    const childrenOccurrences = this.checkChildren(node, data);
-
-    if (childrenOccurrences) {
-        occurrences.push(...childrenOccurrences);
-    }
+    const occurrences = this.checkChildren(node, data);
 
     if (this.isBroken(node)) {
         const error = this.add(

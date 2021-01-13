@@ -57,14 +57,10 @@ Rule.isBrokenForSuffix = function(node) {
 
 Rule.check = function(node, data) {
 
-    const occurrences = [];
+    let occurrences = [];
 
     if (node.isRoot() || !node.parent.isOfType('script') && !node.parent.isOfType('iscomment')) {
-        const childrenOccurrences = this.checkChildren(node, data);
-
-        if (childrenOccurrences) {
-            occurrences.push(...childrenOccurrences);
-        }
+        occurrences = this.checkChildren(node, data);
 
         const config    = this.getConfigs();
         const globalPos = node.globalPos - getActualIndentation(node);

@@ -9,15 +9,9 @@ Rule.init(ruleId, description);
 
 Rule.check = function(node, data) {
 
-    const occurrences = [];
-
-    const childrenOccurrences = this.checkChildren(node, data);
-
-    occurrences.push(...childrenOccurrences);
-
-    const issetChildren    = getConsecutiveIssetTagChildren(node);
-    const attrPosContainer = getCorrectAttributePositions(issetChildren);
-
+    const occurrences          = this.checkChildren(node, data);
+    const issetChildren        = getConsecutiveIssetTagChildren(node);
+    const attrPosContainer     = getCorrectAttributePositions(issetChildren);
     const alignmentOccurrences = this.checkAttributesAlignments(issetChildren, attrPosContainer);
 
     occurrences.push(...alignmentOccurrences);

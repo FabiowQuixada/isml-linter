@@ -21,15 +21,8 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(node, data) {
 
-    const occurrences = [];
-
-    const childrenOccurrences = this.checkChildren(node, data);
-
-    if (childrenOccurrences) {
-        occurrences.push(...childrenOccurrences);
-    }
-
-    const config = this.getConfigs();
+    const config      = this.getConfigs();
+    const occurrences = this.checkChildren(node, data);
 
     if (this.isBroken(node)) {
         const stringifiedNode = node.toString().trim();

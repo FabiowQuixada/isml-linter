@@ -36,15 +36,8 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(node, data) {
 
-    const config      = ConfigUtils.load();
-    const occurrences = [];
-
-    const childrenOccurrences = this.checkChildren(node, data);
-
-    if (childrenOccurrences) {
-        occurrences.push(...childrenOccurrences);
-    }
-
+    const config           = ConfigUtils.load();
+    const occurrences      = this.checkChildren(node, data);
     const errorMessageList = this.isBroken(node);
 
     for (let i = 0; i < errorMessageList.length; i++) {

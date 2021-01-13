@@ -43,13 +43,7 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(node, data) {
 
-    const occurrences = [];
-
-    const childrenOccurrences = this.checkChildren(node, data);
-
-    if (childrenOccurrences) {
-        occurrences.push(...childrenOccurrences);
-    }
+    const occurrences = this.checkChildren(node, data);
 
     const occurrence = this.isBroken(node);
     if (occurrence) {

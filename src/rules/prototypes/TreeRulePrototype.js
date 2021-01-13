@@ -7,11 +7,7 @@ const TreeRulePrototype = Object.create(RulePrototype);
 TreeRulePrototype.check = function(node, data) {
 
     const config      = ConfigUtils.load();
-    const occurrences = [];
-
-    const childrenOccurrences = this.checkChildren(node, data);
-
-    occurrences.push(...childrenOccurrences);
+    const occurrences = this.checkChildren(node, data);
 
     if (this.isBroken(node)) {
         let length = node.value.trim().length;

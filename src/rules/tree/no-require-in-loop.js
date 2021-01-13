@@ -31,11 +31,7 @@ Rule.isBroken = function(node) {
 Rule.check = function(node, data) {
 
     const config      = ConfigUtils.load();
-    const occurrences = [];
-
-    const childrenOccurrences = this.checkChildren(node, data);
-
-    occurrences.push(...childrenOccurrences);
+    const occurrences = this.checkChildren(node, data);
 
     if (this.isBroken(node)) {
         const trimmedValue   = node.value.trim();

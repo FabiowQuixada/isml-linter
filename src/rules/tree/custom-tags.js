@@ -20,13 +20,7 @@ Rule.addError = function(node, message) {
 
 Rule.check = function(node, data) {
 
-    const occurrences = [];
-
-    const childrenOccurrences = this.checkChildren(node, data);
-
-    if (childrenOccurrences) {
-        occurrences.push(...childrenOccurrences);
-    }
+    const occurrences = this.checkChildren(node, data);
 
     if (data) {
         const isUsedButNotDeclared = !data.moduleDefinition && data.customModuleArray && data.customModuleArray.length > 0;
