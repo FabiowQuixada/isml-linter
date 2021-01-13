@@ -30,11 +30,7 @@ TreeRulePrototype.check = function(node, data) {
         occurrences.push(error);
     }
 
-    if (occurrences.length &&
-        config.autoFix &&
-        this.getFixedContent &&
-        node.isRoot()
-    ) {
+    if (this.shouldGetFixedContent(node, occurrences, config)) {
         return {
             occurrences,
             fixedContent : this.getFixedContent(node)
@@ -44,6 +40,13 @@ TreeRulePrototype.check = function(node, data) {
     return node.isRoot() ?
         { occurrences } :
         occurrences;
+};
+
+TreeRulePrototype.shouldGetFixedContent = function(node, occurrences, config) {
+    return occurrences.length &&
+        config.autoFix &&
+        this.getFixedContent &&
+        node.isRoot();
 };
 
 TreeRulePrototype.fix = function(stream = '') {

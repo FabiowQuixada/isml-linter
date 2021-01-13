@@ -59,11 +59,7 @@ Rule.check = function(node, data) {
         occurrences.push(error);
     }
 
-    if (occurrences.length &&
-        config.autoFix &&
-        this.getFixedContent &&
-        node.isRoot()
-    ) {
+    if (this.shouldGetFixedContent(node, occurrences, config)) {
         return {
             occurrences,
             fixedContent : this.getFixedContent(node)
