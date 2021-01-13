@@ -57,12 +57,16 @@ Rule.isBrokenForSuffix = function(node) {
 
 Rule.check = function(node, result, data) {
 
-    this.result = result || {
+    const result2 = {
         occurrences : []
     };
 
     if (node.isRoot() || !node.parent.isOfType('script') && !node.parent.isOfType('iscomment')) {
-        this.checkChildren(node, result, data);
+        const childrenResult = this.checkChildren(node, result2, data);
+
+        if (childrenResult) {
+            result2.occurrences.push(...childrenResult.occurrences);
+        }
 
         const config    = this.getConfigs();
         const globalPos = node.globalPos - getActualIndentation(node);
@@ -77,13 +81,15 @@ Rule.check = function(node, result, data) {
                 nodeValue.length +  ParseUtils.getLineBreakQty(nodeValue) :
                 getActualIndentation(node);
 
-            this.add(
+            const error = this.add(
                 node.value.trim(),
                 node.lineNumber - 1,
                 globalPos,
                 occurrenceLength,
                 getOccurrenceDescription(expectedIndentation, actualIndentation)
             );
+
+            result2.occurrences.push(error);
         }
 
         // Checks node suffix value;
@@ -97,25 +103,27 @@ Rule.check = function(node, result, data) {
                 getActualIndentationForSuffix(node);
             const suffixGlobalPos     = node.suffixGlobalPos - getActualIndentationForSuffix(node);
 
-            this.add(
+            const error = this.add(
                 node.suffixValue.trim(),
                 node.suffixLineNumber - 1,
                 suffixGlobalPos,
                 occurrenceLength,
                 getOccurrenceDescription(expectedIndentation, actualIndentation)
             );
+
+            result2.occurrences.push(error);
         }
 
-        if (this.result.occurrences.length &&
+        if (result2.occurrences.length &&
             config.autoFix &&
             this.getFixedContent &&
             node.isRoot()
         ) {
-            this.result.fixedContent = this.getFixedContent(node);
+            result2.fixedContent = this.getFixedContent(node);
         }
     }
 
-    return this.result;
+    return result2;
 };
 
 Rule.getFixedContent = node => {

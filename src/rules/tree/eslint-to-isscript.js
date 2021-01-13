@@ -38,13 +38,15 @@ Rule.addError = function(node, eslintError, ismlOffset, linter, data) {
         message = eslintError.message;
     }
 
-    this.add(
+    const error = this.add(
         ismlOffset + errorLine,
         node.lineNumber + eslintError.line - 3,
         errorGlobalPos,
         length,
         message
     );
+
+    return error;
 };
 
 Rule.check = function(node, result, data) {
@@ -64,9 +66,9 @@ Rule.check = function(node, result, data) {
     }
 
     if (node.isRoot()) {
-        const Linter = require('eslint').Linter;
-        const linter = new Linter();
-        this.result  = {
+        const Linter  = require('eslint').Linter;
+        const linter  = new Linter();
+        const result2 = {
             occurrences : []
         };
 
@@ -81,13 +83,14 @@ Rule.check = function(node, result, data) {
             const errorArray = linter.verify(content, eslintConfig);
 
             for (let i = 0; i < errorArray.length; i++) {
-                this.addError(jsContentNode, errorArray[i], ismlOffset, linter, data);
+                const error = this.addError(jsContentNode, errorArray[i], ismlOffset, linter, data);
+                result2.occurrences.push(error);
             }
         }
 
         isscriptContentArray = [];
 
-        return this.result;
+        return result2;
     }
 };
 

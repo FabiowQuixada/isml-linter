@@ -6,12 +6,16 @@ const TreeRulePrototype = Object.create(RulePrototype);
 
 TreeRulePrototype.check = function(node, result = { occurrences : [] }, data) {
 
-    const config = ConfigUtils.load();
-    this.result  = result || {
+    const config  = ConfigUtils.load();
+    const result2 = {
         occurrences : []
     };
 
-    this.checkChildren(node, result, data);
+    const childrenResult = this.checkChildren(node, result, data);
+
+    if (childrenResult) {
+        result2.occurrences.push(...childrenResult.occurrences);
+    }
 
     if (this.isBroken(node)) {
         let length = node.value.trim().length;
@@ -20,22 +24,24 @@ TreeRulePrototype.check = function(node, result = { occurrences : [] }, data) {
             length += ParseUtils.getLineBreakQty(node.value.trim());
         }
 
-        this.add(
+        const error = this.add(
             node.value.trim(),
             node.lineNumber - 1,
             node.globalPos,
             length
         );
+
+        result2.occurrences.push(error);
     }
 
-    if (this.result.occurrences.length &&
+    if (result.occurrences.length &&
         config.autoFix &&
         this.getFixedContent &&
         node.isRoot()) {
-        this.result.fixedContent = this.getFixedContent(node);
+        result.fixedContent = this.getFixedContent(node);
     }
 
-    return this.result;
+    return result2;
 };
 
 TreeRulePrototype.fix = function(stream = '') {

@@ -9,7 +9,7 @@ const Rule = Object.create(TreeRulePrototype);
 Rule.init(ruleId, description);
 
 Rule.addError = function(node, message) {
-    this.add(
+    return this.add(
         node.value.trim(),
         node.lineNumber - 1,
         node.globalPos,
@@ -20,11 +20,14 @@ Rule.addError = function(node, message) {
 
 Rule.check = function(node, result, data) {
 
-    this.result             = this.result || {};
-    this.result.occurrences = result.occurrences || [];
+    const result2 = {
+        occurrences : []
+    };
 
-    for (let i = 0; i < node.children.length; i++) {
-        this.check(node.children[i], this.result, data);
+    const childrenResult = this.checkChildren(node, result2, data);
+
+    if (childrenResult) {
+        result2.occurrences.push(...childrenResult.occurrences);
     }
 
     if (data) {
@@ -34,20 +37,23 @@ Rule.check = function(node, result, data) {
             const isUnnecessaryDefinition = data.moduleDefinition && !data.customModuleArray;
 
             if (isUnnecessaryDefinition) {
-                this.addError(node, 'Unnecessary inclusion of the modules template');
+                const error = this.addError(node, 'Unnecessary inclusion of the modules template');
+                result2.occurrences.push(error);
             }
         }
 
         if (isUsedButNotDeclared && node.isCustomIsmlTag()) {
-            this.addError(node,
+            const error = this.addError(node,
                 CustomTags[node.getType()] ?
                     `Custom tag "${node.getType()}" could not be identified. Maybe you forgot to include the modules template?` :
                     `Unknown tag "${node.getType()}". Maybe you forgot to add it to util/modules template?`
             );
+
+            result2.occurrences.push(error);
         }
     }
 
-    return this.result;
+    return result2;
 };
 
 module.exports = Rule;

@@ -19,31 +19,37 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(node, result = { occurrences : [] }, data) {
 
-    const config = ConfigUtils.load();
-    this.result  = result || {
+    const config  = ConfigUtils.load();
+    const result2 = {
         occurrences : []
     };
 
-    this.checkChildren(node, result, data);
+    const childrenResult = this.checkChildren(node, result2, data);
+
+    if (childrenResult) {
+        result2.occurrences.push(...childrenResult.occurrences);
+    }
 
     if (this.isBroken(node)) {
-        this.add(
+        const error = this.add(
             node.value.trim(),
             node.lineNumber - 1,
             node.globalPos,
             node.value.trim().length,
             `Tag "${node.getType()}" is not allowed.`
         );
+
+        result2.occurrences.push(error);
     }
 
-    if (this.result.occurrences.length &&
+    if (result2.occurrences.length &&
         config.autoFix &&
         this.getFixedContent &&
         node.isRoot()) {
-        this.result.fixedContent = this.getFixedContent(node);
+        result2.fixedContent = this.getFixedContent(node);
     }
 
-    return this.result;
+    return result2;
 };
 
 module.exports = Rule;

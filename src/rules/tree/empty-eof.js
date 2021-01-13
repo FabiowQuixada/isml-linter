@@ -19,7 +19,7 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(rootNode, result, data) {
 
-    this.result = result || {
+    const result2 = {
         occurrences : []
     };
 
@@ -44,15 +44,17 @@ Rule.check = function(rootNode, result, data) {
             }
         }
 
-        this.add(
+        const error = this.add(
             lineContent,
             lineNumber,
             globalPos,
             1
         );
+
+        result2.occurrences.push(error);
     }
 
-    return this.result;
+    return result2;
 };
 
 module.exports = Rule;

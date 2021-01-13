@@ -19,15 +19,16 @@ Rule.check = function(templateContent) {
 
     const maxLines  = this.getConfigs().max;
     const lineArray = GeneralUtils.toLF(templateContent).split(Constants.EOL);
-    this.result     = {
+    const result2   = {
         occurrences : []
     };
 
     if (lineArray.length > maxLines) {
-        this.add(lineArray[0], 0, 0, 0);
+        const error = this.add(lineArray[0], 0, 0, 0);
+        result2.occurrences.push(error);
     }
 
-    return this.result;
+    return result2;
 };
 
 module.exports = Rule;

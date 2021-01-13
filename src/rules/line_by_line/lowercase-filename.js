@@ -10,15 +10,16 @@ Rule.init(ruleId, description);
 Rule.isBroken = function(fileName) { return fileName !== fileName.toLowerCase(); };
 
 Rule.check = function(fileName, templateContent) {
-    this.result = {
+    const result = {
         occurrences : []
     };
 
     if (this.isBroken(fileName)) {
-        this.add('', -1, 0, templateContent.length);
+        const error = this.add('', -1, 0, templateContent.length);
+        result.occurrences.push(error);
     }
 
-    return this.result;
+    return result;
 };
 
 module.exports = Rule;

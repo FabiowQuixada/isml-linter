@@ -19,14 +19,16 @@ Rule.isBroken = function(node) {
     return !node.isEmpty() && node.depth > configMaxDepth;
 };
 
-Rule.check = function(node, result, data) {
+Rule.check = function(node, zresult, data) {
 
-    this.result = result || {
+    const result2 = {
         occurrences : []
     };
 
-    for (let i = 0; i < node.children.length; i++) {
-        this.check(node.children[i], this.result, data);
+    const childrenResult = this.checkChildren(node, result2, data);
+
+    if (childrenResult) {
+        result2.occurrences.push(...childrenResult.occurrences);
     }
 
     const config = this.getConfigs();
@@ -39,23 +41,25 @@ Rule.check = function(node, result, data) {
             length += ParseUtils.getLineBreakQty(stringifiedNode);
         }
 
-        this.add(
+        const error = this.add(
             stringifiedNode,
             node.lineNumber - 1,
             node.globalPos,
             length
         );
+
+        result2.occurrences.push(error);
     }
 
-    if (this.result.occurrences.length &&
+    if (result2.occurrences.length &&
             config.autoFix &&
             this.getFixedContent &&
             node.isRoot()
     ) {
-        this.result.fixedContent = this.getFixedContent(node);
+        result2.fixedContent = this.getFixedContent(node);
     }
 
-    return this.result;
+    return result2;
 };
 
 module.exports = Rule;

@@ -14,7 +14,7 @@ const RulePrototype = {
     },
 
     add(line, lineNumber, globalPos, length, description) {
-        this.result.occurrences.push({
+        return {
             line,
             globalPos,
             length,
@@ -22,7 +22,7 @@ const RulePrototype = {
             rule       : this.id,
             level      : this.getConfigs().level || Constants.occurrenceLevels.ERROR,
             message    : description || this.description
-        });
+        };
     },
 
     isEnabled() {
@@ -60,9 +60,19 @@ const RulePrototype = {
     },
 
     checkChildren(node, result, data) {
+        const result2 = {
+            occurrences : []
+        };
+
         for (let i = 0; i < node.children.length; i++) {
-            this.check(node.children[i], result, data);
+            const childResult = this.check(node.children[i], result2, data);
+
+            if (childResult) {
+                result2.occurrences.push(...childResult.occurrences);
+            }
         }
+
+        return result2;
     }
 };
 

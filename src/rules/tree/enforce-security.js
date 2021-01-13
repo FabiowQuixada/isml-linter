@@ -36,33 +36,39 @@ Rule.isBroken = function(node) {
 
 Rule.check = function(node, result = { occurrences : [] }, data) {
 
-    const config = ConfigUtils.load();
-    this.result  = result || {
+    const config  = ConfigUtils.load();
+    const result2 = {
         occurrences : []
     };
 
-    this.checkChildren(node, result, data);
+    const childrenResult = this.checkChildren(node, result2, data);
+
+    if (childrenResult) {
+        result2.occurrences.push(...childrenResult.occurrences);
+    }
 
     const errorMessageList = this.isBroken(node);
 
     for (let i = 0; i < errorMessageList.length; i++) {
-        this.add(
+        const error = this.add(
             node.value.trim(),
             node.lineNumber - 1,
             node.globalPos,
             node.value.trim().length,
             errorMessageList[i]
         );
+
+        result2.occurrences.push(error);
     }
 
-    if (this.result.occurrences.length &&
+    if (result2.occurrences.length &&
         config.autoFix &&
         this.getFixedContent &&
         node.isRoot()) {
-        this.result.fixedContent = this.getFixedContent(node);
+        result.fixedContent = this.getFixedContent(node);
     }
 
-    return this.result;
+    return result2;
 };
 
 const checkReverseTabNabbing = node => {

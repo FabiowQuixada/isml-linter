@@ -81,24 +81,30 @@ const checkForConditionalAttributes = (sfccAttr, nodeAttribute, attrList) => {
 
 Rule.check = function(node, result, data) {
 
-    this.result = result || {
+    const result2 = {
         occurrences : []
     };
 
-    this.checkChildren(node, result, data);
+    const childrenResult = this.checkChildren(node, result2, data);
+
+    if (childrenResult) {
+        result2.occurrences.push(...childrenResult.occurrences);
+    }
 
     const occurrence = this.isBroken(node);
     if (occurrence) {
-        this.add(
+        const error = this.add(
             node.value.trim(),
             node.lineNumber - 1,
             node.globalPos,
             node.value.trim().length,
             occurrence.message
         );
+
+        result2.occurrences.push(error);
     }
 
-    return this.result;
+    return result2;
 };
 
 module.exports = Rule;

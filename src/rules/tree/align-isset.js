@@ -7,20 +7,24 @@ const Rule = Object.create(TreeRulePrototype);
 
 Rule.init(ruleId, description);
 
-Rule.check = function(node, result, data) {
+Rule.check = function(node, zresult, data) {
 
-    this.result = result || {
+    const result2 = {
         occurrences : []
     };
 
-    this.checkChildren(node, result, data);
+    const childrenResult = this.checkChildren(node, result2, data);
+
+    result2.occurrences.push(...childrenResult.occurrences);
 
     const issetChildren    = getConsecutiveIssetTagChildren(node);
     const attrPosContainer = getCorrectAttributePositions(issetChildren);
 
-    this.checkAttributesAlignments(issetChildren, attrPosContainer);
+    const a = this.checkAttributesAlignments(issetChildren, attrPosContainer);
 
-    return this.result;
+    result2.occurrences.push(...a.occurrences);
+
+    return result2;
 };
 
 const getConsecutiveIssetTagChildren = node => {
@@ -60,23 +64,31 @@ const getCorrectAttributePositions = issetChildren => {
 };
 
 Rule.checkAttributesAlignments = function(issetChildren, attrPosContainer) {
+    const result = {
+        occurrences : []
+    };
     for (const issetNode of issetChildren) {
         const attrArray = issetNode.getAttributeList();
 
         for (let i = 0; i < attrArray.length; i++) {
             const attr = attrArray[i];
             if (attr.localPos !== attrPosContainer[attr.name]) {
-                this.add(
+                const error = this.add(
                     issetNode.value.trim(),
                     issetNode.lineNumber - 1,
                     issetNode.globalPos,
                     issetNode.value.trim().length,
                     description
                 );
+
+                result.occurrences.push(error);
+
                 break;
             }
         }
     }
+
+    return result;
 };
 
 module.exports = Rule;

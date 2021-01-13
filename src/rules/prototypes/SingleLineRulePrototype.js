@@ -9,7 +9,7 @@ SingleLineRulePrototype.check = function(templateContent, results, data = { isCr
 
     const config    = ConfigUtils.load();
     const lineArray = GeneralUtils.toLF(templateContent).split(Constants.EOL);
-    this.result     = {
+    const result2   = {
         occurrences : []
     };
     let globalPos   = 0;
@@ -25,19 +25,21 @@ SingleLineRulePrototype.check = function(templateContent, results, data = { isCr
                 occurrenceGlobalPos += lineNumber;
             }
 
-            this.add(line, lineNumber, occurrenceGlobalPos, occurrence.length);
+            const error = this.add(line, lineNumber, occurrenceGlobalPos, occurrence.length);
+
+            result2.occurrences.push(error);
         }
 
         globalPos += line.length + 1;
     }
 
-    if (this.result.occurrences.length &&
+    if (result2.occurrences.length &&
         config.autoFix &&
         this.getFixedContent) {
-        this.result.fixedContent = this.getFixedContent(templateContent);
+        result2.fixedContent = this.getFixedContent(templateContent);
     }
 
-    return this.result;
+    return result2;
 };
 
 module.exports = SingleLineRulePrototype;
