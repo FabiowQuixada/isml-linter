@@ -41,7 +41,7 @@ Rule.check = function(node, data) {
     const errorMessageList = this.isBroken(node);
 
     for (let i = 0; i < errorMessageList.length; i++) {
-        const error = this.add(
+        const error = this.getError(
             node.value.trim(),
             node.lineNumber - 1,
             node.globalPos,

@@ -23,7 +23,7 @@ Rule.check = function(node, data) {
     const occurrences = this.checkChildren(node, data);
 
     if (this.isBroken(node)) {
-        const error = this.add(
+        const error = this.getError(
             node.value.trim(),
             node.lineNumber - 1,
             node.globalPos,

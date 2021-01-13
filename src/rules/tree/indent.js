@@ -75,7 +75,7 @@ Rule.check = function(node, data) {
                 nodeValue.length +  ParseUtils.getLineBreakQty(nodeValue) :
                 getActualIndentation(node);
 
-            const error = this.add(
+            const error = this.getError(
                 node.value.trim(),
                 node.lineNumber - 1,
                 globalPos,
@@ -97,7 +97,7 @@ Rule.check = function(node, data) {
                 getActualIndentationForSuffix(node);
             const suffixGlobalPos     = node.suffixGlobalPos - getActualIndentationForSuffix(node);
 
-            const error = this.add(
+            const error = this.getError(
                 node.suffixValue.trim(),
                 node.suffixLineNumber - 1,
                 suffixGlobalPos,

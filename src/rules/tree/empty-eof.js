@@ -42,7 +42,7 @@ Rule.check = function(rootNode, data) {
             }
         }
 
-        const error = this.add(
+        const error = this.getError(
             lineContent,
             lineNumber,
             globalPos,

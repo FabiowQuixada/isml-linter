@@ -47,7 +47,7 @@ Rule.check = function(node, data) {
 
     const occurrence = this.isBroken(node);
     if (occurrence) {
-        const error = this.add(
+        const error = this.getError(
             node.value.trim(),
             node.lineNumber - 1,
             occurrence.attrGlobalPos,

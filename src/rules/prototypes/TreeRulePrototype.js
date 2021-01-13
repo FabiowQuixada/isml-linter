@@ -16,7 +16,7 @@ TreeRulePrototype.check = function(node, data) {
             length += ParseUtils.getLineBreakQty(node.value.trim());
         }
 
-        const error = this.add(
+        const error = this.getError(
             node.value.trim(),
             node.lineNumber - 1,
             node.globalPos,

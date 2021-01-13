@@ -66,7 +66,7 @@ Rule.checkAttributesAlignments = function(issetChildren, attrPosContainer) {
         for (let i = 0; i < attrArray.length; i++) {
             const attr = attrArray[i];
             if (attr.localPos !== attrPosContainer[attr.name]) {
-                const error = this.add(
+                const error = this.getError(
                     issetNode.value.trim(),
                     issetNode.lineNumber - 1,
                     issetNode.globalPos,

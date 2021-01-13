@@ -9,7 +9,7 @@ const Rule = Object.create(TreeRulePrototype);
 Rule.init(ruleId, description);
 
 Rule.addError = function(node, message) {
-    return this.add(
+    return this.getError(
         node.value.trim(),
         node.lineNumber - 1,
         node.globalPos,

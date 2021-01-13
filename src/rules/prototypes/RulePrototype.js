@@ -13,7 +13,7 @@ const RulePrototype = {
         };
     },
 
-    add(line, lineNumber, globalPos, length, description) {
+    getError(line, lineNumber, globalPos, length, description) {
         return {
             line,
             globalPos,

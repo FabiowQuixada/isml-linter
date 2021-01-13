@@ -46,7 +46,7 @@ Rule.check = function(node, data) {
             globalPos += lineOffset;
         }
 
-        const error = this.add(
+        const error = this.getError(
             node.value.trim(),
             node.lineNumber - 1,
             globalPos,

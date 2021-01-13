@@ -38,7 +38,7 @@ Rule.addError = function(node, eslintError, ismlOffset, linter, data) {
         message = eslintError.message;
     }
 
-    const error = this.add(
+    const error = this.getError(
         ismlOffset + errorLine,
         node.lineNumber + eslintError.line - 3,
         errorGlobalPos,
@@ -55,10 +55,8 @@ Rule.check = function(node, data) {
     try {
         eslintConfig = ConfigUtils.loadEslintConfig();
     } catch (err) {
-        this.add(null, 0, 0, 1, notFoundMessage);
-        return {
-            occurrences : []
-        };
+        const error = this.getError(null, 0, 0, 1, notFoundMessage);
+        return { occurrences : [error] };
     }
 
     this.checkChildren(node, data);
@@ -100,8 +98,8 @@ Rule.getFixedContent = function(node) {
     try {
         eslintConfig = ConfigUtils.loadEslintConfig();
     } catch (err) {
-        this.add(null, 0, 0, 1, notFoundMessage);
-        return this.result;
+        const error = this.getError(null, 0, 0, 1, notFoundMessage);
+        return { occurrences : [error] };
     }
 
     for (let i = 0; i < node.children.length; i++) {

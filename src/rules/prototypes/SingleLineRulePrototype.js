@@ -25,7 +25,7 @@ SingleLineRulePrototype.check = function(templateContent, results, data = { isCr
                 occurrenceGlobalPos += lineNumber;
             }
 
-            const error = this.add(line, lineNumber, occurrenceGlobalPos, occurrence.length);
+            const error = this.getError(line, lineNumber, occurrenceGlobalPos, occurrence.length);
 
             result2.occurrences.push(error);
         }

@@ -24,7 +24,7 @@ Rule.check = function(templateContent) {
     };
 
     if (lineArray.length > maxLines) {
-        const error = this.add(lineArray[0], 0, 0, 0);
+        const error = this.getError(lineArray[0], 0, 0, 0);
         result2.occurrences.push(error);
     }
 

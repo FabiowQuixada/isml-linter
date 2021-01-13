@@ -32,7 +32,7 @@ Rule.check = function(node, data) {
             length += ParseUtils.getLineBreakQty(stringifiedNode);
         }
 
-        const error = this.add(
+        const error = this.getError(
             stringifiedNode,
             node.lineNumber - 1,
             node.globalPos,
