@@ -57,9 +57,7 @@ Rule.check = function(node, result, data) {
         return this.result;
     }
 
-    for (let i = 0; i < node.children.length; i++) {
-        this.check(node.children[i], result, data);
-    }
+    this.checkChildren(node, result, data);
 
     if (node.isIsscriptContent()) {
         isscriptContentArray.push(node);

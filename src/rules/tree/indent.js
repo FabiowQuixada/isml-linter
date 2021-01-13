@@ -55,16 +55,14 @@ Rule.isBrokenForSuffix = function(node) {
         !isInSameLineAsOpeningTag;
 };
 
-Rule.check = function(node, result) {
+Rule.check = function(node, result, data) {
 
     this.result = result || {
         occurrences : []
     };
 
     if (node.isRoot() || !node.parent.isOfType('script') && !node.parent.isOfType('iscomment')) {
-        for (let i = 0; i < node.children.length; i++) {
-            this.check(node.children[i], this.result);
-        }
+        this.checkChildren(node, result, data);
 
         const config    = this.getConfigs();
         const globalPos = node.globalPos - getActualIndentation(node);

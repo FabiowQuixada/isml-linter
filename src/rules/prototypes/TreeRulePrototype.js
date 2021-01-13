@@ -11,9 +11,7 @@ TreeRulePrototype.check = function(node, result = { occurrences : [] }, data) {
         occurrences : []
     };
 
-    for (let i = 0; i < node.children.length; i++) {
-        this.check(node.children[i], this.result, data);
-    }
+    this.checkChildren(node, result, data);
 
     if (this.isBroken(node)) {
         let length = node.value.trim().length;

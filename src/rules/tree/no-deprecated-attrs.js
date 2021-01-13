@@ -41,15 +41,13 @@ Rule.isBroken = function(node) {
     return result;
 };
 
-Rule.check = function(node, result) {
+Rule.check = function(node, result, data) {
 
     this.result = result || {
         occurrences : []
     };
 
-    for (let i = 0; i < node.children.length; i++) {
-        this.check(node.children[i], this.result);
-    }
+    this.checkChildren(node, result, data);
 
     const occurrence = this.isBroken(node);
     if (occurrence) {

@@ -58,6 +58,12 @@ const RulePrototype = {
             linebreakStyle : GeneralUtils.getActiveLinebreak()
         };
     },
+
+    checkChildren(node, result, data) {
+        for (let i = 0; i < node.children.length; i++) {
+            this.check(node.children[i], result, data);
+        }
+    }
 };
 
 module.exports = RulePrototype;

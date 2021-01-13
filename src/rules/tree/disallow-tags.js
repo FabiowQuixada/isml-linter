@@ -24,9 +24,7 @@ Rule.check = function(node, result = { occurrences : [] }, data) {
         occurrences : []
     };
 
-    for (let i = 0; i < node.children.length; i++) {
-        this.check(node.children[i], this.result);
-    }
+    this.checkChildren(node, result, data);
 
     if (this.isBroken(node)) {
         this.add(
