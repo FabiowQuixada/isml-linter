@@ -52,16 +52,7 @@ Rule.check = function(node, data) {
         occurrences.push(error);
     }
 
-    if (this.shouldGetFixedContent(node, occurrences, config)) {
-        return {
-            occurrences,
-            fixedContent : this.getFixedContent(node)
-        };
-    }
-
-    return node.isRoot() ?
-        { occurrences } :
-        occurrences;
+    return this.return(node, occurrences, config);
 };
 
 const checkReverseTabNabbing = node => {
