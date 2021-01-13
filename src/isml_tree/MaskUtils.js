@@ -250,10 +250,10 @@ const getMatchingIndexes = (content, startString, endString, isMaskBorders) => {
                 result      += placeholderSymbol;
             }
         } else {
-            const newLocal = openingMatchList.indexOf(i - 1);
-            if (newLocal !== -1) {
+            const firstMatchPos = openingMatchList.indexOf(i - 1);
+            if (firstMatchPos >= 0) {
                 currentOpeningTag.endingGlobalPos = i;
-                currentOpeningTag.arrayIndex      = newLocal;
+                currentOpeningTag.arrayIndex      = firstMatchPos;
             }
 
             isInBetween = currentOpeningTag.endingGlobalPos &&
