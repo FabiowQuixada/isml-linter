@@ -15,21 +15,21 @@ describe(rule.id, () => {
 
     it('detects inadequate code', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
 
         expect(result.occurrenceList).not.toEqual([]);
     });
 
     it('ignores empty lines', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
 
         expect(result.occurrenceList).toEqual([]);
     });
 
     it('detects simple style occurrence', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
         expect(firstOccurrence.line      ).toEqual('<div style="display: none;">');

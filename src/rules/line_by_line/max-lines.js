@@ -26,7 +26,7 @@ Rule.check = function(templateContent) {
         occurrenceList.push(error);
     }
 
-    return occurrenceList;
+    return { occurrenceList };
 };
 
 module.exports = Rule;

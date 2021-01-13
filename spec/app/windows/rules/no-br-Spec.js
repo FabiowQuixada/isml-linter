@@ -15,21 +15,21 @@ describe(rule.id, () => {
 
     it('detects inadequate code', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
 
         expect(result.occurrenceList).not.toEqual([]);
     });
 
     it('accepts code that is not related to the rule', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
 
         expect(result.occurrenceList).toEqual([]);
     });
 
     it('detects <br> (no space nor slash) tag within another tag', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
         expect(firstOccurrence.line      ).toEqual('<div><br></div>');
@@ -42,7 +42,7 @@ describe(rule.id, () => {
 
     it('detects <br /> (space, slash) tag within another tag', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 3);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
         expect(firstOccurrence.line      ).toEqual('<div><br /></div>');
@@ -55,7 +55,7 @@ describe(rule.id, () => {
 
     it('detects <br/> (slash only) tag within another tag', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 4);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
         expect(firstOccurrence.line      ).toEqual('<div><br/></div>');
@@ -68,7 +68,7 @@ describe(rule.id, () => {
 
     it('detects standalone <br> tag (no space nor slash)', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 5);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
         expect(firstOccurrence.line      ).toEqual('<br>');
@@ -81,7 +81,7 @@ describe(rule.id, () => {
 
     it('detects standalone <br/> tag (slash)', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 6);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
         expect(firstOccurrence.line      ).toEqual('<br/>');

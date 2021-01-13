@@ -15,21 +15,21 @@ describe(rule.id, () => {
 
     it('detects inadequate code', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
 
         expect(result.occurrenceList).not.toEqual([]);
     });
 
     it('accepts code that is not related to the rule', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
 
         expect(result.occurrenceList).toEqual([]);
     });
 
     it('detects logic in template', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
         expect(firstOccurrence.line      ).toEqual('<isscript>');

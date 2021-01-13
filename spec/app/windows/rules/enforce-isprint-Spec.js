@@ -15,42 +15,42 @@ describe(rule.id, () => {
 
     it('detects inadequate code in the middle of the line', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 0);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
 
         expect(result.occurrenceList).not.toEqual([]);
     });
 
     it('detects inadequate and indented code', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
 
         expect(result.occurrenceList).not.toEqual([]);
     });
 
     it('detects unwrapped expressions inside HTML elements', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 5);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
 
         expect(result.occurrenceList).not.toEqual([]);
     });
 
     it('accepts good code', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
 
         expect(result.occurrenceList).toEqual([]);
     });
 
     it('accepts code that is not related to the rule', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 3);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
 
         expect(result.occurrenceList).toEqual([]);
     });
 
     it('detects expression in the beginning of the line', () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 4);
-        const result          = rule.check(templateContent, null, { isCrlfLineBreak });
+        const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
         expect(firstOccurrence.line      ).toEqual('${\'some ds code\'}');

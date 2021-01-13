@@ -87,7 +87,7 @@ const applyRuleOnTemplate = (ruleArray, templatePath, root, config, data) => {
     for (let i = 0; i < ruleArray.length; i++) {
         const rule = ruleArray[i];
         if (!rule.shouldIgnore(templatePath)) {
-            const ruleResults = rule.check(root, { occurrenceList: [] }, templateResults.data);
+            const ruleResults = rule.check(root, templateResults.data);
             applyRuleResult(config, ruleResults, templatePath, templateResults, rule);
         }
     }
