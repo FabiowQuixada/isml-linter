@@ -4,14 +4,14 @@ const ParseUtils    = require('../../isml_tree/ParseUtils');
 
 const TreeRulePrototype = Object.create(RulePrototype);
 
-TreeRulePrototype.check = function(node, result = { occurrences : [] }, data) {
+TreeRulePrototype.check = function(node, data) {
 
     const config  = ConfigUtils.load();
     const result2 = {
         occurrences : []
     };
 
-    const childrenResult = this.checkChildren(node, result, data);
+    const childrenResult = this.checkChildren(node, data);
 
     if (childrenResult) {
         result2.occurrences.push(...childrenResult.occurrences);
@@ -34,11 +34,11 @@ TreeRulePrototype.check = function(node, result = { occurrences : [] }, data) {
         result2.occurrences.push(error);
     }
 
-    if (result.occurrences.length &&
+    if (result2.occurrences.length &&
         config.autoFix &&
         this.getFixedContent &&
         node.isRoot()) {
-        result.fixedContent = this.getFixedContent(node);
+        result2.fixedContent = this.getFixedContent(node);
     }
 
     return result2;

@@ -49,17 +49,19 @@ Rule.addError = function(node, eslintError, ismlOffset, linter, data) {
     return error;
 };
 
-Rule.check = function(node, result, data) {
+Rule.check = function(node, data) {
     let eslintConfig = null;
 
     try {
         eslintConfig = ConfigUtils.loadEslintConfig();
     } catch (err) {
         this.add(null, 0, 0, 1, notFoundMessage);
-        return this.result;
+        return {
+            occurrences : []
+        };
     }
 
-    this.checkChildren(node, result, data);
+    this.checkChildren(node, data);
 
     if (node.isIsscriptContent()) {
         isscriptContentArray.push(node);

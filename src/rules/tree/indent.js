@@ -55,14 +55,14 @@ Rule.isBrokenForSuffix = function(node) {
         !isInSameLineAsOpeningTag;
 };
 
-Rule.check = function(node, result, data) {
+Rule.check = function(node, data) {
 
     const result2 = {
         occurrences : []
     };
 
     if (node.isRoot() || !node.parent.isOfType('script') && !node.parent.isOfType('iscomment')) {
-        const childrenResult = this.checkChildren(node, result2, data);
+        const childrenResult = this.checkChildren(node, data);
 
         if (childrenResult) {
             result2.occurrences.push(...childrenResult.occurrences);

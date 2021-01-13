@@ -34,14 +34,14 @@ Rule.isBroken = function(node) {
     return errorList;
 };
 
-Rule.check = function(node, result = { occurrences : [] }, data) {
+Rule.check = function(node, data) {
 
     const config  = ConfigUtils.load();
     const result2 = {
         occurrences : []
     };
 
-    const childrenResult = this.checkChildren(node, result2, data);
+    const childrenResult = this.checkChildren(node, data);
 
     if (childrenResult) {
         result2.occurrences.push(...childrenResult.occurrences);

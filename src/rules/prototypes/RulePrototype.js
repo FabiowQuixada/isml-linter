@@ -59,13 +59,13 @@ const RulePrototype = {
         };
     },
 
-    checkChildren(node, result, data) {
+    checkChildren(node, data) {
         const result2 = {
             occurrences : []
         };
 
         for (let i = 0; i < node.children.length; i++) {
-            const childResult = this.check(node.children[i], result2, data);
+            const childResult = this.check(node.children[i], data);
 
             if (childResult) {
                 result2.occurrences.push(...childResult.occurrences);

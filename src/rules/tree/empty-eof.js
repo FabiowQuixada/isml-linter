@@ -17,7 +17,7 @@ Rule.isBroken = function(node) {
         tempNode.value.endsWith(Constants.EOL));
 };
 
-Rule.check = function(rootNode, result, data) {
+Rule.check = function(rootNode, data) {
 
     const result2 = {
         occurrences : []

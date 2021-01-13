@@ -18,13 +18,13 @@ Rule.addError = function(node, message) {
     );
 };
 
-Rule.check = function(node, result, data) {
+Rule.check = function(node, data) {
 
     const result2 = {
         occurrences : []
     };
 
-    const childrenResult = this.checkChildren(node, result2, data);
+    const childrenResult = this.checkChildren(node, data);
 
     if (childrenResult) {
         result2.occurrences.push(...childrenResult.occurrences);

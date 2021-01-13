@@ -7,13 +7,13 @@ const Rule = Object.create(TreeRulePrototype);
 
 Rule.init(ruleId, description);
 
-Rule.check = function(node, zresult, data) {
+Rule.check = function(node, data) {
 
     const result2 = {
         occurrences : []
     };
 
-    const childrenResult = this.checkChildren(node, result2, data);
+    const childrenResult = this.checkChildren(node, data);
 
     result2.occurrences.push(...childrenResult.occurrences);
 
