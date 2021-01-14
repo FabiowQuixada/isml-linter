@@ -279,7 +279,7 @@ const adjustTrailingSpaces = state => {
 
         if (currentElement.type === 'text'
             && previousElement
-            && previousElement.tagType !== 'iscomment'
+            && previousElement.lineNumber !== currentElement.lineNumber
             && previousElement.tagType !== 'isscript'
         ) {
 
