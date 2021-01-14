@@ -1,0 +1,5 @@
+<div>
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets.js');
+    </isscript>
+</div>

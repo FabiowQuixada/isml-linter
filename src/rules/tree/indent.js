@@ -225,9 +225,27 @@ const checkIfShouldAddIndentationToSuffix = node => {
     return shouldAdd;
 };
 
+// TODO This a workaround, it should be handled directly in ParseUtils.getElementList();
+const getEslintChildTrailingSpaces = node => {
+    if (node.isOfType('isscript')) {
+        const child = node.getLastChild();
+
+        const trailingSpacesQty = child.value
+            .replace(/\r\n/g, '_')
+            .split('')
+            .reverse()
+            .join('')
+            .search(/\S/);
+
+        return trailingSpacesQty - 1;
+    }
+
+    return 0;
+};
+
 const getOccurrenceDescription      = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;
 const getExpectedIndentation        = (node, configIndentSize) => (node.depth - 1) * configIndentSize;
 const getActualIndentation          = node => node.getIndentationSize();
-const getActualIndentationForSuffix = node => node.getSuffixIndentationSize();
+const getActualIndentationForSuffix = node => node.getSuffixIndentationSize() + getEslintChildTrailingSpaces(node);
 
 module.exports = Rule;

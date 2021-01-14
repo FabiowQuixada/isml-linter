@@ -300,6 +300,12 @@ describe(rule.id, () => {
         expect(result.length).toEqual(0);
     });
 
+    it('detects indentation of closing </isscript> tag', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 25);
+
+        expect(result.length).toEqual(0);
+    });
+
     it('detects indentation of closing </iscomment> tag', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 26);
 
