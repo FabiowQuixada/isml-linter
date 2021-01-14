@@ -1,0 +1,22 @@
+<div>
+    <div>
+        <div >
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <div>
+                                <div>
+                                    <div>
+                                        <isif condition="${refinement.isAttributeRefinement}">
+                                        </isif>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

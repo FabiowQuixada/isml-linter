@@ -16,7 +16,7 @@ Rule.getDefaultAttrs = () => {
 
 Rule.isBroken = function(node) {
     const configMaxDepth = this.getConfigs().value;
-    return !node.isEmpty() && node.depth > configMaxDepth;
+    return !node.isContainer() && !node.isEmpty() && node.depth > configMaxDepth;
 };
 
 Rule.check = function(node, data) {

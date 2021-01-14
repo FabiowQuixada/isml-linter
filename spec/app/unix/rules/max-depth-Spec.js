@@ -35,4 +35,12 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(occurrence.length).toEqual(334);
     });
+
+    it('does not consider container nodes', () => {
+        const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 2);
+        const occurrence = result[0];
+
+        expect(result.length).toEqual(1);
+        expect(occurrence.globalPos).toEqual(281);
+    });
 });
