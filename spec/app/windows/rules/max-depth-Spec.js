@@ -44,4 +44,12 @@ describe(rule.id, () => {
         expect(result.length).toEqual(1);
         expect(occurrence.globalPos).toEqual(291);
     });
+
+    it('consider only the "top" deepest element, not its children', () => {
+        const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak);
+        const occurrence = result[0];
+
+        expect(result.length).toEqual(1);
+        expect(occurrence.globalPos).toEqual(291);
+    });
 });

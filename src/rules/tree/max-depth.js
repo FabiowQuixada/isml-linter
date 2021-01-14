@@ -22,7 +22,7 @@ Rule.isBroken = function(node) {
 Rule.check = function(node, data) {
 
     const config         = this.getConfigs();
-    const occurrenceList = this.checkChildren(node, data);
+    const occurrenceList = [];
 
     if (this.isBroken(node)) {
         const stringifiedNode = node.toString().trim();
@@ -40,6 +40,11 @@ Rule.check = function(node, data) {
         );
 
         occurrenceList.push(error);
+    } else {
+        for (let i = 0; i < node.children.length; i++) {
+            const childrenResult = this.check(node.children[i], data);
+            occurrenceList.push(...childrenResult);
+        }
     }
 
     return this.return(node, occurrenceList, config);

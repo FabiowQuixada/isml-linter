@@ -43,4 +43,12 @@ describe('On Unix, ' + rule.id, () => {
         expect(result.length).toEqual(1);
         expect(occurrence.globalPos).toEqual(281);
     });
+
+    it('consider only the "top" deepest element, not its children', () => {
+        const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 3);
+        const occurrence = result[0];
+
+        expect(result.length).toEqual(1);
+        expect(occurrence.globalPos).toEqual(281);
+    });
 });
