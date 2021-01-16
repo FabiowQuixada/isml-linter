@@ -28,17 +28,22 @@ Rule.check = function(rootNode, data) {
         const lineBreakQty = ParseUtils.getLineBreakQty(node.toString());
         const lineNumber   = node.lineNumber + lineBreakQty - 2;
         let globalPos      = node.globalPos;
+        let length         = node.value.trim().length;
 
         if (node.suffixValue) {
             const lastLineBreakPos = node.suffixValue.lastIndexOf(Constants.EOL);
             const trailingSpaces   = node.suffixValue.substring(lastLineBreakPos + 1);
 
-            if (trailingSpaces.length) {
-                globalPos = node.globalPos + node.toString().length - trailingSpaces.length;
+            if (trailingSpaces.length > 0) {
+                globalPos = node.suffixGlobalPos + node.suffixValue.trim().length + 1;
+                length    = trailingSpaces.length;
 
                 if (data.isCrlfLineBreak) {
-                    globalPos += lineBreakQty - 1;
+                    globalPos += ParseUtils.getLineBreakQty(node.suffixValue.trimStart());
                 }
+            } else {
+                globalPos = node.suffixGlobalPos + 1;
+                length    = node.suffixValue.trim().length;
             }
         }
 
@@ -46,7 +51,7 @@ Rule.check = function(rootNode, data) {
             lineContent,
             lineNumber,
             globalPos,
-            1
+            length
         );
 
         occurrenceList.push(error);
