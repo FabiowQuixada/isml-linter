@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.30.2] - 2021-01-17
+
+### Fixes
+ - "max-depth" rule;
+ - "empty-eof" rule;
+
 ## [5.30.1] - 2021-01-14
 
 ### Fixes
@@ -773,6 +779,7 @@
 ### Added
 - Linter is published;
 
+[5.30.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.1...v5.30.2
 [5.30.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.0...v5.30.1
 [5.30.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.29.2...v5.30.0
 [5.29.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.29.1...v5.29.2
