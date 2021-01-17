@@ -18,8 +18,6 @@ Rule.isBroken = function(node) {
 };
 
 Rule.check = function(node, data) {
-
-    const config         = ConfigUtils.load();
     const occurrenceList = this.checkChildren(node, data);
 
     if (this.isBroken(node)) {

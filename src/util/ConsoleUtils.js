@@ -6,8 +6,6 @@ const ConfigUtils    = require('./ConfigUtils');
 const MAX_LISTED_ERRORS = 30;
 
 const printExceptionMsg = e => {
-    const Constants = require('../Constants');
-
     if (!e.isCustom) {
         console.log();
         console.log('An error has occurred:');

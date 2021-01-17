@@ -17,7 +17,7 @@ describe(rule.id, () => {
 
     it('allows lower-case file names', () => {
         const templateName    = 'template_0';
-        const templateContent = getRuleSpecTemplateContent(rule, templateName);
+        const templateContent = getRuleSpecTemplateContent(templateName);
         const result          = rule.check(templateName, templateContent);
 
         expect(result.occurrenceList.length).toEqual(0);
@@ -25,7 +25,7 @@ describe(rule.id, () => {
 
     it('detects non-lower-case file names', () => {
         const templateName    = 'Template_1';
-        const templateContent = getRuleSpecTemplateContent(rule, templateName);
+        const templateContent = getRuleSpecTemplateContent(templateName);
         const result          = rule.check(templateName, templateContent);
 
         expect(result.occurrenceList.length).not.toEqual(0);
@@ -33,7 +33,7 @@ describe(rule.id, () => {
 
     it('sets level occurrence level properly', () => {
         const templateName    = 'Template_1';
-        const templateContent = getRuleSpecTemplateContent(rule, templateName);
+        const templateContent = getRuleSpecTemplateContent(templateName);
         const result          = rule.check(templateName, templateContent);
         const occurrence      = result.occurrenceList[0];
 
@@ -41,7 +41,7 @@ describe(rule.id, () => {
     });
 });
 
-const getRuleSpecTemplateContent = (rule, templateName) => {
+const getRuleSpecTemplateContent = templateName => {
     const templatePath = `${Constants.specRuleTemplateDir}/line_by_line/${snake(rule.id)}/${templateName}.isml`;
     return fs.readFileSync(templatePath, 'utf-8');
 };
