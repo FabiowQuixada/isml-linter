@@ -57,7 +57,7 @@ Rule.isBrokenForSuffix = function(node) {
 
 Rule.check = function(node, data) {
 
-    const config       = this.getConfigs();
+    const ruleConfig   = this.getConfigs();
     let occurrenceList = [];
 
     if (node.isRoot() || !node.parent.isOfType('script') && !node.parent.isOfType('iscomment')) {
@@ -67,7 +67,7 @@ Rule.check = function(node, data) {
 
         // Checks node value;
         if (this.isBroken(node)) {
-            const configIndentSize    = this.getConfigs().size;
+            const configIndentSize    = ruleConfig.size;
             const expectedIndentation = getExpectedIndentation(node, configIndentSize);
             const actualIndentation   = getActualIndentation(node);
             const nodeValue           = node.value.trim();
@@ -88,7 +88,7 @@ Rule.check = function(node, data) {
 
         // Checks node suffix value;
         if (node.suffixValue && this.isBrokenForSuffix(node)) {
-            const configIndentSize    = this.getConfigs().size;
+            const configIndentSize    = ruleConfig.size;
             const expectedIndentation = getExpectedIndentation(node, configIndentSize);
             const actualIndentation   = getActualIndentationForSuffix(node);
             const nodeSuffixValue     = node.suffixValue.trim();
@@ -109,7 +109,7 @@ Rule.check = function(node, data) {
         }
     }
 
-    return this.return(node, occurrenceList, config);
+    return this.return(node, occurrenceList, ruleConfig);
 };
 
 Rule.getFixedContent = node => {
