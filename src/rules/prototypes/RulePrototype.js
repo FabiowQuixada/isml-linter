@@ -63,10 +63,10 @@ const RulePrototype = {
         const occurrenceList = [];
 
         for (let i = 0; i < node.children.length; i++) {
-            const childoccurrenceList = this.check(node.children[i], data);
+            const childrenOccurrenceList = this.check(node.children[i], data);
 
-            if (childoccurrenceList) {
-                occurrenceList.push(...childoccurrenceList);
+            if (childrenOccurrenceList) {
+                occurrenceList.push(...childrenOccurrenceList);
             }
         }
 

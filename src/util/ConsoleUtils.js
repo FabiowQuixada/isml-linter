@@ -17,7 +17,7 @@ const printExceptionMsg = e => {
     }
 };
 
-const displayLintingoccurrenceList = lintResult => {
+const displayLintingOccurrenceList = lintResult => {
 
     const config           = ConfigUtils.load();
     const occurrenceLevels = Constants.occurrenceLevels.toArray();
@@ -101,14 +101,14 @@ const displayUnknownErrors = lintResult => {
     return partialSum;
 };
 
-const displayoccurrenceList = lintResult => {
+const displayOccurrenceList = lintResult => {
 
     displayUnparseableErrors(lintResult);
     displayUnknownErrors(lintResult);
 
     // TODO Add this 'config' as a global const;
     const config         = ConfigUtils.load();
-    const occurrenceList = displayLintingoccurrenceList(lintResult);
+    const occurrenceList = displayLintingOccurrenceList(lintResult);
 
     const isThereAnyOccurrence = occurrenceList.error.qty > 0 ||
         occurrenceList.warning.qty > 0 ||
@@ -280,7 +280,7 @@ const getInfoData = lintResult => {
 };
 
 module.exports = {
-    displayoccurrenceList,
+    displayOccurrenceList,
     displayConfigError,
     displayEslintConfigError,
     displayInvalidTemplatesPaths,

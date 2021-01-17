@@ -39,7 +39,7 @@ describe(targetObjName, () => {
     it('displays build occurrenceList', () => {
         ConfigUtils.setConfig('ignoreUnparseable', true);
 
-        ConsoleUtils.displayoccurrenceList(expectedObject);
+        ConsoleUtils.displayOccurrenceList(expectedObject);
 
         const expectedResult1 = chalk.gray('13') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
         const expectedResult2 = `${Constants.EOL}a_multi_cartridge_project/int_cartridge_1/templates/default/some_folder/sample_file.isml`;
@@ -55,7 +55,7 @@ describe(targetObjName, () => {
     it('displays invalid template errors when config is enabled', () => {
 
         ConfigUtils.setConfig('ignoreUnparseable', false);
-        ConsoleUtils.displayoccurrenceList(expectedObject);
+        ConsoleUtils.displayOccurrenceList(expectedObject);
 
         //const expectedResult1 = `${chalk.grey(0)} cartridges/a_multi_cartridge_project/int_cartridge_1/templates/default/template_2.isml:289`;
         const expectedResult2 = '\t' + chalk`{red.bold >> }` + 'Unbalanced <div> element' + Constants.EOL;
@@ -67,7 +67,7 @@ describe(targetObjName, () => {
     it('does not display invalid template occurrenceList when config is disabled', () => {
         ConfigUtils.setConfig('ignoreUnparseable', true);
 
-        ConsoleUtils.displayoccurrenceList(expectedObject);
+        ConsoleUtils.displayOccurrenceList(expectedObject);
 
         const expectedResult1 = chalk.gray('13') + '\t' + chalk.red('error') + '\tWrap expression in <isprint> tag';
         const expectedResult2 = Constants.EOL + 'a_multi_cartridge_project/int_cartridge_1/templates/default/some_folder/sample_file.isml';
