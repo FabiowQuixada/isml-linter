@@ -17,25 +17,25 @@ describe('TreeBuilder', () => {
     it('gets unbalanced element length', () => {
         const tree = getTreeFromTemplate(0);
 
-        expect(tree.exception.length).toEqual(10);
+        expect(tree.exception.length).toEqual(9);
     });
 
     it('gets unbalanced element global position', () => {
         const tree = getTreeFromTemplate(0);
 
-        expect(tree.exception.globalPos).toEqual(2);
+        expect(tree.exception.globalPos).toEqual(30);
     });
 
     it('gets unbalanced element length II', () => {
         const tree = getTreeFromTemplate(1);
 
-        expect(tree.exception.length).toEqual(8);
+        expect(tree.exception.length).toEqual(6);
     });
 
     it('gets unbalanced element global position II', () => {
         const tree = getTreeFromTemplate(1);
 
-        expect(tree.exception.globalPos).toEqual(245);
+        expect(tree.exception.globalPos).toEqual(263);
     });
 
     it('gets unbalanced element length III', () => {
@@ -54,6 +54,13 @@ describe('TreeBuilder', () => {
         const tree = getTreeFromTemplate(3);
 
         expect(tree.exception.globalPos).toEqual(52);
+    });
+
+    it('identifies unexpected closing element', () => {
+        const tree = getTreeFromTemplate(4);
+
+        expect(tree.exception.message).toEqual('Unexpected </span> element');
+        expect(tree.exception.globalPos).toEqual(92);
     });
 });
 

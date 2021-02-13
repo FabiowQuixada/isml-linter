@@ -1,0 +1,7 @@
+<li>
+    <isif condition="${aCondition}">
+        <span/>
+            ${aValue}
+        </span>
+    </isif>
+</li>

@@ -106,6 +106,14 @@ const parseNonContainerElements = (element, currentParent, newNode, templatePath
                 element.value.trim().length,
                 templatePath
             );
+        } else if (element.isClosingTag) {
+            throw ExceptionUtils.unexpectedClosingElementError(
+                element.tagType,
+                element.lineNumber,
+                element.globalPos,
+                element.value.trim().length,
+                templatePath
+            );
         } else {
             throw ExceptionUtils.unbalancedElementError(
                 currentParent.getType(),

@@ -20,6 +20,18 @@ const unbalancedElementError = (elementType, lineNumber, globalPos, length, temp
     };
 };
 
+const unexpectedClosingElementError = (elementType, lineNumber, globalPos, length, templatePath) => {
+    return {
+        message      : `Unexpected </${elementType}> element`,
+        templatePath : templatePath,
+        globalPos,
+        length,
+        lineNumber   : lineNumber,
+        isCustom     : true,
+        type         : types.INVALID_TEMPLATE
+    };
+};
+
 const unclosedDeprecatedIsmlComment = (lineNumber, globalPos, length, templatePath) => {
     return {
         message      : '"<!---" element not correctly closed: use "--->" instead of "-->"',
@@ -82,6 +94,7 @@ module.exports = {
     parseError,
     unclosedDeprecatedIsmlComment,
     unbalancedElementError,
+    unexpectedClosingElementError,
     invalidCharacterError,
     noConfigError,
     noEslintConfigError,

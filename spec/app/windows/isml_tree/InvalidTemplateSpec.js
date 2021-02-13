@@ -51,11 +51,11 @@ describe('Invalid Template', () => {
     });
 
     it('identifies the line number of an unbalanced element II', () => {
-        const result          = TreeBuilder.build(getTemplatePath(3), undefined, isCrlfLineBreak);
-        const expectedMessage = ExceptionUtils.unbalancedElementError('select', 4, -1, -1).message;
+        const result = TreeBuilder.build(getTemplatePath(3), undefined, isCrlfLineBreak);
 
         expect(result.status).toEqual(ParseStatus.INVALID_DOM);
-        expect(result.exception.message).toEqual(expectedMessage);
+        expect(result.exception.globalPos).toEqual(123);
+        expect(result.exception.message).toEqual('Unexpected </div> element');
     });
 });
 
