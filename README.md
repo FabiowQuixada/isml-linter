@@ -8,6 +8,8 @@ Isml Linter is a tool for examining if your project's templates follow a specifi
 
 Please feel free to make suggestions and help make this linter better. :) The set of currently available rules can be found below.
 
+Isml Linter is also available as a VSCode extension. Please check https://marketplace.visualstudio.com/items?itemName=fabiowquixada.vscode-isml-linter and give it a try!
+
 ## Installation
 
 Prerequisite: Node.js (>=10.0.0).
@@ -44,7 +46,7 @@ After adding the above scripts to package.json, run the following command to gen
 npm run init:isml
 ```
 
-Alternatively, you can manually create a configuration file, make sure it is in the project root directory and has one of the following names: `ismllinter.config.js` or `.ismllinter.json`.
+Alternatively, you can manually create a configuration file, make sure it is in the project root directory and has one of the following names: `ismllinter.config.js`, `.ismllintrc.js` or `.ismllinter.json`.
 
 You can disable any rule by removing it from the config file. You may also find these configuration options useful:
 
