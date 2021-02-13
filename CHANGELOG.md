@@ -1,14 +1,23 @@
 # Changelog
 
+
+## [5.30.3] - 2021-02-13
+
+### Fixed
+ - Tree unbalance position detection;
+
+### Changed
+ - Re-added VSCode extension README section;
+
 ## [5.30.2] - 2021-01-17
 
-### Fixes
+### Fixed
  - "max-depth" rule;
  - "empty-eof" rule;
 
 ## [5.30.1] - 2021-01-14
 
-### Fixes
+### Fixed
  - "indent" rule;
 
 ## [5.30.0] - 2021-01-12
@@ -18,7 +27,7 @@
  - Treat &lt;iscomment> tag children as plain text;
  - ESLint indentation reporting;
 
-### Fixes
+### Fixed
  - "indent" rule;
  - "max-depth" rule;
  - Some occurrences length;
@@ -779,6 +788,7 @@
 ### Added
 - Linter is published;
 
+[5.30.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.2...v5.30.3
 [5.30.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.1...v5.30.2
 [5.30.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.0...v5.30.1
 [5.30.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.29.2...v5.30.0
