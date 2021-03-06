@@ -276,4 +276,21 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('check indentation of closing tag after a hardcoded text', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 24);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('detects indentation of closing </isscript> tag', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 25);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('detects indentation of closing </iscomment> tag', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 26);
+        expect(result.length).toEqual(0);
+    });
 });
