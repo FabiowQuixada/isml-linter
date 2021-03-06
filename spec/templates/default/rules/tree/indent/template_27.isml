@@ -1,0 +1,5 @@
+<div>
+  <isloop>
+    <isset name="variableName" value="" scope="page" />
+  </isloop>
+</div>

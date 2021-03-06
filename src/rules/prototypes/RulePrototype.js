@@ -49,12 +49,13 @@ const RulePrototype = {
     getConfigs() {
         const config             = ConfigUtils.load();
         const ruleDefaultConfigs = this.getDefaultAttrs();
+        const indentRuleValue    = config.rules['indent'] && config.rules['indent'].value;
 
         return {
             ...ruleDefaultConfigs,
             ...config.rules[this.id],
             autoFix        : config.autoFix,
-            indent         : config.indent || 4,
+            indent         : indentRuleValue || 4,
             linebreakStyle : GeneralUtils.getActiveLinebreak()
         };
     },

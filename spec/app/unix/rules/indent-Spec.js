@@ -1,6 +1,7 @@
 const specFileName = require('path').basename(__filename);
 const Constants    = require('../../../../src/Constants');
 const SpecHelper   = require('../../../SpecHelper');
+const ConfigUtils  = require('../../../../src/util/ConfigUtils');
 
 const rule = SpecHelper.getTreeRule(specFileName);
 
@@ -291,6 +292,21 @@ describe('On Unix, ' + rule.id, () => {
 
     it('detects indentation of closing </iscomment> tag', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 26);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('sets indent value to different than default', () => {
+        ConfigUtils.load({
+            rules: {
+                'indent': {
+                    value : 2
+                }
+            }
+        });
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 27);
+
         expect(result.length).toEqual(0);
     });
 });

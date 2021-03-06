@@ -16,7 +16,7 @@ Rule.getDefaultAttrs = () => {
 };
 
 Rule.getIndentation = function(depth = 1) {
-    const indentationSize = this.getConfigs().size * depth;
+    const indentationSize = this.getConfigs().indent * depth;
     let indentation       = '';
 
     for (let i = 0; i < indentationSize; ++i) {
@@ -28,7 +28,7 @@ Rule.getIndentation = function(depth = 1) {
 
 Rule.isBroken = function(node) {
 
-    const configIndentSize    = this.getConfigs().size;
+    const configIndentSize    = this.getConfigs().indent;
     const expectedIndentation = getExpectedIndentation(node, configIndentSize);
     const actualIndentation   = getActualIndentation(node);
 
@@ -42,7 +42,7 @@ Rule.isBroken = function(node) {
 
 Rule.isBrokenForSuffix = function(node) {
 
-    const configIndentSize         = this.getConfigs().size;
+    const configIndentSize         = this.getConfigs().indent;
     const expectedIndentation      = getExpectedIndentation(node, configIndentSize);
     const actualIndentation        = getActualIndentationForSuffix(node);
     const isInSameLineAsOpeningTag = node.lineNumber === node.suffixLineNumber;
@@ -67,7 +67,7 @@ Rule.check = function(node, data) {
 
         // Checks node value;
         if (this.isBroken(node)) {
-            const configIndentSize    = ruleConfig.size;
+            const configIndentSize    = ruleConfig.indent;
             const expectedIndentation = getExpectedIndentation(node, configIndentSize);
             const actualIndentation   = getActualIndentation(node);
             const nodeValue           = node.value.trim();
@@ -88,7 +88,7 @@ Rule.check = function(node, data) {
 
         // Checks node suffix value;
         if (node.suffixValue && this.isBrokenForSuffix(node)) {
-            const configIndentSize    = ruleConfig.size;
+            const configIndentSize    = ruleConfig.indent;
             const expectedIndentation = getExpectedIndentation(node, configIndentSize);
             const actualIndentation   = getActualIndentationForSuffix(node);
             const nodeSuffixValue     = node.suffixValue.trim();
