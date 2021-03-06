@@ -56,7 +56,7 @@ You can disable any rule by removing it from the config file. You may also find 
 | disableHtml5        | Disallows HTML5-defined unclosed tags, such as input, img and meta. Default: false |
 | ignoreUnparseable   | Does not raise an error if an unparseable template is found. Default: false. Please check "Parse Modes - Tree" section below |
 | ignore              | If a template path contains (as a substring) any string defined here, that template will be ignored by the linter |
-| indent              | Indentation size. Default: **4** |
+| indent              | <span style="color:orange">[Deprecated]</span> Please check [indent docs][indent-readme]. Indentation size. Default: **4** |
 | linebreakStyle      | **unix** or **windows**. Default: **unix** |
 | eslintConfig        | Path to a eslint configuration file, to be applied within &lt;isscript> tags. Default: .eslintrc.json |
 | enableCache         | <span style="color:orange">[Deprecated]</span> Please check [cache docs][cache-docs]. Default: **false** |
