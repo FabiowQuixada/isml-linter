@@ -8,7 +8,7 @@ ISML Linter is a tool for examining if your project's templates follow a specifi
 
 Please feel free to make suggestions and help make this linter better. :) The set of currently available rules can be found below.
 
-ISML Linter is also available as a VSCode extension. Please check https://marketplace.visualstudio.com/items?itemName=fabiowquixada.vscode-isml-linter and give it a try!
+ISML Linter is also available as a [VSCode extension][vscode], give it a try!
 
 ## Installation
 
@@ -238,3 +238,4 @@ This project was conceived by its author without any financial support, with the
 
 [npm-husky]:  <https://www.npmjs.com/package/husky>
 [npm-ghooks]: <https://www.npmjs.com/package/ghooks>
+[vscode]:     <https://marketplace.visualstudio.com/items?itemName=fabiowquixada.vscode-isml-linter>
