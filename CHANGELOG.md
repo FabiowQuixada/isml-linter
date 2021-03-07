@@ -1,5 +1,20 @@
 # Changelog
 
+### [5.30.4] - 2021-03-07
+
+### Added
+ - "config" optional parameter to [public API][api-docs]'s "parse" method;
+### Fixed
+ - [Issue #23][issue#23]: "indent" rule "value" attribute;
+
+### Changed
+ - Package name from "Isml Linter" to "ISML Linter";
+
+### Security
+ - Upgraded dependencies;
+
+### Deprecated
+ - Global "indent" attribute in favor of "indent" rule's "value" attribute;
 
 ## [5.30.3] - 2021-02-13
 
@@ -906,6 +921,7 @@
 [issue#23]: https://github.com/FabiowQuixada/isml-linter/issues/23
 
 [cli-docs]: <docs/cli.md>
+[api-docs]: <docs/api.md>
 [license]:  <LICENSE>
 
 [disallow-tags-readme]: <docs/rules/disallow-tags.md>
