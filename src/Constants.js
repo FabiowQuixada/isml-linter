@@ -30,6 +30,7 @@ const specConfigTemplate               = path.join('spec', 'templates', 'default
 const specIgnoreDirLinterTemplateDir   = path.join(specLinterTemplate, 'ignore_config');
 const specRuleTemplateDir              = path.join(specTemplateDir, 'rules');
 const specIsmlTreeTemplateDir          = path.join(specTemplateDir, 'isml_tree');
+const specPublicApiTemplatesDir        = path.join(specTemplateDir, 'public_api');
 const specLineNumberTemplateDir        = path.join(specIsmlTreeTemplateDir, 'line_numbers');
 const specInvalidTemplateDir           = path.join(specIsmlTreeTemplateDir, 'invalid_templates');
 const specGlobalPosTemplateDir         = path.join(specIsmlTreeTemplateDir, 'global_position');
@@ -93,6 +94,7 @@ module.exports = {
     lineByLineRulesDir,
     treeRulesDir,
     specRuleTemplateDir,
+    specPublicApiTemplatesDir,
     specIsmlTreeTemplateDir,
     specGlobalPosTemplateDir,
     specLineNumberTemplateDir,

@@ -7,7 +7,12 @@ let linterResult = {};
 module.exports = {
     setConfig    : json  => IsmlLinter.setConfig(json),
     getConfig    : ()    => IsmlLinter.getConfig(),
-    parse        : (path, content)  => {
+    parse        : (path, content, config) => {
+
+        if (config) {
+            IsmlLinter.setConfig(config);
+        }
+
         linterResult = IsmlLinter.run(path, content);
         return linterResult;
     },

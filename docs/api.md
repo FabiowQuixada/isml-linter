@@ -22,10 +22,12 @@ you have access to the following methods:
     /**
      * Parses all files under a specific path;
      *
-     * @param  {String|Array} path  File path, directory path or array of file paths
-     * @return {Object}             Structured parse result
+     * @param  {String|Array} path     File path, directory path or array of file paths
+     * @param  {String}       content  File content
+     * @param  {Object}       [config] ISML Linter configuration JSON
+     * @return {Object}                Structured parse result
      **/
-    parse(path)
+    parse(path, content, config)
 
     /**
      * Prints errors to console;

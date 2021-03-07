@@ -1,3 +1,4 @@
+const fs          = require('fs');
 const path        = require('path');
 const sinon       = require('sinon');
 const chalk       = require('chalk');
@@ -95,5 +96,45 @@ describe(targetObjName, () => {
         expect(spy.getCall(0).args[0]).toEqual(expectedMessage);
 
         spy.restore();
+    });
+
+    it('loads and applies configuration through the optional parameter in "parse" API method', () => {
+        const config = {
+            rules : {
+                'disallow-tags' : {
+                    values : ['br']
+                }
+            }
+        };
+
+        const templatePath    = path.join(Constants.specPublicApiTemplatesDir, 'template_0.isml');
+        const templateContent = fs.readFileSync(templatePath, 'utf-8');
+        const result          = publicApi.parse(templatePath, templateContent, config);
+        const errorQty        = Object.keys(result.errors).length;
+        const loadedConfig    = publicApi.getConfig();
+
+        expect(loadedConfig).toEqual(config);
+        expect(errorQty).toEqual(1);
+    });
+
+    it('loads and applies configuration through the "setConfig" API method', () => {
+        const config = {
+            rules : {
+                'disallow-tags' : {
+                    values : ['br']
+                }
+            }
+        };
+
+        publicApi.setConfig(config);
+
+        const templatePath    = path.join(Constants.specPublicApiTemplatesDir, 'template_0.isml');
+        const templateContent = fs.readFileSync(templatePath, 'utf-8');
+        const result          = publicApi.parse(templatePath, templateContent);
+        const errorQty        = Object.keys(result.errors).length;
+        const loadedConfig    = publicApi.getConfig();
+
+        expect(loadedConfig).toEqual(config);
+        expect(errorQty).toEqual(1);
     });
 });
