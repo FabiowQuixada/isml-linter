@@ -1,5 +1,5 @@
-# Isml Linter
-Isml Linter is a tool for examining if your project's templates follow a specified set of rules defined by your dev team. The available rules can be roughly grouped into: 
+# ISML Linter
+ISML Linter is a tool for examining if your project's templates follow a specified set of rules defined by your dev team. The available rules can be roughly grouped into: 
 
  - Styles that are defined by your team;
  - Syntactic errors related to &lt;is* > tags;
@@ -8,7 +8,7 @@ Isml Linter is a tool for examining if your project's templates follow a specifi
 
 Please feel free to make suggestions and help make this linter better. :) The set of currently available rules can be found below.
 
-Isml Linter is also available as a VSCode extension. Please check https://marketplace.visualstudio.com/items?itemName=fabiowquixada.vscode-isml-linter and give it a try!
+ISML Linter is also available as a VSCode extension. Please check https://marketplace.visualstudio.com/items?itemName=fabiowquixada.vscode-isml-linter and give it a try!
 
 ## Installation
 
@@ -65,7 +65,7 @@ You can disable any rule by removing it from the config file. You may also find 
 | disableTreeParse    | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: **false** |
 | rules               | Defines which rules to check. See available rules below |
 
-**Note:** If you explicitly set "ignoreUnparseable" config to true, unparseable templates may contain errors that will not be detected by Isml Linter.
+**Note:** If you explicitly set "ignoreUnparseable" config to true, unparseable templates may contain errors that will not be detected by ISML Linter.
 
 Example configuration:
 
@@ -83,7 +83,7 @@ Example configuration:
 }
 ```
 
-Note that according to the above configurations, the following templates would be ignored by Isml Linter:
+Note that according to the above configurations, the following templates would be ignored by ISML Linter:
 
 - registerEmail.isml
 - some/path/welcomeEmail.isml
@@ -191,7 +191,7 @@ You are more than welcome to contribute with us! Please check the [contribute se
 
 ## Donations
 
-This project was conceived by its author without any financial support, with the intention to help the community improving and speeding up any projects that involve ISML templates. If you think Isml Linter has helped you and your team, please consider making a donation, it will be much appreciated!
+This project was conceived by its author without any financial support, with the intention to help the community improving and speeding up any projects that involve ISML templates. If you think ISML Linter has helped you and your team, please consider making a donation, it will be much appreciated!
 
 [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=M22U4NRUFHELS&currency_code=USD&source=url)
 

@@ -7,7 +7,7 @@ Although we will go through each step to create a new rule, you might want to se
 - [one-element-per-line][one-element-per-line-rule] (for the simplest case scenario);
 - [indent][indent-rule] (for a more complex rule);
 
-Before checking any rules, Isml Linter builds an Isml DOM and then traverses it, node by node. Each time a tree node is visited, the `isBroken(node)` is called for each rule, and that's where the main logic should be.
+Before checking any rules, ISML Linter builds an ISML DOM and then traverses it, node by node. Each time a tree node is visited, the `isBroken(node)` is called for each rule, and that's where the main logic should be.
 
 ## Creating a New Rule 
 

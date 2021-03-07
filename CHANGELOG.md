@@ -23,7 +23,7 @@
 ## [5.30.0] - 2021-01-12
 
 ### Changed
- - Complete tree build redesign, Isml Linter now runs 40 times faster;
+ - Complete tree build redesign, ISML Linter now runs 40 times faster;
  - Treat &lt;iscomment> tag children as plain text;
  - ESLint indentation reporting;
 
@@ -551,7 +551,7 @@
 ### Fixed
  - Docs misspellings;
  - Contentless tag handling;
- - Isml node types;
+ - ISML node types;
  
 ## [5.5.2] - 2019-05-23
 
@@ -569,7 +569,7 @@
  - Optional "content" param to API;
  - Unbalanced element information to parse output;
  - Parsed isml node attributes for future rules;
- - Isml node closing tag data: position and length;
+ - ISML node closing tag data: position and length;
 
 ### Fixed
  - Indentation Rule output data fix;
@@ -587,7 +587,7 @@
 ### Fixed
  - Error occurrence global starting position;
  - Rule default and custom configs handling;
- - Single file as param to Isml Linter;
+ - Single file as param to ISML Linter;
  - Output template path for unknown error;
  - Error occurrence length;
 
@@ -716,7 +716,7 @@
    - No Require in Loop;
    - No hardcode;
    - One Element per Line;
-   - No Embedded Isml Tag;
+   - No Embedded ISML Tag;
     
 ### Removed
 - Global installation support;
@@ -788,6 +788,7 @@
 ### Added
 - Linter is published;
 
+[5.30.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.3...v5.30.4
 [5.30.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.2...v5.30.3
 [5.30.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.1...v5.30.2
 [5.30.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.0...v5.30.1
@@ -902,6 +903,7 @@
 [issue#11]: https://github.com/FabiowQuixada/isml-linter/issues/11
 [issue#17]: https://github.com/FabiowQuixada/isml-linter/issues/17
 [issue#20]: https://github.com/FabiowQuixada/isml-linter/issues/20
+[issue#23]: https://github.com/FabiowQuixada/isml-linter/issues/23
 
 [cli-docs]: <docs/cli.md>
 [license]:  <LICENSE>

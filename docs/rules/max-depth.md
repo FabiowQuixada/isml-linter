@@ -1,6 +1,6 @@
 # "max-depth" Rule
 
-Defines a max depth a Isml tree node can have. This is a good rule to keep your templates' complexity low.
+Defines a max depth a ISML tree node can have. This is a good rule to keep your templates' complexity low.
 
 ## Notes
 
