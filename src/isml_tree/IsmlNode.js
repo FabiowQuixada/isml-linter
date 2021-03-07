@@ -14,27 +14,30 @@ class IsmlNode {
      * @param {Number} lineNumber node starting line number
      * @param {Number} globalPos  node starting position since the beginning of the file
      */
-    constructor(value = '(root)', lineNumber = 0, globalPos) {
-        this.id               = ID_COUNTER++;
-        this.value            = value;      // '<div class="my_class">'
-        this.lineNumber       = lineNumber; // 7
-        this.endLineNumber    = lineNumber + ParseUtils.getLineBreakQty(value.trim()); // 9
-        this.globalPos        = globalPos;  // 184
-        this.depth            = 0;          // Isml dom tree node depth
-        this.suffixValue      = '';         // '</div>'
-        this.suffixLineNumber = -1;         // 9
-        this.suffixGlobalPos  = -1;         // 207
-        this.parent           = null;       // Parent isml node;
-        this.children         = [];         // Child isml nodes;
-        this.childNo          = 0;
+    constructor(value = '(root)', lineNumber = 0, columnNumber, globalPos) {
+        this.id                 = ID_COUNTER++;
+        this.value              = value;         // '<div class="my_class">'
+        this.lineNumber         = lineNumber;    // 7
+        this.columnNumber       = columnNumber;  // 12
+        this.endLineNumber      = lineNumber + ParseUtils.getLineBreakQty(value.trim()); // 9
+        this.globalPos          = globalPos;     // 184
+        this.depth              = 0;             // Isml dom tree node depth
+        this.suffixValue        = '';            // '</div>'
+        this.suffixLineNumber   = -1;            // 9
+        this.suffixColumnNumber = -1;            // 12
+        this.suffixGlobalPos    = -1;            // 207
+        this.parent             = null;          // Parent isml node;
+        this.children           = [];            // Child isml nodes;
+        this.childNo            = 0;
     }
 
     // Suffix is the element corresponding closing tag, such as </div>
-    setSuffix(value, lineNumber, globalPos) {
-        this.suffixValue      += value;
-        this.suffixLineNumber = lineNumber;
-        this.suffixGlobalPos  = globalPos;
-        this.endLineNumber    = lineNumber;
+    setSuffix(value, lineNumber, columnNumber, globalPos) {
+        this.suffixValue        += value;
+        this.suffixLineNumber   = lineNumber;
+        this.suffixColumnNumber = columnNumber;
+        this.suffixGlobalPos    = globalPos;
+        this.endLineNumber      = lineNumber;
     }
 
     // Returns a string. Examples: 'div', 'isprint', 'doctype';

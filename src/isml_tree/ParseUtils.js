@@ -82,6 +82,38 @@ const parseNextElement = state => {
             parseTextElement(state, newElement);
     }
 
+    if (newElement.value.indexOf(Constants.EOL) >= 0) {
+        const firstNonEmptyCharPos = getNextNonEmptyCharPos(newElement.value);
+
+        newElement.columnNumber = newElement.value
+            .substring(0, firstNonEmptyCharPos)
+            .split('').reverse().join('')
+            .indexOf(Constants.EOL) + 1;
+
+    } else if (state.elementList.length === 0) {
+        newElement.columnNumber = getNextNonEmptyCharPos(newElement.value) + 1;
+    } else {
+        let columnNumber = 1;
+
+        for (let i = state.elementList.length - 1; i >= 0; i--) {
+            const element = state.elementList[i];
+
+            if (element.value.indexOf(Constants.EOL) >= 0) {
+                columnNumber += element.value.length - 1;
+                break;
+
+            } else if (i === 0) {
+                columnNumber += element.value.length + 1;
+                break;
+
+            } else {
+                columnNumber += element.value.length;
+            }
+        }
+
+        newElement.columnNumber = columnNumber;
+    }
+
     if (state.isCrlfLineBreak) {
         newElement.globalPos += newElement.lineNumber - 1;
     }

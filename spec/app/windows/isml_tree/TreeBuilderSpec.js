@@ -623,6 +623,30 @@ describe(targetObjName, () => {
         expect(docTypeNode.value       ).toEqual('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">');
         expect(divNode.value           ).toEqual(`${Constants.EOL}<div>`);
     });
+
+    it('sets node column number', () => {
+        const rootNode   = getRootNodeFromTemplate(64);
+        const selectNode = rootNode.children[0];
+
+        expect(selectNode.columnNumber).toEqual(9);
+        expect(selectNode.suffixColumnNumber).toEqual(11);
+    });
+
+    it('sets node column number II', () => {
+        const rootNode = getRootNodeFromTemplate(65);
+        const divNode  = rootNode.children[0];
+        const brNode   = divNode.children[0];
+
+        expect(divNode.columnNumber).toEqual(1);
+        expect(brNode.columnNumber).toEqual(4);
+    });
+
+    it('sets node column number III', () => {
+        const rootNode = getRootNodeFromTemplate(66);
+        const aNode    = rootNode.children[0];
+
+        expect(aNode.columnNumber).toEqual(1);
+    });
 });
 
 const getTemplatePath = number => {

@@ -1,0 +1,6 @@
+<iscomment>Some comment</iscomment>
+<div>
+    <span>
+        <isprint value="${value}" />
+    </span>
+</div>

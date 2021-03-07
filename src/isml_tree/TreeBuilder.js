@@ -13,7 +13,7 @@ const parse = (content, templatePath, isCrlfLineBreak) => {
 
     for (let i = 0; i < elementList.length; i++) {
         const element = elementList[i];
-        const newNode = new IsmlNode(element.value, element.lineNumber, element.globalPos);
+        const newNode = new IsmlNode(element.value, element.lineNumber, element.columnNumber, element.globalPos);
 
         const containerResult = parseContainerElements(element, currentParent, newNode, templatePath);
 
@@ -69,7 +69,7 @@ const parseContainerElements = (element, currentParent, newNode, templatePath) =
             );
         }
 
-        currentParent.setSuffix(element.value, element.lineNumber, element.globalPos);
+        currentParent.setSuffix(element.value, element.lineNumber, element.columnNumber, element.globalPos);
         currentParent = currentParent.parent.parent;
 
         return {
@@ -96,7 +96,7 @@ const parseNonContainerElements = (element, currentParent, newNode, templatePath
     } else if (element.isClosingTag) {
 
         if (element.tagType === currentParent.getType()) {
-            currentParent.setSuffix(element.value, element.lineNumber, element.globalPos);
+            currentParent.setSuffix(element.value, element.lineNumber, element.columnNumber, element.globalPos);
 
         } else if (element.isClosingTag && currentParent.isRoot()) {
             throw ExceptionUtils.unbalancedElementError(
