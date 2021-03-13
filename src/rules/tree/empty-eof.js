@@ -50,6 +50,7 @@ Rule.check = function(rootNode, data) {
         const error = this.getError(
             lineContent,
             lineNumber,
+            node.columnNumber,
             globalPos,
             length
         );
