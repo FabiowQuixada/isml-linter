@@ -12,6 +12,7 @@ Rule.addError = function(node, message) {
     return this.getError(
         node.value.trim(),
         node.lineNumber - 1,
+        node.columnNumber,
         node.globalPos,
         node.value.trim().length,
         message

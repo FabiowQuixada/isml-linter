@@ -48,13 +48,14 @@ const checkCustomTag = tag => {
             const attr = attrList[i];
             if (attr !== attr.toLowerCase()) {
                 return {
-                    line       : '',
-                    globalPos  : 0,
-                    length     : 10,
-                    lineNumber : 1,
-                    level      : CustomModulesRule.level,
-                    rule       : CustomModulesRule.id,
-                    message    : `Module properties need to be lower case: "${tag}" module has the invalid "${attr}" attribute`
+                    line         : '',
+                    globalPos    : 0,
+                    length       : 10,
+                    lineNumber   : 1,
+                    columnNumber : 1,
+                    level        : CustomModulesRule.level,
+                    rule         : CustomModulesRule.id,
+                    message      : `Module properties need to be lower case: "${tag}" module has the invalid "${attr}" attribute`
                 };
             }
         }
