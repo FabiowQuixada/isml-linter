@@ -13,12 +13,13 @@ const RulePrototype = {
         };
     },
 
-    getError(line, lineNumber, globalPos, length, description) {
+    getError(line, lineNumber, columnNumber, globalPos, length, description) {
         return {
             line,
             globalPos,
             length,
             lineNumber : lineNumber + 1,
+            columnNumber,
             rule       : this.id,
             level      : this.getConfigs().level || Constants.occurrenceLevels.ERROR,
             message    : description || this.description

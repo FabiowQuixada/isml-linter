@@ -18,12 +18,13 @@ SingleLineRulePrototype.check = function(templateContent, data = { isCrlfLineBre
 
         if (occurrence) {
             let occurrenceGlobalPos = globalPos + occurrence.globalPos;
+            const columnNumber      = this.getColumnNumber(line);
 
             if (data.isCrlfLineBreak) {
                 occurrenceGlobalPos += lineNumber;
             }
 
-            const error = this.getError(line, lineNumber, occurrenceGlobalPos, occurrence.length);
+            const error = this.getError(line, lineNumber, columnNumber, occurrenceGlobalPos, occurrence.length);
 
             occurrenceList.push(error);
         }
