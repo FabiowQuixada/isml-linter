@@ -41,6 +41,7 @@ Rule.addError = function(node, eslintError, ismlOffset, linter, data) {
     const error = this.getError(
         ismlOffset + errorLine,
         node.lineNumber + eslintError.line - 3,
+        node.columnNumber,
         errorGlobalPos,
         length,
         message
@@ -55,7 +56,7 @@ Rule.check = function(node, data) {
     try {
         eslintConfig = ConfigUtils.loadEslintConfig();
     } catch (err) {
-        const error = this.getError(null, 0, 0, 1, notFoundMessage);
+        const error = this.getError(null, 0, 1, 0, 1, notFoundMessage);
         return { occurrenceList : [error] };
     }
 
@@ -98,7 +99,7 @@ Rule.getFixedContent = function(node) {
     try {
         eslintConfig = ConfigUtils.loadEslintConfig();
     } catch (err) {
-        const error = this.getError(null, 0, 0, 1, notFoundMessage);
+        const error = this.getError(null, 0, 1, 0, 1, notFoundMessage);
         return { occurrenceList : [error] };
     }
 

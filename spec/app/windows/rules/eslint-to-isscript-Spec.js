@@ -23,34 +23,37 @@ describe(rule.id, () => {
         const result          = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak);
         const firstOccurrence = result[0];
 
-        expect(firstOccurrence.line      ).toEqual('    let foo = bar;    ');
-        expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(16);
-        expect(firstOccurrence.length    ).toEqual(18);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual('Trailing spaces not allowed.');
+        expect(firstOccurrence.line        ).toEqual('    let foo = bar;    ');
+        expect(firstOccurrence.lineNumber  ).toEqual(2);
+        expect(firstOccurrence.columnNumber).toEqual(5);
+        expect(firstOccurrence.globalPos   ).toEqual(16);
+        expect(firstOccurrence.length      ).toEqual(18);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual('Trailing spaces not allowed.');
     });
 
     it('identifies a second eslint occurrence', () => {
         const secondOccurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[1];
 
-        expect(secondOccurrence.line      ).toEqual('    let bar = baz;  ');
-        expect(secondOccurrence.lineNumber).toEqual(4);
-        expect(secondOccurrence.globalPos ).toEqual(42);
-        expect(secondOccurrence.length    ).toEqual(16);
-        expect(secondOccurrence.rule      ).toEqual(rule.id);
-        expect(secondOccurrence.message   ).toEqual('Trailing spaces not allowed.');
+        expect(secondOccurrence.line        ).toEqual('    let bar = baz;  ');
+        expect(secondOccurrence.lineNumber  ).toEqual(4);
+        expect(secondOccurrence.columnNumber).toEqual(5);
+        expect(secondOccurrence.globalPos   ).toEqual(42);
+        expect(secondOccurrence.length      ).toEqual(16);
+        expect(secondOccurrence.rule        ).toEqual(rule.id);
+        expect(secondOccurrence.message     ).toEqual('Trailing spaces not allowed.');
     });
 
     it('identifies a complex eslint occurrence', () => {
         const firstOccurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak)[0];
 
-        expect(firstOccurrence.line      ).toEqual('           disabledAttr = \' disabled="disabled"\';  ');
-        expect(firstOccurrence.lineNumber).toEqual(12);
-        expect(firstOccurrence.globalPos ).toEqual(476);
-        expect(firstOccurrence.length    ).toEqual(11);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual('Expected indentation of 12 spaces but found 11.');
+        expect(firstOccurrence.line        ).toEqual('           disabledAttr = \' disabled="disabled"\';  ');
+        expect(firstOccurrence.lineNumber  ).toEqual(12);
+        expect(firstOccurrence.columnNumber).toEqual(5);
+        expect(firstOccurrence.globalPos   ).toEqual(476);
+        expect(firstOccurrence.length      ).toEqual(11);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual('Expected indentation of 12 spaces but found 11.');
     });
 
     it('identifies a simple eslint "var" occurrence', () => {
@@ -58,41 +61,45 @@ describe(rule.id, () => {
         const firstOccurrence  = result[0];
         const secondOccurrence = result[1];
 
-        expect(firstOccurrence.line      ).toEqual('    var product = pdict.Product;');
-        expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(16);
-        expect(firstOccurrence.length    ).toEqual(28);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');
+        expect(firstOccurrence.line        ).toEqual('    var product = pdict.Product;');
+        expect(firstOccurrence.lineNumber  ).toEqual(2);
+        expect(firstOccurrence.columnNumber).toEqual(5);
+        expect(firstOccurrence.globalPos   ).toEqual(16);
+        expect(firstOccurrence.length      ).toEqual(28);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual('Unexpected var, use let or const instead.');
 
-        expect(secondOccurrence.line      ).toEqual('    var pid = pdict.Product.getID();');
-        expect(secondOccurrence.lineNumber).toEqual(3);
-        expect(secondOccurrence.globalPos ).toEqual(50);
-        expect(secondOccurrence.length    ).toEqual(32);
-        expect(secondOccurrence.rule      ).toEqual(rule.id);
-        expect(secondOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');
+        expect(secondOccurrence.line        ).toEqual('    var pid = pdict.Product.getID();');
+        expect(secondOccurrence.lineNumber  ).toEqual(3);
+        expect(secondOccurrence.columnNumber).toEqual(5);
+        expect(secondOccurrence.globalPos   ).toEqual(50);
+        expect(secondOccurrence.length      ).toEqual(32);
+        expect(secondOccurrence.rule        ).toEqual(rule.id);
+        expect(secondOccurrence.message     ).toEqual('Unexpected var, use let or const instead.');
     });
 
     it('identifies a complex eslint "var" occurrence', () => {
         const firstOccurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 2, isCrlfLineBreak)[0];
 
-        expect(firstOccurrence.line      ).toEqual('    var pid = pdict.Product.getID();');
-        expect(firstOccurrence.lineNumber).toEqual(3);
-        expect(firstOccurrence.globalPos ).toEqual(50);
-        expect(firstOccurrence.length    ).toEqual(32);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');
+        expect(firstOccurrence.line        ).toEqual('    var pid = pdict.Product.getID();');
+        expect(firstOccurrence.lineNumber  ).toEqual(3);
+        expect(firstOccurrence.columnNumber).toEqual(5);
+        expect(firstOccurrence.globalPos   ).toEqual(50);
+        expect(firstOccurrence.length      ).toEqual(32);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual('Unexpected var, use let or const instead.');
     });
 
     it('identifies a complex eslint "var" occurrence in a complex template', () => {
         const firstOccurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak)[0];
 
-        expect(firstOccurrence.line      ).toEqual('    var pid = pdict.Product.getID();');
-        expect(firstOccurrence.lineNumber).toEqual(110);
-        expect(firstOccurrence.globalPos ).toEqual(4167);
-        expect(firstOccurrence.length    ).toEqual(32);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual('Unexpected var, use let or const instead.');
+        expect(firstOccurrence.line        ).toEqual('    var pid = pdict.Product.getID();');
+        expect(firstOccurrence.lineNumber  ).toEqual(110);
+        expect(firstOccurrence.columnNumber).toEqual(5);
+        expect(firstOccurrence.globalPos   ).toEqual(4167);
+        expect(firstOccurrence.length      ).toEqual(32);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual('Unexpected var, use let or const instead.');
     });
 
     it('identifies occurrence global position', () => {
@@ -115,12 +122,13 @@ describe(rule.id, () => {
         const result          = SpecHelper.parseAndApplyRuleToTemplate(rule, 7, isCrlfLineBreak);
         const firstOccurrence = result[0];
 
-        expect(firstOccurrence.line      ).toEqual('        vfar variableTwo = 2;');
-        expect(firstOccurrence.lineNumber).toEqual(4);
-        expect(firstOccurrence.globalPos ).toEqual(26);
-        expect(firstOccurrence.length    ).toEqual(21);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual('Parsing error: Unexpected token variableTwo');
+        expect(firstOccurrence.line        ).toEqual('        vfar variableTwo = 2;');
+        expect(firstOccurrence.lineNumber  ).toEqual(4);
+        expect(firstOccurrence.columnNumber).toEqual(5);
+        expect(firstOccurrence.globalPos   ).toEqual(26);
+        expect(firstOccurrence.length      ).toEqual(21);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual('Parsing error: Unexpected token variableTwo');
     });
 
     it('identifies eslint indentation issues', () => {
@@ -128,19 +136,21 @@ describe(rule.id, () => {
         const firstOccurrence  = result[0];
         const secondOccurrence = result[1];
 
-        expect(firstOccurrence.line      ).toEqual('      const variableOne = 1;');
-        expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(12);
-        expect(firstOccurrence.length    ).toEqual(6);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual('Expected indentation of 4 spaces but found 6.');
+        expect(firstOccurrence.line        ).toEqual('      const variableOne = 1;');
+        expect(firstOccurrence.lineNumber  ).toEqual(2);
+        expect(firstOccurrence.columnNumber).toEqual(7);
+        expect(firstOccurrence.globalPos   ).toEqual(12);
+        expect(firstOccurrence.length      ).toEqual(6);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual('Expected indentation of 4 spaces but found 6.');
 
-        expect(secondOccurrence.line      ).toEqual('       const variableTwo = 2;');
-        expect(secondOccurrence.lineNumber).toEqual(3);
-        expect(secondOccurrence.globalPos ).toEqual(42);
-        expect(secondOccurrence.length    ).toEqual(7);
-        expect(secondOccurrence.rule      ).toEqual(rule.id);
-        expect(secondOccurrence.message   ).toEqual('Expected indentation of 4 spaces but found 7.');
+        expect(secondOccurrence.line        ).toEqual('       const variableTwo = 2;');
+        expect(secondOccurrence.lineNumber  ).toEqual(3);
+        expect(secondOccurrence.columnNumber).toEqual(7);
+        expect(secondOccurrence.globalPos   ).toEqual(42);
+        expect(secondOccurrence.length      ).toEqual(7);
+        expect(secondOccurrence.rule        ).toEqual(rule.id);
+        expect(secondOccurrence.message     ).toEqual('Expected indentation of 4 spaces but found 7.');
     });
 
     it('fixes a simple template', () => {
