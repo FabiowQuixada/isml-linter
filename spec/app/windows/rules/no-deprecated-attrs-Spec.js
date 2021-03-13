@@ -41,11 +41,12 @@ describe(rule.id, () => {
     it('retrieves error metadata', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
-        expect(result.line      ).toEqual('<iscache status="off" />');
-        expect(result.lineNumber).toEqual(2);
-        expect(result.globalPos ).toEqual(20);
-        expect(result.length    ).toEqual(12);
-        expect(result.rule      ).toEqual(rule.id);
+        expect(result.line        ).toEqual('<iscache status="off" />');
+        expect(result.lineNumber  ).toEqual(2);
+        expect(result.columnNumber).toEqual(14);
+        expect(result.globalPos   ).toEqual(20);
+        expect(result.length      ).toEqual(12);
+        expect(result.rule        ).toEqual(rule.id);
     });
 
     it('ignores custom tags', () => {
