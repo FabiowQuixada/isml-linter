@@ -78,6 +78,7 @@ Rule.check = function(node, data) {
             const error = this.getError(
                 node.value.trim(),
                 node.lineNumber - 1,
+                node.columnNumber,
                 globalPos,
                 occurrenceLength,
                 getOccurrenceDescription(expectedIndentation, actualIndentation)
@@ -100,6 +101,7 @@ Rule.check = function(node, data) {
             const error = this.getError(
                 node.suffixValue.trim(),
                 node.suffixLineNumber - 1,
+                node.suffixColumnNumber,
                 suffixGlobalPos,
                 occurrenceLength,
                 getOccurrenceDescription(expectedIndentation, actualIndentation)

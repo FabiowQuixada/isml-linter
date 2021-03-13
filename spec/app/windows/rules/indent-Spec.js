@@ -18,23 +18,25 @@ describe(rule.id, () => {
     it('detects simplest wrong indentation case', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
-        expect(result.line      ).toEqual('<br/>');
-        expect(result.lineNumber).toEqual(2);
-        expect(result.globalPos ).toEqual(7);
-        expect(result.length    ).toEqual(3);
-        expect(result.rule      ).toEqual(rule.id);
-        expect(result.message   ).toEqual('Expected indentation of 4 spaces but found 3');
+        expect(result.line        ).toEqual('<br/>');
+        expect(result.lineNumber  ).toEqual(2);
+        expect(result.columnNumber).toEqual(4);
+        expect(result.globalPos   ).toEqual(7);
+        expect(result.length      ).toEqual(3);
+        expect(result.rule        ).toEqual(rule.id);
+        expect(result.message     ).toEqual('Expected indentation of 4 spaces but found 3');
     });
 
     it('detects wrong indentation with previous empty line', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak)[0];
 
-        expect(result.line      ).toEqual('<br/>');
-        expect(result.lineNumber).toEqual(3);
-        expect(result.globalPos ).toEqual(9);
-        expect(result.length    ).toEqual(3);
-        expect(result.rule      ).toEqual(rule.id);
-        expect(result.message   ).toEqual('Expected indentation of 4 spaces but found 3');
+        expect(result.line        ).toEqual('<br/>');
+        expect(result.lineNumber  ).toEqual(3);
+        expect(result.columnNumber).toEqual(4);
+        expect(result.globalPos   ).toEqual(9);
+        expect(result.length      ).toEqual(3);
+        expect(result.rule        ).toEqual(rule.id);
+        expect(result.message     ).toEqual('Expected indentation of 4 spaces but found 3');
     });
 
     it('ignores indentation for elements in the same line as their parents', () => {
@@ -46,12 +48,13 @@ describe(rule.id, () => {
     it('detects wrong indentation with previous sibling element', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak)[0];
 
-        expect(result.line      ).toEqual('<input type="text" />');
-        expect(result.lineNumber).toEqual(3);
-        expect(result.globalPos ).toEqual(89);
-        expect(result.length    ).toEqual(5);
-        expect(result.rule      ).toEqual(rule.id);
-        expect(result.message   ).toEqual('Expected indentation of 4 spaces but found 5');
+        expect(result.line        ).toEqual('<input type="text" />');
+        expect(result.lineNumber  ).toEqual(3);
+        expect(result.columnNumber).toEqual(6);
+        expect(result.globalPos   ).toEqual(89);
+        expect(result.length      ).toEqual(5);
+        expect(result.rule        ).toEqual(rule.id);
+        expect(result.message     ).toEqual('Expected indentation of 4 spaces but found 5');
     });
 
     it('checks indentation for elements at depth 0', () => {
@@ -326,5 +329,36 @@ describe(rule.id, () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 27);
 
         expect(result.length).toEqual(0);
+    });
+
+    it('reports occurrence column number', () => {
+        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 15)[0];
+
+        expect(occurrence.columnNumber).toEqual(7);
+    });
+
+    it('reports occurrence column number II', () => {
+        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 18);
+        const occurrence1 = result[0];
+        const occurrence2 = result[1];
+
+        expect(occurrence1.columnNumber).toEqual(9);
+        expect(occurrence2.columnNumber).toEqual(11);
+    });
+
+    it('reports occurrence column number III', () => {
+        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 20);
+        const occurrence1 = result[0];
+        const occurrence2 = result[1];
+
+        expect(occurrence1.columnNumber).toEqual(5);
+        expect(occurrence2.columnNumber).toEqual(2);
+    });
+
+    it('reports occurrence column number IV', () => {
+        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 28);
+        const occurrence1 = result[0];
+
+        expect(occurrence1.columnNumber).toEqual(1);
     });
 });
