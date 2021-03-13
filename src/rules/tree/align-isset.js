@@ -69,6 +69,7 @@ Rule.checkAttributesAlignments = function(issetChildren, attrPosContainer) {
                 const error = this.getError(
                     issetNode.value.trim(),
                     issetNode.lineNumber - 1,
+                    issetNode.columnNumber,
                     issetNode.globalPos,
                     issetNode.value.trim().length,
                     description
