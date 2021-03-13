@@ -16,12 +16,13 @@ describe(rule.id, () => {
     it('identifies a reverse tabnabbing security hole', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
 
-        expect(result.line      ).toEqual('<a href="http://example.com" target="_blank">');
-        expect(result.lineNumber).toEqual(1);
-        expect(result.globalPos ).toEqual(0);
-        expect(result.length    ).toEqual(45);
-        expect(result.rule      ).toEqual(rule.id);
-        expect(result.message   ).toEqual('Potential reverse tabnabbing security hole detected. Consider adding \'rel="noopener"\'');
+        expect(result.line        ).toEqual('<a href="http://example.com" target="_blank">');
+        expect(result.lineNumber  ).toEqual(1);
+        expect(result.columnNumber).toEqual(1);
+        expect(result.globalPos   ).toEqual(0);
+        expect(result.length      ).toEqual(45);
+        expect(result.rule        ).toEqual(rule.id);
+        expect(result.message     ).toEqual('Potential reverse tabnabbing security hole detected. Consider adding \'rel="noopener"\'');
     });
 
     it('ignores reverse-tabnabbing-safe elements', () => {
@@ -33,12 +34,12 @@ describe(rule.id, () => {
     it('identifies a reverse tabnabbing security hole in a multiline element', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2)[0];
 
-        expect(result.line      ).toEqual('<a \n    href="http://example.com"\n    target="_blank"\n    class="some-class"\n>');
-        expect(result.lineNumber).toEqual(1);
-        expect(result.globalPos ).toEqual(0);
-        expect(result.length    ).toEqual(78);
-        expect(result.rule      ).toEqual(rule.id);
-        expect(result.message   ).toEqual('Potential reverse tabnabbing security hole detected. Consider adding \'rel="noopener"\'');
+        expect(result.line        ).toEqual('<a \n    href="http://example.com"\n    target="_blank"\n    class="some-class"\n>');
+        expect(result.columnNumber).toEqual(1);
+        expect(result.globalPos   ).toEqual(0);
+        expect(result.length      ).toEqual(78);
+        expect(result.rule        ).toEqual(rule.id);
+        expect(result.message     ).toEqual('Potential reverse tabnabbing security hole detected. Consider adding \'rel="noopener"\'');
     });
 
     it('ignores reverse-tabnabbing-safe multi-line elements', () => {
