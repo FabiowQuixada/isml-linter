@@ -16,12 +16,13 @@ describe(rule.id, () => {
     it('detects "require()" calls within loops', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
-        expect(result.line      ).toEqual('<isset name="basket" value="${require(\'dw.order.Basket\')}" scope="page"/>');
-        expect(result.lineNumber).toEqual(3);
-        expect(result.globalPos ).toEqual(112);
-        expect(result.length    ).toEqual(26);
-        expect(result.rule      ).toEqual(rule.id);
-        expect(result.message   ).toEqual(rule.description);
+        expect(result.line        ).toEqual('<isset name="basket" value="${require(\'dw.order.Basket\')}" scope="page"/>');
+        expect(result.lineNumber  ).toEqual(3);
+        expect(result.columnNumber).toEqual(39);
+        expect(result.globalPos   ).toEqual(112);
+        expect(result.length      ).toEqual(26);
+        expect(result.rule        ).toEqual(rule.id);
+        expect(result.message     ).toEqual(rule.description);
     });
 
     it('allows "require()" calls outside loops', () => {
