@@ -77,11 +77,12 @@ describe(rule.id, () => {
     it('retrieves error metadata', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
-        expect(result.line      ).toEqual('<isslot context="category" />');
-        expect(result.lineNumber).toEqual(2);
-        expect(result.globalPos ).toEqual(11);
-        expect(result.length    ).toEqual(29);
-        expect(result.rule      ).toEqual(rule.id);
+        expect(result.line        ).toEqual('<isslot context="category" />');
+        expect(result.lineNumber  ).toEqual(2);
+        expect(result.columnNumber).toEqual(5);
+        expect(result.globalPos   ).toEqual(11);
+        expect(result.length      ).toEqual(29);
+        expect(result.rule        ).toEqual(rule.id);
     });
 
     it('correctly processes "isif" tags', () => {
