@@ -24,6 +24,7 @@ Rule.check = function(node, data) {
         const error = this.getError(
             node.value.trim(),
             node.lineNumber - 1,
+            node.columnNumber,
             node.globalPos,
             node.value.trim().length,
             `Tag "${node.getType()}" is not allowed.`

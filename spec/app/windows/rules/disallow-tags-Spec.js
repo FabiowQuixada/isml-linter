@@ -32,4 +32,12 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('detects occurrence column number', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0);
+
+        expect(result.length).toEqual(2);
+        expect(result[0].columnNumber).toEqual(1);
+        expect(result[1].columnNumber).toEqual(1);
+    });
 });
