@@ -52,11 +52,12 @@ describe('On Unix, ' + rule.id, () => {
         const result          = rule.check(templateContent);
         const firstOccurrence = result.occurrenceList[0];
 
-        expect(firstOccurrence.line      ).toEqual('${\'some ds code\'}');
-        expect(firstOccurrence.lineNumber).toEqual(1);
-        expect(firstOccurrence.globalPos ).toEqual(0);
-        expect(firstOccurrence.length    ).toEqual(17);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line        ).toEqual('${\'some ds code\'}');
+        expect(firstOccurrence.lineNumber  ).toEqual(1);
+        expect(firstOccurrence.columnNumber).toEqual(1);
+        expect(firstOccurrence.globalPos   ).toEqual(0);
+        expect(firstOccurrence.length      ).toEqual(17);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual(rule.description);
     });
 });
