@@ -23,12 +23,13 @@ describe('On Unix, ' + rule.id, () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 1);
         const result          = rule.check(templateContent);
         const expectedResult  = [{
-            line        : '<a href="${dw.catalog.ProductSearchModel.urlForCategory(\'Search-Show\',cat.ID)}"',
-            lineNumber  : 0,
-            globalPos   : 11,
-            length      : 29,
-            rule        : rule.id,
-            message     : rule.description
+            line         : '<a href="${dw.catalog.ProductSearchModel.urlForCategory(\'Search-Show\',cat.ID)}"',
+            lineNumber   : 0,
+            columnNumber : 12,
+            globalPos    : 11,
+            length       : 29,
+            rule         : rule.id,
+            message      : rule.description
         }];
 
         expect(result.occurrenceList).not.toEqual(expectedResult);
@@ -53,11 +54,12 @@ describe('On Unix, ' + rule.id, () => {
         const result          = rule.check(templateContent);
         const firstOccurrence = result.occurrenceList[0];
 
-        expect(firstOccurrence.line      ).toEqual('const productLineItem : dw.order.ProductLineItem; // Some comment');
-        expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(25);
-        expect(firstOccurrence.length    ).toEqual(24);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line        ).toEqual('const productLineItem : dw.order.ProductLineItem; // Some comment');
+        expect(firstOccurrence.lineNumber  ).toEqual(2);
+        expect(firstOccurrence.columnNumber).toEqual(25);
+        expect(firstOccurrence.globalPos   ).toEqual(25);
+        expect(firstOccurrence.length      ).toEqual(24);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual(rule.description);
     });
 });
