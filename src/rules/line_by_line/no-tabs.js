@@ -11,6 +11,10 @@ Rule.init(ruleId, description);
 
 Rule.isBroken = function(line) { return line.indexOf('\t') !== -1; };
 
+Rule.getColumnNumber = function(line) {
+    return Math.max(line.indexOf('  '), 0) + 1;
+};
+
 Rule.getFixedContent = function(templateContent) {
     const indent       = IndentRule.getIndentation();
     const fixedContent = templateContent.replaceAll('\t', indent);
