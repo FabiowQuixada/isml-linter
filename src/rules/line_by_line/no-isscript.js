@@ -10,6 +10,10 @@ Rule.init(ruleId, description);
 
 Rule.isBroken = function(line) { return line.indexOf(occurrenceText) !== -1; };
 
+Rule.getColumnNumber = function(line) {
+    return Math.max(line.indexOf(occurrenceText), 0) + 1;
+};
+
 Rule.getFirstOccurrence = function(line) {
 
     let result = null;
