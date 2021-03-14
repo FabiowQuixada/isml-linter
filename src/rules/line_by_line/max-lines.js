@@ -15,14 +15,19 @@ Rule.getDefaultAttrs = () => {
 
 Rule.init(ruleId, description);
 
+Rule.getColumnNumber = function() {
+    return 1;
+};
+
 Rule.check = function(templateContent) {
 
     const maxLines       = this.getConfigs().max;
     const lineArray      = GeneralUtils.toLF(templateContent).split(Constants.EOL);
+    const columnNumber   = this.getColumnNumber();
     const occurrenceList = [];
 
     if (lineArray.length > maxLines) {
-        const error = this.getError(lineArray[0], 0, 0, 0);
+        const error = this.getError(lineArray[0], 0, columnNumber, 0, 0);
         occurrenceList.push(error);
     }
 

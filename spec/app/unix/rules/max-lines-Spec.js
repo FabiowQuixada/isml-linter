@@ -31,12 +31,13 @@ describe('On Unix, ' + rule.id, () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
         const occurrence      = rule.check(templateContent).occurrenceList[0];
 
-        expect(occurrence.line      ).toEqual('first line');
-        expect(occurrence.lineNumber).toEqual(1);
-        expect(occurrence.globalPos ).toEqual(0);
-        expect(occurrence.length    ).toEqual(0);
-        expect(occurrence.rule      ).toEqual(rule.id);
-        expect(occurrence.message   ).toEqual(rule.description);
+        expect(occurrence.line        ).toEqual('first line');
+        expect(occurrence.lineNumber  ).toEqual(1);
+        expect(occurrence.columnNumber).toEqual(1);
+        expect(occurrence.globalPos   ).toEqual(0);
+        expect(occurrence.length      ).toEqual(0);
+        expect(occurrence.rule        ).toEqual(rule.id);
+        expect(occurrence.message     ).toEqual(rule.description);
     });
 
     it('allows short templates with custom max configuration', () => {
@@ -60,12 +61,13 @@ describe('On Unix, ' + rule.id, () => {
         const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 5);
         const occurrence      = rule.check(templateContent).occurrenceList[0];
 
-        expect(occurrence.line      ).toEqual('first line');
-        expect(occurrence.lineNumber).toEqual(1);
-        expect(occurrence.globalPos ).toEqual(0);
-        expect(occurrence.length    ).toEqual(0);
-        expect(occurrence.rule      ).toEqual(rule.id);
-        expect(occurrence.message   ).toEqual(rule.description);
+        expect(occurrence.line        ).toEqual('first line');
+        expect(occurrence.lineNumber  ).toEqual(1);
+        expect(occurrence.columnNumber).toEqual(1);
+        expect(occurrence.globalPos   ).toEqual(0);
+        expect(occurrence.length      ).toEqual(0);
+        expect(occurrence.rule        ).toEqual(rule.id);
+        expect(occurrence.message     ).toEqual(rule.description);
     });
 
 });
