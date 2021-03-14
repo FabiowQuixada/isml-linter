@@ -11,6 +11,10 @@ Rule.init(ruleId, description);
 
 Rule.isBroken = function(line) { return line === occurrenceText1 || line === occurrenceText2; };
 
+Rule.getColumnNumber = function() {
+    return 1;
+};
+
 Rule.getFirstOccurrence = function(line) {
 
     let result = null;

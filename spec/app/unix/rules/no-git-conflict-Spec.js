@@ -32,18 +32,20 @@ describe('On Unix, ' + rule.id, () => {
         const occurrence1     = result.occurrenceList[0];
         const occurrence2     = result.occurrenceList[1];
 
-        expect(occurrence1.line      ).toEqual('<<<<<<< HEAD');
-        expect(occurrence1.lineNumber).toEqual(1);
-        expect(occurrence1.globalPos ).toEqual(0);
-        expect(occurrence1.length    ).toEqual(12);
-        expect(occurrence1.rule      ).toEqual(rule.id);
-        expect(occurrence1.message   ).toEqual(rule.description);
+        expect(occurrence1.line        ).toEqual('<<<<<<< HEAD');
+        expect(occurrence1.lineNumber  ).toEqual(1);
+        expect(occurrence1.columnNumber).toEqual(1);
+        expect(occurrence1.globalPos   ).toEqual(0);
+        expect(occurrence1.length      ).toEqual(12);
+        expect(occurrence1.rule        ).toEqual(rule.id);
+        expect(occurrence1.message     ).toEqual(rule.description);
 
-        expect(occurrence2.line      ).toEqual('=======');
-        expect(occurrence2.lineNumber).toEqual(3);
-        expect(occurrence2.globalPos ).toEqual(25);
-        expect(occurrence2.length    ).toEqual(7);
-        expect(occurrence2.rule      ).toEqual(rule.id);
+        expect(occurrence2.line        ).toEqual('=======');
+        expect(occurrence2.lineNumber  ).toEqual(3);
+        expect(occurrence1.columnNumber).toEqual(1);
+        expect(occurrence2.globalPos   ).toEqual(25);
+        expect(occurrence2.length      ).toEqual(7);
+        expect(occurrence2.rule        ).toEqual(rule.id);
 
         expect(result.occurrenceList.length).toEqual(2);
     });
