@@ -10,6 +10,10 @@ Rule.init(ruleId, description);
 
 Rule.isBroken = function(line) { return line !== '' && line !== '\r' && line !== Constants.EOL && !/\S/.test(line); };
 
+Rule.getColumnNumber = function() {
+    return 1;
+};
+
 Rule.getFixedContent = function(templateContent) {
     const GeneralUtils = require('../../util/GeneralUtils');
 

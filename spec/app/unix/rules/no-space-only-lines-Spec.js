@@ -39,12 +39,13 @@ describe('On Unix, ' + rule.id, () => {
         const result          = rule.check(templateContent);
         const firstOccurrence = result.occurrenceList[0];
 
-        expect(firstOccurrence.line      ).toEqual('     ');
-        expect(firstOccurrence.lineNumber).toEqual(1);
-        expect(firstOccurrence.globalPos ).toEqual(0);
-        expect(firstOccurrence.length    ).toEqual(6);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line        ).toEqual('     ');
+        expect(firstOccurrence.lineNumber  ).toEqual(1);
+        expect(firstOccurrence.lineNumber  ).toEqual(1);
+        expect(firstOccurrence.globalPos   ).toEqual(0);
+        expect(firstOccurrence.length      ).toEqual(6);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual(rule.description);
     });
 
     it('fixes a simple template', () => {
