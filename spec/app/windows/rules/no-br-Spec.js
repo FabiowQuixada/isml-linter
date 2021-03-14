@@ -32,12 +32,13 @@ describe(rule.id, () => {
         const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
-        expect(firstOccurrence.line      ).toEqual('<div><br></div>');
-        expect(firstOccurrence.lineNumber).toEqual(1);
-        expect(firstOccurrence.globalPos ).toEqual(5);
-        expect(firstOccurrence.length    ).toEqual(4);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line        ).toEqual('<div><br></div>');
+        expect(firstOccurrence.lineNumber  ).toEqual(1);
+        expect(firstOccurrence.columnNumber).toEqual(6);
+        expect(firstOccurrence.globalPos   ).toEqual(5);
+        expect(firstOccurrence.length      ).toEqual(4);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual(rule.description);
     });
 
     it('detects <br /> (space, slash) tag within another tag', () => {
@@ -45,12 +46,13 @@ describe(rule.id, () => {
         const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
-        expect(firstOccurrence.line      ).toEqual('<div><br /></div>');
-        expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(7);
-        expect(firstOccurrence.length    ).toEqual(6);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line        ).toEqual('<div><br /></div>');
+        expect(firstOccurrence.lineNumber  ).toEqual(2);
+        expect(firstOccurrence.columnNumber).toEqual(6);
+        expect(firstOccurrence.globalPos   ).toEqual(7);
+        expect(firstOccurrence.length      ).toEqual(6);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual(rule.description);
     });
 
     it('detects <br/> (slash only) tag within another tag', () => {
@@ -58,12 +60,13 @@ describe(rule.id, () => {
         const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
-        expect(firstOccurrence.line      ).toEqual('<div><br/></div>');
-        expect(firstOccurrence.lineNumber).toEqual(1);
-        expect(firstOccurrence.globalPos ).toEqual(5);
-        expect(firstOccurrence.length    ).toEqual(5);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line        ).toEqual('<div><br/></div>');
+        expect(firstOccurrence.lineNumber  ).toEqual(1);
+        expect(firstOccurrence.columnNumber).toEqual(6);
+        expect(firstOccurrence.globalPos   ).toEqual(5);
+        expect(firstOccurrence.length      ).toEqual(5);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual(rule.description);
     });
 
     it('detects standalone <br> tag (no space nor slash)', () => {
@@ -71,12 +74,13 @@ describe(rule.id, () => {
         const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
-        expect(firstOccurrence.line      ).toEqual('<br>');
-        expect(firstOccurrence.lineNumber).toEqual(1);
-        expect(firstOccurrence.globalPos ).toEqual(0);
-        expect(firstOccurrence.length    ).toEqual(4);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line        ).toEqual('<br>');
+        expect(firstOccurrence.lineNumber  ).toEqual(1);
+        expect(firstOccurrence.columnNumber).toEqual(1);
+        expect(firstOccurrence.globalPos   ).toEqual(0);
+        expect(firstOccurrence.length      ).toEqual(4);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual(rule.description);
     });
 
     it('detects standalone <br/> tag (slash)', () => {
@@ -84,11 +88,12 @@ describe(rule.id, () => {
         const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
-        expect(firstOccurrence.line      ).toEqual('<br/>');
-        expect(firstOccurrence.lineNumber).toEqual(2);
-        expect(firstOccurrence.globalPos ).toEqual(2);
-        expect(firstOccurrence.length    ).toEqual(5);
-        expect(firstOccurrence.rule      ).toEqual(rule.id);
-        expect(firstOccurrence.message   ).toEqual(rule.description);
+        expect(firstOccurrence.line        ).toEqual('<br/>');
+        expect(firstOccurrence.lineNumber  ).toEqual(2);
+        expect(firstOccurrence.columnNumber).toEqual(1);
+        expect(firstOccurrence.globalPos   ).toEqual(2);
+        expect(firstOccurrence.length      ).toEqual(5);
+        expect(firstOccurrence.rule        ).toEqual(rule.id);
+        expect(firstOccurrence.message     ).toEqual(rule.description);
     });
 });
