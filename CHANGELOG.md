@@ -1,9 +1,15 @@
 # Changelog
 
+### [5.35.0] - 2021-03-14
+
+### Added
+ - [Issue #23][issue#23]: "columnNumber" attribute to lint result;
+
 ### [5.30.4] - 2021-03-07
 
 ### Added
  - "config" optional parameter to [public API][api-docs]'s "parse" method;
+
 ### Fixed
  - [Issue #23][issue#23]: "indent" rule "value" attribute;
 
@@ -803,6 +809,7 @@
 ### Added
 - Linter is published;
 
+[5.35.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.4...v5.35.0
 [5.30.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.3...v5.30.4
 [5.30.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.2...v5.30.3
 [5.30.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.1...v5.30.2
