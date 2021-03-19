@@ -77,7 +77,7 @@ Rule.check = function(node, data) {
 
             const error = this.getError(
                 node.value.trim(),
-                node.lineNumber - 1,
+                node.lineNumber,
                 node.columnNumber,
                 globalPos,
                 occurrenceLength,
@@ -100,7 +100,7 @@ Rule.check = function(node, data) {
 
             const error = this.getError(
                 node.suffixValue.trim(),
-                node.suffixLineNumber - 1,
+                node.suffixLineNumber,
                 node.suffixColumnNumber,
                 suffixGlobalPos,
                 occurrenceLength,

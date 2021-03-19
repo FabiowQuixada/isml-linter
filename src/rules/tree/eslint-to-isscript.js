@@ -42,7 +42,7 @@ Rule.addError = function(node, eslintError, ismlOffset, linter, data) {
 
     const error = this.getError(
         ismlOffset + errorLine,
-        node.lineNumber + eslintError.line - 3,
+        node.lineNumber + eslintError.line - 2,
         columnNumber,
         errorGlobalPos,
         length,

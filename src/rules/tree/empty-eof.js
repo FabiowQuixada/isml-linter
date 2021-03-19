@@ -26,7 +26,7 @@ Rule.check = function(rootNode, data) {
     if (this.isBroken(node)) {
         const lineContent  = node.toString().substring(node.toString().lastIndexOf(Constants.EOL) + 1);
         const lineBreakQty = ParseUtils.getLineBreakQty(node.toString());
-        const lineNumber   = node.lineNumber + lineBreakQty - 2;
+        const lineNumber   = node.lineNumber + lineBreakQty - 1;
         let globalPos      = node.globalPos;
         let length         = node.value.trim().length;
 

@@ -43,7 +43,7 @@ Rule.check = function(node, data) {
     for (let i = 0; i < errorMessageList.length; i++) {
         const error = this.getError(
             node.value.trim(),
-            node.lineNumber - 1,
+            node.lineNumber,
             node.columnNumber,
             node.globalPos,
             node.value.trim().length,

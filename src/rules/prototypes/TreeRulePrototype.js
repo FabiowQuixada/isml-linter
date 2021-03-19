@@ -18,7 +18,7 @@ TreeRulePrototype.check = function(node, data) {
 
         const error = this.getError(
             node.value.trim(),
-            node.lineNumber - 1,
+            node.lineNumber,
             node.columnNumber,
             node.globalPos,
             length

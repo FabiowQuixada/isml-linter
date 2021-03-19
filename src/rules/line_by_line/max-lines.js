@@ -27,7 +27,7 @@ Rule.check = function(templateContent) {
     const occurrenceList = [];
 
     if (lineArray.length > maxLines) {
-        const error = this.getError(lineArray[0], 0, columnNumber, 0, 0);
+        const error = this.getError(lineArray[0], 1, columnNumber, 0, 0);
         occurrenceList.push(error);
     }
 

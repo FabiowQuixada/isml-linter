@@ -24,7 +24,7 @@ SingleLineRulePrototype.check = function(templateContent, data = { isCrlfLineBre
                 occurrenceGlobalPos += lineNumber;
             }
 
-            const error = this.getError(line, lineNumber, columnNumber, occurrenceGlobalPos, occurrence.length);
+            const error = this.getError(line, lineNumber + 1, columnNumber, occurrenceGlobalPos, occurrence.length);
 
             occurrenceList.push(error);
         }

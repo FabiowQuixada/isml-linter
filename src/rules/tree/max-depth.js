@@ -34,7 +34,7 @@ Rule.check = function(node, data) {
 
         const error = this.getError(
             stringifiedNode,
-            node.lineNumber - 1,
+            node.lineNumber,
             node.columnNumber,
             node.globalPos,
             length

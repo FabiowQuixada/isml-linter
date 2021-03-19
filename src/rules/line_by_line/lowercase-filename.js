@@ -19,7 +19,7 @@ Rule.check = function(fileName, templateContent) {
     };
 
     if (this.isBroken(fileName)) {
-        const error = this.getError('', -1, -1, 0, templateContent.length);
+        const error = this.getError('', 0, -1, 0, templateContent.length);
         result.occurrenceList.push(error);
     }
 

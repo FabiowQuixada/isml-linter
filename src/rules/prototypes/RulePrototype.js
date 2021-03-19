@@ -18,7 +18,7 @@ const RulePrototype = {
             line,
             globalPos,
             length,
-            lineNumber : lineNumber + 1,
+            lineNumber,
             columnNumber,
             rule       : this.id,
             level      : this.getConfigs().level || Constants.occurrenceLevels.ERROR,
