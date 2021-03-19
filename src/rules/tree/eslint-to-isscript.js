@@ -22,6 +22,7 @@ Rule.addError = function(node, eslintError, ismlOffset, linter, data) {
     const duplicatedOffset = ParseUtils.getNextNonEmptyCharPos(node.value);
     const errorLocalPos    = node.value.indexOf(errorLine.trimStart()) - duplicatedOffset;
     let errorGlobalPos     = node.globalPos;
+    let columnNumber       = node.columnNumber;
     let length             = errorLine.trimStart().length;
     let message;
 
@@ -33,6 +34,7 @@ Rule.addError = function(node, eslintError, ismlOffset, linter, data) {
         length         = getIndentErrorLength(eslintError, ismlOffset);
         message        = getIsmlIdentMessage(eslintError, ismlOffset);
         errorGlobalPos -= length;
+        columnNumber   = length + 1;
 
     } else {
         message = eslintError.message;
@@ -41,7 +43,7 @@ Rule.addError = function(node, eslintError, ismlOffset, linter, data) {
     const error = this.getError(
         ismlOffset + errorLine,
         node.lineNumber + eslintError.line - 3,
-        node.columnNumber,
+        columnNumber,
         errorGlobalPos,
         length,
         message

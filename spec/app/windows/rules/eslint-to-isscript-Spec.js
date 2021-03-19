@@ -49,7 +49,7 @@ describe(rule.id, () => {
 
         expect(firstOccurrence.line        ).toEqual('           disabledAttr = \' disabled="disabled"\';  ');
         expect(firstOccurrence.lineNumber  ).toEqual(12);
-        expect(firstOccurrence.columnNumber).toEqual(5);
+        expect(firstOccurrence.columnNumber).toEqual(12);
         expect(firstOccurrence.globalPos   ).toEqual(476);
         expect(firstOccurrence.length      ).toEqual(11);
         expect(firstOccurrence.rule        ).toEqual(rule.id);
@@ -146,7 +146,7 @@ describe(rule.id, () => {
 
         expect(secondOccurrence.line        ).toEqual('       const variableTwo = 2;');
         expect(secondOccurrence.lineNumber  ).toEqual(3);
-        expect(secondOccurrence.columnNumber).toEqual(7);
+        expect(secondOccurrence.columnNumber).toEqual(8);
         expect(secondOccurrence.globalPos   ).toEqual(42);
         expect(secondOccurrence.length      ).toEqual(7);
         expect(secondOccurrence.rule        ).toEqual(rule.id);
