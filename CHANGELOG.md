@@ -1,5 +1,13 @@
 # Changelog
 
+### [5.35.1] - 2021-03-20
+
+### Fixed
+ - [Issue #23][issue#23]: "columnNumber" attribute to "eslint-to-isscript" rule result;
+
+### Security
+ - Upgraded dependencies;
+
 ### [5.35.0] - 2021-03-14
 
 ### Added
@@ -809,6 +817,7 @@
 ### Added
 - Linter is published;
 
+[5.35.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.0...v5.35.1
 [5.35.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.4...v5.35.0
 [5.30.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.3...v5.30.4
 [5.30.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.2...v5.30.3
