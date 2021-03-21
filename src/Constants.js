@@ -42,8 +42,6 @@ const specAutofixTemplatesDir          = path.join(specTemplateDir, 'autofix');
 const rulesDir                         = path.join(linterModuleDir, 'src', 'rules');
 const lineByLineRulesDir               = path.join(rulesDir, 'line_by_line');
 const treeRulesDir                     = path.join(rulesDir, 'tree');
-const sampleProductionProjectName      = 'sample-production-project';
-const sampleProductionProjectDir       = path.join(clientAppDir, 'scaffold_files', sampleProductionProjectName);
 
 // Regex;
 const srcJsRegex  = path.join('src', '**', '*.js');
@@ -106,8 +104,6 @@ module.exports = {
     specElementBalanceTemplatesDir,
     specSuffixLineNumberTemplatesDir,
     specDir,
-    sampleProductionProjectDir,
-    sampleProductionProjectName,
     linterModuleDir,
 
     // File names;
