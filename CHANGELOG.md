@@ -1,5 +1,13 @@
 # Changelog
 
+### [5.35.2] - 2021-06-10
+
+### Fixed
+ - [Issue #26][issue#26]: issue with "script" tag content;
+
+### Removed
+ - Unused dev dependencies;
+ 
 ### [5.35.1] - 2021-03-20
 
 ### Fixed
@@ -817,6 +825,7 @@
 ### Added
 - Linter is published;
 
+[5.35.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.1...v5.35.2
 [5.35.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.0...v5.35.1
 [5.35.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.4...v5.35.0
 [5.30.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.3...v5.30.4
@@ -935,6 +944,7 @@
 [issue#17]: https://github.com/FabiowQuixada/isml-linter/issues/17
 [issue#20]: https://github.com/FabiowQuixada/isml-linter/issues/20
 [issue#23]: https://github.com/FabiowQuixada/isml-linter/issues/23
+[issue#26]: https://github.com/FabiowQuixada/isml-linter/issues/26
 
 [cli-docs]: <docs/cli.md>
 [api-docs]: <docs/api.md>
