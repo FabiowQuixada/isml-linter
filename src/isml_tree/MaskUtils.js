@@ -19,10 +19,9 @@ const maskIgnorableContent = (content, isMaskBorders, templatePath) => {
 
     checkTagBalance(content, templatePath);
 
-
-    content = maskInBetween2(content, '<', '>');
     content = maskInBetweenForTagWithAttributes(content, 'script');
     content = maskInBetweenForTagWithAttributes(content, 'style');
+    content = maskInBetween2(content, '<', '>');
     content = maskNestedIsmlElements(content);
 
     return content;

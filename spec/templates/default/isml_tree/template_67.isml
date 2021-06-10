@@ -1,0 +1,5 @@
+<div></div>
+
+<script>
+    const showErrorMessage = () => { };
+</script>

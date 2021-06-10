@@ -647,6 +647,13 @@ describe(targetObjName, () => {
 
         expect(aNode.columnNumber).toEqual(1);
     });
+
+    it('allows es6 fat arrows within a "script" tag', () => {
+        const rootNode   = getRootNodeFromTemplate(67);
+        const scriptNode = rootNode.children[1];
+
+        expect(scriptNode.getType()).toEqual('script');
+    });
 });
 
 const getTemplatePath = number => {
