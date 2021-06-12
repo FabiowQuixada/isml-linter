@@ -1,6 +1,16 @@
 # Changelog
 
-### [5.35.2] - 2021-06-10
+## [5.35.3] - 2021-06-12
+
+### Changed
+- [Issue #29][issue#29]: Behaviour unification with other linters:
+  - Removed progress bar;
+  - Removed success message;
+
+### Fixed
+ - Circular dependency warning;
+
+## [5.35.2] - 2021-06-10
 
 ### Fixed
  - [Issue #26][issue#26]: issue with "script" tag content;
@@ -8,7 +18,7 @@
 ### Removed
  - Unused dev dependencies;
  
-### [5.35.1] - 2021-03-20
+## [5.35.1] - 2021-03-20
 
 ### Fixed
  - [Issue #23][issue#23]: "columnNumber" attribute to "eslint-to-isscript" rule result;
@@ -16,12 +26,12 @@
 ### Security
  - Upgraded dependencies;
 
-### [5.35.0] - 2021-03-14
+## [5.35.0] - 2021-03-14
 
 ### Added
  - [Issue #23][issue#23]: "columnNumber" attribute to lint result;
 
-### [5.30.4] - 2021-03-07
+## [5.30.4] - 2021-03-07
 
 ### Added
  - "config" optional parameter to [public API][api-docs]'s "parse" method;
@@ -825,6 +835,7 @@
 ### Added
 - Linter is published;
 
+[5.35.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.2...v5.35.3
 [5.35.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.1...v5.35.2
 [5.35.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.0...v5.35.1
 [5.35.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.30.4...v5.35.0
@@ -945,6 +956,7 @@
 [issue#20]: https://github.com/FabiowQuixada/isml-linter/issues/20
 [issue#23]: https://github.com/FabiowQuixada/isml-linter/issues/23
 [issue#26]: https://github.com/FabiowQuixada/isml-linter/issues/26
+[issue#29]: https://github.com/FabiowQuixada/isml-linter/issues/29
 
 [cli-docs]: <docs/cli.md>
 [api-docs]: <docs/api.md>
