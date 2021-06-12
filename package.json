@@ -37,7 +37,6 @@
   "dependencies": {
     "app-root-path": "^3.0.0",
     "chalk": "^4.1.0",
-    "cli-progress": "^3.9.0",
     "readdir": "^1.0.2"
   },
   "devDependencies": {

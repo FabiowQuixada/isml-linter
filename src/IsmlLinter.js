@@ -188,7 +188,6 @@ Linter.getConfig = () => globalConfig;
 
 Linter.run = (pathData, content, data = {}) => {
     const ConsoleUtils = require('./util/ConsoleUtils');
-    const ProgressBar  = require('./util/ProgressBar');
 
     ConfigUtils.setLocalConfig(globalConfig);
     ConfigUtils.setLocalEslintConfig();
@@ -211,8 +210,6 @@ Linter.run = (pathData, content, data = {}) => {
     try {
         const lintStartTime = new Date();
 
-        ProgressBar.start(templatePathArray.length);
-
         for (let i = 0; i < templatePathArray.length; i++) {
             const templateName = templatePathArray[i];
             const templatePath = Array.isArray(templateData.pathData) || path.isAbsolute(templateName) || templateData.pathData === templateName ?
@@ -225,8 +222,6 @@ Linter.run = (pathData, content, data = {}) => {
 
                 finalResult = merge(finalResult, templateResults);
             }
-
-            ProgressBar.increment();
         }
 
         addCustomModuleResults(finalResult);
@@ -238,9 +233,6 @@ Linter.run = (pathData, content, data = {}) => {
     } catch (e) {
         ConsoleUtils.printExceptionMsg(e.stack || e);
         process.exit(1);
-
-    } finally {
-        ProgressBar.stop();
     }
 
     return finalResult;
