@@ -146,8 +146,6 @@ const displayOccurrenceList = lintResult => {
         if (config.printPartialResults) {
             console.log(chalk`{bold Displaying the first ${MAX_LISTED_ERRORS} occurrenceList of each group.}` + Constants.EOL);
         }
-    } else {
-        console.log(chalk`{green.bold No issues found!}`);
     }
 };
 
