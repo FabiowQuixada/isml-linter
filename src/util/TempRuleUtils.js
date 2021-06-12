@@ -18,33 +18,6 @@ const CustomModulesRule     = require('../rules/tree/custom-tags');
 const lineByLineRules = [];
 const treeRules       = [];
 
-(() => {
-    const lineRuleFileArray = fs.readdirSync(Constants.lineByLineRulesDir);
-    const treeRuleFileArray = fs.readdirSync(Constants.treeRulesDir);
-
-    for (let i = 0; i < lineRuleFileArray.length; i++) {
-        const file = lineRuleFileArray[i];
-
-        if (file.endsWith('.js')) {
-            const rulePath = path.join(__dirname, '..', 'rules', 'line_by_line', file);
-            lineByLineRules.push(require(rulePath));
-        }
-    }
-
-    for (let i = 0; i < treeRuleFileArray.length; i++) {
-        const file = treeRuleFileArray[i];
-
-        if (file.endsWith('.js')) {
-            const rulePath = path.join(__dirname, '..', 'rules', 'tree', file);
-            const rule     = require(rulePath);
-
-            if (rule.id) {
-                treeRules.push(rule);
-            }
-        }
-    }
-})();
-
 const checkCustomTag = tag => {
     if (Object.prototype.hasOwnProperty.call(customTagContainer, tag)) {
         const attrList = customTagContainer[tag].attrList;
