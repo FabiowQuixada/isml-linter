@@ -1,0 +1,5 @@
+<td>
+    <isif condition="${aCondition}">
+        (${value})
+    </isif>
+</td>

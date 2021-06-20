@@ -117,9 +117,7 @@ Rule.getFixedContent = function(node) {
 
         this.result.fixedContent = content = linter.verifyAndFix(content, eslintConfig).output;
 
-        content = reindent(content, ismlOffset);
-
-        node.value = content + ismlOffset.substring(4);
+        node.value = reIndent(content, ismlOffset);
     }
 
     return GeneralUtils.applyActiveLinebreaks(node.toString());
@@ -138,7 +136,7 @@ const unindent = (content, indentSize) => {
     return result.join(Constants.EOL);
 };
 
-const reindent = (content, ismlIndentation) => {
+const reIndent = (content, ismlIndentation) => {
     const lineArray = content.split(Constants.EOL);
     const result    = [];
 

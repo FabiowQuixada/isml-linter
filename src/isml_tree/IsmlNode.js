@@ -165,11 +165,11 @@ class IsmlNode {
         }
 
         const precedingEmptySpacesLength = this.suffixValue.search(/\S|$/);
-        const precedingEmptySpaces       = this.suffixValue.substring(0, precedingEmptySpacesLength);
+        const precedingEmptySpaces       = this.suffixValue.substring(0, precedingEmptySpacesLength).replaceAll(Constants.EOL, '');
         const lastLineBreakPos           = Math.max(precedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
         const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
 
-        return Math.max(indentationSize - 1, 0);
+        return Math.max(indentationSize, 0);
     }
 
     isRoot() { return !this.parent; }
@@ -282,7 +282,7 @@ class IsmlNode {
         return sibling;
     }
 
-    geTrailingValue() {
+    getTrailingValue() {
         return this.suffixValue || this.value;
     }
 

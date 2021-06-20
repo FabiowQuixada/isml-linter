@@ -609,7 +609,7 @@ describe(targetObjName, () => {
         const iscommentNode = rootNode.children[0];
         const textNode      = iscommentNode.children[0];
 
-        expect(textNode.value).toEqual(' <isif condition="${aCondition}"> ');
+        expect(textNode.value).toEqual(' <isif condition="${aCondition}">');
         expect(textNode.getType()).toEqual('text');
     });
 

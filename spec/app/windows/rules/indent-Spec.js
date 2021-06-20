@@ -361,4 +361,22 @@ describe(rule.id, () => {
 
         expect(occurrence1.columnNumber).toEqual(1);
     });
+
+    it('does not replicate indentation due to last child trailing spaces', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 29);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('keeps suffix indentation for node with a last child with trailing spaces', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 17);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('keeps suffix indentation for node with a previous sibling with trailing spaces', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 18);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

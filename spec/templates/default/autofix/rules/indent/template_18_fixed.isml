@@ -1,0 +1,10 @@
+<tr>
+    <td>
+        <p>
+            ${value}:
+            <isif condition="${pdict.isMemberOfCruzVerde}">
+                <img src="${imgSource}" />
+            </isif>
+        </p>
+    </td>
+</tr>

@@ -157,6 +157,7 @@ const postProcess = (node, data = {}) => {
             });
         }
 
+        rectifyNodeIndentation(node, child);
         postProcess(child, data);
     }
 
@@ -187,6 +188,31 @@ const build = (templatePath, content, isCrlfLineBreak) => {
 
     return result;
 };
+
+/**
+ * In the main part of tree build, a node A might hold the next node B's indentation in the last part of
+ * A, be it in its value or suffix value. This function removes that trailing indentation from A and
+ * adds it to B as a leading indentation;
+ */
+function rectifyNodeIndentation(node, child) {
+    const previousSibling = child.getPreviousSibling();
+
+    if (previousSibling && previousSibling.isOfType('text')) {
+        const trailingLineBreakQty = ParseUtils.getTrailingEmptyCharsQty(previousSibling.value);
+
+        previousSibling.value = previousSibling.value.substring(0, previousSibling.value.length - trailingLineBreakQty);
+        child.value           = ParseUtils.getBlankSpaceString(trailingLineBreakQty) + child.value;
+    }
+
+    if (child.isLastChild() && child.isOfType('text')) {
+        let trailingLineBreakQty = 0;
+
+        trailingLineBreakQty = ParseUtils.getTrailingEmptyCharsQty(child.value);
+        child.value          = child.value.substring(0, child.value.length - trailingLineBreakQty);
+
+        node.suffixValue = ParseUtils.getBlankSpaceString(trailingLineBreakQty) + node.suffixValue;
+    }
+}
 
 module.exports.build = build;
 module.exports.parse = parse;

@@ -74,6 +74,12 @@ const getLeadingLineBreakQty = string => {
     return this.getLineBreakQty(leadingString);
 };
 
+const getTrailingEmptyCharsQty = string => {
+    const invertedString = string.split('').reverse().join('').replace(Constants.EOL, '_');
+
+    return Math.max(getLeadingEmptyChars(invertedString).length, 0);
+};
+
 const checkBalance = (node, templatePath) => {
 
     for (let i = 0; i < node.children.length; i++) {
@@ -380,10 +386,22 @@ const getElementList = (templateContent, templatePath, isCrlfLineBreak) => {
     return elementList;
 };
 
-module.exports.getElementList         = getElementList;
-module.exports.checkBalance           = checkBalance;
-module.exports.getLineBreakQty        = getLineBreakQty;
-module.exports.getCharOccurrenceQty   = getCharOccurrenceQty;
-module.exports.getNextNonEmptyCharPos = getNextNonEmptyCharPos;
-module.exports.getLeadingEmptyChars   = getLeadingEmptyChars;
-module.exports.getLeadingLineBreakQty = getLeadingLineBreakQty;
+function getBlankSpaceString(length) {
+    let result = '';
+
+    for (let i = 0; i < length; i++) {
+        result += ' ';
+    }
+
+    return result;
+}
+
+module.exports.getElementList           = getElementList;
+module.exports.checkBalance             = checkBalance;
+module.exports.getLineBreakQty          = getLineBreakQty;
+module.exports.getCharOccurrenceQty     = getCharOccurrenceQty;
+module.exports.getNextNonEmptyCharPos   = getNextNonEmptyCharPos;
+module.exports.getLeadingEmptyChars     = getLeadingEmptyChars;
+module.exports.getLeadingLineBreakQty   = getLeadingLineBreakQty;
+module.exports.getTrailingEmptyCharsQty = getTrailingEmptyCharsQty;
+module.exports.getBlankSpaceString      = getBlankSpaceString;
