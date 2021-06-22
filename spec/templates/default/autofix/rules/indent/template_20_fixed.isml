@@ -1,0 +1,5 @@
+<div>
+    <script>
+        var variable = "value";
+    </script>
+</div>

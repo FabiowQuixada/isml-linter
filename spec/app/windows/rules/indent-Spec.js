@@ -379,4 +379,22 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('autofix does not affect "iscomment" tags content', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 19);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix does not affect "script" tags content', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 20);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix does not affect "isscript" tags content', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 21);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

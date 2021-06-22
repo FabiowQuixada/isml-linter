@@ -1,0 +1,6 @@
+<div>
+    <iscomment>
+    <isif condition="${pdict.isOmsOrderServiceEnabled}">
+    </isif>
+    </iscomment>
+</div>
