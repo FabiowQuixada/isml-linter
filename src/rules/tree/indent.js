@@ -58,9 +58,10 @@ Rule.isBrokenForSuffix = function(node) {
 Rule.check = function(node, data) {
 
     const ruleConfig   = this.getConfigs();
+    const typeArray    = ['script', 'iscomment'];
     let occurrenceList = [];
 
-    if (node.isRoot() || !node.parent.isOfType('script') && !node.parent.isOfType('iscomment')) {
+    if (node.isRoot() || !node.parent.isOneOfTypes(typeArray)) {
         occurrenceList = this.checkChildren(node, data);
 
         const globalPos = node.globalPos - getActualIndentation(node);

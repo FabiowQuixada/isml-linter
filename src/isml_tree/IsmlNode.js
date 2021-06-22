@@ -311,6 +311,16 @@ class IsmlNode {
             type.some( elem => elem === this.getType());
     }
 
+    isOneOfTypes(typeArray) {
+        for (let i = 0; i < typeArray.length; i++) {
+            if (this.isOfType(typeArray[i])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     isEmpty() {
         return !this.value.trim();
     }
