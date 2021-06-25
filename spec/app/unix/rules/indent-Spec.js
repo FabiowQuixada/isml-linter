@@ -379,4 +379,16 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('autofix does not affect "iscomment" tags content II', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 22);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix adds indentation to unwrapped expressions', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 23);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

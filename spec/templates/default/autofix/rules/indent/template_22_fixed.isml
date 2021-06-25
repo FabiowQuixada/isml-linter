@@ -1,0 +1,7 @@
+<isdecorate template="common/layout/page">
+    <isinclude template="/components/modules"/>
+    <iscomment>
+Line 1
+Line 2
+    </iscomment>
+</isdecorate>

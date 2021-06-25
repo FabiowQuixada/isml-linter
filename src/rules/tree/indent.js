@@ -152,7 +152,7 @@ const addIndentation = (content, node) => {
 };
 
 const removeAllIndentation = node => {
-    if (!node.isRoot() && !node.isContainer() && !node.isOfType('text')) {
+    if (!node.isRoot() && !node.isContainer() &&  !node.parent.isOneOfTypes(['isscript', 'script', 'iscomment'])) {
         if (node.value && !node.isInSameLineAsPreviousSibling()) {
             node.value = removeIndentation(node.value);
         }
@@ -168,7 +168,7 @@ const removeAllIndentation = node => {
 };
 
 const addCorrectIndentation = node => {
-    if (!node.isRoot() && !node.isContainer()  && !node.isOfType('text')) {
+    if (!node.isRoot() && !node.isContainer() && !node.parent.isOneOfTypes(['isscript', 'script', 'iscomment'])) {
         const shouldAddIndentationToValue  = checkIfShouldAddIndentationToValue(node);
         const shouldAddIndentationToSuffix = checkIfShouldAddIndentationToSuffix(node);
 

@@ -1,0 +1,9 @@
+<label>
+    <span>${firstExpression}
+        <a>
+        </a>
+        ${secondExpression}
+        <a>
+        </a>
+    </span>
+</label>
