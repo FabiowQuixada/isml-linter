@@ -439,4 +439,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('keeps indentation of same line closing tags', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 29);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

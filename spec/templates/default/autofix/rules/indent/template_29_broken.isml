@@ -1,0 +1,7 @@
+<isif condition="${aCondition}">
+    <pre><code>
+    <isif condition="${anotherCondition}">
+        ${value}
+    </isif>
+    </code></pre>
+</isif>

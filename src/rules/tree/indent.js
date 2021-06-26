@@ -165,14 +165,15 @@ const addIndentationToText = node => {
     return preLineBreakContent + formattedLineArray.join(Constants.EOL);
 };
 
-const addIndentation = (content, node) => {
+const addIndentation = (node, isOpeningTag) => {
+    const content             = isOpeningTag ? node.value : node.suffixValue;
     const startingPos         = ParseUtils.getNextNonEmptyCharPos(content);
     const endingPos           = content.length - ParseUtils.getNextNonEmptyCharPos(content.split('').reverse().join(''));
     const fullLeadingContent  = content.substring(0, startingPos);
     const actualContent       = content.substring(startingPos, endingPos);
     const preLineBreakContent = fullLeadingContent.substring(0, fullLeadingContent.lastIndexOf(Constants.EOL) + 1);
     const fullTrailingContent = content.substring(endingPos);
-    const correctIndentation  = node.isInSameLineAsParent() ? '' : Rule.getIndentation(node.depth - 1);
+    const correctIndentation  = node.isInSameLineAsParent() && isOpeningTag ? '' : Rule.getIndentation(node.depth - 1);
 
     return preLineBreakContent + correctIndentation + actualContent + fullTrailingContent;
 };
@@ -211,11 +212,11 @@ const addCorrectIndentation = node => {
             const shouldAddIndentationToSuffix = checkIfShouldAddIndentationToSuffix(node);
 
             if (shouldAddIndentationToValue) {
-                node.value = addIndentation(node.value, node);
+                node.value = addIndentation(node, true);
             }
 
             if (shouldAddIndentationToSuffix) {
-                node.suffixValue = addIndentation(node.suffixValue, node);
+                node.suffixValue = addIndentation(node, false);
             }
         }
     }
