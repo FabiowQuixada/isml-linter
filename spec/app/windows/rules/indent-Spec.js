@@ -427,4 +427,16 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('autofix keeps indentation of "isscript" tags content', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 27);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix keeps indentation of "script" tags content', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 28);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
