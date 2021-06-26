@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.35.4] - 2021-06-26
+
+### Fixed
+ - "indent" rule auto-fix feature;
+
 ## [5.35.3] - 2021-06-12
 
 ### Changed
@@ -835,6 +840,7 @@
 ### Added
 - Linter is published;
 
+[5.35.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.3...v5.35.4
 [5.35.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.2...v5.35.3
 [5.35.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.1...v5.35.2
 [5.35.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.0...v5.35.1
