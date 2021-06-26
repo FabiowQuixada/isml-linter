@@ -1,9 +1,7 @@
-db/
 docs/
 scripts/
 spec/
 cartridges/
-coverage/
 scaffold_files/sample-production-project/
 .vscode/
 *.tgz
