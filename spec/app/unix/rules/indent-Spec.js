@@ -397,4 +397,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('autofix keeps spaces for elements in the same line II', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 25);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
