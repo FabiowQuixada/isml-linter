@@ -143,7 +143,7 @@ const addIndentationToText = node => {
     const content   = node.value;
     const lineArray = content
         .split(Constants.EOL)
-        .filter( (line, i) => i !== 0 && line.length > 0 )
+        .filter( (line, i) => !(i === 0 && line === ''))
         .map(line => line.trimStart());
 
     const formattedLineArray  = [];
@@ -153,12 +153,13 @@ const addIndentationToText = node => {
     const correctIndentation  = node.isInSameLineAsParent() ? '' : Rule.getIndentation(node.depth - 1);
 
     for (let i = 0; i < lineArray.length; i++) {
-        formattedLineArray.push(correctIndentation + lineArray[i]);
-    }
+        let formattedLine = lineArray[i];
 
-    // TODO Probably there is a better way of doing it;
-    if (content.endsWith(Constants.EOL)) {
-        formattedLineArray.push('');
+        if (lineArray[i].length !== 0) {
+            formattedLine = correctIndentation + lineArray[i];
+        }
+
+        formattedLineArray.push(formattedLine);
     }
 
     return preLineBreakContent + formattedLineArray.join(Constants.EOL);

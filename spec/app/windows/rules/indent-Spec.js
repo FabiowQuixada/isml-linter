@@ -421,4 +421,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('autofix adds indentation to "iscomment" tags content III', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 26);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
