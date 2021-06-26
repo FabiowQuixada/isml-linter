@@ -1,6 +1,6 @@
 <div>
     <iscomment>
-    <isif condition="${pdict.isOmsOrderServiceEnabled}">
-    </isif>
+        <isif condition="${pdict.isOmsOrderServiceEnabled}">
+        </isif>
     </iscomment>
 </div>

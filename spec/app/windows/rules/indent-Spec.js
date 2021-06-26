@@ -380,25 +380,25 @@ describe(rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
-    it('autofix does not affect "iscomment" tags content', () => {
+    it('autofix adds indentation to "iscomment" tags content', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 19);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
-    it('autofix does not affect "script" tags content', () => {
+    it('autofix adds indentation to "script" tags content', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 20);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
-    it('autofix does not affect "isscript" tags content', () => {
+    it('autofix adds indentation to "isscript" tags content', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 21);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
-    it('autofix does not affect "iscomment" tags content II', () => {
+    it('autofix adds indentation to "iscomment" tags content II', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 22);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
