@@ -46,7 +46,7 @@ Rule.isBrokenForSuffix = function(node) {
     const expectedIndentation      = getExpectedIndentation(node, configIndentSize);
     const actualIndentation        = getActualIndentationForSuffix(node);
     const isInSameLineAsOpeningTag = node.lineNumber === node.suffixLineNumber;
-    const isInSameLineAsLastChild  = node.hasChildren() && node.getLastChild().lineNumber === node.suffixLineNumber;
+    const isInSameLineAsLastChild  = node.hasChildren() && node.getLastChild().getLastLineNumber() === node.suffixLineNumber;
 
     return !node.isRoot() &&
         !node.isContainer() &&

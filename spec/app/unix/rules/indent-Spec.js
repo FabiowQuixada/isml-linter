@@ -433,4 +433,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('keeps indentation of same line closing tags II', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 32);
+
+        expect(result.length).toEqual(0);
+    });
 });
