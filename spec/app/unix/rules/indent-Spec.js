@@ -421,4 +421,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('allows same line closing tags', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 30);
+
+        expect(result.length).toEqual(0);
+    });
 });
