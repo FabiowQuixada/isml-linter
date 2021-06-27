@@ -33,11 +33,11 @@ class IsmlNode {
 
     // Suffix is the element corresponding closing tag, such as </div>
     setSuffix(value, lineNumber, columnNumber, globalPos) {
-        this.suffixValue        += value;
-        this.suffixLineNumber   = lineNumber;
-        this.suffixColumnNumber = columnNumber;
-        this.suffixGlobalPos    = globalPos;
-        this.endLineNumber      = lineNumber;
+        this.suffixValue         += value;
+        this.suffixLineNumber    = lineNumber;
+        this.suffixColumnNumber  = columnNumber;
+        this.suffixGlobalPos     = globalPos;
+        this.suffixEndLineNumber = lineNumber;
     }
 
     // Returns a string. Examples: 'div', 'isprint', 'doctype';

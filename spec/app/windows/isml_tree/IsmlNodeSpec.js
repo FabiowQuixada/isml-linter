@@ -246,6 +246,13 @@ describe(targetObjName, () => {
         expect(divNode.children[1].getIndentationSize()).toEqual(8);
         expect(divNode.children[2].getIndentationSize()).toEqual(8);
     });
+
+    it('sets head end line number correctly', () => {
+        const tree     = TreeBuilder.build(getIsmlNodeTemplatePath(1));
+        const spanNode = tree.rootNode.children[0].children[0];
+
+        expect(spanNode.endLineNumber).toEqual(2);
+    });
 });
 
 
