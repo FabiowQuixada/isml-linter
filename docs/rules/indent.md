@@ -31,7 +31,7 @@ For the above configuration, the following scenarios may happen:
 ```
 <div>                            // Indentation: 4;
     <isif condition="${isTrue}"> // Indentation: 8;
-        ${price}                 // Invalid indentation: 11;
+       ${price}                  // Invalid indentation: 11;
         <div></div>              // Indentation: 12;
     </isif>
 </div>
