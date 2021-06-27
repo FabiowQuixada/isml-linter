@@ -654,6 +654,13 @@ describe(targetObjName, () => {
 
         expect(scriptNode.getType()).toEqual('script');
     });
+
+    it('keeps indentation of an "isif" tag after a hardcode string', () => {
+        const rootNode = getRootNodeFromTemplate(68);
+        const isifNode = rootNode.children[0].children[2].children[0];
+
+        expect(isifNode.value).toEqual('    <isif condition="${aCondition}">');
+    });
 });
 
 const getTemplatePath = number => {

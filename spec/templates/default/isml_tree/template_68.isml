@@ -1,0 +1,7 @@
+<p>
+    ${value}:
+    <isif condition="${aCondition}">
+        <img src="${imageUrl}" />
+    </isif>
+</p>
+

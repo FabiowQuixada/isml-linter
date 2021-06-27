@@ -197,6 +197,10 @@ const build = (templatePath, content, isCrlfLineBreak) => {
 function rectifyNodeIndentation(node, child) {
     const previousSibling = child.getPreviousSibling();
 
+    if (child.isContainer()) {
+        child = child.children[0];
+    }
+
     if (previousSibling && previousSibling.isOfType('text')) {
         const trailingLineBreakQty = ParseUtils.getTrailingEmptyCharsQty(previousSibling.value);
 
