@@ -1,0 +1,7 @@
+<span>
+    <div>
+        <isprint value="${value1}" encoding="off" />  
+        <isprint value="${value2}" encoding="off" />  
+        <isprint value="${value3}" encoding="off" />
+    </div>
+</span>

@@ -237,7 +237,21 @@ describe(targetObjName, () => {
 
         expect(customTagNode.isDescendantOf('iscomment')).toEqual(false);
     });
+
+    it('detects correct indentation', () => {
+        const tree    = TreeBuilder.build(getIsmlNodeTemplatePath(0));
+        const divNode = tree.rootNode.children[0].children[0];
+
+        expect(divNode.children[0].getIndentationSize()).toEqual(8);
+        expect(divNode.children[1].getIndentationSize()).toEqual(8);
+        expect(divNode.children[2].getIndentationSize()).toEqual(8);
+    });
 });
+
+
+const getIsmlNodeTemplatePath = number => {
+    return SpecHelper.getTemplatePath(Constants.specIsmlNodeTemplateDir, number);
+};
 
 const getTemplatePath = number => {
     return SpecHelper.getTemplatePath(Constants.specComplexTemplatesDir, number);

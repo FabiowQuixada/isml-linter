@@ -149,17 +149,13 @@ class IsmlNode {
         }
 
         const precedingEmptySpacesLength = this.value.search(/\S|$/);
-        const precedingEmptySpaces       = this.value.substring(0, precedingEmptySpacesLength);
+        const fullPrecedingEmptySpaces   = this.value.substring(0, precedingEmptySpacesLength);
+        const lineBreakLastPos           = Math.max(fullPrecedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
+        const precedingEmptySpaces       = this.value.substring(lineBreakLastPos, precedingEmptySpacesLength).replace(new RegExp(Constants.EOL, 'g'), '');
         const lastLineBreakPos           = Math.max(precedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
         const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
-        const isIsifElement              = this.parent && this.parent.isContainer() && this.isOfType('isif');
-        const isFirstElement             = this.parent && (this.parent.isRoot() || this.parent.parent.isRoot() && isIsifElement) && this.isFirstChild();
 
-        if (this.lineNumber === 1 && isFirstElement) {
-            return Math.max(indentationSize, 0);
-        }
-
-        return Math.max(indentationSize - 1, 0);
+        return Math.max(indentationSize, 0);
     }
 
     getSuffixIndentationSize() {
