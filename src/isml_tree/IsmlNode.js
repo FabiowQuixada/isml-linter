@@ -165,7 +165,7 @@ class IsmlNode {
         }
 
         const precedingEmptySpacesLength = this.suffixValue.search(/\S|$/);
-        const precedingEmptySpaces       = this.suffixValue.substring(0, precedingEmptySpacesLength).replaceAll(Constants.EOL, '');
+        const precedingEmptySpaces       = this.suffixValue.substring(0, precedingEmptySpacesLength).replace(new RegExp(Constants.EOL, 'g'), '');
         const lastLineBreakPos           = Math.max(precedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
         const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
 
