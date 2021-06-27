@@ -143,33 +143,11 @@ class IsmlNode {
     hasChildren()         { return this.children.length > 0;                }
 
     getIndentationSize() {
-
-        if (this.isContainer()) {
-            return 0;
-        }
-
-        const precedingEmptySpacesLength = this.value.search(/\S|$/);
-        const fullPrecedingEmptySpaces   = this.value.substring(0, precedingEmptySpacesLength);
-        const lineBreakLastPos           = Math.max(fullPrecedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
-        const precedingEmptySpaces       = this.value.substring(lineBreakLastPos, precedingEmptySpacesLength).replace(new RegExp(Constants.EOL, 'g'), '');
-        const lastLineBreakPos           = Math.max(precedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
-        const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
-
-        return Math.max(indentationSize, 0);
+        return getNodeIndentationSize(this, true);
     }
 
     getSuffixIndentationSize() {
-
-        if (this.isContainer()) {
-            return 0;
-        }
-
-        const precedingEmptySpacesLength = this.suffixValue.search(/\S|$/);
-        const precedingEmptySpaces       = this.suffixValue.substring(0, precedingEmptySpacesLength).replace(new RegExp(Constants.EOL, 'g'), '');
-        const lastLineBreakPos           = Math.max(precedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
-        const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
-
-        return Math.max(indentationSize, 0);
+        return getNodeIndentationSize(this, false);
     }
 
     isRoot() { return !this.parent; }
@@ -504,6 +482,23 @@ const parseAttribute = (attr, node) => {
         attrFullLength : attr.length,
         node           : node
     };
+};
+
+const getNodeIndentationSize = (node, isNodeHead) => {
+
+    if (node.isContainer()) {
+        return 0;
+    }
+
+    const content                    = isNodeHead ? node.value : node.suffixValue;
+    const precedingEmptySpacesLength = content.search(/\S|$/);
+    const fullPrecedingEmptySpaces   = content.substring(0, precedingEmptySpacesLength);
+    const lineBreakLastPos           = Math.max(fullPrecedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
+    const precedingEmptySpaces       = content.substring(lineBreakLastPos, precedingEmptySpacesLength).replace(new RegExp(Constants.EOL, 'g'), '');
+    const lastLineBreakPos           = Math.max(precedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
+    const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
+
+    return Math.max(indentationSize, 0);
 };
 
 module.exports = IsmlNode;
