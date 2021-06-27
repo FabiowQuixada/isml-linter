@@ -35,7 +35,7 @@ Rule.isBroken = function(node) {
     return !node.isRoot() &&
         !node.isContainer() &&
         !node.isEmpty() &&
-        !node.isInSameLineAsParent() &&
+        !node.isInSameLineAsParentEnd() &&
         expectedIndentation !== actualIndentation &&
         !node.isInSameLineAsPreviousSibling();
 };

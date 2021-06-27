@@ -427,4 +427,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('allows element to be in the same line as parent value\'s end line', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 31);
+
+        expect(result.length).toEqual(0);
+    });
 });

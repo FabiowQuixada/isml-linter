@@ -89,6 +89,10 @@ class IsmlNode {
         return this.parent && !this.parent.isContainer() && this.parent.lineNumber === this.lineNumber;
     }
 
+    isInSameLineAsParentEnd() {
+        return this.parent && !this.parent.isContainer() && this.parent.endLineNumber === this.lineNumber;
+    }
+
     isInSameLineAsPreviousSibling() {
         const previousSibling = this.getPreviousSibling();
         return previousSibling && previousSibling.lineNumber === this.lineNumber;
