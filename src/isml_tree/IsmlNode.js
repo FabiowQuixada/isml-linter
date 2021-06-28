@@ -95,7 +95,7 @@ class IsmlNode {
 
     isInSameLineAsPreviousSibling() {
         const previousSibling = this.getPreviousSibling();
-        return previousSibling && previousSibling.lineNumber === this.lineNumber;
+        return previousSibling && previousSibling.getLastLineNumber() === this.lineNumber;
     }
 
     /**

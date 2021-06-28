@@ -463,4 +463,10 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('allows element to be in the same line as previous sibling suffix', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 33);
+
+        expect(result.length).toEqual(0);
+    });
 });
