@@ -93,6 +93,10 @@ class IsmlNode {
         return this.parent && !this.parent.isContainer() && this.parent.endLineNumber === this.lineNumber;
     }
 
+    isMultiLineOpeningTag() {
+        return this.isTag() && ParseUtils.getLineBreakQty(this.value.trim()) > 0;
+    }
+
     isInSameLineAsPreviousSibling() {
         const previousSibling = this.getPreviousSibling();
         return previousSibling && previousSibling.getLastLineNumber() === this.lineNumber;
@@ -459,27 +463,37 @@ const getStringifiedAttrArray = rawAttrNodeValue => {
     return result;
 };
 
-const parseAttribute = (attr, node) => {
-    attr                 = attr.trim();
-    const attributeProps = attr.split('=');
-    const label          = attributeProps[0].trim();
-    const value          = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
-    const values         = value ? value.split(' ') : null;
-    const attrLocalPos   = node.value.trim().indexOf(attr);
-    const valueLocalPos  = attr.indexOf(value);
-    const localPos       = node.value.trim().indexOf(attr) + 1;
+const parseAttribute = (attribute, node) => {
+    const trimmedAttribute      = attribute.trim();
+    const trimmedNodeValue      = node.value.trim();
+    const localPos              = trimmedNodeValue.indexOf(trimmedAttribute) + 1;
+    const leadingContent        = trimmedNodeValue.substring(0, localPos - 1);
+    const leadingLineBreakQty   = ParseUtils.getLineBreakQty(leadingContent);
+    const isInSameLineAsTagName = leadingLineBreakQty === 0;
+    const attributeProps        = trimmedAttribute.split('=');
+    const name                  = attributeProps[0].trim();
+    const value                 = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
+    const values                = value ? value.split(' ') : null;
+    const attrLocalPos          = trimmedNodeValue.indexOf(trimmedAttribute);
+    const valueLocalPos         = trimmedAttribute.indexOf(value);
+    const globalPos             = node.globalPos + localPos + leadingLineBreakQty;
+    const lineNumber            = node.lineNumber + leadingLineBreakQty;
+    const columnNumber          = isInSameLineAsTagName ?
+        node.columnNumber + leadingContent.length :
+        leadingContent.length - leadingContent.lastIndexOf(Constants.EOL);
 
     return {
-        name           : label,
+        name           : name,
         value          : value,
         values         : values,
         localPos,
+        globalPos,
+        lineNumber,
+        columnNumber,
+        isInSameLineAsTagName,
         attrGlobalPos  : node.globalPos + attrLocalPos,
-        nameLength     : label.length,
         valueGlobalPos : node.globalPos + valueLocalPos,
-        valueLength    : value ? value.length : 0,
-        attrFullValue  : attr,
-        attrFullLength : attr.length,
+        attrFullValue  : trimmedAttribute,
         node           : node
     };
 };

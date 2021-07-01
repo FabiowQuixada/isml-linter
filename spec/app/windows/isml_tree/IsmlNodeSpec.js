@@ -253,8 +253,70 @@ describe(targetObjName, () => {
 
         expect(spanNode.endLineNumber).toEqual(2);
     });
-});
 
+    it('differentiates between single-line tags from multiline tags', () => {
+        const tree        = TreeBuilder.build(getIsmlNodeTemplatePath(2));
+        const sectionNode = tree.rootNode.children[0];
+        const divNode     = sectionNode.children[0];
+        const spanNode    = divNode.children[0];
+
+        expect(divNode.isMultiLineOpeningTag()).toEqual(true);
+        expect(spanNode.isMultiLineOpeningTag()).toEqual(false);
+    });
+
+    it('identifies if attributes are on the same line as of the opening tag', () => {
+        const tree          = TreeBuilder.build(getIsmlNodeTemplatePath(2));
+        const divNode       = tree.rootNode.children[0].children[0];
+        const attributeList = divNode.getAttributeList();
+
+        expect(attributeList[0].isInSameLineAsTagName).toEqual(true);
+        expect(attributeList[1].isInSameLineAsTagName).toEqual(false);
+        expect(attributeList[2].isInSameLineAsTagName).toEqual(false);
+        expect(attributeList[3].isInSameLineAsTagName).toEqual(false);
+    });
+
+    it('identifies attributes line numbers', () => {
+        const tree          = TreeBuilder.build(getIsmlNodeTemplatePath(2));
+        const divNode       = tree.rootNode.children[0].children[0];
+        const attributeList = divNode.getAttributeList();
+
+        expect(attributeList[0].lineNumber).toEqual(2);
+        expect(attributeList[1].lineNumber).toEqual(3);
+        expect(attributeList[2].lineNumber).toEqual(4);
+        expect(attributeList[3].lineNumber).toEqual(5);
+    });
+
+    it('identifies attributes column numbers', () => {
+        const tree          = TreeBuilder.build(getIsmlNodeTemplatePath(2));
+        const divNode       = tree.rootNode.children[0].children[0];
+        const attributeList = divNode.getAttributeList();
+
+        expect(attributeList[0].columnNumber).toEqual(10);
+        expect(attributeList[1].columnNumber).toEqual(9);
+        expect(attributeList[2].columnNumber).toEqual(7);
+        expect(attributeList[3].columnNumber).toEqual(10);
+    });
+
+    it('identifies attributes column numbers II', () => {
+        const tree          = TreeBuilder.build(getIsmlNodeTemplatePath(2));
+        const spanNode      = tree.rootNode.children[0].children[1];
+        const attributeList = spanNode.getAttributeList();
+
+        expect(attributeList[0].columnNumber).toEqual(9);
+        expect(attributeList[1].columnNumber).toEqual(9);
+    });
+
+    it('identifies attributes global positions', () => {
+        const tree          = TreeBuilder.build(getIsmlNodeTemplatePath(2));
+        const divNode       = tree.rootNode.children[0].children[0];
+        const attributeList = divNode.getAttributeList();
+
+        expect(attributeList[0].globalPos).toEqual(20);
+        expect(attributeList[1].globalPos).toEqual(41);
+        expect(attributeList[2].globalPos).toEqual(66);
+        expect(attributeList[3].globalPos).toEqual(96);
+    });
+});
 
 const getIsmlNodeTemplatePath = number => {
     return SpecHelper.getTemplatePath(Constants.specIsmlNodeTemplateDir, number);
