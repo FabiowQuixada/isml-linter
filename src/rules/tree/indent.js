@@ -40,6 +40,35 @@ Rule.isBroken = function(node) {
         !node.isInSameLineAsPreviousSibling();
 };
 
+Rule.getAttributeErrorList = function(node) {
+    const configIndentSize = this.getConfigs().indent;
+    const attributeList    = node.getAttributeList();
+    const result           = [];
+
+    for (let i = 0; i < attributeList.length; i++) {
+        const attribute = attributeList[i];
+
+        if (!attribute.isInSameLineAsTagName) {
+            const expectedIndentation = node.depth * configIndentSize;
+
+            if (attribute.columnNumber - 1 !== expectedIndentation) {
+                const error = this.getError(
+                    attribute.attrFullValue.trim(),
+                    attribute.lineNumber,
+                    attribute.columnNumber,
+                    attribute.globalPos,
+                    attribute.length,
+                    getOccurrenceDescription(expectedIndentation, attribute.columnNumber - 1)
+                );
+
+                result.push(error);
+            }
+        }
+    }
+
+    return result;
+};
+
 Rule.isBrokenForSuffix = function(node) {
 
     const configIndentSize         = this.getConfigs().indent;
@@ -66,7 +95,8 @@ Rule.check = function(node, data) {
     if (node.isRoot() || !node.parent.isOneOfTypes(typeArray)) {
         occurrenceList = this.checkChildren(node, data);
 
-        const globalPos = node.globalPos - getActualIndentation(node);
+        const errorGlobalPos     = node.globalPos - getActualIndentation(node);
+        const attributeErrorList = this.getAttributeErrorList(node);
 
         // Checks node value;
         if (this.isBroken(node)) {
@@ -82,12 +112,19 @@ Rule.check = function(node, data) {
                 node.value.trim(),
                 node.lineNumber,
                 node.columnNumber,
-                globalPos,
+                errorGlobalPos,
                 occurrenceLength,
                 getOccurrenceDescription(expectedIndentation, actualIndentation)
             );
 
             occurrenceList.push(error);
+        }
+
+        if (attributeErrorList.length > 0) {
+            for (let i = 0; i < attributeErrorList.length; i++) {
+                const attributeError = attributeErrorList[i];
+                occurrenceList.push(attributeError);
+            }
         }
 
         // Checks node suffix value;

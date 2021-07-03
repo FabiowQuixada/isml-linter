@@ -1,0 +1,8 @@
+<div  id="div-id"
+   data-info="divdata"
+    class="div-class"
+        data-info-2="divData2">
+    <span>
+        ${value}
+    </span>
+</div>
