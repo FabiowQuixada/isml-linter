@@ -50,9 +50,9 @@ Rule.check = function(node, data) {
         const error = this.getError(
             node.value.trim(),
             node.lineNumber,
-            node.columnNumber + node.value.trim().indexOf(occurrence.attrFullValue),
+            node.columnNumber + node.value.trim().indexOf(occurrence.fullValue),
             occurrence.attrGlobalPos,
-            occurrence.attrFullLength,
+            occurrence.length,
             occurrence.message
         );
 

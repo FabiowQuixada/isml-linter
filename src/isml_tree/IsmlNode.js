@@ -491,9 +491,10 @@ const parseAttribute = (attribute, node) => {
         lineNumber,
         columnNumber,
         isInSameLineAsTagName,
+        length         : trimmedAttribute.length,
         attrGlobalPos  : node.globalPos + attrLocalPos,
         valueGlobalPos : node.globalPos + valueLocalPos,
-        attrFullValue  : trimmedAttribute,
+        fullValue      : trimmedAttribute,
         node           : node
     };
 };

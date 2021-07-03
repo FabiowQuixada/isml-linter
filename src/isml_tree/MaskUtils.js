@@ -106,7 +106,7 @@ const maskNestedIsmlElements = content => {
     return result;
 };
 
-const maskInBetween = (content, startString, endString, isMaskBorders) => {
+const maskInBetween = (content, startString, endString, shouldMaskBorders) => {
 
     let processedStartingString = startString;
     let processedEndString      = endString;
@@ -116,7 +116,7 @@ const maskInBetween = (content, startString, endString, isMaskBorders) => {
         processedEndString      = `</${startString}>`;
     }
 
-    return getMatchingIndexes(content, processedStartingString, processedEndString, isMaskBorders);
+    return getMatchingIndexes(content, processedStartingString, processedEndString, shouldMaskBorders);
 };
 
 const getMatchingLists = (content, startString, endString) => {

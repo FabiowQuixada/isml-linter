@@ -53,7 +53,7 @@ Rule.getAttributeErrorList = function(node) {
 
             if (attribute.columnNumber - 1 !== expectedIndentation) {
                 const error = this.getError(
-                    attribute.attrFullValue.trim(),
+                    attribute.fullValue,
                     attribute.lineNumber,
                     attribute.columnNumber,
                     attribute.globalPos,

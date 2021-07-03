@@ -40,19 +40,19 @@ Rule.isBroken = function(node) {
 const checkForExclusiveAttributes = (sfccTagObj, nodeAttribute, attrList) => {
     let result = null;
     if (sfccTagObj && sfccTagObj.requires && sfccTagObj.requires.exclusive) {
-        const exclusiveAttributeObj             = sfccTagObj.requires.exclusive;
-        const exclusiveAttributesoccurrenceList = [];
+        const exclusiveAttributeObj            = sfccTagObj.requires.exclusive;
+        const exclusiveAttributeOccurrenceList = [];
 
         for (let i = 0; i < attrList.length; i++) {
             const attr = attrList[i];
             if (exclusiveAttributeObj.indexOf(attr.name) !== -1) {
-                exclusiveAttributesoccurrenceList.push(attr.name);
+                exclusiveAttributeOccurrenceList.push(attr.name);
             }
         }
 
-        if (exclusiveAttributesoccurrenceList.length > 1) {
+        if (exclusiveAttributeOccurrenceList.length > 1) {
             result         = {};
-            result.message = `The "${nodeAttribute.node.getType()}" tag cannot have "${exclusiveAttributesoccurrenceList[0]}" and "${exclusiveAttributesoccurrenceList[1]}" attributes simultaneously`;
+            result.message = `The "${nodeAttribute.node.getType()}" tag cannot have "${exclusiveAttributeOccurrenceList[0]}" and "${exclusiveAttributeOccurrenceList[1]}" attributes simultaneously`;
         }
 
     }
