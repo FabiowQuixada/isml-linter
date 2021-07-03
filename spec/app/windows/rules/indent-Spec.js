@@ -486,4 +486,10 @@ describe(rule.id, () => {
         expect(result[1].globalPos    ).toEqual(74);
         expect(result[1].message      ).toEqual('Expected indentation of 4 spaces but found 8');
     });
+
+    it('allows more than one attribute per line', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 35);
+
+        expect(result.length).toEqual(0);
+    });
 });

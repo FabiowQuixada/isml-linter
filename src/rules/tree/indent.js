@@ -48,7 +48,7 @@ Rule.getAttributeErrorList = function(node) {
     for (let i = 0; i < attributeList.length; i++) {
         const attribute = attributeList[i];
 
-        if (!attribute.isInSameLineAsTagName) {
+        if (!attribute.isInSameLineAsTagName && attribute.isFirstInLine) {
             const expectedIndentation = node.depth * configIndentSize;
 
             if (attribute.columnNumber - 1 !== expectedIndentation) {
