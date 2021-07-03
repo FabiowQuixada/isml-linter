@@ -466,8 +466,8 @@ const getStringifiedAttrArray = rawAttrNodeValue => {
 const parseAttribute = (attribute, node) => {
     const trimmedAttribute      = attribute.trim();
     const trimmedNodeValue      = node.value.trim();
-    const localPos              = trimmedNodeValue.indexOf(trimmedAttribute) + 1;
-    const leadingContent        = trimmedNodeValue.substring(0, localPos - 1);
+    const localPos              = trimmedNodeValue.indexOf(trimmedAttribute);
+    const leadingContent        = trimmedNodeValue.substring(0, localPos);
     const leadingLineBreakQty   = ParseUtils.getLineBreakQty(leadingContent);
     const isInSameLineAsTagName = leadingLineBreakQty === 0;
     const attributeProps        = trimmedAttribute.split('=');

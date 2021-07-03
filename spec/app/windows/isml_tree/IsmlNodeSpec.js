@@ -5,7 +5,8 @@ const ConfigUtils = require('../../../../src/util/ConfigUtils');
 const TreeBuilder = require('../../../../src/isml_tree/TreeBuilder');
 const Constants   = require('../../../../src/Constants');
 
-const targetObjName = SpecHelper.getTargetObjName(__filename);
+const targetObjName   = SpecHelper.getTargetObjName(__filename);
+const isCrlfLineBreak = true;
 
 describe(targetObjName, () => {
 
@@ -186,8 +187,7 @@ describe(targetObjName, () => {
 
     it('removes a child node', () => {
         const removeIndex     = 3;
-        const tree            = TreeBuilder.build(getTemplatePath(0));
-        const rootNode        = tree.rootNode;
+        const rootNode        = getTreeRootFromComplexTemplate(0);
         const childrenQty     = rootNode.getNumberOfChildren();
         const nodeToBeRemoved = rootNode.children[removeIndex];
 
@@ -201,8 +201,7 @@ describe(targetObjName, () => {
 
     it('returns the removed node on remove operation', () => {
         const removeIndex     = 3;
-        const tree            = TreeBuilder.build(getTemplatePath(0));
-        const rootNode        = tree.rootNode;
+        const rootNode        = getTreeRootFromComplexTemplate(0);
         const nodeToBeRemoved = rootNode.children[removeIndex];
         const removedNode     = rootNode.removeChild(nodeToBeRemoved);
 
@@ -210,8 +209,7 @@ describe(targetObjName, () => {
     });
 
     it('adds a child node at a specific position', () => {
-        const tree        = TreeBuilder.build(getTemplatePath(0));
-        const rootNode    = tree.rootNode;
+        const rootNode    = getTreeRootFromTemplate(0);
         const childrenQty = rootNode.getNumberOfChildren();
         const newNode     = new IsmlNode('<ismycustom />');
 
@@ -223,24 +221,22 @@ describe(targetObjName, () => {
     });
 
     it('knows if a node is a descendant of a node of given type', () => {
-        const tree          = TreeBuilder.build(getTemplatePath(0));
-        const rootNode      = tree.rootNode;
+        const rootNode      = getTreeRootFromComplexTemplate(0);
         const customTagNode = rootNode.children[11].children[0].children[0];
 
         expect(customTagNode.isDescendantOf('td')).toEqual(true);
     });
 
     it('knows if a node is not a descendant of a node of given type', () => {
-        const tree          = TreeBuilder.build(getTemplatePath(0));
-        const rootNode      = tree.rootNode;
+        const rootNode      = getTreeRootFromComplexTemplate(0);
         const customTagNode = rootNode.children[11].children[0].children[0];
 
         expect(customTagNode.isDescendantOf('iscomment')).toEqual(false);
     });
 
     it('detects correct indentation', () => {
-        const tree    = TreeBuilder.build(getIsmlNodeTemplatePath(0));
-        const divNode = tree.rootNode.children[0].children[0];
+        const rootNode = getTreeRootFromTemplate(0);
+        const divNode  = rootNode.children[0].children[0];
 
         expect(divNode.children[0].getIndentationSize()).toEqual(8);
         expect(divNode.children[1].getIndentationSize()).toEqual(8);
@@ -248,15 +244,15 @@ describe(targetObjName, () => {
     });
 
     it('sets head end line number correctly', () => {
-        const tree     = TreeBuilder.build(getIsmlNodeTemplatePath(1));
-        const spanNode = tree.rootNode.children[0].children[0];
+        const rootNode = getTreeRootFromTemplate(1);
+        const spanNode = rootNode.children[0].children[0];
 
         expect(spanNode.endLineNumber).toEqual(2);
     });
 
     it('differentiates between single-line tags from multiline tags', () => {
-        const tree        = TreeBuilder.build(getIsmlNodeTemplatePath(2));
-        const sectionNode = tree.rootNode.children[0];
+        const rootNode    = getTreeRootFromTemplate(2);
+        const sectionNode = rootNode.children[0];
         const divNode     = sectionNode.children[0];
         const spanNode    = divNode.children[0];
 
@@ -265,8 +261,8 @@ describe(targetObjName, () => {
     });
 
     it('identifies if attributes are on the same line as of the opening tag', () => {
-        const tree          = TreeBuilder.build(getIsmlNodeTemplatePath(2));
-        const divNode       = tree.rootNode.children[0].children[0];
+        const rootNode      = getTreeRootFromTemplate(2);
+        const divNode       = rootNode.children[0].children[0];
         const attributeList = divNode.getAttributeList();
 
         expect(attributeList[0].isInSameLineAsTagName).toEqual(true);
@@ -276,8 +272,8 @@ describe(targetObjName, () => {
     });
 
     it('identifies attributes line numbers', () => {
-        const tree          = TreeBuilder.build(getIsmlNodeTemplatePath(2));
-        const divNode       = tree.rootNode.children[0].children[0];
+        const rootNode      = getTreeRootFromTemplate(2);
+        const divNode       = rootNode.children[0].children[0];
         const attributeList = divNode.getAttributeList();
 
         expect(attributeList[0].lineNumber).toEqual(2);
@@ -287,8 +283,8 @@ describe(targetObjName, () => {
     });
 
     it('identifies attributes column numbers', () => {
-        const tree          = TreeBuilder.build(getIsmlNodeTemplatePath(2));
-        const divNode       = tree.rootNode.children[0].children[0];
+        const rootNode      = getTreeRootFromTemplate(2);
+        const divNode       = rootNode.children[0].children[0];
         const attributeList = divNode.getAttributeList();
 
         expect(attributeList[0].columnNumber).toEqual(10);
@@ -298,8 +294,8 @@ describe(targetObjName, () => {
     });
 
     it('identifies attributes column numbers II', () => {
-        const tree          = TreeBuilder.build(getIsmlNodeTemplatePath(2));
-        const spanNode      = tree.rootNode.children[0].children[1];
+        const rootNode      = getTreeRootFromTemplate(2);
+        const spanNode      = rootNode.children[0].children[1];
         const attributeList = spanNode.getAttributeList();
 
         expect(attributeList[0].columnNumber).toEqual(9);
@@ -307,8 +303,8 @@ describe(targetObjName, () => {
     });
 
     it('identifies attributes global positions', () => {
-        const tree          = TreeBuilder.build(getIsmlNodeTemplatePath(2));
-        const divNode       = tree.rootNode.children[0].children[0];
+        const rootNode      = getTreeRootFromTemplate(2);
+        const divNode       = rootNode.children[0].children[0];
         const attributeList = divNode.getAttributeList();
 
         expect(attributeList[0].globalPos).toEqual(20);
@@ -316,12 +312,29 @@ describe(targetObjName, () => {
         expect(attributeList[2].globalPos).toEqual(66);
         expect(attributeList[3].globalPos).toEqual(96);
     });
+
+    it('identifies attributes global positions II', () => {
+        const rootNode      = getTreeRootFromTemplate(3);
+        const divNode       = rootNode.children[0];
+        const attributeList = divNode.getAttributeList();
+
+        expect(attributeList[0].globalPos).toEqual(6);
+        expect(attributeList[1].globalPos).toEqual(22);
+        expect(attributeList[2].globalPos).toEqual(47);
+        expect(attributeList[3].globalPos).toEqual(74);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {
     return SpecHelper.getTemplatePath(Constants.specIsmlNodeTemplateDir, number);
 };
 
-const getTemplatePath = number => {
-    return SpecHelper.getTemplatePath(Constants.specComplexTemplatesDir, number);
+const getTreeRootFromComplexTemplate = number => {
+    const templatePath = SpecHelper.getTemplatePath(Constants.specComplexTemplatesDir, number);
+    return TreeBuilder.build(templatePath, undefined, isCrlfLineBreak).rootNode;
+};
+
+const getTreeRootFromTemplate = number => {
+    const templatePath = getIsmlNodeTemplatePath(number);
+    return TreeBuilder.build(templatePath, undefined, isCrlfLineBreak).rootNode;
 };
