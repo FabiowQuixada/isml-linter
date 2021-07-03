@@ -478,9 +478,16 @@ const parseAttribute = (attribute, node) => {
     const valueLocalPos         = trimmedAttribute.indexOf(value);
     const globalPos             = node.globalPos + localPos + leadingLineBreakQty;
     const lineNumber            = node.lineNumber + leadingLineBreakQty;
-    const columnNumber          = isInSameLineAsTagName ?
+
+    const columnNumber = isInSameLineAsTagName ?
         node.columnNumber + leadingContent.length :
         leadingContent.length - leadingContent.lastIndexOf(Constants.EOL);
+
+    const isFirstInLine = !isInSameLineAsTagName && trimmedNodeValue
+        .split(Constants.EOL)
+        .find(attrLine => attrLine.indexOf(name) !== -1)
+        .trim()
+        .indexOf(name) === 0;
 
     return {
         name           : name,
@@ -491,6 +498,7 @@ const parseAttribute = (attribute, node) => {
         lineNumber,
         columnNumber,
         isInSameLineAsTagName,
+        isFirstInLine,
         length         : trimmedAttribute.length,
         attrGlobalPos  : node.globalPos + attrLocalPos,
         valueGlobalPos : node.globalPos + valueLocalPos,

@@ -323,6 +323,30 @@ describe(targetObjName, () => {
         expect(attributeList[2].globalPos).toEqual(47);
         expect(attributeList[3].globalPos).toEqual(74);
     });
+
+    it('identifies if an attribute is the first in line', () => {
+        const rootNode      = getTreeRootFromTemplate(4);
+        const buttonNode    = rootNode.children[0].children[0];
+        const attributeList = buttonNode.getAttributeList();
+
+        expect(attributeList[1].isFirstInLine).toEqual(true);
+    });
+
+    it('identifies if an attribute is not the first in line', () => {
+        const rootNode      = getTreeRootFromTemplate(4);
+        const buttonNode    = rootNode.children[0].children[0];
+        const attributeList = buttonNode.getAttributeList();
+
+        expect(attributeList[2].isFirstInLine).toEqual(false);
+    });
+
+    it('identifies that an attribute is never the first in line if it is in the same line as tag name', () => {
+        const rootNode      = getTreeRootFromTemplate(4);
+        const buttonNode    = rootNode.children[0].children[0];
+        const attributeList = buttonNode.getAttributeList();
+
+        expect(attributeList[0].isFirstInLine).toEqual(false);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {
