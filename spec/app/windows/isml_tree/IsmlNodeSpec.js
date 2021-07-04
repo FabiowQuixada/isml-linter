@@ -410,6 +410,20 @@ describe(targetObjName, () => {
         expect(attributeList[1].globalPos    ).toEqual(64);
         expect(attributeList[1].localPos     ).toEqual(51);
     });
+
+    it('parses an attribute that is fully dynamic (an expression)', () => {
+        const rootNode      = getTreeRootFromTemplate(10);
+        const buttonNode    = rootNode.children[0].children[0];
+        const attributeList = buttonNode.getAttributeList();
+
+        expect(attributeList[1].fullValue    ).toEqual('${dynamicAttribute}');
+        expect(attributeList[1].lineNumber   ).toEqual(4);
+        expect(attributeList[1].columnNumber ).toEqual(5);
+        expect(attributeList[1].length       ).toEqual(19);
+        expect(attributeList[1].globalPos    ).toEqual(51);
+        expect(attributeList[1].localPos     ).toEqual(38);
+    });
+
 });
 
 const getIsmlNodeTemplatePath = number => {
