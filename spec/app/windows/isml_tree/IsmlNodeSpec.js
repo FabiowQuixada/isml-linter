@@ -384,6 +384,19 @@ describe(targetObjName, () => {
         expect(attributeList[2].globalPos    ).toEqual(78);
         expect(attributeList[2].localPos     ).toEqual(64);
     });
+
+    it('processes more than one attribute that contains an expression', () => {
+        const rootNode      = getTreeRootFromTemplate(8);
+        const inputNode     = rootNode.children[0].children[0];
+        const attributeList = inputNode.getAttributeList();
+
+        expect(attributeList[1].name         ).toEqual('data-range-error');
+        expect(attributeList[1].lineNumber   ).toEqual(4);
+        expect(attributeList[1].columnNumber ).toEqual(6);
+        expect(attributeList[1].length       ).toEqual(39);
+        expect(attributeList[1].globalPos    ).toEqual(77);
+        expect(attributeList[1].localPos     ).toEqual(64);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {

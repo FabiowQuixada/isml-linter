@@ -476,13 +476,13 @@ const getStringifiedAttributeArray = rawAttrNodeValue => {
             result[i]     = rawAttrNodeValue.substring(initPos, initPos + element.length);
 
         } else if (element.indexOf('="${_') !== -1) {
-            const expressionInitPos    = maskedRawAttrNodeValue1.indexOf('="${_');
-            const expressionLastPos    = maskedRawAttrNodeValue1.indexOf('_}') + 3;
-            const fullPrefix           = rawAttrNodeValue.substring(0, expressionInitPos);
-            const attributeNameInitPos = fullPrefix.lastIndexOf(' ') + 1;
-            const attributeName        = fullPrefix.substring(attributeNameInitPos);
-            const fullAttribute        = attributeName + rawAttrNodeValue.substring(expressionInitPos, expressionLastPos);
-            result[i]                  = fullAttribute;
+            const attributeName       = element.substring(0, element.indexOf('='));
+            const attrStartPos        = maskedRawAttrNodeValue1.indexOf(attributeName);
+            const nodeSubstring       = rawAttrNodeValue.substring(attrStartPos);
+            const maskedNodeSubstring = maskedRawAttrNodeValue1.substring(attrStartPos);
+            const fullAttributeLength = maskedNodeSubstring.indexOf('_}') + 3;
+            const fullAttribute       = nodeSubstring.substring(0, fullAttributeLength);
+            result[i]                 = fullAttribute;
         }
     }
 

@@ -1,0 +1,6 @@
+<div>
+    <input
+        data-missing-error="${missingErrorMessage}"
+     data-range-error="${rangeErrorMessage}"
+      <isprint value="${form.field.attributes}" encoding="off" />>
+</div>
