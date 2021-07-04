@@ -1,0 +1,7 @@
+<div>
+    <input
+        type="password"
+        class="form-control"
+    data-range-error="${errorMessage}"
+        <isprint value="${form.fieldpdict.passwordForm.newpassword.attributes}" encoding="off" />>
+</div>

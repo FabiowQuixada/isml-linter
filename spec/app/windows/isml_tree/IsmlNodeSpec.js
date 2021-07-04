@@ -371,6 +371,19 @@ describe(targetObjName, () => {
         expect(attributeList[1].globalPos    ).toEqual(55);
         expect(attributeList[1].localPos     ).toEqual(42);
     });
+
+    it('processes attributes that contains an expression', () => {
+        const rootNode      = getTreeRootFromTemplate(7);
+        const inputNode     = rootNode.children[0].children[0];
+        const attributeList = inputNode.getAttributeList();
+
+        expect(attributeList[2].name         ).toEqual('data-range-error');
+        expect(attributeList[2].lineNumber   ).toEqual(5);
+        expect(attributeList[2].columnNumber ).toEqual(5);
+        expect(attributeList[2].length       ).toEqual(34);
+        expect(attributeList[2].globalPos    ).toEqual(78);
+        expect(attributeList[2].localPos     ).toEqual(64);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {

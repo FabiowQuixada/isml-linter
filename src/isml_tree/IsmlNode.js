@@ -470,9 +470,19 @@ const getStringifiedAttrArray = rawAttrNodeValue => {
         if (element.startsWith('<')) {
             const initPos = rawAttrNodeValue.indexOf('<');
             result[i]     = rawAttrNodeValue.substring(initPos, initPos + element.length);
+
         } else if (element.startsWith('_')) {
             const initPos = rawAttrNodeValue.indexOf('<isif');
             result[i]     = rawAttrNodeValue.substring(initPos, initPos + element.length);
+
+        } else if (element.indexOf('="${_') !== -1) {
+            const expressionInitPos    = maskedRawAttrNodeValue1.indexOf('="${_');
+            const expressionLastPos    = maskedRawAttrNodeValue1.indexOf('_}') + 3;
+            const fullPrefix           = rawAttrNodeValue.substring(0, expressionInitPos);
+            const attributeNameInitPos = fullPrefix.lastIndexOf(' ') + 1;
+            const attributeName        = fullPrefix.substring(attributeNameInitPos);
+            const fullAttribute        = attributeName + rawAttrNodeValue.substring(expressionInitPos, expressionLastPos);
+            result[i]                  = fullAttribute;
         }
     }
 
