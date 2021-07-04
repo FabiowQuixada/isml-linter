@@ -508,4 +508,14 @@ describe(rule.id, () => {
         expect(result[0].globalPos    ).toEqual(55);
         expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 9');
     });
+
+    it('identifies attributes with expressions with wrong indentation', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 38);
+
+        expect(result[0].lineNumber   ).toEqual(5);
+        expect(result[0].columnNumber ).toEqual(5);
+        expect(result[0].length       ).toEqual(34);
+        expect(result[0].globalPos    ).toEqual(77);
+        expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 4');
+    });
 });
