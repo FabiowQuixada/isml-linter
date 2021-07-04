@@ -467,4 +467,20 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('identifies embedded "isif" "attributes" with correct indentation', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 36);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('identifies embedded "isif" "attributes" with wrong indentation', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 37);
+
+        expect(result[0].lineNumber   ).toEqual(4);
+        expect(result[0].columnNumber ).toEqual(10);
+        expect(result[0].length       ).toEqual(187);
+        expect(result[0].globalPos    ).toEqual(55);
+        expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 9');
+    });
 });
