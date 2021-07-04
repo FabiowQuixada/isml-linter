@@ -4,6 +4,7 @@ const ConfigUtils = require('../util/ConfigUtils');
 const Constants   = require('../Constants');
 const SfccTags    = require('../enums/SfccTags');
 const ParseUtils  = require('./ParseUtils');
+const MaskUtils   = require('./MaskUtils');
 
 let ID_COUNTER = 0;
 
@@ -424,26 +425,27 @@ const getDisplayText = node => {
 };
 
 const getStringifiedAttrArray = rawAttrNodeValue => {
-    const result           = [];
-    let lastAttrDividerPos = -1;
-    let outsideQuotes      = true;
+    const maskedRawAttrNodeValue = MaskUtils.maskIgnorableContent(rawAttrNodeValue);
+    const result                 = [];
+    let lastAttrDividerPos       = -1;
+    let outsideQuotes            = true;
 
-    for (let i = 0; i < rawAttrNodeValue.length; i++) {
-        const char = rawAttrNodeValue[i];
+    for (let i = 0; i < maskedRawAttrNodeValue.length; i++) {
+        const char = maskedRawAttrNodeValue[i];
 
-        if (i > 2 && rawAttrNodeValue[i - 2] === '=' && rawAttrNodeValue[i - 1] === '"') {
+        if (i > 2 && maskedRawAttrNodeValue[i - 2] === '=' && maskedRawAttrNodeValue[i - 1] === '"') {
             outsideQuotes = false;
         }
 
-        if (i > 2 && rawAttrNodeValue[i - 1] !== '=' && char === '"') {
+        if (i > 2 && maskedRawAttrNodeValue[i - 1] !== '=' && char === '"') {
             outsideQuotes = true;
         }
 
         if (char === ' ' && outsideQuotes) {
             const attributeCounter = result.length;
             const attr             = attributeCounter === 0 ?
-                rawAttrNodeValue.substring(0, i) :
-                rawAttrNodeValue.substring(lastAttrDividerPos, i);
+                maskedRawAttrNodeValue.substring(0, i) :
+                maskedRawAttrNodeValue.substring(lastAttrDividerPos, i);
 
             if (attr.trim()) {
                 result.push(
@@ -455,29 +457,40 @@ const getStringifiedAttrArray = rawAttrNodeValue => {
         }
     }
 
-    const lastAttribute = rawAttrNodeValue.substring(lastAttrDividerPos + 1, rawAttrNodeValue.length);
+    const lastAttribute = maskedRawAttrNodeValue.substring(lastAttrDividerPos + 1, maskedRawAttrNodeValue.length);
     if (lastAttribute && lastAttribute !== '/') {
         result.push(lastAttribute);
+    }
+
+    // Handles nested <isprint> tags;
+    for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+
+        if (element.startsWith('<')) {
+            const initPos = rawAttrNodeValue.indexOf('<');
+            result[i]     = rawAttrNodeValue.substring(initPos, initPos + element.length);
+        }
     }
 
     return result;
 };
 
 const parseAttribute = (attribute, node) => {
-    const trimmedAttribute      = attribute.trim();
-    const trimmedNodeValue      = node.value.trim();
-    const localPos              = trimmedNodeValue.indexOf(trimmedAttribute);
-    const leadingContent        = trimmedNodeValue.substring(0, localPos);
-    const leadingLineBreakQty   = ParseUtils.getLineBreakQty(leadingContent);
-    const isInSameLineAsTagName = leadingLineBreakQty === 0;
-    const attributeProps        = trimmedAttribute.split('=');
-    const name                  = attributeProps[0].trim();
-    const value                 = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
-    const values                = value ? value.split(' ') : null;
-    const attrLocalPos          = trimmedNodeValue.indexOf(trimmedAttribute);
-    const valueLocalPos         = trimmedAttribute.indexOf(value);
-    const globalPos             = node.globalPos + localPos + leadingLineBreakQty;
-    const lineNumber            = node.lineNumber + leadingLineBreakQty;
+    const isAttributeANestedIsmlTag = attribute.startsWith('<');
+    const trimmedAttribute          = attribute.trim();
+    const trimmedNodeValue          = node.value.trim();
+    const localPos                  = trimmedNodeValue.indexOf(trimmedAttribute);
+    const leadingContent            = trimmedNodeValue.substring(0, localPos);
+    const leadingLineBreakQty       = ParseUtils.getLineBreakQty(leadingContent);
+    const isInSameLineAsTagName     = leadingLineBreakQty === 0;
+    const attributeProps            = trimmedAttribute.split('=');
+    const name                      = attributeProps[0].trim();
+    const value                     = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
+    const values                    = value ? value.split(' ') : null;
+    const attrLocalPos              = trimmedNodeValue.indexOf(trimmedAttribute);
+    const valueLocalPos             = trimmedAttribute.indexOf(value);
+    const globalPos                 = node.globalPos + localPos + leadingLineBreakQty;
+    const lineNumber                = node.lineNumber + leadingLineBreakQty;
 
     const columnNumber = isInSameLineAsTagName ?
         node.columnNumber + leadingContent.length :
@@ -489,22 +502,40 @@ const parseAttribute = (attribute, node) => {
         .trim()
         .indexOf(name) === 0;
 
-    return {
-        name           : name,
-        value          : value,
-        values         : values,
-        localPos,
-        globalPos,
-        lineNumber,
-        columnNumber,
-        isInSameLineAsTagName,
-        isFirstInLine,
-        length         : trimmedAttribute.length,
-        attrGlobalPos  : node.globalPos + attrLocalPos,
-        valueGlobalPos : node.globalPos + valueLocalPos,
-        fullValue      : trimmedAttribute,
-        node           : node
-    };
+    if (isAttributeANestedIsmlTag) {
+        return {
+            name,
+            localPos,
+            globalPos,
+            lineNumber,
+            columnNumber,
+            isInSameLineAsTagName,
+            isFirstInLine,
+            isNestedIsmlTag: isAttributeANestedIsmlTag,
+            length         : trimmedAttribute.length,
+            fullValue      : trimmedAttribute,
+            node
+        };
+
+    } else {
+        return {
+            name,
+            value,
+            values,
+            localPos,
+            globalPos,
+            lineNumber,
+            columnNumber,
+            isInSameLineAsTagName,
+            isFirstInLine,
+            isNestedIsmlTag: isAttributeANestedIsmlTag,
+            length         : trimmedAttribute.length,
+            attrGlobalPos  : node.globalPos + attrLocalPos,
+            valueGlobalPos : node.globalPos + valueLocalPos,
+            fullValue      : trimmedAttribute,
+            node
+        };
+    }
 };
 
 const getNodeIndentationSize = (node, isNodeHead) => {

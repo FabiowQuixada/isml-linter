@@ -1,0 +1,8 @@
+<div>
+    <input
+        class="input-class"
+        <isprint value="${form.field.attributes}" encoding="off" />
+        aria-expanded="false"
+    />
+</div>
+

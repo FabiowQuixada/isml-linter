@@ -347,6 +347,18 @@ describe(targetObjName, () => {
 
         expect(attributeList[0].isFirstInLine).toEqual(false);
     });
+
+    it('processes an embedded "isprint" "attribute"', () => {
+        const rootNode      = getTreeRootFromTemplate(5);
+        const buttonNode    = rootNode.children[0].children[0];
+        const attributeList = buttonNode.getAttributeList();
+
+        expect(attributeList[1].lineNumber   ).toEqual(4);
+        expect(attributeList[1].columnNumber ).toEqual(9);
+        expect(attributeList[1].length       ).toEqual(59);
+        expect(attributeList[1].globalPos    ).toEqual(56);
+        expect(attributeList[1].localPos     ).toEqual(43);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {
