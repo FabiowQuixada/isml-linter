@@ -1,0 +1,9 @@
+<div>
+    <button class="class"
+                    href="">
+        <img
+                style="in-line-style"
+                src="${imgSrc}"
+                alt="${imgAlt}"/>
+    </button>
+</div>

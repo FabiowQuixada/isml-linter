@@ -44,6 +44,18 @@ TreeRulePrototype.return = function(node, occurrenceList, config) {
             fixedContent : this.getFixedContent(node)
         };
     } else if (node.isRoot()) {
+        occurrenceList.sort((occurrence1, occurrence2) => {
+            if ( occurrence1.lineNumber < occurrence2.lineNumber ) {
+                return -1;
+            }
+
+            if ( occurrence1.lineNumber > occurrence2.lineNumber ) {
+                return 1;
+            }
+
+            return 0;
+        });
+
         return  {
             occurrenceList
         } ;

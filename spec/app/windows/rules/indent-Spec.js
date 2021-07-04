@@ -529,4 +529,12 @@ describe(rule.id, () => {
         expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 4');
     });
 
+    it('identifies occurrences ordered by line number', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 40);
+
+        expect(result[0].lineNumber).toEqual(3);
+        expect(result[1].lineNumber).toEqual(5);
+        expect(result[2].lineNumber).toEqual(6);
+        expect(result[3].lineNumber).toEqual(7);
+    });
 });
