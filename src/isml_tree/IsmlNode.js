@@ -475,7 +475,7 @@ const getStringifiedAttributeArray = rawAttrNodeValue => {
             const initPos = rawAttrNodeValue.indexOf('<isif');
             result[i]     = rawAttrNodeValue.substring(initPos, initPos + element.length);
 
-        } else if (element.indexOf('="${_') !== -1) {
+        } else if (element.indexOf('${_') !== -1) {
             const attributeName       = element.substring(0, element.indexOf('='));
             const attrStartPos        = maskedRawAttrNodeValue1.indexOf(attributeName);
             const nodeSubstring       = rawAttrNodeValue.substring(attrStartPos);

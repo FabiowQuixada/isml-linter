@@ -397,6 +397,19 @@ describe(targetObjName, () => {
         expect(attributeList[1].globalPos    ).toEqual(77);
         expect(attributeList[1].localPos     ).toEqual(64);
     });
+
+    it('processes more than one attribute that contains an expression within quotes', () => {
+        const rootNode      = getTreeRootFromTemplate(9);
+        const buttonNode    = rootNode.children[0].children[0];
+        const attributeList = buttonNode.getAttributeList();
+
+        expect(attributeList[1].fullValue    ).toEqual('class="class-1 class-2 ${aCondition ? \'disabled\' : \'\'}"');
+        expect(attributeList[1].lineNumber   ).toEqual(4);
+        expect(attributeList[1].columnNumber ).toEqual(13);
+        expect(attributeList[1].length       ).toEqual(55);
+        expect(attributeList[1].globalPos    ).toEqual(64);
+        expect(attributeList[1].localPos     ).toEqual(51);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {

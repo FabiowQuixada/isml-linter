@@ -1,0 +1,8 @@
+<div>
+    <button
+            data-href="${url}"
+            class="class-1 class-2 ${aCondition ? 'disabled' : ''}"
+            <isif condition="${aCondition}">disabled</isif>
+        >
+    </button>
+</div>
