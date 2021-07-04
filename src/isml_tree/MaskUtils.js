@@ -112,7 +112,7 @@ const maskInBetween = (content, startString, endString, shouldMaskBorders) => {
     let processedEndString      = endString;
 
     if (!endString) {
-        processedStartingString = `<${startString}>`;
+        processedStartingString = startString === 'isif' ? `<${startString}` : `<${startString}>`;
         processedEndString      = `</${startString}>`;
     }
 

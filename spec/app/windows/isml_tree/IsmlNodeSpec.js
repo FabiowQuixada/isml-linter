@@ -359,6 +359,18 @@ describe(targetObjName, () => {
         expect(attributeList[1].globalPos    ).toEqual(56);
         expect(attributeList[1].localPos     ).toEqual(43);
     });
+
+    it('processes an embedded "isif" "attribute"', () => {
+        const rootNode      = getTreeRootFromTemplate(6);
+        const buttonNode    = rootNode.children[0].children[0];
+        const attributeList = buttonNode.getAttributeList();
+
+        expect(attributeList[1].lineNumber   ).toEqual(4);
+        expect(attributeList[1].columnNumber ).toEqual(9);
+        expect(attributeList[1].length       ).toEqual(187);
+        expect(attributeList[1].globalPos    ).toEqual(55);
+        expect(attributeList[1].localPos     ).toEqual(42);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {

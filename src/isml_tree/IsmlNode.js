@@ -425,27 +425,28 @@ const getDisplayText = node => {
 };
 
 const getStringifiedAttrArray = rawAttrNodeValue => {
-    const maskedRawAttrNodeValue = MaskUtils.maskIgnorableContent(rawAttrNodeValue);
-    const result                 = [];
-    let lastAttrDividerPos       = -1;
-    let outsideQuotes            = true;
+    const maskedRawAttrNodeValue0 = MaskUtils.maskInBetween(rawAttrNodeValue, 'isif', null, true);
+    const maskedRawAttrNodeValue1 = MaskUtils.maskIgnorableContent(maskedRawAttrNodeValue0);
+    const result                  = [];
+    let lastAttrDividerPos        = -1;
+    let outsideQuotes             = true;
 
-    for (let i = 0; i < maskedRawAttrNodeValue.length; i++) {
-        const char = maskedRawAttrNodeValue[i];
+    for (let i = 0; i < maskedRawAttrNodeValue1.length; i++) {
+        const char = maskedRawAttrNodeValue1[i];
 
-        if (i > 2 && maskedRawAttrNodeValue[i - 2] === '=' && maskedRawAttrNodeValue[i - 1] === '"') {
+        if (i > 2 && maskedRawAttrNodeValue1[i - 2] === '=' && maskedRawAttrNodeValue1[i - 1] === '"') {
             outsideQuotes = false;
         }
 
-        if (i > 2 && maskedRawAttrNodeValue[i - 1] !== '=' && char === '"') {
+        if (i > 2 && maskedRawAttrNodeValue1[i - 1] !== '=' && char === '"') {
             outsideQuotes = true;
         }
 
         if (char === ' ' && outsideQuotes) {
             const attributeCounter = result.length;
             const attr             = attributeCounter === 0 ?
-                maskedRawAttrNodeValue.substring(0, i) :
-                maskedRawAttrNodeValue.substring(lastAttrDividerPos, i);
+                maskedRawAttrNodeValue1.substring(0, i) :
+                maskedRawAttrNodeValue1.substring(lastAttrDividerPos, i);
 
             if (attr.trim()) {
                 result.push(
@@ -457,17 +458,20 @@ const getStringifiedAttrArray = rawAttrNodeValue => {
         }
     }
 
-    const lastAttribute = maskedRawAttrNodeValue.substring(lastAttrDividerPos + 1, maskedRawAttrNodeValue.length);
+    const lastAttribute = maskedRawAttrNodeValue1.substring(lastAttrDividerPos + 1, maskedRawAttrNodeValue1.length);
     if (lastAttribute && lastAttribute !== '/') {
         result.push(lastAttribute);
     }
 
-    // Handles nested <isprint> tags;
+    // Handles embedded ISML tags;
     for (let i = 0; i < result.length; i++) {
         const element = result[i];
 
         if (element.startsWith('<')) {
             const initPos = rawAttrNodeValue.indexOf('<');
+            result[i]     = rawAttrNodeValue.substring(initPos, initPos + element.length);
+        } else if (element.startsWith('_')) {
+            const initPos = rawAttrNodeValue.indexOf('<isif');
             result[i]     = rawAttrNodeValue.substring(initPos, initPos + element.length);
         }
     }
@@ -512,7 +516,7 @@ const parseAttribute = (attribute, node) => {
             isInSameLineAsTagName,
             isFirstInLine,
             isNestedIsmlTag: isAttributeANestedIsmlTag,
-            length         : trimmedAttribute.length,
+            length         : trimmedAttribute.length + ParseUtils.getLineBreakQty(trimmedAttribute),
             fullValue      : trimmedAttribute,
             node
         };
