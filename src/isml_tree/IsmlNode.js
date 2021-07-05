@@ -424,74 +424,57 @@ const getDisplayText = node => {
     return displayText.trim();
 };
 
-const getStringifiedAttributeArray = rawAttrNodeValue => {
-    const maskedRawAttrNodeValue0 = MaskUtils.maskInBetween(rawAttrNodeValue, 'isif', null, true);
-    const maskedRawAttrNodeValue1 = MaskUtils.maskIgnorableContent(maskedRawAttrNodeValue0);
-    const result                  = [];
-    let lastAttrDividerPos        = -1;
-    let isOutsideQuotes           = true;
+const getProcessedContent = content => {
+    const partialResult0 = MaskUtils.maskInBetween(content, 'isif', null, true);
+    const partialResult1 = MaskUtils.maskIgnorableContent(partialResult0);
+    const partialResult2 = MaskUtils.maskIgnorableContent(partialResult1, '"', '"', true);
 
-    for (let i = 0; i < maskedRawAttrNodeValue1.length; i++) {
-        const char = maskedRawAttrNodeValue1[i];
+    let result = partialResult2.replace(new RegExp(Constants.EOL, 'g'), ' ');
 
-        if (i > 2 && maskedRawAttrNodeValue1[i - 2] === '=' && maskedRawAttrNodeValue1[i - 1] === '"') {
-            isOutsideQuotes = false;
-        }
-
-        if (i > 2 && maskedRawAttrNodeValue1[i - 1] !== '=' && char === '"') {
-            isOutsideQuotes = true;
-        }
-
-        if (char === ' ' && isOutsideQuotes) {
-            const attributeCounter = result.length;
-            const attr             = attributeCounter === 0 ?
-                maskedRawAttrNodeValue1.substring(0, i) :
-                maskedRawAttrNodeValue1.substring(lastAttrDividerPos, i);
-
-            if (attr.trim()) {
-                result.push(
-                    attr.trim()
-                );
-            }
-
-            lastAttrDividerPos = i;
-        }
+    if (result.endsWith('/')) {
+        result = result.slice(0, -1) + ' ';
     }
 
-    const lastAttribute = maskedRawAttrNodeValue1.substring(lastAttrDividerPos + 1, maskedRawAttrNodeValue1.length);
-    if (lastAttribute && lastAttribute !== '/') {
-        result.push(lastAttribute);
+    return result;
+};
+
+const getMaskedContent = content => {
+    let isWithinQuotes = false;
+    let maskedContent  = '';
+
+    for (let i = 0; i < content.length; i++) {
+        const char = content[i];
+
+        if (char === '"' && isWithinQuotes) {
+            isWithinQuotes = false;
+        } else if (char === '"') {
+            isWithinQuotes = true;
+        }
+
+        maskedContent += isWithinQuotes || char === '"'  ?
+            '_' :
+            char;
     }
 
-    // Handles embedded ISML tags;
-    for (let i = 0; i < result.length; i++) {
-        const element = result[i];
+    return maskedContent;
+};
 
-        if (element.startsWith('<')) {
-            const initPos = rawAttrNodeValue.indexOf('<');
-            result[i]     = rawAttrNodeValue.substring(initPos, initPos + element.length);
+const getStringifiedAttributeArray = content => {
+    const processedContent = getProcessedContent(content);
+    const maskedContent    = getMaskedContent(processedContent);
 
-        } else if (element.startsWith('_')) {
-            const initPos = rawAttrNodeValue.indexOf('<isif');
-            result[i]     = rawAttrNodeValue.substring(initPos, initPos + element.length);
+    const attributeList = maskedContent
+        .replace(/\s\s+/g, ' ')
+        .split(' ')
+        .filter(attr => attr);
 
-        } else if (element.startsWith('${_')) {
-            const attrStartPos        = maskedRawAttrNodeValue1.indexOf('${');
-            const nodeSubstring       = rawAttrNodeValue.substring(attrStartPos);
-            const maskedNodeSubstring = maskedRawAttrNodeValue1.substring(attrStartPos);
-            const fullAttributeLength = maskedNodeSubstring.indexOf('_}') + 2;
-            const fullAttribute       = nodeSubstring.substring(0, fullAttributeLength);
-            result[i]                 = fullAttribute;
+    const attrStartPosList = attributeList.map(attr => maskedContent.indexOf(attr));
+    const attrLengthList   = attributeList.map(attr => attr.length);
+    const result           = [];
 
-        } else if (element.indexOf('${_') !== -1) {
-            const attributeName       = element.substring(0, element.indexOf('='));
-            const attrStartPos        = maskedRawAttrNodeValue1.indexOf(attributeName);
-            const nodeSubstring       = rawAttrNodeValue.substring(attrStartPos);
-            const maskedNodeSubstring = maskedRawAttrNodeValue1.substring(attrStartPos);
-            const fullAttributeLength = maskedNodeSubstring.indexOf('_}') + 3;
-            const fullAttribute       = nodeSubstring.substring(0, fullAttributeLength);
-            result[i]                 = fullAttribute;
-        }
+    for (let i = 0; i < attributeList.length; i++) {
+        const fullAttribute = content.substring(attrStartPosList[i], attrStartPosList[i] + attrLengthList[i]);
+        result.push(fullAttribute);
     }
 
     return result;

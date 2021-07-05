@@ -424,6 +424,13 @@ describe(targetObjName, () => {
         expect(attributeList[1].localPos     ).toEqual(38);
     });
 
+    it('parses attributes with in-quote expression', () => {
+        const rootNode      = getTreeRootFromTemplate(11);
+        const inputNode     = rootNode.children[0].children[0];
+        const attributeList = inputNode.getAttributeList();
+
+        expect(attributeList[1].fullValue).toEqual('placeholder="${Resource.msg("key", "dotProperties", null)}"');
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {

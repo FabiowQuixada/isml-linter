@@ -1,0 +1,6 @@
+<div>
+    <input
+        class="form-control italic-placeholder"
+        placeholder="${Resource.msg("key", "dotProperties", null)}"
+        encoding="off"/>
+</div>
