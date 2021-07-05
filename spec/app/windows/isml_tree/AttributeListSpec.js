@@ -27,7 +27,6 @@ describe('IsmlNode', () => {
         const node   = new IsmlNode('<input type="checkbox" checked>');
         const actual = node.getAttributeList();
 
-
         expect(actual[0].name).toEqual('type');
         expect(actual[0].value).toEqual('checkbox');
 

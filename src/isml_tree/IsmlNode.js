@@ -395,18 +395,18 @@ class IsmlNode {
 */
 
 const getAttributes = node => {
-    const trimmedValue               = node.value.trim();
-    const nodeValue                  = trimmedValue.substring(1, trimmedValue.length - 1);
-    const rawAttrNodeValue           = nodeValue.split(' ').slice(1).join(' ');
-    const stringifiedAttributesArray = getStringifiedAttrArray(rawAttrNodeValue);
-    const attributeArray             = [];
+    const trimmedValue             = node.value.trim();
+    const nodeValue                = trimmedValue.substring(1, trimmedValue.length - 1);
+    const rawAttrNodeValue         = nodeValue.split(' ').slice(1).join(' ');
+    const stringifiedAttributeList = getStringifiedAttributeArray(rawAttrNodeValue);
+    const attributeList            = [];
 
-    for (let i = 0; i < stringifiedAttributesArray.length; i++) {
-        const attr = parseAttribute(stringifiedAttributesArray[i], node);
-        attributeArray.push(attr);
+    for (let i = 0; i < stringifiedAttributeList.length; i++) {
+        const attr = parseAttribute(stringifiedAttributeList[i], node);
+        attributeList.push(attr);
     }
 
-    return attributeArray;
+    return attributeList;
 };
 
 // Used for debugging purposes only;
@@ -424,25 +424,25 @@ const getDisplayText = node => {
     return displayText.trim();
 };
 
-const getStringifiedAttrArray = rawAttrNodeValue => {
+const getStringifiedAttributeArray = rawAttrNodeValue => {
     const maskedRawAttrNodeValue0 = MaskUtils.maskInBetween(rawAttrNodeValue, 'isif', null, true);
     const maskedRawAttrNodeValue1 = MaskUtils.maskIgnorableContent(maskedRawAttrNodeValue0);
     const result                  = [];
     let lastAttrDividerPos        = -1;
-    let outsideQuotes             = true;
+    let isOutsideQuotes           = true;
 
     for (let i = 0; i < maskedRawAttrNodeValue1.length; i++) {
         const char = maskedRawAttrNodeValue1[i];
 
         if (i > 2 && maskedRawAttrNodeValue1[i - 2] === '=' && maskedRawAttrNodeValue1[i - 1] === '"') {
-            outsideQuotes = false;
+            isOutsideQuotes = false;
         }
 
         if (i > 2 && maskedRawAttrNodeValue1[i - 1] !== '=' && char === '"') {
-            outsideQuotes = true;
+            isOutsideQuotes = true;
         }
 
-        if (char === ' ' && outsideQuotes) {
+        if (char === ' ' && isOutsideQuotes) {
             const attributeCounter = result.length;
             const attr             = attributeCounter === 0 ?
                 maskedRawAttrNodeValue1.substring(0, i) :

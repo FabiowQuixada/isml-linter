@@ -9,12 +9,12 @@ const ExceptionUtils = require('../util/ExceptionUtils');
 
 const placeholderSymbol = '_';
 
-const maskIgnorableContent = (content, isMaskBorders, templatePath) => {
+const maskIgnorableContent = (content, shouldMaskBorders, templatePath) => {
 
-    content = maskInBetween(content, 'iscomment', isMaskBorders);
-    content = maskInBetween(content, '${', '}', isMaskBorders);
-    content = maskInBetween(content, '<!---', '--->', isMaskBorders);
-    content = maskInBetween(content, '<!--', '-->', isMaskBorders);
+    content = maskInBetween(content, 'iscomment', shouldMaskBorders);
+    content = maskInBetween(content, '${', '}', shouldMaskBorders);
+    content = maskInBetween(content, '<!---', '--->', shouldMaskBorders);
+    content = maskInBetween(content, '<!--', '-->', shouldMaskBorders);
     content = maskInBetweenIsscriptTags(content);
 
     checkTagBalance(content, templatePath);

@@ -386,7 +386,7 @@ const getElementList = (templateContent, templatePath, isCrlfLineBreak) => {
     return elementList;
 };
 
-function getBlankSpaceString(length) {
+const getBlankSpaceString = length => {
     let result = '';
 
     for (let i = 0; i < length; i++) {
@@ -394,7 +394,7 @@ function getBlankSpaceString(length) {
     }
 
     return result;
-}
+};
 
 module.exports.getElementList           = getElementList;
 module.exports.checkBalance             = checkBalance;
