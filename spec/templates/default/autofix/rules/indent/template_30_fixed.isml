@@ -1,0 +1,5 @@
+<input
+    type="password"
+    data-missing-error="${Resource.msg('key1','forms',null)}"
+    data-range-error="${Resource.msg('key2','forms',null)}"
+    <isprint value="${form.field.attributes}" encoding="off" /> />

@@ -537,4 +537,10 @@ describe(rule.id, () => {
         expect(result[2].lineNumber).toEqual(6);
         expect(result[3].lineNumber).toEqual(7);
     });
+
+    it('indents attributes', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 30);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

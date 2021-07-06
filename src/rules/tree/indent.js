@@ -11,7 +11,8 @@ Rule.init(ruleId, description);
 
 Rule.getDefaultAttrs = () => {
     return {
-        size : 4
+        size            : 4,
+        attributeOffset : 4
     };
 };
 
@@ -20,6 +21,17 @@ Rule.getIndentation = function(depth = 1) {
     let indentation       = '';
 
     for (let i = 0; i < indentationSize; ++i) {
+        indentation += ' ';
+    }
+
+    return indentation;
+};
+
+Rule.getAttributeIndentationOffset = function() {
+    const offsetSize = this.getConfigs().attributeOffset;
+    let indentation  = '';
+
+    for (let i = 0; i < offsetSize; ++i) {
         indentation += ' ';
     }
 
@@ -175,7 +187,13 @@ const removeIndentation = content => {
         fullTrailingContent :
         fullTrailingContent.substring(0, lastLineBreakPos + 1);
 
-    return preLineBreakContent + actualContent + trimmedTrailingContent;
+    // Removes indentation from node attributes;
+    const indentlessContent = actualContent
+        .split(Constants.EOL)
+        .map(line => line.trimStart())
+        .join(Constants.EOL);
+
+    return preLineBreakContent + indentlessContent + trimmedTrailingContent;
 };
 
 const addIndentationToText = node => {
@@ -212,9 +230,24 @@ const addIndentation = (node, isOpeningTag) => {
     const actualContent       = content.substring(startingPos, endingPos);
     const preLineBreakContent = fullLeadingContent.substring(0, fullLeadingContent.lastIndexOf(Constants.EOL) + 1);
     const fullTrailingContent = content.substring(endingPos);
-    const correctIndentation  = node.isInSameLineAsParent() && isOpeningTag ? '' : Rule.getIndentation(node.depth - 1);
+    const nodeIndentation     = node.isInSameLineAsParent() && isOpeningTag ? '' : Rule.getIndentation(node.depth - 1);
+    const attributeOffset     = nodeIndentation + Rule.getAttributeIndentationOffset();
 
-    return preLineBreakContent + correctIndentation + actualContent + fullTrailingContent;
+    // Adds indentation to node attributes;
+    const fullyIndentedContent = actualContent
+        .split(Constants.EOL)
+        .map((line, i) => {
+            if (i === 0) {
+                return line;
+            } else if (line === '>') {
+                return nodeIndentation + line;
+            }
+
+            return attributeOffset + line;
+        })
+        .join(Constants.EOL);
+
+    return preLineBreakContent + nodeIndentation + fullyIndentedContent + fullTrailingContent;
 };
 
 const removeAllIndentation = node => {
