@@ -518,4 +518,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('keeps indentation for lonely "/>" at tag name level', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 31);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

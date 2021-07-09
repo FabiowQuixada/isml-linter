@@ -1,0 +1,6 @@
+<div>
+    <input
+        value="${aValue}"
+        data-missing-error="${errorMessage}"
+    />
+</div>

@@ -239,7 +239,7 @@ const addIndentation = (node, isOpeningTag) => {
         .map((line, i) => {
             if (i === 0) {
                 return line;
-            } else if (line === '>') {
+            } else if (line === '>' || line === '/>') {
                 return nodeIndentation + line;
             }
 
