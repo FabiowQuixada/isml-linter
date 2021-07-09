@@ -481,7 +481,7 @@ const getStringifiedAttributeArray = content => {
 };
 
 const parseAttribute = (attribute, node) => {
-    const isAttributeANestedIsmlTag = attribute.startsWith('<');
+    const isAttributeANestedIsmlTag = attribute.startsWith('<is');
     const trimmedAttribute          = attribute.trim();
     const trimmedNodeValue          = node.value.trim();
     const localPos                  = trimmedNodeValue.indexOf(trimmedAttribute);

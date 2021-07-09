@@ -92,4 +92,16 @@ describe('IsmlNode', () => {
         expect(actual[1].value).toEqual('https://');
         expect(actual[1].values).toEqual(['https://']);
     });
+
+    it('detects nested isml tags as attributes', () => {
+        const node   = new IsmlNode('<div class="class_1 class_2" <isif condition="${aCondition}">value</isif> />');
+        const actual = node.getAttributeList();
+
+        expect(actual[0].name).toEqual('class');
+        expect(actual[0].values).toEqual(['class_1', 'class_2']);
+        expect(actual[0].isNestedIsmlTag).toEqual(false);
+
+        expect(actual[1].fullValue).toEqual('<isif condition="${aCondition}">value</isif>');
+        expect(actual[1].isNestedIsmlTag).toEqual(true);
+    });
 });
