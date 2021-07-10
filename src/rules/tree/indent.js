@@ -1,5 +1,7 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const ParseUtils        = require('../../isml_tree/ParseUtils');
+const MaskUtils         = require('../../isml_tree/MaskUtils');
+const TreeBuilder       = require('../../isml_tree/TreeBuilder');
 const Constants         = require('../../Constants');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
@@ -222,6 +224,35 @@ const addIndentationToText = node => {
     return preLineBreakContent + formattedLineArray.join(Constants.EOL);
 };
 
+const getIndentedAttributes = (content, nodeIndentation, attributeOffset) => {
+    return content
+        .split(Constants.EOL)
+        .map((line, i) => {
+            if (i === 0) {
+                return line;
+            } else if (line.startsWith('<') || line === '>' || line === '/>') {
+                return nodeIndentation + line;
+            }
+
+            return attributeOffset + line;
+        })
+        .join(Constants.EOL);
+};
+
+const getIndentedNestedIsmlContent = (attribute, nodeIndentation, attributeOffset) => {
+    if (attribute.fullValue.startsWith('<isif')) {
+        const attributeRootNode = TreeBuilder.parse(attribute.fullValue);
+        const fixedContent      = Rule.getFixedContent(attributeRootNode);
+
+        return fixedContent
+            .split(Constants.EOL)
+            .map((line) => {
+                return attributeOffset + line;
+            })
+            .join(Constants.EOL).trimStart();
+    }
+};
+
 const addIndentation = (node, isOpeningTag) => {
     const content             = isOpeningTag ? node.value : node.suffixValue;
     const startingPos         = ParseUtils.getNextNonEmptyCharPos(content);
@@ -232,6 +263,21 @@ const addIndentation = (node, isOpeningTag) => {
     const fullTrailingContent = content.substring(endingPos);
     const nodeIndentation     = node.isInSameLineAsParent() && isOpeningTag ? '' : Rule.getIndentation(node.depth - 1);
     const attributeOffset     = nodeIndentation + Rule.getAttributeIndentationOffset();
+
+    const maskedContent                = MaskUtils.maskInBetween(content, 'isif', null, true);
+    const maskInit                     = maskedContent.indexOf('_');
+    const maskEnd                      = maskedContent.lastIndexOf('_');
+    const attributeList                = node.getAttributeList();
+    const hasNestedParsableIsmlContent = attributeList.some(attribute => attribute.fullValue.startsWith('<isif'));
+
+    // TODO
+    const indentedNestedIsmlContent = attributeList[1] ?
+        getIndentedNestedIsmlContent(attributeList[1], nodeIndentation, attributeOffset) :
+        '';
+
+    const nestedIsmlContent = getIndentedAttributes(maskedContent.substring(0, maskInit), nodeIndentation, attributeOffset)
+        + indentedNestedIsmlContent
+        + getIndentedAttributes(maskedContent.substring(maskEnd + 1), nodeIndentation, attributeOffset);
 
     // Adds indentation to node attributes;
     const fullyIndentedContent = actualContent
@@ -246,6 +292,10 @@ const addIndentation = (node, isOpeningTag) => {
             return attributeOffset + line;
         })
         .join(Constants.EOL);
+
+    if (hasNestedParsableIsmlContent) {
+        return nestedIsmlContent;
+    }
 
     return preLineBreakContent + nodeIndentation + fullyIndentedContent + fullTrailingContent;
 };

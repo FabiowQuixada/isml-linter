@@ -524,4 +524,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('keeps indentation for embedded "isif" tag content', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 32);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

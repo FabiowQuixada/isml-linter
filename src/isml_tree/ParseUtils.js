@@ -270,7 +270,7 @@ const getInitialState = (templateContent, templatePath, isCrlfLineBreak) => {
 
     return {
         templatePath           : templatePath,
-        templateName           : path.basename(templatePath),
+        templateName           : templatePath ? path.basename(templatePath) : '',
         originalContent        : originalContent,
         originalShadowContent  : originalShadowContent,
         remainingContent       : originalContent,

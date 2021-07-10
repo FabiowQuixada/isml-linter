@@ -1,0 +1,7 @@
+<div>
+    <input id="input-id"
+        <isif condition="${aCondition}">
+            ${displayValue}
+        </isif>
+    />
+</div>
