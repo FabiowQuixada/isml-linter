@@ -230,6 +230,8 @@ const getIndentedAttributes = (content, nodeIndentation, attributeOffset) => {
         .map((line, i) => {
             if (i === 0) {
                 return line;
+            } else if (line.startsWith('<isprint')) {
+                return attributeOffset + line;
             } else if (line.startsWith('<') || line === '>' || line === '/>') {
                 return nodeIndentation + line;
             }
@@ -264,15 +266,14 @@ const addIndentation = (node, isOpeningTag) => {
     const nodeIndentation     = node.isInSameLineAsParent() && isOpeningTag ? '' : Rule.getIndentation(node.depth - 1);
     const attributeOffset     = nodeIndentation + Rule.getAttributeIndentationOffset();
 
-    const maskedContent                = MaskUtils.maskInBetween(content, 'isif', null, true);
-    const maskInit                     = maskedContent.indexOf('_');
-    const maskEnd                      = maskedContent.lastIndexOf('_');
-    const attributeList                = node.getAttributeList();
-    const hasNestedParsableIsmlContent = attributeList.some(attribute => attribute.fullValue.startsWith('<isif'));
+    const maskedContent         = MaskUtils.maskInBetween(content, 'isif', null, true);
+    const maskInit              = maskedContent.indexOf('_');
+    const maskEnd               = maskedContent.lastIndexOf('_');
+    const attributeList         = node.getAttributeList();
+    const embeddedIsmlAttribute = attributeList.find(attribute => attribute.fullValue.startsWith('<isif'));
 
-    // TODO
-    const indentedNestedIsmlContent = attributeList[1] ?
-        getIndentedNestedIsmlContent(attributeList[1], nodeIndentation, attributeOffset) :
+    const indentedNestedIsmlContent = embeddedIsmlAttribute ?
+        getIndentedNestedIsmlContent(embeddedIsmlAttribute, nodeIndentation, attributeOffset) :
         '';
 
     const nestedIsmlContent = getIndentedAttributes(maskedContent.substring(0, maskInit), nodeIndentation, attributeOffset)
@@ -293,7 +294,7 @@ const addIndentation = (node, isOpeningTag) => {
         })
         .join(Constants.EOL);
 
-    if (hasNestedParsableIsmlContent) {
+    if (embeddedIsmlAttribute) {
         return nestedIsmlContent;
     }
 

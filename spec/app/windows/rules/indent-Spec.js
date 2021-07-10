@@ -555,4 +555,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('keeps indentation for embedded "isif" tag content II', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 33);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

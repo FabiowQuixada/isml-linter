@@ -1,0 +1,8 @@
+<div>
+    <input type="text" class="input-class" id="input-id"
+        <isif condition="${aCondition}">
+            value="${aValue}"
+        </isif>
+        <isprint value="${form.field.attributes}" encoding="off" />
+        autocomplete="tel"/>
+</div>
