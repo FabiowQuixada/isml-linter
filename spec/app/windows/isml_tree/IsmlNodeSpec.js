@@ -441,6 +441,21 @@ describe(targetObjName, () => {
         expect(conditionalCommentNode.isConditionalComment()).toEqual(true);
     });
 
+    it('parses attributes with multi-line value', () => {
+        const rootNode          = getTreeRootFromTemplate(15);
+        const spanNode1         = rootNode.children[0];
+        const attributeList     = spanNode1.getAttributeList();
+        const classAttribute    = attributeList[1];
+        const dataInfoAttribute = attributeList[2];
+
+        expect(classAttribute.name              ).toEqual('class');
+        expect(classAttribute.value             ).toEqual(`${Constants.EOL}        class-1${Constants.EOL}        class-2${Constants.EOL}        class-3${Constants.EOL}    `);
+        expect(classAttribute.hasMultilineValue ).toEqual(true);
+
+        expect(dataInfoAttribute.name              ).toEqual('data-info');
+        expect(dataInfoAttribute.value             ).toEqual('info-1 info-2 info-3');
+        expect(dataInfoAttribute.hasMultilineValue ).toEqual(false);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {

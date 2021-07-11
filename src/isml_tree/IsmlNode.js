@@ -502,6 +502,7 @@ const parseAttribute = (attribute, node) => {
     const valueLocalPos             = trimmedAttribute.indexOf(value);
     const globalPos                 = node.globalPos + localPos + leadingLineBreakQty;
     const lineNumber                = node.lineNumber + leadingLineBreakQty;
+    const hasMultilineValue         = value && value.indexOf(Constants.EOL) >= 0;
 
     const columnNumber = isInSameLineAsTagName ?
         node.columnNumber + leadingContent.length :
@@ -522,6 +523,7 @@ const parseAttribute = (attribute, node) => {
             columnNumber,
             isInSameLineAsTagName,
             isFirstInLine,
+            hasMultilineValue,
             isNestedIsmlTag: isAttributeANestedIsmlTag,
             length         : trimmedAttribute.length + ParseUtils.getLineBreakQty(trimmedAttribute),
             fullValue      : trimmedAttribute,
@@ -539,6 +541,7 @@ const parseAttribute = (attribute, node) => {
             columnNumber,
             isInSameLineAsTagName,
             isFirstInLine,
+            hasMultilineValue,
             isNestedIsmlTag: isAttributeANestedIsmlTag,
             length         : trimmedAttribute.length,
             attrGlobalPos  : node.globalPos + attrLocalPos,
