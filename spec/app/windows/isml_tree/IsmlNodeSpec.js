@@ -431,6 +431,16 @@ describe(targetObjName, () => {
 
         expect(attributeList[1].fullValue).toEqual('placeholder="${Resource.msg("key", "dotProperties", null)}"');
     });
+
+    it('identifies a node as "conditional comment" type (downlevel-hidden)', () => {
+        const rootNode               = getTreeRootFromTemplate(13);
+        const htmlCommentNode        = rootNode.children[0];
+        const conditionalCommentNode = rootNode.children[1];
+
+        expect(htmlCommentNode.isConditionalComment()       ).toEqual(false);
+        expect(conditionalCommentNode.isConditionalComment()).toEqual(true);
+    });
+
 });
 
 const getIsmlNodeTemplatePath = number => {

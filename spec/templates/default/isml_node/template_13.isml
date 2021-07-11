@@ -1,0 +1,4 @@
+<!-- Standard HTML comment -->
+<!--[if IE 6]>
+    Special instructions for IE 6 here
+<![endif]-->

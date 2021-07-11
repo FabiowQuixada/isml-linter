@@ -120,7 +120,7 @@ class IsmlNode {
      * ]
      */
     getAttributeList() {
-        if (!this.isHtmlTag() && !this.isIsmlTag()) {
+        if (!this.isHtmlTag() && !this.isIsmlTag() || this.isConditionalComment()) {
             return [];
         }
 
@@ -229,6 +229,12 @@ class IsmlNode {
 
         return value.startsWith('<!--') &&
             value.endsWith('-->');
+    }
+
+    isConditionalComment() {
+        const value = this.value.trim();
+
+        return value.startsWith('<!--[');
     }
 
     isCommentContent() {
