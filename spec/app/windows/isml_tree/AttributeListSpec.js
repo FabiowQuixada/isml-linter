@@ -104,4 +104,12 @@ describe('IsmlNode', () => {
         expect(actual[1].fullValue).toEqual('<isif condition="${aCondition}">value</isif>');
         expect(actual[1].isNestedIsmlTag).toEqual(true);
     });
+
+    it('lists values separated by line breaks', () => {
+        const node          = new IsmlNode('<span class="\nclass-1\nclass-2\nclass-3\n"\n/>');
+        const attributeList = node.getAttributeList();
+
+        expect(attributeList[0].name).toEqual('class');
+        expect(attributeList[0].values).toEqual(['class-1', 'class-2', 'class-3']);
+    });
 });
