@@ -403,8 +403,10 @@ class IsmlNode {
 const getAttributes = node => {
     const trimmedValue             = node.value.trim();
     const nodeValue                = trimmedValue.substring(1, trimmedValue.length - 1);
-    const rawAttrNodeValue         = nodeValue.split(' ').slice(1).join(' ');
-    const stringifiedAttributeList = getStringifiedAttributeArray(rawAttrNodeValue);
+    const firstSpaceAfterTagPos    = ParseUtils.getFirstEmptyCharPos(trimmedValue);
+    const leadingEmptySpaceQty     = ParseUtils.getNextNonEmptyCharPos(nodeValue);
+    const afterTagContent          = nodeValue.substring(leadingEmptySpaceQty + firstSpaceAfterTagPos);
+    const stringifiedAttributeList = getStringifiedAttributeArray(afterTagContent);
     const attributeList            = [];
 
     for (let i = 0; i < stringifiedAttributeList.length; i++) {
@@ -516,7 +518,7 @@ const parseAttribute = (attribute, node) => {
 
     if (isAttributeANestedIsmlTag) {
         return {
-            name,
+            name            : trimmedAttribute,
             localPos,
             globalPos,
             lineNumber,
@@ -524,9 +526,9 @@ const parseAttribute = (attribute, node) => {
             isInSameLineAsTagName,
             isFirstInLine,
             hasMultilineValue,
-            isNestedIsmlTag: isAttributeANestedIsmlTag,
-            length         : trimmedAttribute.length + ParseUtils.getLineBreakQty(trimmedAttribute),
-            fullValue      : trimmedAttribute,
+            isNestedIsmlTag : isAttributeANestedIsmlTag,
+            length          : trimmedAttribute.length + ParseUtils.getLineBreakQty(trimmedAttribute),
+            fullValue       : trimmedAttribute,
             node
         };
 

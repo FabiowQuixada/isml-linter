@@ -1,6 +1,9 @@
-const SpecHelper = require('../../../SpecHelper');
-const IsmlNode   = require('../../../../src/isml_tree/IsmlNode');
-const Constants  = require('../../../../src/Constants');
+const SpecHelper  = require('../../../SpecHelper');
+const IsmlNode    = require('../../../../src/isml_tree/IsmlNode');
+const Constants   = require('../../../../src/Constants');
+const TreeBuilder = require('../../../../src/isml_tree/TreeBuilder');
+
+const isCrlfLineBreak = true;
 
 describe('IsmlNode', () => {
 
@@ -112,4 +115,23 @@ describe('IsmlNode', () => {
         expect(attributeList[0].name).toEqual('class');
         expect(attributeList[0].values).toEqual(['class-1', 'class-2', 'class-3']);
     });
+
+    it('lists attributes when there is no indentation at all', () => {
+        const rootNode      = getTreeRootFromTemplate(12);
+        const spanNode      = rootNode.children[0];
+        const attributeList = spanNode.getAttributeList();
+
+        expect(attributeList[0].name).toEqual('class');
+        expect(attributeList[0].values).toEqual(['class-1', 'class-2', 'class-3']);
+    });
 });
+
+
+const getIsmlNodeTemplatePath = number => {
+    return SpecHelper.getTemplatePath(Constants.specIsmlNodeTemplateDir, number);
+};
+
+const getTreeRootFromTemplate = number => {
+    const templatePath = getIsmlNodeTemplatePath(number);
+    return TreeBuilder.build(templatePath, undefined, isCrlfLineBreak).rootNode;
+};

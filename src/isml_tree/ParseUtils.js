@@ -396,6 +396,29 @@ const getBlankSpaceString = length => {
     return result;
 };
 
+const getColumnNumber = content => {
+    const leadingContent       = content.substring(0, getNextNonEmptyCharPos(content));
+    const lastLineBreakPos     = leadingContent.lastIndexOf(Constants.EOL);
+    const precedingEmptySpaces = leadingContent.substring(lastLineBreakPos + 1);
+
+    return precedingEmptySpaces.length + 1;
+};
+
+const getFirstEmptyCharPos = content => {
+    const firstLineBreakPos  = content.indexOf(Constants.EOL);
+    const firstBlankSpacePos = content.indexOf(' ');
+
+    if (firstLineBreakPos === -1 && firstBlankSpacePos === -1) {
+        return content.length;
+    } else if (firstLineBreakPos !== -1 && firstBlankSpacePos === -1) {
+        return firstLineBreakPos;
+    } else if (firstLineBreakPos === -1 && firstBlankSpacePos !== -1) {
+        return firstBlankSpacePos;
+    } else if (firstLineBreakPos !== -1 && firstBlankSpacePos !== -1) {
+        return Math.min(firstLineBreakPos, firstBlankSpacePos);
+    }
+};
+
 module.exports.getElementList           = getElementList;
 module.exports.checkBalance             = checkBalance;
 module.exports.getLineBreakQty          = getLineBreakQty;
@@ -405,3 +428,5 @@ module.exports.getLeadingEmptyChars     = getLeadingEmptyChars;
 module.exports.getLeadingLineBreakQty   = getLeadingLineBreakQty;
 module.exports.getTrailingEmptyCharsQty = getTrailingEmptyCharsQty;
 module.exports.getBlankSpaceString      = getBlankSpaceString;
+module.exports.getColumnNumber          = getColumnNumber;
+module.exports.getFirstEmptyCharPos     = getFirstEmptyCharPos;
