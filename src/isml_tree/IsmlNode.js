@@ -489,22 +489,23 @@ const getStringifiedAttributeArray = content => {
 };
 
 const parseAttribute = (attribute, node) => {
-    const isAttributeANestedIsmlTag = attribute.startsWith('<is');
-    const trimmedAttribute          = attribute.trim();
-    const trimmedNodeValue          = node.value.trim();
-    const localPos                  = trimmedNodeValue.indexOf(trimmedAttribute);
-    const leadingContent            = trimmedNodeValue.substring(0, localPos);
-    const leadingLineBreakQty       = ParseUtils.getLineBreakQty(leadingContent);
-    const isInSameLineAsTagName     = leadingLineBreakQty === 0;
-    const attributeProps            = trimmedAttribute.split('=');
-    const name                      = attributeProps[0].trim();
-    const value                     = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
-    const values                    = value ? value.split(/[\s\n]+/).filter( val => val ) : null;
-    const attrLocalPos              = trimmedNodeValue.indexOf(trimmedAttribute);
-    const valueLocalPos             = trimmedAttribute.indexOf(value);
-    const globalPos                 = node.globalPos + localPos + leadingLineBreakQty;
-    const lineNumber                = node.lineNumber + leadingLineBreakQty;
-    const hasMultilineValue         = value && value.indexOf(Constants.EOL) >= 0;
+    const isAttributeANestedIsmlTag             = attribute.startsWith('<is');
+    const trimmedAttribute                      = attribute.trim();
+    const trimmedNodeValue                      = node.value.trim();
+    const localPos                              = trimmedNodeValue.indexOf(trimmedAttribute);
+    const leadingContent                        = trimmedNodeValue.substring(0, localPos);
+    const leadingLineBreakQty                   = ParseUtils.getLineBreakQty(leadingContent);
+    const isInSameLineAsTagName                 = leadingLineBreakQty === 0;
+    const attributeProps                        = trimmedAttribute.split('=');
+    const name                                  = attributeProps[0].trim();
+    const value                                 = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
+    const values                                = value ? value.split(/[\s\n]+/).filter( val => val ) : null;
+    const attrLocalPos                          = trimmedNodeValue.indexOf(trimmedAttribute);
+    const valueLocalPos                         = trimmedAttribute.indexOf(value);
+    const globalPos                             = node.globalPos + localPos + leadingLineBreakQty;
+    const lineNumber                            = node.lineNumber + leadingLineBreakQty;
+    const hasMultilineValue                     = value && value.indexOf(Constants.EOL) >= 0;
+    const isFirstValueInSameLineAsAttributeName = value && ParseUtils.getLeadingLineBreakQty(value) === 0;
 
     const columnNumber = isInSameLineAsTagName ?
         node.columnNumber + leadingContent.length :
@@ -525,6 +526,7 @@ const parseAttribute = (attribute, node) => {
             columnNumber,
             isInSameLineAsTagName,
             isFirstInLine,
+            isFirstValueInSameLineAsAttributeName,
             hasMultilineValue,
             isNestedIsmlTag : isAttributeANestedIsmlTag,
             length          : trimmedAttribute.length + ParseUtils.getLineBreakQty(trimmedAttribute),
@@ -543,6 +545,7 @@ const parseAttribute = (attribute, node) => {
             columnNumber,
             isInSameLineAsTagName,
             isFirstInLine,
+            isFirstValueInSameLineAsAttributeName,
             hasMultilineValue,
             isNestedIsmlTag: isAttributeANestedIsmlTag,
             length         : trimmedAttribute.length,

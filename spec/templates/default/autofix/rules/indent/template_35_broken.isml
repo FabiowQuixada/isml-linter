@@ -1,0 +1,5 @@
+<div>
+    <a data-pid="${lineItem.productID}" class="class-1 class-2">
+        <isprint value="${value}" />
+    </a>
+</div>

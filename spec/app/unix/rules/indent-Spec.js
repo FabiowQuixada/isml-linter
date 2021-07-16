@@ -536,4 +536,16 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('keeps indentation for multi-line values', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 34);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('keeps space between same-line attributes', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 35);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
