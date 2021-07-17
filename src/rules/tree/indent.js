@@ -283,7 +283,7 @@ const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset)
                     if (i === 0) {
                         return attribute.isFirstValueInSameLineAsAttributeName ?
                             value :
-                            Constants.EOL + nodeIndentation + nodeIndentation + attributeOffset + nodeIndentation + attributeOffset + value;
+                            Constants.EOL + nodeIndentation + attributeOffset + attributeOffset + value;
                     }
 
                     return nodeIndentation + attributeOffset + attributeOffset + value;

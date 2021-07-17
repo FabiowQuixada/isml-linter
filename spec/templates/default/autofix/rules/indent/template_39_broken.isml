@@ -1,0 +1,8 @@
+<div>
+    <span
+                class="
+                    ${attr.id}-value
+                "
+        >
+    </span>
+</div>
