@@ -560,4 +560,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('fixes multi-line-value attribute indentation', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 38);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
