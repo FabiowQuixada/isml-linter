@@ -1,0 +1,6 @@
+<option
+    ${attr1}
+    ${attr2}
+>
+    ${displayValue}
+</option>

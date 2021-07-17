@@ -124,6 +124,18 @@ describe('IsmlNode', () => {
         expect(attributeList[0].name).toEqual('class');
         expect(attributeList[0].values).toEqual(['class-1', 'class-2', 'class-3']);
     });
+
+    it('lists consecutive dynamic attributes', () => {
+        const rootNode      = getTreeRootFromTemplate(14);
+        const optionNode    = rootNode.children[0];
+        const attributeList = optionNode.getAttributeList();
+
+        expect(attributeList.length).toEqual(2);
+        expect(attributeList[0].name).toEqual('${attr1}');
+        expect(attributeList[0].values).toEqual(null);
+        expect(attributeList[1].name).toEqual('${attr2}');
+        expect(attributeList[1].values).toEqual(null);
+    });
 });
 
 

@@ -476,9 +476,21 @@ const getStringifiedAttributeArray = content => {
         .split(' ')
         .filter(attr => attr);
 
-    const attrStartPosList = attributeList.map(attr => maskedContent.indexOf(attr));
-    const attrLengthList   = attributeList.map(attr => attr.length);
-    const result           = [];
+    let remainingContent = maskedContent;
+    let globalIndex      = 0;
+
+    const attrStartPosList = attributeList.map(attr => {
+        const index  = remainingContent.indexOf(attr);
+        const result = globalIndex + index;
+
+        remainingContent = maskedContent.substring(index + 1);
+        globalIndex      = index + 1;
+
+        return result;
+    });
+
+    const attrLengthList = attributeList.map(attr => attr.length);
+    const result         = [];
 
     for (let i = 0; i < attributeList.length; i++) {
         const fullAttribute = content.substring(attrStartPosList[i], attrStartPosList[i] + attrLengthList[i]);
