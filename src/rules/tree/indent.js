@@ -271,11 +271,13 @@ const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset)
                 .split(Constants.EOL)
                 .filter( value => value )
                 .map( (value, i) => {
-                    if (i === 0 && !attribute.isFirstValueInSameLineAsAttributeName) {
-                        return Constants.EOL + nodeIndentation + nodeIndentation + attributeOffset + nodeIndentation + attributeOffset + value;
+                    if (i === 0) {
+                        return attribute.isFirstValueInSameLineAsAttributeName ?
+                            value :
+                            Constants.EOL + nodeIndentation + nodeIndentation + attributeOffset + nodeIndentation + attributeOffset + value;
                     }
 
-                    return nodeIndentation + attributeOffset + nodeIndentation + attributeOffset + value;
+                    return nodeIndentation + attributeOffset + attributeOffset + value;
                 })
                 .join(Constants.EOL)
                 + Constants.EOL + nodeIndentation + nodeIndentation + attributeOffset + '"';

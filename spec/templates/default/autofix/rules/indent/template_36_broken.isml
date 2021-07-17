@@ -1,0 +1,6 @@
+<form
+        action="${condition
+        ? action1
+        : action2}"
+>
+</form>

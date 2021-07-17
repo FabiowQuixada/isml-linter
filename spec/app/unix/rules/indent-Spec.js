@@ -548,4 +548,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('does not add indentation to first value if it is in the same line as attribute name', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 36);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
