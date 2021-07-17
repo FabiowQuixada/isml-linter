@@ -136,8 +136,21 @@ describe('IsmlNode', () => {
         expect(attributeList[1].name).toEqual('${attr2}');
         expect(attributeList[1].values).toEqual(null);
     });
-});
 
+    it('lists consecutive dynamic attributes II', () => {
+        const rootNode      = getTreeRootFromTemplate(16);
+        const optionNode    = rootNode.children[0];
+        const attributeList = optionNode.getAttributeList();
+
+        expect(attributeList.length).toEqual(3);
+        expect(attributeList[0].name).toEqual('data-gtm');
+        expect(attributeList[0].value).toEqual('${gtmData}');
+        expect(attributeList[1].name).toEqual('${attr1}');
+        expect(attributeList[1].values).toEqual(null);
+        expect(attributeList[2].name).toEqual('${attr2}');
+        expect(attributeList[2].values).toEqual(null);
+    });
+});
 
 const getIsmlNodeTemplatePath = number => {
     return SpecHelper.getTemplatePath(Constants.specIsmlNodeTemplateDir, number);

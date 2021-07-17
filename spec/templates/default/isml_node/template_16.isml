@@ -1,0 +1,7 @@
+<option
+    data-gtm="${gtmData}"
+    ${attr1}
+    ${attr2}
+>
+    ${displayValue}
+</option>

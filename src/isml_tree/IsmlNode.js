@@ -477,16 +477,13 @@ const getStringifiedAttributeArray = content => {
         .filter(attr => attr);
 
     let remainingContent = maskedContent;
-    let globalIndex      = 0;
 
     const attrStartPosList = attributeList.map(attr => {
-        const index  = remainingContent.indexOf(attr);
-        const result = globalIndex + index;
+        const index = remainingContent.indexOf(attr);
 
-        remainingContent = maskedContent.substring(index + 1);
-        globalIndex      = index + 1;
+        remainingContent = remainingContent.substring(index + 1);
 
-        return result;
+        return content.length - remainingContent.length - 1;
     });
 
     const attrLengthList = attributeList.map(attr => attr.length);
