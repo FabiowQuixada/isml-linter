@@ -579,4 +579,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('keeps multi-line-value attribute indentation after a no-value attribute', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 37);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

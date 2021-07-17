@@ -266,7 +266,16 @@ const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset)
             result += getIndentedNestedIsmlContent(attribute, nodeIndentation, attributeOffset);
 
         } else {
-            const attributePrefix = attribute.isFirstInLine ? nodeIndentation + nodeIndentation + attributeOffset : '';
+            let attributePrefix = '';
+
+            if (attribute.isFirstInLine) {
+                if (index > 0) {
+                    attributePrefix += Constants.EOL;
+                }
+
+                attributePrefix += nodeIndentation + nodeIndentation + attributeOffset;
+            }
+
             const valueList       = attributePrefix + attribute.name + '="' + attribute.value
                 .split(Constants.EOL)
                 .filter( value => value )
