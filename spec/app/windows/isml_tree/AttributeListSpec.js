@@ -150,6 +150,16 @@ describe('IsmlNode', () => {
         expect(attributeList[2].name).toEqual('${attr2}');
         expect(attributeList[2].values).toEqual(null);
     });
+
+    it('lists dynamic attributes', () => {
+        const rootNode      = getTreeRootFromTemplate(17);
+        const divNode       = rootNode.children[0];
+        const attributeList = divNode.getAttributeList();
+
+        expect(attributeList.length).toEqual(1);
+        expect(attributeList[0].name).toContain('${pdict.order.billing.billingAddress.address');
+        expect(attributeList[0].value).toEqual(undefined);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {

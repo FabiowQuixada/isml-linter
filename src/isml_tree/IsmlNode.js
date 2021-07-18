@@ -499,6 +499,7 @@ const getStringifiedAttributeArray = content => {
 
 const parseAttribute = (attribute, node) => {
     const isAttributeANestedIsmlTag             = attribute.startsWith('<is');
+    const isDynamicAttribute                    = attribute.startsWith('${') && attribute.endsWith('}');
     const trimmedAttribute                      = attribute.trim();
     const trimmedNodeValue                      = node.value.trim();
     const localPos                              = trimmedNodeValue.indexOf(trimmedAttribute);
@@ -520,13 +521,15 @@ const parseAttribute = (attribute, node) => {
         node.columnNumber + leadingContent.length :
         leadingContent.length - leadingContent.lastIndexOf(Constants.EOL);
 
-    const isFirstInLine = !isInSameLineAsTagName && trimmedNodeValue
-        .split(Constants.EOL)
-        .find(attrLine => attrLine.indexOf(name) !== -1)
-        .trim()
-        .indexOf(name) === 0;
+    const isFirstInLine = !isInSameLineAsTagName
+        && !isDynamicAttribute
+        && trimmedNodeValue
+            .split(Constants.EOL)
+            .find(attrLine => attrLine.indexOf(name) !== -1)
+            .trim()
+            .indexOf(name) === 0;
 
-    if (isAttributeANestedIsmlTag) {
+    if (isAttributeANestedIsmlTag || isDynamicAttribute) {
         return {
             name            : trimmedAttribute,
             localPos,

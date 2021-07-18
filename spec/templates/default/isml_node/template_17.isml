@@ -1,0 +1,8 @@
+<div
+        ${pdict.order.billing.billingAddress.address
+            && country.id === pdict.order.billing.billingAddress.address.countryCode.value
+            ? "selected"
+            : "" }
+    >
+    ${value}
+</div>
