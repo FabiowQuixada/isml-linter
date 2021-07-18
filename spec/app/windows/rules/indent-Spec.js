@@ -597,4 +597,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('allows attributes with the same name as the tag name', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 41);
+
+        expect(result).toEqual([]);
+    });
 });

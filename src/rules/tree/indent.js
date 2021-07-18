@@ -344,8 +344,11 @@ const addIndentation = (node, isOpeningTag) => {
     let multiLineIndentationResult = '';
 
     if (isOpeningTag) {
+        const tagNameEndPos = ParseUtils.getLeadingLineBreakQty(node.value)
+            + ParseUtils.getFirstEmptyCharPos(node.value.trim()) + 1;
+
         multiLineIndentationResult = attributeList.length > 0 ?
-            node.value.substring(0, node.value.indexOf(attributeList[0].name)).trimStart() :
+            node.value.substring(0, tagNameEndPos).trimStart() :
             node.value.trimStart();
 
         for (let i = 0; i < attributeList.length; i++) {
