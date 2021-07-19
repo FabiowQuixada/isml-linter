@@ -331,8 +331,29 @@ const checkIfUnbalanced = content => {
     return false;
 };
 
+const maskQuoteContent = content => {
+
+    let result         = '';
+    let isWithinQuotes = false;
+
+    for (let i = 0; i < content.length; i++) {
+        const char = content[i];
+
+        result += isWithinQuotes ?
+            '_' :
+            char;
+
+        if (char === '"') {
+            isWithinQuotes = !isWithinQuotes;
+        }
+    }
+
+    return result;
+};
+
 module.exports = {
     maskIgnorableContent,
+    maskQuoteContent,
     maskInBetween,
     maskInBetweenForTagWithAttributes
 };

@@ -502,7 +502,9 @@ const parseAttribute = (attribute, node) => {
     const isDynamicAttribute                    = attribute.startsWith('${') && attribute.endsWith('}');
     const trimmedAttribute                      = attribute.trim();
     const trimmedNodeValue                      = node.value.trim();
-    const localPos                              = trimmedNodeValue.indexOf(trimmedAttribute);
+    const maskedTrimmedAttribute                = MaskUtils.maskQuoteContent(trimmedAttribute);
+    const maskedTrimmedNodeValue                = MaskUtils.maskQuoteContent(trimmedNodeValue);
+    const localPos                              = maskedTrimmedNodeValue.indexOf(maskedTrimmedAttribute);
     const leadingContent                        = trimmedNodeValue.substring(0, localPos);
     const leadingLineBreakQty                   = ParseUtils.getLineBreakQty(leadingContent);
     const isInSameLineAsTagName                 = leadingLineBreakQty === 0;

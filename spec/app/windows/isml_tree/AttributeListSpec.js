@@ -160,6 +160,18 @@ describe('IsmlNode', () => {
         expect(attributeList[0].name).toContain('${pdict.order.billing.billingAddress.address');
         expect(attributeList[0].value).toEqual(undefined);
     });
+
+    it('sets attributes line number', () => {
+        const rootNode      = getTreeRootFromTemplate(18);
+        const inputNode     = rootNode.children[0];
+        const attributeList = inputNode.getAttributeList();
+
+        expect(attributeList.length).toEqual(2);
+        expect(attributeList[0].name).toContain('class');
+        expect(attributeList[0].lineNumber).toEqual(2);
+        expect(attributeList[1].name).toContain('required');
+        expect(attributeList[1].lineNumber).toEqual(3);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {
