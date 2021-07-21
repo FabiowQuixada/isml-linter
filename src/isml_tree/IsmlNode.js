@@ -415,7 +415,7 @@ const getAttributes = node => {
     const attributeList            = [];
 
     for (let i = 0; i < stringifiedAttributeList.length; i++) {
-        const attr = parseAttribute(stringifiedAttributeList[i], node);
+        const attr = parseAttribute(node, stringifiedAttributeList, i);
         attributeList.push(attr);
     }
 
@@ -502,7 +502,8 @@ const getStringifiedAttributeArray = content => {
     return result;
 };
 
-const parseAttribute = (attribute, node) => {
+const parseAttribute = (node, attributeList, index) => {
+    const attribute                             = attributeList[index];
     const isAttributeANestedIsmlTag             = attribute.startsWith('<is');
     const isDynamicAttribute                    = attribute.startsWith('${') && attribute.endsWith('}');
     const trimmedAttribute                      = attribute.trim();
@@ -543,6 +544,7 @@ const parseAttribute = (attribute, node) => {
             globalPos,
             lineNumber,
             columnNumber,
+            index,
             isInSameLineAsTagName,
             isFirstInLine,
             isFirstValueInSameLineAsAttributeName,
@@ -562,6 +564,7 @@ const parseAttribute = (attribute, node) => {
             globalPos,
             lineNumber,
             columnNumber,
+            index,
             isInSameLineAsTagName,
             isFirstInLine,
             isFirstValueInSameLineAsAttributeName,
