@@ -1,6 +1,5 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const ParseUtils        = require('../../isml_tree/ParseUtils');
-const MaskUtils         = require('../../isml_tree/MaskUtils');
 const TreeBuilder       = require('../../isml_tree/TreeBuilder');
 const Constants         = require('../../Constants');
 
@@ -224,23 +223,6 @@ const addIndentationToText = node => {
     return preLineBreakContent + formattedLineArray.join(Constants.EOL);
 };
 
-const getIndentedAttributes = (content, nodeIndentation, attributeOffset) => {
-    return content
-        .split(Constants.EOL)
-        .map((line, i) => {
-            if (i === 0) {
-                return line;
-            } else if (line.startsWith('<isprint')) {
-                return nodeIndentation + attributeOffset + line;
-            } else if (line.startsWith('<') || line === '>' || line === '/>') {
-                return nodeIndentation + line;
-            }
-
-            return nodeIndentation + attributeOffset + line;
-        })
-        .join(Constants.EOL);
-};
-
 const getIndentedNestedIsmlContent = (attribute, nodeIndentation, attributeOffset) => {
     if (attribute.fullValue.startsWith('<isif')) {
         const attributeRootNode = TreeBuilder.parse(attribute.fullValue, null, null, true);
@@ -248,10 +230,14 @@ const getIndentedNestedIsmlContent = (attribute, nodeIndentation, attributeOffse
 
         return fixedContent
             .split(Constants.EOL)
-            .map((line) => {
+            .map( (line, i) => {
+                if (i === 0 && attribute.isFirstInLine && !attribute.isInSameLineAsTagName && attribute.index !== 0) {
+                    return Constants.EOL + nodeIndentation + attributeOffset + line;
+                }
+
                 return nodeIndentation + attributeOffset + line;
             })
-            .join(Constants.EOL).trimStart();
+            .join(Constants.EOL);
     }
 };
 
@@ -328,31 +314,27 @@ const getClosingChars = node => {
 };
 
 const addIndentation = (node, isOpeningTag) => {
-    const content                  = isOpeningTag ? node.value : node.suffixValue;
-    const startingPos              = ParseUtils.getNextNonEmptyCharPos(content);
-    const endingPos                = content.length - ParseUtils.getNextNonEmptyCharPos(content.split('').reverse().join(''));
-    const fullLeadingContent       = content.substring(0, startingPos);
-    const preLineBreakContent      = fullLeadingContent.substring(0, fullLeadingContent.lastIndexOf(Constants.EOL) + 1);
-    const fullTrailingContent      = content.substring(endingPos);
-    const nodeIndentation          = node.isInSameLineAsParent() && isOpeningTag ? '' : Rule.getIndentation(node.depth - 1);
-    const attributeOffset          = Rule.getAttributeIndentationOffset();
-    const maskedContent            = MaskUtils.maskInBetween(content, 'isif', null, true);
-    const maskInit                 = maskedContent.indexOf('_');
-    const maskEnd                  = maskedContent.lastIndexOf('_');
-    const attributeList            = node.getAttributeList();
-    const embeddedIsmlAttribute    = attributeList.find(attribute => attribute.fullValue.startsWith('<isif'));
-    let multiLineIndentationResult = '';
+    const content             = isOpeningTag ? node.value : node.suffixValue;
+    const startingPos         = ParseUtils.getNextNonEmptyCharPos(content);
+    const endingPos           = content.length - ParseUtils.getNextNonEmptyCharPos(content.split('').reverse().join(''));
+    const fullLeadingContent  = content.substring(0, startingPos);
+    const preLineBreakContent = fullLeadingContent.substring(0, fullLeadingContent.lastIndexOf(Constants.EOL) + 1);
+    const fullTrailingContent = content.substring(endingPos);
+    const nodeIndentation     = node.isInSameLineAsParent() && isOpeningTag ? '' : Rule.getIndentation(node.depth - 1);
+    const attributeOffset     = Rule.getAttributeIndentationOffset();
+    const attributeList       = node.getAttributeList();
+    let contentResult         = '';
 
     if (isOpeningTag) {
         const tagNameEndPos = ParseUtils.getLeadingLineBreakQty(node.value)
             + ParseUtils.getFirstEmptyCharPos(node.value.trim()) + 1;
 
-        multiLineIndentationResult = attributeList.length > 0 ?
+        contentResult = attributeList.length > 0 ?
             node.value.substring(0, tagNameEndPos).trimStart() :
             node.value.trimStart();
 
         for (let i = 0; i < attributeList.length; i++) {
-            multiLineIndentationResult += indentAttribute(attributeList, i, nodeIndentation, attributeOffset);
+            contentResult += indentAttribute(attributeList, i, nodeIndentation, attributeOffset);
         }
 
         if (attributeList.length > 0) {
@@ -363,27 +345,15 @@ const addIndentation = (node, isOpeningTag) => {
             const shouldAddIndentationToClosingChar = ParseUtils.getLineBreakQty(nodeValueLastChars.trimEnd()) > 0;
             const closingChars                      = getClosingChars(node);
 
-            multiLineIndentationResult += shouldAddIndentationToClosingChar ?
+            contentResult += shouldAddIndentationToClosingChar ?
                 Constants.EOL + nodeIndentation + closingChars.trimStart() :
                 closingChars;
         }
     } else {
-        multiLineIndentationResult = node.suffixValue.trim();
+        contentResult = node.suffixValue.trim();
     }
 
-    const indentedNestedIsmlContent = embeddedIsmlAttribute ?
-        getIndentedNestedIsmlContent(embeddedIsmlAttribute, nodeIndentation, attributeOffset) :
-        '';
-
-    const nestedIsmlContent = getIndentedAttributes(maskedContent.substring(0, maskInit), nodeIndentation, attributeOffset)
-        + indentedNestedIsmlContent
-        + getIndentedAttributes(maskedContent.substring(maskEnd + 1), nodeIndentation, attributeOffset);
-
-    if (embeddedIsmlAttribute) {
-        return nestedIsmlContent;
-    }
-
-    return preLineBreakContent + nodeIndentation + multiLineIndentationResult + fullTrailingContent;
+    return preLineBreakContent + nodeIndentation + contentResult + fullTrailingContent;
 };
 
 const removeAllIndentation = node => {

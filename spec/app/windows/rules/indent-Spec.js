@@ -603,4 +603,16 @@ describe(rule.id, () => {
 
         expect(result).toEqual([]);
     });
+
+    it('keeps attribute indentation if a previous attribute contains its name as its value', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 40);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('keeps indentation for a lonely "isif" attribute', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 41);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

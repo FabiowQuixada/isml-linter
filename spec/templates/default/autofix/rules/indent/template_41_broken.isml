@@ -1,0 +1,5 @@
+<input
+    <isif condition="${aCondition}">
+        disabled
+    </isif>
+/>

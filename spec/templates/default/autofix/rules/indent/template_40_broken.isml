@@ -1,0 +1,5 @@
+<button
+        data-gtm="${refinementValue.displayValue}"
+        <isif condition="${!refinementValue.selectable}">disabled</isif>
+    >text
+</button>
