@@ -442,7 +442,7 @@ const getProcessedContent = content => {
 
     processedContent = MaskUtils.maskInBetween(processedContent, 'isif', null, true);
     processedContent = MaskUtils.maskIgnorableContent(processedContent);
-    processedContent = MaskUtils.maskIgnorableContent(processedContent, '"', '"', true);
+    processedContent = MaskUtils.maskQuoteContent(processedContent);
     processedContent = processedContent.replace(new RegExp(Constants.EOL, 'g'), ' ');
 
     if (processedContent.endsWith('/')) {

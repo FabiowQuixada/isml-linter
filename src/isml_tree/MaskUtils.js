@@ -345,6 +345,16 @@ const maskQuoteContent = content => {
 
         if (char === '"') {
             isWithinQuotes = !isWithinQuotes;
+
+            if (!isWithinQuotes) {
+                result = result.slice(0, -1);
+                result += '"';
+            }
+        }
+    }
+
+    return result;
+};
         }
     }
 
