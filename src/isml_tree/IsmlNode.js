@@ -438,17 +438,18 @@ const getDisplayText = node => {
 };
 
 const getProcessedContent = content => {
-    const partialResult0 = MaskUtils.maskInBetween(content, 'isif', null, true);
-    const partialResult1 = MaskUtils.maskIgnorableContent(partialResult0);
-    const partialResult2 = MaskUtils.maskIgnorableContent(partialResult1, '"', '"', true);
+    let processedContent = content;
 
-    let result = partialResult2.replace(new RegExp(Constants.EOL, 'g'), ' ');
+    processedContent = MaskUtils.maskInBetween(processedContent, 'isif', null, true);
+    processedContent = MaskUtils.maskIgnorableContent(processedContent);
+    processedContent = MaskUtils.maskIgnorableContent(processedContent, '"', '"', true);
+    processedContent = processedContent.replace(new RegExp(Constants.EOL, 'g'), ' ');
 
-    if (result.endsWith('/')) {
-        result = result.slice(0, -1) + ' ';
+    if (processedContent.endsWith('/')) {
+        processedContent = processedContent.slice(0, -1) + ' ';
     }
 
-    return result;
+    return processedContent;
 };
 
 const getMaskedContent = content => {
