@@ -590,4 +590,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('keeps indentation of a child of a multi-line element', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 42);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

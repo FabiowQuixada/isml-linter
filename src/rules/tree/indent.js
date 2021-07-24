@@ -406,11 +406,10 @@ const addCorrectIndentation = node => {
 
 const checkIfShouldAddIndentationToValue = node => {
     const previousSibling                   = node.getPreviousSibling();
-    const parentValueEndLineNumber          = node.parent ? node.parent.lineNumber + ParseUtils.getLineBreakQty(node.parent.value.trim()) : -1;
     const isInSameLineAsPrevSiblingLastLine = !node.isRoot() &&
         previousSibling &&
         node.lineNumber === previousSibling.getLastLineNumber();
-    const isInSameLineAsParentValueEnd      = parentValueEndLineNumber === node.lineNumber && !node.parent.isContainer();
+    const isInSameLineAsParentValueEnd      = node.parent.endLineNumber === node.lineNumber && !node.parent.isContainer();
 
     const shouldAdd = !node.isRoot() &&
         !isInSameLineAsPrevSiblingLastLine &&

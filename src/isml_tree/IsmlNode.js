@@ -492,9 +492,9 @@ const parseAttribute = (node, attributeList, index) => {
     const leadingContent                        = trimmedNodeValue.substring(0, localPos);
     const leadingLineBreakQty                   = ParseUtils.getLineBreakQty(leadingContent);
     const isInSameLineAsTagName                 = leadingLineBreakQty === 0;
-    const attributeProps                        = trimmedAttribute.split('=');
-    const name                                  = attributeProps[0].trim();
-    const value                                 = attributeProps[1] ? attributeProps[1].substring(1, attributeProps[1].length - 1) : null;
+    const assignmentCharPos                     = trimmedAttribute.indexOf('=');
+    const name                                  = assignmentCharPos >= 0 ? trimmedAttribute.substring(0, assignmentCharPos) : trimmedAttribute;
+    const value                                 = assignmentCharPos >= 0 ? trimmedAttribute.substring(assignmentCharPos + 2, trimmedAttribute.length - 1) : null;
     const values                                = value ? value.split(/[\s\n]+/).filter( val => val ) : null;
     const attrLocalPos                          = trimmedNodeValue.indexOf(trimmedAttribute);
     const valueLocalPos                         = trimmedAttribute.indexOf(value);
