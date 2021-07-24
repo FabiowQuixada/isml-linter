@@ -158,7 +158,7 @@ describe('IsmlNode', () => {
 
         expect(attributeList.length).toEqual(1);
         expect(attributeList[0].name).toContain('${pdict.order.billing.billingAddress.address');
-        expect(attributeList[0].value).toEqual(undefined);
+        expect(attributeList[0].value).toEqual(null);
     });
 
     it('sets attributes line number', () => {
@@ -183,7 +183,7 @@ describe('IsmlNode', () => {
         expect(attributeList[0].value).toEqual('${require(\'int_abc\').getData(refinementValue.displayValue, \'\')}');
         expect(attributeList[0].lineNumber).toEqual(2);
         expect(attributeList[1].name).toContain('<isif condition="${!refinementValue.selectable}">disabled</isif>');
-        expect(attributeList[1].value).toEqual(undefined);
+        expect(attributeList[1].value).toEqual(null);
         expect(attributeList[1].lineNumber).toEqual(3);
     });
 
@@ -194,7 +194,7 @@ describe('IsmlNode', () => {
 
         expect(attributeList.length).toEqual(1);
         expect(attributeList[0].name).toContain('<isprint value="${form.field.attributes}" encoding="off" />');
-        expect(attributeList[0].value).toEqual(undefined);
+        expect(attributeList[0].value).toEqual(null);
     });
 
     it('lists embedded "isprint" attribute II', () => {
@@ -204,7 +204,7 @@ describe('IsmlNode', () => {
 
         expect(attributeList.length).toEqual(3);
         expect(attributeList[1].name).toContain('<isprint value="${form.field.attributes}" encoding="off" />');
-        expect(attributeList[1].value).toEqual(undefined);
+        expect(attributeList[1].value).toEqual(null);
     });
 });
 

@@ -518,6 +518,8 @@ const parseAttribute = (node, attributeList, index) => {
     if (isAttributeANestedIsmlTag || isDynamicAttribute) {
         return {
             name            : trimmedAttribute,
+            value           : null,
+            values          : null,
             localPos,
             globalPos,
             lineNumber,
