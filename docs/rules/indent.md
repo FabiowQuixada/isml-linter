@@ -20,6 +20,39 @@ Following are the available configurations for this rule, with default values:
 
 Check the [Generic Configurations for Rules][generic-config].
 
+## Attribute Indentation
+
+If attributes of a tag are in a separate line, they will be indented one level relative the tag:
+
+```
+<div 
+    class="class-1 class-2 class-3">
+</div>
+```
+
+If an attribute has values in separate lines, they will be indented two levels relative to the tag:
+
+```
+<div 
+    class="
+        class-1
+        class-2
+        class-3
+    ">
+</div>
+```
+
+Please note that the below scenario is correct based on the above explanation. Multi-line values will **always** be two levels deeper than the tag, even if the attribute name itself isn't in a separate line:
+
+```
+<div class="class-1
+        class-2
+        class-3
+    ">
+</div>
+```
+
+
 ## Examples
 
 ```js
