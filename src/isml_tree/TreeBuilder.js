@@ -5,15 +5,15 @@ const ContainerNode  = require('./ContainerNode');
 const ExceptionUtils = require('../util/ExceptionUtils');
 const GeneralUtils   = require('../util/GeneralUtils');
 
-const parse = (content, templatePath, isCrlfLineBreak) => {
+const parse = (content, templatePath, isCrlfLineBreak, isEmbeddedNode) => {
 
     const elementList = ParseUtils.getElementList(content, templatePath, isCrlfLineBreak);
-    const rootNode    = new IsmlNode();
+    const rootNode    = new IsmlNode(undefined, undefined, undefined, undefined, isEmbeddedNode);
     let currentParent = rootNode;
 
     for (let i = 0; i < elementList.length; i++) {
         const element = elementList[i];
-        const newNode = new IsmlNode(element.value, element.lineNumber, element.columnNumber, element.globalPos);
+        const newNode = new IsmlNode(element.value, element.lineNumber, element.columnNumber, element.globalPos, isEmbeddedNode);
 
         const containerResult = parseContainerElements(element, currentParent, newNode, templatePath);
 

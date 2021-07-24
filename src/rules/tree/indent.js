@@ -243,7 +243,7 @@ const getIndentedAttributes = (content, nodeIndentation, attributeOffset) => {
 
 const getIndentedNestedIsmlContent = (attribute, nodeIndentation, attributeOffset) => {
     if (attribute.fullValue.startsWith('<isif')) {
-        const attributeRootNode = TreeBuilder.parse(attribute.fullValue);
+        const attributeRootNode = TreeBuilder.parse(attribute.fullValue, null, null, true);
         const fixedContent      = Rule.getFixedContent(attributeRootNode);
 
         return fixedContent

@@ -11,11 +11,13 @@ let ID_COUNTER = 0;
 class IsmlNode {
 
     /**
-     * @param {String} value      node opening tag value, including attributes
-     * @param {Number} lineNumber node starting line number
-     * @param {Number} globalPos  node starting position since the beginning of the file
+     * @param {String} value           node opening tag value, including attributes
+     * @param {Number} lineNumber      node starting line number
+     * @param {Number} columnNumber    node starting column number
+     * @param {Number} globalPos       node starting position since the beginning of the file
+     * @param {Boolean} isEmbeddedNode whether the node is part of an embedded "sub tree", as a tag attribute
      */
-    constructor(value = '(root)', lineNumber = 0, columnNumber, globalPos) {
+    constructor(value = '(root)', lineNumber = 0, columnNumber, globalPos, isEmbeddedNode) {
         this.id                 = ID_COUNTER++;
         this.value              = value;         // '<div class="my_class">'
         this.lineNumber         = lineNumber;    // 7
@@ -30,6 +32,7 @@ class IsmlNode {
         this.parent             = null;          // Parent isml node;
         this.children           = [];            // Child isml nodes;
         this.childNo            = 0;
+        this.isEmbeddedNode     = !!isEmbeddedNode;
     }
 
     // Suffix is the element corresponding closing tag, such as </div>
@@ -141,6 +144,8 @@ class IsmlNode {
         } else {
             this.suffixValue = newNode.value + this.suffixValue;
         }
+
+        newNode.isEmbeddedNode = this.isEmbeddedNode;
     }
 
     getLastChild()        { return this.children[this.children.length - 1]; }
