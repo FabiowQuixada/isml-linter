@@ -217,7 +217,9 @@ const addIndentationToText = node => {
             formattedLine = correctIndentation + lineArray[i];
         }
 
-        formattedLineArray.push(formattedLine);
+        if (!(i === 0 && formattedLine.length === 0)) {
+            formattedLineArray.push(formattedLine);
+        }
     }
 
     return preLineBreakContent + formattedLineArray.join(Constants.EOL);
@@ -415,7 +417,7 @@ const checkIfShouldAddIndentationToValue = node => {
         !isInSameLineAsPrevSiblingLastLine &&
         !isInSameLineAsParentValueEnd &&
         (node.isFirstChild() || previousSibling && node.lineNumber !== previousSibling.lineNumber) &&
-        node.value && node.lineNumber !== node.parent.parentValueEndLineNumber;
+        node.value && node.lineNumber !== node.parent.endLineNumber;
 
     return shouldAdd;
 };

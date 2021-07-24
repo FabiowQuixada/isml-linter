@@ -596,4 +596,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('does not add an unnecessary line break to "iscomment" tag content', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 43);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
