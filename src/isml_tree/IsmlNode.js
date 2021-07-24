@@ -458,7 +458,7 @@ const getStringifiedAttributeArray = content => {
     const attrStartPosList = [];
     const result           = [];
 
-    const attributeList = maskedContent
+    const maskedAttributeList = maskedContent
         .replace(/><+/g, '> <')
         .replace(/\s\s+/g, ' ')
         .split(' ')
@@ -472,8 +472,8 @@ const getStringifiedAttributeArray = content => {
         }
     }
 
-    for (let i = 0; i < attributeList.length; i++) {
-        const fullAttribute = content.substring(attrStartPosList[i], attrStartPosList[i] + attributeList[i].length);
+    for (let i = 0; i < maskedAttributeList.length; i++) {
+        const fullAttribute = content.substring(attrStartPosList[i], attrStartPosList[i] + maskedAttributeList[i].length);
         result.push(fullAttribute);
     }
 

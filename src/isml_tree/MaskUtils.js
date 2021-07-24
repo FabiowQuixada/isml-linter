@@ -12,7 +12,8 @@ const placeholderSymbol = '_';
 const maskIgnorableContent = (content, shouldMaskBorders, templatePath) => {
 
     content = maskInBetween(content, 'iscomment', shouldMaskBorders);
-    content = maskInBetween(content, '${', '}', shouldMaskBorders);
+    content = maskQuoteContent(content);
+    content = maskExpressionContent(content);
     content = maskInBetween(content, '<!---', '--->', shouldMaskBorders);
     content = maskInBetween(content, '<!--', '-->', shouldMaskBorders);
     content = maskInBetweenIsscriptTags(content);
@@ -22,7 +23,8 @@ const maskIgnorableContent = (content, shouldMaskBorders, templatePath) => {
     content = maskInBetweenForTagWithAttributes(content, 'script');
     content = maskInBetweenForTagWithAttributes(content, 'style');
     content = maskInBetween2(content, '<', '>');
-    content = maskNestedIsmlElements(content);
+    content = maskIsifTagContent(content);
+    content = maskIsprintTagContent(content);
 
     return content;
 };
@@ -60,50 +62,6 @@ const checkTagBalance = (content, templatePath) => {
             );
         }
     }
-};
-
-/**
- * Masks nested isml elements so that they don't interfere with the Isml Dom tree building;
- *
- * An example, it turns:
- *      <div <isif ... > class="wrapper">
- * into:
- *      <div ___________ class="wrapper">
- */
-const maskNestedIsmlElements = content => {
-
-    const isContentUnbalanced = checkIfUnbalanced(content);
-    let result                = '';
-    let depth                 = 0;
-    let firstTime             = true;
-
-    if (isContentUnbalanced) {
-        return isContentUnbalanced;
-    }
-
-    for (let i = 0; i < content.length; i++) {
-        const currentChar = content.charAt(i);
-
-        if (currentChar === '<') {
-            depth += 1;
-        }
-
-        if (content.charAt(i - 1) === '>') {
-            depth -= 1;
-        }
-
-        if (depth > 1) {
-            result += '_';
-        } else {
-            result += content.charAt(i);
-        }
-
-        if (depth === 0 && firstTime) {
-            firstTime = false;
-        }
-    }
-
-    return result;
 };
 
 const maskInBetween = (content, startString, endString, shouldMaskBorders) => {
@@ -294,52 +252,15 @@ const mask = content => {
     return maskedContent;
 };
 
-const checkIfUnbalanced = content => {
-    const openingCharQty = ParseUtils.getCharOccurrenceQty(content, '<');
-    const closingCharQty = ParseUtils.getCharOccurrenceQty(content, '>');
-    let depth            = 0;
-
-    if (openingCharQty !== closingCharQty) {
-        for (let i = 0; i < content.length; i++) {
-            const currentChar = content.charAt(i);
-
-            if (currentChar === '<') {
-                depth += 1;
-
-                const isNextElementIsmlTag = content[i + 1] + content[i + 2] === 'is' || content[i + 1] + content[i + 2]  + content[i + 3] === '/is';
-
-                if (depth > 1 && !isNextElementIsmlTag) {
-                    const lineNumber = ParseUtils.getLineBreakQty(content.substring(0, i)) + 1;
-
-                    return {
-                        error: {
-                            character    : '<',
-                            lineNumber   : lineNumber,
-                            globalPos    : i,
-                            elemLength   : 1
-                        }
-                    };
-                }
-            }
-
-            if (content.charAt(i - 1) === '>') {
-                depth -= 1;
-            }
-        }
-    }
-
-    return false;
-};
-
 const maskQuoteContent = content => {
 
-    let result         = '';
+    let maskedContent  = '';
     let isWithinQuotes = false;
 
     for (let i = 0; i < content.length; i++) {
         const char = content[i];
 
-        result += isWithinQuotes ?
+        maskedContent += isWithinQuotes ?
             '_' :
             char;
 
@@ -347,13 +268,13 @@ const maskQuoteContent = content => {
             isWithinQuotes = !isWithinQuotes;
 
             if (!isWithinQuotes) {
-                result = result.slice(0, -1);
-                result += '"';
+                maskedContent = maskedContent.slice(0, -1);
+                maskedContent += '"';
             }
         }
     }
 
-    return result;
+    return maskedContent;
 };
 
 // TODO Try to generalize this function;
@@ -425,27 +346,33 @@ const maskIsprintTagContent = content => {
 };
 
 const maskExpressionContent = content => {
-    const openingTag    = '${';
-    const closingTag    = '}';
-    let isWithinIsifTag = false;
-    let maskedContent   = '';
+    const openingTag       = '${';
+    const closingTag       = '}';
+    let isWithinExpression = false;
+    let maskedContent      = '';
 
     for (let i = 0; i < content.length; i++) {
         const remainingContent = content.substring(i);
 
         if (remainingContent.startsWith(openingTag)) {
-            isWithinIsifTag = true;
-            maskedContent   += openingTag;
-            i               += openingTag.length;
+            isWithinExpression = true;
+            maskedContent      += openingTag;
+            i                  += openingTag.length;
+
+            if (remainingContent.startsWith('${}')) {
+                isWithinExpression = false;
+                maskedContent      += '}';
+                continue;
+            }
         }
 
-        maskedContent += isWithinIsifTag ?
+        maskedContent += isWithinExpression ?
             '_' :
             content[i];
 
         if (remainingContent.startsWith(closingTag)) {
-            isWithinIsifTag = false;
-            maskedContent   = maskedContent.slice(0, -1) + closingTag;
+            isWithinExpression = false;
+            maskedContent      = maskedContent.slice(0, -1) + closingTag;
         }
     }
 
