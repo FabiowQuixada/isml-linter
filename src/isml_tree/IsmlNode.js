@@ -440,9 +440,10 @@ const getDisplayText = node => {
 const getProcessedContent = content => {
     let processedContent = content;
 
-    processedContent = MaskUtils.maskInBetween(processedContent, 'isif', null, true);
-    processedContent = MaskUtils.maskIgnorableContent(processedContent);
+    processedContent = MaskUtils.maskExpressionContent(processedContent);
     processedContent = MaskUtils.maskQuoteContent(processedContent);
+    processedContent = MaskUtils.maskIsifTagContent(processedContent);
+    processedContent = MaskUtils.maskIsprintTagContent(processedContent);
     processedContent = processedContent.replace(new RegExp(Constants.EOL, 'g'), ' ');
 
     if (processedContent.endsWith('/')) {
@@ -452,51 +453,27 @@ const getProcessedContent = content => {
     return processedContent;
 };
 
-const getMaskedContent = content => {
-    let isWithinQuotes = false;
-    let maskedContent  = '';
-
-    for (let i = 0; i < content.length; i++) {
-        const char = content[i];
-
-        if (char === '"' && isWithinQuotes) {
-            isWithinQuotes = false;
-        } else if (char === '"') {
-            isWithinQuotes = true;
-        }
-
-        maskedContent += isWithinQuotes || char === '"'  ?
-            '_' :
-            char;
-    }
-
-    return maskedContent;
-};
-
 const getStringifiedAttributeArray = content => {
-    const processedContent = getProcessedContent(content);
-    const maskedContent    = getMaskedContent(processedContent);
+    const maskedContent    = getProcessedContent(content);
+    const attrStartPosList = [];
+    const result           = [];
 
     const attributeList = maskedContent
+        .replace(/><+/g, '> <')
         .replace(/\s\s+/g, ' ')
         .split(' ')
         .filter(attr => attr);
 
-    let remainingContent = maskedContent;
-
-    const attrStartPosList = attributeList.map(attr => {
-        const index = remainingContent.indexOf(attr);
-
-        remainingContent = remainingContent.substring(index + 1);
-
-        return content.length - remainingContent.length - 1;
-    });
-
-    const attrLengthList = attributeList.map(attr => attr.length);
-    const result         = [];
+    for (let i = 0; i < maskedContent.length; i++) {
+        if (i === 0 && maskedContent[i] !== ' ') {
+            attrStartPosList.push(i);
+        } else if (maskedContent[i - 1] === ' ' && maskedContent[i] !== ' ' || maskedContent[i - 1] === '>' && maskedContent[i] === '<') {
+            attrStartPosList.push(i);
+        }
+    }
 
     for (let i = 0; i < attributeList.length; i++) {
-        const fullAttribute = content.substring(attrStartPosList[i], attrStartPosList[i] + attrLengthList[i]);
+        const fullAttribute = content.substring(attrStartPosList[i], attrStartPosList[i] + attributeList[i].length);
         result.push(fullAttribute);
     }
 

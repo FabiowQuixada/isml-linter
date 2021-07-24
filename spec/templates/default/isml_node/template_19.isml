@@ -1,0 +1,6 @@
+<button
+        data-abc="${require('int_abc').getData(refinementValue.displayValue, '')}"
+        <isif condition="${!refinementValue.selectable}">disabled</isif>
+    >
+    Click here
+</button>

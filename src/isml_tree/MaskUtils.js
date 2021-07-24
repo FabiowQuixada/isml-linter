@@ -355,15 +355,109 @@ const maskQuoteContent = content => {
 
     return result;
 };
+
+// TODO Try to generalize this function;
+const maskIsifTagContent = content => {
+
+    const openingTag    = '<isif';
+    const closingTag    = '</isif>';
+    let isWithinIsifTag = false;
+    let maskedContent   = '';
+
+    for (let i = 0; i < content.length; i++) {
+        const remainingContent = content.substring(i);
+
+        if (remainingContent.startsWith(openingTag)) {
+            isWithinIsifTag = true;
+            maskedContent   += openingTag;
+            i               += openingTag.length;
+        }
+
+        maskedContent += isWithinIsifTag ?
+            '_' :
+            content[i];
+
+        if (remainingContent.startsWith(closingTag)) {
+            isWithinIsifTag = false;
+            maskedContent   += closingTag;
+            i               += closingTag.length;
         }
     }
 
-    return result;
+    return maskedContent;
+};
+
+const maskIsprintTagContent = content => {
+
+    const openingTag       = '<isprint';
+    let isWithinIsprintTag = false;
+    let maskedContent      = '';
+
+    if (content.indexOf(openingTag) < 0) {
+        return content;
+    }
+
+    for (let i = 0; i < content.length; i++) {
+        const remainingContent = content.substring(i);
+        const char             = content[i];
+
+        if (remainingContent.startsWith(openingTag)) {
+            isWithinIsprintTag = true;
+            maskedContent      += openingTag;
+            i                  += openingTag.length;
+        }
+
+        maskedContent += isWithinIsprintTag ?
+            '_' :
+            char;
+
+        if (char === '>' && isWithinIsprintTag) {
+            isWithinIsprintTag = !isWithinIsprintTag;
+
+            if (!isWithinIsprintTag) {
+                maskedContent = maskedContent.slice(0, -1);
+                maskedContent += '>';
+            }
+        }
+    }
+
+    return maskedContent;
+};
+
+const maskExpressionContent = content => {
+    const openingTag    = '${';
+    const closingTag    = '}';
+    let isWithinIsifTag = false;
+    let maskedContent   = '';
+
+    for (let i = 0; i < content.length; i++) {
+        const remainingContent = content.substring(i);
+
+        if (remainingContent.startsWith(openingTag)) {
+            isWithinIsifTag = true;
+            maskedContent   += openingTag;
+            i               += openingTag.length;
+        }
+
+        maskedContent += isWithinIsifTag ?
+            '_' :
+            content[i];
+
+        if (remainingContent.startsWith(closingTag)) {
+            isWithinIsifTag = false;
+            maskedContent   = maskedContent.slice(0, -1) + closingTag;
+        }
+    }
+
+    return maskedContent;
 };
 
 module.exports = {
     maskIgnorableContent,
     maskQuoteContent,
+    maskExpressionContent,
+    maskIsprintTagContent,
+    maskIsifTagContent,
     maskInBetween,
     maskInBetweenForTagWithAttributes
 };

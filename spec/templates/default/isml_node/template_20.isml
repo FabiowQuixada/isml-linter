@@ -1,0 +1,3 @@
+<input
+    <isprint value="${form.field.attributes}" encoding="off" />
+    />

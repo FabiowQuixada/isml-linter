@@ -172,6 +172,40 @@ describe('IsmlNode', () => {
         expect(attributeList[1].name).toContain('required');
         expect(attributeList[1].lineNumber).toEqual(3);
     });
+
+    it('sets attributes line numbers II', () => {
+        const rootNode      = getTreeRootFromTemplate(19);
+        const inputNode     = rootNode.children[0];
+        const attributeList = inputNode.getAttributeList();
+
+        expect(attributeList.length).toEqual(2);
+        expect(attributeList[0].name).toContain('data-abc');
+        expect(attributeList[0].value).toEqual('${require(\'int_abc\').getData(refinementValue.displayValue, \'\')}');
+        expect(attributeList[0].lineNumber).toEqual(2);
+        expect(attributeList[1].name).toContain('<isif condition="${!refinementValue.selectable}">disabled</isif>');
+        expect(attributeList[1].value).toEqual(undefined);
+        expect(attributeList[1].lineNumber).toEqual(3);
+    });
+
+    it('lists embedded "isprint" attribute', () => {
+        const rootNode      = getTreeRootFromTemplate(20);
+        const inputNode     = rootNode.children[0];
+        const attributeList = inputNode.getAttributeList();
+
+        expect(attributeList.length).toEqual(1);
+        expect(attributeList[0].name).toContain('<isprint value="${form.field.attributes}" encoding="off" />');
+        expect(attributeList[0].value).toEqual(undefined);
+    });
+
+    it('lists embedded "isprint" attribute II', () => {
+        const rootNode      = getTreeRootFromTemplate(21);
+        const inputNode     = rootNode.children[0];
+        const attributeList = inputNode.getAttributeList();
+
+        expect(attributeList.length).toEqual(3);
+        expect(attributeList[1].name).toContain('<isprint value="${form.field.attributes}" encoding="off" />');
+        expect(attributeList[1].value).toEqual(undefined);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {
