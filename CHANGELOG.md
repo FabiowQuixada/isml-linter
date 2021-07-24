@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.35.8] - 2021-07-24
+
+### Fixed
+ - "indent" rule application for attributes in separate lines;
+ - Sort template occurrences by line number;
+
+### Security
+ - Upgraded dependencies;
+
 ## [5.35.7] - 2021-06-27
 
 ### Fixed
@@ -18,7 +27,7 @@
 ## [5.35.4] - 2021-06-26
 
 ### Fixed
- - "indent" rule auto-fix feature;
+ - "indent" rule autofix feature;
 
 ## [5.35.3] - 2021-06-12
 
@@ -855,6 +864,7 @@
 ### Added
 - Linter is published;
 
+[5.35.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.7...v5.35.8
 [5.35.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.6...v5.35.7
 [5.35.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.5...v5.35.6
 [5.35.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.4...v5.35.5
