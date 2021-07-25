@@ -45,7 +45,7 @@ const checkForExclusiveAttributes = (sfccTagObj, nodeAttribute, attrList) => {
 
         for (let i = 0; i < attrList.length; i++) {
             const attr = attrList[i];
-            if (exclusiveAttributeObj.indexOf(attr.name) !== -1) {
+            if (exclusiveAttributeObj.indexOf(attr.name) >= 0) {
                 exclusiveAttributeOccurrenceList.push(attr.name);
             }
         }
@@ -67,7 +67,7 @@ const checkForConditionalAttributes = (sfccAttr, nodeAttribute, attrList) => {
     if (requiredAttributeObj) {
         const requiredAttributeName   = requiredAttributeObj.name;
         const requiredAttributeValues = requiredAttributeObj.ifValues;
-        const isConditionFulfilled    = requiredAttributeValues.indexOf(nodeAttribute.value) !== -1;
+        const isConditionFulfilled    = requiredAttributeValues.indexOf(nodeAttribute.value) >= 0;
         const hasRequiredAttr         = attrList.some( attr => attr.name === requiredAttributeName );
 
         if (isConditionFulfilled && !hasRequiredAttr) {

@@ -12,7 +12,7 @@ try {
         process.exit(0);
     }
 
-    if (commandObj.options.indexOf('--init') !== -1) {
+    if (commandObj.options.indexOf('--init') >= 0) {
         ConfigUtils.init();
         process.exit(0);
     }
@@ -21,7 +21,7 @@ try {
     const filePatternArray = commandObj.files;
     const exitCode         = IsmlLinter.build(filePatternArray);
 
-    if (commandObj.options.indexOf('--build') !== -1) {
+    if (commandObj.options.indexOf('--build') >= 0) {
         process.exit(exitCode);
     }
 

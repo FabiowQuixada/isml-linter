@@ -206,7 +206,7 @@ const getElementType = trimmedElement => {
             trimmedElement.indexOf(' '),
             trimmedElement.indexOf('/'),
             trimmedElement.indexOf('>')
-        ].filter(j => j !== -1));
+        ].filter(j => j >= 0));
 
         const elementType = trimmedElement.substring(1, typeValueLastPos).trim();
 
@@ -253,7 +253,7 @@ const getNextOpeningTagOrExpressionInitPos = content => {
         content.indexOf('<'),
         content.indexOf('<--'),
         content.indexOf('${')
-    ].filter(j => j !== -1)) + 1;
+    ].filter(j => j >= 0)) + 1;
 };
 
 const getNextClosingTagOrExpressionEndPos = content => {
@@ -261,7 +261,7 @@ const getNextClosingTagOrExpressionEndPos = content => {
         content.indexOf('>'),
         content.indexOf('-->'),
         content.indexOf('}')
-    ].filter(j => j !== -1)) + 1;
+    ].filter(j => j >= 0)) + 1;
 };
 
 const getInitialState = (templateContent, templatePath, isCrlfLineBreak) => {
@@ -410,11 +410,11 @@ const getFirstEmptyCharPos = content => {
 
     if (firstLineBreakPos === -1 && firstBlankSpacePos === -1) {
         return content.length;
-    } else if (firstLineBreakPos !== -1 && firstBlankSpacePos === -1) {
+    } else if (firstLineBreakPos >= 0 && firstBlankSpacePos === -1) {
         return firstLineBreakPos;
-    } else if (firstLineBreakPos === -1 && firstBlankSpacePos !== -1) {
+    } else if (firstLineBreakPos === -1 && firstBlankSpacePos >= 0) {
         return firstBlankSpacePos;
-    } else if (firstLineBreakPos !== -1 && firstBlankSpacePos !== -1) {
+    } else if (firstLineBreakPos >= 0 && firstBlankSpacePos >= 0) {
         return Math.min(firstLineBreakPos, firstBlankSpacePos);
     }
 };

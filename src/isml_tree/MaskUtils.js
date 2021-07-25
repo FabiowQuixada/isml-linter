@@ -199,7 +199,7 @@ const getMatchingIndexes = (content, startString, endString, isMaskBorders) => {
 
     for (let i = 0; i < content.length; ++i) {
         if (isInBetween) {
-            if (closingMatchList.indexOf(i) !== -1) {
+            if (closingMatchList.indexOf(i) >= 0) {
                 currentOpeningTag.endingGlobalPos = null;
                 isInBetween                       = false;
                 result                            += content[i];

@@ -26,7 +26,7 @@ Rule.check = function(node, data) {
     if (data) {
         const isUsedButNotDeclared = !data.moduleDefinition && data.customModuleArray && data.customModuleArray.length > 0;
 
-        if (node.value.indexOf('template="util/modules"') !== -1) {
+        if (node.value.indexOf('template="util/modules"') >= 0) {
             const isUnnecessaryDefinition = data.moduleDefinition && !data.customModuleArray;
 
             if (isUnnecessaryDefinition) {

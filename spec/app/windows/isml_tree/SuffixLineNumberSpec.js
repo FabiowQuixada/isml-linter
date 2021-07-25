@@ -53,7 +53,7 @@ describe(targetObjName, () => {
         const aNode       = divNode.children[0];
         const isprintNode = aNode.children[0];
 
-        expect(isprintNode.suffixLineNumber ).toEqual(-1);
+        expect(isprintNode.suffixLineNumber ).toEqual(null);
         expect(aNode.suffixLineNumber       ).toEqual(4);
         expect(divNode.suffixLineNumber     ).toEqual(5);
     });

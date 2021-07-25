@@ -24,7 +24,7 @@ Rule.isBroken = function(node) {
                 if (Object.prototype.hasOwnProperty.call(obj.attributes, sfccAttr) && nodeAttribute.name === sfccAttr) {
                     const attr              = obj.attributes[sfccAttr];
                     const isValueDeprecated = attr.deprecatedValues &&
-                    attr.deprecatedValues.indexOf(nodeAttribute.value) !== -1;
+                    attr.deprecatedValues.indexOf(nodeAttribute.value) >= 0;
 
                     if (isValueDeprecated) {
                         result         = nodeAttribute;

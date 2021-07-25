@@ -63,7 +63,7 @@ const isIgnored = filePath => {
     const config = ConfigUtils.load();
 
     return config.ignore && config.ignore.some( ignoredPath => {
-        return filePath.indexOf(ignoredPath) !== -1;
+        return filePath.indexOf(ignoredPath) >= 0;
     });
 };
 

@@ -13,6 +13,6 @@ if (!commandObj) {
 
 const exitCode = IsmlLinter.build(commandObj.files);
 
-if (commandObj.options.indexOf('--build') !== -1) {
+if (commandObj.options.indexOf('--build') >= 0) {
     process.exit(exitCode);
 }

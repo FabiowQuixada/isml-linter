@@ -9,9 +9,9 @@ const Rule = Object.create(SingleLineRulePrototype);
 Rule.init(ruleId, description);
 
 Rule.isBroken = function(line) {
-    return (line.indexOf('>${') !== -1 ||
-        line.indexOf(' ${') !== -1 ||
-        line.indexOf('"${') !== -1) &&
+    return (line.indexOf('>${') >= 0 ||
+        line.indexOf(' ${') >= 0 ||
+        line.indexOf('"${') >= 0) &&
         line.indexOf('<isprint value="${') === -1 ||
         line.indexOf('${') === 0;
 };
@@ -28,11 +28,11 @@ Rule.getFirstOccurrence = function(line) {
 
         let matchPos = -1;
 
-        if (line.indexOf('>${') !== -1) {
+        if (line.indexOf('>${') >= 0) {
             matchPos = line.indexOf('>${') + 1;
-        } else if (line.indexOf(' ${') !== -1) {
+        } else if (line.indexOf(' ${') >= 0) {
             matchPos = line.indexOf(' ${') + 1;
-        } else if (line.indexOf('"${') !== -1 && line.indexOf('<isprint value="${') === -1) {
+        } else if (line.indexOf('"${') >= 0 && line.indexOf('<isprint value="${') === -1) {
             matchPos = line.indexOf('"${') + 1;
         } else if (line.indexOf('${') === 0) {
             matchPos = 0;

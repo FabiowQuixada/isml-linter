@@ -26,9 +26,9 @@ class IsmlNode {
         this.globalPos          = globalPos;     // 184
         this.depth              = 0;             // Isml dom tree node depth
         this.suffixValue        = '';            // '</div>'
-        this.suffixLineNumber   = -1;            // 9
-        this.suffixColumnNumber = -1;            // 12
-        this.suffixGlobalPos    = -1;            // 207
+        this.suffixLineNumber   = null;            // 9
+        this.suffixColumnNumber = null;            // 12
+        this.suffixGlobalPos    = null;            // 207
         this.parent             = null;          // Parent isml node;
         this.children           = [];            // Child isml nodes;
         this.childNo            = 0;
@@ -74,7 +74,7 @@ class IsmlNode {
     }
 
     getLastLineNumber() {
-        return this.suffixLineNumber !== -1 ?
+        return this.suffixLineNumber ?
             this.suffixLineNumber :
             this.endLineNumber;
     }
@@ -284,7 +284,7 @@ class IsmlNode {
     isVoidElement() {
         const config = ConfigUtils.load();
 
-        return !config.disableHtml5 && Constants.voidElementsArray.indexOf(this.getType()) !== -1;
+        return !config.disableHtml5 && Constants.voidElementsArray.indexOf(this.getType()) >= 0;
     }
 
     // For <div />    , returns true;
@@ -511,7 +511,7 @@ const parseAttribute = (node, attributeList, index) => {
         && !isDynamicAttribute
         && trimmedNodeValue
             .split(Constants.EOL)
-            .find(attrLine => attrLine.indexOf(name) !== -1)
+            .find(attrLine => attrLine.indexOf(name) >= 0)
             .trim()
             .indexOf(name) === 0;
 

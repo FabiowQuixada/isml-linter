@@ -16,13 +16,13 @@ const Linter        = {};
 let globalConfig;
 
 const ignoreFiles = file => {
-    if (file.indexOf('node_modules') !== -1) {
+    if (file.indexOf('node_modules') >= 0) {
         return true;
     }
 
     const config = ConfigUtils.load();
 
-    if (config.ignore && config.ignore.some( ignorePath => file.indexOf(ignorePath) !== -1)) {
+    if (config.ignore && config.ignore.some( ignorePath => file.indexOf(ignorePath) >= 0)) {
         return true;
     }
 

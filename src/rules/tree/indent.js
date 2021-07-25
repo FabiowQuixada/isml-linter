@@ -427,7 +427,7 @@ const checkIfShouldAddIndentationToSuffix = node => {
     const isLastClause              = !!node.parent && node.parent.isContainer() && !node.isLastChild();
     const isInSameLineAsChild       = !node.hasChildren() || node.getLastChild().isInSameLineAsParent();
     const isSuffixInSameLineAsChild = !node.hasChildren() || node.suffixLineNumber === node.getLastChild().getLastLineNumber();
-    const isBrokenIntoMultipleLines = !node.hasChildren() && node.suffixLineNumber !== -1 && node.lineNumber !== node.suffixLineNumber;
+    const isBrokenIntoMultipleLines = !node.hasChildren() && node.suffixLineNumber && node.lineNumber !== node.suffixLineNumber;
 
     const shouldAdd = hasSuffix &&
         !isSuffixInSameLineAsChild &&

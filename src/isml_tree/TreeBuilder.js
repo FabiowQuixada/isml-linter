@@ -138,7 +138,7 @@ const postProcess = (node, data = {}) => {
     for (let i = 0; i < node.children.length; i++) {
         const child = node.children[i];
 
-        if (child.value.indexOf('template="util/modules"') !== -1) {
+        if (child.value.indexOf('template="util/modules"') >= 0) {
             data.moduleDefinition = {
                 value      : child.value,
                 lineNumber : child.lineNumber,
