@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.35.9] - 2021-07-27
+
+### Fixed
+ - "indent" rule;
+
+### Security
+ - Upgraded dependencies;
+
 ## [5.35.8] - 2021-07-24
 
 ### Fixed
@@ -864,6 +872,7 @@
 ### Added
 - Linter is published;
 
+[5.35.9]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.8...v5.35.9
 [5.35.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.7...v5.35.8
 [5.35.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.6...v5.35.7
 [5.35.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.5...v5.35.6
