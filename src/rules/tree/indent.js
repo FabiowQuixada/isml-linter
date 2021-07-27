@@ -65,9 +65,8 @@ Rule.getAttributeErrorList = function(node) {
             const expectedIndentation = node.depth * configIndentSize;
 
             if (attribute.columnNumber - 1 !== expectedIndentation) {
-                const occurrenceGlobalPos  = attribute.globalPos + node.lineNumber - attribute.columnNumber;
-                const attributeIndentation = ParseUtils.getLeadingEmptyChars(attribute.fullValue);
-                const occurrenceLength     = attributeIndentation === 0 ?
+                const occurrenceGlobalPos = attribute.globalPos + node.lineNumber - attribute.columnNumber;
+                const occurrenceLength    = attribute.columnNumber === 1 ?
                     attribute.length + ParseUtils.getLineBreakQty(attribute.value) :
                     attribute.columnNumber - 1;
 

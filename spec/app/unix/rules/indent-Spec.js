@@ -611,4 +611,13 @@ describe('On Unix, ' + rule.id, () => {
         expect(result[1].globalPos).toEqual(63);
         expect(result[1].length).toEqual(8);
     });
+
+    it('detects wrong indentation initial position and length for indentless attributes', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 42);
+
+        expect(result[0].globalPos).toEqual(18);
+        expect(result[0].length).toEqual(19);
+        expect(result[1].globalPos).toEqual(60);
+        expect(result[1].length).toEqual(22);
+    });
 });
