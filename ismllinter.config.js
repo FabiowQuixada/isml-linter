@@ -2,7 +2,6 @@
 // at https://www.npmjs.com/package/isml-linter.
 
 const config = {
-    'enableCache' : true,
     'rules': {
 
         // Line by line rules;
