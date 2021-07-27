@@ -473,17 +473,16 @@ describe(rule.id, () => {
     it('identifies tag attributes with wrong indentation', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 34);
 
-        expect(result[0].length       ).toEqual(19);
         expect(result[0].lineNumber   ).toEqual(2);
         expect(result[0].columnNumber ).toEqual(4);
-        expect(result[0].length       ).toEqual(19);
-        expect(result[0].globalPos    ).toEqual(22);
+        expect(result[0].length       ).toEqual(3);
+        expect(result[0].globalPos    ).toEqual(18);
         expect(result[0].message      ).toEqual('Expected indentation of 4 spaces but found 3');
 
         expect(result[1].lineNumber   ).toEqual(4);
         expect(result[1].columnNumber ).toEqual(9);
-        expect(result[1].length       ).toEqual(22);
-        expect(result[1].globalPos    ).toEqual(74);
+        expect(result[1].length       ).toEqual(8);
+        expect(result[1].globalPos    ).toEqual(63);
         expect(result[1].message      ).toEqual('Expected indentation of 4 spaces but found 8');
     });
 
@@ -504,8 +503,8 @@ describe(rule.id, () => {
 
         expect(result[0].lineNumber   ).toEqual(4);
         expect(result[0].columnNumber ).toEqual(10);
-        expect(result[0].length       ).toEqual(187);
-        expect(result[0].globalPos    ).toEqual(55);
+        expect(result[0].length       ).toEqual(9);
+        expect(result[0].globalPos    ).toEqual(44);
         expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 9');
     });
 
@@ -514,8 +513,8 @@ describe(rule.id, () => {
 
         expect(result[0].lineNumber   ).toEqual(5);
         expect(result[0].columnNumber ).toEqual(5);
-        expect(result[0].length       ).toEqual(34);
-        expect(result[0].globalPos    ).toEqual(77);
+        expect(result[0].length       ).toEqual(4);
+        expect(result[0].globalPos    ).toEqual(70);
         expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 4');
     });
 
@@ -524,8 +523,8 @@ describe(rule.id, () => {
 
         expect(result[0].lineNumber   ).toEqual(4);
         expect(result[0].columnNumber ).toEqual(5);
-        expect(result[0].length       ).toEqual(39);
-        expect(result[0].globalPos    ).toEqual(75);
+        expect(result[0].length       ).toEqual(4);
+        expect(result[0].globalPos    ).toEqual(69);
         expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 4');
     });
 
@@ -615,4 +614,14 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('detects wrong indentation initial position and length', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 34);
+
+        expect(result[0].globalPos).toEqual(18);
+        expect(result[0].length).toEqual(3);
+        expect(result[1].globalPos).toEqual(63);
+        expect(result[1].length).toEqual(8);
+    });
+
 });

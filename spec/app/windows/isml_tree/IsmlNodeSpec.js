@@ -307,10 +307,10 @@ describe(targetObjName, () => {
         const divNode       = rootNode.children[0].children[0];
         const attributeList = divNode.getAttributeList();
 
-        expect(attributeList[0].globalPos).toEqual(20);
-        expect(attributeList[1].globalPos).toEqual(41);
-        expect(attributeList[2].globalPos).toEqual(66);
-        expect(attributeList[3].globalPos).toEqual(96);
+        expect(attributeList[0].globalPos).toEqual(19);
+        expect(attributeList[1].globalPos).toEqual(39);
+        expect(attributeList[2].globalPos).toEqual(63);
+        expect(attributeList[3].globalPos).toEqual(92);
     });
 
     it('identifies attributes global positions II', () => {
@@ -319,9 +319,9 @@ describe(targetObjName, () => {
         const attributeList = divNode.getAttributeList();
 
         expect(attributeList[0].globalPos).toEqual(6);
-        expect(attributeList[1].globalPos).toEqual(22);
-        expect(attributeList[2].globalPos).toEqual(47);
-        expect(attributeList[3].globalPos).toEqual(74);
+        expect(attributeList[1].globalPos).toEqual(21);
+        expect(attributeList[2].globalPos).toEqual(45);
+        expect(attributeList[3].globalPos).toEqual(71);
     });
 
     it('identifies if an attribute is the first in line', () => {
@@ -356,7 +356,7 @@ describe(targetObjName, () => {
         expect(attributeList[1].lineNumber   ).toEqual(4);
         expect(attributeList[1].columnNumber ).toEqual(9);
         expect(attributeList[1].length       ).toEqual(59);
-        expect(attributeList[1].globalPos    ).toEqual(56);
+        expect(attributeList[1].globalPos    ).toEqual(53);
         expect(attributeList[1].localPos     ).toEqual(43);
     });
 
@@ -368,7 +368,7 @@ describe(targetObjName, () => {
         expect(attributeList[1].lineNumber   ).toEqual(4);
         expect(attributeList[1].columnNumber ).toEqual(9);
         expect(attributeList[1].length       ).toEqual(187);
-        expect(attributeList[1].globalPos    ).toEqual(55);
+        expect(attributeList[1].globalPos    ).toEqual(52);
         expect(attributeList[1].localPos     ).toEqual(42);
     });
 
@@ -381,7 +381,7 @@ describe(targetObjName, () => {
         expect(attributeList[2].lineNumber   ).toEqual(5);
         expect(attributeList[2].columnNumber ).toEqual(5);
         expect(attributeList[2].length       ).toEqual(34);
-        expect(attributeList[2].globalPos    ).toEqual(78);
+        expect(attributeList[2].globalPos    ).toEqual(74);
         expect(attributeList[2].localPos     ).toEqual(64);
     });
 
@@ -394,7 +394,7 @@ describe(targetObjName, () => {
         expect(attributeList[1].lineNumber   ).toEqual(4);
         expect(attributeList[1].columnNumber ).toEqual(6);
         expect(attributeList[1].length       ).toEqual(39);
-        expect(attributeList[1].globalPos    ).toEqual(77);
+        expect(attributeList[1].globalPos    ).toEqual(74);
         expect(attributeList[1].localPos     ).toEqual(64);
     });
 
@@ -407,7 +407,7 @@ describe(targetObjName, () => {
         expect(attributeList[1].lineNumber   ).toEqual(4);
         expect(attributeList[1].columnNumber ).toEqual(13);
         expect(attributeList[1].length       ).toEqual(55);
-        expect(attributeList[1].globalPos    ).toEqual(64);
+        expect(attributeList[1].globalPos    ).toEqual(61);
         expect(attributeList[1].localPos     ).toEqual(51);
     });
 
@@ -420,7 +420,7 @@ describe(targetObjName, () => {
         expect(attributeList[1].lineNumber   ).toEqual(4);
         expect(attributeList[1].columnNumber ).toEqual(5);
         expect(attributeList[1].length       ).toEqual(19);
-        expect(attributeList[1].globalPos    ).toEqual(51);
+        expect(attributeList[1].globalPos    ).toEqual(48);
         expect(attributeList[1].localPos     ).toEqual(38);
     });
 

@@ -498,8 +498,8 @@ const parseAttribute = (node, attributeList, index) => {
     const values                                = value ? value.split(/[\s\n]+/).filter( val => val ) : null;
     const attrLocalPos                          = trimmedNodeValue.indexOf(trimmedAttribute);
     const valueLocalPos                         = trimmedAttribute.indexOf(value);
-    const globalPos                             = node.globalPos + localPos + leadingLineBreakQty;
     const lineNumber                            = node.lineNumber + leadingLineBreakQty;
+    const globalPos                             = node.globalPos + localPos + leadingLineBreakQty - lineNumber + 1;
     const hasMultilineValue                     = value && value.indexOf(Constants.EOL) >= 0;
     const isFirstValueInSameLineAsAttributeName = value && ParseUtils.getLeadingLineBreakQty(value) === 0;
 
