@@ -379,11 +379,35 @@ const maskExpressionContent = content => {
     return maskedContent;
 };
 
+const maskJsonContent = content => {
+    let maskedContent = '';
+    let depth         = 0;
+
+    for (let i = 0; i < content.length; i++) {
+        const char = content[i];
+
+        if (char === '}') {
+            depth -= 1;
+        }
+
+        maskedContent += depth > 0 ?
+            '_' :
+            char;
+
+        if (char === '{') {
+            depth += 1;
+        }
+    }
+
+    return maskedContent;
+};
+
 module.exports = {
     maskIgnorableContent,
     maskQuoteContent,
     maskExpressionContent,
     maskIsprintTagContent,
+    maskJsonContent,
     maskIsifTagContent,
     maskInBetween,
     maskInBetweenForTagWithAttributes

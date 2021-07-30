@@ -441,9 +441,10 @@ const getProcessedContent = content => {
     let processedContent = content;
 
     processedContent = MaskUtils.maskExpressionContent(processedContent);
-    processedContent = MaskUtils.maskQuoteContent(processedContent);
     processedContent = MaskUtils.maskIsifTagContent(processedContent);
     processedContent = MaskUtils.maskIsprintTagContent(processedContent);
+    processedContent = MaskUtils.maskJsonContent(processedContent);
+    processedContent = MaskUtils.maskQuoteContent(processedContent);
     processedContent = processedContent.replace(new RegExp(Constants.EOL, 'g'), ' ');
 
     if (processedContent.endsWith('/')) {

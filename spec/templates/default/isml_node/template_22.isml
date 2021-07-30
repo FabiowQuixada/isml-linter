@@ -1,0 +1,7 @@
+<div data-slick='{
+        "attr1": false,
+        "attr2": true,
+        "attr3": ${someValue}
+    }'
+>
+</div>

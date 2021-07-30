@@ -206,6 +206,16 @@ describe('IsmlNode', () => {
         expect(attributeList[1].name).toContain('<isprint value="${form.field.attributes}" encoding="off" />');
         expect(attributeList[1].value).toEqual(null);
     });
+
+    it('lists attribute which value is a JSON', () => {
+        const rootNode      = getTreeRootFromTemplate(22);
+        const divNode       = rootNode.children[0];
+        const attributeList = divNode.getAttributeList();
+
+        expect(attributeList.length).toEqual(1);
+        expect(attributeList[0].name).toEqual('data-slick');
+        expect(attributeList[0].value).toEqual(`{${Constants.EOL}        "attr1": false,${Constants.EOL}        "attr2": true,${Constants.EOL}        "attr3": \${someValue}${Constants.EOL}    }`);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {
