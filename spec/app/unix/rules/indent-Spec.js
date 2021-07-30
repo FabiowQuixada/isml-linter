@@ -620,4 +620,26 @@ describe('On Unix, ' + rule.id, () => {
         expect(result[1].globalPos).toEqual(60);
         expect(result[1].length).toEqual(22);
     });
+
+    it('detects attribute value wrong indentation', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 43);
+
+        expect(result.length          ).toEqual(1);
+        expect(result[0].lineNumber   ).toEqual(2);
+        expect(result[0].columnNumber ).toEqual(0);
+        expect(result[0].length       ).toEqual(4);
+        expect(result[0].globalPos    ).toEqual(29);
+        expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 4');
+    });
+
+    it('detects attribute value wrong indentation for indentless values', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 44);
+
+        expect(result.length          ).toEqual(1);
+        expect(result[0].lineNumber   ).toEqual(2);
+        expect(result[0].columnNumber ).toEqual(0);
+        expect(result[0].length       ).toEqual(7);
+        expect(result[0].globalPos    ).toEqual(29);
+        expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 0');
+    });
 });

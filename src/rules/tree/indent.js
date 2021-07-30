@@ -53,6 +53,53 @@ Rule.isBroken = function(node) {
         !node.isInSameLineAsPreviousSibling();
 };
 
+Rule.getAttributeValueErrorList = function(node, attribute) {
+
+    if (!attribute.value) {
+        return [];
+    }
+
+    const configIndentSize          = this.getConfigs().indent;
+    const configAttributeOffsetSize = this.getConfigs().attributeOffset;
+    const result                    = [];
+
+    if (attribute.hasMultilineValue) {
+        const expectedIndentation = node.depth * configIndentSize + configAttributeOffsetSize;
+        const attributeValueList  = attribute.value.split(Constants.EOL).filter( attr => attr.trim() );
+
+        for (let i = 0; i < attributeValueList.length; i++) {
+            const attributeValue    = attributeValueList[i];
+            const valueColumnNumber = ParseUtils.getLeadingEmptyChars(attributeValue).length;
+
+            if (valueColumnNumber !== expectedIndentation) {
+                const occurrenceGlobalPos = attribute.globalPos + attribute.fullValue.indexOf(attributeValue);
+                const lineNumber          = attribute.lineNumber + i;
+
+                const occurrenceColumnNumber = valueColumnNumber === 0 ?
+                    valueColumnNumber :
+                    0;
+
+                const occurrenceLength = valueColumnNumber === 0 ?
+                    attributeValue.length :
+                    valueColumnNumber;
+
+                const error = this.getError(
+                    attributeValue.trim(),
+                    lineNumber,
+                    occurrenceColumnNumber,
+                    occurrenceGlobalPos,
+                    occurrenceLength,
+                    getOccurrenceDescription(expectedIndentation, valueColumnNumber)
+                );
+
+                result.push(error);
+            }
+        }
+    }
+
+    return result;
+};
+
 Rule.getAttributeErrorList = function(node) {
     const configIndentSize = this.getConfigs().indent;
     const attributeList    = node.getAttributeList();
@@ -82,6 +129,9 @@ Rule.getAttributeErrorList = function(node) {
                 result.push(error);
             }
         }
+
+        const attributeErrorList = this.getAttributeValueErrorList(node, attribute);
+        result.push(...attributeErrorList);
     }
 
     return result;
