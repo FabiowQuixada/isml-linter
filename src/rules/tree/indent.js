@@ -163,7 +163,9 @@ const getAttributeValueErrorList = function(node, attribute) {
 
     if (attribute.hasMultilineValue) {
         const expectedIndentation = node.depth * configIndentSize + configAttributeOffsetSize;
-        const attributeValueList  = attribute.value.split(Constants.EOL).filter( attr => attr.trim() );
+        const attributeValueList  = attribute.value
+            .split(Constants.EOL)
+            .filter( attr => attr.trim() && ['{', '}'].indexOf(attr.trim()) === -1);
 
         for (let i = 0; i < attributeValueList.length; i++) {
             const attributeValue    = attributeValueList[i];
@@ -171,7 +173,7 @@ const getAttributeValueErrorList = function(node, attribute) {
 
             if (valueColumnNumber !== expectedIndentation) {
                 const occurrenceGlobalPos = attribute.globalPos + attribute.fullValue.indexOf(attributeValue);
-                const lineNumber          = attribute.lineNumber + i;
+                const lineNumber          = attribute.lineNumber + i + 1;
 
                 const occurrenceColumnNumber = valueColumnNumber === 0 ?
                     valueColumnNumber :

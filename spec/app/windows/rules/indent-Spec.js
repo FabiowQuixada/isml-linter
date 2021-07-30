@@ -637,7 +637,7 @@ describe(rule.id, () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 43);
 
         expect(result.length          ).toEqual(1);
-        expect(result[0].lineNumber   ).toEqual(2);
+        expect(result[0].lineNumber   ).toEqual(3);
         expect(result[0].columnNumber ).toEqual(0);
         expect(result[0].length       ).toEqual(4);
         expect(result[0].globalPos    ).toEqual(29);
@@ -648,10 +648,21 @@ describe(rule.id, () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 44);
 
         expect(result.length          ).toEqual(1);
-        expect(result[0].lineNumber   ).toEqual(2);
+        expect(result[0].lineNumber   ).toEqual(3);
         expect(result[0].columnNumber ).toEqual(0);
         expect(result[0].length       ).toEqual(7);
         expect(result[0].globalPos    ).toEqual(29);
         expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 0');
+    });
+
+    it('detects attribute value wrong indentation II', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 45);
+
+        expect(result.length          ).toEqual(1);
+        expect(result[0].lineNumber   ).toEqual(3);
+        expect(result[0].columnNumber ).toEqual(0);
+        expect(result[0].length       ).toEqual(6);
+        expect(result[0].globalPos    ).toEqual(43);
+        expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 6');
     });
 });
