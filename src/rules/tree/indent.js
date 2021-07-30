@@ -53,90 +53,6 @@ Rule.isBroken = function(node) {
         !node.isInSameLineAsPreviousSibling();
 };
 
-Rule.getAttributeValueErrorList = function(node, attribute) {
-
-    if (!attribute.value) {
-        return [];
-    }
-
-    const configIndentSize          = this.getConfigs().indent;
-    const configAttributeOffsetSize = this.getConfigs().attributeOffset;
-    const result                    = [];
-
-    if (attribute.hasMultilineValue) {
-        const expectedIndentation = node.depth * configIndentSize + configAttributeOffsetSize;
-        const attributeValueList  = attribute.value.split(Constants.EOL).filter( attr => attr.trim() );
-
-        for (let i = 0; i < attributeValueList.length; i++) {
-            const attributeValue    = attributeValueList[i];
-            const valueColumnNumber = ParseUtils.getLeadingEmptyChars(attributeValue).length;
-
-            if (valueColumnNumber !== expectedIndentation) {
-                const occurrenceGlobalPos = attribute.globalPos + attribute.fullValue.indexOf(attributeValue);
-                const lineNumber          = attribute.lineNumber + i;
-
-                const occurrenceColumnNumber = valueColumnNumber === 0 ?
-                    valueColumnNumber :
-                    0;
-
-                const occurrenceLength = valueColumnNumber === 0 ?
-                    attributeValue.length :
-                    valueColumnNumber;
-
-                const error = this.getError(
-                    attributeValue.trim(),
-                    lineNumber,
-                    occurrenceColumnNumber,
-                    occurrenceGlobalPos,
-                    occurrenceLength,
-                    getOccurrenceDescription(expectedIndentation, valueColumnNumber)
-                );
-
-                result.push(error);
-            }
-        }
-    }
-
-    return result;
-};
-
-Rule.getAttributeErrorList = function(node) {
-    const configIndentSize = this.getConfigs().indent;
-    const attributeList    = node.getAttributeList();
-    const result           = [];
-
-    for (let i = 0; i < attributeList.length; i++) {
-        const attribute = attributeList[i];
-
-        if (!attribute.isInSameLineAsTagName && attribute.isFirstInLine) {
-            const expectedIndentation = node.depth * configIndentSize;
-
-            if (attribute.columnNumber - 1 !== expectedIndentation) {
-                const occurrenceGlobalPos = attribute.globalPos + node.lineNumber - attribute.columnNumber;
-                const occurrenceLength    = attribute.columnNumber === 1 ?
-                    attribute.length + ParseUtils.getLineBreakQty(attribute.value) :
-                    attribute.columnNumber - 1;
-
-                const error = this.getError(
-                    attribute.fullValue,
-                    attribute.lineNumber,
-                    attribute.columnNumber,
-                    occurrenceGlobalPos,
-                    occurrenceLength,
-                    getOccurrenceDescription(expectedIndentation, attribute.columnNumber - 1)
-                );
-
-                result.push(error);
-            }
-        }
-
-        const attributeErrorList = this.getAttributeValueErrorList(node, attribute);
-        result.push(...attributeErrorList);
-    }
-
-    return result;
-};
-
 Rule.isBrokenForSuffix = function(node) {
 
     const configIndentSize         = this.getConfigs().indent;
@@ -164,7 +80,7 @@ Rule.check = function(node, data) {
         occurrenceList = this.checkChildren(node, data);
 
         const errorGlobalPos     = node.globalPos - getActualIndentation(node);
-        const attributeErrorList = this.getAttributeErrorList(node);
+        const attributeErrorList = getAttributeErrorList(node);
 
         // Checks node value;
         if (this.isBroken(node)) {
@@ -229,6 +145,94 @@ Rule.getFixedContent = node => {
     }
 
     return node.toString();
+};
+
+/**
+ * PRIVATE FUNCTIONS
+*/
+
+const getAttributeValueErrorList = function(node, attribute) {
+
+    if (!attribute.value) {
+        return [];
+    }
+
+    const configIndentSize          = Rule.getConfigs().indent;
+    const configAttributeOffsetSize = Rule.getConfigs().attributeOffset;
+    const result                    = [];
+
+    if (attribute.hasMultilineValue) {
+        const expectedIndentation = node.depth * configIndentSize + configAttributeOffsetSize;
+        const attributeValueList  = attribute.value.split(Constants.EOL).filter( attr => attr.trim() );
+
+        for (let i = 0; i < attributeValueList.length; i++) {
+            const attributeValue    = attributeValueList[i];
+            const valueColumnNumber = ParseUtils.getLeadingEmptyChars(attributeValue).length;
+
+            if (valueColumnNumber !== expectedIndentation) {
+                const occurrenceGlobalPos = attribute.globalPos + attribute.fullValue.indexOf(attributeValue);
+                const lineNumber          = attribute.lineNumber + i;
+
+                const occurrenceColumnNumber = valueColumnNumber === 0 ?
+                    valueColumnNumber :
+                    0;
+
+                const occurrenceLength = valueColumnNumber === 0 ?
+                    attributeValue.length :
+                    valueColumnNumber;
+
+                const error = Rule.getError(
+                    attributeValue.trim(),
+                    lineNumber,
+                    occurrenceColumnNumber,
+                    occurrenceGlobalPos,
+                    occurrenceLength,
+                    getOccurrenceDescription(expectedIndentation, valueColumnNumber)
+                );
+
+                result.push(error);
+            }
+        }
+    }
+
+    return result;
+};
+
+const getAttributeErrorList = function(node) {
+    const configIndentSize = Rule.getConfigs().indent;
+    const attributeList    = node.getAttributeList();
+    const result           = [];
+
+    for (let i = 0; i < attributeList.length; i++) {
+        const attribute = attributeList[i];
+
+        if (!attribute.isInSameLineAsTagName && attribute.isFirstInLine) {
+            const expectedIndentation = node.depth * configIndentSize;
+
+            if (attribute.columnNumber - 1 !== expectedIndentation) {
+                const occurrenceGlobalPos = attribute.globalPos + node.lineNumber - attribute.columnNumber;
+                const occurrenceLength    = attribute.columnNumber === 1 ?
+                    attribute.length + ParseUtils.getLineBreakQty(attribute.value) :
+                    attribute.columnNumber - 1;
+
+                const error = Rule.getError(
+                    attribute.fullValue,
+                    attribute.lineNumber,
+                    attribute.columnNumber,
+                    occurrenceGlobalPos,
+                    occurrenceLength,
+                    getOccurrenceDescription(expectedIndentation, attribute.columnNumber - 1)
+                );
+
+                result.push(error);
+            }
+        }
+
+        const attributeErrorList = getAttributeValueErrorList(node, attribute);
+        result.push(...attributeErrorList);
+    }
+
+    return result;
 };
 
 const removeIndentation = content => {
