@@ -1,9 +1,15 @@
 # Changelog
 
+## [5.35.10] - 2021-07-31
+
+### Fixed
+ - "indent" rule - indentation of tag attributes' values in separate lines;
+ - "indent" rule - keep single quotes on attribute values on autofix;
+
 ## [5.35.9] - 2021-07-27
 
 ### Fixed
- - "indent" rule;
+ - "indent" rule - indentation of tag attributes in separate lines;
 
 ### Security
  - Upgraded dependencies;
@@ -872,6 +878,7 @@
 ### Added
 - Linter is published;
 
+[5.35.10]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.9...v5.35.10
 [5.35.9]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.8...v5.35.9
 [5.35.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.7...v5.35.8
 [5.35.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.6...v5.35.7
