@@ -341,7 +341,7 @@ const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset)
                 attributePrefix += nodeIndentation + attributeOffset;
             }
 
-            const valueList = attributePrefix + attribute.name + '="' + attribute.value
+            const valueList = attributePrefix + attribute.name + '=' + attribute.quoteChar + attribute.value
                 .split(Constants.EOL)
                 .filter( value => value )
                 .map( (value, i) => {
@@ -354,7 +354,7 @@ const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset)
                     return nodeIndentation + attributeOffset + attributeOffset + value;
                 })
                 .join(Constants.EOL)
-                + Constants.EOL + nodeIndentation + attributeOffset + '"';
+                + Constants.EOL + nodeIndentation + attributeOffset + attribute.quoteChar;
 
             result += valueList;
         }

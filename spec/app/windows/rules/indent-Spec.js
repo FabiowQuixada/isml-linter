@@ -676,4 +676,10 @@ describe(rule.id, () => {
         expect(result[0].globalPos    ).toEqual(45);
         expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 6');
     });
+
+    it('fixes a simple template keeping single-quoted attributes', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 44);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

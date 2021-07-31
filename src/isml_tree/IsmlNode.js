@@ -503,6 +503,7 @@ const parseAttribute = (node, attributeList, index) => {
     const globalPos                             = node.globalPos + localPos + leadingLineBreakQty - lineNumber + 1;
     const hasMultilineValue                     = value && value.indexOf(Constants.EOL) >= 0;
     const isFirstValueInSameLineAsAttributeName = value && ParseUtils.getLeadingLineBreakQty(value) === 0;
+    const quoteChar                             = getQuoteChar(trimmedAttribute);
 
     const columnNumber = isInSameLineAsTagName ?
         node.columnNumber + leadingContent.length :
@@ -555,6 +556,7 @@ const parseAttribute = (node, attributeList, index) => {
             attrGlobalPos  : node.globalPos + attrLocalPos,
             valueGlobalPos : node.globalPos + valueLocalPos,
             fullValue      : trimmedAttribute,
+            quoteChar,
             node
         };
     }
@@ -575,6 +577,22 @@ const getNodeIndentationSize = (node, isNodeHead) => {
     const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
 
     return Math.max(indentationSize, 0);
+};
+
+const getQuoteChar = trimmedAttribute => {
+    const assignmentCharPos = trimmedAttribute.indexOf('=');
+
+    if (assignmentCharPos >= 0) {
+        if (trimmedAttribute.substring(assignmentCharPos + 1).startsWith('\'')) {
+            return '\'';
+        }
+
+        if (trimmedAttribute.substring(assignmentCharPos + 1).startsWith('"')) {
+            return '"';
+        }
+    }
+
+    return '';
 };
 
 module.exports = IsmlNode;
