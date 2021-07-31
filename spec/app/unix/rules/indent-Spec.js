@@ -653,4 +653,15 @@ describe('On Unix, ' + rule.id, () => {
         expect(result[0].globalPos    ).toEqual(43);
         expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 6');
     });
+
+    it('detects attribute value wrong indentation III', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 46);
+
+        expect(result.length          ).toEqual(1);
+        expect(result[0].lineNumber   ).toEqual(5);
+        expect(result[0].columnNumber ).toEqual(0);
+        expect(result[0].length       ).toEqual(6);
+        expect(result[0].globalPos    ).toEqual(45);
+        expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 6');
+    });
 });
