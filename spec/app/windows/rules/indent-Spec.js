@@ -682,4 +682,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('fixes template keeping quote-less attributes', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 45);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
