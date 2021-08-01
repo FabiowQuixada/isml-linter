@@ -1,0 +1,3 @@
+<div>
+    ${dw.util.StringUtils.msg('key','properties',null)}
+</div>

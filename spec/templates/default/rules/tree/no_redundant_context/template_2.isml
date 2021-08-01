@@ -1,0 +1,1 @@
+<div class="${require('dw/web/Resource').msg('abc', '_classes', '')}"></div>

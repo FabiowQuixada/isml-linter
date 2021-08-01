@@ -184,7 +184,8 @@ Check the [API docs][api-docs].
 | :wrench: :small_orange_diamond: [no-iselse-slash][no-iselse-slash-readme]            | Disallows self-closing &lt;iselse> and &lt;iselseif> tags |
 | :small_orange_diamond: [empty-eof][empty-eof-readme]                                 | Enforces a empty line at the end of the template |
 | :small_orange_diamond: [align-isset][align-isset-readme]                             | Aligns contiguous &lt;isset> tags attributes' columns |
-| :boom: :small_orange_diamond: [enforce-security][enforce-security-readme]            | Enforces security measures |
+| :small_orange_diamond: [enforce-security][enforce-security-readme]                   | Enforces security measures |
+| :wrench: :small_orange_diamond: [no-redundant-context][no-redundant-context-readme]  | Prevents use of unnecessary contexts, such as `dw.web.Resource` |
 
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
@@ -230,6 +231,7 @@ This project was conceived by its author without any financial support, with the
 [align-isset-readme]:            <docs/rules/align-isset.md>
 [disallow-tags-readme]:          <docs/rules/disallow-tags.md>
 [enforce-security-readme]:       <docs/rules/enforce-security.md>
+[no-redundant-context-readme]:   <docs/rules/no-redundant-context.md>
 
 [api-docs]:        <docs/api.md>
 [cli-docs]:        <docs/cli.md>

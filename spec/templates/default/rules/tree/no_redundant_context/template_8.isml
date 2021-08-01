@@ -1,0 +1,1 @@
+<div class="${require('dw/util/StringUtils').msg('abc', '_classes', '')}"></div>

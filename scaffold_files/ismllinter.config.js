@@ -19,6 +19,7 @@ const config = {
 
         // Tree rules;
         'indent'               : {},
+        'no-redundant-context' : {},
         'leading-iscontent'    : {},
         'max-depth'            : {},
         'no-embedded-isml'     : {},

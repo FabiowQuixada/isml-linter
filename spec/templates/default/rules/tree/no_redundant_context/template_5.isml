@@ -1,0 +1,1 @@
+<div data-url="${require('dw/web/URLUtils').http('Product-Show', 'pid', Product.getID())}"></div>
