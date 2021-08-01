@@ -5,10 +5,6 @@ const config = {
     'rules': {
 
         // Line by line rules;
-        'enforce-isprint'     : {
-            level : 'warning'
-        },
-        'enforce-require'     : {},
         'no-br'               : {},
         'no-git-conflict'     : {},
         'no-import-package'   : {},
@@ -22,6 +18,7 @@ const config = {
 
         // Tree rules;
         'indent'               : {},
+        'no-redundant-context' : {},
         'max-depth'            : {
             level : 'warning'
         },
