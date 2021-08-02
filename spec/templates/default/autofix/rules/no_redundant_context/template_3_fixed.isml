@@ -1,0 +1,3 @@
+<div>
+    ${URLUtils.http('Product-Show', 'pid', Product.getID())}
+</div>

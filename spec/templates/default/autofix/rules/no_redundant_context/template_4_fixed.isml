@@ -1,0 +1,1 @@
+<div data-url="${URLUtils.http('Product-Show', 'pid', Product.getID())}"></div>

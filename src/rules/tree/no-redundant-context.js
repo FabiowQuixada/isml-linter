@@ -108,6 +108,25 @@ Rule.check = function(node, data) {
     return this.return(node, occurrenceList, config);
 };
 
+Rule.getFixedContent = function(node) {
+
+    for (let i = 0; i < disallowedStringsDataContainer.length; i++) {
+        const disallowedOccurrence = disallowedStringsDataContainer[i];
+
+        if (node.value.indexOf(disallowedOccurrence.key) >= 0) {
+            node.value = node.value
+                .split(disallowedOccurrence.key)
+                .join(disallowedOccurrence.part2);
+        }
+    }
+
+    for (let i = 0; i < node.children.length; i++) {
+        this.getFixedContent(node.children[i]);
+    }
+
+    return node.toString();
+};
+
 const getMessage = disallowedString => {
     return `"${disallowedString.part1}" is not necessary since "${disallowedString.part2}" is available globally`;
 };

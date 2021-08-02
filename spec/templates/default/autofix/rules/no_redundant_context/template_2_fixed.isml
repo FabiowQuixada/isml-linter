@@ -1,0 +1,1 @@
+<div class="${Resource.msg('abc', '_classes', '')}"></div>

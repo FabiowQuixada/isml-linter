@@ -110,4 +110,34 @@ describe('On Unix, ' + rule.id, () => {
         expect(result.rule        ).toEqual(rule.id);
         expect(result.message     ).toEqual('"require(\'dw/util/StringUtils\')" is not necessary since "StringUtils" is available globally');
     });
+
+    it('fixes "dw.web.Resource"', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 0);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('fixes "require("dw/web/Resource")"', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 1);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('fixes "require(\'dw/web/Resource\')"', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 2);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('fixes "dw.web.URLUtils"', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 3);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('fixes "require("dw/web/URLUtils")"', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 4);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

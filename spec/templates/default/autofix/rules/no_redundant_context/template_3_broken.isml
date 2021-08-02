@@ -1,0 +1,3 @@
+<div>
+    ${dw.web.URLUtils.http('Product-Show', 'pid', Product.getID())}
+</div>

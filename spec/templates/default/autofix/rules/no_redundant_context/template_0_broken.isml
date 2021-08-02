@@ -1,0 +1,3 @@
+<div>
+    ${dw.web.Resource.msg('key','properties',null)}
+</div>
