@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.36.0] - 2021-08-07
+
+### Added
+ - "no-redundant-context" rule;
+
 ## [5.35.10] - 2021-07-31
 
 ### Fixed
@@ -878,6 +883,7 @@
 ### Added
 - Linter is published;
 
+[5.36.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.10...v5.36.0
 [5.35.10]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.9...v5.35.10
 [5.35.9]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.8...v5.35.9
 [5.35.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.7...v5.35.8
