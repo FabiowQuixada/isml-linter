@@ -46,7 +46,7 @@ After adding the above scripts to package.json, run the following command to gen
 npm run init:isml
 ```
 
-Alternatively, you can manually create a configuration file, make sure it is in the project root directory and has one of the following names: `ismllinter.config.js`, `.ismllintrc.js` or `.ismllinter.json`.
+Alternatively, you can manually create a configuration file, make sure it is in the project root directory and has one of the following names: _ismllinter.config.js_, _.ismllintrc.js_ or _.ismllinter.json_.
 
 You can disable any rule by removing it from the config file. You may also find these configuration options useful:
 
