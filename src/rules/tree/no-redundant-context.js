@@ -2,60 +2,60 @@ const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const ConfigUtils       = require('../../util/ConfigUtils');
 const ParseUtils        = require('../../isml_tree/ParseUtils');
 
-const ruleId                         = require('path').basename(__filename).slice(0, -3);
-const disallowedStringsDataContainer = [
+const ruleId                        = require('path').basename(__filename).slice(0, -3);
+const disallowedOccurrenceContainer = [
 
     // dw.web.Resource;
     {
-        key   : 'dw.web.Resource',
-        part1 : 'dw.web.',
-        part2 : 'Resource'
+        key     : 'dw.web.Resource',
+        wrong   : 'dw.web.',
+        correct : 'Resource'
     },
     {
-        key   : 'require(\'dw/web/Resource\')',
-        part1 : 'require(\'dw/web/Resource\')',
-        part2 : 'Resource'
+        key     : 'require(\'dw/web/Resource\')',
+        wrong   : 'require(\'dw/web/Resource\')',
+        correct : 'Resource'
     },
     {
-        key   : 'require("dw/web/Resource")',
-        part1 : 'require("dw/web/Resource")',
-        part2 : 'Resource'
+        key     : 'require("dw/web/Resource")',
+        wrong   : 'require("dw/web/Resource")',
+        correct : 'Resource'
     },
 
 
     // dw.web.URLUtils;
     {
-        key   : 'dw.web.URLUtils',
-        part1 : 'dw.web.',
-        part2 : 'URLUtils'
+        key     : 'dw.web.URLUtils',
+        wrong   : 'dw.web.',
+        correct : 'URLUtils'
     },
     {
-        key   : 'require(\'dw/web/URLUtils\')',
-        part1 : 'require(\'dw/web/URLUtils\')',
-        part2 : 'URLUtils'
+        key     : 'require(\'dw/web/URLUtils\')',
+        wrong   : 'require(\'dw/web/URLUtils\')',
+        correct : 'URLUtils'
     },
     {
-        key   : 'require("dw/web/URLUtils")',
-        part1 : 'require("dw/web/URLUtils")',
-        part2 : 'URLUtils'
+        key     : 'require("dw/web/URLUtils")',
+        wrong   : 'require("dw/web/URLUtils")',
+        correct : 'URLUtils'
     },
 
 
     // dw.util.StringUtils;
     {
-        key   : 'dw.util.StringUtils',
-        part1 : 'dw.util.',
-        part2 : 'StringUtils'
+        key     : 'dw.util.StringUtils',
+        wrong   : 'dw.util.',
+        correct : 'StringUtils'
     },
     {
-        key   : 'require(\'dw/util/StringUtils\')',
-        part1 : 'require(\'dw/util/StringUtils\')',
-        part2 : 'StringUtils'
+        key     : 'require(\'dw/util/StringUtils\')',
+        wrong   : 'require(\'dw/util/StringUtils\')',
+        correct : 'StringUtils'
     },
     {
-        key   : 'require("dw/util/StringUtils")',
-        part1 : 'require("dw/util/StringUtils")',
-        part2 : 'StringUtils'
+        key     : 'require("dw/util/StringUtils")',
+        wrong   : 'require("dw/util/StringUtils")',
+        correct : 'StringUtils'
     }
 ];
 
@@ -64,11 +64,11 @@ const Rule = Object.create(TreeRulePrototype);
 Rule.init(ruleId);
 
 Rule.isBroken = function (node) {
-    for (let i = 0; i < disallowedStringsDataContainer.length; i++) {
-        const disallowedStringData = disallowedStringsDataContainer[i];
+    for (let i = 0; i < disallowedOccurrenceContainer.length; i++) {
+        const disallowedOccurrence = disallowedOccurrenceContainer[i];
 
-        if (node.value.indexOf(disallowedStringData.key) >= 0) {
-            return disallowedStringData;
+        if (node.value.indexOf(disallowedOccurrence.key) >= 0) {
+            return disallowedOccurrence;
         }
     }
 
@@ -79,15 +79,15 @@ Rule.check = function(node, data) {
 
     const config               = ConfigUtils.load();
     const occurrenceList       = this.checkChildren(node, data);
-    const disallowedStringData = this.isBroken(node);
+    const disallowedOccurrence = this.isBroken(node);
 
-    if (disallowedStringData) {
+    if (disallowedOccurrence) {
         const trimmedValue   = node.value.trim();
-        const startPos       = trimmedValue.indexOf(disallowedStringData.key);
+        const startPos       = trimmedValue.indexOf(disallowedOccurrence.key);
         const beforeStartPos = trimmedValue.substring(0, startPos);
         const lineOffset     = ParseUtils.getLineBreakQty(beforeStartPos);
         let globalPos        = node.globalPos + startPos;
-        const message        = getMessage(disallowedStringData);
+        const message        = getMessage(disallowedOccurrence);
 
         if (data.isCrlfLineBreak) {
             globalPos += lineOffset;
@@ -96,9 +96,9 @@ Rule.check = function(node, data) {
         const error = this.getError(
             node.value.trim(),
             node.lineNumber,
-            node.columnNumber + node.value.trim().indexOf(disallowedStringData.key) - 1,
+            node.columnNumber + node.value.trim().indexOf(disallowedOccurrence.key) - 1,
             globalPos,
-            disallowedStringData.part1.length,
+            disallowedOccurrence.wrong.length,
             message
         );
 
@@ -110,13 +110,13 @@ Rule.check = function(node, data) {
 
 Rule.getFixedContent = function(node) {
 
-    for (let i = 0; i < disallowedStringsDataContainer.length; i++) {
-        const disallowedOccurrence = disallowedStringsDataContainer[i];
+    for (let i = 0; i < disallowedOccurrenceContainer.length; i++) {
+        const disallowedOccurrence = disallowedOccurrenceContainer[i];
 
         if (node.value.indexOf(disallowedOccurrence.key) >= 0) {
             node.value = node.value
                 .split(disallowedOccurrence.key)
-                .join(disallowedOccurrence.part2);
+                .join(disallowedOccurrence.correct);
         }
     }
 
@@ -127,8 +127,8 @@ Rule.getFixedContent = function(node) {
     return node.toString();
 };
 
-const getMessage = disallowedString => {
-    return `"${disallowedString.part1}" is not necessary since "${disallowedString.part2}" is available globally`;
+const getMessage = disallowedOccurrence => {
+    return `"${disallowedOccurrence.wrong}" is not necessary since "${disallowedOccurrence.correct}" is available globally`;
 };
 
 module.exports = Rule;
