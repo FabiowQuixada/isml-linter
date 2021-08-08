@@ -1,6 +1,6 @@
 # "leading-iscontent" Rule
 
-Ensures that &lt;iscontent> tag is always among the first four elements of the template, if present.
+Ensures that `<iscontent>` tag is always among the first four elements of the template, if present.
 
 ## Notes
 

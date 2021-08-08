@@ -1,6 +1,6 @@
 # "no-iselse-slash" Rule
 
-Disallows self-closing &lt;iselse> and &lt;iselseif> tags.
+Disallows self-closing `<iselse>` and `<iselseif>` tags.
 
 ## Notes
 

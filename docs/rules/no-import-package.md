@@ -1,6 +1,6 @@
 # "no-import-package" Rule
 
-Disallows "import" calls.
+Disallows `import` calls.
 
 ## Notes 
 

@@ -76,6 +76,6 @@ For the above configuration, the following scenarios may happen:
 </div>
 ```
 
-Please note that the above example considers the indentation of the "${value}" element as valid. If it was not like that, it would enforce each element to start in its own line, which is exactly the purpose of the "one-element-per-line" rule.
+Please note that the above example considers the indentation of the `${value}` element as valid. If it was not like that, it would enforce each element to start in its own line, which is exactly the purpose of the "one-element-per-line" rule.
 
 [generic-config]: <../generic-rule-config.md>

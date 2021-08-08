@@ -1,6 +1,6 @@
 # "no-br" Rule
 
-Disallows &lt;br/> tags. Use this rule if you want to handle vertical spacing via CSS.
+Disallows `<br/>` tags. Use this rule if you want to handle vertical spacing via CSS.
 
 ## :exclamation: Deprecated
 Consider using "[disallow-tags][disallow-tags]" rule instead.

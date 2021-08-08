@@ -5,7 +5,7 @@ Disallows ISML tags within HTML tags.
 ## Notes
 
 - Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
-- &lt;isprint /> is the only ISML tag that is considered as valid within an HTML element;
+- `<isprint />` is the only ISML tag that is considered as valid within an HTML element;
 
 ## Configuration
 

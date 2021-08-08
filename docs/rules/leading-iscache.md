@@ -1,6 +1,6 @@
 # "leading-iscache" Rule
 
-Ensures that &lt;iscache> tag is always among the first elements of the template, after &lt;iscontent> tag, if they are present.
+Ensures that `<iscache>` tag is always among the first elements of the template, after `<iscontent>` tag, if they are present.
 
 ## Notes
 

@@ -11,7 +11,7 @@ Before checking any rules, ISML Linter builds an ISML DOM and then traverses it,
 
 ## Creating a New Rule 
 
-Once you fork the project, create a new file, say, "my-new-rule.js", under ./src/rules/tree/ with the following content:
+Once you fork the project, create a new file, say, _my-new-rule.js_, under _./src/rules/tree/_ with the following content:
 
 ```js
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
@@ -35,7 +35,7 @@ The above code example is the simplest case scenario, and you need to change onl
 
 Note that the name of the rule is inferred from its file name. Description is what will be displayed to the final user if the rule is broken.
 
-Here is an example of a rule which doesn't allow &lt;isscript> tags in the template:
+Here is an example of a rule which doesn't allow `<isscript>` tags in the template:
 
 ```js
 Rule.isBroken = function(node) {
@@ -51,7 +51,7 @@ To create specs, you will need to create the following files (adapting them with
 - /spec/templates/default/rules/tree/my_new_rule/template_0.isml
 - /spec/templates/default/rules/tree/my_new_rule/template_1.isml
 
-Naming is very important here for both the spec file and templates. Notice that the `my_new_rule` directory snake-case convention.
+Naming is very important here for both the spec file and templates. Notice that the _my_new_rule_ directory snake-case convention.
 
 You can easily copy and adapt from other rules specs. We recommend you to take [one-element-per-line-Spec][one-element-per-line-spec] as base for your specs.
 

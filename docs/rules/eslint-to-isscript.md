@@ -1,6 +1,6 @@
 # "eslint-to-isscript" Rule
 
-Applies ESLint rules to &lt;isscript> tag content
+Applies ESLint rules to `<isscript>` tag content.
 
 ## Notes
 
@@ -9,9 +9,9 @@ Applies ESLint rules to &lt;isscript> tag content
 
 :eight_spoked_asterisk: **Attention:** Please note that simply applying your current set of ESLint rules to ISML templates might produce undesired side-effects. It is recommended that you carefully select which rules will apply to the templates.
 
-For example, each &lt;script> tag is treated as an independent scope, even if they are in the same template, so **let** and **const** rules might behave in an unexpected way.
+For example, each `<isscript>` tag is treated as an independent scope, even if they are in the same template, so `let` and `const` rules might behave in an unexpected way.
 
-If you need to have a different ESlint configuration for templates, you can set the "eslintConfig" property in the .ismllinter.config.js file.
+If you need to have a different ESlint configuration for templates, you can set the "eslintConfig" property in the _.ismllinter.config.js_ file.
 
 ## Configuration
 

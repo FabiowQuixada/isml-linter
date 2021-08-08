@@ -1,6 +1,6 @@
 # "align-isset" Rule
 
-Aligns contiguous &lt;isset> tags attributes' columns
+Aligns contiguous `<isset>` tags attributes' columns
 
 ## Notes
 

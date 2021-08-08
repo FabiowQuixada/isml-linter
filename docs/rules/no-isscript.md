@@ -1,6 +1,6 @@
 # "no-isscript" Rule
 
-Disallows &lt;isscript /> tags in templates. As a best practice, keep logic in separate `.js` files and then require them.
+Disallows `<isscript />` tags in templates. As a best practice, keep logic in separate _.js_ files and then require them.
 
 ## :exclamation: Deprecated
 Consider using "[disallow-tags][disallow-tags]" rule instead.
