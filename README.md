@@ -156,10 +156,10 @@ Check the [API docs][api-docs].
 
 | Rule                                                                                 | Description                              |
 | ------------------------------------------------------------------------------------ |:-----------------------------------------|
-| [no-br][no-br-readme]                                                                | Disallows &lt;br/> tags. Enable this rule if you prefer to use CSS to handle vertical spacing |
+| :exclamation: [no-br][no-br-readme]                                                                | <span style="color:orange">[Deprecated]</span> Disallows &lt;br/> tags. Enable this rule if you prefer to use CSS to handle vertical spacing |
 | [no-git-conflict][no-git-conflict-readme]                                            | Disallows unresolved Git conflicts |
 | [no-import-package][no-import-package-readme]                                        | Disallows `importPackage()` function. It is recommended by SalesForce to use require() instead |
-| [no-isscript][no-isscript-readme]                                                    | Disallows &lt;isscript/> tag in template. Enable this rule if you prefer logic to be kept in a separate .ds/.js file |
+| :exclamation: [no-isscript][no-isscript-readme]                                                    | <span style="color:orange">[Deprecated]</span> Disallows &lt;isscript/> tag in template. Enable this rule if you prefer logic to be kept in a separate .ds/.js file |
 | :wrench: [no-trailing-spaces][no-trailing-spaces-readme]                             | Disallows trailing blank spaces |
 | :wrench: [no-space-only-lines][no-space-only-lines-readme]                           | Disallows lines that contain only blank spaces, i.e., unnecessarily indented |
 | [no-inline-style][no-inline-style-readme]                                            | Disallows use of "style" HTML attribute. Enable this rule if you prefer style to be fully handled via CSS |
