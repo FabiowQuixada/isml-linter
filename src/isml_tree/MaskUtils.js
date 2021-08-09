@@ -20,6 +20,7 @@ const maskIgnorableContent = (content, shouldMaskBorders, templatePath) => {
 
     checkTagBalance(content, templatePath);
 
+    content = maskInBetweenForTagWithAttributes(content, 'script', 'type=\'text/javascript\'');
     content = maskInBetweenForTagWithAttributes(content, 'script');
     content = maskInBetweenForTagWithAttributes(content, 'style');
     content = maskInBetween2(content, '<', '>');
@@ -102,9 +103,9 @@ const getMatchingLists = (content, startString, endString) => {
     };
 };
 
-const maskInBetweenForTagWithAttributes = (content, rawStartString) => {
+const maskInBetweenForTagWithAttributes = (content, rawStartString, attributes = '') => {
 
-    const startingString = `<${rawStartString}>`;
+    const startingString = `<${rawStartString + (attributes ? ' ' + attributes : '')}>`;
     const endString      = `</${rawStartString}>`;
     return getMatchingIndexes(content, startingString, endString);
 };
@@ -188,7 +189,7 @@ const getMatchingIndexes = (content, startString, endString, isMaskBorders) => {
     let isInBetween         = false;
     const currentOpeningTag = {
         endingGlobalPos : null,
-        arrayIndex         : null
+        arrayIndex      : null
     };
 
     const isDeprecatedIsmlCommentUnbalanced = checkIfDeprecatedIsmlCommentIsUnbalanced(content, startString, openingMatchList, closingMatchList);

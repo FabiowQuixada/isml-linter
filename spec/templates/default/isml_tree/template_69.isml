@@ -1,0 +1,6 @@
+<script type='text/javascript'>
+    function () {
+        var ob = {};
+        obj.src = ('https:' == document.location.protocol ? '<https://'> : '<http://')>;
+    };
+</script>

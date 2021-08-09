@@ -661,6 +661,12 @@ describe(targetObjName, () => {
 
         expect(isifNode.value).toEqual('    <isif condition="${aCondition}">');
     });
+
+    it('allows "script" tag to have attributes', () => {
+        const rootNode = getRootNodeFromTemplate(69);
+
+        expect(rootNode).not.toEqual(null);
+    });
 });
 
 const getTemplatePath = number => {
