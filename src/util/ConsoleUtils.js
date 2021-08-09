@@ -93,7 +93,7 @@ const displayUnknownErrors = lintResult => {
             partialSum++;
         }
 
-        console.log(`${Constants.EOL}Please check if your node version is >=10.0.0. If it is, please report the above issues to ${chalk.cyan(Constants.repositoryUrl)} and add these files to the ignore list while a fix is not available.`);
+        console.log(`${Constants.EOL}Please check if your node version is >=10.0.0. If it is, please report the above issues to ${chalk.cyan(Constants.repositoryUrl + '/issues')} and add these files to the ignore list while a fix is not available.`);
     }
 
     return partialSum;
