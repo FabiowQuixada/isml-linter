@@ -168,14 +168,17 @@ const getAttributeValueErrorList = function(node, attribute) {
             .filter( attr => attr.trim() && ['{', '}'].indexOf(attr.trim()) === -1);
 
         for (let i = 0; i < attributeValueList.length; i++) {
-            const attributeValue    = attributeValueList[i];
-            const valueColumnNumber = ParseUtils.getLeadingEmptyChars(attributeValue).length;
+            const attributeValue                   = attributeValueList[i];
+            const valueColumnNumber                = ParseUtils.getLeadingEmptyChars(attributeValue).length;
+            const attributeValueStartPos           = attribute.value.indexOf(attributeValue);
+            const attributeValuePrefix             = attribute.value.substring(0, attributeValueStartPos);
+            const isValueInSameLineAsAttributeName = ParseUtils.getLineBreakQty(attributeValuePrefix) === 0;
 
-            if (valueColumnNumber !== expectedIndentation) {
-                const attributeValuePrefix = attribute.fullValue.substring(0, attribute.fullValue.indexOf(attributeValue.trim()));
-                const lineBreakQty         = ParseUtils.getLineBreakQty(attributeValuePrefix);
-                const occurrenceGlobalPos  = getAttributeValueGlobalPos(attribute, attributeValueList, i);
-                const lineNumber           = attribute.lineNumber + lineBreakQty;
+            if (!isValueInSameLineAsAttributeName && valueColumnNumber !== expectedIndentation) {
+                const attributeValueFullPrefix = attribute.fullValue.substring(0, attribute.fullValue.indexOf(attributeValue.trim()));
+                const lineBreakQty             = ParseUtils.getLineBreakQty(attributeValueFullPrefix);
+                const occurrenceGlobalPos      = getAttributeValueGlobalPos(attribute, attributeValueList, i);
+                const lineNumber               = attribute.lineNumber + lineBreakQty;
 
                 const occurrenceColumnNumber = valueColumnNumber === 0 ?
                     valueColumnNumber :

@@ -682,4 +682,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('allows attribute value to be in the same line as attribute name', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 47);
+
+        expect(result.length).toEqual(0);
+    });
 });
