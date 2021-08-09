@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.36.1] - 2021-08-09
+
+### Fixed
+ - "indent" rule - indentation of tag attribute values that are in same line as attribute name;
+
+### Deprecated
+ - "[no-br][no-br-readme]" and "[no-isscript][no-isscript-readme]" rules in favor of "[disallow-tags][disallow-tags-readme]" rule;
+ 
 ## [5.36.0] - 2021-08-07
 
 ### Added
@@ -883,6 +891,7 @@
 ### Added
 - Linter is published;
 
+[5.36.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.0...v5.36.1
 [5.36.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.10...v5.36.0
 [5.35.10]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.9...v5.35.10
 [5.35.9]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.8...v5.35.9
@@ -1018,5 +1027,7 @@
 [api-docs]: <docs/api.md>
 [license]:  <LICENSE>
 
-[disallow-tags-readme]: <docs/rules/disallow-tags.md>
+[disallow-tags-readme]:    <docs/rules/disallow-tags.md>
+[no-br-readme]:            <docs/rules/no-br.md>
+[no-isscript-readme]:      <docs/rules/no-isscript.md>
 [enforce-security-readme]: <docs/rules/enforce-security.md>
