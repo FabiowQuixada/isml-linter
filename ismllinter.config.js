@@ -25,7 +25,9 @@ const config = {
         'no-embedded-isml'     : {},
         'no-hardcode'          : {},
         'no-require-in-loop'   : {},
-        'one-element-per-line' : {}
+        'one-element-per-line' : {
+            except: ['iscomment']
+        }
     }
 };
 
