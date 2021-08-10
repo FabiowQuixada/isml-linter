@@ -19,7 +19,7 @@ const parse = (content, templatePath, isCrlfLineBreak, isEmbeddedNode) => {
 
         currentParent = containerResult.currentParent;
 
-        if (containerResult.continue) {
+        if (containerResult.shouldContinueLoop) {
             continue;
         }
 
@@ -40,8 +40,8 @@ const parseContainerElements = (element, currentParent, newNode, templatePath) =
         currentParent       = newNode;
 
         return {
-            continue      : true,
-            currentParent : currentParent
+            shouldContinueLoop : true,
+            currentParent      : currentParent
         };
 
     } else if (element.tagType === 'iselse' || element.tagType === 'iselseif') {
@@ -50,8 +50,8 @@ const parseContainerElements = (element, currentParent, newNode, templatePath) =
         currentParent = newNode;
 
         return {
-            continue      : true,
-            currentParent : currentParent
+            shouldContinueLoop : true,
+            currentParent      : currentParent
         };
 
     } else if (element.tagType === 'isif' && element.isClosingTag) {
@@ -73,14 +73,14 @@ const parseContainerElements = (element, currentParent, newNode, templatePath) =
         currentParent = currentParent.parent.parent;
 
         return {
-            continue      : true,
-            currentParent : currentParent
+            shouldContinueLoop : true,
+            currentParent      : currentParent
         };
     }
 
     return {
-        continue      : false,
-        currentParent : currentParent
+        shouldContinueLoop : false,
+        currentParent      : currentParent
     };
 };
 
