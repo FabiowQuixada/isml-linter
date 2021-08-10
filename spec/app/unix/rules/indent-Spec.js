@@ -688,4 +688,21 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('detects attribute value wrong indentation IV', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 48);
+
+        expect(result.length).toEqual(2);
+        expect(result[0].lineNumber   ).toEqual(4);
+        expect(result[0].columnNumber ).toEqual(0);
+        expect(result[0].length       ).toEqual(8);
+        expect(result[0].globalPos    ).toEqual(106);
+        expect(result[0].message      ).toEqual('Expected indentation of 12 spaces but found 8');
+
+        expect(result[1].lineNumber   ).toEqual(5);
+        expect(result[1].columnNumber ).toEqual(0);
+        expect(result[1].length       ).toEqual(8);
+        expect(result[1].globalPos    ).toEqual(128);
+        expect(result[1].message      ).toEqual('Expected indentation of 12 spaces but found 8');
+    });
 });

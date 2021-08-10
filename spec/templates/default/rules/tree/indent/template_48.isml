@@ -1,0 +1,6 @@
+<div>
+    <isset name="var1" value="${value1}" scope="page" />
+    <isset name="var2" value="${condition1
+        && condition2
+        && condition3}" scope="page" />
+</div>

@@ -177,7 +177,7 @@ const getAttributeValueErrorList = function(node, attribute) {
             if (!isValueInSameLineAsAttributeName && valueColumnNumber !== expectedIndentation) {
                 const attributeValueFullPrefix = attribute.fullValue.substring(0, attribute.fullValue.indexOf(attributeValue.trim()));
                 const lineBreakQty             = ParseUtils.getLineBreakQty(attributeValueFullPrefix);
-                const occurrenceGlobalPos      = getAttributeValueGlobalPos(attribute, attributeValueList, i);
+                const occurrenceGlobalPos      = attribute.globalPos + attribute.fullValue.indexOf(attributeValueList[i]) + attribute.lineNumber - 1;
                 const lineNumber               = attribute.lineNumber + lineBreakQty;
 
                 const occurrenceColumnNumber = valueColumnNumber === 0 ?
@@ -240,20 +240,6 @@ const getAttributeErrorList = function(node) {
     }
 
     return result;
-};
-
-const getAttributeValueGlobalPos = (attribute, attributeValueList, i) => {
-    const attributeValue     = attributeValueList[i];
-    let prevAttrLineBreakQty = 0;
-
-    if (i > 0) {
-        const prevAttributeValue       = attributeValueList[i - 1];
-        const prevAttributeValuePrefix = attribute.fullValue.substring(0, attribute.fullValue.indexOf(prevAttributeValue.trim()));
-
-        prevAttrLineBreakQty = ParseUtils.getLineBreakQty(prevAttributeValuePrefix);
-    }
-
-    return attribute.globalPos + attribute.fullValue.indexOf(attributeValue) - prevAttrLineBreakQty + 1;
 };
 
 const removeIndentation = content => {
