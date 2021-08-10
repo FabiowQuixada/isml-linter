@@ -165,6 +165,10 @@ class IsmlNode {
     // Always returns false. It is true only for the container elements, please check ContainerNode class;
     isContainer() { return false; }
 
+    isContainerChild() {
+        return this.parent && this.parent.isContainer();
+    }
+
     isScriptContent() {
         return this.parent && this.parent.isOfType('isscript');
     }

@@ -1,0 +1,8 @@
+<div>
+    <isif condition="${aCondition}">
+        <div>
+            <span></span>
+    <iselseif condition="${anotherCondition}"/>
+        <span />
+    </isif>
+</div>

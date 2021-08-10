@@ -33,6 +33,16 @@ const parse = (content, templatePath, isCrlfLineBreak, isEmbeddedNode) => {
 
 const parseContainerElements = (element, currentParent, newNode, templatePath) => {
 
+    if (!currentParent.isContainerChild() && ['iselse', 'iselseif'].indexOf(element.tagType) >= 0) {
+        throw ExceptionUtils.unbalancedElementError(
+            currentParent.getType(),
+            currentParent.lineNumber,
+            currentParent.globalPos,
+            currentParent.value.trim().length,
+            templatePath
+        );
+    }
+
     if (element.tagType === 'isif' && !element.isClosingTag) {
         const containerNode = new ContainerNode();
         currentParent.addChild(containerNode);
