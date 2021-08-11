@@ -330,7 +330,7 @@ const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset)
                 attributePrefix += nodeIndentation + attributeOffset;
             }
 
-            const valueList = attributePrefix + attribute.name + '=' + attribute.quoteChar + attribute.value
+            const valueList = attributePrefix + (index > 0 && attribute.isInSameLineAsTagName ? ' ' : '') + attribute.name + '=' + attribute.quoteChar + attribute.value
                 .split(Constants.EOL)
                 .filter( value => value )
                 .map( (value, i) => {

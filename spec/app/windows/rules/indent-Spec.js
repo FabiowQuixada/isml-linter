@@ -718,8 +718,14 @@ describe(rule.id, () => {
         expect(result[1].message      ).toEqual('Expected indentation of 12 spaces but found 8');
     });
 
-    it('autofix keeps duplicate spaces between tag attributes', () => {
+    it('autofix keeps spaces between tag attributes', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 47);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix keeps spaces between tag attributes II', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 48);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
