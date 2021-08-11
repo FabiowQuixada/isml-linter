@@ -705,4 +705,10 @@ describe('On Unix, ' + rule.id, () => {
         expect(result[1].globalPos    ).toEqual(128);
         expect(result[1].message      ).toEqual('Expected indentation of 12 spaces but found 8');
     });
+
+    it('autofix keeps duplicate spaces between tag attributes', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 47);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

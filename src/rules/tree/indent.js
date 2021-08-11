@@ -397,26 +397,31 @@ const addIndentation = (node, isOpeningTag) => {
         const tagNameEndPos = ParseUtils.getLeadingLineBreakQty(node.value)
             + ParseUtils.getFirstEmptyCharPos(node.value.trim()) + 1;
 
-        contentResult = attributeList.length > 0 ?
-            node.value.substring(0, tagNameEndPos).trimStart() :
-            node.value.trimStart();
+        if (ParseUtils.getLineBreakQty(node.value.trim()) === 0) {
+            contentResult = node.value.trimStart();
+        } else {
+            contentResult = attributeList.length > 0 ?
+                node.value.substring(0, tagNameEndPos).trimStart() :
+                node.value.trimStart();
 
-        for (let i = 0; i < attributeList.length; i++) {
-            contentResult += indentAttribute(attributeList, i, nodeIndentation, attributeOffset);
+            for (let i = 0; i < attributeList.length; i++) {
+                contentResult += indentAttribute(attributeList, i, nodeIndentation, attributeOffset);
+            }
+
+            if (attributeList.length > 0) {
+                const lastAttributeFullValue            = attributeList[attributeList.length - 1].fullValue;
+                const lastAttributeLocalPos             = node.value.indexOf(lastAttributeFullValue);
+                const nodeValueRemainingContent         = node.value.substring(lastAttributeLocalPos);
+                const nodeValueLastChars                = nodeValueRemainingContent.substring(lastAttributeFullValue.length);
+                const shouldAddIndentationToClosingChar = ParseUtils.getLineBreakQty(nodeValueLastChars.trimEnd()) > 0;
+                const closingChars                      = getClosingChars(node);
+
+                contentResult += shouldAddIndentationToClosingChar ?
+                    Constants.EOL + nodeIndentation + closingChars.trimStart() :
+                    closingChars;
+            }
         }
 
-        if (attributeList.length > 0) {
-            const lastAttributeFullValue            = attributeList[attributeList.length - 1].fullValue;
-            const lastAttributeLocalPos             = node.value.indexOf(lastAttributeFullValue);
-            const nodeValueRemainingContent         = node.value.substring(lastAttributeLocalPos);
-            const nodeValueLastChars                = nodeValueRemainingContent.substring(lastAttributeFullValue.length);
-            const shouldAddIndentationToClosingChar = ParseUtils.getLineBreakQty(nodeValueLastChars.trimEnd()) > 0;
-            const closingChars                      = getClosingChars(node);
-
-            contentResult += shouldAddIndentationToClosingChar ?
-                Constants.EOL + nodeIndentation + closingChars.trimStart() :
-                closingChars;
-        }
     } else {
         contentResult = node.suffixValue.trim();
     }

@@ -1,0 +1,5 @@
+<div>
+    <isset name="var1"       value="${require('dw/value/Money')}"                   scope="page" />
+    <isset name="var2"       value="${require("dw/util/StringUtils").formatMoney}"  scope="page" />
+    <isset name="var3"       value="${Money.NOT_AVAILABLE}"                         scope="page" />
+</div>
