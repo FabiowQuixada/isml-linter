@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.36.2] - 2021-08-11
+
+### Fixed
+  - "indent" rule - autofix to keep duplicate spaces between tag attributes;
+  - "indent" rule - attribute value indentation;
+  - Tree build - unbalanced element detection;
+  - Tree build - "script" tag with attribute parse;
+
 ## [5.36.1] - 2021-08-09
 
 ### Fixed
@@ -891,6 +899,7 @@
 ### Added
 - Linter is published;
 
+[5.36.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.1...v5.36.2
 [5.36.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.0...v5.36.1
 [5.36.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.10...v5.36.0
 [5.35.10]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.9...v5.35.10
