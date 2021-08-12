@@ -488,7 +488,7 @@ const getStringifiedAttributeArray = content => {
 const parseAttribute = (node, attributeList, index) => {
     const attribute                             = attributeList[index];
     const isAttributeANestedIsmlTag             = attribute.startsWith('<is');
-    const isDynamicAttribute                    = attribute.startsWith('${') && attribute.endsWith('}');
+    const isExpressionAttribute                 = attribute.startsWith('${') && attribute.endsWith('}');
     const trimmedAttribute                      = attribute.trim();
     const trimmedNodeValue                      = node.value.trim();
     const maskedTrimmedAttribute                = MaskUtils.maskQuoteContent(trimmedAttribute);
@@ -514,14 +514,14 @@ const parseAttribute = (node, attributeList, index) => {
         leadingContent.length - leadingContent.lastIndexOf(Constants.EOL);
 
     const isFirstInLine = !isInSameLineAsTagName
-        && !isDynamicAttribute
+        && !isExpressionAttribute
         && trimmedNodeValue
             .split(Constants.EOL)
             .find(attrLine => attrLine.indexOf(name) >= 0)
             .trim()
             .indexOf(name) === 0;
 
-    if (isAttributeANestedIsmlTag || isDynamicAttribute) {
+    if (isAttributeANestedIsmlTag || isExpressionAttribute) {
         return {
             name            : trimmedAttribute,
             value           : null,
@@ -534,10 +534,12 @@ const parseAttribute = (node, attributeList, index) => {
             isInSameLineAsTagName,
             isFirstInLine,
             isFirstValueInSameLineAsAttributeName,
+            isExpressionAttribute,
             hasMultilineValue,
             isNestedIsmlTag : isAttributeANestedIsmlTag,
             length          : trimmedAttribute.length + ParseUtils.getLineBreakQty(trimmedAttribute),
             fullValue       : trimmedAttribute,
+            quoteChar,
             node
         };
 
@@ -554,6 +556,7 @@ const parseAttribute = (node, attributeList, index) => {
             isInSameLineAsTagName,
             isFirstInLine,
             isFirstValueInSameLineAsAttributeName,
+            isExpressionAttribute,
             hasMultilineValue,
             isNestedIsmlTag: isAttributeANestedIsmlTag,
             length         : trimmedAttribute.length,

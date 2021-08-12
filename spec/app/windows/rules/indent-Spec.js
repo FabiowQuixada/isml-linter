@@ -729,4 +729,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('autofix fixes indentation of expression attributes', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 49);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

@@ -1,0 +1,8 @@
+<span>
+    <div
+        ${value1 === value2
+            ? "yes"
+            : "no" }
+    >
+    </div>
+</span>

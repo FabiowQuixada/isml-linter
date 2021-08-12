@@ -330,20 +330,31 @@ const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset)
                 attributePrefix += nodeIndentation + attributeOffset;
             }
 
-            const valueList = attributePrefix + (index > 0 && attribute.isInSameLineAsTagName ? ' ' : '') + attribute.name + '=' + attribute.quoteChar + attribute.value
-                .split(Constants.EOL)
-                .filter( value => value )
-                .map( (value, i) => {
-                    if (i === 0) {
-                        return attribute.isFirstValueInSameLineAsAttributeName ?
-                            value :
-                            Constants.EOL + nodeIndentation + attributeOffset + attributeOffset + value;
-                    }
+            const formattedAttributeName = attribute.isExpressionAttribute ?
+                getExpressionAttributeIndentation(attribute.name, nodeIndentation, attributeOffset) :
+                attribute.name;
 
-                    return nodeIndentation + attributeOffset + attributeOffset + value;
-                })
-                .join(Constants.EOL)
-                + Constants.EOL + nodeIndentation + attributeOffset + attribute.quoteChar;
+            const formattedAttributeValue = attribute.value ?
+                '=' + attribute.quoteChar + attribute.value
+                    .split(Constants.EOL)
+                    .filter( value => value )
+                    .map( (value, i) => {
+                        if (i === 0) {
+                            return attribute.isFirstValueInSameLineAsAttributeName ?
+                                value :
+                                Constants.EOL + nodeIndentation + attributeOffset + attributeOffset + value;
+                        }
+
+                        return nodeIndentation + attributeOffset + attributeOffset + value;
+                    })
+                    .join(Constants.EOL) :
+                '';
+
+            const valueList = attributePrefix
+                + (index > 0 && attribute.isInSameLineAsTagName ? ' ' : '')
+                + formattedAttributeName
+                + formattedAttributeValue
+                + (attribute.isExpressionAttribute ? '' : Constants.EOL + nodeIndentation + attributeOffset + attribute.quoteChar);
 
             result += valueList;
         }
@@ -363,6 +374,15 @@ const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset)
     }
 
     return result;
+};
+
+const getExpressionAttributeIndentation = (attributeValue, nodeIndentation, attributeOffset) => {
+    return attributeValue
+        .split(Constants.EOL)
+        .map( (line, i) => {
+            return nodeIndentation + attributeOffset + (i > 0 ? attributeOffset : '') + line;
+        })
+        .join(Constants.EOL);
 };
 
 const getClosingChars = node => {
