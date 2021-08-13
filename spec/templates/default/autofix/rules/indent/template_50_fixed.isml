@@ -1,0 +1,9 @@
+<div class="
+        <isif condition="${aCondition}">
+            col-8
+        <iselse>
+            col-12
+        </isif>
+    "
+>
+</div>

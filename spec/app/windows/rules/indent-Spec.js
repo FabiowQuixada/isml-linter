@@ -735,4 +735,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('autofix fixes indentation of attribute "isif"-embedded value', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 50);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

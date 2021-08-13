@@ -309,6 +309,63 @@ const getIndentedNestedIsmlContent = (attribute, nodeIndentation, attributeOffse
     }
 };
 
+const getTreeBuiltAttributeIndentedValue = (attribute, nodeIndentation, attributeOffset) => {
+    const attributeRootNode = TreeBuilder.parse(attribute.value, null, null, true);
+    const fixedContent      = Rule.getFixedContent(attributeRootNode);
+
+    const result = fixedContent
+        .split(Constants.EOL)
+        .map( (line, i) => {
+
+            // If line contains only blank spaces;
+            if (!line.trim()) {
+                return '';
+            }
+
+            if (i === 0 && attribute.isFirstInLine && !attribute.isInSameLineAsTagName && attribute.index !== 0) {
+                return Constants.EOL + nodeIndentation + attributeOffset + line;
+            }
+
+            return nodeIndentation + attributeOffset + line;
+        });
+
+    // TODO: Probably there is a better way of doing it;
+    // Remove last element to avoid an extra empty line
+    if (result.length && result[result.length - 1] === '') {
+        result.pop();
+    }
+
+    return result.join(Constants.EOL);
+};
+
+const getAttributeIndentedValue = (attribute, nodeIndentation, attributeOffset) => {
+    let result = '';
+
+    if (attribute.value) {
+        if (attribute.value.indexOf('<is') >= 0) {
+            result = '=' + attribute.quoteChar + getTreeBuiltAttributeIndentedValue(attribute, nodeIndentation, attributeOffset + attributeOffset);
+
+        } else {
+            result = '=' + attribute.quoteChar + attribute.value
+                .split(Constants.EOL)
+                .filter( value => value )
+                .map( (value, i) => {
+                    if (i === 0) {
+                        return attribute.isFirstValueInSameLineAsAttributeName ?
+                            value :
+                            Constants.EOL + nodeIndentation + attributeOffset + attributeOffset + value;
+                    }
+
+                    return nodeIndentation + attributeOffset + attributeOffset + value;
+                })
+                .join(Constants.EOL);
+        }
+    }
+
+    return result;
+};
+
+
 const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset) => {
     const attribute = attributeList[index];
     let result      = '';
@@ -334,21 +391,7 @@ const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset)
                 getExpressionAttributeIndentation(attribute.name, nodeIndentation, attributeOffset) :
                 attribute.name;
 
-            const formattedAttributeValue = attribute.value ?
-                '=' + attribute.quoteChar + attribute.value
-                    .split(Constants.EOL)
-                    .filter( value => value )
-                    .map( (value, i) => {
-                        if (i === 0) {
-                            return attribute.isFirstValueInSameLineAsAttributeName ?
-                                value :
-                                Constants.EOL + nodeIndentation + attributeOffset + attributeOffset + value;
-                        }
-
-                        return nodeIndentation + attributeOffset + attributeOffset + value;
-                    })
-                    .join(Constants.EOL) :
-                '';
+            const formattedAttributeValue = getAttributeIndentedValue(attribute, nodeIndentation, attributeOffset);
 
             const valueList = attributePrefix
                 + (index > 0 && attribute.isInSameLineAsTagName ? ' ' : '')
