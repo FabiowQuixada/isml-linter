@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.36.3] - 2021-08-13
+
+### Fixed
+  - "indent" rule - autofix to keep space between tag attributes;
+  - "indent" rule - expression attribute indentation fix;
+  - "indent" rule - indentation of attribute value with embedded "isif" in it;
+
 ## [5.36.2] - 2021-08-11
 
 ### Fixed
@@ -899,6 +906,7 @@
 ### Added
 - Linter is published;
 
+[5.36.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.2...v5.36.3
 [5.36.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.1...v5.36.2
 [5.36.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.0...v5.36.1
 [5.36.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.35.10...v5.36.0
