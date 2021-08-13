@@ -22,7 +22,6 @@ const config = {
         'max-depth'            : {
             level : 'warning'
         },
-        'no-embedded-isml'     : {},
         'no-hardcode'          : {},
         'no-require-in-loop'   : {},
         'one-element-per-line' : {
