@@ -168,6 +168,15 @@ const getAttributeValueErrorList = function(node, attribute) {
             .filter( attr => attr.trim() && ['{', '}'].indexOf(attr.trim()) === -1);
 
         for (let i = 0; i < attributeValueList.length; i++) {
+
+            if (i > 0) {
+                const shouldContinueLoop = shouldIgnoreAttributeValueIndentation(attributeValueList[i - 1]);
+
+                if (shouldContinueLoop) {
+                    continue;
+                }
+            }
+
             const attributeValue                   = attributeValueList[i];
             const valueColumnNumber                = ParseUtils.getLeadingEmptyChars(attributeValue).length;
             const attributeValueStartPos           = attribute.value.indexOf(attributeValue);
@@ -589,6 +598,20 @@ const getEslintChildTrailingSpaces = node => {
     }
 
     return 0;
+};
+
+const shouldIgnoreAttributeValueIndentation = previousAttributeLine => {
+    const tagList = ['isif', 'iselse', 'iselseif'];
+
+    for (let i = 0; i < tagList.length; i++) {
+        const element = tagList[i];
+
+        if (previousAttributeLine.indexOf(element) >= 0) {
+            return true;
+        }
+    }
+
+    return false;
 };
 
 const getOccurrenceDescription      = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;

@@ -741,4 +741,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('allows attribute value to have an "isif" with children in their own line', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 49);
+
+        expect(result.length).toEqual(0);
+    });
 });
