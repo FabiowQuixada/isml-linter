@@ -1,0 +1,8 @@
+<option id="${optionID}" value="${optionValue}"
+        ${condition1
+            && value1 === value2
+            ? "selected"
+            : "" }
+    >
+    ${optionDisplayText}
+</option>

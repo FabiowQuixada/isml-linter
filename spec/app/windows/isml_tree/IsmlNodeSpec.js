@@ -456,6 +456,15 @@ describe(targetObjName, () => {
         expect(dataInfoAttribute.value             ).toEqual('info-1 info-2 info-3');
         expect(dataInfoAttribute.hasMultilineValue ).toEqual(false);
     });
+
+    it('correctly parses expression attributes', () => {
+        const rootNode            = getTreeRootFromTemplate(23);
+        const optionNode          = rootNode.children[0];
+        const attributeList       = optionNode.getAttributeList();
+        const expressionAttribute = attributeList[2];
+
+        expect(expressionAttribute.isFirstInLine).toEqual(true);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {

@@ -412,7 +412,8 @@ const getExpressionAttributeIndentation = (attributeValue, nodeIndentation, attr
         .map( (line, i) => {
             return nodeIndentation + attributeOffset + (i > 0 ? attributeOffset : '') + line;
         })
-        .join(Constants.EOL);
+        .join(Constants.EOL)
+        .trimStart();
 };
 
 const getClosingChars = node => {

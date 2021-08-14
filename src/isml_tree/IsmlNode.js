@@ -508,18 +508,18 @@ const parseAttribute = (node, attributeList, index) => {
     const hasMultilineValue                     = value && value.indexOf(Constants.EOL) >= 0;
     const isFirstValueInSameLineAsAttributeName = value && ParseUtils.getLeadingLineBreakQty(value) === 0;
     const quoteChar                             = getQuoteChar(trimmedAttribute);
+    const attributeNameFirstLine                = name.split(Constants.EOL)[0];
 
     const columnNumber = isInSameLineAsTagName ?
         node.columnNumber + leadingContent.length :
         leadingContent.length - leadingContent.lastIndexOf(Constants.EOL);
 
     const isFirstInLine = !isInSameLineAsTagName
-        && !isExpressionAttribute
         && trimmedNodeValue
             .split(Constants.EOL)
-            .find(attrLine => attrLine.indexOf(name) >= 0)
+            .find(attrLine => attrLine.indexOf(attributeNameFirstLine) >= 0)
             .trim()
-            .indexOf(name) === 0;
+            .indexOf(attributeNameFirstLine) === 0;
 
     if (isAttributeANestedIsmlTag || isExpressionAttribute) {
         return {
