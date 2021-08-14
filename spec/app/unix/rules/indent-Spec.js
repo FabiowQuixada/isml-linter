@@ -735,4 +735,21 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('allows attribute value to have an "isif" with children in their own line II', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 50);
+
+        expect(result.length).toEqual(2);
+        expect(result[0].lineNumber   ).toEqual(3);
+        expect(result[0].columnNumber ).toEqual(0);
+        expect(result[0].length       ).toEqual(14);
+        expect(result[0].globalPos    ).toEqual(54);
+        expect(result[0].message      ).toEqual('Expected indentation of 12 spaces but found 14');
+
+        expect(result[1].lineNumber   ).toEqual(5);
+        expect(result[1].columnNumber ).toEqual(0);
+        expect(result[1].length       ).toEqual(9);
+        expect(result[1].globalPos    ).toEqual(91);
+        expect(result[1].message      ).toEqual('Expected indentation of 12 spaces but found 9');
+    });
 });

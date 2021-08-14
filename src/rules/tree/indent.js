@@ -170,9 +170,13 @@ const getAttributeValueErrorList = function(node, attribute) {
         for (let i = 0; i < attributeValueList.length; i++) {
 
             if (i > 0) {
-                const shouldContinueLoop = shouldIgnoreAttributeValueIndentation(attributeValueList[i - 1]);
+                const partialResult = getAttributeNestedValueError(attribute, attributeValueList, i, expectedIndentation, configAttributeOffsetSize);
 
-                if (shouldContinueLoop) {
+                if (partialResult.error) {
+                    result.push(partialResult.error);
+                }
+
+                if (partialResult.shouldContinueLoop) {
                     continue;
                 }
             }
@@ -574,18 +578,30 @@ const getEslintChildTrailingSpaces = node => {
     return 0;
 };
 
-const shouldIgnoreAttributeValueIndentation = previousAttributeLine => {
-    const tagList = ['isif', 'iselse', 'iselseif'];
+const getAttributeNestedValueError = (attribute, attributeValueList, i, expectedIndentation, configAttributeOffsetSize) => {
+    const tagList          = ['isif', 'iselse', 'iselseif'];
+    let shouldContinueLoop = false;
 
-    for (let i = 0; i < tagList.length; i++) {
-        const element = tagList[i];
+    for (let j = 0; j < tagList.length; j++) {
+        const element = tagList[j];
 
-        if (previousAttributeLine.indexOf(element) >= 0) {
-            return true;
+        if (attributeValueList[i - 1].indexOf(element) >= 0) {
+            const error = getAttributeValueError(attribute, attributeValueList, i, expectedIndentation + configAttributeOffsetSize);
+
+            shouldContinueLoop = true;
+
+            if (error) {
+                return {
+                    error,
+                    shouldContinueLoop
+                };
+            }
         }
     }
 
-    return false;
+    return {
+        shouldContinueLoop
+    };
 };
 
 const getAttributeValueError = (attribute, attributeValueList, i, expectedIndentation) => {
