@@ -177,35 +177,9 @@ const getAttributeValueErrorList = function(node, attribute) {
                 }
             }
 
-            const attributeValue                   = attributeValueList[i];
-            const valueColumnNumber                = ParseUtils.getLeadingEmptyChars(attributeValue).length;
-            const attributeValueStartPos           = attribute.value.indexOf(attributeValue);
-            const attributeValuePrefix             = attribute.value.substring(0, attributeValueStartPos);
-            const isValueInSameLineAsAttributeName = ParseUtils.getLineBreakQty(attributeValuePrefix) === 0;
+            const error = getAttributeValueError(attribute, attributeValueList, i, expectedIndentation);
 
-            if (!isValueInSameLineAsAttributeName && valueColumnNumber !== expectedIndentation) {
-                const attributeValueFullPrefix = attribute.fullValue.substring(0, attribute.fullValue.indexOf(attributeValue.trim()));
-                const lineBreakQty             = ParseUtils.getLineBreakQty(attributeValueFullPrefix);
-                const occurrenceGlobalPos      = attribute.globalPos + attribute.fullValue.indexOf(attributeValueList[i]) + attribute.lineNumber - 1;
-                const lineNumber               = attribute.lineNumber + lineBreakQty;
-
-                const occurrenceColumnNumber = valueColumnNumber === 0 ?
-                    valueColumnNumber :
-                    0;
-
-                const occurrenceLength = valueColumnNumber === 0 ?
-                    attributeValue.length :
-                    valueColumnNumber;
-
-                const error = Rule.getError(
-                    attributeValue.trim(),
-                    lineNumber,
-                    occurrenceColumnNumber,
-                    occurrenceGlobalPos,
-                    occurrenceLength,
-                    getOccurrenceDescription(expectedIndentation, valueColumnNumber)
-                );
-
+            if (error) {
                 result.push(error);
             }
         }
@@ -612,6 +586,42 @@ const shouldIgnoreAttributeValueIndentation = previousAttributeLine => {
     }
 
     return false;
+};
+
+const getAttributeValueError = (attribute, attributeValueList, i, expectedIndentation) => {
+    const attributeValue                   = attributeValueList[i];
+    const valueColumnNumber                = ParseUtils.getLeadingEmptyChars(attributeValue).length;
+    const attributeValueStartPos           = attribute.value.indexOf(attributeValue);
+    const attributeValuePrefix             = attribute.value.substring(0, attributeValueStartPos);
+    const isValueInSameLineAsAttributeName = ParseUtils.getLineBreakQty(attributeValuePrefix) === 0;
+
+    if (!isValueInSameLineAsAttributeName && valueColumnNumber !== expectedIndentation) {
+        const attributeValueFullPrefix = attribute.fullValue.substring(0, attribute.fullValue.indexOf(attributeValue.trim()));
+        const lineBreakQty             = ParseUtils.getLineBreakQty(attributeValueFullPrefix);
+        const occurrenceGlobalPos      = attribute.globalPos + attribute.fullValue.indexOf(attributeValueList[i]) + attribute.lineNumber - 1;
+        const lineNumber               = attribute.lineNumber + lineBreakQty;
+
+        const occurrenceColumnNumber = valueColumnNumber === 0 ?
+            valueColumnNumber :
+            0;
+
+        const occurrenceLength = valueColumnNumber === 0 ?
+            attributeValue.length :
+            valueColumnNumber;
+
+        const error = Rule.getError(
+            attributeValue.trim(),
+            lineNumber,
+            occurrenceColumnNumber,
+            occurrenceGlobalPos,
+            occurrenceLength,
+            getOccurrenceDescription(expectedIndentation, valueColumnNumber)
+        );
+
+        return error;
+    }
+
+    return null;
 };
 
 const getOccurrenceDescription      = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;
