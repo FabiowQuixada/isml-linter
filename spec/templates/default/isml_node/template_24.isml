@@ -1,0 +1,5 @@
+<div class="form-group
+        <isif condition=${condition}>required</isif>
+        ${expressionValue}
+    ">
+</div>

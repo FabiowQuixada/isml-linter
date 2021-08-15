@@ -216,6 +216,18 @@ describe('IsmlNode', () => {
         expect(attributeList[0].name).toEqual('data-slick');
         expect(attributeList[0].value).toEqual(`{${Constants.EOL}        "attr1": false,${Constants.EOL}        "attr2": true,${Constants.EOL}        "attr3": \${someValue}${Constants.EOL}    }`);
     });
+
+    it('lists embedded "isif" attribute', () => {
+        const rootNode      = getTreeRootFromTemplate(24);
+        const divNode       = rootNode.children[0];
+        const attributeList = divNode.getAttributeList();
+        const valueList     = attributeList[0].values;
+
+        expect(valueList.length).toEqual(3);
+        expect(valueList[0]).toEqual('form-group');
+        expect(valueList[1]).toEqual('<isif condition=${condition}>required</isif>');
+        expect(valueList[2]).toEqual('${expressionValue}');
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {

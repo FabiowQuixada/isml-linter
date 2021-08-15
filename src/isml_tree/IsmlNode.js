@@ -500,7 +500,7 @@ const parseAttribute = (node, attributeList, index) => {
     const assignmentCharPos                     = trimmedAttribute.indexOf('=');
     const name                                  = assignmentCharPos >= 0 ? trimmedAttribute.substring(0, assignmentCharPos) : trimmedAttribute;
     const value                                 = assignmentCharPos >= 0 ? trimmedAttribute.substring(assignmentCharPos + 2, trimmedAttribute.length - 1) : null;
-    const values                                = value ? value.split(/[\s\n]+/).filter( val => val ) : null;
+    const values                                = getAttributeValueList(value);
     const attrLocalPos                          = trimmedNodeValue.indexOf(trimmedAttribute);
     const valueLocalPos                         = trimmedAttribute.indexOf(value);
     const lineNumber                            = node.lineNumber + leadingLineBreakQty;
@@ -584,6 +584,28 @@ const getNodeIndentationSize = (node, isNodeHead) => {
     const indentationSize            = precedingEmptySpaces.substring(lastLineBreakPos).length;
 
     return Math.max(indentationSize, 0);
+};
+
+const getAttributeValueList = fullValue => {
+
+    if (!fullValue) {
+        return null;
+    }
+
+    const maskedFullValue  = MaskUtils.maskIgnorableContent(fullValue).trim();
+    const maskedValueList  = maskedFullValue.split(/[\s\n]+/).filter( val => val );
+    const trimmedFullValue = fullValue.trim();
+    const valueList        = [];
+
+    for (let i = 0; i < maskedValueList.length; i++) {
+        const maskedValueElement = maskedValueList[i];
+        const index              = maskedFullValue.indexOf(maskedValueElement);
+        const value              = trimmedFullValue.substring(index, index + maskedValueElement.length);
+
+        valueList.push(value);
+    }
+
+    return valueList;
 };
 
 const getQuoteChar = trimmedAttribute => {
