@@ -40,4 +40,11 @@ describe(rule.id, () => {
         expect(firstOccurrence.rule        ).toEqual(rule.id);
         expect(firstOccurrence.message     ).toEqual(rule.description);
     });
+
+    it('allows "style" attribute in "isprint" tag', () => {
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 2);
+        const result          = rule.check(templateContent);
+
+        expect(result.occurrenceList).toEqual([]);
+    });
 });

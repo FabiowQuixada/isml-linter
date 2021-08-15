@@ -1,0 +1,1 @@
+<isprint value="${new Date()}" style="DATE_LONG" timezone="SITE">
