@@ -42,11 +42,11 @@ describe('IsmlNode', () => {
         const actual = node.getAttributeList();
 
         expect(actual[0].name).toEqual('class');
-        expect(actual[0].values).toEqual(['class_1', 'class_2']);
+        expect(actual[0].valueList).toEqual(['class_1', 'class_2']);
 
         expect(actual[1].name).toEqual('data-url');
         expect(actual[1].value).toEqual('https://');
-        expect(actual[1].values).toEqual(['https://']);
+        expect(actual[1].valueList).toEqual(['https://']);
     });
 
     it('lists its no attributes if there is none for non-self-closing element', () => {
@@ -89,11 +89,11 @@ describe('IsmlNode', () => {
         const actual = node.getAttributeList();
 
         expect(actual[0].name).toEqual('class');
-        expect(actual[0].values).toEqual(['class_1', 'class_2']);
+        expect(actual[0].valueList).toEqual(['class_1', 'class_2']);
 
         expect(actual[1].name).toEqual('data-url');
         expect(actual[1].value).toEqual('https://');
-        expect(actual[1].values).toEqual(['https://']);
+        expect(actual[1].valueList).toEqual(['https://']);
     });
 
     it('detects nested isml tags as attributes', () => {
@@ -101,7 +101,7 @@ describe('IsmlNode', () => {
         const actual = node.getAttributeList();
 
         expect(actual[0].name).toEqual('class');
-        expect(actual[0].values).toEqual(['class_1', 'class_2']);
+        expect(actual[0].valueList).toEqual(['class_1', 'class_2']);
         expect(actual[0].isNestedIsmlTag).toEqual(false);
 
         expect(actual[1].fullValue).toEqual('<isif condition="${aCondition}">value</isif>');
@@ -113,7 +113,7 @@ describe('IsmlNode', () => {
         const attributeList = node.getAttributeList();
 
         expect(attributeList[0].name).toEqual('class');
-        expect(attributeList[0].values).toEqual(['class-1', 'class-2', 'class-3']);
+        expect(attributeList[0].valueList).toEqual(['class-1', 'class-2', 'class-3']);
     });
 
     it('lists attributes when there is no indentation at all', () => {
@@ -122,7 +122,7 @@ describe('IsmlNode', () => {
         const attributeList = spanNode.getAttributeList();
 
         expect(attributeList[0].name).toEqual('class');
-        expect(attributeList[0].values).toEqual(['class-1', 'class-2', 'class-3']);
+        expect(attributeList[0].valueList).toEqual(['class-1', 'class-2', 'class-3']);
     });
 
     it('lists consecutive dynamic attributes', () => {
@@ -132,9 +132,9 @@ describe('IsmlNode', () => {
 
         expect(attributeList.length).toEqual(2);
         expect(attributeList[0].name).toEqual('${attr1}');
-        expect(attributeList[0].values).toEqual(null);
+        expect(attributeList[0].valueList).toEqual(null);
         expect(attributeList[1].name).toEqual('${attr2}');
-        expect(attributeList[1].values).toEqual(null);
+        expect(attributeList[1].valueList).toEqual(null);
     });
 
     it('lists consecutive dynamic attributes II', () => {
@@ -146,9 +146,9 @@ describe('IsmlNode', () => {
         expect(attributeList[0].name).toEqual('data-gtm');
         expect(attributeList[0].value).toEqual('${gtmData}');
         expect(attributeList[1].name).toEqual('${attr1}');
-        expect(attributeList[1].values).toEqual(null);
+        expect(attributeList[1].valueList).toEqual(null);
         expect(attributeList[2].name).toEqual('${attr2}');
-        expect(attributeList[2].values).toEqual(null);
+        expect(attributeList[2].valueList).toEqual(null);
     });
 
     it('lists dynamic attributes', () => {
@@ -221,7 +221,7 @@ describe('IsmlNode', () => {
         const rootNode      = getTreeRootFromTemplate(24);
         const divNode       = rootNode.children[0];
         const attributeList = divNode.getAttributeList();
-        const valueList     = attributeList[0].values;
+        const valueList     = attributeList[0].valueList;
 
         expect(valueList.length).toEqual(3);
         expect(valueList[0]).toEqual('form-group');

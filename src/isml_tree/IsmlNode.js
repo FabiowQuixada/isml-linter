@@ -113,12 +113,12 @@ class IsmlNode {
      *      {
      *         name   : 'class',
      *         value  : 'my_class_1 my my_class_2',
-     *         values : ['my_class_1', 'my_class_2']
+     *         valueList : ['my_class_1', 'my_class_2']
      *      },
      *      {
      *         name   : 'style',
      *         value  : 'fancy',
-     *         values : ['fancy']
+     *         valueList : ['fancy']
      *      }
      * ]
      */
@@ -500,7 +500,7 @@ const parseAttribute = (node, attributeList, index) => {
     const assignmentCharPos                     = trimmedAttribute.indexOf('=');
     const name                                  = assignmentCharPos >= 0 ? trimmedAttribute.substring(0, assignmentCharPos) : trimmedAttribute;
     const value                                 = assignmentCharPos >= 0 ? trimmedAttribute.substring(assignmentCharPos + 2, trimmedAttribute.length - 1) : null;
-    const values                                = getAttributeValueList(value);
+    const valueList                             = getAttributeValueList(value);
     const attrLocalPos                          = trimmedNodeValue.indexOf(trimmedAttribute);
     const valueLocalPos                         = trimmedAttribute.indexOf(value);
     const lineNumber                            = node.lineNumber + leadingLineBreakQty;
@@ -525,7 +525,7 @@ const parseAttribute = (node, attributeList, index) => {
         return {
             name            : trimmedAttribute,
             value           : null,
-            values          : null,
+            valueList       : null,
             localPos,
             globalPos,
             lineNumber,
@@ -547,7 +547,7 @@ const parseAttribute = (node, attributeList, index) => {
         return {
             name,
             value,
-            values,
+            valueList,
             localPos,
             globalPos,
             lineNumber,
