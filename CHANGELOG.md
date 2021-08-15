@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.36.4] - 2021-08-15
+
+### Fixed
+  - "indent" rule - "isif"-nested value indentation;
+  - "indent" rule - attribute multi-line value indentation;
+
 ## [5.36.3] - 2021-08-13
 
 ### Fixed
@@ -906,6 +912,7 @@
 ### Added
 - Linter is published;
 
+[5.36.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.3...v5.36.4
 [5.36.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.2...v5.36.3
 [5.36.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.1...v5.36.2
 [5.36.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.0...v5.36.1
