@@ -210,7 +210,7 @@ const getAttributeErrorList = function(node) {
                     attribute.columnNumber - 1;
 
                 const error = Rule.getError(
-                    attribute.fullValue,
+                    attribute.fullContent,
                     attribute.lineNumber,
                     attribute.columnNumber,
                     occurrenceGlobalPos,
@@ -279,8 +279,8 @@ const addIndentationToText = node => {
 };
 
 const getIndentedNestedIsmlContent = (attribute, nodeIndentation, attributeOffset) => {
-    if (attribute.fullValue.startsWith('<isif')) {
-        const attributeRootNode = TreeBuilder.parse(attribute.fullValue, null, null, true);
+    if (attribute.fullContent.startsWith('<isif')) {
+        const attributeRootNode = TreeBuilder.parse(attribute.fullContent, null, null, true);
         const fixedContent      = Rule.getFixedContent(attributeRootNode);
 
         return fixedContent
@@ -408,7 +408,7 @@ const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset)
             result += nodeIndentation + attributeOffset;
         }
 
-        result += attribute.fullValue;
+        result += attribute.fullContent;
     }
 
     return result;
@@ -468,10 +468,10 @@ const addIndentation = (node, isOpeningTag) => {
             }
 
             if (attributeList.length > 0) {
-                const lastAttributeFullValue            = attributeList[attributeList.length - 1].fullValue;
-                const lastAttributeLocalPos             = node.value.indexOf(lastAttributeFullValue);
+                const lastAttributeFullContent          = attributeList[attributeList.length - 1].fullContent;
+                const lastAttributeLocalPos             = node.value.indexOf(lastAttributeFullContent);
                 const nodeValueRemainingContent         = node.value.substring(lastAttributeLocalPos);
-                const nodeValueLastChars                = nodeValueRemainingContent.substring(lastAttributeFullValue.length);
+                const nodeValueLastChars                = nodeValueRemainingContent.substring(lastAttributeFullContent.length);
                 const shouldAddIndentationToClosingChar = ParseUtils.getLineBreakQty(nodeValueLastChars.trimEnd()) > 0;
                 const closingChars                      = getClosingChars(node);
 
@@ -622,9 +622,9 @@ const getAttributeValueError = (attribute, attributeValueList, i, expectedIndent
     const isValueInSameLineAsAttributeName = ParseUtils.getLineBreakQty(attributeValuePrefix) === 0;
 
     if (!isValueInSameLineAsAttributeName && valueColumnNumber !== expectedIndentation) {
-        const attributeValueFullPrefix = attribute.fullValue.substring(0, attribute.fullValue.indexOf(attributeValue.trim()));
+        const attributeValueFullPrefix = attribute.fullContent.substring(0, attribute.fullContent.indexOf(attributeValue.trim()));
         const lineBreakQty             = ParseUtils.getLineBreakQty(attributeValueFullPrefix);
-        const occurrenceGlobalPos      = attribute.globalPos + attribute.fullValue.indexOf(attributeValueList[i]) + attribute.lineNumber - 1;
+        const occurrenceGlobalPos      = attribute.globalPos + attribute.fullContent.indexOf(attributeValueList[i]) + attribute.lineNumber - 1;
         const lineNumber               = attribute.lineNumber + lineBreakQty;
 
         const occurrenceColumnNumber = valueColumnNumber === 0 ?

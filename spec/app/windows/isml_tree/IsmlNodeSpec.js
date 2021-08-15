@@ -403,7 +403,7 @@ describe(targetObjName, () => {
         const buttonNode    = rootNode.children[0].children[0];
         const attributeList = buttonNode.getAttributeList();
 
-        expect(attributeList[1].fullValue    ).toEqual('class="class-1 class-2 ${aCondition ? \'disabled\' : \'\'}"');
+        expect(attributeList[1].fullContent  ).toEqual('class="class-1 class-2 ${aCondition ? \'disabled\' : \'\'}"');
         expect(attributeList[1].lineNumber   ).toEqual(4);
         expect(attributeList[1].columnNumber ).toEqual(13);
         expect(attributeList[1].length       ).toEqual(55);
@@ -416,7 +416,7 @@ describe(targetObjName, () => {
         const buttonNode    = rootNode.children[0].children[0];
         const attributeList = buttonNode.getAttributeList();
 
-        expect(attributeList[1].fullValue    ).toEqual('${dynamicAttribute}');
+        expect(attributeList[1].fullContent    ).toEqual('${dynamicAttribute}');
         expect(attributeList[1].lineNumber   ).toEqual(4);
         expect(attributeList[1].columnNumber ).toEqual(5);
         expect(attributeList[1].length       ).toEqual(19);
@@ -429,7 +429,7 @@ describe(targetObjName, () => {
         const inputNode     = rootNode.children[0].children[0];
         const attributeList = inputNode.getAttributeList();
 
-        expect(attributeList[1].fullValue).toEqual('placeholder="${Resource.msg("key", "dotProperties", null)}"');
+        expect(attributeList[1].fullContent).toEqual('placeholder="${Resource.msg("key", "dotProperties", null)}"');
     });
 
     it('identifies a node as "conditional comment" type (downlevel-hidden)', () => {

@@ -538,7 +538,7 @@ const parseAttribute = (node, attributeList, index) => {
             hasMultilineValue,
             isNestedIsmlTag : isAttributeANestedIsmlTag,
             length          : trimmedAttribute.length + ParseUtils.getLineBreakQty(trimmedAttribute),
-            fullValue       : trimmedAttribute,
+            fullContent     : trimmedAttribute,
             quoteChar,
             node
         };
@@ -562,7 +562,7 @@ const parseAttribute = (node, attributeList, index) => {
             length         : trimmedAttribute.length,
             attrGlobalPos  : node.globalPos + attrLocalPos,
             valueGlobalPos : node.globalPos + valueLocalPos,
-            fullValue      : trimmedAttribute,
+            fullContent    : trimmedAttribute,
             quoteChar,
             node
         };
@@ -586,21 +586,21 @@ const getNodeIndentationSize = (node, isNodeHead) => {
     return Math.max(indentationSize, 0);
 };
 
-const getAttributeValueList = fullValue => {
+const getAttributeValueList = fullContent => {
 
-    if (!fullValue) {
+    if (!fullContent) {
         return null;
     }
 
-    const maskedFullValue  = MaskUtils.maskIgnorableContent(fullValue).trim();
-    const maskedValueList  = maskedFullValue.split(/[\s\n]+/).filter( val => val );
-    const trimmedFullValue = fullValue.trim();
-    const valueList        = [];
+    const maskedFullContent  = MaskUtils.maskIgnorableContent(fullContent).trim();
+    const maskedValueList    = maskedFullContent.split(/[\s\n]+/).filter( val => val );
+    const trimmedFullContent = fullContent.trim();
+    const valueList          = [];
 
     for (let i = 0; i < maskedValueList.length; i++) {
         const maskedValueElement = maskedValueList[i];
-        const index              = maskedFullValue.indexOf(maskedValueElement);
-        const value              = trimmedFullValue.substring(index, index + maskedValueElement.length);
+        const index              = maskedFullContent.indexOf(maskedValueElement);
+        const value              = trimmedFullContent.substring(index, index + maskedValueElement.length);
 
         valueList.push(value);
     }

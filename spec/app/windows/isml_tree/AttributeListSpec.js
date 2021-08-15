@@ -104,7 +104,7 @@ describe('IsmlNode', () => {
         expect(actual[0].valueList).toEqual(['class_1', 'class_2']);
         expect(actual[0].isNestedIsmlTag).toEqual(false);
 
-        expect(actual[1].fullValue).toEqual('<isif condition="${aCondition}">value</isif>');
+        expect(actual[1].fullContent).toEqual('<isif condition="${aCondition}">value</isif>');
         expect(actual[1].isNestedIsmlTag).toEqual(true);
     });
 
