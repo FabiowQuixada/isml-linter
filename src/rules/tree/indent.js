@@ -300,7 +300,7 @@ const getTreeBuiltAttributeIndentedValue = (attribute, nodeIndentation, attribut
     const attributeRootNode = TreeBuilder.parse(attribute.value, null, null, true);
     const fixedContent      = Rule.getFixedContent(attributeRootNode);
 
-    const result = fixedContent
+    return fixedContent
         .split(Constants.EOL)
         .map( (line, i) => {
 
@@ -313,19 +313,27 @@ const getTreeBuiltAttributeIndentedValue = (attribute, nodeIndentation, attribut
                 return Constants.EOL + nodeIndentation + attributeOffset + line;
             }
 
+            if (i === 0 && attribute.isFirstValueInSameLineAsAttributeName) {
+                return line;
+            }
+
             return nodeIndentation + attributeOffset + line;
-        });
+        })
+        .filter( (line, i, list) => {
+            if (i === 0 && attribute.isFirstValueInSameLineAsAttributeName && line === '') {
+                return false;
+            }
 
-    // TODO: Probably there is a better way of doing it;
-    // Remove last element to avoid an extra empty line
-    if (result.length && result[result.length - 1] === '') {
-        result.pop();
-    }
+            if (i === list.length - 1 && line === '') {
+                return false;
+            }
 
-    return result.join(Constants.EOL);
+            return i === 0 || line;
+        })
+        .join(Constants.EOL);
 };
 
-const getAttributeIndentedValue = (attribute, nodeIndentation, attributeOffset) => {
+const getAttributeIndentedValues = (attribute, nodeIndentation, attributeOffset) => {
     let result = '';
 
     if (attribute.value) {
@@ -378,7 +386,7 @@ const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset)
                 getExpressionAttributeIndentation(attribute.name, nodeIndentation, attributeOffset) :
                 attribute.name;
 
-            const formattedAttributeValue = getAttributeIndentedValue(attribute, nodeIndentation, attributeOffset);
+            const formattedAttributeValue = getAttributeIndentedValues(attribute, nodeIndentation, attributeOffset);
 
             const valueList = attributePrefix
                 + (index > 0 && attribute.isInSameLineAsTagName ? ' ' : '')

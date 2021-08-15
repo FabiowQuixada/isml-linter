@@ -764,4 +764,10 @@ describe(rule.id, () => {
         expect(result[1].globalPos    ).toEqual(91);
         expect(result[1].message      ).toEqual('Expected indentation of 12 spaces but found 9');
     });
+
+    it('keeps indentation for an attribute multi-line value', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 51);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
