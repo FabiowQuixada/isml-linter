@@ -770,4 +770,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('doesn\'t raise false positives', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 51);
+
+        expect(result.length).toEqual(0);
+    });
 });

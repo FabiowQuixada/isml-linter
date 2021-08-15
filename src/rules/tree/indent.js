@@ -592,9 +592,10 @@ const getAttributeNestedValueError = (attribute, attributeValueList, i, expected
     let shouldContinueLoop = false;
 
     for (let j = 0; j < tagList.length; j++) {
-        const element = tagList[j];
+        const element           = tagList[j];
+        const previousAttribute = attributeValueList[i - 1];
 
-        if (attributeValueList[i - 1].indexOf(element) >= 0) {
+        if (previousAttribute.indexOf(element) >= 0 && previousAttribute.indexOf('</isif>') === -1) {
             const error = getAttributeValueError(attribute, attributeValueList, i, expectedIndentation + configAttributeOffsetSize);
 
             shouldContinueLoop = true;
