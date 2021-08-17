@@ -702,6 +702,15 @@ describe(targetObjName, () => {
         expect(tree.exception.length     ).toEqual(11);
         expect(tree.exception.lineNumber ).toEqual(5);
     });
+
+    it('detects an "<" invalid character II', () => {
+        const tree = getTreeFromTemplate(74);
+
+        expect(tree.exception.message    ).toContain('Invalid character "<" found at');
+        expect(tree.exception.globalPos  ).toEqual(94);
+        expect(tree.exception.length     ).toEqual(1);
+        expect(tree.exception.lineNumber ).toEqual(6);
+    });
 });
 
 const getTemplatePath = number => {

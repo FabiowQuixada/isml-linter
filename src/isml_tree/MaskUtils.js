@@ -11,32 +11,34 @@ const placeholderSymbol = '_';
 
 const maskIgnorableContent = (content, shouldMaskBorders, templatePath) => {
 
-    content = maskInBetween(content, 'iscomment', shouldMaskBorders);
-    content = maskExpressionContent(content);
-    content = maskInBetween(content, '<!---', '--->', shouldMaskBorders);
-    content = maskInBetween(content, '<!--', '-->', shouldMaskBorders);
-    content = maskInBetweenIsscriptTags(content);
-    content = maskInBetweenForTagWithAttributes(content, 'script', 'type=\'text/javascript\'');
-    content = maskInBetweenForTagWithAttributes(content, 'script', 'type="text/javascript"');
-    content = maskQuoteContent(content);
+    let maskedContent = content;
 
-    checkTagBalance(content, templatePath);
+    maskedContent = maskInBetween(maskedContent, 'iscomment', shouldMaskBorders);
+    maskedContent = maskExpressionContent(maskedContent);
+    maskedContent = maskInBetween(maskedContent, '<!---', '--->', shouldMaskBorders);
+    maskedContent = maskInBetween(maskedContent, '<!--', '-->', shouldMaskBorders);
+    maskedContent = maskInBetweenIsscriptTags(maskedContent);
+    maskedContent = maskInBetweenForTagWithAttributes(maskedContent, 'script', 'type=\'text/javascript\'');
+    maskedContent = maskInBetweenForTagWithAttributes(maskedContent, 'script', 'type="text/javascript"');
+    maskedContent = maskQuoteContent(maskedContent);
 
-    content = maskInBetweenForTagWithAttributes(content, 'script');
-    content = maskInBetweenForTagWithAttributes(content, 'style');
-    content = maskInBetween2(content, '<', '>');
-    content = maskIsifTagContent(content);
-    content = maskIsprintTagContent(content);
+    checkTagBalance(maskedContent, content, templatePath);
 
-    return content;
+    maskedContent = maskInBetweenForTagWithAttributes(maskedContent, 'script');
+    maskedContent = maskInBetweenForTagWithAttributes(maskedContent, 'style');
+    maskedContent = maskInBetween2(maskedContent, '<', '>');
+    maskedContent = maskIsifTagContent(maskedContent);
+    maskedContent = maskIsprintTagContent(maskedContent);
+
+    return maskedContent;
 };
 
-const checkTagBalance = (content, templatePath) => {
+const checkTagBalance = (maskedContent, content, templatePath) => {
     let depth = 0;
 
-    for (let i = 0; i < content.length; i++) {
-        const char             = content[i];
-        const remainingContent = content.substring(i);
+    for (let globalPos = 0; globalPos < maskedContent.length; globalPos++) {
+        const char             = maskedContent[globalPos];
+        const remainingContent = maskedContent.substring(globalPos);
 
         if (char === '<') {
             depth++;
@@ -53,12 +55,12 @@ const checkTagBalance = (content, templatePath) => {
             !remainingContent.startsWith('<!') &&
             !remainingContent.startsWith('</is')
         ) {
-            const lineNumber = ParseUtils.getLineBreakQty(content.substring(0, i)) + 1;
+            const lineNumber = ParseUtils.getLineBreakQty(content.substring(0, globalPos)) + 1;
 
             throw ExceptionUtils.invalidCharacterError(
                 '<',
                 lineNumber,
-                i,
+                globalPos,
                 1,
                 templatePath
             );

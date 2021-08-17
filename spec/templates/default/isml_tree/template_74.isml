@@ -1,0 +1,8 @@
+<isscript>
+    var variable = '7';
+</isscript>
+<div>
+    <a class="class-1 class-2">
+        <<
+    </a>
+</div>
