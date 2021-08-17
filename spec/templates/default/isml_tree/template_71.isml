@@ -1,0 +1,5 @@
+<isdecorate template="decorateTemplate">
+
+<IScustomtag attr1="${value1}" attr2="${value2}">
+
+</isdecorate>

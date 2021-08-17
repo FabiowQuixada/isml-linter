@@ -677,6 +677,16 @@ describe(targetObjName, () => {
         expect(tree.exception.length     ).toEqual(5);
         expect(tree.exception.lineNumber ).toEqual(3);
     });
+
+    it('identifies unbalanced element II', () => {
+        const tree = getTreeFromTemplate(71);
+
+        expect(tree.exception.type       ).toEqual(ExceptionUtils.types.INVALID_TEMPLATE);
+        expect(tree.exception.message    ).toEqual('Unbalanced <IScustomtag> element');
+        expect(tree.exception.globalPos  ).toEqual(44);
+        expect(tree.exception.length     ).toEqual(49);
+        expect(tree.exception.lineNumber ).toEqual(3);
+    });
 });
 
 const getTemplatePath = number => {

@@ -149,7 +149,7 @@ const processLeadingHardCodedTexts = (state, newElement) => {
 };
 
 const parseTagOrExpressionElement = (state, newElement) => {
-    const trimmedElement      = newElement.value.trim();
+    const trimmedElement      = newElement.value.trim().toLowerCase();
     const isTag               = trimmedElement.startsWith('<') && !trimmedElement.startsWith('<!--');
     const isExpression        = trimmedElement.startsWith('${');
     const isHtmlOrIsmlComment = trimmedElement.startsWith('<!--');
