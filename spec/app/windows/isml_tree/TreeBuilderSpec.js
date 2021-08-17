@@ -435,10 +435,9 @@ describe(targetObjName, () => {
     });
 
     it('detects an "<" invalid character', () => {
-        const tree         = getTreeFromTemplate(42);
-        const templatePath = getTemplatePath(42);
+        const tree = getTreeFromTemplate(42);
 
-        expect(tree.exception.message    ).toEqual(`Invalid character "<" found at ${templatePath}:3.`);
+        expect(tree.exception.message    ).toEqual('Invalid character "<" found');
         expect(tree.exception.globalPos  ).toEqual(46);
         expect(tree.exception.length     ).toEqual(1);
         expect(tree.exception.lineNumber ).toEqual(3);
@@ -706,7 +705,7 @@ describe(targetObjName, () => {
     it('detects an "<" invalid character II', () => {
         const tree = getTreeFromTemplate(74);
 
-        expect(tree.exception.message    ).toContain('Invalid character "<" found at');
+        expect(tree.exception.message    ).toEqual('Invalid character "<" found');
         expect(tree.exception.globalPos  ).toEqual(94);
         expect(tree.exception.length     ).toEqual(1);
         expect(tree.exception.lineNumber ).toEqual(6);

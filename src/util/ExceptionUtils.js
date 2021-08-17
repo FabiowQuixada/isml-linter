@@ -46,7 +46,7 @@ const unclosedDeprecatedIsmlComment = (lineNumber, globalPos, length, templatePa
 
 const invalidCharacterError = (character, lineNumber, globalPos, length, templatePath) => {
     return {
-        message      : `Invalid character "${character}" found at ${templatePath}:${lineNumber}.`,
+        message      : `Invalid character "${character}" found`,
         templatePath : templatePath,
         globalPos,
         length,
