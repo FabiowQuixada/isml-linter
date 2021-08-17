@@ -1,0 +1,7 @@
+<script type="text/javascript">
+    function myFunction() {
+        for (var index = 0; index < [1, 2, 3, 4].length; index++ ) {
+            console.log(index);
+        }
+    }
+</script>

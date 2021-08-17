@@ -687,6 +687,12 @@ describe(targetObjName, () => {
         expect(tree.exception.length     ).toEqual(49);
         expect(tree.exception.lineNumber ).toEqual(3);
     });
+
+    it('identifies unbalanced element III', () => {
+        const tree = getTreeFromTemplate(72);
+
+        expect(tree.rootNode).not.toEqual(null);
+    });
 });
 
 const getTemplatePath = number => {

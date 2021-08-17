@@ -12,15 +12,16 @@ const placeholderSymbol = '_';
 const maskIgnorableContent = (content, shouldMaskBorders, templatePath) => {
 
     content = maskInBetween(content, 'iscomment', shouldMaskBorders);
-    content = maskQuoteContent(content);
     content = maskExpressionContent(content);
     content = maskInBetween(content, '<!---', '--->', shouldMaskBorders);
     content = maskInBetween(content, '<!--', '-->', shouldMaskBorders);
     content = maskInBetweenIsscriptTags(content);
+    content = maskInBetweenForTagWithAttributes(content, 'script', 'type=\'text/javascript\'');
+    content = maskInBetweenForTagWithAttributes(content, 'script', 'type="text/javascript"');
+    content = maskQuoteContent(content);
 
     checkTagBalance(content, templatePath);
 
-    content = maskInBetweenForTagWithAttributes(content, 'script', 'type=\'text/javascript\'');
     content = maskInBetweenForTagWithAttributes(content, 'script');
     content = maskInBetweenForTagWithAttributes(content, 'style');
     content = maskInBetween2(content, '<', '>');
