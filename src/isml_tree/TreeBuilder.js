@@ -43,6 +43,16 @@ const parseContainerElements = (element, currentParent, newNode, templatePath) =
         );
     }
 
+    if (currentParent.isContainerChild() && ['iselse', 'iselseif'].indexOf(element.tagType) >= 0 && element.isClosingTag) {
+        throw ExceptionUtils.unexpectedClosingElementError(
+            element.tagType,
+            element.lineNumber,
+            element.globalPos,
+            element.value.trim().length,
+            templatePath
+        );
+    }
+
     if (element.tagType === 'isif' && !element.isClosingTag) {
         const containerNode = new ContainerNode();
         currentParent.addChild(containerNode);

@@ -1,0 +1,9 @@
+<isif condition="${condition1}">
+    Text I
+<iselseif condition="${condition2}">
+    Text II
+</iselseif>
+<iselseif condition="${condition3}">
+    Text III
+</iselseif>
+</isif>
