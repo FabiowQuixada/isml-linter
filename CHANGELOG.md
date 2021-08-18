@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.36.5] - 2021-08-18
+
+### Changed
+  - Removed redundant information from "invalid character found" error message;
+
+### Fixed
+  - Unbalanced element position detection;
+  - Tree build parse on edge cases;
+  - "[no-inline-style][no-inline-style-readme]" rule - allow `<isprint>` tag to have "style" attribute;
+  
 ## [5.36.4] - 2021-08-15
 
 ### Fixed
@@ -912,6 +922,7 @@
 ### Added
 - Linter is published;
 
+[5.36.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.4...v5.36.5
 [5.36.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.3...v5.36.4
 [5.36.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.2...v5.36.3
 [5.36.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.1...v5.36.2
@@ -1053,5 +1064,6 @@
 
 [disallow-tags-readme]:    <docs/rules/disallow-tags.md>
 [no-br-readme]:            <docs/rules/no-br.md>
+[no-inline-style-readme]:  <docs/rules/no-br.md>
 [no-isscript-readme]:      <docs/rules/no-isscript.md>
 [enforce-security-readme]: <docs/rules/enforce-security.md>
