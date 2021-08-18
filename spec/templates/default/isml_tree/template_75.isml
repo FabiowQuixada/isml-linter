@@ -1,0 +1,9 @@
+<isscript>
+
+</isscript>
+
+<div>
+    <isscript>
+        var tag = '<select class="input-select" id="my-id" name="my-name">';
+    </isscript>
+</div>

@@ -21,6 +21,7 @@ const maskIgnorableContent = (content, shouldMaskBorders, templatePath) => {
     maskedContent = maskInBetweenForTagWithAttributes(maskedContent, 'script', 'type=\'text/javascript\'');
     maskedContent = maskInBetweenForTagWithAttributes(maskedContent, 'script', 'type="text/javascript"');
     maskedContent = maskQuoteContent(maskedContent);
+    maskedContent = maskInBetweenForTagWithAttributes(maskedContent, 'isscript');
 
     checkTagBalance(maskedContent, content, templatePath);
 

@@ -1,0 +1,11 @@
+<div>
+    <isscript>
+        var variable1 = 'value1';
+    </isscript>
+
+    <isscript>
+        var variable2 = 3 < 4;
+    </isscript>
+    <span>
+    </span>
+</div>

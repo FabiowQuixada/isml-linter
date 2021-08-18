@@ -710,6 +710,18 @@ describe(targetObjName, () => {
         expect(tree.exception.length     ).toEqual(1);
         expect(tree.exception.lineNumber ).toEqual(6);
     });
+
+    it('ignores content from "isscript" tag', () => {
+        const tree = getTreeFromTemplate(75);
+
+        expect(tree.rootNode).not.toEqual(null);
+    });
+
+    it('ignores content from "isscript" tag II', () => {
+        const tree = getTreeFromTemplate(76);
+
+        expect(tree.rootNode).not.toEqual(null);
+    });
 });
 
 const getTemplatePath = number => {
