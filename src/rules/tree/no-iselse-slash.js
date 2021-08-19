@@ -3,7 +3,7 @@ const MaskUtils         = require('../../isml_tree/MaskUtils');
 const GeneralUtils      = require('../../util/GeneralUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
-const description = 'Non slash is allowed for "iselse" tags';
+const description = 'Slash is not allowed for "iselse" nor "iselseif" tags';
 
 const Rule = Object.create(TreeRulePrototype);
 
