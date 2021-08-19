@@ -1,5 +1,6 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
+const ConfigUtils  = require('../../../../src/util/ConfigUtils');
 
 const rule            = SpecHelper.getTreeRule(specFileName);
 const isCrlfLineBreak = true;
@@ -87,6 +88,112 @@ describe(rule.id, () => {
 
     it('does not apply to <style [some attribute]> tag content', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 8, isCrlfLineBreak);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('ignores string if configured as exception', () => {
+        ConfigUtils.load({ rules: {
+            'no-hardcode': { except: [','] }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 9);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('ignores string if configured as exception II', () => {
+        ConfigUtils.load({ rules: {
+            'no-hardcode': { except: [','] }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 10);
+
+        expect(result.length).toEqual(1);
+        expect(result[0].globalPos ).toEqual(9);
+        expect(result[0].length    ).toEqual(1);
+        expect(result[0].line      ).toEqual('-');
+        expect(result[0].lineNumber).toEqual(1);
+        expect(result[0].message   ).toEqual('Hardcoded string is not allowed');
+        expect(result[0].rule      ).toEqual('no-hardcode');
+    });
+
+    it('ignores string if configured as exception III', () => {
+        ConfigUtils.load({ rules: {
+            'no-hardcode': { except: [',', '-'] }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 11);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('ignores string if configured as exception IV', () => {
+        ConfigUtils.load({ rules: {
+            'no-hardcode': { except: [',', '-'] }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 12);
+
+        expect(result.length).toEqual(1);
+        expect(result[0].globalPos ).toEqual(9);
+        expect(result[0].length    ).toEqual(4);
+        expect(result[0].line      ).toEqual('-, _');
+        expect(result[0].lineNumber).toEqual(1);
+        expect(result[0].message   ).toEqual('Hardcoded string is not allowed');
+        expect(result[0].rule      ).toEqual('no-hardcode');
+    });
+
+    it('allows HTML entities by default', () => {
+        ConfigUtils.load({ rules: {
+            'no-hardcode': {
+                except : [',', '-']
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 13);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('allows HTML entities if configured to do so', () => {
+        ConfigUtils.load({ rules: {
+            'no-hardcode': {
+                except            : [',', '-'],
+                allowHtmlEntities : true
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 13);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('does not allow HTML entities if configured to do so', () => {
+        ConfigUtils.load({ rules: {
+            'no-hardcode': {
+                except            : [',', '-'],
+                allowHtmlEntities : false
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 13);
+
+        expect(result.length).toEqual(1);
+        expect(result[0].globalPos ).toEqual(9);
+        expect(result[0].length    ).toEqual(7);
+        expect(result[0].line      ).toEqual('&#8212;');
+        expect(result[0].lineNumber).toEqual(1);
+        expect(result[0].message   ).toEqual('Hardcoded string is not allowed');
+        expect(result[0].rule      ).toEqual('no-hardcode');
+    });
+
+    it('ignores ISML expressions', () => {
+        ConfigUtils.load({ rules: {
+            'no-hardcode': {}
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 14);
 
         expect(result.length).toEqual(0);
     });
