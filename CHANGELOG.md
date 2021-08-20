@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.37.0] - 2021-08-22
+
+### Added
+ - "except" and "allowHtmlEntities" configuration attributes to the "[no-hardcode][no-hardcode-readme]" rule;
+
 ## [5.36.5] - 2021-08-18
 
 ### Changed
@@ -922,6 +927,7 @@
 ### Added
 - Linter is published;
 
+[5.37.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.5...v5.37.0
 [5.36.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.4...v5.36.5
 [5.36.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.3...v5.36.4
 [5.36.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.2...v5.36.3
@@ -1067,3 +1073,4 @@
 [no-inline-style-readme]:  <docs/rules/no-br.md>
 [no-isscript-readme]:      <docs/rules/no-isscript.md>
 [enforce-security-readme]: <docs/rules/enforce-security.md>
+[no-hardcode-readme]:      <docs/rules/no-hardcode.md>
