@@ -994,4 +994,32 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('does not raise issue if "quote" configuration is "any" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    quote: 'any'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 58);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('does not raise issue if "quote" configuration is "any" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    quote: 'any'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 59);
+
+        expect(result.length).toEqual(0);
+    });
 });
