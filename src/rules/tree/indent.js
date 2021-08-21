@@ -74,13 +74,36 @@ Rule.isClosingCharBroken = function(node) {
 
     const closingCharsConfigs = Rule.getConfigs().standAloneClosingChars;
 
-    if (!node.isTag() || !closingCharsConfigs || closingCharsConfigs.nonSelfClosingTag === 'any') {
+    if (!node.isTag()
+        || !closingCharsConfigs
+        || !node.isSelfClosing() && (!closingCharsConfigs.nonSelfClosingTag || closingCharsConfigs.nonSelfClosingTag === 'any')
+        || node.isSelfClosing() && (!closingCharsConfigs.selfClosingTag || closingCharsConfigs.selfClosingTag === 'any')
+    ) {
         return {
             isBroken : false
         };
     }
 
-    if (!node.isSelfClosing()) {
+    if (node.isSelfClosing()) {
+        if (closingCharsConfigs.selfClosingTag === 'always') {
+            const nodeValueLineList          = node.value.trim().split(Constants.EOL);
+            const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '/>';
+
+            return {
+                isBroken : !isClosingCharStandingAlone,
+                config   : 'always'
+            };
+
+        } else if (closingCharsConfigs.selfClosingTag === 'never') {
+            const nodeValueLineList          = node.value.trim().split(Constants.EOL);
+            const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '/>';
+
+            return {
+                isBroken : isClosingCharStandingAlone,
+                config   : 'never'
+            };
+        }
+    } else {
         if (closingCharsConfigs.nonSelfClosingTag === 'always') {
             const nodeValueLineList          = node.value.trim().split(Constants.EOL);
             const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '>';
@@ -708,10 +731,11 @@ const getAttributeValueError = (attribute, attributeValueList, i, expectedIndent
     return null;
 };
 
-const getStandAloneCharDescription  = () => 'Closing chars should be in a separate line';
-const getOccurrenceDescription      = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;
-const getExpectedIndentation        = (node, configIndentSize) => (node.depth - 1) * configIndentSize;
-const getActualIndentation          = node => node.getIndentationSize();
-const getActualIndentationForSuffix = node => node.getSuffixIndentationSize() + getEslintChildTrailingSpaces(node);
+const getStandAloneCharDescription    = () => 'Closing chars should be in a separate line';
+const getNonStandAloneCharDescription = () => 'Closing chars cannot be in a separate line';
+const getOccurrenceDescription        = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;
+const getExpectedIndentation          = (node, configIndentSize) => (node.depth - 1) * configIndentSize;
+const getActualIndentation            = node => node.getIndentationSize();
+const getActualIndentationForSuffix   = node => node.getSuffixIndentationSize() + getEslintChildTrailingSpaces(node);
 
 module.exports = Rule;

@@ -870,4 +870,32 @@ describe(rule.id, () => {
         expect(result[0].globalPos    ).toEqual(114);
         expect(result[0].message      ).toEqual('Closing chars cannot be in a separate line');
     });
+
+    it('does not raise issue if "selfClosingTag" configuration is "any" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    selfClosingTag: 'any'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 53);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('does not raise issue if "selfClosingTag" configuration is "any" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    selfClosingTag: 'any'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 54);
+
+        expect(result.length).toEqual(0);
+    });
 });
