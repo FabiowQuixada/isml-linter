@@ -919,4 +919,37 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('raises issue if "selfClosingTag" configuration is "never" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    selfClosingTag: 'never'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 53);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('does not raise issue if "selfClosingTag" configuration is "never" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    selfClosingTag: 'never'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 54);
+
+        expect(result.length).toEqual(1);
+        expect(result[0].lineNumber   ).toEqual(3);
+        expect(result[0].columnNumber ).toEqual(5);
+        expect(result[0].length       ).toEqual(2);
+        expect(result[0].globalPos    ).toEqual(34);
+        expect(result[0].message      ).toEqual('Closing chars cannot be in a separate line');
+    });
 });
