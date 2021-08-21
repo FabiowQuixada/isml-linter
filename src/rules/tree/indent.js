@@ -72,10 +72,12 @@ Rule.isBrokenForSuffix = function(node) {
 
 Rule.isClosingCharBroken = function(node) {
 
-    const closingCharsConfigs = Rule.getConfigs().standAloneClosingChars;
+    const closingCharsConfigs    = Rule.getConfigs().standAloneClosingChars;
+    const isFirstChildInSameLine = node.hasChildren() && node.endLineNumber === node.children[0].lineNumber;
 
     if (!node.isTag()
         || !node.isMultiLineOpeningTag()
+        || isFirstChildInSameLine
         || !closingCharsConfigs
         || !node.isSelfClosing() && (!closingCharsConfigs.nonSelfClosingTag || closingCharsConfigs.nonSelfClosingTag === 'any')
         || node.isSelfClosing() && (!closingCharsConfigs.selfClosingTag || closingCharsConfigs.selfClosingTag === 'any')

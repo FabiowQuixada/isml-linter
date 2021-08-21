@@ -979,4 +979,19 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('does not raise closing char issues on nodes with first child in the same line as itself', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    nonSelfClosingTag : 'always',
+                    selfClosingTag    : 'always'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 56);
+
+        expect(result.length).toEqual(0);
+    });
 });
