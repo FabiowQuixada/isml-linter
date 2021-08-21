@@ -952,4 +952,19 @@ describe('On Unix, ' + rule.id, () => {
         expect(result[0].globalPos    ).toEqual(34);
         expect(result[0].message      ).toEqual('Closing chars cannot be in a separate line');
     });
+
+    it('does not raise closing char issues on single-line tags', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    nonSelfClosingTag : 'always',
+                    selfClosingTag    : 'always'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 55);
+
+        expect(result.length).toEqual(0);
+    });
 });

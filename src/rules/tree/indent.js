@@ -75,6 +75,7 @@ Rule.isClosingCharBroken = function(node) {
     const closingCharsConfigs = Rule.getConfigs().standAloneClosingChars;
 
     if (!node.isTag()
+        || !node.isMultiLineOpeningTag()
         || !closingCharsConfigs
         || !node.isSelfClosing() && (!closingCharsConfigs.nonSelfClosingTag || closingCharsConfigs.nonSelfClosingTag === 'any')
         || node.isSelfClosing() && (!closingCharsConfigs.selfClosingTag || closingCharsConfigs.selfClosingTag === 'any')
