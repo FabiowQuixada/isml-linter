@@ -75,7 +75,9 @@ Rule.isClosingCharBroken = function(node) {
     const closingCharsConfigs = Rule.getConfigs().standAloneClosingChars;
 
     if (!node.isTag() || !closingCharsConfigs || closingCharsConfigs.nonSelfClosingTag === 'any') {
-        return false;
+        return {
+            isBroken : false
+        };
     }
 
     if (!node.isSelfClosing()) {
@@ -83,7 +85,19 @@ Rule.isClosingCharBroken = function(node) {
             const nodeValueLineList          = node.value.trim().split(Constants.EOL);
             const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '>';
 
-            return !isClosingCharStandingAlone;
+            return {
+                isBroken : !isClosingCharStandingAlone,
+                config   : 'always'
+            };
+
+        } else if (closingCharsConfigs.nonSelfClosingTag === 'never') {
+            const nodeValueLineList          = node.value.trim().split(Constants.EOL);
+            const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '>';
+
+            return {
+                isBroken : isClosingCharStandingAlone,
+                config   : 'never'
+            };
         }
     }
 };
@@ -152,7 +166,8 @@ Rule.check = function(node, data) {
             occurrenceList.push(error);
         }
 
-        if (this.isClosingCharBroken(node)) {
+        const checkResult = this.isClosingCharBroken(node);
+        if (checkResult.isBroken) {
             if (!node.isSelfClosing()) {
                 const closingChar  = '>';
                 const globalPos    = node.globalPos
@@ -160,6 +175,9 @@ Rule.check = function(node, data) {
                     + ParseUtils.getLineBreakQty(node.value);
                 const lineList     = node.value.trim().split(Constants.EOL);
                 const columnNumber = lineList[lineList.length - 1].lastIndexOf(closingChar) + 1;
+                const message      = checkResult.config === 'always' ?
+                    getStandAloneCharDescription() :
+                    getNonStandAloneCharDescription();
 
                 const error = this.getError(
                     node.value.trim(),
@@ -167,7 +185,7 @@ Rule.check = function(node, data) {
                     columnNumber,
                     globalPos,
                     closingChar.length,
-                    getStandAloneCharDescription()
+                    message
                 );
 
                 occurrenceList.push(error);
