@@ -70,6 +70,15 @@ Rule.isBrokenForSuffix = function(node) {
         !isInSameLineAsOpeningTag;
 };
 
+Rule.isClosingCharBroken = function(node) {
+
+    const closingCharsConfigs = Rule.getConfigs().standAloneClosingChars;
+
+    if (!node.isTag() || !closingCharsConfigs || closingCharsConfigs.nonSelfClosingTag === 'any') {
+        return false;
+    }
+};
+
 Rule.check = function(node, data) {
 
     const ruleConfig   = this.getConfigs();
@@ -129,6 +138,19 @@ Rule.check = function(node, data) {
                 suffixGlobalPos,
                 occurrenceLength,
                 getOccurrenceDescription(expectedIndentation, actualIndentation)
+            );
+
+            occurrenceList.push(error);
+        }
+
+        if (this.isClosingCharBroken(node)) {
+            const error = this.getError(
+                node.value.trim(),
+                node.lineNumber,
+                node.columnNumber,
+                1,
+                1,
+                ''
             );
 
             occurrenceList.push(error);

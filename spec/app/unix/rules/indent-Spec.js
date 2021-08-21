@@ -764,4 +764,32 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('does not raise issue if "nonSelfClosingTag" configuration is "any" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    nonSelfClosingTag: 'any'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 51);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('does not raise issue if "nonSelfClosingTag" configuration is "any" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    nonSelfClosingTag: 'any'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 52);
+
+        expect(result.length).toEqual(0);
+    });
 });
