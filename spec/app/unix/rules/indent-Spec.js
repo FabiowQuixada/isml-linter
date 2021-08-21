@@ -792,4 +792,37 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('raises issue if "nonSelfClosingTag" configuration is "always" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    nonSelfClosingTag: 'always'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 51);
+
+        expect(result.length).toEqual(1);
+        expect(result[0].lineNumber   ).toEqual(4);
+        expect(result[0].columnNumber ).toEqual(6);
+        expect(result[0].length       ).toEqual(1);
+        expect(result[0].globalPos    ).toEqual(112);
+        expect(result[0].message      ).toEqual('Closing chars should be in a separate line');
+    });
+
+    it('does not raise issue if "nonSelfClosingTag" configuration is "always" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    nonSelfClosingTag: 'always'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 52);
+
+        expect(result.length).toEqual(0);
+    });
 });

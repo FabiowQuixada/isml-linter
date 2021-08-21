@@ -77,6 +77,15 @@ Rule.isClosingCharBroken = function(node) {
     if (!node.isTag() || !closingCharsConfigs || closingCharsConfigs.nonSelfClosingTag === 'any') {
         return false;
     }
+
+    if (!node.isSelfClosing()) {
+        if (closingCharsConfigs.nonSelfClosingTag === 'always') {
+            const nodeValueLineList          = node.value.trim().split(Constants.EOL);
+            const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '>';
+
+            return !isClosingCharStandingAlone;
+        }
+    }
 };
 
 Rule.check = function(node, data) {
@@ -144,16 +153,25 @@ Rule.check = function(node, data) {
         }
 
         if (this.isClosingCharBroken(node)) {
-            const error = this.getError(
-                node.value.trim(),
-                node.lineNumber,
-                node.columnNumber,
-                1,
-                1,
-                ''
-            );
+            if (!node.isSelfClosing()) {
+                const closingChar  = '>';
+                const globalPos    = node.globalPos
+                    + node.value.lastIndexOf(closingChar)
+                    + ParseUtils.getLineBreakQty(node.value);
+                const lineList     = node.value.trim().split(Constants.EOL);
+                const columnNumber = lineList[lineList.length - 1].lastIndexOf(closingChar) + 1;
 
-            occurrenceList.push(error);
+                const error = this.getError(
+                    node.value.trim(),
+                    node.endLineNumber,
+                    columnNumber,
+                    globalPos,
+                    closingChar.length,
+                    getStandAloneCharDescription()
+                );
+
+                occurrenceList.push(error);
+            }
         }
     }
 
@@ -672,6 +690,7 @@ const getAttributeValueError = (attribute, attributeValueList, i, expectedIndent
     return null;
 };
 
+const getStandAloneCharDescription  = () => 'Closing chars should be in a separate line';
 const getOccurrenceDescription      = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;
 const getExpectedIndentation        = (node, configIndentSize) => (node.depth - 1) * configIndentSize;
 const getActualIndentation          = node => node.getIndentationSize();
