@@ -191,7 +191,29 @@ Rule.check = function(node, data) {
 
         const checkResult = this.isClosingCharBroken(node);
         if (checkResult.isBroken) {
-            if (!node.isSelfClosing()) {
+            if (node.isSelfClosing()) {
+                const closingChar  = '/>';
+                const globalPos    = node.globalPos
+                    + node.value.trim().lastIndexOf(closingChar)
+                    + ParseUtils.getLineBreakQty(node.value);
+                const lineList     = node.value.split(Constants.EOL);
+                const columnNumber = lineList[lineList.length - 1].lastIndexOf(closingChar) + 1;
+                const message      = checkResult.config === 'always' ?
+                    getStandAloneCharDescription() :
+                    getNonStandAloneCharDescription();
+
+                const error = this.getError(
+                    node.value.trim(),
+                    node.endLineNumber,
+                    columnNumber,
+                    globalPos,
+                    closingChar.length,
+                    message
+                );
+
+                occurrenceList.push(error);
+
+            } else {
                 const closingChar  = '>';
                 const globalPos    = node.globalPos
                     + node.value.lastIndexOf(closingChar)
