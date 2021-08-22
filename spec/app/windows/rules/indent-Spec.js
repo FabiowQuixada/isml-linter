@@ -1022,4 +1022,37 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('does not raise issue if "quote" configuration is "always" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    quote: 'always'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 58);
+
+        expect(result.length).toEqual(1);
+        expect(result[0].lineNumber   ).toEqual(3);
+        expect(result[0].columnNumber ).toEqual(20);
+        expect(result[0].length       ).toEqual(1);
+        expect(result[0].globalPos    ).toEqual(51);
+        expect(result[0].message      ).toEqual('Closing chars should be in a separate line');
+    });
+
+    it('does not raise issue if "quote" configuration is "always" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    quote: 'always'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 59);
+
+        expect(result.length).toEqual(0);
+    });
 });

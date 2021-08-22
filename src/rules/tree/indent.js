@@ -132,6 +132,43 @@ Rule.isClosingCharBroken = function(node) {
     }
 };
 
+Rule.isQuoteClosingCharBroken = function(node) {
+
+    const closingCharsConfigs = Rule.getConfigs().standAloneClosingChars;
+    const result              = [];
+
+    for (let i = 0; i < node.getAttributeList().length; i++) {
+        const attribute = node.getAttributeList()[i];
+
+        if (attribute.value && closingCharsConfigs.quote === 'always') {
+            const attributeValueLineList     = attribute.fullContent.trim().split(Constants.EOL);
+            const isClosingCharStandingAlone = attributeValueLineList[attributeValueLineList.length - 1].trim() === attribute.quoteChar;
+
+            if (!isClosingCharStandingAlone) {
+
+                const lineNumber   = attribute.lineNumber + ParseUtils.getLineBreakQty(attribute.fullContent);
+                const globalPos    = attribute.globalPos
+                    + attribute.fullContent.lastIndexOf(attribute.quoteChar)
+                    + lineNumber;
+                const lineList     = attribute.value.split(Constants.EOL);
+                const columnNumber = lineList[lineList.length - 1].length + 1;
+                const message      = getStandAloneCharDescription();
+
+                result.push({
+                    quoteChar    : attribute.quoteChar,
+                    lineNumber   : lineNumber,
+                    columnNumber : columnNumber,
+                    globalPos    : globalPos,
+                    length       : attribute.quoteChar.length,
+                    message      : message
+                });
+            }
+        }
+    }
+
+    return result;
+};
+
 Rule.check = function(node, data) {
 
     const ruleConfig   = this.getConfigs();
@@ -195,6 +232,9 @@ Rule.check = function(node, data) {
 
             occurrenceList.push(error);
         }
+
+        const quoteOccurrenceList = this.isQuoteClosingCharBroken(node);
+        occurrenceList.push(...quoteOccurrenceList);
 
         const checkResult = this.isClosingCharBroken(node);
         if (checkResult.isBroken) {
