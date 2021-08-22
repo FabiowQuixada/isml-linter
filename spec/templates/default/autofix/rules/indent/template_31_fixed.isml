@@ -1,6 +1,5 @@
 <div>
     <input
         value="${aValue}"
-        data-missing-error="${errorMessage}"
-    />
+        data-missing-error="${errorMessage}" />
 </div>

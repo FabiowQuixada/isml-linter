@@ -1,5 +1,6 @@
 <div class="form-group required-marker
         <isif condition=${aCondition}>required</isif>
         ${field.htmlName}
-    ">
+    "
+>
 </div>

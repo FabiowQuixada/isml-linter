@@ -582,7 +582,7 @@ const getClosingChars = node => {
     if (nodeValue.endsWith(' />')) {
         return ' />';
     } else if (nodeValue.endsWith('/>')) {
-        return '/>';
+        return ' />';
     } else if (nodeValue.endsWith(' >')) {
         return ' >';
     } else if (nodeValue.endsWith('>')) {
@@ -620,11 +620,7 @@ const addIndentation = (node, isOpeningTag) => {
             }
 
             if (attributeList.length > 0) {
-                const lastAttributeFullContent          = attributeList[attributeList.length - 1].fullContent;
-                const lastAttributeLocalPos             = node.value.indexOf(lastAttributeFullContent);
-                const nodeValueRemainingContent         = node.value.substring(lastAttributeLocalPos);
-                const nodeValueLastChars                = nodeValueRemainingContent.substring(lastAttributeFullContent.length);
-                const shouldAddIndentationToClosingChar = ParseUtils.getLineBreakQty(nodeValueLastChars.trimEnd()) > 0;
+                const shouldAddIndentationToClosingChar = shouldAddIndentationToClosingChars(node);
                 const closingChars                      = getClosingChars(node);
 
                 contentResult += shouldAddIndentationToClosingChar ?
@@ -686,6 +682,26 @@ const addCorrectIndentation = node => {
     for (let i = 0; i < node.children.length; i++) {
         addCorrectIndentation(node.children[i]);
     }
+};
+
+const shouldAddIndentationToClosingChars = node => {
+    const closingCharsConfigs = Rule.getConfigs().standAloneClosingChars;
+
+    if (node.isSelfClosing()) {
+        if (closingCharsConfigs.selfClosingTag === 'always') {
+            return true;
+        } else if (closingCharsConfigs.selfClosingTag === 'never') {
+            return false;
+        }
+    } else {
+        if (closingCharsConfigs.nonSelfClosingTag === 'always') {
+            return true;
+        } else if (closingCharsConfigs.nonSelfClosingTag === 'never') {
+            return false;
+        }
+    }
+
+    return false;
 };
 
 const checkIfShouldAddIndentationToValue = node => {

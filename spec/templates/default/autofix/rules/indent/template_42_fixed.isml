@@ -2,6 +2,7 @@
         && swatch.images != null
         && swatch.images.colorswatch[0] != null
         && swatch.images.colorswatch[0].url != null}
-    ">
+    "
+>
     Text
 </isif>

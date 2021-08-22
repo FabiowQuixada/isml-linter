@@ -4,5 +4,5 @@
             value="${aValue}"
         </isif>
         <isprint value="${form.field.attributes}" encoding="off" />
-        autocomplete="tel"/>
+        autocomplete="tel" />
 </div>
