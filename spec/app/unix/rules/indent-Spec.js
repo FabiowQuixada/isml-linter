@@ -1043,4 +1043,37 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('does not raise issue if "quote" configuration is "never" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    quote: 'never'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 58);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('does not raise issue if "quote" configuration is "never" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    quote: 'never'
+                }
+            }
+        }});
+
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 59);
+
+        expect(result.length).toEqual(1);
+        expect(result[0].lineNumber   ).toEqual(4);
+        expect(result[0].columnNumber ).toEqual(9);
+        expect(result[0].length       ).toEqual(1);
+        expect(result[0].globalPos    ).toEqual(61);
+        expect(result[0].message      ).toEqual('Closing chars cannot be in a separate line');
+    });
 });

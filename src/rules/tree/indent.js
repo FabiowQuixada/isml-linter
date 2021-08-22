@@ -134,26 +134,28 @@ Rule.isClosingCharBroken = function(node) {
 
 Rule.isQuoteClosingCharBroken = function(node) {
 
-    const closingCharsConfigs = Rule.getConfigs().standAloneClosingChars;
-    const result              = [];
+    const quoteConfig   = Rule.getConfigs().standAloneClosingChars.quote;
+    const attributeList = node.getAttributeList();
+    const result        = [];
 
-    for (let i = 0; i < node.getAttributeList().length; i++) {
-        const attribute = node.getAttributeList()[i];
+    for (let i = 0; i < attributeList.length; i++) {
+        const attribute = attributeList[i];
 
-        if (attribute.value && closingCharsConfigs.quote === 'always') {
+        if (attribute.value) {
             const attributeValueLineList     = attribute.fullContent.trim().split(Constants.EOL);
             const isClosingCharStandingAlone = attributeValueLineList[attributeValueLineList.length - 1].trim() === attribute.quoteChar;
+            const lineNumber                 = attribute.lineNumber + ParseUtils.getLineBreakQty(attribute.fullContent);
+            const lineList                   = attribute.value.split(Constants.EOL);
+            const columnNumber               = lineList[lineList.length - 1].length + 1;
+            const globalPos                  = attribute.globalPos
+                + attribute.fullContent.lastIndexOf(attribute.quoteChar)
+                + lineNumber;
 
-            if (!isClosingCharStandingAlone) {
+            const message = quoteConfig === 'always' && !isClosingCharStandingAlone ? getStandAloneCharDescription() :
+                quoteConfig === 'never' && isClosingCharStandingAlone ? getNonStandAloneCharDescription() :
+                    '';
 
-                const lineNumber   = attribute.lineNumber + ParseUtils.getLineBreakQty(attribute.fullContent);
-                const globalPos    = attribute.globalPos
-                    + attribute.fullContent.lastIndexOf(attribute.quoteChar)
-                    + lineNumber;
-                const lineList     = attribute.value.split(Constants.EOL);
-                const columnNumber = lineList[lineList.length - 1].length + 1;
-                const message      = getStandAloneCharDescription();
-
+            if (message) {
                 result.push({
                     quoteChar    : attribute.quoteChar,
                     lineNumber   : lineNumber,
