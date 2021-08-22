@@ -1,6 +1,7 @@
 <div>
     <button class="class"
-                    href="">
+                    href=""
+    >
         <img
                 style="in-line-style"
                 src="${imgSrc}"

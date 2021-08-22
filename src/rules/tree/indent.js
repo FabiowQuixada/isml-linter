@@ -12,8 +12,12 @@ Rule.init(ruleId, description);
 
 Rule.getDefaultAttrs = () => {
     return {
-        size            : 4,
-        attributeOffset : 4
+        size                   : 4,
+        attributeOffset        : 4,
+        standAloneClosingChars : {
+            nonSelfClosingTag : 'always',
+            selfClosingTag    : 'never'
+        }
     };
 };
 

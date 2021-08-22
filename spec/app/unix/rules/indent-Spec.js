@@ -508,9 +508,9 @@ describe('On Unix, ' + rule.id, () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 40);
 
         expect(result[0].lineNumber).toEqual(3);
-        expect(result[1].lineNumber).toEqual(5);
-        expect(result[2].lineNumber).toEqual(6);
-        expect(result[3].lineNumber).toEqual(7);
+        expect(result[1].lineNumber).toEqual(6);
+        expect(result[2].lineNumber).toEqual(7);
+        expect(result[3].lineNumber).toEqual(8);
     });
 
     it('indents attributes', () => {
@@ -774,7 +774,7 @@ describe('On Unix, ' + rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 51);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 57);
 
         expect(result.length).toEqual(0);
     });
@@ -802,7 +802,7 @@ describe('On Unix, ' + rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 51);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 57);
 
         expect(result.length).toEqual(1);
         expect(result[0].lineNumber   ).toEqual(4);
@@ -835,7 +835,7 @@ describe('On Unix, ' + rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 51);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 57);
 
         expect(result.length).toEqual(0);
     });

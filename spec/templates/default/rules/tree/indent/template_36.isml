@@ -6,7 +6,8 @@
         <iselse>
             data-target="#target-two"
         </isif>
-        aria-expanded="false">
+        aria-expanded="false"
+    >
         ${buttonText}
     </button>
 </div>
