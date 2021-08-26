@@ -700,7 +700,10 @@ const shouldAddIndentationToClosingChars = node => {
         }
     }
 
-    return false;
+    const lineList = node.value.split(Constants.EOL);
+    const lastLine = lineList[lineList.length - 1];
+
+    return ['/>', '>'].indexOf(lastLine) >= 0;
 };
 
 const checkIfShouldAddIndentationToValue = node => {

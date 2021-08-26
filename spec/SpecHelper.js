@@ -21,6 +21,14 @@ const getFixedTemplatePath = (ruleDirName, number) => {
     return path.join(Constants.specAutofixTemplatesDir, 'rules', ruleDirName, `template_${number}_fixed.isml`);
 };
 
+const getSourceTemplatePathForConfig = (ruleDirName, config, number) => {
+    return path.join(Constants.specAutofixTemplatesDir, 'rules', ruleDirName, config, 'source', `template_${number}.isml`);
+};
+
+const getTargetTemplatePathForConfig = (ruleDirName, config, number) => {
+    return path.join(Constants.specAutofixTemplatesDir, 'rules', ruleDirName, config, 'target', `template_${number}.isml`);
+};
+
 const cleanTempDirectory = () => {
     FileUtils.deleteDirectoryRecursively(specTempDir);
 };
@@ -86,6 +94,20 @@ module.exports = {
         const ruleDirName          = rule.id.replaceAll('-', '_');
         const brokenTemplatePath   = getBrokenTemplatePath(ruleDirName, templateNumber);
         const fixedTemplatePath    = getFixedTemplatePath(ruleDirName, templateNumber);
+        const fixedTemplateContent = GeneralUtils.applyActiveLinebreaks(fs.readFileSync(fixedTemplatePath, 'utf-8'));
+        const rootNode             = TreeBuilder.build(brokenTemplatePath).rootNode;
+        const actualContent        = rule.getFixedContent(rootNode);
+
+        return {
+            actualContent,
+            fixedTemplateContent
+        };
+    },
+
+    getTreeRuleFixDataForConfig: (rule, config, sourceTemplateNumber, targetTemplateNumber) => {
+        const ruleDirName          = rule.id.replaceAll('-', '_');
+        const brokenTemplatePath   = getSourceTemplatePathForConfig(ruleDirName, config, sourceTemplateNumber);
+        const fixedTemplatePath    = getTargetTemplatePathForConfig(ruleDirName, config, targetTemplateNumber);
         const fixedTemplateContent = GeneralUtils.applyActiveLinebreaks(fs.readFileSync(fixedTemplatePath, 'utf-8'));
         const rootNode             = TreeBuilder.build(brokenTemplatePath).rootNode;
         const actualContent        = rule.getFixedContent(rootNode);

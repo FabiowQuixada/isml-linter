@@ -1100,4 +1100,88 @@ describe('On Unix, ' + rule.id, () => {
         expect(result[0].globalPos    ).toEqual(59);
         expect(result[0].message      ).toEqual('Closing chars cannot be in a separate line');
     });
+
+    it('autofix does no change if "nonSelfClosingTag" configuration is "any" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    nonSelfClosingTag: 'any'
+                }
+            }
+        }});
+
+        const results = SpecHelper.getTreeRuleFixDataForConfig(rule, 'standAloneClosingChars', 0, 0);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix does no change if "nonSelfClosingTag" configuration is "any" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    nonSelfClosingTag: 'any'
+                }
+            }
+        }});
+
+        const results = SpecHelper.getTreeRuleFixDataForConfig(rule, 'standAloneClosingChars', 1, 1);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix fixes issue if "nonSelfClosingTag" configuration is "always" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    nonSelfClosingTag: 'always'
+                }
+            }
+        }});
+
+        const results = SpecHelper.getTreeRuleFixDataForConfig(rule, 'standAloneClosingChars', 0, 1);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix does no change if "nonSelfClosingTag" configuration is "always" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    nonSelfClosingTag: 'always'
+                }
+            }
+        }});
+
+        const results = SpecHelper.getTreeRuleFixDataForConfig(rule, 'standAloneClosingChars', 1, 1);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix does no change issue if "nonSelfClosingTag" configuration is "never" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    nonSelfClosingTag: 'never'
+                }
+            }
+        }});
+
+        const results = SpecHelper.getTreeRuleFixDataForConfig(rule, 'standAloneClosingChars', 0, 0);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix fixes issue if "nonSelfClosingTag" configuration is "never" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    nonSelfClosingTag: 'never'
+                }
+            }
+        }});
+
+        const results = SpecHelper.getTreeRuleFixDataForConfig(rule, 'standAloneClosingChars', 1, 0);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
