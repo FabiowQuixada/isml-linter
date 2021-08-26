@@ -149,7 +149,7 @@ Rule.isQuoteClosingCharBroken = function(node) {
             const columnNumber               = lineList[lineList.length - 1].length + 1;
             const globalPos                  = attribute.globalPos
                 + attribute.fullContent.lastIndexOf(attribute.quoteChar)
-                + lineNumber;
+                + lineNumber - 2;
 
             const message = quoteConfig === 'always' && !isClosingCharStandingAlone ? getStandAloneCharDescription() :
                 quoteConfig === 'never' && isClosingCharStandingAlone ? getNonStandAloneCharDescription() :
@@ -243,8 +243,7 @@ Rule.check = function(node, data) {
             if (node.isSelfClosing()) {
                 const closingChar  = '/>';
                 const globalPos    = node.globalPos
-                    + node.value.trim().lastIndexOf(closingChar)
-                    + ParseUtils.getLineBreakQty(node.value);
+                    + node.value.trim().lastIndexOf(closingChar);
                 const lineList     = node.value.split(Constants.EOL);
                 const columnNumber = lineList[lineList.length - 1].lastIndexOf(closingChar) + 1;
                 const message      = checkResult.config === 'always' ?

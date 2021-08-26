@@ -306,13 +306,13 @@ describe(rule.id, () => {
     });
 
     it('detects indentation of closing </isscript> tag', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 25);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 25, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('detects indentation of closing </iscomment> tag', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 26);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 26, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -326,19 +326,19 @@ describe(rule.id, () => {
             }
         });
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 27);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 27, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('reports occurrence column number', () => {
-        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 15)[0];
+        const occurrence = SpecHelper.parseAndApplyRuleToTemplate(rule, 15, isCrlfLineBreak)[0];
 
         expect(occurrence.columnNumber).toEqual(7);
     });
 
     it('reports occurrence column number II', () => {
-        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 18);
+        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 18, isCrlfLineBreak);
         const occurrence1 = result[0];
         const occurrence2 = result[1];
 
@@ -347,7 +347,7 @@ describe(rule.id, () => {
     });
 
     it('reports occurrence column number III', () => {
-        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 20);
+        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 20, isCrlfLineBreak);
         const occurrence1 = result[0];
         const occurrence2 = result[1];
 
@@ -356,14 +356,14 @@ describe(rule.id, () => {
     });
 
     it('reports occurrence column number IV', () => {
-        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 28);
+        const result      = SpecHelper.parseAndApplyRuleToTemplate(rule, 28, isCrlfLineBreak);
         const occurrence1 = result[0];
 
         expect(occurrence1.columnNumber).toEqual(1);
     });
 
     it('does not replicate indentation due to last child trailing spaces', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 29);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 29, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -447,31 +447,31 @@ describe(rule.id, () => {
     });
 
     it('allows same line closing tags', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 30);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 30, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('allows element to be in the same line as parent value\'s end line', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 31);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 31, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('keeps indentation of same line closing tags II', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 32);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 32, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('allows element to be in the same line as previous sibling suffix', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 33);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 33, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('identifies tag attributes with wrong indentation', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 34);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 34, isCrlfLineBreak);
 
         expect(result[0].lineNumber   ).toEqual(2);
         expect(result[0].columnNumber ).toEqual(4);
@@ -487,49 +487,49 @@ describe(rule.id, () => {
     });
 
     it('allows more than one attribute per line', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 35);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 35, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('identifies embedded "isif" "attributes" with correct indentation', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 36);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 36, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('identifies embedded "isif" "attributes" with wrong indentation', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 37);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 37, isCrlfLineBreak);
 
         expect(result[0].lineNumber   ).toEqual(4);
         expect(result[0].columnNumber ).toEqual(10);
         expect(result[0].length       ).toEqual(9);
-        expect(result[0].globalPos    ).toEqual(44);
+        expect(result[0].globalPos    ).toEqual(45);
         expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 9');
     });
 
     it('identifies attributes with expressions with wrong indentation', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 38);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 38, isCrlfLineBreak);
 
         expect(result[0].lineNumber   ).toEqual(5);
+        expect(result[0].columnNumber ).toEqual(5);
+        expect(result[0].length       ).toEqual(4);
+        expect(result[0].globalPos    ).toEqual(71);
+        expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 4');
+    });
+
+    it('identifies attributes with expressions with wrong indentation II', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 39, isCrlfLineBreak);
+
+        expect(result[0].lineNumber   ).toEqual(4);
         expect(result[0].columnNumber ).toEqual(5);
         expect(result[0].length       ).toEqual(4);
         expect(result[0].globalPos    ).toEqual(70);
         expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 4');
     });
 
-    it('identifies attributes with expressions with wrong indentation II', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 39);
-
-        expect(result[0].lineNumber   ).toEqual(4);
-        expect(result[0].columnNumber ).toEqual(5);
-        expect(result[0].length       ).toEqual(4);
-        expect(result[0].globalPos    ).toEqual(69);
-        expect(result[0].message      ).toEqual('Expected indentation of 8 spaces but found 4');
-    });
-
     it('identifies occurrences ordered by line number', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 40);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 40, isCrlfLineBreak);
 
         expect(result[0].lineNumber).toEqual(3);
         expect(result[1].lineNumber).toEqual(6);
@@ -598,7 +598,7 @@ describe(rule.id, () => {
     });
 
     it('allows attributes with the same name as the tag name', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 41);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 41, isCrlfLineBreak);
 
         expect(result).toEqual([]);
     });
@@ -615,8 +615,20 @@ describe(rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('keeps indentation of a child of a multi-line element', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 42);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('does not add an unnecessary line break to "iscomment" tag content', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 43);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('detects wrong indentation initial position and length', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 34);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 34, isCrlfLineBreak);
 
         expect(result[0].globalPos).toEqual(18);
         expect(result[0].length).toEqual(3);
@@ -625,7 +637,7 @@ describe(rule.id, () => {
     });
 
     it('detects wrong indentation initial position and length for indentless attributes', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 42);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 42, isCrlfLineBreak);
 
         expect(result[0].globalPos).toEqual(18);
         expect(result[0].length).toEqual(19);
@@ -634,7 +646,7 @@ describe(rule.id, () => {
     });
 
     it('detects attribute value wrong indentation', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 43);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 43, isCrlfLineBreak);
 
         expect(result.length          ).toEqual(1);
         expect(result[0].lineNumber   ).toEqual(3);
@@ -645,7 +657,7 @@ describe(rule.id, () => {
     });
 
     it('detects attribute value wrong indentation for indentless values', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 44);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 44, isCrlfLineBreak);
 
         expect(result.length          ).toEqual(1);
         expect(result[0].lineNumber   ).toEqual(3);
@@ -656,7 +668,7 @@ describe(rule.id, () => {
     });
 
     it('detects attribute value wrong indentation II', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 45);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 45, isCrlfLineBreak);
 
         expect(result.length          ).toEqual(1);
         expect(result[0].lineNumber   ).toEqual(3);
@@ -667,7 +679,7 @@ describe(rule.id, () => {
     });
 
     it('detects attribute value wrong indentation III', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 46);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 46, isCrlfLineBreak);
 
         expect(result.length          ).toEqual(1);
         expect(result[0].lineNumber   ).toEqual(5);
@@ -696,25 +708,25 @@ describe(rule.id, () => {
     });
 
     it('allows attribute value to be in the same line as attribute name', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 47);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 47, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('detects attribute value wrong indentation IV', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 48);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 48, isCrlfLineBreak);
 
         expect(result.length).toEqual(2);
         expect(result[0].lineNumber   ).toEqual(4);
         expect(result[0].columnNumber ).toEqual(0);
         expect(result[0].length       ).toEqual(8);
-        expect(result[0].globalPos    ).toEqual(106);
+        expect(result[0].globalPos    ).toEqual(108);
         expect(result[0].message      ).toEqual('Expected indentation of 12 spaces but found 8');
 
         expect(result[1].lineNumber   ).toEqual(5);
         expect(result[1].columnNumber ).toEqual(0);
         expect(result[1].length       ).toEqual(8);
-        expect(result[1].globalPos    ).toEqual(128);
+        expect(result[1].globalPos    ).toEqual(130);
         expect(result[1].message      ).toEqual('Expected indentation of 12 spaces but found 8');
     });
 
@@ -743,13 +755,13 @@ describe(rule.id, () => {
     });
 
     it('allows attribute value to have an "isif" with children in their own line', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 49);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 49, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
 
     it('allows attribute value to have an "isif" with children in their own line II', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 50);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 50, isCrlfLineBreak);
 
         expect(result.length).toEqual(2);
         expect(result[0].lineNumber   ).toEqual(3);
@@ -772,7 +784,7 @@ describe(rule.id, () => {
     });
 
     it('doesn\'t raise false positives', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 51);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 51, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -786,7 +798,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 57);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 57, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -800,7 +812,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 52);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 52, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -814,7 +826,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 57);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 57, isCrlfLineBreak);
 
         expect(result.length).toEqual(1);
         expect(result[0].lineNumber   ).toEqual(4);
@@ -833,7 +845,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 52);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 52, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -847,7 +859,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 57);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 57, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -861,7 +873,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 52);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 52, isCrlfLineBreak);
 
         expect(result.length).toEqual(1);
         expect(result[0].lineNumber   ).toEqual(5);
@@ -880,7 +892,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 53);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 53, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -894,7 +906,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 54);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 54, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -908,13 +920,13 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 53);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 53, isCrlfLineBreak);
 
         expect(result.length).toEqual(1);
         expect(result[0].lineNumber   ).toEqual(3);
         expect(result[0].columnNumber ).toEqual(20);
         expect(result[0].length       ).toEqual(2);
-        expect(result[0].globalPos    ).toEqual(38);
+        expect(result[0].globalPos    ).toEqual(37);
         expect(result[0].message      ).toEqual('Closing chars should be in a separate line');
     });
 
@@ -927,7 +939,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 54);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 54, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -941,7 +953,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 53);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 53, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -955,13 +967,13 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 54);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 54, isCrlfLineBreak);
 
         expect(result.length).toEqual(1);
         expect(result[0].lineNumber   ).toEqual(3);
         expect(result[0].columnNumber ).toEqual(5);
         expect(result[0].length       ).toEqual(2);
-        expect(result[0].globalPos    ).toEqual(34);
+        expect(result[0].globalPos    ).toEqual(33);
         expect(result[0].message      ).toEqual('Closing chars cannot be in a separate line');
     });
 
@@ -975,7 +987,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 55);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 55, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -990,7 +1002,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 56);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 56, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -1004,7 +1016,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 58);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 58, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -1018,7 +1030,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 59);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 59, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -1032,13 +1044,13 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 58);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 58, isCrlfLineBreak);
 
         expect(result.length).toEqual(1);
         expect(result[0].lineNumber   ).toEqual(3);
         expect(result[0].columnNumber ).toEqual(20);
         expect(result[0].length       ).toEqual(1);
-        expect(result[0].globalPos    ).toEqual(51);
+        expect(result[0].globalPos    ).toEqual(50);
         expect(result[0].message      ).toEqual('Closing chars should be in a separate line');
     });
 
@@ -1051,7 +1063,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 59);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 59, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -1065,7 +1077,7 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 58);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 58, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);
     });
@@ -1079,13 +1091,13 @@ describe(rule.id, () => {
             }
         }});
 
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 59);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 59, isCrlfLineBreak);
 
         expect(result.length).toEqual(1);
         expect(result[0].lineNumber   ).toEqual(4);
         expect(result[0].columnNumber ).toEqual(9);
         expect(result[0].length       ).toEqual(1);
-        expect(result[0].globalPos    ).toEqual(61);
+        expect(result[0].globalPos    ).toEqual(60);
         expect(result[0].message      ).toEqual('Closing chars cannot be in a separate line');
     });
 });
