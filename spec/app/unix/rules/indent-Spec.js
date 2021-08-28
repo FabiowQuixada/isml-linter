@@ -1352,4 +1352,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('fixes template and does not add an extra line in case the last element is self-closing', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 52);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

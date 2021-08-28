@@ -628,7 +628,7 @@ const addIndentation = (node, isOpeningTag) => {
                     closingChars;
             }
         } else {
-            contentResult = node.value.trimStart();
+            contentResult = node.value.trim();
         }
     } else {
         contentResult = node.suffixValue.trim();
