@@ -491,9 +491,7 @@ const parseAttribute = (node, attributeList, index) => {
     const isExpressionAttribute                 = attribute.startsWith('${') && attribute.endsWith('}');
     const trimmedAttribute                      = attribute.trim();
     const trimmedNodeValue                      = node.value.trim();
-    const maskedTrimmedAttribute                = MaskUtils.maskQuoteContent(trimmedAttribute);
-    const maskedTrimmedNodeValue                = MaskUtils.maskQuoteContent(trimmedNodeValue);
-    const localPos                              = maskedTrimmedNodeValue.indexOf(maskedTrimmedAttribute);
+    const localPos                              = getAttributeLocalPos(trimmedNodeValue, trimmedAttribute);
     const leadingContent                        = trimmedNodeValue.substring(0, localPos);
     const leadingLineBreakQty                   = ParseUtils.getLineBreakQty(leadingContent);
     const isInSameLineAsTagName                 = leadingLineBreakQty === 0;
@@ -567,6 +565,34 @@ const parseAttribute = (node, attributeList, index) => {
             node
         };
     }
+};
+
+/**
+ * Two attributes can have the same name, and that is handled here;
+ */
+const getAttributeLocalPos = (trimmedNodeValue, trimmedAttribute) => {
+    const maskedTrimmedAttribute = MaskUtils.maskQuoteContent(trimmedAttribute);
+    const maskedTrimmedNodeValue = MaskUtils.maskQuoteContent(trimmedNodeValue);
+
+    let attributeLocalPos    = maskedTrimmedNodeValue.indexOf(maskedTrimmedAttribute);
+    const isCorrectAttribute = trimmedNodeValue.indexOf(trimmedAttribute) === attributeLocalPos;
+    let remainingNodeValue   = maskedTrimmedNodeValue.substring(attributeLocalPos + 1);
+
+    while (!isCorrectAttribute) {
+        const tempLocalPos = remainingNodeValue.indexOf(maskedTrimmedAttribute) + 1;
+
+        attributeLocalPos += tempLocalPos;
+
+        const remainingContent = trimmedNodeValue.substring(attributeLocalPos);
+
+        if (remainingContent.startsWith(trimmedAttribute)) {
+            break;
+        }
+
+        remainingNodeValue = remainingNodeValue.substring(tempLocalPos);
+    }
+
+    return attributeLocalPos;
 };
 
 const getNodeIndentationSize = (node, isNodeHead) => {

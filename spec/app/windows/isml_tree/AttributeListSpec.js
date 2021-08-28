@@ -228,6 +228,26 @@ describe('IsmlNode', () => {
         expect(valueList[1]).toEqual('<isif condition=${condition}>required</isif>');
         expect(valueList[2]).toEqual('${expressionValue}');
     });
+
+    it('lists attributes with correct line numbers if two attributes have the same name', () => {
+        const rootNode      = getTreeRootFromTemplate(25);
+        const ismoduleNode  = rootNode.children[0];
+        const attributeList = ismoduleNode.getAttributeList();
+
+        expect(attributeList.length).toEqual(2);
+        expect(attributeList[0].lineNumber).toEqual(2);
+        expect(attributeList[1].lineNumber).toEqual(3);
+    });
+
+    it('lists attributes with correct line numbers if two attributes have the same name (indentless)', () => {
+        const rootNode      = getTreeRootFromTemplate(26);
+        const ismoduleNode  = rootNode.children[0];
+        const attributeList = ismoduleNode.getAttributeList();
+
+        expect(attributeList.length).toEqual(2);
+        expect(attributeList[0].lineNumber).toEqual(2);
+        expect(attributeList[1].lineNumber).toEqual(3);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {
