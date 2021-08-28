@@ -604,12 +604,12 @@ const addIndentation = (node, isOpeningTag) => {
     let contentResult         = '';
 
     if (isOpeningTag) {
-        const tagNameEndPos = ParseUtils.getLeadingLineBreakQty(node.value)
+        const shouldAddIndentationToClosingChar = shouldAddIndentationToClosingChars(node);
+        const closingChars                      = getClosingChars(node);
+        const tagNameEndPos                     = ParseUtils.getLeadingLineBreakQty(node.value)
             + ParseUtils.getFirstEmptyCharPos(node.value.trim()) + 1;
 
-        if (ParseUtils.getLineBreakQty(node.value.trim()) === 0) {
-            contentResult = node.value.trimStart();
-        } else {
+        if (ParseUtils.getLineBreakQty(node.value.trim()) > 0 || shouldAddIndentationToClosingChar && node.isSelfClosing()) {
             contentResult = attributeList.length > 0 ?
                 node.value.substring(0, tagNameEndPos).trimStart() :
                 node.value.trimStart();
@@ -619,15 +619,13 @@ const addIndentation = (node, isOpeningTag) => {
             }
 
             if (attributeList.length > 0) {
-                const shouldAddIndentationToClosingChar = shouldAddIndentationToClosingChars(node);
-                const closingChars                      = getClosingChars(node);
-
                 contentResult += shouldAddIndentationToClosingChar ?
                     Constants.EOL + nodeIndentation + closingChars.trimStart() :
                     closingChars;
             }
+        } else {
+            contentResult = node.value.trimStart();
         }
-
     } else {
         contentResult = node.suffixValue.trim();
     }
