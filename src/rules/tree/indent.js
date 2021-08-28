@@ -539,11 +539,15 @@ const indentAttribute = (attributeList, index, nodeIndentation, attributeOffset)
 
             const formattedAttributeValue = getAttributeIndentedValues(attribute, nodeIndentation, attributeOffset);
 
+            const closingQuote = shouldAddIndentationToClosingQuote(attribute) ?
+                Constants.EOL + nodeIndentation + attributeOffset + attribute.quoteChar :
+                attribute.quoteChar;
+
             const valueList = attributePrefix
                 + (index > 0 && attribute.isInSameLineAsTagName ? ' ' : '')
                 + formattedAttributeName
                 + formattedAttributeValue
-                + (attribute.isExpressionAttribute ? '' : Constants.EOL + nodeIndentation + attributeOffset + attribute.quoteChar);
+                + (attribute.isExpressionAttribute ? '' : closingQuote);
 
             result += valueList;
         }
@@ -702,6 +706,21 @@ const shouldAddIndentationToClosingChars = node => {
     const lastLine = lineList[lineList.length - 1];
 
     return ['/>', '>'].indexOf(lastLine) >= 0;
+};
+
+const shouldAddIndentationToClosingQuote = attribute => {
+    const closingCharsConfigs = Rule.getConfigs().standAloneClosingChars;
+
+    if (!attribute.value || !closingCharsConfigs.quote || closingCharsConfigs.quote === 'always') {
+        return true;
+    } else if (closingCharsConfigs.quote === 'never') {
+        return false;
+    }
+
+    const lineList = attribute.value.split(Constants.EOL);
+    const lastLine = lineList[lineList.length - 1];
+
+    return lastLine.trim().length === 0;
 };
 
 const checkIfShouldAddIndentationToValue = node => {

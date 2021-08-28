@@ -1269,4 +1269,88 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('autofix does no change if "quote" configuration is "any" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    quote: 'any'
+                }
+            }
+        }});
+
+        const results = SpecHelper.getTreeRuleFixDataForConfig(rule, 'standAloneClosingChars', 4, 4);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix does no change if "quote" configuration is "any" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    quote: 'any'
+                }
+            }
+        }});
+
+        const results = SpecHelper.getTreeRuleFixDataForConfig(rule, 'standAloneClosingChars', 5, 5);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix fixes issue if "quote" configuration is "always" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    quote: 'always'
+                }
+            }
+        }});
+
+        const results = SpecHelper.getTreeRuleFixDataForConfig(rule, 'standAloneClosingChars', 4, 5);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix does no change if "quote" configuration is "always" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    quote: 'always'
+                }
+            }
+        }});
+
+        const results = SpecHelper.getTreeRuleFixDataForConfig(rule, 'standAloneClosingChars', 5, 5);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('does no change if "quote" configuration is "never" and closing char is not standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    quote: 'never'
+                }
+            }
+        }});
+
+        const results = SpecHelper.getTreeRuleFixDataForConfig(rule, 'standAloneClosingChars', 4, 4);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('autofix fixes issue if "quote" configuration is "never" and closing char is standalone', () => {
+        ConfigUtils.load({ rules: {
+            'indent': {
+                standAloneClosingChars : {
+                    quote: 'never'
+                }
+            }
+        }});
+
+        const results = SpecHelper.getTreeRuleFixDataForConfig(rule, 'standAloneClosingChars', 5, 4);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
