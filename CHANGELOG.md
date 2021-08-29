@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.38.1] - 2021-08-29
+
+### Fixed
+  - "[indent][indent-readme]" rule autofix - removed buggy optimization;
+  
 ## [5.38.0] - 2021-08-29
 
 ### Added
@@ -935,6 +940,7 @@
 ### Added
 - Linter is published;
 
+[5.38.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.0...v5.38.1
 [5.38.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.37.0...v5.38.0
 [5.37.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.5...v5.37.0
 [5.36.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.4...v5.36.5
