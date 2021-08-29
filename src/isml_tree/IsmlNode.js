@@ -127,10 +127,6 @@ class IsmlNode {
             return [];
         }
 
-        if (this.attributeList) {
-            return this.attributeList;
-        }
-
         return getAttributes(this);
     }
 
@@ -426,8 +422,6 @@ const getAttributes = node => {
         const attr = parseAttribute(node, stringifiedAttributeList, i);
         attributeList.push(attr);
     }
-
-    node.attributeList = attributeList;
 
     return attributeList;
 };
