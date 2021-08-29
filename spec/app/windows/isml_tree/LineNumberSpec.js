@@ -117,11 +117,11 @@ describe('TreeBuilder', () => {
 
         expect(selectNode.value            ).toEqual(selectValue);
         expect(selectNode.lineNumber       ).toEqual(1);
-        expect(selectNode.getNumberOfChildren() ).toEqual(0);
+        expect(selectNode.getChildrenQty() ).toEqual(0);
 
         expect(errorMsgNode.value            ).toEqual(`${Constants.EOL}<div class="invalid-feedback">`);
         expect(errorMsgNode.lineNumber       ).toEqual(9);
-        expect(errorMsgNode.getNumberOfChildren() ).toEqual(0);
+        expect(errorMsgNode.getChildrenQty() ).toEqual(0);
     });
 
     it('identifies a single-child non-tag element line number', () => {
@@ -131,11 +131,11 @@ describe('TreeBuilder', () => {
 
         expect(ifNode.value                ).toEqual(`${Constants.EOL}        <isif condition="\${pdict.customer.registeredUser}">`);
         expect(ifNode.lineNumber           ).toEqual(4);
-        expect(ifNode.getNumberOfChildren()).toEqual(1);
+        expect(ifNode.getChildrenQty()).toEqual(1);
 
         expect(nonTagNode.value                ).toEqual(`${Constants.EOL}                    \${creditFields.saveCard.label}`);
         expect(nonTagNode.lineNumber           ).toEqual(8);
-        expect(nonTagNode.getNumberOfChildren()).toEqual(0);
+        expect(nonTagNode.getChildrenQty()).toEqual(0);
     });
 
     it('sets line number for <iselse> element', () => {

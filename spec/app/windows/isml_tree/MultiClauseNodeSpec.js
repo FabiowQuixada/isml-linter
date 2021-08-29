@@ -22,7 +22,7 @@ describe(targetObjName, () => {
     it('has no clauses nodes when created', () => {
         const rootNode = new ContainerNode();
 
-        expect(rootNode.getNumberOfChildren()).toEqual(0);
+        expect(rootNode.getChildrenQty()).toEqual(0);
     });
 
     it('adds a clause to itself', () => {
@@ -31,7 +31,7 @@ describe(targetObjName, () => {
 
         rootNode.addChild(childNode);
 
-        expect(rootNode.getNumberOfChildren()).toEqual(1);
+        expect(rootNode.getChildrenQty()).toEqual(1);
     });
 
     it('has the same depth as its child-clauses', () => {

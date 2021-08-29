@@ -25,7 +25,7 @@ describe(targetObjName, () => {
     it('has no children nodes when created', () => {
         const rootNode = new IsmlNode();
 
-        expect(rootNode.getNumberOfChildren()).toEqual(0);
+        expect(rootNode.getChildrenQty()).toEqual(0);
     });
 
     it('adds a child to itself', () => {
@@ -34,7 +34,7 @@ describe(targetObjName, () => {
 
         rootNode.addChild(childNode);
 
-        expect(rootNode.getNumberOfChildren()).toEqual(1);
+        expect(rootNode.getChildrenQty()).toEqual(1);
     });
 
     it('stores the correspondent self-closing isml/html element', () => {
@@ -188,7 +188,7 @@ describe(targetObjName, () => {
     it('removes a child node', () => {
         const removeIndex     = 3;
         const rootNode        = getTreeRootFromComplexTemplate(0);
-        const childrenQty     = rootNode.getNumberOfChildren();
+        const childrenQty     = rootNode.getChildrenQty();
         const nodeToBeRemoved = rootNode.children[removeIndex];
 
         rootNode.removeChild(nodeToBeRemoved);
@@ -196,7 +196,7 @@ describe(targetObjName, () => {
         const nextNode = rootNode.children[removeIndex];
 
         expect(nodeToBeRemoved.id).not.toEqual(nextNode.id);
-        expect(rootNode.getNumberOfChildren()).toEqual(childrenQty - 1);
+        expect(rootNode.getChildrenQty()).toEqual(childrenQty - 1);
     });
 
     it('returns the removed node on remove operation', () => {
@@ -210,14 +210,14 @@ describe(targetObjName, () => {
 
     it('adds a child node at a specific position', () => {
         const rootNode    = getTreeRootFromTemplate(0);
-        const childrenQty = rootNode.getNumberOfChildren();
+        const childrenQty = rootNode.getChildrenQty();
         const newNode     = new IsmlNode('<ismycustom />');
 
         rootNode.addChildNodeToPos(newNode, 0);
 
         expect(rootNode.children[0].id).toEqual(newNode.id);
         expect(newNode.parent.id).toEqual(rootNode.id);
-        expect(rootNode.getNumberOfChildren()).toEqual(childrenQty + 1);
+        expect(rootNode.getChildrenQty()).toEqual(childrenQty + 1);
     });
 
     it('knows if a node is a descendant of a node of given type', () => {

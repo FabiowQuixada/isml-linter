@@ -153,7 +153,7 @@ class IsmlNode {
     }
 
     getLastChild()        { return this.children[this.children.length - 1]; }
-    getNumberOfChildren() { return this.children.length;                    }
+    getChildrenQty() { return this.children.length;                    }
     hasChildren()         { return this.children.length > 0;                }
 
     getIndentationSize() {
