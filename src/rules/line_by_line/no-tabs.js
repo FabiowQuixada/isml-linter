@@ -18,7 +18,7 @@ Rule.getColumnNumber = function(line) {
 Rule.getFixedContent = function(templateContent) {
     const indent       = IndentRule.getIndentation();
     const fixedContent = templateContent.replace(/\t/g, indent);
-    return GeneralUtils.applyActiveLinebreaks(fixedContent);
+    return GeneralUtils.applyActiveLineBreaks(fixedContent);
 };
 
 Rule.getFirstOccurrence = function(line) {

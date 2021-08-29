@@ -19,7 +19,7 @@ Rule.getColumnNumber = function(line) {
 Rule.getFixedContent = function(templateContent) {
     const GeneralUtils = require('../../util/GeneralUtils');
 
-    const activeLineBreak = GeneralUtils.getActiveLinebreak();
+    const activeLineBreak = GeneralUtils.getActiveLineBreak();
     const lineArray       = GeneralUtils.toLF(templateContent).split(Constants.EOL);
     const result          = [];
 

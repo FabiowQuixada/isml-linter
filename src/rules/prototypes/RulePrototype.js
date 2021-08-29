@@ -57,7 +57,7 @@ const RulePrototype = {
             ...config.rules[this.id],
             autoFix        : config.autoFix,
             indent         : indentRuleValue || 4,
-            linebreakStyle : GeneralUtils.getActiveLinebreak()
+            linebreakStyle : GeneralUtils.getActiveLineBreak()
         };
     },
 

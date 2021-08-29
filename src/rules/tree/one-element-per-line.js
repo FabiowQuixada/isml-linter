@@ -34,7 +34,7 @@ Rule.isBroken = function(node) {
 // Rule.getFixedContent = rootNode => {
 //     fixContent(rootNode);
 
-//     return GeneralUtils.applyActiveLinebreaks(rootNode.toString());
+//     return GeneralUtils.applyActiveLineBreaks(rootNode.toString());
 // };
 
 // const fixContent = node => {

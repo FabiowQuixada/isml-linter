@@ -33,7 +33,7 @@ Rule.getFixedContent = function(rootNode) {
         }
     }
 
-    return GeneralUtils.applyActiveLinebreaks(rootNode.toString());
+    return GeneralUtils.applyActiveLineBreaks(rootNode.toString());
 };
 
 module.exports = Rule;

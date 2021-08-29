@@ -27,7 +27,7 @@ const mergeDeep  = (target, ...sources) => {
     return mergeDeep(target, ...sources);
 };
 
-const getActiveLinebreak = () => {
+const getActiveLineBreak = () => {
     const config          = ConfigUtils.load();
     const configLineBreak = config.linebreakStyle && Constants.lineBreak[config.linebreakStyle];
 
@@ -42,12 +42,12 @@ module.exports.toLF = content => {
     return content.replace(/\r\n/g, '\n');
 };
 
-module.exports.applyActiveLinebreaks = content => {
-    const activeLinebreak = getActiveLinebreak();
+module.exports.applyActiveLineBreaks = content => {
+    const activeLineBreak = getActiveLineBreak();
 
     return content
-        .replace(new RegExp(Constants.lineBreak.windows, 'g'), activeLinebreak)
-        .replace(new RegExp(Constants.lineBreak.unix, 'g'), activeLinebreak);
+        .replace(new RegExp(Constants.lineBreak.windows, 'g'), activeLineBreak)
+        .replace(new RegExp(Constants.lineBreak.unix, 'g'), activeLineBreak);
 };
 
 module.exports.parseISOString = isoString => {
@@ -55,6 +55,6 @@ module.exports.parseISOString = isoString => {
     return new Date(Date.UTC(isoArray[0], --isoArray[1], isoArray[2], isoArray[3], isoArray[4], isoArray[5], isoArray[6]));
 };
 
-module.exports.getActiveLinebreak = getActiveLinebreak;
+module.exports.getActiveLineBreak = getActiveLineBreak;
 
 module.exports.mergeDeep = mergeDeep;

@@ -80,7 +80,7 @@ module.exports = {
         const ruleDirName           = rule.id.replaceAll('-', '_');
         const brokenTemplatePath    = getBrokenTemplatePath(ruleDirName, templateNumber);
         const fixedTemplatePath     = getFixedTemplatePath(ruleDirName, templateNumber);
-        const fixedTemplateContent  = GeneralUtils.applyActiveLinebreaks(fs.readFileSync(fixedTemplatePath, 'utf-8'));
+        const fixedTemplateContent  = GeneralUtils.applyActiveLineBreaks(fs.readFileSync(fixedTemplatePath, 'utf-8'));
         const brokenTemplateContent = GeneralUtils.toLF(fs.readFileSync(brokenTemplatePath, 'utf-8'));
         const actualContent         = rule.getFixedContent(brokenTemplateContent);
 
@@ -94,7 +94,7 @@ module.exports = {
         const ruleDirName          = rule.id.replaceAll('-', '_');
         const brokenTemplatePath   = getBrokenTemplatePath(ruleDirName, templateNumber);
         const fixedTemplatePath    = getFixedTemplatePath(ruleDirName, templateNumber);
-        const fixedTemplateContent = GeneralUtils.applyActiveLinebreaks(fs.readFileSync(fixedTemplatePath, 'utf-8'));
+        const fixedTemplateContent = GeneralUtils.applyActiveLineBreaks(fs.readFileSync(fixedTemplatePath, 'utf-8'));
         const rootNode             = TreeBuilder.build(brokenTemplatePath).rootNode;
         const actualContent        = rule.getFixedContent(rootNode);
 
@@ -108,7 +108,7 @@ module.exports = {
         const ruleDirName          = rule.id.replaceAll('-', '_');
         const brokenTemplatePath   = getSourceTemplatePathForConfig(ruleDirName, config, sourceTemplateNumber);
         const fixedTemplatePath    = getTargetTemplatePathForConfig(ruleDirName, config, targetTemplateNumber);
-        const fixedTemplateContent = GeneralUtils.applyActiveLinebreaks(fs.readFileSync(fixedTemplatePath, 'utf-8'));
+        const fixedTemplateContent = GeneralUtils.applyActiveLineBreaks(fs.readFileSync(fixedTemplatePath, 'utf-8'));
         const rootNode             = TreeBuilder.build(brokenTemplatePath).rootNode;
         const actualContent        = rule.getFixedContent(rootNode);
 
