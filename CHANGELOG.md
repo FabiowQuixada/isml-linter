@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.38.0] - 2021-08-29
+
+### Added
+ - "standAloneClosingChars" configuration attribute to the "[indent][indent-readme]" rule;
+
+### Fixed
+  - "indent" rule - duplicated attribute parse;
+
 ## [5.37.0] - 2021-08-22
 
 ### Added
@@ -927,6 +935,7 @@
 ### Added
 - Linter is published;
 
+[5.38.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.37.0...v5.38.0
 [5.37.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.5...v5.37.0
 [5.36.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.4...v5.36.5
 [5.36.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.3...v5.36.4
@@ -1074,3 +1083,4 @@
 [no-isscript-readme]:      <docs/rules/no-isscript.md>
 [enforce-security-readme]: <docs/rules/enforce-security.md>
 [no-hardcode-readme]:      <docs/rules/no-hardcode.md>
+[indent-readme]:           <docs/rules/indent.md>
