@@ -832,7 +832,7 @@ describe('On Unix, ' + rule.id, () => {
         expect(result[0].lineNumber   ).toEqual(4);
         expect(result[0].columnNumber ).toEqual(6);
         expect(result[0].length       ).toEqual(1);
-        expect(result[0].globalPos    ).toEqual(112);
+        expect(result[0].globalPos    ).toEqual(109);
         expect(result[0].message      ).toEqual('Closing chars should be in a separate line');
     });
 
@@ -879,7 +879,7 @@ describe('On Unix, ' + rule.id, () => {
         expect(result[0].lineNumber   ).toEqual(5);
         expect(result[0].columnNumber ).toEqual(1);
         expect(result[0].length       ).toEqual(1);
-        expect(result[0].globalPos    ).toEqual(114);
+        expect(result[0].globalPos    ).toEqual(110);
         expect(result[0].message      ).toEqual('Closing chars cannot be in a separate line');
     });
 
@@ -1357,5 +1357,12 @@ describe('On Unix, ' + rule.id, () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 52);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('identifies occurrence global position and length IV', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 60, isCrlfLineBreak)[0];
+
+        expect(result.globalPos).toEqual(76);
+        expect(result.length).toEqual(1);
     });
 });

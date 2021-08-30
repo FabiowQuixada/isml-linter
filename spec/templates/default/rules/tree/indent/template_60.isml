@@ -1,0 +1,7 @@
+<div>
+    <isif condition="${condition1
+            && condition2}
+        ">
+        ${text}
+    </isif>
+</div>

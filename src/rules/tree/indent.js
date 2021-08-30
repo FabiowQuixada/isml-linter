@@ -264,8 +264,7 @@ Rule.check = function(node, data) {
             } else {
                 const closingChar  = '>';
                 const globalPos    = node.globalPos
-                    + node.value.lastIndexOf(closingChar)
-                    + ParseUtils.getLineBreakQty(node.value);
+                    + node.value.trim().length - closingChar.length;
                 const lineList     = node.value.trim().split(Constants.EOL);
                 const columnNumber = lineList[lineList.length - 1].lastIndexOf(closingChar) + 1;
                 const message      = checkResult.config === 'always' ?
