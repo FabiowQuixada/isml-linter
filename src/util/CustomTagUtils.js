@@ -16,7 +16,12 @@ if (fs.existsSync(templatePath)) {
 
         if (ismoduleTag) {
 
-            const attrArray = ismoduleTag.replace(/\t/g, ' ').split(' ').slice(1);
+            const attrArray = ismoduleTag
+                .replace(/\t/g, ' ')
+                .split(' ')
+                .slice(1)
+                . filter( line => line );
+
             const tag       = {
                 attrList : []
             };
