@@ -833,7 +833,7 @@ describe(rule.id, () => {
         expect(result[0].columnNumber ).toEqual(6);
         expect(result[0].length       ).toEqual(1);
         expect(result[0].globalPos    ).toEqual(109);
-        expect(result[0].message      ).toEqual('Closing chars should be in a separate line');
+        expect(result[0].message      ).toEqual('">" should not be in the same line as <div> tag last attribute');
     });
 
     it('does not raise issue if "nonSelfClosingTag" configuration is "always" and closing char is standalone', () => {
@@ -880,7 +880,7 @@ describe(rule.id, () => {
         expect(result[0].columnNumber ).toEqual(1);
         expect(result[0].length       ).toEqual(1);
         expect(result[0].globalPos    ).toEqual(110);
-        expect(result[0].message      ).toEqual('Closing chars cannot be in a separate line');
+        expect(result[0].message      ).toEqual('">" should be in the same line as <div> tag last attribute');
     });
 
     it('does not raise issue if "selfClosingTag" configuration is "any" and closing char is not standalone', () => {
@@ -927,7 +927,7 @@ describe(rule.id, () => {
         expect(result[0].columnNumber ).toEqual(20);
         expect(result[0].length       ).toEqual(2);
         expect(result[0].globalPos    ).toEqual(37);
-        expect(result[0].message      ).toEqual('Closing chars should be in a separate line');
+        expect(result[0].message      ).toEqual('"/>" should not be in the same line as <input> tag last attribute');
     });
 
     it('does not raise issue if "selfClosingTag" configuration is "always" and closing char is standalone', () => {
@@ -974,7 +974,7 @@ describe(rule.id, () => {
         expect(result[0].columnNumber ).toEqual(5);
         expect(result[0].length       ).toEqual(2);
         expect(result[0].globalPos    ).toEqual(33);
-        expect(result[0].message      ).toEqual('Closing chars cannot be in a separate line');
+        expect(result[0].message      ).toEqual('"/>" should be in the same line as <input> tag last attribute');
     });
 
     it('does not raise closing char issues on single-line tags', () => {
@@ -1051,7 +1051,7 @@ describe(rule.id, () => {
         expect(result[0].columnNumber ).toEqual(20);
         expect(result[0].length       ).toEqual(1);
         expect(result[0].globalPos    ).toEqual(50);
-        expect(result[0].message      ).toEqual('Closing chars should be in a separate line');
+        expect(result[0].message      ).toEqual('Closing quote should not be in the same line as "class-2"');
     });
 
     it('does not raise issue if "quote" configuration is "always" and closing char is standalone', () => {
@@ -1098,7 +1098,7 @@ describe(rule.id, () => {
         expect(result[0].columnNumber ).toEqual(9);
         expect(result[0].length       ).toEqual(1);
         expect(result[0].globalPos    ).toEqual(60);
-        expect(result[0].message      ).toEqual('Closing chars cannot be in a separate line');
+        expect(result[0].message      ).toEqual('Closing quote should be in the same line as "class-2"');
     });
 
     it('autofix does no change if "nonSelfClosingTag" configuration is "any" and closing char is not standalone', () => {

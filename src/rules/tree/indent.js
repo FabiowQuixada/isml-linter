@@ -150,9 +150,13 @@ Rule.isQuoteClosingCharBroken = function(node) {
             const globalPos                  = attribute.globalPos
                 + attribute.fullContent.lastIndexOf(attribute.quoteChar)
                 + lineNumber - 2;
+            const formattedLineList          = lineList
+                .map( line => line.trim())
+                .filter( line => line );
+            const lastLine                   = formattedLineList[formattedLineList.length - 1];
 
-            const message = quoteConfig === 'always' && !isClosingCharStandingAlone ? getStandAloneCharDescription() :
-                quoteConfig === 'never' && isClosingCharStandingAlone ? getNonStandAloneCharDescription() :
+            const message = quoteConfig === 'always' && !isClosingCharStandingAlone ? getStandAloneQuoteDescription(lastLine) :
+                quoteConfig === 'never' && isClosingCharStandingAlone ? getNonStandAloneQuoteDescription(lastLine) :
                     '';
 
             if (message) {
@@ -247,8 +251,8 @@ Rule.check = function(node, data) {
                 const lineList     = node.value.split(Constants.EOL);
                 const columnNumber = lineList[lineList.length - 1].lastIndexOf(closingChar) + 1;
                 const message      = checkResult.config === 'always' ?
-                    getStandAloneCharDescription() :
-                    getNonStandAloneCharDescription();
+                    getStandAloneCharDescription(node.getType(), closingChar) :
+                    getNonStandAloneCharDescription(node.getType(), closingChar);
 
                 const error = this.getError(
                     node.value.trim(),
@@ -268,8 +272,8 @@ Rule.check = function(node, data) {
                 const lineList     = node.value.trim().split(Constants.EOL);
                 const columnNumber = lineList[lineList.length - 1].lastIndexOf(closingChar) + 1;
                 const message      = checkResult.config === 'always' ?
-                    getStandAloneCharDescription() :
-                    getNonStandAloneCharDescription();
+                    getStandAloneCharDescription(node.getType(), closingChar) :
+                    getNonStandAloneCharDescription(node.getType(), closingChar);
 
                 const error = this.getError(
                     node.value.trim(),
@@ -836,11 +840,13 @@ const getAttributeValueError = (attribute, attributeValueList, i, expectedIndent
     return null;
 };
 
-const getStandAloneCharDescription    = () => 'Closing chars should be in a separate line';
-const getNonStandAloneCharDescription = () => 'Closing chars cannot be in a separate line';
-const getOccurrenceDescription        = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;
-const getExpectedIndentation          = (node, configIndentSize) => (node.depth - 1) * configIndentSize;
-const getActualIndentation            = node => node.getIndentationSize();
-const getActualIndentationForSuffix   = node => node.getSuffixIndentationSize() + getEslintChildTrailingSpaces(node);
+const getStandAloneQuoteDescription    = lastValue => `Closing quote should not be in the same line as "${lastValue}"`;
+const getNonStandAloneQuoteDescription = lastValue => `Closing quote should be in the same line as "${lastValue}"`;
+const getStandAloneCharDescription     = (tagName, closingChars) => `"${closingChars}" should not be in the same line as <${tagName}> tag last attribute`;
+const getNonStandAloneCharDescription  = (tagName, closingChars) => `"${closingChars}" should be in the same line as <${tagName}> tag last attribute`;
+const getOccurrenceDescription         = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;
+const getExpectedIndentation           = (node, configIndentSize) => (node.depth - 1) * configIndentSize;
+const getActualIndentation             = node => node.getIndentationSize();
+const getActualIndentationForSuffix    = node => node.getSuffixIndentationSize() + getEslintChildTrailingSpaces(node);
 
 module.exports = Rule;
