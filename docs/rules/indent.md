@@ -18,7 +18,7 @@ Following are the available configurations for this rule, with default values:
     standAloneClosingChars : {
         nonSelfClosingTag : "always",
         selfClosingTag    : "never",
-        quote             : "always"
+        quote             : "never"
     }
 }
 ```
@@ -130,7 +130,7 @@ Please note that the above example considers the indentation of the `${value}` e
 ```js
 "indent": {
     standAloneClosingChars : {
-        nonSelfClosingTag : "always",
+        nonSelfClosingTag : "always", // Default;
     }
 }
 ```
@@ -186,7 +186,7 @@ Please note that the above example considers the indentation of the `${value}` e
 ```js
 "indent": {
     standAloneClosingChars : {
-        quote : "always",
+        quote : "never", // Default;
     }
 }
 ```
@@ -194,14 +194,14 @@ Please note that the above example considers the indentation of the `${value}` e
 ```
 <div id="div-id"
     class="div-class
-        div-class-2"       // Invalid, closing quote should always be in a separate line;
+        div-class-2"       // Valid, closing quote should always be in the same line as tag's last attribute;
 >                               
 </div>
 
 <div id="div-id"
     class="div-class
         div-class-2
-    "                      // Valid, closing quote should always be in a separate line;
+    "                      // Invalid, closing quote should always be in the same line as tag's last attribute;
 >
 </div>
     

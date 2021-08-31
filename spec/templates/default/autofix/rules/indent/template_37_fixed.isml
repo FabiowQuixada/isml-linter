@@ -1,7 +1,6 @@
 <form novalidate
     action="${condition
         ? action1
-        : action2}
-    "
+        : action2}"
 >
 </form>

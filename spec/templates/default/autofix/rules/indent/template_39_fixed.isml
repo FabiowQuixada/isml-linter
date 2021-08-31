@@ -1,8 +1,7 @@
 <div>
     <span
         class="
-            ${attr.id}-value
-        "
+            ${attr.id}-value"
     >
     </span>
 </div>

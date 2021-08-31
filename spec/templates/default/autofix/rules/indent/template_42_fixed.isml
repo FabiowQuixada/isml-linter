@@ -1,8 +1,7 @@
 <isif condition="${(empty(swatchLimit) || loopState.count < swatchLimit)
         && swatch.images != null
         && swatch.images.colorswatch[0] != null
-        && swatch.images.colorswatch[0].url != null}
-    "
+        && swatch.images.colorswatch[0].url != null}"
 >
     Text
 </isif>

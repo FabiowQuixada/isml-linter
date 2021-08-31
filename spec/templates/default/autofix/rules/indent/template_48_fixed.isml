@@ -1,4 +1,3 @@
 <isset name="variable" value="${condition1 &&
-        condition3}
-    "
+        condition3}"
     scope="page" />

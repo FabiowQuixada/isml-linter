@@ -16,7 +16,8 @@ Rule.getDefaultAttrs = () => {
         attributeOffset        : 4,
         standAloneClosingChars : {
             nonSelfClosingTag : 'always',
-            selfClosingTag    : 'never'
+            selfClosingTag    : 'never',
+            quote             : 'never'
         }
     };
 };
