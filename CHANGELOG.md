@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.38.2] - 2021-08-31
+
+### Changed
+  - Default value of "[indent][indent-readme]" rule's "quote" option to "never";
+  - Improved "[indent][indent-readme]" rule's "standAloneClosingChars" configuration occurrence messages;
+
+### Fixed
+  - "[indent][indent-readme]" rule - tags closing character global position;
+  
 ## [5.38.1] - 2021-08-29
 
 ### Fixed
@@ -940,6 +949,8 @@
 ### Added
 - Linter is published;
 
+[5.38.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.1...v5.38.2
+[5.38.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.0...v5.38.1
 [5.38.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.0...v5.38.1
 [5.38.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.37.0...v5.38.0
 [5.37.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.36.5...v5.37.0
