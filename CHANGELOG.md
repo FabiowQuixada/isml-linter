@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.38.3] - 2021-09-01
+
+### Fixed
+  - [Issue #30][issue#30]: allow custom tags to be non-self-closing;
+  
 ## [5.38.2] - 2021-08-31
 
 ### Changed
@@ -1089,6 +1094,7 @@
 [issue#23]: https://github.com/FabiowQuixada/isml-linter/issues/23
 [issue#26]: https://github.com/FabiowQuixada/isml-linter/issues/26
 [issue#29]: https://github.com/FabiowQuixada/isml-linter/issues/29
+[issue#30]: https://github.com/FabiowQuixada/isml-linter/issues/30
 
 [cli-docs]: <docs/cli.md>
 [api-docs]: <docs/api.md>
