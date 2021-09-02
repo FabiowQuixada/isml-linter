@@ -174,6 +174,8 @@ const parseTagOrExpressionElement = (state, newElement) => {
 
     if (isTag) {
         newElement.tagType = getElementType(trimmedElement);
+
+        newElement.isCustomTag = newElement.type === 'ismlTag' && !SfccTags[newElement.tagType];
     }
 
     newElement.isSelfClosing = isSelfClosing(trimmedElement);

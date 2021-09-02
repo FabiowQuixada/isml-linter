@@ -115,8 +115,15 @@ const parseNonContainerElements = (element, currentParent, newNode, templatePath
         }
     } else if (element.isClosingTag) {
 
+        const parentLastChild = currentParent.getLastChild();
+
         if (element.tagType === currentParent.getType()) {
             currentParent.setSuffix(element.value, element.lineNumber, element.columnNumber, element.globalPos);
+
+        } else if (element.isCustomTag && element.tagType === parentLastChild.getType()) {
+            parentLastChild.setSuffix(element.value, element.lineNumber, element.columnNumber, element.globalPos);
+
+            currentParent = parentLastChild;
 
         } else if (element.isClosingTag && currentParent.isRoot()) {
             throw ExceptionUtils.unbalancedElementError(
