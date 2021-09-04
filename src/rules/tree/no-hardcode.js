@@ -19,8 +19,8 @@ Rule.isBroken = function(node) {
     const allowHtmlEntities  = this.getConfigs().allowHtmlEntities;
     const isTagContent       = isTagChild(node);
     const shouldCheckValue   = node.isOfType('text') && !node.isExpression() && !isTagContent;
-    const isTextAnHtmlEntity = node.value.trim().startsWith('&') && node.value.trim().endsWith(';');
-    let nodeValue            = node.value;
+    const isTextAnHtmlEntity = node.head.trim().startsWith('&') && node.head.trim().endsWith(';');
+    let nodeValue            = node.head;
 
     if (!shouldCheckValue) {
         return false;

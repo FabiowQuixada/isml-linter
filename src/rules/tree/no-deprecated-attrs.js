@@ -48,9 +48,9 @@ Rule.check = function(node, data) {
     const occurrence = this.isBroken(node);
     if (occurrence) {
         const error = this.getError(
-            node.value.trim(),
+            node.head.trim(),
             node.lineNumber,
-            node.columnNumber + node.value.trim().indexOf(occurrence.fullContent),
+            node.columnNumber + node.head.trim().indexOf(occurrence.fullContent),
             occurrence.attrGlobalPos,
             occurrence.length,
             occurrence.message

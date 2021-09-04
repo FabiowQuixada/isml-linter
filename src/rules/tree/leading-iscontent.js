@@ -28,7 +28,7 @@ Rule.getFixedContent = function(rootNode) {
 
         if (isContentNode) {
             isContentNode.parent.removeChild(isContentNode);
-            isContentNode.value = isContentNode.value.trim() + Constants.EOL;
+            isContentNode.head = isContentNode.head.trim() + Constants.EOL;
             rootNode.addChildNodeToPos(isContentNode, 0);
         }
     }

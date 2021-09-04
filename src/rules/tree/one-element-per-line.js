@@ -45,7 +45,7 @@ Rule.isBroken = function(node) {
 //             const indentation       = getCorrectIndentation(child);
 //             const parentIndentation = getCorrectIndentation(node);
 
-//             child.value = `${Constants.EOL}${indentation}${child.value}${Constants.EOL}${parentIndentation}`;
+//             child.head = `${Constants.EOL}${indentation}${child.head}${Constants.EOL}${parentIndentation}`;
 
 //             if (child.suffixValue) {
 //                 child.setSuffix(`${Constants.EOL}${indentation}${child.suffixValue}${Constants.EOL}`);

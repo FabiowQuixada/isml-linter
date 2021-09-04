@@ -11,18 +11,18 @@ let ID_COUNTER = 0;
 class IsmlNode {
 
     /**
-     * @param {String} value           node opening tag value, including attributes
+     * @param {String} head           node opening tag value, including attributes
      * @param {Number} lineNumber      node starting line number
      * @param {Number} columnNumber    node starting column number
      * @param {Number} globalPos       node starting position since the beginning of the file
      * @param {Boolean} isEmbeddedNode whether the node is part of an embedded "sub tree", as a tag attribute
      */
-    constructor(value = '(root)', lineNumber = 0, columnNumber, globalPos, isEmbeddedNode) {
+    constructor(head = '(root)', lineNumber = 0, columnNumber, globalPos, isEmbeddedNode) {
         this.id                 = ID_COUNTER++;
-        this.value              = value;         // '<div class="my_class">'
+        this.head               = head;         // '<div class="my_class">'
         this.lineNumber         = lineNumber;    // 7
         this.columnNumber       = columnNumber;  // 12
-        this.endLineNumber      = lineNumber + ParseUtils.getLineBreakQty(value.trim()); // 9
+        this.endLineNumber      = lineNumber + ParseUtils.getLineBreakQty(head.trim()); // 9
         this.globalPos          = globalPos;     // 184
         this.depth              = 0;             // Isml dom tree node depth
         this.suffixValue        = '';            // '</div>'
@@ -50,9 +50,9 @@ class IsmlNode {
             return 'text';
         }
 
-        const value = this.value.trim();
+        const head = this.head.trim();
 
-        if (value.startsWith('<!--')) {
+        if (head.startsWith('<!--')) {
             return 'html_comment';
         } else if (this.isDocType()) {
             return 'doctype';
@@ -60,9 +60,9 @@ class IsmlNode {
             return 'dynamic_element';
         } else if (this.isContainer()) {
             return 'multi_clause';
-        } else if (!value) {
+        } else if (!head) {
             return 'empty';
-        } else if (value === '(root)') {
+        } else if (head === '(root)') {
             return 'root';
         } else if (!this.isTag()) {
             return 'text';
@@ -70,7 +70,7 @@ class IsmlNode {
 
         const regex = /<[a-zA-Z\d_]*(\s|>|\/)/g;
 
-        return value.match(regex)[0].slice(1, -1);
+        return head.match(regex)[0].slice(1, -1);
     }
 
     getLastLineNumber() {
@@ -80,13 +80,13 @@ class IsmlNode {
     }
 
     isDocType() {
-        return this.value.toLowerCase().trim().startsWith('<!doctype ');
+        return this.head.toLowerCase().trim().startsWith('<!doctype ');
     }
 
     // Checks if the node type is dynamically set, such in:
     // <${aPdictVariable} />
     isDynamicElement() {
-        return this.value.trim().startsWith('<${');
+        return this.head.trim().startsWith('<${');
     }
 
     isInSameLineAsParent() {
@@ -98,7 +98,7 @@ class IsmlNode {
     }
 
     isMultiLineOpeningTag() {
-        return this.isTag() && ParseUtils.getLineBreakQty(this.value.trim()) > 0;
+        return this.isTag() && ParseUtils.getLineBreakQty(this.head.trim()) > 0;
     }
 
     isInSameLineAsPreviousSibling() {
@@ -135,14 +135,14 @@ class IsmlNode {
     }
 
     addChild(newNode) {
-        if (newNode.value.trim()) {
+        if (newNode.head.trim()) {
             newNode.depth        = this.depth + 1;
             newNode.parent       = this;
             newNode.childNo      = this.children.length;
             this.children.push(newNode);
             this.newestChildNode = newNode;
         } else {
-            this.suffixValue = newNode.value + this.suffixValue;
+            this.suffixValue = newNode.head + this.suffixValue;
         }
 
         newNode.isEmbeddedNode = this.isEmbeddedNode;
@@ -174,14 +174,14 @@ class IsmlNode {
     }
 
     isTag() {
-        const value = this.value.trim();
+        const value = this.head.trim();
 
         return value.startsWith('<') &&
             value.endsWith('>');
     }
 
     isHtmlTag() {
-        const value = this.value.trim();
+        const value = this.head.trim();
 
         return value.startsWith('<') &&
             !value.startsWith('<is') &&
@@ -189,7 +189,7 @@ class IsmlNode {
     }
 
     isIsmlTag() {
-        return this.value.trim().startsWith('<is');
+        return this.head.trim().startsWith('<is');
     }
 
     isStandardIsmlTag() {
@@ -217,14 +217,14 @@ class IsmlNode {
     // For an unwrapped ${someVariable} element, returns true;
     // For tags and hardcoded strings          , returns false;
     isExpression() {
-        const value = this.value.trim();
+        const value = this.head.trim();
 
         return value.startsWith('${') &&
             value.endsWith('}');
     }
 
     isIsmlComment() {
-        const value = this.value.trim();
+        const value = this.head.trim();
 
         return value === '<iscomment>';
     }
@@ -234,14 +234,14 @@ class IsmlNode {
     }
 
     isHtmlComment() {
-        const value = this.value.trim();
+        const value = this.head.trim();
 
         return value.startsWith('<!--') &&
             value.endsWith('-->');
     }
 
     isConditionalComment() {
-        const value = this.value.trim();
+        const value = this.head.trim();
 
         return value.startsWith('<!--[');
     }
@@ -281,7 +281,7 @@ class IsmlNode {
     }
 
     getTrailingValue() {
-        return this.suffixValue || this.value;
+        return this.suffixValue || this.head;
     }
 
     // Checks if node is HTML 5 void element;
@@ -298,7 +298,7 @@ class IsmlNode {
             this.isDocType() ||
             this.isVoidElement() ||
             this.isHtmlComment() ||
-            this.isTag() && this.value.trim().endsWith('/>')) ||
+            this.isTag() && this.head.trim().endsWith('/>')) ||
             this.isCustomIsmlTag() ||
             this.isIsmlTag() && SfccTags[this.getType()] && SfccTags[this.getType()]['self-closing'];
     }
@@ -320,7 +320,7 @@ class IsmlNode {
     }
 
     isEmpty() {
-        return !this.value.trim();
+        return !this.head.trim();
     }
 
     isFirstChild() {
@@ -331,7 +331,7 @@ class IsmlNode {
         const firstChild = this.parent.children[0];
 
         return this.lineNumber === firstChild.lineNumber &&
-            this.value === firstChild.value;
+            this.head === firstChild.head;
     }
 
     isLastChild()  {
@@ -370,7 +370,7 @@ class IsmlNode {
         }
 
         if (!this.isRoot() && !this.isContainer()) {
-            stream += this.value;
+            stream += this.head;
         }
 
         for (let i = 0; i < this.children.length; i++) {
@@ -410,7 +410,7 @@ class IsmlNode {
 */
 
 const getAttributes = node => {
-    const trimmedValue             = node.value.trim();
+    const trimmedValue             = node.head.trim();
     const nodeValue                = trimmedValue.substring(1, trimmedValue.length - 1);
     const firstSpaceAfterTagPos    = ParseUtils.getFirstEmptyCharPos(trimmedValue);
     const leadingEmptySpaceQty     = ParseUtils.getNextNonEmptyCharPos(nodeValue);
@@ -428,13 +428,13 @@ const getAttributes = node => {
 
 // Used for debugging purposes only;
 const getDisplayText = node => {
-    let displayText = node.value;
+    let displayText = node.head;
 
     displayText = displayText
         .replace(new RegExp(Constants.EOL, 'g'), '')
         .replace(/ +(?= )/g, '');
 
-    if (node.value.length > MAX_TEXT_DISPLAY_SIZE - 3) {
+    if (node.head.length > MAX_TEXT_DISPLAY_SIZE - 3) {
         displayText = displayText.substring(0, MAX_TEXT_DISPLAY_SIZE - 3) + '...';
     }
 
@@ -490,7 +490,7 @@ const parseAttribute = (node, attributeList, index) => {
     const isAttributeANestedIsmlTag             = attribute.startsWith('<is');
     const isExpressionAttribute                 = attribute.startsWith('${') && attribute.endsWith('}');
     const trimmedAttribute                      = attribute.trim();
-    const trimmedNodeValue                      = node.value.trim();
+    const trimmedNodeValue                      = node.head.trim();
     const localPos                              = getAttributeLocalPos(trimmedNodeValue, trimmedAttribute);
     const leadingContent                        = trimmedNodeValue.substring(0, localPos);
     const leadingLineBreakQty                   = ParseUtils.getLineBreakQty(leadingContent);
@@ -601,7 +601,7 @@ const getNodeIndentationSize = (node, isNodeHead) => {
         return 0;
     }
 
-    const content                    = isNodeHead ? node.value : node.suffixValue;
+    const content                    = isNodeHead ? node.head : node.suffixValue;
     const precedingEmptySpacesLength = content.search(/\S|$/);
     const fullPrecedingEmptySpaces   = content.substring(0, precedingEmptySpacesLength);
     const lineBreakLastPos           = Math.max(fullPrecedingEmptySpaces.lastIndexOf(Constants.EOL), 0);

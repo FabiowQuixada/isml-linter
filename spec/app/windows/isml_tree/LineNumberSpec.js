@@ -115,11 +115,11 @@ describe('TreeBuilder', () => {
         `    <isprint value=\${billingFields.states.stateCode.attributes} encoding="off"/>${Constants.EOL}` +
         '    autocomplete="billing address-level1">';
 
-        expect(selectNode.value            ).toEqual(selectValue);
+        expect(selectNode.head             ).toEqual(selectValue);
         expect(selectNode.lineNumber       ).toEqual(1);
         expect(selectNode.getChildrenQty() ).toEqual(0);
 
-        expect(errorMsgNode.value            ).toEqual(`${Constants.EOL}<div class="invalid-feedback">`);
+        expect(errorMsgNode.head             ).toEqual(`${Constants.EOL}<div class="invalid-feedback">`);
         expect(errorMsgNode.lineNumber       ).toEqual(9);
         expect(errorMsgNode.getChildrenQty() ).toEqual(0);
     });
@@ -129,11 +129,11 @@ describe('TreeBuilder', () => {
         const ifNode     = rootNode.children[0].children[0].children[0].children[0];
         const nonTagNode = ifNode.children[0].children[1].children[0];
 
-        expect(ifNode.value                ).toEqual(`${Constants.EOL}        <isif condition="\${pdict.customer.registeredUser}">`);
+        expect(ifNode.head                 ).toEqual(`${Constants.EOL}        <isif condition="\${pdict.customer.registeredUser}">`);
         expect(ifNode.lineNumber           ).toEqual(4);
         expect(ifNode.getChildrenQty()).toEqual(1);
 
-        expect(nonTagNode.value                ).toEqual(`${Constants.EOL}                    \${creditFields.saveCard.label}`);
+        expect(nonTagNode.head                 ).toEqual(`${Constants.EOL}                    \${creditFields.saveCard.label}`);
         expect(nonTagNode.lineNumber           ).toEqual(8);
         expect(nonTagNode.getChildrenQty()).toEqual(0);
     });

@@ -22,11 +22,11 @@ Rule.check = function(node, data) {
 
     if (this.isBroken(node)) {
         const error = this.getError(
-            node.value.trim(),
+            node.head.trim(),
             node.lineNumber,
             node.columnNumber,
             node.globalPos,
-            node.value.trim().length,
+            node.head.trim().length,
             `Tag "${node.getType()}" is not allowed.`
         );
 

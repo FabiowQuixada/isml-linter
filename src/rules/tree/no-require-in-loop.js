@@ -11,7 +11,7 @@ Rule.init(ruleId, description);
 
 Rule.isBroken = function(node) {
 
-    if (node.value.indexOf('require(') === -1) {
+    if (node.head.indexOf('require(') === -1) {
         return false;
     }
 
@@ -34,7 +34,7 @@ Rule.check = function(node, data) {
     const occurrenceList = this.checkChildren(node, data);
 
     if (this.isBroken(node)) {
-        const trimmedValue   = node.value.trim();
+        const trimmedValue   = node.head.trim();
         const startPos       = trimmedValue.indexOf('require(');
         const beforeStartPos = trimmedValue.substring(0, startPos);
         const lineOffset     = ParseUtils.getLineBreakQty(beforeStartPos);
@@ -47,9 +47,9 @@ Rule.check = function(node, data) {
         }
 
         const error = this.getError(
-            node.value.trim(),
+            node.head.trim(),
             node.lineNumber,
-            node.columnNumber + node.value.trim().indexOf('require('),
+            node.columnNumber + node.head.trim().indexOf('require('),
             globalPos,
             length
         );

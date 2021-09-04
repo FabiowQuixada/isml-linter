@@ -67,11 +67,11 @@ Rule.checkAttributesAlignments = function(issetChildren, attrPosContainer) {
             const attr = attrArray[i];
             if (attr.localPos !== attrPosContainer[attr.name]) {
                 const error = this.getError(
-                    issetNode.value.trim(),
+                    issetNode.head.trim(),
                     issetNode.lineNumber,
                     issetNode.columnNumber,
                     issetNode.globalPos,
-                    issetNode.value.trim().length,
+                    issetNode.head.trim().length,
                     description
                 );
 

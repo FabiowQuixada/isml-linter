@@ -86,11 +86,11 @@ Rule.check = function(node, data) {
     const occurrence = this.isBroken(node);
     if (occurrence) {
         const error = this.getError(
-            node.value.trim(),
+            node.head.trim(),
             node.lineNumber,
             node.columnNumber,
             node.globalPos,
-            node.value.trim().length,
+            node.head.trim().length,
             occurrence.message
         );
 

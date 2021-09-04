@@ -13,7 +13,7 @@ class ContainerNode extends IsmlNode {
 
     constructor(lineNumber, globalPos) {
         super();
-        this.value      = '(Container node)';
+        this.head       = '(Container node)';
         this.lineNumber = lineNumber;
         this.globalPos  = globalPos;
     }

@@ -11,7 +11,7 @@ Rule.init(ruleId, description);
 
 Rule.isBroken = function(node) {
     return (node.isOfType('iselse') || node.isOfType('iselseif')) &&
-        node.value.trim().endsWith('/>');
+        node.head.trim().endsWith('/>');
 };
 
 Rule.getFixedContent = function(node) {
@@ -19,10 +19,10 @@ Rule.getFixedContent = function(node) {
         const child = node.children[i];
 
         if (child.isOfType('iselse') || child.isOfType('iselseif')) {
-            const slashPos = MaskUtils.maskInBetween(child.value, '${', '}').lastIndexOf('/');
+            const slashPos = MaskUtils.maskInBetween(child.head, '${', '}').lastIndexOf('/');
 
             if (slashPos >= 0) {
-                child.value = child.value.slice(0, slashPos) + child.value.slice(slashPos + 1);
+                child.head = child.head.slice(0, slashPos) + child.head.slice(slashPos + 1);
             }
         }
 

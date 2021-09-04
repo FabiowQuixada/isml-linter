@@ -10,8 +10,8 @@ Rule.init(ruleId, description);
 Rule.isBroken = function(node) {
     return node.isHtmlTag() &&
         !node.isOfType('is') &&
-        node.value.indexOf('<isprint') === -1 &&
-        node.value.indexOf('<is') >= 0;
+        node.head.indexOf('<isprint') === -1 &&
+        node.head.indexOf('<is') >= 0;
 };
 
 module.exports = Rule;

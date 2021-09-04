@@ -119,7 +119,7 @@ describe(targetObjName, () => {
         rootNode.addChild(childNode);
         rootNode.print();
 
-        expect(spy.secondCall.args[0]).toEqual('1 :: 0 ::     ' + childNode.value);
+        expect(spy.secondCall.args[0]).toEqual('1 :: 0 ::     ' + childNode.head);
     });
 
     it('prints its value halted if it is too long', () => {

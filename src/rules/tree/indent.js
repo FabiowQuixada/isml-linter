@@ -94,7 +94,7 @@ Rule.isClosingCharBroken = function(node) {
 
     if (node.isSelfClosing()) {
         if (closingCharsConfigs.selfClosingTag === 'always') {
-            const nodeValueLineList          = node.value.trim().split(Constants.EOL);
+            const nodeValueLineList          = node.head.trim().split(Constants.EOL);
             const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '/>';
 
             return {
@@ -103,7 +103,7 @@ Rule.isClosingCharBroken = function(node) {
             };
 
         } else if (closingCharsConfigs.selfClosingTag === 'never') {
-            const nodeValueLineList          = node.value.trim().split(Constants.EOL);
+            const nodeValueLineList          = node.head.trim().split(Constants.EOL);
             const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '/>';
 
             return {
@@ -113,7 +113,7 @@ Rule.isClosingCharBroken = function(node) {
         }
     } else {
         if (closingCharsConfigs.nonSelfClosingTag === 'always') {
-            const nodeValueLineList          = node.value.trim().split(Constants.EOL);
+            const nodeValueLineList          = node.head.trim().split(Constants.EOL);
             const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '>';
 
             return {
@@ -122,7 +122,7 @@ Rule.isClosingCharBroken = function(node) {
             };
 
         } else if (closingCharsConfigs.nonSelfClosingTag === 'never') {
-            const nodeValueLineList          = node.value.trim().split(Constants.EOL);
+            const nodeValueLineList          = node.head.trim().split(Constants.EOL);
             const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '>';
 
             return {
@@ -193,13 +193,13 @@ Rule.check = function(node, data) {
             const configIndentSize    = ruleConfig.indent;
             const expectedIndentation = getExpectedIndentation(node, configIndentSize);
             const actualIndentation   = getActualIndentation(node);
-            const nodeValue           = node.value.trim();
+            const nodeValue           = node.head.trim();
             const occurrenceLength    = actualIndentation === 0 ?
                 nodeValue.length + ParseUtils.getLineBreakQty(nodeValue) :
                 getActualIndentation(node);
 
             const error = this.getError(
-                node.value.trim(),
+                node.head.trim(),
                 node.lineNumber,
                 node.columnNumber,
                 errorGlobalPos,
@@ -248,15 +248,15 @@ Rule.check = function(node, data) {
             if (node.isSelfClosing()) {
                 const closingChar  = '/>';
                 const globalPos    = node.globalPos
-                    + node.value.trim().lastIndexOf(closingChar);
-                const lineList     = node.value.split(Constants.EOL);
+                    + node.head.trim().lastIndexOf(closingChar);
+                const lineList     = node.head.split(Constants.EOL);
                 const columnNumber = lineList[lineList.length - 1].lastIndexOf(closingChar) + 1;
                 const message      = checkResult.config === 'always' ?
                     getStandAloneCharDescription(node.getType(), closingChar) :
                     getNonStandAloneCharDescription(node.getType(), closingChar);
 
                 const error = this.getError(
-                    node.value.trim(),
+                    node.head.trim(),
                     node.endLineNumber,
                     columnNumber,
                     globalPos,
@@ -269,15 +269,15 @@ Rule.check = function(node, data) {
             } else {
                 const closingChar  = '>';
                 const globalPos    = node.globalPos
-                    + node.value.trim().length - closingChar.length;
-                const lineList     = node.value.trim().split(Constants.EOL);
+                    + node.head.trim().length - closingChar.length;
+                const lineList     = node.head.trim().split(Constants.EOL);
                 const columnNumber = lineList[lineList.length - 1].lastIndexOf(closingChar) + 1;
                 const message      = checkResult.config === 'always' ?
                     getStandAloneCharDescription(node.getType(), closingChar) :
                     getNonStandAloneCharDescription(node.getType(), closingChar);
 
                 const error = this.getError(
-                    node.value.trim(),
+                    node.head.trim(),
                     node.endLineNumber,
                     columnNumber,
                     globalPos,
@@ -406,7 +406,7 @@ const removeIndentation = content => {
 };
 
 const addIndentationToText = node => {
-    const content   = node.value;
+    const content   = node.head;
     const lineArray = content
         .split(Constants.EOL)
         .filter( (line, i) => !(i === 0 && line === ''))
@@ -584,7 +584,7 @@ const getExpressionAttributeIndentation = (attributeValue, nodeIndentation, attr
 };
 
 const getClosingChars = node => {
-    const nodeValue = node.value.trim();
+    const nodeValue = node.head.trim();
 
     if (nodeValue.endsWith(' />')) {
         return ' />';
@@ -600,7 +600,7 @@ const getClosingChars = node => {
 };
 
 const addIndentation = (node, isOpeningTag) => {
-    const content             = isOpeningTag ? node.value : node.suffixValue;
+    const content             = isOpeningTag ? node.head : node.suffixValue;
     const startingPos         = ParseUtils.getNextNonEmptyCharPos(content);
     const endingPos           = content.length - ParseUtils.getNextNonEmptyCharPos(content.split('').reverse().join(''));
     const fullLeadingContent  = content.substring(0, startingPos);
@@ -614,13 +614,13 @@ const addIndentation = (node, isOpeningTag) => {
     if (isOpeningTag) {
         const shouldAddIndentationToClosingChar = shouldAddIndentationToClosingChars(node);
         const closingChars                      = getClosingChars(node);
-        const tagNameEndPos                     = ParseUtils.getLeadingLineBreakQty(node.value)
-            + ParseUtils.getFirstEmptyCharPos(node.value.trim()) + 1;
+        const tagNameEndPos                     = ParseUtils.getLeadingLineBreakQty(node.head)
+            + ParseUtils.getFirstEmptyCharPos(node.head.trim()) + 1;
 
-        if (ParseUtils.getLineBreakQty(node.value.trim()) > 0 || shouldAddIndentationToClosingChar && node.isSelfClosing()) {
+        if (ParseUtils.getLineBreakQty(node.head.trim()) > 0 || shouldAddIndentationToClosingChar && node.isSelfClosing()) {
             contentResult = attributeList.length > 0 ?
-                node.value.substring(0, tagNameEndPos).trimStart() :
-                node.value.trimStart();
+                node.head.substring(0, tagNameEndPos).trimStart() :
+                node.head.trimStart();
 
             for (let i = 0; i < attributeList.length; i++) {
                 contentResult += indentAttribute(attributeList, i, nodeIndentation, attributeOffset);
@@ -632,7 +632,7 @@ const addIndentation = (node, isOpeningTag) => {
                     closingChars;
             }
         } else {
-            contentResult = node.value.trim();
+            contentResult = node.head.trim();
         }
     } else {
         contentResult = node.suffixValue.trim();
@@ -644,11 +644,11 @@ const addIndentation = (node, isOpeningTag) => {
 const removeAllIndentation = node => {
     if (!node.isRoot() && !node.isContainer() && !node.parent.isOneOfTypes(['isscript', 'script'])) {
 
-        const shouldRemoveValueIndentation  = node.value && !node.isInSameLineAsPreviousSibling() && !node.isInSameLineAsParent() && !(node.lineNumber === node.parent.endLineNumber);
+        const shouldRemoveValueIndentation  = node.head && !node.isInSameLineAsPreviousSibling() && !node.isInSameLineAsParent() && !(node.lineNumber === node.parent.endLineNumber);
         const shouldRemoveSuffixIndentation = node.suffixValue && !(node.hasChildren() && node.getLastChild().lineNumber === node.suffixLineNumber);
 
         if (shouldRemoveValueIndentation) {
-            node.value = removeIndentation(node.value);
+            node.head = removeIndentation(node.head);
         }
 
         if (shouldRemoveSuffixIndentation) {
@@ -668,14 +668,14 @@ const addCorrectIndentation = node => {
             const shouldAddIndentationToText = checkIfShouldAddIndentationToValue(node);
 
             if (shouldAddIndentationToText) {
-                node.value = addIndentationToText(node);
+                node.head = addIndentationToText(node);
             }
         } else {
             const shouldAddIndentationToValue  = checkIfShouldAddIndentationToValue(node);
             const shouldAddIndentationToSuffix = checkIfShouldAddIndentationToSuffix(node);
 
             if (shouldAddIndentationToValue) {
-                node.value = addIndentation(node, true);
+                node.head = addIndentation(node, true);
             }
 
             if (shouldAddIndentationToSuffix) {
@@ -706,7 +706,7 @@ const shouldAddIndentationToClosingChars = node => {
         }
     }
 
-    const lineList = node.value.split(Constants.EOL);
+    const lineList = node.head.split(Constants.EOL);
     const lastLine = lineList[lineList.length - 1];
 
     return ['/>', '>'].indexOf(lastLine) >= 0;
@@ -738,7 +738,7 @@ const checkIfShouldAddIndentationToValue = node => {
         !isInSameLineAsPrevSiblingLastLine &&
         !isInSameLineAsParentValueEnd &&
         (node.isFirstChild() || previousSibling && node.lineNumber !== previousSibling.lineNumber) &&
-        node.value && node.lineNumber !== node.parent.endLineNumber;
+        node.head && node.lineNumber !== node.parent.endLineNumber;
 
     return shouldAdd;
 };
@@ -765,7 +765,7 @@ const getEslintChildTrailingSpaces = node => {
     if (node.isOfType('isscript')) {
         const child = node.getLastChild();
 
-        const trailingSpacesQty = child.value
+        const trailingSpacesQty = child.head
             .replace(/\r\n/g, '_')
             .split('')
             .reverse()

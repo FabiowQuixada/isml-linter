@@ -42,11 +42,11 @@ Rule.check = function(node, data) {
 
     for (let i = 0; i < errorMessageList.length; i++) {
         const error = this.getError(
-            node.value.trim(),
+            node.head.trim(),
             node.lineNumber,
             node.columnNumber,
             node.globalPos,
-            node.value.trim().length,
+            node.head.trim().length,
             errorMessageList[i]
         );
 

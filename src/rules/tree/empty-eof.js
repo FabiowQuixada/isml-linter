@@ -14,7 +14,7 @@ Rule.isBroken = function(node) {
 
     return !(tempNode.suffixValue ?
         tempNode.suffixValue.endsWith(Constants.EOL) :
-        tempNode.value.endsWith(Constants.EOL));
+        tempNode.head.endsWith(Constants.EOL));
 };
 
 Rule.check = function(rootNode, data) {
@@ -28,7 +28,7 @@ Rule.check = function(rootNode, data) {
         const lineBreakQty = ParseUtils.getLineBreakQty(node.toString());
         const lineNumber   = node.lineNumber + lineBreakQty - 1;
         let globalPos      = node.globalPos;
-        let length         = node.value.trim().length;
+        let length         = node.head.trim().length;
 
         if (node.suffixValue) {
             const lastLineBreakPos = node.suffixValue.lastIndexOf(Constants.EOL);

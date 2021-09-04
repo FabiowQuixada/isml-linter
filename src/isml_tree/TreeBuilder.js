@@ -38,7 +38,7 @@ const parseContainerElements = (element, currentParent, newNode, templatePath) =
             currentParent.getType(),
             currentParent.lineNumber,
             currentParent.globalPos,
-            currentParent.value.trim().length,
+            currentParent.head.trim().length,
             templatePath
         );
     }
@@ -84,7 +84,7 @@ const parseContainerElements = (element, currentParent, newNode, templatePath) =
                 currentParent.getType(),
                 currentParent.lineNumber,
                 currentParent.globalPos,
-                currentParent.value.trim().length,
+                currentParent.head.trim().length,
                 templatePath
             );
         }
@@ -165,22 +165,22 @@ const postProcess = (node, data = {}) => {
     for (let i = 0; i < node.children.length; i++) {
         const child = node.children[i];
 
-        if (child.value.indexOf('template="util/modules"') >= 0) {
+        if (child.head.indexOf('template="util/modules"') >= 0) {
             data.moduleDefinition = {
-                value      : child.value,
+                value      : child.head,
                 lineNumber : child.lineNumber,
                 globalPos  : child.globalPos,
-                length     : child.value.trim().length
+                length     : child.head.trim().length
             };
         }
 
         if (child.isCustomIsmlTag()) {
             data.customModuleArray = data.customModuleArray || [];
             data.customModuleArray.push({
-                value      : child.value,
+                value      : child.head,
                 lineNumber : child.lineNumber,
                 globalPos  : child.globalPos,
-                length     : child.value.trim().length
+                length     : child.head.trim().length
             });
         }
 
@@ -229,17 +229,17 @@ function rectifyNodeIndentation(node, child) {
     }
 
     if (previousSibling && previousSibling.isOfType('text')) {
-        const trailingLineBreakQty = ParseUtils.getTrailingEmptyCharsQty(previousSibling.value);
+        const trailingLineBreakQty = ParseUtils.getTrailingEmptyCharsQty(previousSibling.head);
 
-        previousSibling.value = previousSibling.value.substring(0, previousSibling.value.length - trailingLineBreakQty);
-        child.value           = ParseUtils.getBlankSpaceString(trailingLineBreakQty) + child.value;
+        previousSibling.head = previousSibling.head.substring(0, previousSibling.head.length - trailingLineBreakQty);
+        child.head           = ParseUtils.getBlankSpaceString(trailingLineBreakQty) + child.head;
     }
 
     if (child.isLastChild() && child.isOfType('text')) {
         let trailingLineBreakQty = 0;
 
-        trailingLineBreakQty = ParseUtils.getTrailingEmptyCharsQty(child.value);
-        child.value          = child.value.substring(0, child.value.length - trailingLineBreakQty);
+        trailingLineBreakQty = ParseUtils.getTrailingEmptyCharsQty(child.head);
+        child.head           = child.head.substring(0, child.head.length - trailingLineBreakQty);
 
         node.suffixValue = ParseUtils.getBlankSpaceString(trailingLineBreakQty) + node.suffixValue;
     }

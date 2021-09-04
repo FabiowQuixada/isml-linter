@@ -17,10 +17,10 @@ Rule.init(ruleId, description);
 Rule.addError = function(node, eslintError, ismlOffset, linter, data) {
     const errorLine = linter.getSourceCode() ?
         linter.getSourceCode().lines[eslintError.line - 1] :
-        node.value.split('\n')[eslintError.line - 1];
+        node.head.split('\n')[eslintError.line - 1];
 
-    const duplicatedOffset = ParseUtils.getNextNonEmptyCharPos(node.value);
-    const errorLocalPos    = node.value.indexOf(errorLine.trimStart()) - duplicatedOffset;
+    const duplicatedOffset = ParseUtils.getNextNonEmptyCharPos(node.head);
+    const errorLocalPos    = node.head.indexOf(errorLine.trimStart()) - duplicatedOffset;
     let errorGlobalPos     = node.globalPos;
     let columnNumber       = node.columnNumber;
     let length             = errorLine.trimStart().length;
@@ -28,7 +28,7 @@ Rule.addError = function(node, eslintError, ismlOffset, linter, data) {
 
     errorGlobalPos += data.isCrlfLineBreak ?
         errorLocalPos + eslintError.line - 2 :
-        node.value.trimStart().indexOf(errorLine.trimStart());
+        node.head.trimStart().indexOf(errorLine.trimStart());
 
     if (eslintError.ruleId === 'indent') {
         length         = getIndentErrorLength(eslintError, ismlOffset);
@@ -75,7 +75,7 @@ Rule.check = function(node, data) {
 
         for (let index = 0; index < isscriptContentArray.length; index++) {
             const jsContentNode = isscriptContentArray[index];
-            let content         = jsContentNode.value;
+            let content         = jsContentNode.head;
 
             const ismlOffset = getIsmlOffset(jsContentNode);
 
@@ -112,12 +112,12 @@ Rule.getFixedContent = function(node) {
     if (node.isIsscriptContent()) {
         const Linter     = require('eslint').Linter;
         const linter     = new Linter();
-        let content      = node.value;
+        let content      = node.head;
         const ismlOffset = getIsmlOffset(node);
 
         this.result.fixedContent = content = linter.verifyAndFix(content, eslintConfig).output;
 
-        node.value = reIndent(content, ismlOffset);
+        node.head = reIndent(content, ismlOffset);
     }
 
     return GeneralUtils.applyActiveLineBreaks(node.toString());

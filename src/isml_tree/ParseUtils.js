@@ -96,7 +96,7 @@ const checkBalance = (node, templatePath) => {
             node.getType(),
             node.lineNumber,
             node.globalPos,
-            node.value.trim().length,
+            node.head.trim().length,
             templatePath
         );
     }

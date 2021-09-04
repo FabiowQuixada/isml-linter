@@ -10,11 +10,11 @@ Rule.init(ruleId, description);
 
 Rule.addError = function(node, message) {
     return this.getError(
-        node.value.trim(),
+        node.head.trim(),
         node.lineNumber,
         node.columnNumber,
         node.globalPos,
-        node.value.trim().length,
+        node.head.trim().length,
         message
     );
 };
@@ -26,7 +26,7 @@ Rule.check = function(node, data) {
     if (data) {
         const isUsedButNotDeclared = !data.moduleDefinition && data.customModuleArray && data.customModuleArray.length > 0;
 
-        if (node.value.indexOf('template="util/modules"') >= 0) {
+        if (node.head.indexOf('template="util/modules"') >= 0) {
             const isUnnecessaryDefinition = data.moduleDefinition && !data.customModuleArray;
 
             if (isUnnecessaryDefinition) {

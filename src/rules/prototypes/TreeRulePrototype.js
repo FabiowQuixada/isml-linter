@@ -10,14 +10,14 @@ TreeRulePrototype.check = function(node, data) {
     const occurrenceList = this.checkChildren(node, data);
 
     if (this.isBroken(node)) {
-        let length = node.value.trim().length;
+        let length = node.head.trim().length;
 
         if (data.isCrlfLineBreak) {
-            length += ParseUtils.getLineBreakQty(node.value.trim());
+            length += ParseUtils.getLineBreakQty(node.head.trim());
         }
 
         const error = this.getError(
-            node.value.trim(),
+            node.head.trim(),
             node.lineNumber,
             node.columnNumber,
             node.globalPos,
@@ -68,7 +68,7 @@ TreeRulePrototype.return = function(node, occurrenceList, config) {
 TreeRulePrototype.fix = function(stream = '') {
 
     if (!this.isRoot() && !this.isContainer()) {
-        stream += this.value;
+        stream += this.head;
     }
 
     for (let i = 0; i < this.children.length; i++) {

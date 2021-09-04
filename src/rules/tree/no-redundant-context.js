@@ -67,7 +67,7 @@ Rule.isBroken = function (node) {
     for (let i = 0; i < disallowedOccurrenceContainer.length; i++) {
         const disallowedOccurrence = disallowedOccurrenceContainer[i];
 
-        if (node.value.indexOf(disallowedOccurrence.key) >= 0) {
+        if (node.head.indexOf(disallowedOccurrence.key) >= 0) {
             return disallowedOccurrence;
         }
     }
@@ -82,7 +82,7 @@ Rule.check = function(node, data) {
     const disallowedOccurrence = this.isBroken(node);
 
     if (disallowedOccurrence) {
-        const trimmedValue   = node.value.trim();
+        const trimmedValue   = node.head.trim();
         const startPos       = trimmedValue.indexOf(disallowedOccurrence.key);
         const beforeStartPos = trimmedValue.substring(0, startPos);
         const lineOffset     = ParseUtils.getLineBreakQty(beforeStartPos);
@@ -94,9 +94,9 @@ Rule.check = function(node, data) {
         }
 
         const error = this.getError(
-            node.value.trim(),
+            node.head.trim(),
             node.lineNumber,
-            node.columnNumber + node.value.trim().indexOf(disallowedOccurrence.key) - 1,
+            node.columnNumber + node.head.trim().indexOf(disallowedOccurrence.key) - 1,
             globalPos,
             disallowedOccurrence.wrong.length,
             message
@@ -113,8 +113,8 @@ Rule.getFixedContent = function(node) {
     for (let i = 0; i < disallowedOccurrenceContainer.length; i++) {
         const disallowedOccurrence = disallowedOccurrenceContainer[i];
 
-        if (node.value.indexOf(disallowedOccurrence.key) >= 0) {
-            node.value = node.value
+        if (node.head.indexOf(disallowedOccurrence.key) >= 0) {
+            node.head = node.head
                 .split(disallowedOccurrence.key)
                 .join(disallowedOccurrence.correct);
         }
