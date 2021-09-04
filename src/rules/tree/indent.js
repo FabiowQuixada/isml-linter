@@ -94,8 +94,8 @@ Rule.isClosingCharBroken = function(node) {
 
     if (node.isSelfClosing()) {
         if (closingCharsConfigs.selfClosingTag === 'always') {
-            const nodeValueLineList          = node.head.trim().split(Constants.EOL);
-            const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '/>';
+            const nodeHeadLineList           = node.head.trim().split(Constants.EOL);
+            const isClosingCharStandingAlone = nodeHeadLineList[nodeHeadLineList.length - 1].trim() === '/>';
 
             return {
                 isBroken : !isClosingCharStandingAlone,
@@ -103,8 +103,8 @@ Rule.isClosingCharBroken = function(node) {
             };
 
         } else if (closingCharsConfigs.selfClosingTag === 'never') {
-            const nodeValueLineList          = node.head.trim().split(Constants.EOL);
-            const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '/>';
+            const nodeHeadLineList           = node.head.trim().split(Constants.EOL);
+            const isClosingCharStandingAlone = nodeHeadLineList[nodeHeadLineList.length - 1].trim() === '/>';
 
             return {
                 isBroken : isClosingCharStandingAlone,
@@ -113,8 +113,8 @@ Rule.isClosingCharBroken = function(node) {
         }
     } else {
         if (closingCharsConfigs.nonSelfClosingTag === 'always') {
-            const nodeValueLineList          = node.head.trim().split(Constants.EOL);
-            const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '>';
+            const nodeHeadLineList           = node.head.trim().split(Constants.EOL);
+            const isClosingCharStandingAlone = nodeHeadLineList[nodeHeadLineList.length - 1].trim() === '>';
 
             return {
                 isBroken : !isClosingCharStandingAlone,
@@ -122,8 +122,8 @@ Rule.isClosingCharBroken = function(node) {
             };
 
         } else if (closingCharsConfigs.nonSelfClosingTag === 'never') {
-            const nodeValueLineList          = node.head.trim().split(Constants.EOL);
-            const isClosingCharStandingAlone = nodeValueLineList[nodeValueLineList.length - 1].trim() === '>';
+            const nodeHeadLineList           = node.head.trim().split(Constants.EOL);
+            const isClosingCharStandingAlone = nodeHeadLineList[nodeHeadLineList.length - 1].trim() === '>';
 
             return {
                 isBroken : isClosingCharStandingAlone,
@@ -193,9 +193,9 @@ Rule.check = function(node, data) {
             const configIndentSize    = ruleConfig.indent;
             const expectedIndentation = getExpectedIndentation(node, configIndentSize);
             const actualIndentation   = getActualIndentation(node);
-            const nodeValue           = node.head.trim();
+            const nodeHead            = node.head.trim();
             const occurrenceLength    = actualIndentation === 0 ?
-                nodeValue.length + ParseUtils.getLineBreakQty(nodeValue) :
+                nodeHead.length + ParseUtils.getLineBreakQty(nodeHead) :
                 getActualIndentation(node);
 
             const error = this.getError(
@@ -584,15 +584,15 @@ const getExpressionAttributeIndentation = (attributeValue, nodeIndentation, attr
 };
 
 const getClosingChars = node => {
-    const nodeValue = node.head.trim();
+    const nodeHead = node.head.trim();
 
-    if (nodeValue.endsWith(' />')) {
+    if (nodeHead.endsWith(' />')) {
         return ' />';
-    } else if (nodeValue.endsWith('/>')) {
+    } else if (nodeHead.endsWith('/>')) {
         return ' />';
-    } else if (nodeValue.endsWith(' >')) {
+    } else if (nodeHead.endsWith(' >')) {
         return ' >';
-    } else if (nodeValue.endsWith('>')) {
+    } else if (nodeHead.endsWith('>')) {
         return '>';
     }
 
@@ -644,10 +644,10 @@ const addIndentation = (node, isOpeningTag) => {
 const removeAllIndentation = node => {
     if (!node.isRoot() && !node.isContainer() && !node.parent.isOneOfTypes(['isscript', 'script'])) {
 
-        const shouldRemoveValueIndentation = node.head && !node.isInSameLineAsPreviousSibling() && !node.isInSameLineAsParent() && !(node.lineNumber === node.parent.endLineNumber);
-        const shouldRemoveTailIndentation  = node.tailValue && !(node.hasChildren() && node.getLastChild().lineNumber === node.tailLineNumber);
+        const shouldRemoveHeadIndentation = node.head && !node.isInSameLineAsPreviousSibling() && !node.isInSameLineAsParent() && !(node.lineNumber === node.parent.endLineNumber);
+        const shouldRemoveTailIndentation = node.tailValue && !(node.hasChildren() && node.getLastChild().lineNumber === node.tailLineNumber);
 
-        if (shouldRemoveValueIndentation) {
+        if (shouldRemoveHeadIndentation) {
             node.head = removeIndentation(node.head);
         }
 
@@ -665,16 +665,16 @@ const addCorrectIndentation = node => {
 
     if (!node.isRoot() && !node.isContainer() && !node.parent.isOneOfTypes(['isscript', 'script'])) {
         if (node.parent.isOfType('iscomment')) {
-            const shouldAddIndentationToText = checkIfShouldAddIndentationToValue(node);
+            const shouldAddIndentationToText = checkIfShouldAddIndentationToHead(node);
 
             if (shouldAddIndentationToText) {
                 node.head = addIndentationToText(node);
             }
         } else {
-            const shouldAddIndentationToValue = checkIfShouldAddIndentationToValue(node);
-            const shouldAddIndentationToTail  = checkIfShouldAddIndentationToTail(node);
+            const shouldAddIndentationToHead = checkIfShouldAddIndentationToHead(node);
+            const shouldAddIndentationToTail = checkIfShouldAddIndentationToTail(node);
 
-            if (shouldAddIndentationToValue) {
+            if (shouldAddIndentationToHead) {
                 node.head = addIndentation(node, true);
             }
 
@@ -727,16 +727,16 @@ const shouldAddIndentationToClosingQuote = attribute => {
     return lastLine.trim().length === 0;
 };
 
-const checkIfShouldAddIndentationToValue = node => {
+const checkIfShouldAddIndentationToHead = node => {
     const previousSibling                   = node.getPreviousSibling();
     const isInSameLineAsPrevSiblingLastLine = !node.isRoot() &&
         previousSibling &&
         node.lineNumber === previousSibling.getLastLineNumber();
-    const isInSameLineAsParentValueEnd      = node.parent.endLineNumber === node.lineNumber && !node.parent.isContainer();
+    const isInSameLineAsParentHeadEnd       = node.parent.endLineNumber === node.lineNumber && !node.parent.isContainer();
 
     const shouldAdd = !node.isRoot() &&
         !isInSameLineAsPrevSiblingLastLine &&
-        !isInSameLineAsParentValueEnd &&
+        !isInSameLineAsParentHeadEnd &&
         (node.isFirstChild() || previousSibling && node.lineNumber !== previousSibling.lineNumber) &&
         node.head && node.lineNumber !== node.parent.endLineNumber;
 

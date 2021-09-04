@@ -82,9 +82,9 @@ Rule.check = function(node, data) {
     const disallowedOccurrence = this.isBroken(node);
 
     if (disallowedOccurrence) {
-        const trimmedValue   = node.head.trim();
-        const startPos       = trimmedValue.indexOf(disallowedOccurrence.key);
-        const beforeStartPos = trimmedValue.substring(0, startPos);
+        const trimmedHead    = node.head.trim();
+        const startPos       = trimmedHead.indexOf(disallowedOccurrence.key);
+        const beforeStartPos = trimmedHead.substring(0, startPos);
         const lineOffset     = ParseUtils.getLineBreakQty(beforeStartPos);
         let globalPos        = node.globalPos + startPos;
         const message        = getMessage(disallowedOccurrence);

@@ -18,25 +18,25 @@ Rule.isBroken = function(node) {
     const ruleExceptionList  = this.getConfigs().except;
     const allowHtmlEntities  = this.getConfigs().allowHtmlEntities;
     const isTagContent       = isTagChild(node);
-    const shouldCheckValue   = node.isOfType('text') && !node.isExpression() && !isTagContent;
+    const shouldCheckHead    = node.isOfType('text') && !node.isExpression() && !isTagContent;
     const isTextAnHtmlEntity = node.head.trim().startsWith('&') && node.head.trim().endsWith(';');
-    let nodeValue            = node.head;
+    let nodeHead             = node.head;
 
-    if (!shouldCheckValue) {
+    if (!shouldCheckHead) {
         return false;
     }
 
     for (let i = 0; i < ruleExceptionList.length; i++) {
         const char = ruleExceptionList[i];
 
-        nodeValue = nodeValue.split(char).join('');
+        nodeHead = nodeHead.split(char).join('');
     }
 
     if (allowHtmlEntities && isTextAnHtmlEntity) {
         return false;
     }
 
-    return nodeValue.trim().length > 0;
+    return nodeHead.trim().length > 0;
 };
 
 const isTagChild = node => {

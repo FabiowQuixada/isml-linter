@@ -34,11 +34,11 @@ Rule.check = function(node, data) {
     const occurrenceList = this.checkChildren(node, data);
 
     if (this.isBroken(node)) {
-        const trimmedValue   = node.head.trim();
-        const startPos       = trimmedValue.indexOf('require(');
-        const beforeStartPos = trimmedValue.substring(0, startPos);
+        const trimmedHead    = node.head.trim();
+        const startPos       = trimmedHead.indexOf('require(');
+        const beforeStartPos = trimmedHead.substring(0, startPos);
         const lineOffset     = ParseUtils.getLineBreakQty(beforeStartPos);
-        const afterStartPos  = trimmedValue.substring(startPos);
+        const afterStartPos  = trimmedHead.substring(startPos);
         const length         = afterStartPos.indexOf(')') + 1;
         let globalPos        = node.globalPos + startPos;
 

@@ -410,11 +410,11 @@ class IsmlNode {
 */
 
 const getAttributes = node => {
-    const trimmedValue             = node.head.trim();
-    const nodeValue                = trimmedValue.substring(1, trimmedValue.length - 1);
-    const firstSpaceAfterTagPos    = ParseUtils.getFirstEmptyCharPos(trimmedValue);
-    const leadingEmptySpaceQty     = ParseUtils.getNextNonEmptyCharPos(nodeValue);
-    const afterTagContent          = nodeValue.substring(leadingEmptySpaceQty + firstSpaceAfterTagPos);
+    const trimmedHead              = node.head.trim();
+    const nodeHead                 = trimmedHead.substring(1, trimmedHead.length - 1);
+    const firstSpaceAfterTagPos    = ParseUtils.getFirstEmptyCharPos(trimmedHead);
+    const leadingEmptySpaceQty     = ParseUtils.getNextNonEmptyCharPos(nodeHead);
+    const afterTagContent          = nodeHead.substring(leadingEmptySpaceQty + firstSpaceAfterTagPos);
     const stringifiedAttributeList = getStringifiedAttributeArray(afterTagContent);
     const attributeList            = [];
 
@@ -490,16 +490,16 @@ const parseAttribute = (node, attributeList, index) => {
     const isAttributeANestedIsmlTag             = attribute.startsWith('<is');
     const isExpressionAttribute                 = attribute.startsWith('${') && attribute.endsWith('}');
     const trimmedAttribute                      = attribute.trim();
-    const trimmedNodeValue                      = node.head.trim();
-    const localPos                              = getAttributeLocalPos(trimmedNodeValue, trimmedAttribute);
-    const leadingContent                        = trimmedNodeValue.substring(0, localPos);
+    const trimmedNodeHead                       = node.head.trim();
+    const localPos                              = getAttributeLocalPos(trimmedNodeHead, trimmedAttribute);
+    const leadingContent                        = trimmedNodeHead.substring(0, localPos);
     const leadingLineBreakQty                   = ParseUtils.getLineBreakQty(leadingContent);
     const isInSameLineAsTagName                 = leadingLineBreakQty === 0;
     const assignmentCharPos                     = trimmedAttribute.indexOf('=');
     const name                                  = assignmentCharPos >= 0 ? trimmedAttribute.substring(0, assignmentCharPos) : trimmedAttribute;
     const value                                 = assignmentCharPos >= 0 ? trimmedAttribute.substring(assignmentCharPos + 2, trimmedAttribute.length - 1) : null;
     const valueList                             = getAttributeValueList(value);
-    const attrLocalPos                          = trimmedNodeValue.indexOf(trimmedAttribute);
+    const attrLocalPos                          = trimmedNodeHead.indexOf(trimmedAttribute);
     const valueLocalPos                         = trimmedAttribute.indexOf(value);
     const lineNumber                            = node.lineNumber + leadingLineBreakQty;
     const globalPos                             = node.globalPos + localPos + leadingLineBreakQty - lineNumber + 1;
@@ -513,7 +513,7 @@ const parseAttribute = (node, attributeList, index) => {
         leadingContent.length - leadingContent.lastIndexOf(Constants.EOL);
 
     const isFirstInLine = !isInSameLineAsTagName
-        && trimmedNodeValue
+        && trimmedNodeHead
             .split(Constants.EOL)
             .find(attrLine => attrLine.indexOf(attributeNameFirstLine) >= 0)
             .trim()
@@ -570,26 +570,26 @@ const parseAttribute = (node, attributeList, index) => {
 /**
  * Two attributes can have the same name, and that is handled here;
  */
-const getAttributeLocalPos = (trimmedNodeValue, trimmedAttribute) => {
+const getAttributeLocalPos = (trimmedNodeHead, trimmedAttribute) => {
     const maskedTrimmedAttribute = MaskUtils.maskQuoteContent(trimmedAttribute);
-    const maskedTrimmedNodeValue = MaskUtils.maskQuoteContent(trimmedNodeValue);
+    const maskedTrimmedNodeHead  = MaskUtils.maskQuoteContent(trimmedNodeHead);
 
-    let attributeLocalPos    = maskedTrimmedNodeValue.indexOf(maskedTrimmedAttribute);
-    const isCorrectAttribute = trimmedNodeValue.indexOf(trimmedAttribute) === attributeLocalPos;
-    let remainingNodeValue   = maskedTrimmedNodeValue.substring(attributeLocalPos + 1);
+    let attributeLocalPos    = maskedTrimmedNodeHead.indexOf(maskedTrimmedAttribute);
+    const isCorrectAttribute = trimmedNodeHead.indexOf(trimmedAttribute) === attributeLocalPos;
+    let remainingNodeHead    = maskedTrimmedNodeHead.substring(attributeLocalPos + 1);
 
     while (!isCorrectAttribute) {
-        const tempLocalPos = remainingNodeValue.indexOf(maskedTrimmedAttribute) + 1;
+        const tempLocalPos = remainingNodeHead.indexOf(maskedTrimmedAttribute) + 1;
 
         attributeLocalPos += tempLocalPos;
 
-        const remainingContent = trimmedNodeValue.substring(attributeLocalPos);
+        const remainingContent = trimmedNodeHead.substring(attributeLocalPos);
 
         if (remainingContent.startsWith(trimmedAttribute)) {
             break;
         }
 
-        remainingNodeValue = remainingNodeValue.substring(tempLocalPos);
+        remainingNodeHead = remainingNodeHead.substring(tempLocalPos);
     }
 
     return attributeLocalPos;
