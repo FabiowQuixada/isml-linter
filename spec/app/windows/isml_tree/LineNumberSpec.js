@@ -125,17 +125,17 @@ describe('TreeBuilder', () => {
     });
 
     it('identifies a single-child non-tag element line number', () => {
-        const rootNode   = TreeBuilder.build(getTemplatePath(9)).rootNode;
-        const ifNode     = rootNode.children[0].children[0].children[0].children[0];
-        const nonTagNode = ifNode.children[0].children[1].children[0];
+        const rootNode = TreeBuilder.build(getTemplatePath(9)).rootNode;
+        const isifNode = rootNode.children[0].children[0].children[0].children[0];
+        const expNode  = isifNode.children[0].children[1].children[0];
 
-        expect(ifNode.head                 ).toEqual(`${Constants.EOL}        <isif condition="\${pdict.customer.registeredUser}">`);
-        expect(ifNode.lineNumber           ).toEqual(4);
-        expect(ifNode.getChildrenQty()).toEqual(1);
+        expect(isifNode.head            ).toEqual(`${Constants.EOL}        <isif condition="\${pdict.customer.registeredUser}">`);
+        expect(isifNode.lineNumber      ).toEqual(4);
+        expect(isifNode.getChildrenQty()).toEqual(1);
 
-        expect(nonTagNode.head                 ).toEqual(`${Constants.EOL}                    \${creditFields.saveCard.label}`);
-        expect(nonTagNode.lineNumber           ).toEqual(8);
-        expect(nonTagNode.getChildrenQty()).toEqual(0);
+        expect(expNode.head            ).toEqual(`${Constants.EOL}                    \${creditFields.saveCard.label}`);
+        expect(expNode.lineNumber      ).toEqual(8);
+        expect(expNode.getChildrenQty()).toEqual(0);
     });
 
     it('sets line number for <iselse> element', () => {

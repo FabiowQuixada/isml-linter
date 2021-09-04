@@ -148,9 +148,9 @@ class IsmlNode {
         newNode.isEmbeddedNode = this.isEmbeddedNode;
     }
 
-    getLastChild()        { return this.children[this.children.length - 1]; }
+    getLastChild()   { return this.children[this.children.length - 1]; }
     getChildrenQty() { return this.children.length;                    }
-    hasChildren()         { return this.children.length > 0;                }
+    hasChildren()    { return this.children.length > 0;                }
 
     getIndentationSize() {
         return getNodeIndentationSize(this, true);

@@ -139,59 +139,59 @@ describe(targetObjName, () => {
     });
 
     it('identifies ISML expressions I', () => {
-        const rootNode     = getRootNodeFromTemplate(17);
-        const ifNode       = rootNode.children[0].children[0];
-        const nestedIfNode = ifNode.children[0].children[0];
+        const rootNode       = getRootNodeFromTemplate(17);
+        const isifNode       = rootNode.children[0].children[0];
+        const nestedIsifNode = isifNode.children[0].children[0];
 
-        expect(nestedIfNode.head).toEqual(`${Constants.EOL}    <isif condition="\${c2}">`);
-        expect(nestedIfNode.lineNumber).toEqual(2);
-        expect(nestedIfNode.getChildrenQty()).toEqual(1);
+        expect(nestedIsifNode.head).toEqual(`${Constants.EOL}    <isif condition="\${c2}">`);
+        expect(nestedIsifNode.lineNumber).toEqual(2);
+        expect(nestedIsifNode.getChildrenQty()).toEqual(1);
     });
 
     it('identifies ISML expressions II', () => {
-        const rootNode  = getRootNodeFromTemplate(18);
-        const availNode = rootNode.children[2];
+        const rootNode = getRootNodeFromTemplate(18);
+        const divNode  = rootNode.children[2];
 
-        expect(availNode.head).toEqual(`${Constants.EOL}<div class="product-availability">`);
-        expect(availNode.lineNumber).toEqual(23);
-        expect(availNode.getChildrenQty()).toEqual(1);
+        expect(divNode.head).toEqual(`${Constants.EOL}<div class="product-availability">`);
+        expect(divNode.lineNumber).toEqual(23);
+        expect(divNode.getChildrenQty()).toEqual(1);
     });
 
     it('identifies ISML expressions III', () => {
-        const rootNode = getRootNodeFromTemplate(19);
-        const setNode  = rootNode.children[2];
+        const rootNode  = getRootNodeFromTemplate(19);
+        const issetNode = rootNode.children[2];
 
-        expect(setNode.head).toEqual(`${Constants.EOL}<isset value="\${abc}" />${Constants.EOL}`);
-        expect(setNode.lineNumber).toEqual(7);
-        expect(setNode.getChildrenQty()).toEqual(0);
+        expect(issetNode.head).toEqual(`${Constants.EOL}<isset value="\${abc}" />${Constants.EOL}`);
+        expect(issetNode.lineNumber).toEqual(7);
+        expect(issetNode.getChildrenQty()).toEqual(0);
     });
 
     it('handles empty "isif" tag', () => {
         const rootNode = getRootNodeFromTemplate(20);
         const divNode  = rootNode.children[0];
-        const ifNode   = divNode.children[0].children[0];
+        const isifNode = divNode.children[0].children[0];
 
         expect(divNode.head).toEqual('<div <isif condition="${condition1}"></isif>>');
         expect(divNode.lineNumber).toEqual(1);
         expect(divNode.getChildrenQty()).toEqual(1);
 
-        expect(ifNode.head).toEqual(`${Constants.EOL}    <isif condition="\${condition2}">`);
-        expect(ifNode.lineNumber).toEqual(2);
-        expect(ifNode.getChildrenQty()).toEqual(0);
+        expect(isifNode.head).toEqual(`${Constants.EOL}    <isif condition="\${condition2}">`);
+        expect(isifNode.lineNumber).toEqual(2);
+        expect(isifNode.getChildrenQty()).toEqual(0);
     });
 
     it('handle one-char condition "if" tag', () => {
         const rootNode = getRootNodeFromTemplate(21);
         const divNode  = rootNode.children[0];
-        const ifNode   = divNode.children[0].children[0];
+        const isifNode = divNode.children[0].children[0];
 
         expect(divNode.head).toEqual('<div <isif condition="${c}"></isif>>');
         expect(divNode.lineNumber).toEqual(1);
         expect(divNode.getChildrenQty()).toEqual(1);
 
-        expect(ifNode.head).toEqual(`${Constants.EOL}    <isif condition="\${c2}">`);
-        expect(ifNode.lineNumber).toEqual(2);
-        expect(ifNode.getChildrenQty()).toEqual(0);
+        expect(isifNode.head).toEqual(`${Constants.EOL}    <isif condition="\${c2}">`);
+        expect(isifNode.lineNumber).toEqual(2);
+        expect(isifNode.getChildrenQty()).toEqual(0);
     });
 
     it('allows empty "script" tag', () => {
@@ -212,15 +212,15 @@ describe(targetObjName, () => {
     it('identifies HTML comments', () => {
         const rootNode        = getRootNodeFromTemplate(24);
         const htmlCommentNode = rootNode.children[0];
-        const ifNode          = rootNode.children[1].children[0];
+        const isifNode        = rootNode.children[1].children[0];
 
         expect(htmlCommentNode.head).toEqual('<!-- This is an HTML comment -->');
         expect(htmlCommentNode.lineNumber).toEqual(1);
         expect(htmlCommentNode.getChildrenQty()).toEqual(0);
 
-        expect(ifNode.head).toEqual(`${Constants.EOL}<isif condition="\${condition}">`);
-        expect(ifNode.lineNumber).toEqual(2);
-        expect(ifNode.getChildrenQty()).toEqual(1);
+        expect(isifNode.head).toEqual(`${Constants.EOL}<isif condition="\${condition}">`);
+        expect(isifNode.lineNumber).toEqual(2);
+        expect(isifNode.getChildrenQty()).toEqual(1);
     });
 
     it('identifies a html comment as self-closing tag', () => {
@@ -245,36 +245,36 @@ describe(targetObjName, () => {
     });
 
     it('identifies style tags', () => {
-        const rootNode = getRootNodeFromTemplate(26);
-        const styleTag = rootNode.children[4];
+        const rootNode  = getRootNodeFromTemplate(26);
+        const styleNode = rootNode.children[4];
 
-        expect(styleTag.head).toEqual(`${Constants.EOL}<style type="text/css">`);
-        expect(styleTag.lineNumber).toEqual(5);
-        expect(styleTag.getChildrenQty()).toEqual(1);
+        expect(styleNode.head).toEqual(`${Constants.EOL}<style type="text/css">`);
+        expect(styleNode.lineNumber).toEqual(5);
+        expect(styleNode.getChildrenQty()).toEqual(1);
     });
 
     it('handles conditional HTML comments', () => {
-        const rootNode            = getRootNodeFromTemplate(26);
-        const conditionTag        = rootNode.children[1];
-        const metaTag             = rootNode.children[2];
-        const closingConditionTag = rootNode.children[3];
-        const afterTag            = rootNode.children[4];
+        const rootNode               = getRootNodeFromTemplate(26);
+        const ConditionalNode        = rootNode.children[1];
+        const metaNode               = rootNode.children[2];
+        const closingConditionalNode = rootNode.children[3];
+        const styleNode              = rootNode.children[4];
 
-        expect(conditionTag.head).toEqual(`${Constants.EOL}<!--[if !mso]><!-- -->`);
-        expect(conditionTag.lineNumber).toEqual(2);
-        expect(conditionTag.getChildrenQty()).toEqual(0);
+        expect(ConditionalNode.head).toEqual(`${Constants.EOL}<!--[if !mso]><!-- -->`);
+        expect(ConditionalNode.lineNumber).toEqual(2);
+        expect(ConditionalNode.getChildrenQty()).toEqual(0);
 
-        expect(metaTag.head).toEqual(`${Constants.EOL}    <meta content="IE=edge" http-equiv="X-UA-Compatible" />`);
-        expect(metaTag.lineNumber).toEqual(3);
-        expect(metaTag.getChildrenQty()).toEqual(0);
+        expect(metaNode.head).toEqual(`${Constants.EOL}    <meta content="IE=edge" http-equiv="X-UA-Compatible" />`);
+        expect(metaNode.lineNumber).toEqual(3);
+        expect(metaNode.getChildrenQty()).toEqual(0);
 
-        expect(closingConditionTag.head).toEqual(`${Constants.EOL}<!--<![endif]-->`);
-        expect(closingConditionTag.lineNumber).toEqual(4);
-        expect(closingConditionTag.getChildrenQty()).toEqual(0);
+        expect(closingConditionalNode.head).toEqual(`${Constants.EOL}<!--<![endif]-->`);
+        expect(closingConditionalNode.lineNumber).toEqual(4);
+        expect(closingConditionalNode.getChildrenQty()).toEqual(0);
 
-        expect(afterTag.head).toEqual(`${Constants.EOL}<style type="text/css">`);
-        expect(afterTag.lineNumber).toEqual(5);
-        expect(afterTag.getChildrenQty()).toEqual(1);
+        expect(styleNode.head).toEqual(`${Constants.EOL}<style type="text/css">`);
+        expect(styleNode.lineNumber).toEqual(5);
+        expect(styleNode.getChildrenQty()).toEqual(1);
     });
 
     it('allows opening "isif" tags with slash: <isif />', () => {
