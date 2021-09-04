@@ -18,28 +18,28 @@ class IsmlNode {
      * @param {Boolean} isEmbeddedNode whether the node is part of an embedded "sub tree", as a tag attribute
      */
     constructor(head = '(root)', lineNumber = 0, columnNumber, globalPos, isEmbeddedNode) {
-        this.id                 = ID_COUNTER++;
-        this.head               = head;         // '<div class="my_class">'
-        this.lineNumber         = lineNumber;    // 7
-        this.columnNumber       = columnNumber;  // 12
-        this.endLineNumber      = lineNumber + ParseUtils.getLineBreakQty(head.trim()); // 9
-        this.globalPos          = globalPos;     // 184
-        this.depth              = 0;             // Isml dom tree node depth
-        this.tailValue          = '';            // '</div>'
-        this.tailLineNumber     = null;            // 9
-        this.suffixColumnNumber = null;            // 12
-        this.suffixGlobalPos    = null;            // 207
-        this.parent             = null;          // Parent isml node;
-        this.children           = [];            // Child isml nodes;
-        this.childNo            = 0;
-        this.isEmbeddedNode     = !!isEmbeddedNode;
+        this.id               = ID_COUNTER++;
+        this.head             = head;         // '<div class="my_class">'
+        this.lineNumber       = lineNumber;    // 7
+        this.columnNumber     = columnNumber;  // 12
+        this.endLineNumber    = lineNumber + ParseUtils.getLineBreakQty(head.trim()); // 9
+        this.globalPos        = globalPos;     // 184
+        this.depth            = 0;             // Isml dom tree node depth
+        this.tailValue        = '';            // '</div>'
+        this.tailLineNumber   = null;            // 9
+        this.tailColumnNumber = null;            // 12
+        this.suffixGlobalPos  = null;            // 207
+        this.parent           = null;          // Parent isml node;
+        this.children         = [];            // Child isml nodes;
+        this.childNo          = 0;
+        this.isEmbeddedNode   = !!isEmbeddedNode;
     }
 
     // Suffix is the element corresponding closing tag, such as </div>
     setSuffix(value, lineNumber, columnNumber, globalPos) {
         this.tailValue           += value;
         this.tailLineNumber      = lineNumber;
-        this.suffixColumnNumber  = columnNumber;
+        this.tailColumnNumber    = columnNumber;
         this.suffixGlobalPos     = globalPos;
         this.suffixEndLineNumber = lineNumber;
     }

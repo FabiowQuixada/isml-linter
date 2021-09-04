@@ -231,7 +231,7 @@ Rule.check = function(node, data) {
             const error = this.getError(
                 node.tailValue.trim(),
                 node.tailLineNumber,
-                node.suffixColumnNumber,
+                node.tailColumnNumber,
                 suffixGlobalPos,
                 occurrenceLength,
                 getOccurrenceDescription(expectedIndentation, actualIndentation)

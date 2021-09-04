@@ -18,11 +18,11 @@ describe('TreeBuilder', () => {
         const spanNode    = divNode.children[0];
         const isprintNode = spanNode.children[0];
 
-        expect(divNode.columnNumber        ).toEqual(1);
-        expect(divNode.suffixColumnNumber  ).toEqual(1);
-        expect(spanNode.columnNumber       ).toEqual(5);
-        expect(spanNode.suffixColumnNumber ).toEqual(5);
-        expect(isprintNode.columnNumber    ).toEqual(9);
+        expect(divNode.columnNumber      ).toEqual(1);
+        expect(divNode.tailColumnNumber  ).toEqual(1);
+        expect(spanNode.columnNumber     ).toEqual(5);
+        expect(spanNode.tailColumnNumber ).toEqual(5);
+        expect(isprintNode.columnNumber  ).toEqual(9);
     });
 
     it('sets column number for elements in the same row as its parent', () => {
@@ -32,7 +32,7 @@ describe('TreeBuilder', () => {
 
         expect(iscommentNode.columnNumber       ).toEqual(1);
         expect(textNode.columnNumber            ).toEqual(13);
-        expect(iscommentNode.suffixColumnNumber ).toEqual(25);
+        expect(iscommentNode.tailColumnNumber ).toEqual(25);
     });
 
     it('sets column number for elements in the same row as its parent II', () => {
@@ -41,11 +41,11 @@ describe('TreeBuilder', () => {
         const iscommentNode = divNode.children[0];
         const textNode      = iscommentNode.children[0];
 
-        expect(divNode.columnNumber             ).toEqual(1);
-        expect(iscommentNode.columnNumber       ).toEqual(6);
-        expect(textNode.columnNumber            ).toEqual(17);
-        expect(iscommentNode.suffixColumnNumber ).toEqual(29);
-        expect(divNode.suffixColumnNumber       ).toEqual(41);
+        expect(divNode.columnNumber           ).toEqual(1);
+        expect(iscommentNode.columnNumber     ).toEqual(6);
+        expect(textNode.columnNumber          ).toEqual(17);
+        expect(iscommentNode.tailColumnNumber ).toEqual(29);
+        expect(divNode.tailColumnNumber       ).toEqual(41);
     });
 
 });

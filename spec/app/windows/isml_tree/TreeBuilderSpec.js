@@ -628,7 +628,7 @@ describe(targetObjName, () => {
         const selectNode = rootNode.children[0];
 
         expect(selectNode.columnNumber).toEqual(9);
-        expect(selectNode.suffixColumnNumber).toEqual(11);
+        expect(selectNode.tailColumnNumber).toEqual(11);
     });
 
     it('sets node column number II', () => {
