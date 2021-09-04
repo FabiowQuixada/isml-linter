@@ -401,16 +401,16 @@ describe(targetObjName, () => {
         const a3Node   = a2Node.children[0];
         const a4Node   = a3Node.children[0];
 
-        expect(a1Node.tailValue).toEqual(`${Constants.EOL}</a1>${Constants.EOL}`);
+        expect(a1Node.tail).toEqual(`${Constants.EOL}</a1>${Constants.EOL}`);
         expect(a1Node.tailGlobalPos).toEqual(47);
 
-        expect(a2Node.tailValue).toEqual(`${Constants.EOL}</a2>`);
+        expect(a2Node.tail).toEqual(`${Constants.EOL}</a2>`);
         expect(a2Node.tailGlobalPos).toEqual(40);
 
-        expect(a3Node.tailValue).toEqual(`${Constants.EOL}</a3>`);
+        expect(a3Node.tail).toEqual(`${Constants.EOL}</a3>`);
         expect(a3Node.tailGlobalPos).toEqual(33);
 
-        expect(a4Node.tailValue).toEqual(`${Constants.EOL}${Constants.EOL}</a4>`);
+        expect(a4Node.tail).toEqual(`${Constants.EOL}${Constants.EOL}</a4>`);
         expect(a4Node.tailGlobalPos).toEqual(26);
     });
 
@@ -421,16 +421,16 @@ describe(targetObjName, () => {
         const a3Node   = a2Node.children[0];
         const a4Node   = a3Node.children[0];
 
-        expect(a1Node.tailValue).toEqual(`${Constants.EOL}</a1>${Constants.EOL}`);
+        expect(a1Node.tail).toEqual(`${Constants.EOL}</a1>${Constants.EOL}`);
         expect(a1Node.tailLineNumber).toEqual(13);
 
-        expect(a2Node.tailValue).toEqual(`${Constants.EOL}${Constants.EOL}</a2>`);
+        expect(a2Node.tail).toEqual(`${Constants.EOL}${Constants.EOL}</a2>`);
         expect(a2Node.tailLineNumber).toEqual(12);
 
-        expect(a3Node.tailValue).toEqual(`${Constants.EOL}</a3>`);
+        expect(a3Node.tail).toEqual(`${Constants.EOL}</a3>`);
         expect(a3Node.tailLineNumber).toEqual(10);
 
-        expect(a4Node.tailValue).toEqual(`${Constants.EOL}${Constants.EOL}${Constants.EOL}${Constants.EOL}</a4>`);
+        expect(a4Node.tail).toEqual(`${Constants.EOL}${Constants.EOL}${Constants.EOL}${Constants.EOL}</a4>`);
         expect(a4Node.tailLineNumber).toEqual(9);
     });
 
@@ -447,7 +447,7 @@ describe(targetObjName, () => {
         const rootNode    = getRootNodeFromTemplate(43);
         const dynamicNode = rootNode.children[0];
 
-        expect(dynamicNode.tailValue).toEqual(Constants.EOL + '</${pdict.isForm === \'true\' ? \'form\' : \'div\'}>' + Constants.EOL);
+        expect(dynamicNode.tail).toEqual(Constants.EOL + '</${pdict.isForm === \'true\' ? \'form\' : \'div\'}>' + Constants.EOL);
     });
 
     it('ignores opening comment strings within comments', () => {

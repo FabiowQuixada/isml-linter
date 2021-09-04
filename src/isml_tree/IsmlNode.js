@@ -25,7 +25,7 @@ class IsmlNode {
         this.endLineNumber    = lineNumber + ParseUtils.getLineBreakQty(head.trim()); // 9
         this.globalPos        = globalPos;     // 184
         this.depth            = 0;             // Isml dom tree node depth
-        this.tailValue        = '';            // '</div>'
+        this.tail             = '';            // '</div>'
         this.tailLineNumber   = null;            // 9
         this.tailColumnNumber = null;            // 12
         this.tailGlobalPos    = null;            // 207
@@ -37,7 +37,7 @@ class IsmlNode {
 
     // Tail is the element corresponding closing tag, such as </div>
     setTail(value, lineNumber, columnNumber, globalPos) {
-        this.tailValue         += value;
+        this.tail              += value;
         this.tailLineNumber    = lineNumber;
         this.tailColumnNumber  = columnNumber;
         this.tailGlobalPos     = globalPos;
@@ -142,7 +142,7 @@ class IsmlNode {
             this.children.push(newNode);
             this.newestChildNode = newNode;
         } else {
-            this.tailValue = newNode.head + this.tailValue;
+            this.tail = newNode.head + this.tail;
         }
 
         newNode.isEmbeddedNode = this.isEmbeddedNode;
@@ -281,7 +281,7 @@ class IsmlNode {
     }
 
     getTrailingValue() {
-        return this.tailValue || this.head;
+        return this.tail || this.head;
     }
 
     // Checks if node is HTML 5 void element;
@@ -379,7 +379,7 @@ class IsmlNode {
         }
 
         if (!this.isRoot() && !this.isContainer()) {
-            stream += this.tailValue;
+            stream += this.tail;
         }
 
         return stream;
@@ -601,7 +601,7 @@ const getNodeIndentationSize = (node, isNodeHead) => {
         return 0;
     }
 
-    const content                    = isNodeHead ? node.head : node.tailValue;
+    const content                    = isNodeHead ? node.head : node.tail;
     const precedingEmptySpacesLength = content.search(/\S|$/);
     const fullPrecedingEmptySpaces   = content.substring(0, precedingEmptySpacesLength);
     const lineBreakLastPos           = Math.max(fullPrecedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
