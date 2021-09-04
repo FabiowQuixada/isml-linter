@@ -38,7 +38,7 @@ const specInvalidTemplateDir           = path.join(specIsmlTreeTemplateDir, 'inv
 const specGlobalPosTemplateDir         = path.join(specIsmlTreeTemplateDir, 'global_position');
 const specComplexTemplatesDir          = path.join(specIsmlTreeTemplateDir, 'complex_templates');
 const specElementBalanceTemplatesDir   = path.join(specIsmlTreeTemplateDir, 'element_balance');
-const specSuffixLineNumberTemplatesDir = path.join(specIsmlTreeTemplateDir, 'suffix_line_number');
+const specTailLineNumberTemplatesDir   = path.join(specIsmlTreeTemplateDir, 'tail_line_number');
 const specAutofixTemplatesDir          = path.join(specTemplateDir, 'autofix');
 const rulesDir                         = path.join(linterModuleDir, 'src', 'rules');
 const lineByLineRulesDir               = path.join(rulesDir, 'line_by_line');
@@ -104,7 +104,7 @@ module.exports = {
     specComplexTemplatesDir,
     specAutofixTemplatesDir,
     specElementBalanceTemplatesDir,
-    specSuffixLineNumberTemplatesDir,
+    specTailLineNumberTemplatesDir,
     specDir,
     linterModuleDir,
 
