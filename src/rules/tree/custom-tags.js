@@ -1,5 +1,5 @@
-const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
-const CustomTags        = require('../../util/CustomTagUtils');
+const TreeRulePrototype  = require('../prototypes/TreeRulePrototype');
+const CustomTagContainer = require('../../util/CustomTagContainer');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Invalid custom tag';
@@ -37,7 +37,7 @@ Rule.check = function(node, data) {
 
         if (isUsedButNotDeclared && node.isCustomIsmlTag()) {
             const error = this.addError(node,
-                CustomTags[node.getType()] ?
+                CustomTagContainer[node.getType()] ?
                     `Custom tag "${node.getType()}" could not be identified. Maybe you forgot to include the modules template?` :
                     `Unknown tag "${node.getType()}". Maybe you forgot to add it to util/modules template?`
             );

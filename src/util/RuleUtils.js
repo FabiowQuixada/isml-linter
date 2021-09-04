@@ -4,7 +4,7 @@ const Constants             = require('../Constants');
 const TreeBuilder           = require('../isml_tree/TreeBuilder');
 const ConfigUtils           = require('./ConfigUtils');
 const lowercaseFilenameRule = require('../rules/line_by_line/lowercase-filename');
-const customTagContainer    = require('./CustomTagUtils');
+const CustomTagContainer    = require('./CustomTagContainer');
 const CustomModulesRule     = require('../rules/tree/custom-tags');
 const GeneralUtils          = require('./GeneralUtils');
 
@@ -41,8 +41,8 @@ const getLevelGroup = level => {
 };
 
 const checkCustomTag = tag => {
-    if (Object.prototype.hasOwnProperty.call(customTagContainer, tag)) {
-        const attrList = customTagContainer[tag].attrList;
+    if (Object.prototype.hasOwnProperty.call(CustomTagContainer, tag)) {
+        const attrList = CustomTagContainer[tag].attrList;
 
         for (let i = 0; i < attrList.length; i++) {
             const attr = attrList[i];
@@ -200,7 +200,7 @@ const checkCustomModules = () => {
     };
 
     if (CustomModulesRule.isEnabled()) {
-        for (const tag in customTagContainer) {
+        for (const tag in CustomTagContainer) {
             const occurrenceObj = checkCustomTag(tag);
 
             if (occurrenceObj) {
