@@ -422,16 +422,16 @@ describe(targetObjName, () => {
         const a4Node   = a3Node.children[0];
 
         expect(a1Node.tailValue).toEqual(`${Constants.EOL}</a1>${Constants.EOL}`);
-        expect(a1Node.suffixLineNumber).toEqual(13);
+        expect(a1Node.tailLineNumber).toEqual(13);
 
         expect(a2Node.tailValue).toEqual(`${Constants.EOL}${Constants.EOL}</a2>`);
-        expect(a2Node.suffixLineNumber).toEqual(12);
+        expect(a2Node.tailLineNumber).toEqual(12);
 
         expect(a3Node.tailValue).toEqual(`${Constants.EOL}</a3>`);
-        expect(a3Node.suffixLineNumber).toEqual(10);
+        expect(a3Node.tailLineNumber).toEqual(10);
 
         expect(a4Node.tailValue).toEqual(`${Constants.EOL}${Constants.EOL}${Constants.EOL}${Constants.EOL}</a4>`);
-        expect(a4Node.suffixLineNumber).toEqual(9);
+        expect(a4Node.tailLineNumber).toEqual(9);
     });
 
     it('detects an "<" invalid character', () => {

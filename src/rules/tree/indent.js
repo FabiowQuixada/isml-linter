@@ -63,8 +63,8 @@ Rule.isBrokenForSuffix = function(node) {
     const configIndentSize         = this.getConfigs().indent;
     const expectedIndentation      = getExpectedIndentation(node, configIndentSize);
     const actualIndentation        = getActualIndentationForSuffix(node);
-    const isInSameLineAsOpeningTag = node.lineNumber === node.suffixLineNumber;
-    const isInSameLineAsLastChild  = node.hasChildren() && node.getLastChild().getLastLineNumber() === node.suffixLineNumber;
+    const isInSameLineAsOpeningTag = node.lineNumber === node.tailLineNumber;
+    const isInSameLineAsLastChild  = node.hasChildren() && node.getLastChild().getLastLineNumber() === node.tailLineNumber;
 
     return !node.isRoot() &&
         !node.isContainer() &&
@@ -230,7 +230,7 @@ Rule.check = function(node, data) {
 
             const error = this.getError(
                 node.tailValue.trim(),
-                node.suffixLineNumber,
+                node.tailLineNumber,
                 node.suffixColumnNumber,
                 suffixGlobalPos,
                 occurrenceLength,
@@ -645,7 +645,7 @@ const removeAllIndentation = node => {
     if (!node.isRoot() && !node.isContainer() && !node.parent.isOneOfTypes(['isscript', 'script'])) {
 
         const shouldRemoveValueIndentation  = node.head && !node.isInSameLineAsPreviousSibling() && !node.isInSameLineAsParent() && !(node.lineNumber === node.parent.endLineNumber);
-        const shouldRemoveSuffixIndentation = node.tailValue && !(node.hasChildren() && node.getLastChild().lineNumber === node.suffixLineNumber);
+        const shouldRemoveSuffixIndentation = node.tailValue && !(node.hasChildren() && node.getLastChild().lineNumber === node.tailLineNumber);
 
         if (shouldRemoveValueIndentation) {
             node.head = removeIndentation(node.head);
@@ -747,8 +747,8 @@ const checkIfShouldAddIndentationToSuffix = node => {
     const hasSuffix                 = !!node.tailValue;
     const isLastClause              = !!node.parent && node.parent.isContainer() && !node.isLastChild();
     const isInSameLineAsChild       = !node.hasChildren() || node.getLastChild().isInSameLineAsParent();
-    const isSuffixInSameLineAsChild = !node.hasChildren() || node.suffixLineNumber === node.getLastChild().getLastLineNumber();
-    const isBrokenIntoMultipleLines = !node.hasChildren() && node.suffixLineNumber && node.lineNumber !== node.suffixLineNumber;
+    const isSuffixInSameLineAsChild = !node.hasChildren() || node.tailLineNumber === node.getLastChild().getLastLineNumber();
+    const isBrokenIntoMultipleLines = !node.hasChildren() && node.tailLineNumber && node.lineNumber !== node.tailLineNumber;
 
     const shouldAdd = hasSuffix &&
         !isSuffixInSameLineAsChild &&

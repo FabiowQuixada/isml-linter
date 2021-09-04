@@ -26,7 +26,7 @@ class IsmlNode {
         this.globalPos          = globalPos;     // 184
         this.depth              = 0;             // Isml dom tree node depth
         this.tailValue          = '';            // '</div>'
-        this.suffixLineNumber   = null;            // 9
+        this.tailLineNumber     = null;            // 9
         this.suffixColumnNumber = null;            // 12
         this.suffixGlobalPos    = null;            // 207
         this.parent             = null;          // Parent isml node;
@@ -38,7 +38,7 @@ class IsmlNode {
     // Suffix is the element corresponding closing tag, such as </div>
     setSuffix(value, lineNumber, columnNumber, globalPos) {
         this.tailValue           += value;
-        this.suffixLineNumber    = lineNumber;
+        this.tailLineNumber      = lineNumber;
         this.suffixColumnNumber  = columnNumber;
         this.suffixGlobalPos     = globalPos;
         this.suffixEndLineNumber = lineNumber;
@@ -74,8 +74,8 @@ class IsmlNode {
     }
 
     getLastLineNumber() {
-        return this.suffixLineNumber ?
-            this.suffixLineNumber :
+        return this.tailLineNumber ?
+            this.tailLineNumber :
             this.endLineNumber;
     }
 

@@ -19,8 +19,8 @@ describe(targetObjName, () => {
         const mainIsifNode = rootNode.children[0].children[0];
         const divNode      = mainIsifNode.children[0];
 
-        expect(divNode.suffixLineNumber      ).toEqual(3);
-        expect(mainIsifNode.suffixLineNumber ).toEqual(4);
+        expect(divNode.tailLineNumber      ).toEqual(3);
+        expect(mainIsifNode.tailLineNumber ).toEqual(4);
     });
 
     it('sets <isif> element suffix line number II', () => {
@@ -30,10 +30,10 @@ describe(targetObjName, () => {
         const codeNode       = preNode.children[0];
         const secondIsifNode = codeNode.children[1].children[0];
 
-        expect(secondIsifNode.suffixLineNumber).toEqual(6);
-        expect(codeNode.suffixLineNumber      ).toEqual(7);
-        expect(preNode.suffixLineNumber       ).toEqual(7);
-        expect(mainIsifNode.suffixLineNumber  ).toEqual(8);
+        expect(secondIsifNode.tailLineNumber).toEqual(6);
+        expect(codeNode.tailLineNumber      ).toEqual(7);
+        expect(preNode.tailLineNumber       ).toEqual(7);
+        expect(mainIsifNode.tailLineNumber  ).toEqual(8);
     });
 
     it('sets suffix line number for a same-type sibling element', () => {
@@ -42,9 +42,9 @@ describe(targetObjName, () => {
         const firstButtonNode  = divNode.children[0];
         const secondButtonNode = divNode.children[1];
 
-        expect(firstButtonNode.suffixLineNumber  ).toEqual(2);
-        expect(secondButtonNode.suffixLineNumber ).toEqual(4);
-        expect(divNode.suffixLineNumber          ).toEqual(5);
+        expect(firstButtonNode.tailLineNumber  ).toEqual(2);
+        expect(secondButtonNode.tailLineNumber ).toEqual(4);
+        expect(divNode.tailLineNumber          ).toEqual(5);
     });
 
     it('sets suffix line number for a childless node', () => {
@@ -53,9 +53,9 @@ describe(targetObjName, () => {
         const aNode       = divNode.children[0];
         const isprintNode = aNode.children[0];
 
-        expect(isprintNode.suffixLineNumber ).toEqual(null);
-        expect(aNode.suffixLineNumber       ).toEqual(4);
-        expect(divNode.suffixLineNumber     ).toEqual(5);
+        expect(isprintNode.tailLineNumber ).toEqual(null);
+        expect(aNode.tailLineNumber       ).toEqual(4);
+        expect(divNode.tailLineNumber     ).toEqual(5);
     });
 
     it('sets suffix line number for second child, childless node', () => {
@@ -64,9 +64,9 @@ describe(targetObjName, () => {
         const spanNode = divNode.children[0];
         const aNode    = spanNode.children[1];
 
-        expect(aNode.suffixLineNumber    ).toEqual(4);
-        expect(spanNode.suffixLineNumber ).toEqual(5);
-        expect(divNode.suffixLineNumber  ).toEqual(6);
+        expect(aNode.tailLineNumber    ).toEqual(4);
+        expect(spanNode.tailLineNumber ).toEqual(5);
+        expect(divNode.tailLineNumber  ).toEqual(6);
     });
 
     it('sets suffix line number for second child, childless node II', () => {
@@ -75,9 +75,9 @@ describe(targetObjName, () => {
         const divNode      = formNode.children[0];
         const innerDivNode = divNode.children[1];
 
-        expect(innerDivNode.suffixLineNumber ).toEqual(5);
-        expect(divNode.suffixLineNumber      ).toEqual(6);
-        expect(formNode.suffixLineNumber     ).toEqual(7);
+        expect(innerDivNode.tailLineNumber ).toEqual(5);
+        expect(divNode.tailLineNumber      ).toEqual(6);
+        expect(formNode.tailLineNumber     ).toEqual(7);
     });
 
     it('sets suffix line number - Edge Case I', () => {
@@ -86,9 +86,9 @@ describe(targetObjName, () => {
         const divNode       = decoratorNode.children[0];
         const sectionNode   = divNode.children[1];
 
-        expect(sectionNode.suffixLineNumber   ).toEqual(7);
-        expect(divNode.suffixLineNumber       ).toEqual(8);
-        expect(decoratorNode.suffixLineNumber ).toEqual(9);
+        expect(sectionNode.tailLineNumber   ).toEqual(7);
+        expect(divNode.tailLineNumber       ).toEqual(8);
+        expect(decoratorNode.tailLineNumber ).toEqual(9);
     });
 
     it('sets suffix line number - Edge case II', () => {
@@ -97,9 +97,9 @@ describe(targetObjName, () => {
         const div2Node = divNode.children[0];
         const p2Node   = div2Node.children[1];
 
-        expect(p2Node.suffixLineNumber   ).toEqual(6);
-        expect(div2Node.suffixLineNumber ).toEqual(7);
-        expect(divNode.suffixLineNumber  ).toEqual(8);
+        expect(p2Node.tailLineNumber   ).toEqual(6);
+        expect(div2Node.tailLineNumber ).toEqual(7);
+        expect(divNode.tailLineNumber  ).toEqual(8);
     });
 
     it('sets suffix line number - Edge case III', () => {
@@ -108,9 +108,9 @@ describe(targetObjName, () => {
         const div2Node = divNode.children[0];
         const aNode    = div2Node.children[0];
 
-        expect(aNode.suffixLineNumber    ).toEqual(5);
-        expect(div2Node.suffixLineNumber ).toEqual(6);
-        expect(divNode.suffixLineNumber  ).toEqual(7);
+        expect(aNode.tailLineNumber    ).toEqual(5);
+        expect(div2Node.tailLineNumber ).toEqual(6);
+        expect(divNode.tailLineNumber  ).toEqual(7);
     });
 
     it('sets suffix line number - Edge case IV', () => {
@@ -118,7 +118,7 @@ describe(targetObjName, () => {
         const divNode1 = rootNode.children[0];
         const divNode4 = divNode1.children[1];
 
-        expect(divNode4.suffixLineNumber  ).toEqual(7);
+        expect(divNode4.tailLineNumber).toEqual(7);
     });
 });
 
