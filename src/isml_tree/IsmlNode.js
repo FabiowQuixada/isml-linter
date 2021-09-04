@@ -28,7 +28,7 @@ class IsmlNode {
         this.tailValue        = '';            // '</div>'
         this.tailLineNumber   = null;            // 9
         this.tailColumnNumber = null;            // 12
-        this.suffixGlobalPos  = null;            // 207
+        this.tailGlobalPos    = null;            // 207
         this.parent           = null;          // Parent isml node;
         this.children         = [];            // Child isml nodes;
         this.childNo          = 0;
@@ -40,7 +40,7 @@ class IsmlNode {
         this.tailValue           += value;
         this.tailLineNumber      = lineNumber;
         this.tailColumnNumber    = columnNumber;
-        this.suffixGlobalPos     = globalPos;
+        this.tailGlobalPos       = globalPos;
         this.suffixEndLineNumber = lineNumber;
     }
 

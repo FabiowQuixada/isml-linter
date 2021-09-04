@@ -234,9 +234,9 @@ describe('Global Position on Unix', () => {
         const tdNode        = rootNode.children[1];
         const divNode       = tdNode.children[0];
 
-        expect(iscommentNode.suffixGlobalPos).toEqual(26);
-        expect(divNode.suffixGlobalPos      ).toEqual(64);
-        expect(tdNode.suffixGlobalPos       ).toEqual(71);
+        expect(iscommentNode.tailGlobalPos).toEqual(26);
+        expect(divNode.tailGlobalPos      ).toEqual(64);
+        expect(tdNode.tailGlobalPos       ).toEqual(71);
     });
 
     it('XXV', () => {
@@ -272,7 +272,7 @@ describe('Global Position on Unix', () => {
         const rootNode   = parseTemplate(26);
         const iselseNode = rootNode.children[0].children[1];
 
-        expect(iselseNode.suffixGlobalPos).toEqual(52);
+        expect(iselseNode.tailGlobalPos).toEqual(52);
     });
 
     it('XXIX', () => {

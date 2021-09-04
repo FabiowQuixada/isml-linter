@@ -402,16 +402,16 @@ describe(targetObjName, () => {
         const a4Node   = a3Node.children[0];
 
         expect(a1Node.tailValue).toEqual(`${Constants.EOL}</a1>${Constants.EOL}`);
-        expect(a1Node.suffixGlobalPos).toEqual(47);
+        expect(a1Node.tailGlobalPos).toEqual(47);
 
         expect(a2Node.tailValue).toEqual(`${Constants.EOL}</a2>`);
-        expect(a2Node.suffixGlobalPos).toEqual(40);
+        expect(a2Node.tailGlobalPos).toEqual(40);
 
         expect(a3Node.tailValue).toEqual(`${Constants.EOL}</a3>`);
-        expect(a3Node.suffixGlobalPos).toEqual(33);
+        expect(a3Node.tailGlobalPos).toEqual(33);
 
         expect(a4Node.tailValue).toEqual(`${Constants.EOL}${Constants.EOL}</a4>`);
-        expect(a4Node.suffixGlobalPos).toEqual(26);
+        expect(a4Node.tailGlobalPos).toEqual(26);
     });
 
     it('calculates node suffix line number', () => {

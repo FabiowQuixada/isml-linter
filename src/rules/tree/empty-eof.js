@@ -35,14 +35,14 @@ Rule.check = function(rootNode, data) {
             const trailingSpaces   = node.tailValue.substring(lastLineBreakPos + 1);
 
             if (trailingSpaces.length > 0) {
-                globalPos = node.suffixGlobalPos + node.tailValue.trim().length + 1;
+                globalPos = node.tailGlobalPos + node.tailValue.trim().length + 1;
                 length    = trailingSpaces.length;
 
                 if (data.isCrlfLineBreak) {
                     globalPos += ParseUtils.getLineBreakQty(node.tailValue.trimStart());
                 }
             } else {
-                globalPos = node.suffixGlobalPos + 1;
+                globalPos = node.tailGlobalPos + 1;
                 length    = node.tailValue.trim().length;
             }
         }

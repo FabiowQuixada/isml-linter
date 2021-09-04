@@ -226,13 +226,13 @@ Rule.check = function(node, data) {
             const occurrenceLength    = actualIndentation === 0 ?
                 nodeTailValue.length +  ParseUtils.getLineBreakQty(nodeTailValue) :
                 getActualIndentationForSuffix(node);
-            const suffixGlobalPos     = node.suffixGlobalPos - getActualIndentationForSuffix(node);
+            const tailGlobalPos       = node.tailGlobalPos - getActualIndentationForSuffix(node);
 
             const error = this.getError(
                 node.tailValue.trim(),
                 node.tailLineNumber,
                 node.tailColumnNumber,
-                suffixGlobalPos,
+                tailGlobalPos,
                 occurrenceLength,
                 getOccurrenceDescription(expectedIndentation, actualIndentation)
             );

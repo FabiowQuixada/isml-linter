@@ -233,9 +233,9 @@ describe('Global Position on Windows', () => {
         const tdNode        = rootNode.children[1];
         const divNode       = tdNode.children[0];
 
-        expect(iscommentNode.suffixGlobalPos).toEqual(28);
-        expect(divNode.suffixGlobalPos      ).toEqual(71);
-        expect(tdNode.suffixGlobalPos       ).toEqual(79);
+        expect(iscommentNode.tailGlobalPos).toEqual(28);
+        expect(divNode.tailGlobalPos      ).toEqual(71);
+        expect(tdNode.tailGlobalPos       ).toEqual(79);
     });
 
     it('XXV', () => {
@@ -271,7 +271,7 @@ describe('Global Position on Windows', () => {
         const rootNode   = parseTemplate(26);
         const iselseNode = rootNode.children[0].children[1];
 
-        expect(iselseNode.suffixGlobalPos).toEqual(54);
+        expect(iselseNode.tailGlobalPos).toEqual(54);
     });
 
     it('XXIX', () => {
