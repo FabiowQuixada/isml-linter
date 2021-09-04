@@ -1,5 +1,5 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
-const SfccTags          = require('../../enums/SfccTags');
+const SfccTagContainer  = require('../../enums/SfccTagContainer');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Embedded ISML is not allowed';
@@ -15,7 +15,7 @@ Rule.isBroken = function(node) {
 
     const attrList   = node.getAttributeList();
     const nodeType   = node.getType();
-    const sfccTagObj = SfccTags[nodeType];
+    const sfccTagObj = SfccTagContainer[nodeType];
     let result       = null;
 
     attrList.some( nodeAttribute => {

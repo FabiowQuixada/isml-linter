@@ -4,12 +4,12 @@
  * simply analyze it and return relevant information;
  */
 
-const path           = require('path');
-const Constants      = require('../Constants');
-const ExceptionUtils = require('../util/ExceptionUtils');
-const SfccTags       = require('../enums/SfccTags');
-const GeneralUtils   = require('../util/GeneralUtils');
-const MaskUtils      = require('./MaskUtils');
+const path             = require('path');
+const Constants        = require('../Constants');
+const ExceptionUtils   = require('../util/ExceptionUtils');
+const SfccTagContainer = require('../enums/SfccTagContainer');
+const GeneralUtils     = require('../util/GeneralUtils');
+const MaskUtils        = require('./MaskUtils');
 
 const getNextNonEmptyChar = content => {
     return content.replace(new RegExp(Constants.EOL, 'g'), '').trim()[0];
@@ -175,7 +175,7 @@ const parseTagOrExpressionElement = (state, newElement) => {
     if (isTag) {
         newElement.tagType = getElementType(trimmedElement);
 
-        newElement.isCustomTag = newElement.type === 'ismlTag' && !SfccTags[newElement.tagType];
+        newElement.isCustomTag = newElement.type === 'ismlTag' && !SfccTagContainer[newElement.tagType];
     }
 
     newElement.isSelfClosing = isSelfClosing(trimmedElement);
@@ -231,10 +231,10 @@ function isSelfClosing(trimmedElement) {
     const isHtmlComment        = trimmedElement.startsWith('<!--') && trimmedElement.endsWith('-->');
     const isClosingTag         = trimmedElement.endsWith('/>');
     const isIsmlTag            = trimmedElement.startsWith('<is');
-    const isStandardIsmlTag    = !!SfccTags[elementType];
+    const isStandardIsmlTag    = !!SfccTagContainer[elementType];
     const isCustomIsmlTag      = isIsmlTag && !isStandardIsmlTag;
     const isExpression         = trimmedElement.startsWith('${') && trimmedElement.endsWith('}');
-    const isSfccSelfClosingTag = SfccTags[elementType] && SfccTags[elementType]['self-closing'];
+    const isSfccSelfClosingTag = SfccTagContainer[elementType] && SfccTagContainer[elementType]['self-closing'];
 
     // 'isif' tag is never self-closing;
     if (['isif'].indexOf(elementType) >= 0) {

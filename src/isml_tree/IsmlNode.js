@@ -1,10 +1,10 @@
 const MAX_TEXT_DISPLAY_SIZE = 30;
 
-const ConfigUtils = require('../util/ConfigUtils');
-const Constants   = require('../Constants');
-const SfccTags    = require('../enums/SfccTags');
-const ParseUtils  = require('./ParseUtils');
-const MaskUtils   = require('./MaskUtils');
+const ConfigUtils      = require('../util/ConfigUtils');
+const Constants        = require('../Constants');
+const SfccTagContainer = require('../enums/SfccTagContainer');
+const ParseUtils       = require('./ParseUtils');
+const MaskUtils        = require('./MaskUtils');
 
 let ID_COUNTER = 0;
 
@@ -193,7 +193,7 @@ class IsmlNode {
     }
 
     isStandardIsmlTag() {
-        return !!SfccTags[this.getType()];
+        return !!SfccTagContainer[this.getType()];
     }
 
     isCustomIsmlTag() {
@@ -300,7 +300,7 @@ class IsmlNode {
             this.isHtmlComment() ||
             this.isTag() && this.head.trim().endsWith('/>')) ||
             this.isCustomIsmlTag() ||
-            this.isIsmlTag() && SfccTags[this.getType()] && SfccTags[this.getType()]['self-closing'];
+            this.isIsmlTag() && SfccTagContainer[this.getType()] && SfccTagContainer[this.getType()]['self-closing'];
     }
 
     isOfType(type) {
