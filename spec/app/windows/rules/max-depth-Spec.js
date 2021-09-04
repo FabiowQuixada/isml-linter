@@ -31,7 +31,7 @@ describe(rule.id, () => {
         expect(occurrenceList.level).toEqual('warning');
     });
 
-    it('detects the whole element body, including suffix and inner content', () => {
+    it('detects the whole element body, including tail and inner content', () => {
         const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak);
         const occurrence = result[0];
 

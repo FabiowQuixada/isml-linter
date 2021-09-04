@@ -394,7 +394,7 @@ describe(targetObjName, () => {
         expect(divNode.getChildrenQty()).toEqual(0);
     });
 
-    it('calculates node suffix global position', () => {
+    it('calculates node tail global position', () => {
         const rootNode = getRootNodeFromTemplate(40);
         const a1Node   = rootNode.children[0];
         const a2Node   = a1Node.children[0];
@@ -414,7 +414,7 @@ describe(targetObjName, () => {
         expect(a4Node.tailGlobalPos).toEqual(26);
     });
 
-    it('calculates node suffix line number', () => {
+    it('calculates node tail line number', () => {
         const rootNode = getRootNodeFromTemplate(41);
         const a1Node   = rootNode.children[0];
         const a2Node   = a1Node.children[0];
@@ -443,7 +443,7 @@ describe(targetObjName, () => {
         expect(tree.exception.lineNumber ).toEqual(3);
     });
 
-    it('sets the suffix of a dynamic node correctly', () => {
+    it('sets the tail of a dynamic node correctly', () => {
         const rootNode    = getRootNodeFromTemplate(43);
         const dynamicNode = rootNode.children[0];
 

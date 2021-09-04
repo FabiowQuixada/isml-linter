@@ -14,7 +14,7 @@ describe(targetObjName, () => {
         SpecHelper.afterEach();
     });
 
-    it('sets <isif> element suffix line number I', () => {
+    it('sets <isif> element tail line number I', () => {
         const rootNode     = getRootNodeFromTemplate(0);
         const mainIsifNode = rootNode.children[0].children[0];
         const divNode      = mainIsifNode.children[0];
@@ -23,7 +23,7 @@ describe(targetObjName, () => {
         expect(mainIsifNode.tailLineNumber ).toEqual(4);
     });
 
-    it('sets <isif> element suffix line number II', () => {
+    it('sets <isif> element tail line number II', () => {
         const rootNode       = getRootNodeFromTemplate(1);
         const mainIsifNode   = rootNode.children[0].children[0];
         const preNode        = mainIsifNode.children[0];
@@ -36,7 +36,7 @@ describe(targetObjName, () => {
         expect(mainIsifNode.tailLineNumber  ).toEqual(8);
     });
 
-    it('sets suffix line number for a same-type sibling element', () => {
+    it('sets tail line number for a same-type sibling element', () => {
         const rootNode         = getRootNodeFromTemplate(2);
         const divNode          = rootNode.children[0];
         const firstButtonNode  = divNode.children[0];
@@ -47,7 +47,7 @@ describe(targetObjName, () => {
         expect(divNode.tailLineNumber          ).toEqual(5);
     });
 
-    it('sets suffix line number for a childless node', () => {
+    it('sets tail line number for a childless node', () => {
         const rootNode    = getRootNodeFromTemplate(3);
         const divNode     = rootNode.children[0];
         const aNode       = divNode.children[0];
@@ -58,7 +58,7 @@ describe(targetObjName, () => {
         expect(divNode.tailLineNumber     ).toEqual(5);
     });
 
-    it('sets suffix line number for second child, childless node', () => {
+    it('sets tail line number for second child, childless node', () => {
         const rootNode = getRootNodeFromTemplate(4);
         const divNode  = rootNode.children[0];
         const spanNode = divNode.children[0];
@@ -69,7 +69,7 @@ describe(targetObjName, () => {
         expect(divNode.tailLineNumber  ).toEqual(6);
     });
 
-    it('sets suffix line number for second child, childless node II', () => {
+    it('sets tail line number for second child, childless node II', () => {
         const rootNode     = getRootNodeFromTemplate(5);
         const formNode     = rootNode.children[0];
         const divNode      = formNode.children[0];
@@ -80,7 +80,7 @@ describe(targetObjName, () => {
         expect(formNode.tailLineNumber     ).toEqual(7);
     });
 
-    it('sets suffix line number - Edge Case I', () => {
+    it('sets tail line number - Edge Case I', () => {
         const rootNode      = getRootNodeFromTemplate(6);
         const decoratorNode = rootNode.children[0];
         const divNode       = decoratorNode.children[0];
@@ -91,7 +91,7 @@ describe(targetObjName, () => {
         expect(decoratorNode.tailLineNumber ).toEqual(9);
     });
 
-    it('sets suffix line number - Edge case II', () => {
+    it('sets tail line number - Edge case II', () => {
         const rootNode = getRootNodeFromTemplate(7);
         const divNode  = rootNode.children[0];
         const div2Node = divNode.children[0];
@@ -102,7 +102,7 @@ describe(targetObjName, () => {
         expect(divNode.tailLineNumber  ).toEqual(8);
     });
 
-    it('sets suffix line number - Edge case III', () => {
+    it('sets tail line number - Edge case III', () => {
         const rootNode = getRootNodeFromTemplate(8);
         const divNode  = rootNode.children[0];
         const div2Node = divNode.children[0];
@@ -113,7 +113,7 @@ describe(targetObjName, () => {
         expect(divNode.tailLineNumber  ).toEqual(7);
     });
 
-    it('sets suffix line number - Edge case IV', () => {
+    it('sets tail line number - Edge case IV', () => {
         const rootNode = getRootNodeFromTemplate(9);
         const divNode1 = rootNode.children[0];
         const divNode4 = divNode1.children[1];

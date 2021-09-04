@@ -89,7 +89,7 @@ const parseContainerElements = (element, currentParent, newNode, templatePath) =
             );
         }
 
-        currentParent.setSuffix(element.value, element.lineNumber, element.columnNumber, element.globalPos);
+        currentParent.setTail(element.value, element.lineNumber, element.columnNumber, element.globalPos);
         currentParent = currentParent.parent.parent;
 
         return {
@@ -118,10 +118,10 @@ const parseNonContainerElements = (element, currentParent, newNode, templatePath
         const parentLastChild = currentParent.getLastChild();
 
         if (element.tagType === currentParent.getType()) {
-            currentParent.setSuffix(element.value, element.lineNumber, element.columnNumber, element.globalPos);
+            currentParent.setTail(element.value, element.lineNumber, element.columnNumber, element.globalPos);
 
         } else if (element.isCustomTag && element.tagType === parentLastChild.getType()) {
-            parentLastChild.setSuffix(element.value, element.lineNumber, element.columnNumber, element.globalPos);
+            parentLastChild.setTail(element.value, element.lineNumber, element.columnNumber, element.globalPos);
 
             currentParent = parentLastChild;
 
@@ -218,7 +218,7 @@ const build = (templatePath, content, isCrlfLineBreak) => {
 
 /**
  * In the main part of tree build, a node A might hold the next node B's indentation in the last part of
- * A, be it in its value or suffix value. This function removes that trailing indentation from A and
+ * A, be it in its value or tail value. This function removes that trailing indentation from A and
  * adds it to B as a leading indentation;
  */
 function rectifyNodeIndentation(node, child) {

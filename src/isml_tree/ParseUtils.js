@@ -195,13 +195,13 @@ const parseTextElement = (state, newElement) => {
 
 const getElementType = trimmedElement => {
     if (trimmedElement.startsWith('</')) {
-        const suffixElementType = trimmedElement.slice(2, -1);
+        const tailElementType = trimmedElement.slice(2, -1);
 
-        if (suffixElementType.startsWith('${')) {
+        if (tailElementType.startsWith('${')) {
             return 'dynamic_element';
         }
 
-        return suffixElementType;
+        return tailElementType;
     } else {
 
         const typeValueLastPos = Math.min(...[

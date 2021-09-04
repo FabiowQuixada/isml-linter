@@ -78,10 +78,6 @@ TreeRulePrototype.fix = function(stream = '') {
             this.getFixedContent(node, stream);
     }
 
-    if (!this.isRoot() && !this.isContainer()) {
-        stream += this.suffix;
-    }
-
     return stream;
 };
 

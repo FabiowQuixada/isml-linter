@@ -58,11 +58,11 @@ Rule.isBroken = function(node) {
         !node.isInSameLineAsPreviousSibling();
 };
 
-Rule.isBrokenForSuffix = function(node) {
+Rule.isTailBroken = function(node) {
 
     const configIndentSize         = this.getConfigs().indent;
     const expectedIndentation      = getExpectedIndentation(node, configIndentSize);
-    const actualIndentation        = getActualIndentationForSuffix(node);
+    const actualIndentation        = getActualTailIndentation(node);
     const isInSameLineAsOpeningTag = node.lineNumber === node.tailLineNumber;
     const isInSameLineAsLastChild  = node.hasChildren() && node.getLastChild().getLastLineNumber() === node.tailLineNumber;
 
@@ -217,16 +217,16 @@ Rule.check = function(node, data) {
             }
         }
 
-        // Checks node suffix value;
-        if (node.tailValue && this.isBrokenForSuffix(node)) {
+        // Checks node tail value;
+        if (node.tailValue && this.isTailBroken(node)) {
             const configIndentSize    = ruleConfig.indent;
             const expectedIndentation = getExpectedIndentation(node, configIndentSize);
-            const actualIndentation   = getActualIndentationForSuffix(node);
+            const actualIndentation   = getActualTailIndentation(node);
             const nodeTailValue       = node.tailValue.trim();
             const occurrenceLength    = actualIndentation === 0 ?
                 nodeTailValue.length +  ParseUtils.getLineBreakQty(nodeTailValue) :
-                getActualIndentationForSuffix(node);
-            const tailGlobalPos       = node.tailGlobalPos - getActualIndentationForSuffix(node);
+                getActualTailIndentation(node);
+            const tailGlobalPos       = node.tailGlobalPos - getActualTailIndentation(node);
 
             const error = this.getError(
                 node.tailValue.trim(),
@@ -644,14 +644,14 @@ const addIndentation = (node, isOpeningTag) => {
 const removeAllIndentation = node => {
     if (!node.isRoot() && !node.isContainer() && !node.parent.isOneOfTypes(['isscript', 'script'])) {
 
-        const shouldRemoveValueIndentation  = node.head && !node.isInSameLineAsPreviousSibling() && !node.isInSameLineAsParent() && !(node.lineNumber === node.parent.endLineNumber);
-        const shouldRemoveSuffixIndentation = node.tailValue && !(node.hasChildren() && node.getLastChild().lineNumber === node.tailLineNumber);
+        const shouldRemoveValueIndentation = node.head && !node.isInSameLineAsPreviousSibling() && !node.isInSameLineAsParent() && !(node.lineNumber === node.parent.endLineNumber);
+        const shouldRemoveTailIndentation  = node.tailValue && !(node.hasChildren() && node.getLastChild().lineNumber === node.tailLineNumber);
 
         if (shouldRemoveValueIndentation) {
             node.head = removeIndentation(node.head);
         }
 
-        if (shouldRemoveSuffixIndentation) {
+        if (shouldRemoveTailIndentation) {
             node.tailValue = removeIndentation(node.tailValue);
         }
     }
@@ -671,14 +671,14 @@ const addCorrectIndentation = node => {
                 node.head = addIndentationToText(node);
             }
         } else {
-            const shouldAddIndentationToValue  = checkIfShouldAddIndentationToValue(node);
-            const shouldAddIndentationToSuffix = checkIfShouldAddIndentationToSuffix(node);
+            const shouldAddIndentationToValue = checkIfShouldAddIndentationToValue(node);
+            const shouldAddIndentationToTail  = checkIfShouldAddIndentationToTail(node);
 
             if (shouldAddIndentationToValue) {
                 node.head = addIndentation(node, true);
             }
 
-            if (shouldAddIndentationToSuffix) {
+            if (shouldAddIndentationToTail) {
                 node.tailValue = addIndentation(node, false);
             }
         }
@@ -743,15 +743,15 @@ const checkIfShouldAddIndentationToValue = node => {
     return shouldAdd;
 };
 
-const checkIfShouldAddIndentationToSuffix = node => {
-    const hasSuffix                 = !!node.tailValue;
+const checkIfShouldAddIndentationToTail = node => {
+    const hasTail                   = !!node.tailValue;
     const isLastClause              = !!node.parent && node.parent.isContainer() && !node.isLastChild();
     const isInSameLineAsChild       = !node.hasChildren() || node.getLastChild().isInSameLineAsParent();
-    const isSuffixInSameLineAsChild = !node.hasChildren() || node.tailLineNumber === node.getLastChild().getLastLineNumber();
+    const isTailInSameLineAsChild   = !node.hasChildren() || node.tailLineNumber === node.getLastChild().getLastLineNumber();
     const isBrokenIntoMultipleLines = !node.hasChildren() && node.tailLineNumber && node.lineNumber !== node.tailLineNumber;
 
-    const shouldAdd = hasSuffix &&
-        !isSuffixInSameLineAsChild &&
+    const shouldAdd = hasTail &&
+        !isTailInSameLineAsChild &&
         !isInSameLineAsChild &&
         !isLastClause
     ||
@@ -848,6 +848,6 @@ const getNonStandAloneCharDescription  = (tagName, closingChars) => `"${closingC
 const getOccurrenceDescription         = (expected, actual) => `Expected indentation of ${expected} spaces but found ${actual}`;
 const getExpectedIndentation           = (node, configIndentSize) => (node.depth - 1) * configIndentSize;
 const getActualIndentation             = node => node.getIndentationSize();
-const getActualIndentationForSuffix    = node => node.getSuffixIndentationSize() + getEslintChildTrailingSpaces(node);
+const getActualTailIndentation         = node => node.getTailIndentationSize() + getEslintChildTrailingSpaces(node);
 
 module.exports = Rule;

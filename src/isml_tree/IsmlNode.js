@@ -35,8 +35,8 @@ class IsmlNode {
         this.isEmbeddedNode   = !!isEmbeddedNode;
     }
 
-    // Suffix is the element corresponding closing tag, such as </div>
-    setSuffix(value, lineNumber, columnNumber, globalPos) {
+    // Tail is the element corresponding closing tag, such as </div>
+    setTail(value, lineNumber, columnNumber, globalPos) {
         this.tailValue         += value;
         this.tailLineNumber    = lineNumber;
         this.tailColumnNumber  = columnNumber;
@@ -156,7 +156,7 @@ class IsmlNode {
         return getNodeIndentationSize(this, true);
     }
 
-    getSuffixIndentationSize() {
+    getTailIndentationSize() {
         return getNodeIndentationSize(this, false);
     }
 

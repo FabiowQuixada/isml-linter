@@ -117,7 +117,7 @@ describe(rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
-    it('keeps suffix indentation for a single-child node', () => {
+    it('keeps tail indentation for a single-child node', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 8);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
@@ -276,7 +276,7 @@ describe(rule.id, () => {
         expect(result.length).toEqual(0);
     });
 
-    it('identifies wrong indentation on node suffix value', () => {
+    it('identifies wrong indentation on node tail value', () => {
         const result              = SpecHelper.parseAndApplyRuleToTemplate(rule, 18, isCrlfLineBreak);
         const valueOccurrence     = result[0];
         const tailValueOccurrence = result[1];
@@ -368,13 +368,13 @@ describe(rule.id, () => {
         expect(result.length).toEqual(0);
     });
 
-    it('keeps suffix indentation for node with a last child with trailing spaces', () => {
+    it('keeps tail indentation for node with a last child with trailing spaces', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 17);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
-    it('keeps suffix indentation for node with a previous sibling with trailing spaces', () => {
+    it('keeps tail indentation for node with a previous sibling with trailing spaces', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 18);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
@@ -464,7 +464,7 @@ describe(rule.id, () => {
         expect(result.length).toEqual(0);
     });
 
-    it('allows element to be in the same line as previous sibling suffix', () => {
+    it('allows element to be in the same line as previous sibling tail', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 33, isCrlfLineBreak);
 
         expect(result.length).toEqual(0);

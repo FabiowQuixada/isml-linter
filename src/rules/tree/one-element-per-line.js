@@ -48,7 +48,7 @@ Rule.isBroken = function(node) {
 //             child.head = `${Constants.EOL}${indentation}${child.head}${Constants.EOL}${parentIndentation}`;
 
 //             if (child.tailValue) {
-//                 child.setSuffix(`${Constants.EOL}${indentation}${child.tailValue}${Constants.EOL}`);
+//                 child.setTail(`${Constants.EOL}${indentation}${child.tailValue}${Constants.EOL}`);
 //             }
 //         }
 
