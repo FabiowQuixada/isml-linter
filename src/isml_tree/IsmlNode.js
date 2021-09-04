@@ -11,7 +11,7 @@ let ID_COUNTER = 0;
 class IsmlNode {
 
     /**
-     * @param {String} head           node opening tag value, including attributes
+     * @param {String} head            node opening tag value, including attributes
      * @param {Number} lineNumber      node starting line number
      * @param {Number} columnNumber    node starting column number
      * @param {Number} globalPos       node starting position since the beginning of the file
@@ -19,16 +19,16 @@ class IsmlNode {
      */
     constructor(head = '(root)', lineNumber = 0, columnNumber, globalPos, isEmbeddedNode) {
         this.id               = ID_COUNTER++;
-        this.head             = head;         // '<div class="my_class">'
+        this.head             = head;          // '<div class="my_class">'
         this.lineNumber       = lineNumber;    // 7
         this.columnNumber     = columnNumber;  // 12
         this.endLineNumber    = lineNumber + ParseUtils.getLineBreakQty(head.trim()); // 9
         this.globalPos        = globalPos;     // 184
         this.depth            = 0;             // Isml dom tree node depth
         this.tail             = '';            // '</div>'
-        this.tailLineNumber   = null;            // 9
-        this.tailColumnNumber = null;            // 12
-        this.tailGlobalPos    = null;            // 207
+        this.tailLineNumber   = null;          // 9
+        this.tailColumnNumber = null;          // 12
+        this.tailGlobalPos    = null;          // 207
         this.parent           = null;          // Parent isml node;
         this.children         = [];            // Child isml nodes;
         this.childNo          = 0;
