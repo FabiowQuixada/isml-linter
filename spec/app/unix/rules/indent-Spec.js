@@ -277,14 +277,14 @@ describe('On Unix, ' + rule.id, () => {
     });
 
     it('identifies wrong indentation on node suffix value', () => {
-        const result                = SpecHelper.parseAndApplyRuleToTemplate(rule, 18, isCrlfLineBreak);
-        const valueOccurrence       = result[0];
-        const suffixValueOccurrence = result[1];
+        const result              = SpecHelper.parseAndApplyRuleToTemplate(rule, 18, isCrlfLineBreak);
+        const valueOccurrence     = result[0];
+        const tailValueOccurrence = result[1];
 
-        expect(valueOccurrence.globalPos      ).toEqual(0);
-        expect(valueOccurrence.length         ).toEqual(8);
-        expect(suffixValueOccurrence.globalPos).toEqual(17);
-        expect(suffixValueOccurrence.length   ).toEqual(10);
+        expect(valueOccurrence.globalPos    ).toEqual(0);
+        expect(valueOccurrence.length       ).toEqual(8);
+        expect(tailValueOccurrence.globalPos).toEqual(17);
+        expect(tailValueOccurrence.length   ).toEqual(10);
     });
 
     it('checks indentation for an "isif" tag after an expression', () => {

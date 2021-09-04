@@ -12,8 +12,8 @@ Rule.init(ruleId, description);
 Rule.isBroken = function(node) {
     const tempNode = node.isContainer() ? node.getLastChild() : node;
 
-    return !(tempNode.suffixValue ?
-        tempNode.suffixValue.endsWith(Constants.EOL) :
+    return !(tempNode.tailValue ?
+        tempNode.tailValue.endsWith(Constants.EOL) :
         tempNode.head.endsWith(Constants.EOL));
 };
 
@@ -30,20 +30,20 @@ Rule.check = function(rootNode, data) {
         let globalPos      = node.globalPos;
         let length         = node.head.trim().length;
 
-        if (node.suffixValue) {
-            const lastLineBreakPos = node.suffixValue.lastIndexOf(Constants.EOL);
-            const trailingSpaces   = node.suffixValue.substring(lastLineBreakPos + 1);
+        if (node.tailValue) {
+            const lastLineBreakPos = node.tailValue.lastIndexOf(Constants.EOL);
+            const trailingSpaces   = node.tailValue.substring(lastLineBreakPos + 1);
 
             if (trailingSpaces.length > 0) {
-                globalPos = node.suffixGlobalPos + node.suffixValue.trim().length + 1;
+                globalPos = node.suffixGlobalPos + node.tailValue.trim().length + 1;
                 length    = trailingSpaces.length;
 
                 if (data.isCrlfLineBreak) {
-                    globalPos += ParseUtils.getLineBreakQty(node.suffixValue.trimStart());
+                    globalPos += ParseUtils.getLineBreakQty(node.tailValue.trimStart());
                 }
             } else {
                 globalPos = node.suffixGlobalPos + 1;
-                length    = node.suffixValue.trim().length;
+                length    = node.tailValue.trim().length;
             }
         }
 

@@ -89,7 +89,7 @@ const checkBalance = (node, templatePath) => {
     if (!node.isRoot() &&
         node.parent && !node.parent.isContainer() &&
         (node.isHtmlTag() || node.isIsmlTag()) &&
-        !node.isSelfClosing() && !node.suffixValue
+        !node.isSelfClosing() && !node.tailValue
         && !node.parent.isOfType('iscomment')
     ) {
         throw ExceptionUtils.unbalancedElementError(

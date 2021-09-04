@@ -218,18 +218,18 @@ Rule.check = function(node, data) {
         }
 
         // Checks node suffix value;
-        if (node.suffixValue && this.isBrokenForSuffix(node)) {
+        if (node.tailValue && this.isBrokenForSuffix(node)) {
             const configIndentSize    = ruleConfig.indent;
             const expectedIndentation = getExpectedIndentation(node, configIndentSize);
             const actualIndentation   = getActualIndentationForSuffix(node);
-            const nodeSuffixValue     = node.suffixValue.trim();
+            const nodeTailValue       = node.tailValue.trim();
             const occurrenceLength    = actualIndentation === 0 ?
-                nodeSuffixValue.length +  ParseUtils.getLineBreakQty(nodeSuffixValue) :
+                nodeTailValue.length +  ParseUtils.getLineBreakQty(nodeTailValue) :
                 getActualIndentationForSuffix(node);
             const suffixGlobalPos     = node.suffixGlobalPos - getActualIndentationForSuffix(node);
 
             const error = this.getError(
-                node.suffixValue.trim(),
+                node.tailValue.trim(),
                 node.suffixLineNumber,
                 node.suffixColumnNumber,
                 suffixGlobalPos,
@@ -600,7 +600,7 @@ const getClosingChars = node => {
 };
 
 const addIndentation = (node, isOpeningTag) => {
-    const content             = isOpeningTag ? node.head : node.suffixValue;
+    const content             = isOpeningTag ? node.head : node.tailValue;
     const startingPos         = ParseUtils.getNextNonEmptyCharPos(content);
     const endingPos           = content.length - ParseUtils.getNextNonEmptyCharPos(content.split('').reverse().join(''));
     const fullLeadingContent  = content.substring(0, startingPos);
@@ -635,7 +635,7 @@ const addIndentation = (node, isOpeningTag) => {
             contentResult = node.head.trim();
         }
     } else {
-        contentResult = node.suffixValue.trim();
+        contentResult = node.tailValue.trim();
     }
 
     return preLineBreakContent + nodeIndentation + contentResult + fullTrailingContent;
@@ -645,14 +645,14 @@ const removeAllIndentation = node => {
     if (!node.isRoot() && !node.isContainer() && !node.parent.isOneOfTypes(['isscript', 'script'])) {
 
         const shouldRemoveValueIndentation  = node.head && !node.isInSameLineAsPreviousSibling() && !node.isInSameLineAsParent() && !(node.lineNumber === node.parent.endLineNumber);
-        const shouldRemoveSuffixIndentation = node.suffixValue && !(node.hasChildren() && node.getLastChild().lineNumber === node.suffixLineNumber);
+        const shouldRemoveSuffixIndentation = node.tailValue && !(node.hasChildren() && node.getLastChild().lineNumber === node.suffixLineNumber);
 
         if (shouldRemoveValueIndentation) {
             node.head = removeIndentation(node.head);
         }
 
         if (shouldRemoveSuffixIndentation) {
-            node.suffixValue = removeIndentation(node.suffixValue);
+            node.tailValue = removeIndentation(node.tailValue);
         }
     }
 
@@ -679,7 +679,7 @@ const addCorrectIndentation = node => {
             }
 
             if (shouldAddIndentationToSuffix) {
-                node.suffixValue = addIndentation(node, false);
+                node.tailValue = addIndentation(node, false);
             }
         }
     }
@@ -744,7 +744,7 @@ const checkIfShouldAddIndentationToValue = node => {
 };
 
 const checkIfShouldAddIndentationToSuffix = node => {
-    const hasSuffix                 = !!node.suffixValue;
+    const hasSuffix                 = !!node.tailValue;
     const isLastClause              = !!node.parent && node.parent.isContainer() && !node.isLastChild();
     const isInSameLineAsChild       = !node.hasChildren() || node.getLastChild().isInSameLineAsParent();
     const isSuffixInSameLineAsChild = !node.hasChildren() || node.suffixLineNumber === node.getLastChild().getLastLineNumber();

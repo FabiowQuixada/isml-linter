@@ -241,7 +241,7 @@ function rectifyNodeIndentation(node, child) {
         trailingLineBreakQty = ParseUtils.getTrailingEmptyCharsQty(child.head);
         child.head           = child.head.substring(0, child.head.length - trailingLineBreakQty);
 
-        node.suffixValue = ParseUtils.getBlankSpaceString(trailingLineBreakQty) + node.suffixValue;
+        node.tailValue = ParseUtils.getBlankSpaceString(trailingLineBreakQty) + node.tailValue;
     }
 }
 

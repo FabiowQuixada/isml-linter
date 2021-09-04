@@ -25,7 +25,7 @@ class IsmlNode {
         this.endLineNumber      = lineNumber + ParseUtils.getLineBreakQty(head.trim()); // 9
         this.globalPos          = globalPos;     // 184
         this.depth              = 0;             // Isml dom tree node depth
-        this.suffixValue        = '';            // '</div>'
+        this.tailValue          = '';            // '</div>'
         this.suffixLineNumber   = null;            // 9
         this.suffixColumnNumber = null;            // 12
         this.suffixGlobalPos    = null;            // 207
@@ -37,7 +37,7 @@ class IsmlNode {
 
     // Suffix is the element corresponding closing tag, such as </div>
     setSuffix(value, lineNumber, columnNumber, globalPos) {
-        this.suffixValue         += value;
+        this.tailValue           += value;
         this.suffixLineNumber    = lineNumber;
         this.suffixColumnNumber  = columnNumber;
         this.suffixGlobalPos     = globalPos;
@@ -142,7 +142,7 @@ class IsmlNode {
             this.children.push(newNode);
             this.newestChildNode = newNode;
         } else {
-            this.suffixValue = newNode.head + this.suffixValue;
+            this.tailValue = newNode.head + this.tailValue;
         }
 
         newNode.isEmbeddedNode = this.isEmbeddedNode;
@@ -281,7 +281,7 @@ class IsmlNode {
     }
 
     getTrailingValue() {
-        return this.suffixValue || this.head;
+        return this.tailValue || this.head;
     }
 
     // Checks if node is HTML 5 void element;
@@ -379,7 +379,7 @@ class IsmlNode {
         }
 
         if (!this.isRoot() && !this.isContainer()) {
-            stream += this.suffixValue;
+            stream += this.tailValue;
         }
 
         return stream;
@@ -601,7 +601,7 @@ const getNodeIndentationSize = (node, isNodeHead) => {
         return 0;
     }
 
-    const content                    = isNodeHead ? node.head : node.suffixValue;
+    const content                    = isNodeHead ? node.head : node.tailValue;
     const precedingEmptySpacesLength = content.search(/\S|$/);
     const fullPrecedingEmptySpaces   = content.substring(0, precedingEmptySpacesLength);
     const lineBreakLastPos           = Math.max(fullPrecedingEmptySpaces.lastIndexOf(Constants.EOL), 0);
