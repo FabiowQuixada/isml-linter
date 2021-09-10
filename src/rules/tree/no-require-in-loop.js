@@ -48,7 +48,7 @@ Rule.check = function(node, data) {
 
         const error = this.getError(
             node.head.trim(),
-            node.lineNumber,
+            node.lineNumber + lineOffset,
             node.columnNumber + node.head.trim().indexOf('require('),
             globalPos,
             length

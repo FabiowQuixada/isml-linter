@@ -1,5 +1,5 @@
 <isloop items="${attr.values}" var="attrValue">
-    <option value="${attrValue.url}" 
+    <option value="${attrValue.url}"
         data-one="one"
         data-two="two"
         data-abc="${require('cartridge')}"

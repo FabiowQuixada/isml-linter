@@ -1,7 +1,8 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
 
-const rule = SpecHelper.getTreeRule(specFileName);
+const rule            = SpecHelper.getTreeRule(specFileName);
+const isCrlfLineBreak = false;
 
 describe('On Unix, ' + rule.id, () => {
     beforeEach(() => {
@@ -13,7 +14,7 @@ describe('On Unix, ' + rule.id, () => {
     });
 
     it('detects "require()" calls within loops', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 0, isCrlfLineBreak)[0];
 
         expect(result.line        ).toEqual('<isset name="basket" value="${require(\'dw.order.Basket\')}" scope="page"/>');
         expect(result.lineNumber  ).toEqual(3);
@@ -25,32 +26,38 @@ describe('On Unix, ' + rule.id, () => {
     });
 
     it('allows "require()" calls outside loops', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak);
 
         expect(result).toEqual([]);
     });
 
     it('allows loops with no "require()" calls', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2);
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 2, isCrlfLineBreak);
 
         expect(result).toEqual([]);
     });
 
     it('provides occurrence global position', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak)[0];
 
         expect(result.globalPos).toEqual(72);
     });
 
     it('provides occurrence global position II', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak)[0];
 
-        expect(result.globalPos).toEqual(152);
+        expect(result.globalPos).toEqual(151);
     });
 
     it('provides occurrence length', () => {
-        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3)[0];
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak)[0];
 
         expect(result.length).toEqual(20);
+    });
+
+    it('provides occurrence line number', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak)[0];
+
+        expect(result.lineNumber).toEqual(5);
     });
 });

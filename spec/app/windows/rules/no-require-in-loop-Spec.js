@@ -46,12 +46,18 @@ describe(rule.id, () => {
     it('provides occurrence global position II', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak)[0];
 
-        expect(result.globalPos).toEqual(156);
+        expect(result.globalPos).toEqual(155);
     });
 
     it('provides occurrence length', () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak)[0];
 
         expect(result.length).toEqual(20);
+    });
+
+    it('provides occurrence line number', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak)[0];
+
+        expect(result.lineNumber).toEqual(5);
     });
 });
