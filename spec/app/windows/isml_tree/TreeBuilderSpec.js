@@ -728,6 +728,15 @@ describe(targetObjName, () => {
 
         expect(tree.rootNode).not.toEqual(null);
     });
+
+    it('throws "unbalanced quotes" exception if issue occurs within a node head', () => {
+        const tree = getTreeFromTemplate(78);
+
+        expect(tree.exception.message    ).toEqual('Unbalanced quotes in <i> element');
+        expect(tree.exception.globalPos  ).toEqual(11);
+        expect(tree.exception.length     ).toEqual(38);
+        expect(tree.exception.lineNumber ).toEqual(2);
+    });
 });
 
 const getTemplatePath = number => {

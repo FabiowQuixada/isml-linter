@@ -32,6 +32,18 @@ const unexpectedClosingElementError = (elementType, lineNumber, globalPos, lengt
     };
 };
 
+const unbalancedQuotesError = (elementType, lineNumber, globalPos, length, templatePath) => {
+    return {
+        message      : `Unbalanced quotes in <${elementType}> element`,
+        templatePath : templatePath,
+        globalPos,
+        length,
+        lineNumber   : lineNumber,
+        isCustom     : true,
+        type         : types.INVALID_TEMPLATE
+    };
+};
+
 const unclosedDeprecatedIsmlComment = (lineNumber, globalPos, length, templatePath) => {
     return {
         message      : '"<!---" element not correctly closed: use "--->" instead of "-->"',
@@ -92,6 +104,7 @@ const isLinterException = e => e && e.isCustom;
 
 module.exports = {
     parseError,
+    unbalancedQuotesError,
     unclosedDeprecatedIsmlComment,
     unbalancedElementError,
     unexpectedClosingElementError,

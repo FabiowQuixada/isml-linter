@@ -1,6 +1,7 @@
 const fs             = require('fs');
 const IsmlNode       = require('./IsmlNode');
 const ParseUtils     = require('./ParseUtils');
+const MaskUtils      = require('./MaskUtils');
 const ContainerNode  = require('./ContainerNode');
 const ExceptionUtils = require('../util/ExceptionUtils');
 const GeneralUtils   = require('../util/GeneralUtils');
@@ -13,6 +14,9 @@ const parse = (content, templatePath, isCrlfLineBreak, isEmbeddedNode) => {
 
     for (let i = 0; i < elementList.length; i++) {
         const element = elementList[i];
+
+        validateNodeHead(element, templatePath);
+
         const newNode = new IsmlNode(element.value, element.lineNumber, element.columnNumber, element.globalPos, isEmbeddedNode);
 
         const containerResult = parseContainerElements(element, currentParent, newNode, templatePath);
@@ -221,7 +225,7 @@ const build = (templatePath, content, isCrlfLineBreak) => {
  * A, be it in its value or tail value. This function removes that trailing indentation from A and
  * adds it to B as a leading indentation;
  */
-function rectifyNodeIndentation(node, child) {
+const rectifyNodeIndentation = (node, child) => {
     const previousSibling = child.getPreviousSibling();
 
     if (child.isContainer()) {
@@ -243,7 +247,25 @@ function rectifyNodeIndentation(node, child) {
 
         node.tail = ParseUtils.getBlankSpaceString(trailingLineBreakQty) + node.tail;
     }
-}
+};
+
+const validateNodeHead = (element, templatePath) => {
+
+    if (element.type !== 'text') {
+        const trimmedElement = element.value.trim();
+        const maskedElement  = MaskUtils.maskQuoteContent(trimmedElement);
+
+        if (maskedElement.endsWith('_')) {
+            throw ExceptionUtils.unbalancedQuotesError(
+                element.tagType,
+                element.lineNumber,
+                element.globalPos,
+                trimmedElement.length,
+                templatePath
+            );
+        }
+    }
+};
 
 module.exports.build = build;
 module.exports.parse = parse;
