@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.38.4] - 2021-09-11
+
+### Fixed
+  - Tree build edge case;
+  - DOM element attributes parse;
+  - "no-require-in-loop" rule - occurrence line number;
+  - Displayed message when rule-specific unexpected error occurs;
+
 ## [5.38.3] - 2021-09-01
 
 ### Fixed
@@ -954,6 +962,8 @@
 ### Added
 - Linter is published;
 
+[5.38.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.3...v5.38.4
+[5.38.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.2...v5.38.3
 [5.38.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.1...v5.38.2
 [5.38.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.0...v5.38.1
 [5.38.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.0...v5.38.1
