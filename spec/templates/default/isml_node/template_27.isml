@@ -1,0 +1,6 @@
+<button
+    class="my-class" <isif condition="${condition}">disabled</isif>
+    data-abc="${someData}"
+>
+    ${buttonText}
+</button>

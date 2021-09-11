@@ -478,7 +478,12 @@ const getStringifiedAttributeArray = content => {
     }
 
     for (let i = 0; i < maskedAttributeList.length; i++) {
-        const fullAttribute = content.substring(attrStartPosList[i], attrStartPosList[i] + maskedAttributeList[i].length);
+        let fullAttribute = content.substring(attrStartPosList[i] - 1, attrStartPosList[i] + maskedAttributeList[i].length).trim();
+
+        if (fullAttribute.endsWith('/')) {
+            fullAttribute = fullAttribute.slice(0, -1) + ' ';
+        }
+
         result.push(fullAttribute);
     }
 

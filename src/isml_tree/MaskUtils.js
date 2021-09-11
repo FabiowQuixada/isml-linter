@@ -306,7 +306,7 @@ const maskIsifTagContent = content => {
         if (remainingContent.startsWith(closingTag)) {
             isWithinIsifTag = false;
             maskedContent   += closingTag;
-            i               += closingTag.length;
+            i               += closingTag.length - 1;
         }
     }
 

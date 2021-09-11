@@ -248,6 +248,17 @@ describe('IsmlNode', () => {
         expect(attributeList[0].lineNumber).toEqual(2);
         expect(attributeList[1].lineNumber).toEqual(3);
     });
+
+    it('lists embedded "isif" attribute II', () => {
+        const rootNode      = getTreeRootFromTemplate(27);
+        const ismoduleNode  = rootNode.children[0];
+        const attributeList = ismoduleNode.getAttributeList();
+
+        expect(attributeList.length).toEqual(3);
+        expect(attributeList[0].lineNumber).toEqual(2);
+        expect(attributeList[1].lineNumber).toEqual(2);
+        expect(attributeList[2].lineNumber).toEqual(3);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {
