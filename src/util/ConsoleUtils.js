@@ -68,11 +68,38 @@ const displayUnparseableErrors = lintResult => {
             console.log(chalk`{red.bold ${Constants.EOL}An Isml abstract syntax tree could not be built for the following templates:}`);
 
             for (let i = 0; i < lintResult[INVALID_TEMPLATE].length; i++) {
+                if (config.printPartialResults && i > MAX_LISTED_ERRORS) {
+                    break;
+                }
+
                 const error = lintResult[INVALID_TEMPLATE][i];
                 console.log(chalk.gray(i) + ' ' + error.templatePath + ':' + error.lineNumber);
                 console.log('\t' + chalk`{red.bold >> }` + `${error.message}${Constants.EOL}`);
                 partialSum++;
             }
+        }
+    }
+
+    return partialSum;
+};
+
+const displayRuleErrors = lintResult => {
+
+    const RULE_ERROR = ExceptionUtils.types.RULE_ERROR;
+    const config     = ConfigUtils.load();
+    let partialSum   = 0;
+
+    if (lintResult[RULE_ERROR] && lintResult[RULE_ERROR].length > 0) {
+        console.log(chalk`{red.bold ${Constants.EOL}An unexpected error occurred while applying rules to the following templates:}`);
+
+        for (let i = 0; i < lintResult[RULE_ERROR].length; i++) {
+            if (config.printPartialResults && i > MAX_LISTED_ERRORS) {
+                break;
+            }
+
+            const error = lintResult[RULE_ERROR][i];
+            console.log(chalk.gray(i) + '\t' + error.ruleID + ' :\t' + error.templatePath);
+            partialSum++;
         }
     }
 
@@ -103,6 +130,7 @@ const displayOccurrenceList = lintResult => {
 
     displayUnparseableErrors(lintResult);
     displayUnknownErrors(lintResult);
+    displayRuleErrors(lintResult);
 
     // TODO Add this 'config' as a global const;
     const config         = ConfigUtils.load();
@@ -144,7 +172,7 @@ const displayOccurrenceList = lintResult => {
         }
 
         if (config.printPartialResults) {
-            console.log(chalk`{bold Displaying the first ${MAX_LISTED_ERRORS} occurrenceList of each group.}` + Constants.EOL);
+            console.log(chalk`{bold Displaying the first ${MAX_LISTED_ERRORS} occurrences of each group.}` + Constants.EOL);
         }
     }
 };

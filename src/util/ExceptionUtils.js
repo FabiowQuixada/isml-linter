@@ -5,6 +5,7 @@ const types = {
     UNCLOSED_DEPRECATED_ISML_COMMENT : 'UNCLOSED_DEPRECATED_ISML_COMMENT',
     INVALID_TEMPLATE                 : 'INVALID_TEMPLATE',
     INVALID_CHARACTER                : 'INVALID_CHARACTER',
+    RULE_ERROR                       : 'RULE_ERROR',
     NO_CONFIG                        : 'NO_CONFIG',
 };
 
@@ -17,6 +18,18 @@ const unbalancedElementError = (elementType, lineNumber, globalPos, length, temp
         lineNumber   : lineNumber,
         isCustom     : true,
         type         : types.INVALID_TEMPLATE
+    };
+};
+
+const ruleApplianceError = (rule, originalError, templatePath) => {
+    return {
+        message      : `An error happened while applying rule "${rule.id}" to ${templatePath}`,
+        ruleID       : rule.id,
+        originalError,
+        lineNumber   : 0,
+        templatePath : templatePath,
+        isCustom     : true,
+        type         : types.RULE_ERROR
     };
 };
 
@@ -105,6 +118,7 @@ const isLinterException = e => e && e.isCustom;
 module.exports = {
     parseError,
     unbalancedQuotesError,
+    ruleApplianceError,
     unclosedDeprecatedIsmlComment,
     unbalancedElementError,
     unexpectedClosingElementError,

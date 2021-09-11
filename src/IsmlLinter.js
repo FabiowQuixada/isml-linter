@@ -10,6 +10,7 @@ let RuleUtils        = null;
 
 const UNKNOWN_ERROR = ExceptionUtils.types.UNKNOWN_ERROR;
 const UNPARSEABLE   = ExceptionUtils.types.INVALID_TEMPLATE;
+const RULE_ERROR    = ExceptionUtils.types.RULE_ERROR;
 const Linter        = {};
 
 // Configuration set through the public API;
@@ -92,6 +93,7 @@ const getEmptyResult = () => {
         info               : {},
         UNKNOWN_ERROR      : [],
         INVALID_TEMPLATE   : [],
+        RULE_ERROR         : [],
         issueQty           : 0,
         occurrenceQty      : 0,
         templatesFixed     : 0,
@@ -138,6 +140,17 @@ const checkTemplate = (templatePath, data, content, templateName) => {
             templateResults.issueQty++;
             templateResults.occurrenceQty++;
 
+        } else if (e.type === RULE_ERROR) {
+            templateResults[RULE_ERROR].push({
+                templatePath  : formattedTemplatePath,
+                ruleID        : e.ruleID,
+                message       : e.message,
+                originalError : e.originalError
+            });
+
+            templateResults.issueQty++;
+            templateResults.occurrenceQty++;
+
         } else if (!config.ignoreUnparseable) {
             templateResults[UNPARSEABLE].push({
                 templatePath : formattedTemplatePath,
@@ -164,6 +177,7 @@ const merge = (finalResult, templateResults) => {
         templatesFixed     : finalResult.templatesFixed                 + templateResults.templatesFixed,
         UNKNOWN_ERROR      : [...finalResult[UNKNOWN_ERROR],           ...templateResults[UNKNOWN_ERROR]],
         INVALID_TEMPLATE   : [...finalResult[UNPARSEABLE],             ...templateResults[UNPARSEABLE]],
+        RULE_ERROR         : [...finalResult[RULE_ERROR],              ...templateResults[RULE_ERROR]],
         totalTemplatesQty  : finalResult.totalTemplatesQty
     };
 };
