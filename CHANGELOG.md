@@ -3,37 +3,37 @@
 ## [5.38.4] - 2021-09-11
 
 ### Fixed
-  - Tree build edge case;
-  - DOM element attributes parse;
-  - "no-require-in-loop" rule - occurrence line number;
-  - Displayed message when rule-specific unexpected error occurs;
+ - Tree build edge case;
+ - DOM element attributes parse;
+ - "no-require-in-loop" rule - occurrence line number;
+ - Displayed message when rule-specific unexpected error occurs;
 
 ## [5.38.3] - 2021-09-01
 
 ### Fixed
-  - [Issue #30][issue#30]: allow custom tags to be non-self-closing;
-  
+ - [Issue #30][issue#30]: allow custom tags to be non-self-closing;
+
 ## [5.38.2] - 2021-08-31
 
 ### Changed
-  - Default value of "[indent][indent-readme]" rule's "quote" option to "never";
-  - Improved "[indent][indent-readme]" rule's "standAloneClosingChars" configuration occurrence messages;
+ - Default value of "[indent][indent-readme]" rule's "quote" option to "never";
+ - Improved "[indent][indent-readme]" rule's "standAloneClosingChars" configuration occurrence messages;
 
 ### Fixed
-  - "[indent][indent-readme]" rule - tags closing character global position;
-  
+ - "[indent][indent-readme]" rule - tags closing character global position;
+
 ## [5.38.1] - 2021-08-29
 
 ### Fixed
-  - "[indent][indent-readme]" rule autofix - removed buggy optimization;
-  
+ - "[indent][indent-readme]" rule autofix - removed buggy optimization;
+
 ## [5.38.0] - 2021-08-29
 
 ### Added
  - "standAloneClosingChars" configuration attribute to the "[indent][indent-readme]" rule;
 
 ### Fixed
-  - "indent" rule - duplicated attribute parse;
+ - "indent" rule - duplicated attribute parse;
 
 ## [5.37.0] - 2021-08-22
 
@@ -43,33 +43,33 @@
 ## [5.36.5] - 2021-08-18
 
 ### Changed
-  - Removed redundant information from "invalid character found" error message;
+ - Removed redundant information from "invalid character found" error message;
 
 ### Fixed
-  - Unbalanced element position detection;
-  - Tree build parse on edge cases;
-  - "[no-inline-style][no-inline-style-readme]" rule - allow `<isprint>` tag to have "style" attribute;
-  
+ - Unbalanced element position detection;
+ - Tree build parse on edge cases;
+ - "[no-inline-style][no-inline-style-readme]" rule - allow `<isprint>` tag to have "style" attribute;
+
 ## [5.36.4] - 2021-08-15
 
 ### Fixed
-  - "indent" rule - "isif"-nested value indentation;
-  - "indent" rule - attribute multi-line value indentation;
+ - "indent" rule - "isif"-nested value indentation;
+ - "indent" rule - attribute multi-line value indentation;
 
 ## [5.36.3] - 2021-08-13
 
 ### Fixed
-  - "indent" rule - autofix to keep space between tag attributes;
-  - "indent" rule - expression attribute indentation fix;
-  - "indent" rule - indentation of attribute value with embedded "isif" in it;
+ - "indent" rule - autofix to keep space between tag attributes;
+ - "indent" rule - expression attribute indentation fix;
+ - "indent" rule - indentation of attribute value with embedded "isif" in it;
 
 ## [5.36.2] - 2021-08-11
 
 ### Fixed
-  - "indent" rule - autofix to keep duplicate spaces between tag attributes;
-  - "indent" rule - attribute value indentation;
-  - Tree build - unbalanced element detection;
-  - Tree build - "script" tag with attribute parse;
+ - "indent" rule - autofix to keep duplicate spaces between tag attributes;
+ - "indent" rule - attribute value indentation;
+ - Tree build - unbalanced element detection;
+ - Tree build - "script" tag with attribute parse;
 
 ## [5.36.1] - 2021-08-09
 
@@ -344,7 +344,7 @@
  - License file;
 
 ### Changed
- - Set some dependencies as "dev" dependencies;  
+ - Set some dependencies as "dev" dependencies;
 
 ### Security
  - Upgraded dependencies;
@@ -425,7 +425,7 @@
 ## [5.22.0] - 2019-11-24
 
 ### Added
- -  [Issue #4][issue#4] ".eslintrc" filename as an acceptable config filename;
+ - [Issue #4][issue#4] ".eslintrc" filename as an acceptable config filename;
 
 ### Fixed
  - Command Line - If no directory or template parameter is passed, configured root directory or default directory is used;
@@ -878,7 +878,7 @@
  - Issue related to &lt;style> tag;
 
 ### Removed
-  - 'empty-eof-line' rule from docs, as it is not implemented yet;
+ - 'empty-eof-line' rule from docs, as it is not implemented yet;
 
 ## [4.0.0] - 2019-03-03
 
@@ -891,10 +891,10 @@
    - No hardcode;
    - One Element per Line;
    - No Embedded ISML Tag;
-    
+
 ### Removed
 - Global installation support;
-    
+
 ### Deprecated
  - Output directory and json file;
 
