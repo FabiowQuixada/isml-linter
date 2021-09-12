@@ -69,8 +69,9 @@ Rule.check = function(node, data) {
     }
 
     if (node.isRoot()) {
-        const Linter         = require('eslint').Linter;
-        const linter         = new Linter();
+        const ESLinter       = require('eslint').Linter;
+        const ruleConfig     = this.getConfigs();
+        const eslinter       = new ESLinter();
         const occurrenceList = [];
 
         for (let index = 0; index < isscriptContentArray.length; index++) {
@@ -81,17 +82,17 @@ Rule.check = function(node, data) {
 
             content = unindent(content, ismlOffset.length);
 
-            const errorArray = linter.verify(content, eslintConfig);
+            const errorArray = eslinter.verify(content, eslintConfig);
 
             for (let i = 0; i < errorArray.length; i++) {
-                const error = this.addError(jsContentNode, errorArray[i], ismlOffset, linter, data);
+                const error = this.addError(jsContentNode, errorArray[i], ismlOffset, eslinter, data);
                 occurrenceList.push(error);
             }
         }
 
         isscriptContentArray = [];
 
-        return { occurrenceList };
+        return this.return(node, occurrenceList, ruleConfig);
     }
 };
 
