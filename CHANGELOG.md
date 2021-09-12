@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.38.5] - 2021-09-12
+
+### Fixed
+ - "[eslint-to-isscript][eslint-to-isscript-readme]" rule;
+
 ## [5.38.4] - 2021-09-11
 
 ### Fixed
@@ -962,6 +967,7 @@
 ### Added
 - Linter is published;
 
+[5.38.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.4...v5.38.5
 [5.38.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.3...v5.38.4
 [5.38.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.2...v5.38.3
 [5.38.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.1...v5.38.2
@@ -1110,10 +1116,11 @@
 [api-docs]: <docs/api.md>
 [license]:  <LICENSE>
 
-[disallow-tags-readme]:    <docs/rules/disallow-tags.md>
-[no-br-readme]:            <docs/rules/no-br.md>
-[no-inline-style-readme]:  <docs/rules/no-br.md>
-[no-isscript-readme]:      <docs/rules/no-isscript.md>
-[enforce-security-readme]: <docs/rules/enforce-security.md>
-[no-hardcode-readme]:      <docs/rules/no-hardcode.md>
-[indent-readme]:           <docs/rules/indent.md>
+[disallow-tags-readme]:      <docs/rules/disallow-tags.md>
+[no-br-readme]:              <docs/rules/no-br.md>
+[no-inline-style-readme]:    <docs/rules/no-br.md>
+[no-isscript-readme]:        <docs/rules/no-isscript.md>
+[enforce-security-readme]:   <docs/rules/enforce-security.md>
+[no-hardcode-readme]:        <docs/rules/no-hardcode.md>
+[indent-readme]:             <docs/rules/indent.md>
+[eslint-to-isscript-readme]: <docs/rules/eslint-to-isscript.md>
