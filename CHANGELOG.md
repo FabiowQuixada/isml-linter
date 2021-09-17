@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.39.0] - 2021-09-17
+
+### Added
+ - [Issue #31][issue#31] - "verbose" global configuration option;
+
 ## [5.38.5] - 2021-09-12
 
 ### Fixed
@@ -967,6 +972,7 @@
 ### Added
 - Linter is published;
 
+[5.39.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.5...v5.39.0
 [5.38.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.4...v5.38.5
 [5.38.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.3...v5.38.4
 [5.38.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.2...v5.38.3
@@ -1111,6 +1117,7 @@
 [issue#26]: https://github.com/FabiowQuixada/isml-linter/issues/26
 [issue#29]: https://github.com/FabiowQuixada/isml-linter/issues/29
 [issue#30]: https://github.com/FabiowQuixada/isml-linter/issues/30
+[issue#31]: https://github.com/FabiowQuixada/isml-linter/issues/31
 
 [cli-docs]: <docs/cli.md>
 [api-docs]: <docs/api.md>
