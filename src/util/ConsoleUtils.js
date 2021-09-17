@@ -303,11 +303,25 @@ const getInfoData = lintResult => {
     };
 };
 
+const displayVerboseMessage = (message, depth = 0) => {
+    const config    = ConfigUtils.load();
+    let indentation = '';
+
+    for (let i = 0; i < depth; i++) {
+        indentation += '    ';
+    }
+
+    if (config.verbose) {
+        console.log(indentation + message);
+    }
+};
+
 module.exports = {
     displayOccurrenceList,
     displayConfigError,
     displayEslintConfigError,
     displayInvalidTemplatesPaths,
     displayInvalidCommandError,
-    printExceptionMsg
+    printExceptionMsg,
+    displayVerboseMessage
 };

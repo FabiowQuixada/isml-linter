@@ -61,7 +61,8 @@ You can disable any rule by removing it from the config file. You may also find 
 | eslintConfig        | Path to a eslint configuration file, to be applied within `<isscript>` tags. Default: _.eslintrc.json_ |
 | enableCache         | <span style="color:orange">[Deprecated]</span> Please check [cache docs][cache-docs]. Default: **false** |
 | autoFix             | Applies fixes for enabled rules. Default: **false** |
-| printPartialResults | Prints partial results. Useful to get overall picture in case of many errors. Default: **false** |
+| printPartialResults | Limits issues or rule occurrences listed in the console to up to 30 items. Useful to get overall picture in case of many errors. Default: **false** |
+| verbose             | Provides additional details of the linting process in the console. Default: **false** |
 | disableTreeParse    | Enables only rules that do not depend on  building an ISML tree. Check below when this might be useful. Default: **false** |
 | rules               | Defines which rules to check. See available rules below |
 

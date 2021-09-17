@@ -1,9 +1,11 @@
 const chalk        = require('chalk');
+const path         = require('path');
 const sinon        = require('sinon');
 const SpecHelper   = require('../../../SpecHelper');
 const ConsoleUtils = require('../../../../src/util/ConsoleUtils');
 const Constants    = require('../../../../src/Constants');
 const ConfigUtils  = require('../../../../src/util/ConfigUtils');
+const IsmlLinter   = require('../../../../src/IsmlLinter');
 
 const targetObjName = SpecHelper.getTargetObjName(__filename);
 
@@ -80,6 +82,28 @@ describe(targetObjName, () => {
         expect(spy.getCall(5).args[0]).toEqual(expectedResult4);
     });
 
+    it('displays verbose messages if "verbose" configuration is true', () => {
+        ConfigUtils.setConfig('verbose', true);
+
+        const templatePath = path.join(Constants.clientAppDir, Constants.specSpecificDirLinterTemplate, 'template_0.isml');
+
+        IsmlLinter.run(templatePath);
+
+        expect(spy.getCall(0).args[0]).toContain('\nChecking "');
+        expect(spy.getCall(1).args[0]).toEqual('    Applying "enforce-isprint" rule');
+        expect(spy.getCall(2).args[0]).toEqual('    Applying "enforce-require" rule');
+        expect(spy.getCall(3).args[0]).toEqual('    Applying "no-br" rule');
+    });
+
+    it('does not display verbose messages if "verbose" configuration is false', () => {
+        ConfigUtils.setConfig('verbose', false);
+
+        const templatePath = path.join(Constants.clientAppDir, Constants.specSpecificDirLinterTemplate, 'template_0.isml');
+
+        IsmlLinter.run(templatePath);
+
+        expect(spy.getCall(0)).toEqual(null);
+    });
 });
 
 const expectedObject = {

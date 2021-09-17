@@ -7,6 +7,7 @@ const lowercaseFilenameRule = require('../rules/line_by_line/lowercase-filename'
 const CustomTagContainer    = require('./CustomTagContainer');
 const CustomModulesRule     = require('../rules/tree/custom-tags');
 const GeneralUtils          = require('./GeneralUtils');
+const ConsoleUtils          = require('./ConsoleUtils');
 const ExceptionUtils        = require('./ExceptionUtils');
 
 const lineByLineRules = [];
@@ -90,6 +91,7 @@ const applyRuleOnTemplate = (ruleArray, templatePath, root, config, data) => {
         const rule = ruleArray[i];
         if (!rule.shouldIgnore(templatePath)) {
             try {
+                ConsoleUtils.displayVerboseMessage(`Applying "${rule.id}" rule`, 1);
                 const ruleResults = rule.check(root, templateResults.data);
                 applyRuleResult(config, ruleResults, templatePath, templateResults, rule);
 
@@ -169,6 +171,7 @@ const checkFileName = (filename, templateContent) => {
 
 const checkTreeRules = (templatePath, templateContent, config, data) => {
     if (!config.disableTreeParse) {
+        ConsoleUtils.displayVerboseMessage(`Building tree for "${templatePath}"`, 1);
         const tree = TreeBuilder.build(templatePath, templateContent);
 
         if (!tree.rootNode) {
@@ -219,6 +222,7 @@ const checkCustomModules = () => {
 };
 
 const checkTemplate = (templatePath, data, content = '', templateName = '') => {
+    ConsoleUtils.displayVerboseMessage(`\nChecking "${templatePath}" template`);
     const config          = ConfigUtils.load();
     const templateContent = GeneralUtils.toLF(content || fs.readFileSync(templatePath, 'utf-8'));
     const lineResults     = checkLineByLineRules(templatePath, templateContent, config, data);
