@@ -1,4 +1,5 @@
-const Constants = require('../Constants');
+const Constants   = require('../Constants');
+const ConfigUtils = require('../util/ConfigUtils');
 
 const types = {
     UNKNOWN_ERROR                    : 'UNKNOWN_ERROR',
@@ -7,6 +8,21 @@ const types = {
     INVALID_CHARACTER                : 'INVALID_CHARACTER',
     RULE_ERROR                       : 'RULE_ERROR',
     NO_CONFIG                        : 'NO_CONFIG',
+};
+
+// TODO: This function is originally from ConsoleUtils,
+// but it is here to avoid circular dependency;
+const displayVerboseMessage = (message, depth = 0) => {
+    const config    = ConfigUtils.load();
+    let indentation = '';
+
+    for (let i = 0; i < depth; i++) {
+        indentation += '    ';
+    }
+
+    if (config.verbose) {
+        console.log(indentation + message);
+    }
 };
 
 const unbalancedElementError = (elementType, lineNumber, globalPos, length, templatePath) => {
@@ -22,6 +38,8 @@ const unbalancedElementError = (elementType, lineNumber, globalPos, length, temp
 };
 
 const ruleApplianceError = (rule, originalError, templatePath) => {
+    displayVerboseMessage(originalError.stack);
+
     return {
         message      : `An error happened while applying rule "${rule.id}" to ${templatePath}`,
         ruleID       : rule.id,
