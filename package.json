@@ -37,7 +37,7 @@
   "dependencies": {
     "app-root-path": "^3.0.0",
     "chalk": "^4.1.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.32.0",
     "readdir": "^1.0.2"
   },
   "devDependencies": {
