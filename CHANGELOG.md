@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.39.1] - 2021-09-19
+
+### Added
+ - Details to "verbose" global configuration option;
+
+### Security
+ - Upgraded dependencies;
+ 
 ## [5.39.0] - 2021-09-17
 
 ### Added
@@ -972,6 +980,7 @@
 ### Added
 - Linter is published;
 
+[5.39.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.0...v5.39.1
 [5.39.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.5...v5.39.0
 [5.38.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.4...v5.38.5
 [5.38.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.3...v5.38.4
