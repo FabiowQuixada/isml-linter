@@ -5,6 +5,7 @@ const Constants        = require('../Constants');
 const SfccTagContainer = require('../enums/SfccTagContainer');
 const ParseUtils       = require('./ParseUtils');
 const MaskUtils        = require('./MaskUtils');
+const ExceptionUtils   = require('../util/ExceptionUtils');
 
 let ID_COUNTER = 0;
 
@@ -363,6 +364,16 @@ class IsmlNode {
         this.children.splice(index, 0, node);
     }
 
+    getRoot() {
+        let rootNode = this;
+
+        while (rootNode.parent) {
+            rootNode = rootNode.parent;
+        }
+
+        return rootNode;
+    }
+
     toString(stream = '') {
 
         if (!this.isContainer() && this.isEmpty() && !this.isLastChild()) {
@@ -496,7 +507,7 @@ const parseAttribute = (node, attributeList, index) => {
     const isExpressionAttribute                 = attribute.startsWith('${') && attribute.endsWith('}');
     const trimmedAttribute                      = attribute.trim();
     const trimmedNodeHead                       = node.head.trim();
-    const localPos                              = getAttributeLocalPos(trimmedNodeHead, trimmedAttribute);
+    const localPos                              = getAttributeLocalPos(node, trimmedNodeHead, trimmedAttribute);
     const leadingContent                        = trimmedNodeHead.substring(0, localPos);
     const leadingLineBreakQty                   = ParseUtils.getLineBreakQty(leadingContent);
     const isInSameLineAsTagName                 = leadingLineBreakQty === 0;
@@ -575,13 +586,16 @@ const parseAttribute = (node, attributeList, index) => {
 /**
  * Two attributes can have the same name, and that is handled here;
  */
-const getAttributeLocalPos = (trimmedNodeHead, trimmedAttribute) => {
+const getAttributeLocalPos = (node, trimmedNodeHead, trimmedAttribute) => {
     const maskedTrimmedAttribute = MaskUtils.maskQuoteContent(trimmedAttribute);
     const maskedTrimmedNodeHead  = MaskUtils.maskQuoteContent(trimmedNodeHead);
 
     let attributeLocalPos    = maskedTrimmedNodeHead.indexOf(maskedTrimmedAttribute);
     const isCorrectAttribute = trimmedNodeHead.indexOf(trimmedAttribute) === attributeLocalPos;
     let remainingNodeHead    = maskedTrimmedNodeHead.substring(attributeLocalPos + 1);
+
+    const maxLoops = 500;
+    let loopQty    = 0;
 
     while (!isCorrectAttribute) {
         const tempLocalPos = remainingNodeHead.indexOf(maskedTrimmedAttribute) + 1;
@@ -595,6 +609,18 @@ const getAttributeLocalPos = (trimmedNodeHead, trimmedAttribute) => {
         }
 
         remainingNodeHead = remainingNodeHead.substring(tempLocalPos);
+
+        loopQty++;
+
+        if (loopQty >= maxLoops) {
+            throw ExceptionUtils.parseError(
+                node.getType(),
+                node.lineNumber,
+                node.globalPos,
+                node.head.length,
+                node.getRoot().tree.templatePath
+            );
+        }
     }
 
     return attributeLocalPos;

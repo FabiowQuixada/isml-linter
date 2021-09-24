@@ -209,6 +209,8 @@ const build = (templatePath, content, isCrlfLineBreak) => {
         result.rootNode       = parse(templateContent, templatePath, isCrlfLineBreak);
         result.data           = postProcess(result.rootNode);
 
+        result.rootNode.tree = result;
+
     } catch (e) {
         result.rootNode  = null;
         result.status    = ParseStatus.INVALID_DOM;
