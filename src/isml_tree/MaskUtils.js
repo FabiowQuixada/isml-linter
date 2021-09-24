@@ -285,28 +285,28 @@ const maskQuoteContent = content => {
 // TODO Try to generalize this function;
 const maskIsifTagContent = content => {
 
-    const openingTag    = '<isif';
-    const closingTag    = '</isif>';
-    let isWithinIsifTag = false;
-    let maskedContent   = '';
+    const openingTag  = '<isif';
+    const closingTag  = '</isif>';
+    let depthLevel    = 0;
+    let maskedContent = '';
 
     for (let i = 0; i < content.length; i++) {
         const remainingContent = content.substring(i);
 
         if (remainingContent.startsWith(openingTag)) {
-            isWithinIsifTag = true;
-            maskedContent   += openingTag;
-            i               += openingTag.length;
+            maskedContent += depthLevel > 0 ? '_____' : openingTag;
+            i             += openingTag.length;
+            depthLevel++;
         }
 
-        maskedContent += isWithinIsifTag ?
+        maskedContent += depthLevel > 0 ?
             '_' :
             content[i];
 
         if (remainingContent.startsWith(closingTag)) {
-            isWithinIsifTag = false;
-            maskedContent   += closingTag;
-            i               += closingTag.length - 1;
+            depthLevel--;
+            maskedContent += depthLevel > 0 ? '_______' : closingTag;
+            i             += closingTag.length - 1;
         }
     }
 

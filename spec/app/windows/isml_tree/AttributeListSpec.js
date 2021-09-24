@@ -259,6 +259,24 @@ describe('IsmlNode', () => {
         expect(attributeList[1].lineNumber).toEqual(2);
         expect(attributeList[2].lineNumber).toEqual(3);
     });
+
+    it('lists 2-level-nested embedded "isif" attribute', () => {
+        const rootNode         = getTreeRootFromTemplate(28);
+        const ismoduleNode     = rootNode.children[0];
+        const attributeList    = ismoduleNode.getAttributeList();
+        const attributeContent = '<isif condition="${aCondition}">' +
+            Constants.EOL + '        style="background-image: url(${imageURL});' +
+            Constants.EOL + '        <isif condition="${anotherCondtion}">' +
+            Constants.EOL + '            background-size: ${imagesize};' +
+            Constants.EOL + '        </isif>' +
+            Constants.EOL + '        "' +
+            Constants.EOL + '    </isif>';
+
+        expect(attributeList.length).toEqual(1);
+        expect(attributeList[0].fullContent).toEqual(attributeContent);
+        expect(attributeList[0].length).toEqual(216);
+        expect(attributeList[0].lineNumber).toEqual(2);
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {

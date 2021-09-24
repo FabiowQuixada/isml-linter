@@ -1,0 +1,10 @@
+<div
+    <isif condition="${aCondition}">
+        style="background-image: url(${imageURL});
+        <isif condition="${anotherCondtion}">
+            background-size: ${imagesize};
+        </isif>
+        "
+    </isif>
+>
+</div>
