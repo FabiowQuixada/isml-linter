@@ -99,6 +99,18 @@ const invalidCharacterError = (character, lineNumber, globalPos, length, templat
     };
 };
 
+const parseError = (elementType, lineNumber, globalPos, length, templatePath) => {
+    return {
+        message      : `An unexpected error happened while parsing element ${elementType} at ${templatePath}:${lineNumber}.`,
+        templatePath : templatePath,
+        globalPos,
+        length,
+        lineNumber   : lineNumber,
+        isCustom     : true,
+        type         : types.UNKNOWN_ERROR
+    };
+};
+
 const noConfigError = () => {
     return {
         message  : `No configuration found. Please run the following command: ${Constants.EOL}${Constants.EOL}\t./node_modules/.bin/isml-linter --init${Constants.EOL}${Constants.EOL}`,
@@ -122,6 +134,7 @@ const emptyException = () => {
 const isLinterException = e => e && e.isCustom;
 
 module.exports = {
+    parseError,
     unbalancedQuotesError,
     ruleApplianceError,
     unclosedDeprecatedIsmlComment,
