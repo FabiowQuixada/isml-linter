@@ -12,11 +12,7 @@ const Rule = Object.create(TreeRulePrototype);
 Rule.init(ruleId, description);
 
 Rule.isBroken = function(node) {
-    let rootNode = node;
-
-    while (rootNode.parent) {
-        rootNode = rootNode.parent;
-    }
+    const rootNode = node.getRoot();
 
     return node.isOfType(TAG_TYPE) &&
         rootNode.children[0].id !== node.id;
