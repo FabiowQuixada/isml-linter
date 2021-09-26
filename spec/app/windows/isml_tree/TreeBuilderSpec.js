@@ -104,7 +104,7 @@ describe(targetObjName, () => {
         expect(rootNode.children[0].children[0].children[0].head.trim()).toEqual('<isif condition="${true}">');
     });
 
-    it('sets the correct depth fo multi-clause children', () => {
+    it('sets the correct depth for container node children', () => {
         const rootNode = getRootNodeFromTemplate(12);
 
         expect(rootNode.children[0].children[0].children[0].children[0].depth).toEqual(3);

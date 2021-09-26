@@ -60,7 +60,7 @@ class IsmlNode {
         } else if (this.isDynamicElement()) {
             return 'dynamic_element';
         } else if (this.isContainer()) {
-            return 'multi_clause';
+            return 'container';
         } else if (!head) {
             return 'empty';
         } else if (head === '(root)') {
