@@ -143,6 +143,7 @@ const checkIfDeprecatedIsmlCommentIsUnbalanced = (content, startString, openingM
     return false;
 };
 
+// TODO Rename and reuse;
 const maskInBetween2 = (content, startString, endString) => {
     let depth  = 0;
     let result = '';
@@ -415,5 +416,6 @@ module.exports = {
     maskJsonContent,
     maskIsifTagContent,
     maskInBetween,
+    maskInBetween2,
     maskInBetweenForTagWithAttributes
 };

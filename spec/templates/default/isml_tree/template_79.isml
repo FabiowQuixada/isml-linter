@@ -1,0 +1,7 @@
+<div>
+    style="
+    <isif condition="${aCondition}">
+        background-size: ${imagesize};
+    </isif>
+    "
+</div>

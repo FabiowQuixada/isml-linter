@@ -119,7 +119,7 @@ describe('Global Position on Windows', () => {
         const textNode      = iscommentNode.children[0];
 
         expect(iscommentNode.globalPos).toEqual(0);
-        expect(textNode.globalPos     ).toEqual(16);
+        expect(textNode.globalPos     ).toEqual(14);
     });
 
     it('XI', () => {

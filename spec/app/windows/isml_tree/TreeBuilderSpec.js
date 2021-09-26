@@ -737,6 +737,16 @@ describe(targetObjName, () => {
         expect(tree.exception.length     ).toEqual(38);
         expect(tree.exception.lineNumber ).toEqual(2);
     });
+
+    it('identifies second child of a node when first child is a hardcoded text', () => {
+        const rootNode = getRootNodeFromTemplate(79);
+        const divNode  = rootNode.children[0];
+
+        expect(divNode.children.length      ).toEqual(3);
+        expect(divNode.children[0].getType()).toEqual('text');
+        expect(divNode.children[1].getType()).toEqual('container');
+        expect(divNode.children[2].getType()).toEqual('text');
+    });
 });
 
 const getTemplatePath = number => {

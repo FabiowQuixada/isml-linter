@@ -104,14 +104,13 @@ const checkBalance = (node, templatePath) => {
 
 const parseNextElement = state => {
     const newElement = getNewElement(state);
-    processLeadingHardCodedTexts(state, newElement);
 
     const trimmedElement  = newElement.value.trim();
     const previousElement = state.elementList[state.elementList.length - 1] || {};
 
     if (previousElement.tagType === 'iscomment' && !previousElement.isClosingTag && trimmedElement !== '</iscomment>') {
         newElement.lineNumber    = getLineBreakQty(state.pastContent) + getLeadingLineBreakQty(newElement.value) + 1;
-        newElement.globalPos     = state.pastContent.length - newElement.value.length + getLeadingEmptyChars(newElement.value).length;
+        newElement.globalPos     = state.pastContent.length + getLeadingEmptyChars(newElement.value).length;
         newElement.type          = 'text';
         newElement.isSelfClosing = true;
 
@@ -135,26 +134,11 @@ const parseNextElement = state => {
     return newElement;
 };
 
-const processLeadingHardCodedTexts = (state, newElement) => {
-    if (state.remainingShadowContent.substring(0, state.nextOpeningTagOrExpressionInitPos - 1).trim().length > 0) {
-        state.cutSpot = state.remainingShadowContent.substring(0, state.nextOpeningTagOrExpressionInitPos - 1).length;
-
-        state.nextClosingTagOrExpressionEndPos = state.nextOpeningTagOrExpressionInitPos;
-        newElement.value                       = state.remainingContent.substring(0, state.cutSpot);
-
-        state.remainingShadowContent = state.remainingShadowContent.substring(state.cutSpot);
-        state.remainingContent       = state.remainingContent.substring(state.cutSpot);
-        state.pastContent            = state.originalContent.substring(0, state.pastContent.length + state.cutSpot);
-    }
-};
-
 const parseTagOrExpressionElement = (state, newElement) => {
     const trimmedElement      = newElement.value.trim().toLowerCase();
     const isTag               = trimmedElement.startsWith('<') && !trimmedElement.startsWith('<!--');
     const isExpression        = trimmedElement.startsWith('${');
     const isHtmlOrIsmlComment = trimmedElement.startsWith('<!--');
-
-    newElement.value = state.remainingContent.substring(0, state.nextClosingTagOrExpressionEndPos);
 
     if (isTag) {
         if (trimmedElement.startsWith('<is') || trimmedElement.startsWith('</is')) {
@@ -347,18 +331,68 @@ const adjustTrailingSpaces = state => {
     }
 };
 
-const getNewElement = state => {
-    let lastContiguousMaskedCharPos;
-    for (let i = 0; i < state.remainingShadowContent.length; i++) {
-        if (state.remainingShadowContent[i] !== '_') {
-            lastContiguousMaskedCharPos = i;
-            break;
-        }
-    }
+// TODO Refactor this function;
+const checkIfNextElementIsATagOrHtmlComment = (content, state) => {
+    const previousElementType = state.elementList.length > 0 && state.elementList[state.elementList.length - 1].tagType;
+    const isIscommentContent  = previousElementType === 'iscomment';
+    const isIsscriptContent   = previousElementType === 'isscript';
+    const isScriptContent     = previousElementType === 'script';
 
-    const elementValue = state.remainingShadowContent.startsWith('_') ?
-        state.remainingContent.substring(0, lastContiguousMaskedCharPos) :
-        state.remainingContent.substring(0, state.nextClosingTagOrExpressionEndPos);
+    return !isIscommentContent && !isScriptContent && !isIsscriptContent && content.startsWith('<') && content.substring(1).match(/^[A-z]/i) || content.startsWith('</') || content.startsWith('<!');
+};
+
+const getNewElement = state => {
+
+    const trimmedContent = state.remainingContent.trimStart();
+    const isTextElement  = !trimmedContent.startsWith('<') && !trimmedContent.startsWith('${');
+    let lastContiguousMaskedCharPos;
+    let elementValue;
+
+    if (isTextElement) {
+
+        for (let i = 0; i < state.remainingContent.length; i++) {
+            const remainingString   = state.remainingContent.substring(i);
+            const isNextElementATag = checkIfNextElementIsATagOrHtmlComment(remainingString, state);
+
+            if (isNextElementATag || remainingString.startsWith('${')) {
+                lastContiguousMaskedCharPos = i;
+                break;
+            }
+        }
+
+        elementValue = state.remainingContent.substring(0, lastContiguousMaskedCharPos);
+    } else {
+        if (state.elementList.length > 0 && state.elementList[state.elementList.length - 1].type === 'text') {
+            const isNextElementATag         = state.remainingContent.startsWith('<');
+            const isNextElementAnExpression = state.remainingContent.startsWith('${');
+            const localMaskedContent0       = MaskUtils.maskExpressionContent(state.remainingContent);
+            const localMaskedContent1       = MaskUtils.maskInBetween(localMaskedContent0, '<', '>');
+
+            for (let i = 0; i < localMaskedContent1.length; i++) {
+                if (isNextElementATag && localMaskedContent1[i] === '>') {
+                    lastContiguousMaskedCharPos = i + 1;
+                    break;
+                }
+
+                if (isNextElementAnExpression && localMaskedContent1[i] === '}') {
+                    lastContiguousMaskedCharPos = i + 1;
+                    break;
+                }
+            }
+
+        } else {
+            for (let i = 0; i < state.remainingShadowContent.length; i++) {
+                if (state.remainingShadowContent[i] !== '_') {
+                    lastContiguousMaskedCharPos = i;
+                    break;
+                }
+            }
+        }
+
+        elementValue = state.remainingShadowContent.startsWith('_') ?
+            state.remainingContent.substring(0, lastContiguousMaskedCharPos) :
+            state.remainingContent.substring(0, state.nextClosingTagOrExpressionEndPos);
+    }
 
     return {
         value         : elementValue,

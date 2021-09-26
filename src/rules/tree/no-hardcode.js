@@ -40,10 +40,10 @@ Rule.isBroken = function(node) {
 };
 
 const isTagChild = node => {
-    const isCommentContent  = node.parent && node.parent.isOfType('iscomment');
-    const isIsscriptContent = node.parent && node.parent.isOfType('isscript');
-    const isScriptContent   = node.parent && node.parent.isOfType('script');
-    const isStyleContent    = node.parent && node.parent.isOfType('style');
+    const isCommentContent  = node.isDescendantOf('iscomment');
+    const isIsscriptContent = node.isDescendantOf('isscript');
+    const isScriptContent   = node.isDescendantOf('script');
+    const isStyleContent    = node.isDescendantOf('style');
 
     return isCommentContent || isIsscriptContent || isScriptContent || isStyleContent;
 };
