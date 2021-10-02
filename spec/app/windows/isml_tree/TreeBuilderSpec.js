@@ -747,6 +747,29 @@ describe(targetObjName, () => {
         expect(divNode.children[1].getType()).toEqual('container');
         expect(divNode.children[2].getType()).toEqual('text');
     });
+
+    it('correctly parses children of a node if the first child is a hardcode text', () => {
+        const rootNode      = getRootNodeFromTemplate(80);
+        const divNode       = rootNode.children[0];
+        const hardcode1Node = divNode.children[0];
+        const spanNode      = divNode.children[1];
+        const pNode         = divNode.children[2];
+        const hardcode2Node = divNode.children[3];
+        const hardcode3Node = spanNode.children[0];
+        const hardcode4Node = pNode.children[0];
+
+        expect(divNode.head       ).toEqual('<div>');
+        expect(hardcode1Node.head ).toEqual(Constants.EOL + '    style="');
+        expect(spanNode.head      ).toEqual(Constants.EOL + '    <span>');
+        expect(pNode.head         ).toEqual(Constants.EOL + '    <p>');
+        expect(hardcode2Node.head ).toEqual(Constants.EOL + '    "');
+        expect(hardcode3Node.head ).toEqual(Constants.EOL + '        Text 1');
+        expect(hardcode4Node.head ).toEqual(Constants.EOL + '        Text 2');
+
+        expect(divNode.children.length  ).toEqual(4);
+        expect(spanNode.children.length ).toEqual(1);
+        expect(pNode.children.length    ).toEqual(1);
+    });
 });
 
 const getTemplatePath = number => {

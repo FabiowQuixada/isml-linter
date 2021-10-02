@@ -341,20 +341,53 @@ const checkIfNextElementIsATagOrHtmlComment = (content, state) => {
     return !isIscommentContent && !isScriptContent && !isIsscriptContent && content.startsWith('<') && content.substring(1).match(/^[A-z]/i) || content.startsWith('</') || content.startsWith('<!');
 };
 
+const getIscommentContent = state => {
+    for (let i = 0; i < state.remainingContent.length; i++) {
+        const remainingString = state.remainingContent.substring(i);
+
+        if (remainingString.startsWith('</iscomment>')) {
+            return state.remainingContent.substring(0, i);
+        }
+    }
+
+    return state.remainingContent;
+};
+
+const checkIfCurrentElementIsWithinIscomment = state => {
+    let depth = 0;
+
+    for (let i = state.elementList.length - 1; i >= 0 ; i--) {
+        const element = state.elementList[i];
+
+        if (element.tagType === 'iscomment') {
+            depth += element.isClosingTag ? -1 : 1;
+        }
+    }
+
+    return depth > 0 && !state.remainingContent.trimStart().startsWith('</iscomment>');
+};
+
+// TODO Refactor this function
 const getNewElement = state => {
 
-    const trimmedContent = state.remainingContent.trimStart();
-    const isTextElement  = !trimmedContent.startsWith('<') && !trimmedContent.startsWith('${');
+    const trimmedContent            = state.remainingContent.trimStart();
+    const isWithinIscomment         = checkIfCurrentElementIsWithinIscomment(state);
+    const isNextElementATag         = trimmedContent.startsWith('<');
+    const isNextElementAnExpression = trimmedContent.startsWith('${');
+    const isTextElement             = !isNextElementATag && !isNextElementAnExpression;
     let lastContiguousMaskedCharPos;
     let elementValue;
 
-    if (isTextElement) {
+    if (isWithinIscomment) {
+        elementValue = getIscommentContent(state);
+
+    } else if (isTextElement) {
 
         for (let i = 0; i < state.remainingContent.length; i++) {
-            const remainingString   = state.remainingContent.substring(i);
-            const isNextElementATag = checkIfNextElementIsATagOrHtmlComment(remainingString, state);
+            const remainingString                = state.remainingContent.substring(i);
+            const isNextElementATagOrHtmlComment = checkIfNextElementIsATagOrHtmlComment(remainingString, state);
 
-            if (isNextElementATag || remainingString.startsWith('${')) {
+            if (isNextElementATagOrHtmlComment || remainingString.startsWith('${')) {
                 lastContiguousMaskedCharPos = i;
                 break;
             }
@@ -363,10 +396,8 @@ const getNewElement = state => {
         elementValue = state.remainingContent.substring(0, lastContiguousMaskedCharPos);
     } else {
         if (state.elementList.length > 0 && state.elementList[state.elementList.length - 1].type === 'text') {
-            const isNextElementATag         = state.remainingContent.startsWith('<');
-            const isNextElementAnExpression = state.remainingContent.startsWith('${');
-            const localMaskedContent0       = MaskUtils.maskExpressionContent(state.remainingContent);
-            const localMaskedContent1       = MaskUtils.maskInBetween(localMaskedContent0, '<', '>');
+            const localMaskedContent0 = MaskUtils.maskExpressionContent(state.remainingContent);
+            const localMaskedContent1 = MaskUtils.maskInBetween(localMaskedContent0, '<', '>');
 
             for (let i = 0; i < localMaskedContent1.length; i++) {
                 if (isNextElementATag && localMaskedContent1[i] === '>') {
@@ -381,9 +412,16 @@ const getNewElement = state => {
             }
 
         } else {
-            for (let i = 0; i < state.remainingShadowContent.length; i++) {
-                if (state.remainingShadowContent[i] !== '_') {
-                    lastContiguousMaskedCharPos = i;
+            let remainingMaskedContent = state.remainingContent;
+
+            if (isNextElementATag) {
+                remainingMaskedContent = MaskUtils.maskExpressionContent(remainingMaskedContent);
+                remainingMaskedContent = MaskUtils.maskQuoteContent(remainingMaskedContent);
+            }
+
+            for (let i = 0; i < remainingMaskedContent.length; i++) {
+                if (isNextElementATag && remainingMaskedContent[i] === '>') {
+                    lastContiguousMaskedCharPos = i + 1;
                     break;
                 }
             }
