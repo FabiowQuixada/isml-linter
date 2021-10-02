@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.39.3] - 2021-10-02
+
+### Fixed
+ - [Issue #31][issue#31] - Attribute parse for 2-level embedded `<isif>` tags indentation;
+ - Tree build - When a node has a hardcode element as first child;
+
+### Security
+ - Upgraded dependencies;
+
 ## [5.39.2] - 2021-09-26
 
 ### Fixed
@@ -986,6 +995,7 @@
 ### Added
 - Linter is published;
 
+[5.39.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.2...v5.39.3
 [5.39.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.1...v5.39.2
 [5.39.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.0...v5.39.1
 [5.39.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.38.5...v5.39.0
