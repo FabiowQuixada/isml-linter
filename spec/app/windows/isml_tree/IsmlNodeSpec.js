@@ -465,6 +465,13 @@ describe(targetObjName, () => {
 
         expect(expressionAttribute.isFirstInLine).toEqual(true);
     });
+
+    it('allows node head to contain the "-" character', () => {
+        const rootNode   = getTreeRootFromTemplate(29);
+        const customNode = rootNode.children[0];
+
+        expect(customNode.getType()).toEqual('my-custom-tag');
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {

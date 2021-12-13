@@ -69,7 +69,7 @@ class IsmlNode {
             return 'text';
         }
 
-        const regex = /<[a-zA-Z\d_]*(\s|>|\/)/g;
+        const regex = /<[a-zA-Z\d_-]*(\s|>|\/)/g;
 
         return head.match(regex)[0].slice(1, -1);
     }
