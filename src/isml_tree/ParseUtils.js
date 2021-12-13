@@ -341,11 +341,11 @@ const checkIfNextElementIsATagOrHtmlComment = (content, state) => {
     return !isIscommentContent && !isScriptContent && !isIsscriptContent && content.startsWith('<') && content.substring(1).match(/^[A-z]/i) || content.startsWith('</') || content.startsWith('<!');
 };
 
-const getIscommentContent = state => {
+const getWrapperTagContent = (state, wrapperTagType) => {
     for (let i = 0; i < state.remainingContent.length; i++) {
         const remainingString = state.remainingContent.substring(i);
 
-        if (remainingString.startsWith('</iscomment>')) {
+        if (remainingString.startsWith(`</${wrapperTagType}>`)) {
             return state.remainingContent.substring(0, i);
         }
     }
@@ -353,25 +353,25 @@ const getIscommentContent = state => {
     return state.remainingContent;
 };
 
-const checkIfCurrentElementIsWithinIscomment = state => {
+const checkIfCurrentElementWrappedByTag = (state, wrapperTagType) => {
     let depth = 0;
 
     for (let i = state.elementList.length - 1; i >= 0 ; i--) {
         const element = state.elementList[i];
 
-        if (element.tagType === 'iscomment') {
+        if (element.tagType === wrapperTagType) {
             depth += element.isClosingTag ? -1 : 1;
         }
     }
 
-    return depth > 0 && !state.remainingContent.trimStart().startsWith('</iscomment>');
+    return depth > 0 && !state.remainingContent.trimStart().startsWith(`</${wrapperTagType}>`);
 };
 
 // TODO Refactor this function
 const getNewElement = state => {
 
     const trimmedContent            = state.remainingContent.trimStart();
-    const isWithinIscomment         = checkIfCurrentElementIsWithinIscomment(state);
+    const isWithinIscomment         = checkIfCurrentElementWrappedByTag(state, 'iscomment');
     const isNextElementATag         = trimmedContent.startsWith('<');
     const isNextElementAnExpression = trimmedContent.startsWith('${');
     const isTextElement             = !isNextElementATag && !isNextElementAnExpression;
@@ -379,7 +379,7 @@ const getNewElement = state => {
     let elementValue;
 
     if (isWithinIscomment) {
-        elementValue = getIscommentContent(state);
+        elementValue = getWrapperTagContent(state, 'iscomment');
 
     } else if (isTextElement) {
 
