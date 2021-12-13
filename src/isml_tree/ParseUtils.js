@@ -225,13 +225,13 @@ function isSelfClosing(trimmedElement) {
         return false;
     }
 
-    return isDocType ||
+    return !!(isDocType ||
         isVoidElement ||
         isExpression ||
         isHtmlComment ||
         isTag && isClosingTag ||
         isCustomIsmlTag ||
-        isIsmlTag && isSfccSelfClosingTag;
+        isIsmlTag && isSfccSelfClosingTag);
 }
 
 const getNextOpeningTagOrExpressionInitPos = content => {
