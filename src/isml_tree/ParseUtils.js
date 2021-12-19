@@ -369,6 +369,21 @@ const checkIfCurrentElementWrappedByTag = (state, wrapperTagType) => {
     return depth > 0 && !state.remainingContent.trimStart().startsWith(`</${wrapperTagType}>`);
 };
 
+const getTextLastContiguousMaskedCharPos = (state, isNextElementATag, isNextElementAnExpression) => {
+    const localMaskedContent0 = MaskUtils.maskExpressionContent(state.remainingContent);
+    const localMaskedContent1 = MaskUtils.maskInBetween(localMaskedContent0, '<', '>');
+
+    for (let i = 0; i < localMaskedContent1.length; i++) {
+        if (isNextElementATag && localMaskedContent1[i] === '>') {
+            return i + 1;
+        }
+
+        if (isNextElementAnExpression && localMaskedContent1[i] === '}') {
+            return i + 1;
+        }
+    }
+};
+
 // TODO Refactor this function
 const getNewElement = state => {
 
@@ -402,21 +417,8 @@ const getNewElement = state => {
         elementValue = state.remainingContent.substring(0, lastContiguousMaskedCharPos);
     } else {
         if (state.elementList.length > 0 && state.elementList[state.elementList.length - 1].type === 'text') {
-            const localMaskedContent0 = MaskUtils.maskExpressionContent(state.remainingContent);
-            const localMaskedContent1 = MaskUtils.maskInBetween(localMaskedContent0, '<', '>');
 
-            for (let i = 0; i < localMaskedContent1.length; i++) {
-                if (isNextElementATag && localMaskedContent1[i] === '>') {
-                    lastContiguousMaskedCharPos = i + 1;
-                    break;
-                }
-
-                if (isNextElementAnExpression && localMaskedContent1[i] === '}') {
-                    lastContiguousMaskedCharPos = i + 1;
-                    break;
-                }
-            }
-
+            lastContiguousMaskedCharPos = getTextLastContiguousMaskedCharPos(state, isNextElementATag, isNextElementAnExpression);
         } else {
             let remainingMaskedContent = state.remainingContent;
 
