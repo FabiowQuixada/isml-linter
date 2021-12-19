@@ -105,16 +105,18 @@ const checkBalance = (node, templatePath) => {
 const parseNextElement = state => {
     const newElement = getNewElement(state);
 
-    const trimmedElement  = newElement.value.trim();
-    const previousElement = state.elementList[state.elementList.length - 1] || {};
+    const trimmedElement     = newElement.value.trim();
+    const previousElement    = state.elementList[state.elementList.length - 1] || {};
+    const isIscommentContent = previousElement.tagType === 'iscomment' && !previousElement.isClosingTag && trimmedElement !== '</iscomment>';
+    const isIsscriptContent  = previousElement.tagType === 'isscript' && !previousElement.isClosingTag && trimmedElement !== '</isscript>';
 
-    if (previousElement.tagType === 'iscomment' && !previousElement.isClosingTag && trimmedElement !== '</iscomment>') {
+    if (isIsscriptContent || isIscommentContent) {
         newElement.lineNumber    = getLineBreakQty(state.pastContent) + getLeadingLineBreakQty(newElement.value) + 1;
         newElement.globalPos     = state.pastContent.length + getLeadingEmptyChars(newElement.value).length;
         newElement.type          = 'text';
         newElement.isSelfClosing = true;
 
-        if (state.isCrlfLineBreak) {
+        if (state.isCrlfLineBreak && isIscommentContent) {
             newElement.globalPos -= getLineBreakQty(newElement.value);
         }
     } else {
@@ -372,6 +374,7 @@ const getNewElement = state => {
 
     const trimmedContent            = state.remainingContent.trimStart();
     const isWithinIscomment         = checkIfCurrentElementWrappedByTag(state, 'iscomment');
+    const isWithinIsscript          = checkIfCurrentElementWrappedByTag(state, 'isscript');
     const isNextElementATag         = trimmedContent.startsWith('<');
     const isNextElementAnExpression = trimmedContent.startsWith('${');
     const isTextElement             = !isNextElementATag && !isNextElementAnExpression;
@@ -380,6 +383,9 @@ const getNewElement = state => {
 
     if (isWithinIscomment) {
         elementValue = getWrapperTagContent(state, 'iscomment');
+
+    } else if (isWithinIsscript) {
+        elementValue = getWrapperTagContent(state, 'isscript');
 
     } else if (isTextElement) {
 

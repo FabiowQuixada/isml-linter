@@ -17,14 +17,14 @@ describe('TreeBuilder', () => {
     it('gets unbalanced element length', () => {
         const tree = getTreeFromTemplate(0);
 
-        expect(tree.exception.message).toEqual('Unexpected </script> element');
-        expect(tree.exception.length).toEqual(9);
+        expect(tree.exception.message).toEqual('Unbalanced <isscript> element');
+        expect(tree.exception.length).toEqual(10);
     });
 
     it('gets unbalanced element global position', () => {
         const tree = getTreeFromTemplate(0);
 
-        expect(tree.exception.globalPos).toEqual(30);
+        expect(tree.exception.globalPos).toEqual(2);
     });
 
     it('gets unbalanced element length II', () => {

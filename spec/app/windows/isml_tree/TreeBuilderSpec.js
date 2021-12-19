@@ -770,6 +770,14 @@ describe(targetObjName, () => {
         expect(spanNode.children.length ).toEqual(1);
         expect(pNode.children.length    ).toEqual(1);
     });
+
+    it('ignores any tag defined in a string within an "isscript" tag', () => {
+        const rootNode     = getRootNodeFromTemplate(81);
+        const isscriptNode = rootNode.children[0];
+
+        expect(isscriptNode.getType()       ).toEqual('isscript');
+        expect(isscriptNode.getChildrenQty()).toEqual(1);
+    });
 });
 
 const getTemplatePath = number => {
