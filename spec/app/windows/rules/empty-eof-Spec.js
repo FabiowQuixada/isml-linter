@@ -54,4 +54,10 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(1);
     });
+
+    it('detects issue for a last <isif> element II', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 5);
+
+        expect(result[0].lineNumber).toEqual(2);
+    });
 });
