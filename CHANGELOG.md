@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.39.4] - 2022-01-30
+
+### Fixed
+ - "empty-eof" rule - line number for a last "isif" element;
+ - Handle "isscript" tag content as text;
+ - Allow custom node type to contain "-" character;
+ 
 ## [5.39.3] - 2021-10-02
 
 ### Fixed
@@ -995,6 +1002,7 @@
 ### Added
 - Linter is published;
 
+[5.39.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.3...v5.39.4
 [5.39.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.2...v5.39.3
 [5.39.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.1...v5.39.2
 [5.39.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.0...v5.39.1
