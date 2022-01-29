@@ -58,7 +58,7 @@ TreeRulePrototype.return = function(node, occurrenceList, config) {
 
         return  {
             occurrenceList
-        } ;
+        };
 
     } else {
         return occurrenceList;
