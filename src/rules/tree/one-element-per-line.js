@@ -1,7 +1,9 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
+const IndentRule        = require('../tree/indent');
 const ConfigUtils       = require('../../util/ConfigUtils');
-// const Constants         = require('../../Constants');
-// const GeneralUtils = require('../../util/GeneralUtils');
+const Constants         = require('../../Constants');
+const GeneralUtils      = require('../../util/GeneralUtils');
+const TreeBuilder       = require('../../isml_tree/TreeBuilder');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Only one element per line is allowed';
@@ -31,46 +33,32 @@ Rule.isBroken = function(node) {
         node.lineNumber === node.parent.lineNumber;
 };
 
-// Rule.getFixedContent = rootNode => {
-//     fixContent(rootNode);
+Rule.getFixedContent = rootNode => {
+    addLineBreaks(rootNode);
 
-//     return GeneralUtils.applyActiveLineBreaks(rootNode.toString());
-// };
+    // Rebuilding the tree automatically updates all node data, such as column number,
+    // line number, global position, etc;
+    const stringifiedTree   = rootNode.toString();
+    const newRootNode       = TreeBuilder.build(null, stringifiedTree).rootNode;
+    const partialFixContent = IndentRule.getFixedContent(newRootNode);
 
-// const fixContent = node => {
-//     for (let i = 0; i < node.children.length; i++) {
-//         const child = node.children[i];
+    return GeneralUtils.applyActiveLineBreaks(partialFixContent);
+};
 
-//         if (child.isInSameLineAsParent() && !node.isIsmlComment()) {
-//             const indentation       = getCorrectIndentation(child);
-//             const parentIndentation = getCorrectIndentation(node);
+const addLineBreaks = node => {
+    for (let i = 0; i < node.children.length; i++) {
+        const child = node.children[i];
 
-//             child.head = `${Constants.EOL}${indentation}${child.head}${Constants.EOL}${parentIndentation}`;
+        if (child.isInSameLineAsParent() && !node.isIsmlComment()) {
+            child.head = Constants.EOL + child.head;
+        }
 
-//             if (child.tail) {
-//                 child.setTail(`${Constants.EOL}${indentation}${child.tail}${Constants.EOL}`);
-//             }
-//         }
+        if (child.endLineNumber === node.lineNumber && !node.isIsmlComment()) {
+            node.tail = Constants.EOL + node.tail;
+        }
 
-//         fixContent(child);
-//     }
-// };
-
-// const getCorrectIndentation = node => {
-//     const indentSize = node.depth - 1;
-//     const config     = ConfigUtils.load();
-//     let indentation  = '';
-//     let indentUnit   = '';
-
-//     for (let i = 0; i < (config.indent || 4); ++i) {
-//         indentUnit += ' ';
-//     }
-
-//     for (let i = 0; i < indentSize; ++i) {
-//         indentation += indentUnit;
-//     }
-
-//     return indentation;
-// };
+        addLineBreaks(child);
+    }
+};
 
 module.exports = Rule;

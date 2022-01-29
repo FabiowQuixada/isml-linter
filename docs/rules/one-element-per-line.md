@@ -5,6 +5,8 @@ Enforces nodes that compose the ISML tree to not start at the same line number a
 ## Notes
 
 - Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
+- Auto-fixable;
+- Autofix feature will apply [indent rule][indent-readme] even if it's not declared in the configuration file;
 
 ## Configuration
 
@@ -16,7 +18,7 @@ Following are the available configurations for this rule, with default values:
 }
 ```
 
- Check the [Generic Configurations for Rules][generic-config].
+Check the [Generic Configurations for Rules][generic-config].
 
 
 ## Examples
@@ -68,3 +70,4 @@ For the above configuration, the following scenarios may happen:
 ```
 
 [generic-config]: <../generic-rule-config.md>
+[indent-readme]:  <docs/rules/indent.md>

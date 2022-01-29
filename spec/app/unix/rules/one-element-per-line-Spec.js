@@ -1,7 +1,7 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
-// const ConfigUtils  = require('../../../src/util/ConfigUtils');
-// const Constants = require('../../../src/Constants');
+const ConfigUtils  = require('../../../../src/util/ConfigUtils');
+const Constants    = require('../../../../src/Constants');
 
 const rule = SpecHelper.getTreeRule(specFileName);
 
@@ -37,39 +37,41 @@ describe('On Unix, ' + rule.id, () => {
         expect(result.length).toEqual(0);
     });
 
-    // it('fixes a simple template', () => {
-    //     const results = SpecHelper.getTreeRuleFixData(rule, 0);
+    it('fixes a simple template', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 0);
 
-    //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
-    // });
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 
-    // it('ignores ISML comment nodes', () => {
-    //     const results = SpecHelper.getTreeRuleFixData(rule, 1);
+    it('ignores ISML comment nodes', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 1);
 
-    //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
-    // });
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 
-    // it('fixes a complex template', () => {
-    //     const results = SpecHelper.getTreeRuleFixData(rule, 2);
+    it('fixes a complex template', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 2);
 
-    //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
-    // });
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 
-    // it('fixes a complex template with custom indent size', () => {
-    //     ConfigUtils.load({
-    //         indent : 2,
-    //         rules  : {
-    //             'one-element-per-line' : {}
-    //         }
-    //     });
-    //     const results = SpecHelper.getTreeRuleFixData(rule, 3);
+    it('fixes a complex template with custom indent size', () => {
+        ConfigUtils.load({
+            rules  : {
+                'one-element-per-line' : {},
+                indent: {
+                    value : 2
+                }
+            }
+        });
+        const results = SpecHelper.getTreeRuleFixData(rule, 3);
 
-    //     expect(results.actualContent).toEqual(results.fixedTemplateContent);
-    // });
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 
-    // it('sets Unix line breaks on autofix feature', () => {
-    //     const results = SpecHelper.getTreeRuleFixData(rule, 0);
+    it('sets Unix line breaks on autofix feature', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 0);
 
-    // expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
-    // });
+        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
+    });
 });

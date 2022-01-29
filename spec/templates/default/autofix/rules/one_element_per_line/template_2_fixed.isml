@@ -2,7 +2,7 @@
 
 <iscomment>
     Module description
-    
+
     The following can parameters can be passed to this module:  
 
     someObject       : {Object} A simple js object
@@ -64,9 +64,9 @@
 
         <iscomment>Item details for mobile</iscomment>
         <div class="item_details_mobile">
-                <div class="price_sale single_product_price">
-                    <isproductprice p_product="${productLineItem.product}" />
-                </div>
+            <div class="price_sale single_product_price">
+                <isproductprice p_product="${productLineItem.product}" />
+            </div>
         </div>
 
 
@@ -98,16 +98,16 @@
 
     <iscomment>Price</iscomment>
     <td class="item_total">
-            <div class="price_sale single_product_price">
-                <isproductprice p_product="${productLineItem.product}" />
-            </div>
+        <div class="price_sale single_product_price">
+            <isproductprice p_product="${productLineItem.product}" />
+        </div>
     </td>
 </tr>
 
 
 <iscomment>Price</iscomment>
 <td class="item_total">
-        <div class="price_sale single_product_price">
-            <isproductprice p_product="${productLineItem.product}" />
-        </div>
+    <div class="price_sale single_product_price">
+        <isproductprice p_product="${productLineItem.product}" />
+    </div>
 </td>
