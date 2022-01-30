@@ -49,7 +49,7 @@ const addLineBreaks = node => {
     for (let i = 0; i < node.children.length; i++) {
         const child = node.children[i];
 
-        if (child.isInSameLineAsParent() && !node.isIsmlComment()) {
+        if ((child.isInSameLineAsParent() || child.isInSameLineAsPreviousSibling()) && !node.isIsmlComment()) {
             child.head = Constants.EOL + child.head;
         }
 

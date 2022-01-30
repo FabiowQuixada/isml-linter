@@ -1,0 +1,6 @@
+<div>
+    <i class="my-class"></i>
+    <span>
+        ${myVariable}
+    </span>
+</div>
