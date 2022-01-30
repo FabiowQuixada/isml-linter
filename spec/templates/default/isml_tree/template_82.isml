@@ -1,0 +1,4 @@
+<isif
+condition="${condition}">
+    <isprint value="${value}" encoding="on" />
+</isif>

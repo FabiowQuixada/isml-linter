@@ -193,6 +193,7 @@ const getElementType = trimmedElement => {
         const typeValueLastPos = Math.min(...[
             trimmedElement.indexOf(' '),
             trimmedElement.indexOf('/'),
+            trimmedElement.indexOf(Constants.EOL),
             trimmedElement.indexOf('>')
         ].filter(j => j >= 0));
 

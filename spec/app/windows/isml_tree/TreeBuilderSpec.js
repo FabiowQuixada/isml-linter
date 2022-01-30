@@ -778,6 +778,14 @@ describe(targetObjName, () => {
         expect(isscriptNode.getType()       ).toEqual('isscript');
         expect(isscriptNode.getChildrenQty()).toEqual(1);
     });
+
+    it('allows "condition" attribute to be in a different line from "isif" tag type', () => {
+        const rootNode = getRootNodeFromTemplate(82);
+        const isifNode = rootNode.children[0].children[0];
+
+        expect(isifNode.getType()       ).toEqual('isif');
+        expect(isifNode.getChildrenQty()).toEqual(1);
+    });
 });
 
 const getTemplatePath = number => {
