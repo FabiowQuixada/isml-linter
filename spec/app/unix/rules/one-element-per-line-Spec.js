@@ -75,6 +75,12 @@ describe('On Unix, ' + rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('doesn\'t add an extra line break to element tail', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 5);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('sets Unix line breaks on autofix feature', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 0);
 

@@ -53,7 +53,7 @@ const addLineBreaks = node => {
             child.head = Constants.EOL + child.head;
         }
 
-        if (child.endLineNumber === node.lineNumber && !node.isIsmlComment()) {
+        if (child.endLineNumber === node.lineNumber && !node.isIsmlComment() && !node.tail.startsWith(Constants.EOL)) {
             node.tail = Constants.EOL + node.tail;
         }
 
