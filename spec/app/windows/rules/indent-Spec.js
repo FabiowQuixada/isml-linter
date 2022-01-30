@@ -1366,4 +1366,10 @@ describe(rule.id, () => {
         expect(result.globalPos).toEqual(77);
         expect(result.length).toEqual(1);
     });
+
+    it('keeps lonely "iscomment" element tail indentation', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 53);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

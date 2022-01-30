@@ -754,6 +754,9 @@ const checkIfShouldAddIndentationToTail = node => {
         !isTailInSameLineAsChild &&
         !isInSameLineAsChild &&
         !isLastClause
+    // TODO Works for a specific case only. Might have side effects;
+    ||
+        node.isOfType('iscomment') && !isTailInSameLineAsChild
     ||
         isBrokenIntoMultipleLines;
 

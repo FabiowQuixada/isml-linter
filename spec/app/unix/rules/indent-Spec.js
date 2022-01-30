@@ -1365,4 +1365,10 @@ describe('On Unix, ' + rule.id, () => {
         expect(result.globalPos).toEqual(76);
         expect(result.length).toEqual(1);
     });
+
+    it('keeps lonely "iscomment" element tail indentation', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 53);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });
