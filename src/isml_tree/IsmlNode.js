@@ -251,6 +251,14 @@ class IsmlNode {
         return this.parent && this.parent.isIsmlComment();
     }
 
+    isHardCodedText() {
+        return !this.isRoot()
+            && !this.isContainer()
+            && !this.isConditionalComment()
+            && !this.isTag()
+            && !this.isExpression();
+    }
+
     getPreviousSibling() {
         if (!this.parent || !this.parent.isContainer() && this.isFirstChild() || this.parent.isContainer() && this.parent.isFirstChild() && this.isFirstChild()) {
             return null;

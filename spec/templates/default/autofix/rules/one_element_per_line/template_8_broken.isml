@@ -1,0 +1,3 @@
+<div>
+    <span>${Resource.msg('link.header.login', 'account', null)}</span>
+</div>

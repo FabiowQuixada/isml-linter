@@ -1,0 +1,3 @@
+<div>
+    <p><span class="shipping-discount-total">- ${pdict.order.totals.shippingLevelDiscountTotal.formatted}</span></p>
+</div>

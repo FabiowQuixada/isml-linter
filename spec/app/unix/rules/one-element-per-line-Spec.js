@@ -8,6 +8,7 @@ const rule = SpecHelper.getTreeRule(specFileName);
 describe('On Unix, ' + rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
+        ConfigUtils.setRuleConfig('one-element-per-line', {});
     });
 
     afterEach(() => {
@@ -77,6 +78,33 @@ describe('On Unix, ' + rule.id, () => {
 
     it('doesn\'t add an extra line break to element tail', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 5);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('allows non-tag elements to be in the same line as parent if configuration is set', () => {
+        ConfigUtils.setRuleConfig('one-element-per-line', {
+            except: ['non-tag']
+        });
+        const results = SpecHelper.getTreeRuleFixData(rule, 6);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('allows non-tag elements to be in the same line as parent if configuration is set II', () => {
+        ConfigUtils.setRuleConfig('one-element-per-line', {
+            except: ['non-tag']
+        });
+        const results = SpecHelper.getTreeRuleFixData(rule, 7);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('allows non-tag elements to be in the same line as parent if configuration is set III', () => {
+        ConfigUtils.setRuleConfig('one-element-per-line', {
+            except: ['non-tag']
+        });
+        const results = SpecHelper.getTreeRuleFixData(rule, 8);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });

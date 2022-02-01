@@ -46,19 +46,37 @@ Rule.getFixedContent = rootNode => {
 };
 
 const addLineBreaks = node => {
+    const config              = ConfigUtils.load();
+    const ruleConfig          = config.rules[ruleId];
+    const shouldIgnoreNonTags = ruleConfig && ruleConfig.except && ruleConfig.except.indexOf('non-tag') >= 0;
+
     for (let i = 0; i < node.children.length; i++) {
         const child = node.children[i];
 
-        if ((child.isInSameLineAsParent() || child.isInSameLineAsPreviousSibling()) && !node.isIsmlComment()) {
+        if (shouldAddLeadingLineBreakToChildHead(node, child, shouldIgnoreNonTags)) {
             child.head = Constants.EOL + child.head;
         }
 
-        if (child.endLineNumber === node.lineNumber && !node.isIsmlComment() && !node.tail.startsWith(Constants.EOL)) {
+        if (shouldAddLeadingLineBreakToParentTail(node, child, shouldIgnoreNonTags)) {
             node.tail = Constants.EOL + node.tail;
         }
 
         addLineBreaks(child);
     }
+};
+
+const shouldAddLeadingLineBreakToChildHead = (node, child, shouldIgnoreNonTags) => {
+    return (child.isInSameLineAsParent() || child.isInSameLineAsPreviousSibling())
+        && !node.isIsmlComment()
+        && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);
+};
+
+const shouldAddLeadingLineBreakToParentTail = (node, child, shouldIgnoreNonTags) => {
+    return child.isLastChild()
+        && child.endLineNumber === node.lineNumber
+        && !node.isIsmlComment()
+        && !node.tail.startsWith(Constants.EOL)
+        && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);
 };
 
 module.exports = Rule;

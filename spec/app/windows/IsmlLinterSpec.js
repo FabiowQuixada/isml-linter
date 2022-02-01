@@ -33,6 +33,9 @@ describe(targetObjName, () => {
 
     it('lints ISML templates in a given directory', () => {
         ConfigUtils.setConfig('ignoreUnparseable', false);
+        ConfigUtils.setRuleConfig('one-element-per-line', {
+            except: ['non-tag']
+        });
 
         const result           = IsmlLinter.run(specSpecificDirLinterTemplate, null, { isCrlfLineBreak });
         const isprintError0    = result.errors[EnforceIsprintRule.id][template0Path][0];
@@ -76,6 +79,9 @@ describe(targetObjName, () => {
 
     it('lints ISML templates in a given array of template paths', () => {
         ConfigUtils.setConfig('ignoreUnparseable', false);
+        ConfigUtils.setRuleConfig('one-element-per-line', {
+            except: ['non-tag']
+        });
 
         const templatePathArray = glob.sync('spec/templates/default/isml_linter/specific_directory_to_be_linted/**/*.isml');
         const result            = IsmlLinter.run(templatePathArray, null, { isCrlfLineBreak });

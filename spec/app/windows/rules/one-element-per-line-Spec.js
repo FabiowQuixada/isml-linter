@@ -9,6 +9,7 @@ const isCrlfLineBreak = true;
 describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
+        ConfigUtils.setRuleConfig('one-element-per-line', {});
     });
 
     afterEach(() => {
@@ -82,6 +83,33 @@ describe(rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('allows non-tag elements to be in the same line as parent if configuration is set', () => {
+        ConfigUtils.setRuleConfig('one-element-per-line', {
+            except: ['non-tag']
+        });
+        const results = SpecHelper.getTreeRuleFixData(rule, 6);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('allows non-tag elements to be in the same line as parent if configuration is set II', () => {
+        ConfigUtils.setRuleConfig('one-element-per-line', {
+            except: ['non-tag']
+        });
+        const results = SpecHelper.getTreeRuleFixData(rule, 7);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('allows non-tag elements to be in the same line as parent if configuration is set III', () => {
+        ConfigUtils.setRuleConfig('one-element-per-line', {
+            except: ['non-tag']
+        });
+        const results = SpecHelper.getTreeRuleFixData(rule, 8);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('sets Unix line breaks on autofix feature', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 0);
 
@@ -99,8 +127,6 @@ describe(rule.id, () => {
     });
 
     it('raises an error if "iscomment" option is not set as exception', () => {
-        ConfigUtils.setRuleConfig('one-element-per-line', {});
-
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 3, isCrlfLineBreak);
 
         expect(result.length).toEqual(1);
@@ -117,8 +143,6 @@ describe(rule.id, () => {
     });
 
     it('raises an error if "non-tag" option is not set as exception', () => {
-        ConfigUtils.setRuleConfig('one-element-per-line', {});
-
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 4, isCrlfLineBreak);
 
         expect(result.length).toEqual(1);
