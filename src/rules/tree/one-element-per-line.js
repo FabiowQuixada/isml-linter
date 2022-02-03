@@ -30,7 +30,7 @@ Rule.isBroken = function(node) {
 
     return !node.isRoot() &&
         !node.parent.isContainer() &&
-        node.lineNumber === node.parent.lineNumber;
+        node.lineNumber === node.parent.endLineNumber;
 };
 
 Rule.getFixedContent = rootNode => {
@@ -66,14 +66,14 @@ const addLineBreaks = node => {
 };
 
 const shouldAddLeadingLineBreakToChildHead = (node, child, shouldIgnoreNonTags) => {
-    return (child.isInSameLineAsParent() || child.isInSameLineAsPreviousSibling())
+    return (child.isInSameLineAsParentEnd() || child.isInSameLineAsPreviousSibling())
         && !node.isIsmlComment()
         && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);
 };
 
 const shouldAddLeadingLineBreakToParentTail = (node, child, shouldIgnoreNonTags) => {
     return child.isLastChild()
-        && child.endLineNumber === node.lineNumber
+        && child.endLineNumber === node.tailLineNumber
         && !node.isIsmlComment()
         && !node.tail.startsWith(Constants.EOL)
         && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);

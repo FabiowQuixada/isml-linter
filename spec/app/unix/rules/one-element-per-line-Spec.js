@@ -109,6 +109,12 @@ describe('On Unix, ' + rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('sets element to its own line if it is in the same line as parent head end line', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 9);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('sets Unix line breaks on autofix feature', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 0);
 

@@ -1,0 +1,7 @@
+<div>
+    <a
+        href="${URLUtils.url('Product-SizeChart', 'pid', product.id)}"
+    >
+        ${Resource.msg('size.chart.heading', 'product', null)}
+    </a>
+</div>
