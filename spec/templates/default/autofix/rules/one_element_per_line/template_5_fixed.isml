@@ -1,4 +1,3 @@
 <span>
-    ${Resource.msg("label.item", "product", null)}
-    ${product.id}
+    ${Resource.msg("label.item", "product", null)} ${product.id}
 </span>

@@ -115,9 +115,33 @@ describe('On Unix, ' + rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('allows non-tag elements to be in the same line by default', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 10);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
+    it('allows non-tag elements to be in the same line by default II', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 11);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('sets Unix line breaks on autofix feature', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 0);
 
         expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
+    });
+
+    it('does not raise an issue for special characters by default', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 6);
+
+        expect(result.length).toEqual(0);
+    });
+
+    it('does not raise an issue for special characters by default II', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 7);
+
+        expect(result.length).toEqual(0);
     });
 });

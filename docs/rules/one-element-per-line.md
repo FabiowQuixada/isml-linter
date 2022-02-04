@@ -63,6 +63,22 @@ For the above configuration, the following scenarios may happen:
 }
 ```
 
+#### Example #4
+
+ISML expressions concatenated with other ISML expressions or hardcoded strings will be kept in the same line:
+
+```
+<span>
+    ${Resource.msg('label.quantity', 'common', null)}: // Valid;
+</span>
+```
+
+```
+<span>
+    ${customer.firstName} ${customer.lastName} // Valid;
+</span>
+```
+
 For the above configuration, the following scenarios may happen:
 
 ```
