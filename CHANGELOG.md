@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.40.0] - 2022-02-05
+
+### Added
+ - "one-element-per-line" rule autofix;
+
+### Fixed
+ - Small "indent" rule issue;
+ - Tree build edge case;
+ 
 ## [5.39.4] - 2022-01-30
 
 ### Fixed
@@ -1002,6 +1011,7 @@
 ### Added
 - Linter is published;
 
+[5.40.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.4...v5.40.0
 [5.39.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.3...v5.39.4
 [5.39.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.2...v5.39.3
 [5.39.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.1...v5.39.2
