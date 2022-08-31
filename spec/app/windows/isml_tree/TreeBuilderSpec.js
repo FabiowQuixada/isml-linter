@@ -2,6 +2,7 @@ const SpecHelper     = require('../../../SpecHelper');
 const TreeBuilder    = require('../../../../src/isml_tree/TreeBuilder');
 const Constants      = require('../../../../src/Constants');
 const ExceptionUtils = require('../../../../src/util/ExceptionUtils');
+const ParseStatus    = require('../../../../src/enums/ParseStatus');
 
 const targetObjName   = SpecHelper.getTargetObjName(__filename);
 const isCrlfLineBreak = true;
@@ -785,6 +786,14 @@ describe(targetObjName, () => {
 
         expect(isifNode.getType()       ).toEqual('isif');
         expect(isifNode.getChildrenQty()).toEqual(1);
+    });
+
+    it('identifies invalid nested "isif" element', () => {
+        const tree = getTreeFromTemplate(83);
+
+        expect(tree.status).toEqual(ParseStatus.INVALID_DOM);
+        expect(tree.exception.type).toEqual(ExceptionUtils.types.INVALID_NESTED_ISIF);
+        expect(tree.exception.message).toEqual('An error occurred while parsing element "<button>" in line 2. Try moving the closing character ">" of the "<button>" element to outside of the "<isif>" condition.');
     });
 });
 

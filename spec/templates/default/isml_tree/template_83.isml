@@ -1,0 +1,11 @@
+<div>
+    <button 
+        type="button" 
+    <isif condition="${aCondition}">
+        aria-label="some-value">
+    <iselse>
+        aria-label="some-other-value">
+    </isif>
+        ${'My button'}
+    </button>
+</div>
