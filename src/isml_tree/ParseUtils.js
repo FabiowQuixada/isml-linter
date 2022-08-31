@@ -132,7 +132,7 @@ const parseNextElement = state => {
     }
 
     state.elementList.push(newElement);
-
+    
     if (newElement.type === 'htmlTag' && newElement.value.indexOf('<isif') >= 0 && newElement.value.indexOf('</isif') < 0) {
         throw ExceptionUtils.invalidNestedIsifError(
             newElement.tagType,
@@ -463,13 +463,21 @@ const getNewElement = state => {
 
 const getElementList = (templateContent, templatePath, isCrlfLineBreak) => {
 
-    const state       = getInitialState(templateContent, templatePath, isCrlfLineBreak);
-    const elementList = state.elementList;
+    const state              = getInitialState(templateContent, templatePath, isCrlfLineBreak);
+    const elementList        = state.elementList;
+    let previousStateContent = state.remainingShadowContent;
 
     do {
         initLoopState(state);
         parseNextElement(state);
         finishLoopState(state);
+
+        if (previousStateContent.length === state.remainingShadowContent.length) {
+            throw ExceptionUtils.unkownError(templatePath);
+        }
+
+        previousStateContent = state.remainingShadowContent;
+
     } while (state.remainingShadowContent.length > 0);
 
     adjustTrailingSpaces(state);

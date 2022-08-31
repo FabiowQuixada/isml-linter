@@ -102,7 +102,7 @@ const invalidCharacterError = (character, lineNumber, globalPos, length, templat
 
 const invalidNestedIsifError = (tagType, lineNumber, globalPos, templatePath) => {
     return {
-        message      : `An error occurred while parsing element "<${tagType}>" in line ${lineNumber}. Try moving the ">" character of the "<${tagType}>" element to outside of the "<isif>" contiditon.`,
+        message      : `An error occurred while parsing element "<${tagType}>" in line ${lineNumber}. Try moving the closing character ">" of the "<${tagType}>" element to outside of the "<isif>" condition.`,
         templatePath : templatePath,
         globalPos,
         length       : tagType.length,
@@ -119,6 +119,15 @@ const parseError = (elementType, lineNumber, globalPos, length, templatePath) =>
         globalPos,
         length,
         lineNumber   : lineNumber,
+        isCustom     : true,
+        type         : types.UNKNOWN_ERROR
+    };
+};
+
+const unkownError = (templatePath) => {
+    return {
+        message      : `An unexpected error happened while parsing template ${templatePath}. Please consider adding it to the ignore list for now.`,
+        templatePath : templatePath,
         isCustom     : true,
         type         : types.UNKNOWN_ERROR
     };
@@ -150,6 +159,7 @@ module.exports = {
     parseError,
     unbalancedQuotesError,
     ruleApplianceError,
+    unkownError,
     invalidNestedIsifError,
     unclosedDeprecatedIsmlComment,
     unbalancedElementError,
