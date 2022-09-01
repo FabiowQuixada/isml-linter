@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.40.1] - 2022-09-01
+
+### Fixed
+ - HTML-element embedded `<isif>` condition scenario;
+ - Added mechanism to prevent infinite loops in case of unexpected errors;
+ 
 ## [5.40.0] - 2022-02-05
 
 ### Added
@@ -1011,6 +1017,7 @@
 ### Added
 - Linter is published;
 
+[5.40.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.0...v5.40.1
 [5.40.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.4...v5.40.0
 [5.39.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.3...v5.39.4
 [5.39.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.2...v5.39.3
