@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.40.3] - 2022-09-12
+
+### Fixed
+ - [Issue #35][issue#35] - Manually set bin file linebreak to LF, as previous version didn't fix the issue;
 
 ## [5.40.2] - 2022-09-05
 
@@ -1023,6 +1027,7 @@
 ### Added
 - Linter is published;
 
+[5.40.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.2...v5.40.3
 [5.40.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.1...v5.40.2
 [5.40.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.0...v5.40.1
 [5.40.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.39.4...v5.40.0
