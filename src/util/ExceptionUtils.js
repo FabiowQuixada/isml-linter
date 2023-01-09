@@ -105,7 +105,7 @@ const invalidNestedIsifError = (tagType, lineNumber, globalPos, templatePath) =>
         message      : `An error occurred while parsing element "<${tagType}>" in line ${lineNumber}. Try moving the closing character ">" of the "<${tagType}>" element to outside of the "<isif>" condition.`,
         templatePath : templatePath,
         globalPos,
-        length       : tagType.length,
+        length       : tagType.length + 1,
         lineNumber   : lineNumber,
         isCustom     : true,
         type         : types.INVALID_NESTED_ISIF
