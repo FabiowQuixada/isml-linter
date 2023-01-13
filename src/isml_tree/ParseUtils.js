@@ -140,6 +140,14 @@ const parseNextElement = state => {
             newElement.globalPos,
             state.templatePath
         );
+    } else if (newElement.value.trim() === '>') {
+        throw ExceptionUtils.invalidCharacterError(
+            '>',
+            newElement.lineNumber,
+            newElement.globalPos,
+            1,
+            state.templatePath
+        );
     }
 
     return newElement;

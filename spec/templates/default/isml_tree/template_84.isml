@@ -1,0 +1,7 @@
+<fieldset>
+    <span>
+        ${Resource.msg('label','forms',null)}>
+    </span>
+    <isif condition="${myCondition}">
+    </isif>
+</fieldset>

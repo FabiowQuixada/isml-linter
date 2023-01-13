@@ -796,6 +796,15 @@ describe(targetObjName, () => {
         expect(tree.exception.type   ).toEqual(ExceptionUtils.types.INVALID_NESTED_ISIF);
         expect(tree.exception.message).toEqual('An error occurred while parsing element "<button>" in line 2. Try moving the closing character ">" of the "<button>" element to outside of the "<isif>" condition.');
     });
+
+    it('identifies invalid loose ">" character', () => {
+        const tree = getTreeFromTemplate(84);
+
+        expect(tree.status           ).toEqual(ParseStatus.INVALID_DOM);
+        expect(tree.exception.length ).toEqual(1);
+        expect(tree.exception.type   ).toEqual(ExceptionUtils.types.INVALID_CHARACTER);
+        expect(tree.exception.message).toEqual('Invalid character ">" found');
+    });
 });
 
 const getTemplatePath = number => {
