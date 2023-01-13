@@ -2,7 +2,7 @@ const SingleLineRulePrototype = require('../prototypes/SingleLineRulePrototype')
 
 const ruleId         = require('path').basename(__filename).slice(0, -3);
 const description    = 'Avoid using inline style';
-const occurrenceText = 'style="';
+const occurrenceText = ' style="';
 
 const Rule = Object.create(SingleLineRulePrototype);
 
@@ -11,7 +11,7 @@ Rule.init(ruleId, description);
 Rule.isBroken = function(line) { return line.indexOf('<isprint') === -1 && line.indexOf(occurrenceText) >= 0; };
 
 Rule.getColumnNumber = function(line) {
-    return Math.max(line.indexOf(occurrenceText), 0) + 1;
+    return Math.max(line.indexOf(occurrenceText), 0) + 2;
 };
 
 Rule.getFirstOccurrence = function(line) {
@@ -23,8 +23,8 @@ Rule.getFirstOccurrence = function(line) {
         const matchPos = line.indexOf(occurrenceText);
 
         result = {
-            globalPos : matchPos,
-            length    : occurrenceText.length - 2
+            globalPos : matchPos + 1,
+            length    : occurrenceText.length - 3
         };
     }
 

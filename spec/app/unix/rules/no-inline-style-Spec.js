@@ -46,4 +46,11 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(result.occurrenceList).toEqual([]);
     });
+
+    it('allows attribute with "style" substring', () => {
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 3);
+        const result          = rule.check(templateContent);
+
+        expect(result.occurrenceList).toEqual([]);
+    });
 });
