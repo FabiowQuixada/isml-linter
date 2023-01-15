@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.40.5] - 2023-01-15
+
+### Fixed
+ - Disallow void elements closing tags;
+ - Minor output messages improvement;
+
 ## [5.40.4] - 2023-01-15
 
 ### Fixed
@@ -1034,6 +1040,7 @@
 ### Added
 - Linter is published;
 
+[5.40.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.4...v5.40.5
 [5.40.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.3...v5.40.4
 [5.40.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.2...v5.40.3
 [5.40.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.1...v5.40.2
