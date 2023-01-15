@@ -805,6 +805,15 @@ describe(targetObjName, () => {
         expect(tree.exception.type   ).toEqual(ExceptionUtils.types.INVALID_CHARACTER);
         expect(tree.exception.message).toEqual('Invalid character ">" found');
     });
+
+    it('disallows void elements closing tag', () => {
+        const tree = getTreeFromTemplate(85);
+
+        expect(tree.status           ).toEqual(ParseStatus.INVALID_DOM);
+        expect(tree.exception.length ).toEqual(8);
+        expect(tree.exception.type   ).toEqual(ExceptionUtils.types.VOID_ELEMENT_CLOSING_TAG);
+        expect(tree.exception.message).toEqual('"<input>" is a void element, and as such, should not have a corresponding closing tag');
+    });
 });
 
 const getTemplatePath = number => {

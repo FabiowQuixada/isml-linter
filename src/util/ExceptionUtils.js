@@ -7,6 +7,7 @@ const types = {
     INVALID_TEMPLATE                 : 'INVALID_TEMPLATE',
     INVALID_NESTED_ISIF              : 'INVALID_NESTED_ISIF',
     INVALID_CHARACTER                : 'INVALID_CHARACTER',
+    VOID_ELEMENT_CLOSING_TAG         : 'VOID_ELEMENT_CLOSING_TAG',
     RULE_ERROR                       : 'RULE_ERROR',
     NO_CONFIG                        : 'NO_CONFIG',
 };
@@ -100,6 +101,18 @@ const invalidCharacterError = (character, lineNumber, globalPos, length, templat
     };
 };
 
+const voidElementClosingTag = (element, lineNumber, globalPos, length, templatePath) => {
+    return {
+        message      : `"<${element}>" is a void element, and as such, should not have a corresponding closing tag`,
+        templatePath : templatePath,
+        globalPos,
+        length,
+        lineNumber   : lineNumber,
+        isCustom     : true,
+        type         : types.VOID_ELEMENT_CLOSING_TAG
+    };
+};
+
 const invalidNestedIsifError = (tagType, lineNumber, globalPos, templatePath) => {
     return {
         message      : `An error occurred while parsing element "<${tagType}>" in line ${lineNumber}. Try moving the closing character ">" of the "<${tagType}>" element to outside of the "<isif>" condition.`,
@@ -160,6 +173,7 @@ module.exports = {
     unbalancedQuotesError,
     ruleApplianceError,
     unkownError,
+    voidElementClosingTag,
     invalidNestedIsifError,
     unclosedDeprecatedIsmlComment,
     unbalancedElementError,

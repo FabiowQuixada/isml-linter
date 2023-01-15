@@ -103,6 +103,9 @@ const checkBalance = (node, templatePath) => {
 };
 
 const parseNextElement = state => {
+    const ConfigUtils = require('../util/ConfigUtils');
+
+    const config     = ConfigUtils.load();
     const newElement = getNewElement(state);
 
     const trimmedElement     = newElement.value.trim();
@@ -125,7 +128,8 @@ const parseNextElement = state => {
             parseTextElement(state, newElement);
     }
 
-    newElement.columnNumber = getElementColumnNumber(newElement, state);
+    newElement.columnNumber  = getElementColumnNumber(newElement, state);
+    newElement.isVoidElement = !config.disableHtml5 && Constants.voidElementsArray.indexOf(newElement.tagType) >= 0;
 
     if (state.isCrlfLineBreak) {
         newElement.globalPos += newElement.lineNumber - 1;

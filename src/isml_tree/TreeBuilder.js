@@ -110,7 +110,17 @@ const parseContainerElements = (element, currentParent, newNode, templatePath) =
 
 const parseNonContainerElements = (element, currentParent, newNode, templatePath) => {
     if (element.isSelfClosing) {
-        currentParent.addChild(newNode);
+        if (element.isClosingTag && element.isVoidElement) {
+            throw ExceptionUtils.voidElementClosingTag(
+                element.tagType,
+                element.lineNumber,
+                element.globalPos,
+                element.value.trim().length,
+                templatePath
+            );
+        } else {
+            currentParent.addChild(newNode);
+        }
     } else if (!element.isClosingTag && element.tagType !== 'isif') {
         currentParent.addChild(newNode);
 
