@@ -4,3 +4,10 @@ spec/temp/
 
 *.log
 *.tgz
+
+# Files that are fixed by some of the specs keep on being changed, so these changes must be ignored. Run the following command...
+#
+# git update-index --assume-unchanged
+#
+# ...for the following files:
+# - ./spec/templates/default/public_api/template_1.isml
