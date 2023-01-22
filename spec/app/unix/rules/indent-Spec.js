@@ -1371,4 +1371,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('identifies line content for unindented quote scenario', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 60);
+
+        expect(result[0].line).toEqual('        ">');
+    });
 });

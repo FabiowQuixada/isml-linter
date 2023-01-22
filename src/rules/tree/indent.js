@@ -161,8 +161,14 @@ Rule.isQuoteClosingCharBroken = function(node) {
                     '';
 
             if (message) {
+                const line = node
+                    .getRoot() 
+                    .toString()
+                    .split(Constants.EOL)[lineNumber - 1];
+
                 result.push({
                     quoteChar    : attribute.quoteChar,
+                    line         : line,
                     lineNumber   : lineNumber,
                     columnNumber : columnNumber,
                     globalPos    : globalPos,
