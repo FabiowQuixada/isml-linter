@@ -30,6 +30,16 @@ you have access to the following methods:
     parse(path, content, config)
 
     /**
+     * Parses all files under a specific path and fixes all fixable issues;
+     *
+     * @param  {String|Array} path     File path, directory path or array of file paths
+     * @param  {String}       content  File content
+     * @param  {Object}       [config] ISML Linter configuration JSON
+     * @return {Object}                Structured parse result
+     **/
+    fix(path, content, config)
+
+    /**
      * Prints errors to console;
      */
     printResults()

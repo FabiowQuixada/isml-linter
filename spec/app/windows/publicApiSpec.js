@@ -137,4 +137,54 @@ describe(targetObjName, () => {
         expect(loadedConfig).toEqual(config);
         expect(errorQty).toEqual(1);
     });
+
+    it('fixes line-by-line and tree rules in a single run with no config parameter', () => {
+        const config = {
+            rules : {
+                'indent'              : {},
+                'no-space-only-lines' : {}
+            }
+        };
+
+        publicApi.setConfig(config);
+
+        global.isSimulatingProductionEnvironment = true;
+
+        const templatePath          = path.join(Constants.specPublicApiTemplatesDir, 'template_1.isml');
+        const fixedTemplatePath     = path.join(Constants.specPublicApiTemplatesDir, 'template_1_fixed.isml');
+        const templateContent       = fs.readFileSync(templatePath, 'utf-8');
+        const expectedFinalContent  = fs.readFileSync(fixedTemplatePath, 'utf-8');
+        const result                = publicApi.fix(templatePath, templateContent);
+        const errorQty              = Object.keys(result.errors).length;
+        const loadedConfig          = publicApi.getConfig();
+        const actualTemplateContent = fs.readFileSync(templatePath, 'utf-8');
+
+        expect(actualTemplateContent).toEqual(expectedFinalContent);
+        expect(loadedConfig         ).toEqual(config);
+        expect(errorQty             ).toEqual(0);
+    });
+
+    it('fixes line-by-line and tree rules in a single run with config parameter', () => {
+        const config = {
+            rules : {
+                'indent'              : {},
+                'no-space-only-lines' : {}
+            }
+        };
+
+        global.isSimulatingProductionEnvironment = true;
+
+        const templatePath          = path.join(Constants.specPublicApiTemplatesDir, 'template_1.isml');
+        const fixedTemplatePath     = path.join(Constants.specPublicApiTemplatesDir, 'template_1_fixed.isml');
+        const templateContent       = fs.readFileSync(templatePath, 'utf-8');
+        const expectedFinalContent  = fs.readFileSync(fixedTemplatePath, 'utf-8');
+        const result                = publicApi.fix(templatePath, templateContent, config);
+        const errorQty              = Object.keys(result.errors).length;
+        const loadedConfig          = publicApi.getConfig();
+        const actualTemplateContent = fs.readFileSync(templatePath, 'utf-8');
+
+        expect(actualTemplateContent).toEqual(expectedFinalContent);
+        expect(loadedConfig         ).toEqual(config);
+        expect(errorQty             ).toEqual(0);
+    });
 });

@@ -14,7 +14,22 @@ module.exports = {
         }
 
         linterResult = IsmlLinter.run(path, content);
+
         return linterResult;
+    },
+    fix          : (path, content, config) => {
+        let autofixConfig = config;
+
+        if (config) {
+            autofixConfig.autoFix = true;
+            IsmlLinter.setConfig(autofixConfig);
+        } else {
+            autofixConfig = IsmlLinter.getConfig();
+            autofixConfig.autoFix = true;
+            IsmlLinter.setConfig(autofixConfig);
+        }
+
+        return IsmlLinter.run(path, content, autofixConfig);
     },
     printResults : ()    => ConsoleUtils.displayOccurrenceList(linterResult),
     build        : path  => Builder.run(path),

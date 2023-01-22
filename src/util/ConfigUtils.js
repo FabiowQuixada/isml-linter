@@ -158,7 +158,7 @@ const existEslintConfigFile = () => {
         FileUtils.fileExists(Constants.eslintConfigFilePathList[2]);
 };
 
-const isTestEnv = () => process.env.NODE_ENV === Constants.ENV_TEST;
+const isTestEnv = () => process.env.NODE_ENV === Constants.ENV_TEST && !global.isSimulatingProductionEnvironment;
 
 const setLocalConfig = configParam => {
     if (isTestEnv()) {

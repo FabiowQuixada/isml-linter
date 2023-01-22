@@ -93,6 +93,7 @@ const applyRuleOnTemplate = (ruleArray, templatePath, root, config, data) => {
             try {
                 ConsoleUtils.displayVerboseMessage(`Applying "${rule.id}" rule`, 1);
                 const ruleResults = rule.check(root, templateResults.data);
+                templateResults.finalContent = ruleResults.fixedContent;
                 applyRuleResult(config, ruleResults, templatePath, templateResults, rule);
 
             } catch (error) {
@@ -226,7 +227,7 @@ const checkTemplate = (templatePath, data, content = '', templateName = '') => {
     const config          = ConfigUtils.load();
     const templateContent = GeneralUtils.toLF(content || fs.readFileSync(templatePath, 'utf-8'));
     const lineResults     = checkLineByLineRules(templatePath, templateContent, config, data);
-    const treeResults     = checkTreeRules(templatePath, templateContent, config, data) || { errors : [] };
+    const treeResults     = checkTreeRules(templatePath, lineResults.finalContent, config, data) || { errors : [] };
     const filenameResults = checkFileName(templateName, templateContent);
 
     return {
