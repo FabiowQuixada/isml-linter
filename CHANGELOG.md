@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.41.0] - 2023-01-21
+
+### Added
+ - Exposed "fix" method in [ISML Linter API][api-docs];
+
+### Fixed
+ - Line-by-line and tree rules issues now are fixed in a single ISML Linter execution, not in two steps anymore;
+ 
 ## [5.40.5] - 2023-01-15
 
 ### Fixed
@@ -1040,6 +1048,7 @@
 ### Added
 - Linter is published;
 
+[5.41.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.5...v5.41.0
 [5.40.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.4...v5.40.5
 [5.40.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.3...v5.40.4
 [5.40.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.2...v5.40.3
