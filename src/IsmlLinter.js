@@ -101,12 +101,12 @@ const getEmptyResult = () => {
     };
 };
 
-const checkTemplate = (templatePath, data, content, templateName) => {
+const parseAndPossiblyFixTemplate = (templatePath, data, content, templateName) => {
     const formattedTemplatePath = GeneralUtils.formatTemplatePath(templatePath);
     const templateResults       = getEmptyResult();
 
     try {
-        const parseResult = RuleUtils.checkTemplate(templatePath, data, content, templateName);
+        const parseResult = RuleUtils.parseAndPossiblyFixTemplate(templatePath, data, content, templateName);
 
         if (parseResult.fixed) {
             templateResults.templatesFixed++;
@@ -232,7 +232,7 @@ Linter.run = (pathData, content, data = {}) => {
             const isIgnored    = FileUtils.isIgnored(templatePath);
 
             if (!isIgnored) {
-                const templateResults = checkTemplate(templatePath, data, content, templateName);
+                const templateResults = parseAndPossiblyFixTemplate(templatePath, data, content, templateName);
 
                 finalResult = merge(finalResult, templateResults);
             }

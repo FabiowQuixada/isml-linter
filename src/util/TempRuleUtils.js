@@ -38,7 +38,7 @@ const checkCustomTag = tag => {
     }
 };
 
-const applyRuleResult = (config, ruleResult, templatePath, templateResults, rule) => {
+const fixTemplateOrReportIssues = (config, ruleResult, templatePath, templateResults, rule) => {
     if (config.autoFix && ruleResult.fixedContent) {
         fs.writeFileSync(templatePath, ruleResult.fixedContent);
         templateResults.fixed = true;
@@ -49,7 +49,7 @@ const applyRuleResult = (config, ruleResult, templatePath, templateResults, rule
     }
 };
 
-const applyRuleOnTemplate = (ruleArray, templatePath, root, config) => {
+const fixTemplateOrReportIssuesForRuleList = (ruleArray, templatePath, root, config) => {
     const templateResults = {
         fixed  : false,
         errors : {}
@@ -59,7 +59,7 @@ const applyRuleOnTemplate = (ruleArray, templatePath, root, config) => {
         const rule = ruleArray[i];
         if (!rule.shouldIgnore(templatePath)) {
             const ruleResults = rule.check(root, templateResults.data);
-            applyRuleResult(config, ruleResults, templatePath, templateResults, rule);
+            fixTemplateOrReportIssues(config, ruleResults, templatePath, templateResults, rule);
         }
     }
 
@@ -130,7 +130,7 @@ const checkFileName = (filename, templateContent) => {
     return templateResults;
 };
 
-const checkTreeRules = (templatePath, templateContent, config) => {
+const checkAndPossiblyFixTreeRules = (templatePath, templateContent, config) => {
     if (!config.disableTreeParse) {
         const tree = TreeBuilder.build(templatePath, templateContent);
 
@@ -140,7 +140,7 @@ const checkTreeRules = (templatePath, templateContent, config) => {
 
         const ruleArray = getEnabledTreeRules();
 
-        return applyRuleOnTemplate(
+        return fixTemplateOrReportIssuesForRuleList(
             ruleArray,
             templatePath,
             tree.rootNode,
@@ -148,10 +148,10 @@ const checkTreeRules = (templatePath, templateContent, config) => {
     }
 };
 
-const checkLineByLineRules = (templatePath, templateContent, config) => {
+const checkAndPossiblyFixLineByLineRules = (templatePath, templateContent, config) => {
     const ruleArray = getEnabledLineRules();
 
-    return applyRuleOnTemplate(
+    return fixTemplateOrReportIssuesForRuleList(
         ruleArray,
         templatePath,
         templateContent,
@@ -176,11 +176,11 @@ const checkCustomModules = () => {
     return moduleResults;
 };
 
-const checkTemplate = (templatePath, content, templateName) => {
+const parseAndPossiblyFixTemplate = (templatePath, content, templateName) => {
     const config          = ConfigUtils.load();
     const templateContent = content || fs.readFileSync(templatePath, 'utf-8');
-    const lineResults     = checkLineByLineRules(templatePath, templateContent, config);
-    const treeResults     = checkTreeRules(templatePath, templateContent, config) || { errors : [] };
+    const lineResults     = checkAndPossiblyFixLineByLineRules(templatePath, templateContent, config);
+    const treeResults     = checkAndPossiblyFixTreeRules(templatePath, templateContent, config) || { errors : [] };
     const filenameResults = checkFileName(templateName, templateContent);
 
     return {
@@ -227,6 +227,6 @@ const getEnabledTreeRules = () => {
 module.exports.getAllLineRules             = () => lineByLineRules;
 module.exports.findNodeOfType              = findNodeOfType;
 module.exports.isTypeAmongTheFirstElements = isTypeAmongTheFirstElements;
-module.exports.checkTemplate               = checkTemplate;
+module.exports.parseAndPossiblyFixTemplate = parseAndPossiblyFixTemplate;
 module.exports.checkCustomModules          = checkCustomModules;
 module.exports.getAvailableRulesQty        = getAvailableRulesQty;

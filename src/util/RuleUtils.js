@@ -64,7 +64,7 @@ const checkCustomTag = tag => {
     }
 };
 
-const applyRuleResult = (config, ruleResult, templatePath, templateResults, rule) => {
+const fixTemplateOrReportIssues = (config, ruleResult, templatePath, templateResults, rule) => {
     if (config.autoFix && ruleResult.fixedContent) {
         fs.writeFileSync(templatePath, ruleResult.fixedContent);
         templateResults.fixed = true;
@@ -78,7 +78,7 @@ const applyRuleResult = (config, ruleResult, templatePath, templateResults, rule
     }
 };
 
-const applyRuleOnTemplate = (ruleArray, templatePath, root, config, data) => {
+const fixTemplateOrReportIssuesForRuleList = (ruleArray, templatePath, root, config, data) => {
     const templateResults = {
         fixed    : false,
         errors   : {},
@@ -94,7 +94,7 @@ const applyRuleOnTemplate = (ruleArray, templatePath, root, config, data) => {
                 ConsoleUtils.displayVerboseMessage(`Applying "${rule.id}" rule`, 1);
                 const ruleResults = rule.check(root, templateResults.data);
                 templateResults.finalContent = ruleResults.fixedContent;
-                applyRuleResult(config, ruleResults, templatePath, templateResults, rule);
+                fixTemplateOrReportIssues(config, ruleResults, templatePath, templateResults, rule);
 
             } catch (error) {
                 throw ExceptionUtils.ruleApplianceError(rule, error, templatePath);
@@ -112,9 +112,9 @@ const findNodeOfType = (node, type) => {
         if (child.isOfType(type)) {
             result = child;
             return true;
-        } else {
-            result = findNodeOfType(child, type) || result;
         }
+
+        result = findNodeOfType(child, type) || result;
 
         return false;
     });
@@ -170,7 +170,7 @@ const checkFileName = (filename, templateContent) => {
     return templateResults;
 };
 
-const checkTreeRules = (templatePath, templateContent, config, data) => {
+const checkAndPossiblyFixTreeRules = (templatePath, templateContent, config, data) => {
     if (!config.disableTreeParse) {
         ConsoleUtils.displayVerboseMessage(`Building tree for "${templatePath}"`, 1);
         const tree = TreeBuilder.build(templatePath, templateContent);
@@ -181,7 +181,7 @@ const checkTreeRules = (templatePath, templateContent, config, data) => {
 
         const ruleArray = getEnabledTreeRules();
 
-        return applyRuleOnTemplate(
+        return fixTemplateOrReportIssuesForRuleList(
             ruleArray,
             templatePath,
             tree.rootNode,
@@ -190,10 +190,10 @@ const checkTreeRules = (templatePath, templateContent, config, data) => {
     }
 };
 
-const checkLineByLineRules = (templatePath, templateContent, config, data) => {
+const checkAndPossiblyFixLineByLineRules = (templatePath, templateContent, config, data) => {
     const ruleArray = getEnabledLineRules();
 
-    return applyRuleOnTemplate(
+    return fixTemplateOrReportIssuesForRuleList(
         ruleArray,
         templatePath,
         templateContent,
@@ -222,12 +222,12 @@ const checkCustomModules = () => {
     return moduleResults;
 };
 
-const checkTemplate = (templatePath, data, content = '', templateName = '') => {
+const parseAndPossiblyFixTemplate = (templatePath, data, content = '', templateName = '') => {
     ConsoleUtils.displayVerboseMessage(`\nChecking "${templatePath}" template`);
     const config          = ConfigUtils.load();
     const templateContent = GeneralUtils.toLF(content || fs.readFileSync(templatePath, 'utf-8'));
-    const lineResults     = checkLineByLineRules(templatePath, templateContent, config, data);
-    const treeResults     = checkTreeRules(templatePath, lineResults.finalContent, config, data) || { errors : [] };
+    const lineResults     = checkAndPossiblyFixLineByLineRules(templatePath, templateContent, config, data);
+    const treeResults     = checkAndPossiblyFixTreeRules(templatePath, lineResults.finalContent, config, data) || { errors : [] };
     const filenameResults = checkFileName(templateName, templateContent);
 
     return {
@@ -290,7 +290,7 @@ const getEnabledTreeRules = () => {
 module.exports.getAllLineRules             = () => lineByLineRules;
 module.exports.findNodeOfType              = findNodeOfType;
 module.exports.isTypeAmongTheFirstElements = isTypeAmongTheFirstElements;
-module.exports.checkTemplate               = checkTemplate;
+module.exports.parseAndPossiblyFixTemplate = parseAndPossiblyFixTemplate;
 module.exports.checkCustomModules          = checkCustomModules;
 module.exports.getAvailableRulesQty        = getAvailableRulesQty;
 module.exports.getLevelGroup               = getLevelGroup;

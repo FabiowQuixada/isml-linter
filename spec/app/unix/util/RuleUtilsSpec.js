@@ -30,7 +30,7 @@ describe('On Unix' + targetObjName, () => {
     });
 
     it('correctly parses a given ISML template', () => {
-        const result = RuleUtils.checkTemplate(templatePath, { isCrlfLineBreak });
+        const result = RuleUtils.parseAndPossiblyFixTemplate(templatePath, { isCrlfLineBreak });
 
         expect(result).not.toEqual({});
     });
@@ -44,7 +44,7 @@ describe('On Unix' + targetObjName, () => {
             }
         });
 
-        const result       = RuleUtils.checkTemplate(templatePath, { isCrlfLineBreak });
+        const result       = RuleUtils.parseAndPossiblyFixTemplate(templatePath, { isCrlfLineBreak });
         const errorArray   = Object.keys(result.errors);
         let ruleWasChecked = false;
 
@@ -66,7 +66,7 @@ describe('On Unix' + targetObjName, () => {
             }
         });
 
-        const result       = RuleUtils.checkTemplate(templatePath, { isCrlfLineBreak });
+        const result       = RuleUtils.parseAndPossiblyFixTemplate(templatePath, { isCrlfLineBreak });
         const ruleIdArray  = Object.keys(result.errors);
         let ruleWasChecked = false;
 
@@ -89,7 +89,7 @@ describe('On Unix' + targetObjName, () => {
             }
         });
 
-        const actualResult     = RuleUtils.checkTemplate(templatePath, { isCrlfLineBreak });
+        const actualResult     = RuleUtils.parseAndPossiblyFixTemplate(templatePath, { isCrlfLineBreak });
         const isprintError0    = actualResult.errors[EnforceIsprintRule.id][0];
         const isprintError1    = actualResult.errors[EnforceIsprintRule.id][1];
         const inlineStyleError = actualResult.errors[NoInlineStyleRule.id][0];
@@ -120,14 +120,14 @@ describe('On Unix' + targetObjName, () => {
     });
 
     it('ignores "pt_"-named templates for no-isscript (line) rule', () => {
-        const actualResult = RuleUtils.checkTemplate(ptTemplatePath, { isCrlfLineBreak });
+        const actualResult = RuleUtils.parseAndPossiblyFixTemplate(ptTemplatePath, { isCrlfLineBreak });
 
         expect(actualResult.errors[NoIsscriptRule.id]).toEqual(undefined);
         expect(actualResult.errors[NoSpaceOnlyLinesRule.id]).not.toEqual(undefined);
     });
 
     it('ignores "pt_"-named templates for no-require-in-loop (tree) rule', () => {
-        const actualResult = RuleUtils.checkTemplate(ptTemplatePath, { isCrlfLineBreak });
+        const actualResult = RuleUtils.parseAndPossiblyFixTemplate(ptTemplatePath, { isCrlfLineBreak });
 
         expect(actualResult.errors[NoRequireInLoopRule.id]).toEqual(undefined);
         expect(actualResult.errors[NoHardcodeRule.id]).not.toEqual(undefined);
