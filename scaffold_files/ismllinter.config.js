@@ -38,6 +38,7 @@ const config = {
             values : ['isscript', 'br', 'style', 'iframe']
         },
         'enforce-security'     : {},
+        'strict-void-elements' : {},
 
         // Other
         'lowercase-filename' : {}

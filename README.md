@@ -189,6 +189,7 @@ Please check the [Generic Configurations for Rules][generic-rule-config] page.
 | :small_orange_diamond: [align-isset][align-isset-readme]                             | Aligns contiguous `<isset>` tags attributes' columns |
 | :small_orange_diamond: [enforce-security][enforce-security-readme]                   | Enforces security measures |
 | :wrench: :small_orange_diamond: [no-redundant-context][no-redundant-context-readme]  | Prevents use of unnecessary contexts, such as `dw.web.Resource` |
+| :small_orange_diamond: [strict-void-elements][strict-void-elements-readme]  | Disallows closing tags for void elements, such as `<input>` and `<img>` |
 
 You are more than welcome to contribute with us! Please check the [contribute section][contribute-docs].
 
@@ -235,6 +236,7 @@ This project was conceived by its author without any financial support, with the
 [disallow-tags-readme]:          <docs/rules/disallow-tags.md>
 [enforce-security-readme]:       <docs/rules/enforce-security.md>
 [no-redundant-context-readme]:   <docs/rules/no-redundant-context.md>
+[strict-void-elements-readme]:   <docs/rules/strict-void-elements.md>
 
 [api-docs]:        <docs/api.md>
 [cli-docs]:        <docs/cli.md>
