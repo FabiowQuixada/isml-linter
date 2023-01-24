@@ -149,6 +149,7 @@ class IsmlNode {
         newNode.isEmbeddedNode = this.isEmbeddedNode;
     }
 
+    getChild(number) { return this.children[number];                   }
     getLastChild()   { return this.children[this.children.length - 1]; }
     getChildrenQty() { return this.children.length;                    }
     hasChildren()    { return this.children.length > 0;                }

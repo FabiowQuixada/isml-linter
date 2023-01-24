@@ -806,13 +806,15 @@ describe(targetObjName, () => {
         expect(tree.exception.message).toEqual('Invalid character ">" found');
     });
 
-    it('disallows void elements closing tag', () => {
-        const tree = getTreeFromTemplate(85);
+    it('allows void elements closing tag', () => {
+        const tree      = getTreeFromTemplate(85);
+        const inputNode = tree.rootNode.getChild(0);
 
-        expect(tree.status           ).toEqual(ParseStatus.INVALID_DOM);
-        expect(tree.exception.length ).toEqual(8);
-        expect(tree.exception.type   ).toEqual(ExceptionUtils.types.VOID_ELEMENT_CLOSING_TAG);
-        expect(tree.exception.message).toEqual('"<input>" is a void element, and as such, should not have a corresponding closing tag');
+        expect(tree.status               ).toEqual(ParseStatus.NO_ERRORS);
+        expect(inputNode.tail            ).toEqual(`</input>${Constants.EOL}`);
+        expect(inputNode.tailLineNumber  ).toEqual(1);
+        expect(inputNode.tailColumnNumber).toEqual(9);
+        expect(inputNode.tailGlobalPos   ).toEqual(7);
     });
 });
 

@@ -110,14 +110,8 @@ const parseContainerElements = (element, currentParent, newNode, templatePath) =
 
 const parseNonContainerElements = (element, currentParent, newNode, templatePath) => {
     if (element.isSelfClosing) {
-        if (element.isClosingTag && element.isVoidElement) {
-            throw ExceptionUtils.voidElementClosingTag(
-                element.tagType,
-                element.lineNumber,
-                element.globalPos,
-                element.value.trim().length,
-                templatePath
-            );
+        if (element.isClosingTag  && element.isVoidElement) {
+            currentParent.getLastChild().setTail(element.value, element.lineNumber, element.columnNumber, element.globalPos);
         } else {
             currentParent.addChild(newNode);
         }
