@@ -5,7 +5,7 @@ Disallows template names to have uppercase characters.
 ## Notes
 
 - This rule does **not** dependent on abstract tree build;
-- Reference: [SalesForce's server code style guide][code-style];
+- Reference: [Salesforce's server code style guide][code-style];
 
 
 ## Configuration

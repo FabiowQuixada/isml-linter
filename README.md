@@ -3,7 +3,7 @@ ISML Linter is a tool for examining if your project's templates follow a specifi
 
  - Styles that are defined by your team;
  - Syntactic errors related to `<is* >` tags;
- - Coding conventions recommended by SalesForce;
+ - Coding conventions recommended by Salesforce;
  - Git conflicts that may accidentally be left unresolved;
 
 Please feel free to make suggestions and help make this linter better. :) The set of currently available rules can be found below.
@@ -161,7 +161,7 @@ Please check the [Generic Configurations for Rules][generic-rule-config] page.
 | ------------------------------------------------------------------------------------ |:-----------------------------------------|
 | :exclamation: [no-br][no-br-readme]                                                  | <span style="color:orange">[Deprecated]</span> Disallows `<br/>` tags. Enable this rule if you prefer to use CSS to handle vertical spacing |
 | [no-git-conflict][no-git-conflict-readme]                                            | Disallows unresolved Git conflicts |
-| [no-import-package][no-import-package-readme]                                        | Disallows `importPackage()` function. It is recommended by SalesForce to use `require()` instead |
+| [no-import-package][no-import-package-readme]                                        | Disallows `importPackage()` function. It is recommended by Salesforce to use `require()` instead |
 | :exclamation: [no-isscript][no-isscript-readme]                                      | <span style="color:orange">[Deprecated]</span> Disallows `<isscript/>` tag in template. Enable this rule if you prefer logic to be kept in a separate .ds/.js file |
 | :wrench: [no-trailing-spaces][no-trailing-spaces-readme]                             | Disallows trailing blank spaces |
 | :wrench: [no-space-only-lines][no-space-only-lines-readme]                           | Disallows lines that contain only blank spaces, i.e., unnecessarily indented |
