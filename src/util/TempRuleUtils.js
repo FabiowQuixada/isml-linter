@@ -6,7 +6,6 @@
     ===========================================================================
 **/
 
-const path                  = require('path');
 const fs                    = require('fs');
 const Constants             = require('../Constants');
 const TreeBuilder           = require('../isml_tree/TreeBuilder');

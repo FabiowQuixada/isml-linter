@@ -1,5 +1,4 @@
 const specFileName = require('path').basename(__filename);
-const Constants    = require('../../../../src/Constants');
 const SpecHelper   = require('../../../SpecHelper');
 const ConfigUtils  = require('../../../../src/util/ConfigUtils');
 

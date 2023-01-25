@@ -41,10 +41,10 @@ SingleLineRulePrototype.check = function(templateContent, data = { isCrlfLineBre
         };
     }
 
-    return { 
+    return {
         occurrenceList,
         fixedContent : templateContent
-     };
+    };
 };
 
 module.exports = SingleLineRulePrototype;

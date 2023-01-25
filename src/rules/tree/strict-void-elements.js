@@ -1,10 +1,7 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
-const ParseUtils        = require('../../isml_tree/ParseUtils');
-const TreeBuilder       = require('../../isml_tree/TreeBuilder');
-const Constants         = require('../../Constants');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
-const description = `This is a void element, and as such, should not have a corresponding closing tag`;
+const description = 'This is a void element, and as such, should not have a corresponding closing tag';
 
 const Rule = Object.create(TreeRulePrototype);
 

@@ -32,6 +32,7 @@ describe('On Unix, ' + rule.id, () => {
         const result          = rule.check(templateContent);
         const firstOccurrence = result.occurrenceList[0];
 
+        // eslint-disable-next-line no-tabs
         expect(firstOccurrence.line        ).toEqual('	');
         expect(firstOccurrence.lineNumber  ).toEqual(1);
         expect(firstOccurrence.columnNumber).toEqual(1);

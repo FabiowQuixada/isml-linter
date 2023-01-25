@@ -92,7 +92,7 @@ const fixTemplateOrReportIssuesForRuleList = (ruleArray, templatePath, root, con
         if (!rule.shouldIgnore(templatePath)) {
             try {
                 ConsoleUtils.displayVerboseMessage(`Applying "${rule.id}" rule`, 1);
-                const ruleResults = rule.check(root, templateResults.data);
+                const ruleResults            = rule.check(root, templateResults.data);
                 templateResults.finalContent = ruleResults.fixedContent;
                 fixTemplateOrReportIssues(config, ruleResults, templatePath, templateResults, rule);
 

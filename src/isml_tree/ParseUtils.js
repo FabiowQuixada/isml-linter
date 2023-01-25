@@ -136,7 +136,7 @@ const parseNextElement = state => {
     }
 
     state.elementList.push(newElement);
-    
+
     if (newElement.type === 'htmlTag' && newElement.value.indexOf('<isif') >= 0 && newElement.value.indexOf('</isif') < 0) {
         throw ExceptionUtils.invalidNestedIsifError(
             newElement.tagType,

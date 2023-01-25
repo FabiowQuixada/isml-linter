@@ -162,7 +162,7 @@ Rule.isQuoteClosingCharBroken = function(node) {
 
             if (message) {
                 const line = node
-                    .getRoot() 
+                    .getRoot()
                     .toString()
                     .split(Constants.EOL)[lineNumber - 1];
 

@@ -24,7 +24,7 @@ module.exports = {
             autofixConfig.autoFix = true;
             IsmlLinter.setConfig(autofixConfig);
         } else {
-            autofixConfig = IsmlLinter.getConfig();
+            autofixConfig         = IsmlLinter.getConfig();
             autofixConfig.autoFix = true;
             IsmlLinter.setConfig(autofixConfig);
         }

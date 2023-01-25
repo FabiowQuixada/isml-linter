@@ -33,6 +33,7 @@ describe(rule.id, () => {
         const result          = rule.check(templateContent, { isCrlfLineBreak });
         const firstOccurrence = result.occurrenceList[0];
 
+        // eslint-disable-next-line no-tabs
         expect(firstOccurrence.line        ).toEqual('	');
         expect(firstOccurrence.lineNumber  ).toEqual(1);
         expect(firstOccurrence.columnNumber).toEqual(1);

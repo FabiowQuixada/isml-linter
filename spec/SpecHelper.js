@@ -51,7 +51,7 @@ module.exports = {
     },
 
     beforeEach: () => {
-        process.env.NODE_ENV = Constants.ENV_TEST;
+        process.env.NODE_ENV                     = Constants.ENV_TEST;
         global.isSimulatingProductionEnvironment = false;
         ConfigUtils.load();
         cleanTempDirectory();
