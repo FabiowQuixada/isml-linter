@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.42.0] - 2023-01-25
+
+### Added
+ - Introducing ["strict-void-elements" rule][strict-void-elements-readme];
+
+### Changed
+ - Allow Closing Tags for Void Elements in AST. "strict-void-elements" rule will optionally handle that invalid scenario;
+
+### Fixed
+ - "indent" Rule - Add "line" Attribute to Quote Issue Report;
+ 
 ## [5.41.0] - 2023-01-21
 
 ### Added
@@ -1048,6 +1059,7 @@
 ### Added
 - Linter is published;
 
+[5.42.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.41.0...v5.42.0
 [5.41.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.5...v5.41.0
 [5.40.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.4...v5.40.5
 [5.40.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.3...v5.40.4
@@ -1211,11 +1223,12 @@
 [api-docs]: <docs/api.md>
 [license]:  <LICENSE>
 
-[disallow-tags-readme]:      <docs/rules/disallow-tags.md>
-[no-br-readme]:              <docs/rules/no-br.md>
-[no-inline-style-readme]:    <docs/rules/no-br.md>
-[no-isscript-readme]:        <docs/rules/no-isscript.md>
-[enforce-security-readme]:   <docs/rules/enforce-security.md>
-[no-hardcode-readme]:        <docs/rules/no-hardcode.md>
-[indent-readme]:             <docs/rules/indent.md>
-[eslint-to-isscript-readme]: <docs/rules/eslint-to-isscript.md>
+[strict-void-elements-readme]: <docs/rules/strict-void-elements.md>
+[disallow-tags-readme]:        <docs/rules/disallow-tags.md>
+[no-br-readme]:                <docs/rules/no-br.md>
+[no-inline-style-readme]:      <docs/rules/no-br.md>
+[no-isscript-readme]:          <docs/rules/no-isscript.md>
+[enforce-security-readme]:     <docs/rules/enforce-security.md>
+[no-hardcode-readme]:          <docs/rules/no-hardcode.md>
+[indent-readme]:               <docs/rules/indent.md>
+[eslint-to-isscript-readme]:   <docs/rules/eslint-to-isscript.md>
