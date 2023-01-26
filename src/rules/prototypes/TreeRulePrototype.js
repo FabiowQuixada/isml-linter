@@ -65,20 +65,4 @@ TreeRulePrototype.return = function(node, occurrenceList, config) {
     }
 };
 
-TreeRulePrototype.fix = function(stream = '') {
-
-    if (!this.isRoot() && !this.isContainer()) {
-        stream += this.head;
-    }
-
-    for (let i = 0; i < this.children.length; i++) {
-        const node = this.children[i];
-        stream     = node.isBroken() ?
-            node.toString(stream) :
-            this.getFixedContent(node, stream);
-    }
-
-    return stream;
-};
-
 module.exports = TreeRulePrototype;
