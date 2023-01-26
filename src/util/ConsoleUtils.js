@@ -126,6 +126,8 @@ const displayUnknownErrors = lintResult => {
     return partialSum;
 };
 
+const getPluralTermString = (singularTerm, qty) => `${qty} ${singularTerm}${qty > 1 ? 's' : ''}`;
+
 const displayOccurrenceList = lintResult => {
 
     displayUnparseableErrors(lintResult);
@@ -148,19 +150,19 @@ const displayOccurrenceList = lintResult => {
         console.log(Constants.EOL + chalk`{bold Linted ${lintResult.totalTemplatesQty} templates in ${lintResult.elapsedTime} seconds.}`);
 
         if (occurrenceList.error.qty > 0) {
-            console.log(chalk`{bold ${occurrenceList.error.qty} error(s) found.}`);
+            console.log(chalk`{bold ${getPluralTermString('error', occurrenceList.error.qty)} found.}`);
         }
 
         if (occurrenceList.warning.qty > 0) {
-            console.log(chalk`{bold ${occurrenceList.warning.qty} warning(s) found.}`);
+            console.log(chalk`{bold ${getPluralTermString('warning', occurrenceList.warning.qty)} found.}`);
         }
 
         if (occurrenceList.info.qty > 0) {
-            console.log(chalk`{bold ${occurrenceList.info.qty} info(s) found.}`);
+            console.log(chalk`{bold ${getPluralTermString('info', occurrenceList.info.qty)} found.}`);
         }
 
         if (lintResult.INVALID_TEMPLATE && lintResult.INVALID_TEMPLATE.length > 0) {
-            console.log(chalk`{bold ${lintResult.INVALID_TEMPLATE.length} template(s) have an invalid ISML tree.}`);
+            console.log(chalk`{bold ${getPluralTermString('template', lintResult.INVALID_TEMPLATE.length)} have an invalid ISML tree.}`);
         }
 
         if (lintResult.UNKNOWN_ERROR && lintResult.UNKNOWN_ERROR.length > 0) {
