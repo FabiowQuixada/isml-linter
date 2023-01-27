@@ -4,7 +4,7 @@ const ConfigUtils  = require('../../../../src/util/ConfigUtils');
 
 const rule = SpecHelper.getTreeRule(specFileName);
 
-describe(rule.id, () => {
+describe('On Unix, ' + rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });

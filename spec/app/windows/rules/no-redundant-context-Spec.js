@@ -3,7 +3,7 @@ const SpecHelper   = require('../../../SpecHelper');
 
 const rule = SpecHelper.getTreeRule(specFileName);
 
-describe('On Unix, ' + rule.id, () => {
+describe(rule.id, () => {
     beforeEach(() => {
         SpecHelper.beforeEach();
     });
