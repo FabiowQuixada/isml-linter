@@ -213,7 +213,7 @@ describe('On Unix, ' + targetObjName, () => {
         expect(error.line                           ).toEqual('');
         expect(error.lineNumber                     ).toEqual(0);
         expect(error.globalPos                      ).toEqual(0);
-        expect(error.length                         ).toEqual(7);
+        expect(error.length                         ).toEqual(8);
         expect(error.rule                           ).toEqual(rule.id);
         expect(error.message                        ).toEqual(rule.description);
         expect(result[ExceptionUtils.UNKNOWN_ERROR] ).toBe(undefined);

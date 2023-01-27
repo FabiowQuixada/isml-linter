@@ -1,9 +1,8 @@
-const fs           = require('fs');
-const SpecHelper   = require('../../../SpecHelper');
-const TreeBuilder  = require('../../../../src/isml_tree/TreeBuilder');
-const Constants    = require('../../../../src/Constants');
-const GeneralUtils = require('../../../../src/util/GeneralUtils');
-const path         = require('path');
+const fs          = require('fs');
+const SpecHelper  = require('../../../SpecHelper');
+const TreeBuilder = require('../../../../src/isml_tree/TreeBuilder');
+const Constants   = require('../../../../src/Constants');
+const path        = require('path');
 
 describe('Tree auto-fix', () => {
 
@@ -67,7 +66,7 @@ describe('Tree auto-fix', () => {
 const compareResultForTemplate = number => {
     const templatePath            = getTemplatePath(number);
     const templateContent         = fs.readFileSync(templatePath, 'utf-8');
-    const originalTemplateContent = GeneralUtils.toLF(templateContent);
+    const originalTemplateContent = templateContent;
     const tree                    = TreeBuilder.build(templatePath);
     const rootNode                = tree.rootNode;
     const actualContent           = rootNode.toString();

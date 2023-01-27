@@ -161,10 +161,11 @@ Rule.isQuoteClosingCharBroken = function(node) {
                     '';
 
             if (message) {
-                const line = node
+                const lineBreak = node.getRoot().tree.originalLineBreak;
+                const line      = node
                     .getRoot()
                     .toString()
-                    .split(Constants.EOL)[lineNumber - 1];
+                    .split(lineBreak)[lineNumber - 1];
 
                 result.push({
                     quoteChar    : attribute.quoteChar,

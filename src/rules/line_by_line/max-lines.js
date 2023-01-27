@@ -1,5 +1,4 @@
 const SingleLineRulePrototype = require('../prototypes/SingleLineRulePrototype');
-const Constants               = require('../../Constants');
 const GeneralUtils            = require('../../util/GeneralUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
@@ -21,8 +20,9 @@ Rule.getColumnNumber = function() {
 
 Rule.check = function(templateContent) {
 
+    const lineBreak      = GeneralUtils.getFileLineBreakStyle(templateContent);
     const maxLines       = this.getConfigs().max;
-    const lineArray      = GeneralUtils.toLF(templateContent).split(Constants.EOL);
+    const lineArray      = templateContent.split(lineBreak);
     const columnNumber   = this.getColumnNumber();
     const occurrenceList = [];
 

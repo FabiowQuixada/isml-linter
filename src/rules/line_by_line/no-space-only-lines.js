@@ -17,9 +17,9 @@ Rule.getColumnNumber = function() {
 Rule.getFixedContent = function(templateContent) {
     const GeneralUtils = require('../../util/GeneralUtils');
 
-    const activeLineBreak = GeneralUtils.getActiveLineBreak();
-    const lineArray       = templateContent.split(Constants.EOL);
-    const result          = [];
+    const lineBreak = GeneralUtils.getFileLineBreakStyle(templateContent);
+    const lineArray = templateContent.split(lineBreak);
+    const result    = [];
 
     for (let i = 0; i < lineArray.length; i++) {
         const line = lineArray[i];
@@ -27,7 +27,7 @@ Rule.getFixedContent = function(templateContent) {
         result.push(line.trim() ? line : line.trim());
     }
 
-    return result.join(activeLineBreak);
+    return result.join(lineBreak);
 };
 
 Rule.getFirstOccurrence = function(line) {

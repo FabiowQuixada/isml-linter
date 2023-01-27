@@ -1,5 +1,4 @@
 const SingleLineRulePrototype = require('../prototypes/SingleLineRulePrototype');
-const Constants               = require('../../Constants');
 const ParseUtils              = require('../../isml_tree/ParseUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
@@ -19,9 +18,9 @@ Rule.getColumnNumber = function(line) {
 Rule.getFixedContent = function(templateContent) {
     const GeneralUtils = require('../../util/GeneralUtils');
 
-    const activeLineBreak = GeneralUtils.getActiveLineBreak();
-    const lineArray       = GeneralUtils.toLF(templateContent).split(Constants.EOL);
-    const result          = [];
+    const lineBreak = GeneralUtils.getFileLineBreakStyle(templateContent);
+    const lineArray = templateContent.split(lineBreak);
+    const result    = [];
 
     for (let i = 0; i < lineArray.length; i++) {
         const line = lineArray[i];
@@ -29,7 +28,7 @@ Rule.getFixedContent = function(templateContent) {
         result.push(line.replace(/\s+$/g, ''));
     }
 
-    return result.join(activeLineBreak);
+    return result.join(lineBreak);
 };
 
 Rule.getFirstOccurrence = function(line) {

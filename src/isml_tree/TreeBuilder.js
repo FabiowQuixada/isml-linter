@@ -32,6 +32,10 @@ const parse = (content, templatePath, isCrlfLineBreak, isEmbeddedNode) => {
 
     ParseUtils.checkBalance(rootNode, templatePath);
 
+    rootNode.tree = {
+        originalLineBreak : GeneralUtils.getFileLineBreakStyle(content),
+    };
+
     return rootNode;
 };
 
@@ -203,15 +207,17 @@ const build = (templatePath, content, isCrlfLineBreak) => {
 
     const ParseStatus = require('../enums/ParseStatus');
 
-    const result = {
+    const templateContent = content || fs.readFileSync(templatePath, 'utf-8');
+    const result          = {
+        originalLineBreak : GeneralUtils.getFileLineBreakStyle(templateContent),
         templatePath,
         status : ParseStatus.NO_ERRORS
     };
 
     try {
-        const templateContent = GeneralUtils.toLF(content || fs.readFileSync(templatePath, 'utf-8'));
-        result.rootNode       = parse(templateContent, templatePath, isCrlfLineBreak);
-        result.data           = postProcess(result.rootNode);
+        const formattedTemplateContent = templateContent;
+        result.rootNode                = parse(formattedTemplateContent, templatePath, isCrlfLineBreak);
+        result.data                    = postProcess(result.rootNode);
 
         result.rootNode.tree = result;
 

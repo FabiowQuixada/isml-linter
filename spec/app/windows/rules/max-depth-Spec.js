@@ -35,7 +35,7 @@ describe(rule.id, () => {
         const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 1, isCrlfLineBreak);
         const occurrence = result[0];
 
-        expect(occurrence.length).toEqual(339);
+        expect(occurrence.length).toEqual(344);
     });
 
     it('does not consider container nodes', () => {

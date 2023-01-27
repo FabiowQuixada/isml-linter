@@ -6,7 +6,6 @@ const ConfigUtils           = require('./ConfigUtils');
 const lowercaseFilenameRule = require('../rules/line_by_line/lowercase-filename');
 const CustomTagContainer    = require('./CustomTagContainer');
 const CustomModulesRule     = require('../rules/tree/custom-tags');
-const GeneralUtils          = require('./GeneralUtils');
 const ConsoleUtils          = require('./ConsoleUtils');
 const ExceptionUtils        = require('./ExceptionUtils');
 
@@ -225,7 +224,7 @@ const checkCustomModules = () => {
 const parseAndPossiblyFixTemplate = (templatePath, data, content = '', templateName = '') => {
     ConsoleUtils.displayVerboseMessage(`\nChecking "${templatePath}" template`);
     const config          = ConfigUtils.load();
-    const templateContent = GeneralUtils.toLF(content || fs.readFileSync(templatePath, 'utf-8'));
+    const templateContent = content || fs.readFileSync(templatePath, 'utf-8');
     const lineResults     = checkAndPossiblyFixLineByLineRules(templatePath, templateContent, config, data);
     const treeResults     = checkAndPossiblyFixTreeRules(templatePath, lineResults.finalContent, config, data) || { errors : [] };
     const filenameResults = checkFileName(templateName, templateContent);

@@ -1,14 +1,14 @@
 const RulePrototype = require('./RulePrototype');
 const ConfigUtils   = require('../../util/ConfigUtils');
-const Constants     = require('../../Constants');
 const GeneralUtils  = require('../../util/GeneralUtils');
 
 const SingleLineRulePrototype = Object.create(RulePrototype);
 
 SingleLineRulePrototype.check = function(templateContent, data = { isCrlfLineBreak : false }) {
 
+    const lineBreak      = GeneralUtils.getFileLineBreakStyle(templateContent);
     const config         = ConfigUtils.load();
-    const lineArray      = GeneralUtils.toLF(templateContent).split(Constants.EOL);
+    const lineArray      = templateContent.split(lineBreak);
     const occurrenceList = [];
     let globalPos        = 0;
 

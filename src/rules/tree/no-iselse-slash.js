@@ -1,6 +1,5 @@
 const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const MaskUtils         = require('../../isml_tree/MaskUtils');
-const GeneralUtils      = require('../../util/GeneralUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Slash is not allowed for "iselse" nor "iselseif" tags';
@@ -29,7 +28,7 @@ Rule.getFixedContent = function(node) {
         this.getFixedContent(child);
     }
 
-    return GeneralUtils.applyActiveLineBreaks(node.toString());
+    return node.toString();
 };
 
 module.exports = Rule;

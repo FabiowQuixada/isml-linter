@@ -2,7 +2,6 @@ const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const ParseUtils        = require('../../isml_tree/ParseUtils');
 const Constants         = require('../../Constants');
 const ConfigUtils       = require('../../util/ConfigUtils');
-const GeneralUtils      = require('../../util/GeneralUtils');
 
 const ruleId          = require('path').basename(__filename).slice(0, -3);
 const description     = 'Not eslint-valid';
@@ -121,7 +120,7 @@ Rule.getFixedContent = function(node) {
         node.head = reIndent(content, ismlOffset);
     }
 
-    return GeneralUtils.applyActiveLineBreaks(node.toString());
+    return node.toString();
 };
 
 const unindent = (content, indentSize) => {

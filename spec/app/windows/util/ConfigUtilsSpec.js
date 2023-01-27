@@ -130,7 +130,7 @@ describe(targetObjName, () => {
         expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).not.toBe(-1);
     });
 
-    it('uses config Unix line endings as default', () => {
+    it('keeps template original line break (CRLF)', () => {
         ConfigUtils.load({
             rules : {
                 'no-tabs' : {}
@@ -139,8 +139,8 @@ describe(targetObjName, () => {
 
         const results = SpecHelper.getLineRuleFixData(NoTabsRule, 0);
 
-        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.unix)).not.toBe(-1);
-        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
+        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.unix)).toBe(24);
+        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).not.toBe(-1);
     });
 });
 

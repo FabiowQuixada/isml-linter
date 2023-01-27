@@ -34,12 +34,52 @@ const getActiveLineBreak = () => {
     return configLineBreak || Constants.EOL;
 };
 
+const getFileLineBreakStyle = templateContent => {
+    const indexOfLF = templateContent.indexOf(Constants.lineBreak.unix, 1);
+
+    if (indexOfLF === -1) {
+        if (templateContent.indexOf('\r') !== -1) {
+            return '\r';
+        }
+
+        return Constants.lineBreak.unix;
+    }
+
+    if (templateContent[indexOfLF - 1] === '\r') {
+        return Constants.lineBreak.windows;
+    }
+
+    return Constants.lineBreak.unix;
+};
+
 module.exports.formatTemplatePath = filePath => {
     return filePath.replace(/\//g, path.sep);
 };
 
 module.exports.toLF = content => {
-    return content.replace(/\r\n/g, '\n');
+    return content.replace(/\r\n/g, Constants.lineBreak.unix);
+};
+
+module.exports.getFileLineBreakStyle = getFileLineBreakStyle;
+
+module.exports.applyLineBreak = (content, lineBreak) => {
+    const config                      = ConfigUtils.load();
+    const configLineBreak             = config.linebreakStyle && Constants.lineBreak[config.linebreakStyle];
+    const templateHasWindowsLineBreak = content.indexOf(Constants.lineBreak.windows) >= 0;
+
+    if (configLineBreak) {
+        lineBreak = configLineBreak;
+    }
+
+    if (lineBreak === Constants.lineBreak.windows && !templateHasWindowsLineBreak) {
+        return content
+            .replace(new RegExp(Constants.lineBreak.unix, 'g'), lineBreak);
+    } else if (lineBreak === Constants.lineBreak.unix && templateHasWindowsLineBreak) {
+        return content
+            .replace(new RegExp(Constants.lineBreak.windows, 'g'), lineBreak);
+    }
+
+    return content;
 };
 
 module.exports.applyActiveLineBreaks = content => {

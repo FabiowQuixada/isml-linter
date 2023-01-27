@@ -1,9 +1,8 @@
-const fs           = require('fs');
-const path         = require('path');
-const SpecHelper   = require('../../../SpecHelper');
-const Constants    = require('../../../../src/Constants');
-const TreeBuilder  = require('../../../../src/isml_tree/TreeBuilder');
-const GeneralUtils = require('../../../../src/util/GeneralUtils');
+const fs          = require('fs');
+const path        = require('path');
+const SpecHelper  = require('../../../SpecHelper');
+const Constants   = require('../../../../src/Constants');
+const TreeBuilder = require('../../../../src/isml_tree/TreeBuilder');
 
 const isCrlfLineBreak = false;
 
@@ -302,7 +301,7 @@ describe('Global Position on Unix', () => {
 const parseTemplate = number => {
     const templatePath      = path.join(Constants.specGlobalPosTemplateDir, `template_${number}.isml`);
     const templateContent   = fs.readFileSync(templatePath, 'utf-8');
-    const lfTemplateContent = GeneralUtils.toLF(templateContent);
+    const lfTemplateContent = templateContent;
     const root              = TreeBuilder.parse(lfTemplateContent, templatePath, isCrlfLineBreak);
 
     return root;

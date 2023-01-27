@@ -34,7 +34,7 @@ describe('On Unix, ' + rule.id, () => {
         const result     = SpecHelper.parseAndApplyRuleToTemplate(rule, 1);
         const occurrence = result[0];
 
-        expect(occurrence.length).toEqual(334);
+        expect(occurrence.length).toEqual(339);
     });
 
     it('does not consider container nodes', () => {

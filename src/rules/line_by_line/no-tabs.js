@@ -1,6 +1,5 @@
 const SingleLineRulePrototype = require('../prototypes/SingleLineRulePrototype');
 const IndentRule              = require('../tree/indent');
-const GeneralUtils            = require('../../util/GeneralUtils');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
 const description = 'Tab detected';
@@ -18,7 +17,7 @@ Rule.getColumnNumber = function(line) {
 Rule.getFixedContent = function(templateContent) {
     const indent       = IndentRule.getIndentation();
     const fixedContent = templateContent.replace(/\t/g, indent);
-    return GeneralUtils.applyActiveLineBreaks(fixedContent);
+    return fixedContent;
 };
 
 Rule.getFirstOccurrence = function(line) {

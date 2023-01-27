@@ -6,6 +6,7 @@ const SfccTagContainer = require('../enums/SfccTagContainer');
 const ParseUtils       = require('./ParseUtils');
 const MaskUtils        = require('./MaskUtils');
 const ExceptionUtils   = require('../util/ExceptionUtils');
+const GeneralUtils     = require('../util/GeneralUtils');
 
 let ID_COUNTER = 0;
 
@@ -383,24 +384,11 @@ class IsmlNode {
         return rootNode;
     }
 
-    toString(stream = '') {
+    toString() {
 
-        if (!this.isContainer() && this.isEmpty() && !this.isLastChild()) {
-            return stream;
-        }
+        let stream = privateToString(this);
 
-        if (!this.isRoot() && !this.isContainer()) {
-            stream += this.head;
-        }
-
-        for (let i = 0; i < this.children.length; i++) {
-            const child = this.children[i];
-            stream      = child.toString(stream);
-        }
-
-        if (!this.isRoot() && !this.isContainer()) {
-            stream += this.tail;
-        }
+        stream = GeneralUtils.applyLineBreak(stream, this.getRoot().tree.originalLineBreak);
 
         return stream;
     }
@@ -428,6 +416,27 @@ class IsmlNode {
  * The following are "private" spyOnAllFunctions, which
  * will be available for use only within IsmlNode methods;
 */
+
+const privateToString = (node, stream = '') => {
+    if (!node.isContainer() && node.isEmpty() && !node.isLastChild()) {
+        return stream;
+    }
+
+    if (!node.isRoot() && !node.isContainer()) {
+        stream += node.head;
+    }
+
+    for (let i = 0; i < node.children.length; i++) {
+        const child = node.children[i];
+        stream      = privateToString(child, stream);
+    }
+
+    if (!node.isRoot() && !node.isContainer()) {
+        stream += node.tail;
+    }
+
+    return stream;
+};
 
 const getAttributes = node => {
     const trimmedHead              = node.head.trim();

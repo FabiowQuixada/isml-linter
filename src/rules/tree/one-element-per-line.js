@@ -2,7 +2,6 @@ const TreeRulePrototype = require('../prototypes/TreeRulePrototype');
 const IndentRule        = require('../tree/indent');
 const ConfigUtils       = require('../../util/ConfigUtils');
 const Constants         = require('../../Constants');
-const GeneralUtils      = require('../../util/GeneralUtils');
 const TreeBuilder       = require('../../isml_tree/TreeBuilder');
 
 const ruleId      = require('path').basename(__filename).slice(0, -3);
@@ -42,7 +41,7 @@ Rule.getFixedContent = rootNode => {
     const newRootNode       = TreeBuilder.build(null, stringifiedTree).rootNode;
     const partialFixContent = IndentRule.getFixedContent(newRootNode);
 
-    return GeneralUtils.applyActiveLineBreaks(partialFixContent);
+    return partialFixContent;
 };
 
 const addLineBreaks = node => {

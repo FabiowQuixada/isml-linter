@@ -275,6 +275,7 @@ const getNextClosingTagOrExpressionEndPos = content => {
 };
 
 const getInitialState = (templateContent, templatePath, isCrlfLineBreak) => {
+    // TODO Check if "GeneralUtils.toLF" can be removed;
     const originalContent       = GeneralUtils.toLF(templateContent);
     const originalShadowContent = MaskUtils.maskIgnorableContent(originalContent, null, templatePath);
 

@@ -105,10 +105,10 @@ describe(rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
-    it('sets Unix line breaks on autofix feature', () => {
+    it('keeps template original line break (CRLF)', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 0);
 
-        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
+        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(23);
     });
 
     it('maintains indentation for childless elements', () => {
