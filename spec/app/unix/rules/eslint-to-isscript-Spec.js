@@ -180,6 +180,6 @@ describe('On Unix, ' + rule.id, () => {
     it('keeps template original line break (CRLF)', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 0);
 
-        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(10);
+        expect(results.actualContent.indexOf(Constants.lineBreak.windows)).toBe(10);
     });
 });

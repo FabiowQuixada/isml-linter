@@ -130,7 +130,7 @@ describe('On Unix, ' + rule.id, () => {
     it('keeps template original line break (CRLF)', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 0);
 
-        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(4);
+        expect(results.actualContent.indexOf(Constants.lineBreak.windows)).toBe(4);
     });
 
     it('does not raise an issue for special characters by default', () => {

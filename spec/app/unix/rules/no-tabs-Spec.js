@@ -58,7 +58,7 @@ describe('On Unix, ' + rule.id, () => {
     it('keeps template original line break (CRLF)', () => {
         const results = SpecHelper.getLineRuleFixData(rule, 0);
 
-        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(23);
+        expect(results.actualContent.indexOf(Constants.lineBreak.windows)).toBe(23);
     });
 
     it('uses config Unix line endings', () => {

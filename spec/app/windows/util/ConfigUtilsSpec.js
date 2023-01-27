@@ -113,8 +113,8 @@ describe(targetObjName, () => {
 
         const results = SpecHelper.getLineRuleFixData(NoTabsRule, 0);
 
-        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.unix)).not.toBe(-1);
-        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
+        expect(results.actualContent.indexOf(Constants.lineBreak.unix)).not.toBe(-1);
+        expect(results.actualContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
     });
 
     it('uses config Windows line endings', () => {
@@ -127,7 +127,7 @@ describe(targetObjName, () => {
 
         const results = SpecHelper.getLineRuleFixData(NoTabsRule, 0);
 
-        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).not.toBe(-1);
+        expect(results.actualContent.indexOf(Constants.lineBreak.windows)).not.toBe(-1);
     });
 
     it('keeps template original line break (CRLF)', () => {
@@ -139,8 +139,8 @@ describe(targetObjName, () => {
 
         const results = SpecHelper.getLineRuleFixData(NoTabsRule, 0);
 
-        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.unix)).toBe(24);
-        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).not.toBe(-1);
+        expect(results.actualContent.indexOf(Constants.lineBreak.unix)).toBe(24);
+        expect(results.actualContent.indexOf(Constants.lineBreak.windows)).not.toBe(-1);
     });
 });
 
