@@ -1,6 +1,7 @@
 const specFileName = require('path').basename(__filename);
 const SpecHelper   = require('../../../SpecHelper');
 const Constants    = require('../../../../src/Constants');
+const ConfigUtils  = require('../../../../src/util/ConfigUtils');
 
 const rule = SpecHelper.getRule(specFileName);
 
@@ -64,5 +65,19 @@ describe('On Unix, ' + rule.id, () => {
         const results = SpecHelper.getLineRuleFixData(rule, 0);
 
         expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(23);
+    });
+
+    it('uses config Unix line endings', () => {
+        ConfigUtils.load({
+            linebreakStyle : 'unix',
+            rules : {
+                'no-space-only-lines' : {}
+            }
+        });
+
+        const results = SpecHelper.getLineRuleFixData(rule, 0);
+
+        expect(results.actualContent.indexOf(Constants.lineBreak.unix)).not.toBe(-1);
+        expect(results.actualContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
     });
 });

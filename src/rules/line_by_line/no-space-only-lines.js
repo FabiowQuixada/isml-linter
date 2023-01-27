@@ -27,7 +27,7 @@ Rule.getFixedContent = function(templateContent) {
         result.push(line.trim() ? line : line.trim());
     }
 
-    return result.join(lineBreak);
+    return GeneralUtils.applyLineBreak(result.join(lineBreak));
 };
 
 Rule.getFirstOccurrence = function(line) {

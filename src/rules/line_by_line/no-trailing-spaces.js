@@ -28,7 +28,7 @@ Rule.getFixedContent = function(templateContent) {
         result.push(line.replace(/\s+$/g, ''));
     }
 
-    return result.join(lineBreak);
+    return GeneralUtils.applyLineBreak(result.join(lineBreak), lineBreak);
 };
 
 Rule.getFirstOccurrence = function(line) {

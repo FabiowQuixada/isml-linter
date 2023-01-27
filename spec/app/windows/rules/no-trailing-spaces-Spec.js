@@ -1,5 +1,6 @@
 const SpecHelper   = require('../../../SpecHelper');
 const Constants    = require('../../../../src/Constants');
+const ConfigUtils  = require('../../../../src/util/ConfigUtils');
 const specFileName = require('path').basename(__filename);
 
 const rule            = SpecHelper.getRule(specFileName);
@@ -90,5 +91,19 @@ describe(rule.id, () => {
 
         expect(occurrence.globalPos ).toEqual(56);
         expect(occurrence2.globalPos).toEqual(108);
+    });
+
+    it('uses config Unix line endings', () => {
+        ConfigUtils.load({
+            linebreakStyle : 'unix',
+            rules : {
+                'no-trailing-spaces' : {}
+            }
+        });
+
+        const results = SpecHelper.getLineRuleFixData(rule, 0);
+
+        expect(results.actualContent.indexOf(Constants.lineBreak.unix)).not.toBe(-1);
+        expect(results.actualContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
     });
 });

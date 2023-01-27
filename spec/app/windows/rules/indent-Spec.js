@@ -108,7 +108,13 @@ describe(rule.id, () => {
     it('keeps template original line break (CRLF)', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 0);
 
-        expect(results.fixedTemplateContent.indexOf(Constants.lineBreak.windows)).toBe(23);
+        expect(results.actualContent.indexOf(Constants.lineBreak.windows)).toBe(23);
+    });
+
+    it('keeps template original line break (LF)', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 54);
+
+        expect(results.actualContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
     });
 
     it('maintains indentation for childless elements', () => {
@@ -1377,5 +1383,19 @@ describe(rule.id, () => {
         const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 60);
 
         expect(result[0].line).toEqual('        ">');
+    });
+
+    it('uses config Unix line endings', () => {
+        ConfigUtils.load({
+            linebreakStyle : 'unix',
+            rules : {
+                'indent' : {}
+            }
+        });
+
+        const results = SpecHelper.getTreeRuleFixData(rule, 0);
+
+        expect(results.actualContent.indexOf(Constants.lineBreak.unix)).not.toBe(-1);
+        expect(results.actualContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
     });
 });
