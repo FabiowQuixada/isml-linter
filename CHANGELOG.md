@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.42.1] - 2023-01-28
+
+### Fixed
+ - Keep template original linebreak if one is not explictly set in the ISML Linter configuration file. It was forcing a Unix linebreak;
+ 
 ## [5.42.0] - 2023-01-25
 
 ### Added
@@ -1059,6 +1064,7 @@
 ### Added
 - Linter is published;
 
+[5.42.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.0...v5.42.1
 [5.42.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.41.0...v5.42.0
 [5.41.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.5...v5.41.0
 [5.40.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.40.4...v5.40.5
