@@ -112,7 +112,11 @@ describe(rule.id, () => {
     });
 
     it('keeps template original line break (LF)', () => {
-        const results = SpecHelper.getTreeRuleFixData(rule, 54);
+        const templateNumber = 54;
+
+        SpecHelper.convertTemplatesToLF(rule.id, templateNumber);
+
+        const results = SpecHelper.getTreeRuleFixData(rule, templateNumber);
 
         expect(results.actualContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
     });

@@ -2,13 +2,14 @@ require('../src/util/NativeExtensionUtils');
 // TODO: Find a better way to set this;
 process.env.NODE_ENV = 'test';
 
-const FileUtils   = require('../src/util/FileUtils');
-const Constants   = require('../src/Constants');
-const TreeBuilder = require('../src/isml_tree/TreeBuilder');
-const ConfigUtils = require('../src/util/ConfigUtils');
-const snake       = require('to-snake-case');
-const path        = require('path');
-const fs          = require('fs');
+const FileUtils    = require('../src/util/FileUtils');
+const Constants    = require('../src/Constants');
+const TreeBuilder  = require('../src/isml_tree/TreeBuilder');
+const ConfigUtils  = require('../src/util/ConfigUtils');
+const GeneralUtils = require('../src/util/GeneralUtils');
+const snake        = require('to-snake-case');
+const path         = require('path');
+const fs           = require('fs');
 
 const specTempDir = Constants.specTempDir;
 
@@ -88,6 +89,18 @@ module.exports = {
             actualContent,
             fixedTemplateContent
         };
+    },
+
+    convertTemplatesToLF: (ruleId, templateNumber) => {
+        const brokenTemplatePath    = path.join(Constants.specAutofixTemplatesDir, 'rules', ruleId, `template_${templateNumber}_broken.isml`);
+        const fixedTemplatePath     = path.join(Constants.specAutofixTemplatesDir, 'rules', ruleId, `template_${templateNumber}_fixed.isml`);
+        const originalBrokenContent = fs.readFileSync(brokenTemplatePath, 'utf-8');
+        const originalFixedContent  = fs.readFileSync(fixedTemplatePath, 'utf-8');
+        const lfBrokenContent       = GeneralUtils.toLF(originalBrokenContent);
+        const lfFixedContent        = GeneralUtils.toLF(originalFixedContent);
+
+        fs.writeFileSync(brokenTemplatePath, lfBrokenContent);
+        fs.writeFileSync(fixedTemplatePath, lfFixedContent);
     },
 
     getTreeRuleFixData: (rule, templateNumber) => {
