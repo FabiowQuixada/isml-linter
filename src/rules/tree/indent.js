@@ -613,7 +613,7 @@ const addIndentation = (node, isOpeningTag) => {
     const fullLeadingContent  = content.substring(0, startingPos);
     const preLineBreakContent = fullLeadingContent.substring(0, fullLeadingContent.lastIndexOf(Constants.EOL) + 1);
     const fullTrailingContent = content.substring(endingPos);
-    const nodeIndentation     = node.isInSameLineAsParent() && isOpeningTag ? '' : Rule.getIndentation(node.depth - 1);
+    let nodeIndentation       = node.isInSameLineAsParent() && isOpeningTag ? '' : Rule.getIndentation(node.depth - 1);
     const attributeOffset     = Rule.getAttributeIndentationOffset();
     const attributeList       = node.getAttributeList();
     let contentResult         = '';
@@ -642,7 +642,20 @@ const addIndentation = (node, isOpeningTag) => {
             contentResult = node.head.trim();
         }
     } else {
-        contentResult = node.tail.trim();
+        const nodeLastChild = node.getLastChild();
+
+        if (nodeLastChild) {
+            const lastChildLineNumber = nodeLastChild.isContainer() ?
+                nodeLastChild.getLastChild().getLastLineNumber() :
+                nodeLastChild.getLastLineNumber();
+
+            if (node.tailLineNumber === lastChildLineNumber) {
+                contentResult   = Constants.EOL + nodeIndentation;
+                nodeIndentation = '';
+            }
+        }
+
+        contentResult += node.tail.trim();
     }
 
     return preLineBreakContent + nodeIndentation + contentResult + fullTrailingContent;

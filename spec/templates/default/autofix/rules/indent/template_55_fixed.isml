@@ -1,0 +1,7 @@
+<isif condition="${aCondition}">
+    <option>
+        <isif condition="${anotherCondition}">
+            text
+        </isif>
+    </option>
+</isif>
