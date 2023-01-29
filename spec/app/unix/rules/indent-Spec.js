@@ -1407,4 +1407,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('indents HTML conditional comment node children', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 56);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

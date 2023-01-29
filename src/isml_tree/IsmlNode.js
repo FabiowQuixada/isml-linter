@@ -54,7 +54,9 @@ class IsmlNode {
 
         const head = this.head.trim();
 
-        if (head.startsWith('<!--')) {
+        if (head.startsWith('<!--[if')) {
+            return 'html_conditional_comment';
+        } else if (head.startsWith('<!--')) {
             return 'html_comment';
         } else if (this.isDocType()) {
             return 'doctype';

@@ -247,7 +247,7 @@ describe(targetObjName, () => {
 
     it('identifies style tags', () => {
         const rootNode  = getRootNodeFromTemplate(26);
-        const styleNode = rootNode.children[4];
+        const styleNode = rootNode.children[2];
 
         expect(styleNode.head).toEqual(`${Constants.EOL}<style type="text/css">`);
         expect(styleNode.lineNumber).toEqual(5);
@@ -255,23 +255,21 @@ describe(targetObjName, () => {
     });
 
     it('handles conditional HTML comments', () => {
-        const rootNode               = getRootNodeFromTemplate(26);
-        const ConditionalNode        = rootNode.children[1];
-        const metaNode               = rootNode.children[2];
-        const closingConditionalNode = rootNode.children[3];
-        const styleNode              = rootNode.children[4];
+        const rootNode        = getRootNodeFromTemplate(26);
+        const conditionalNode = rootNode.children[1];
+        const metaNode        = conditionalNode.children[0];
+        const styleNode       = rootNode.children[2];
 
-        expect(ConditionalNode.head).toEqual(`${Constants.EOL}<!--[if !mso]><!-- -->`);
-        expect(ConditionalNode.lineNumber).toEqual(2);
-        expect(ConditionalNode.getChildrenQty()).toEqual(0);
+        expect(conditionalNode.head).toEqual(`${Constants.EOL}<!--[if !mso]><!-- -->`);
+        expect(conditionalNode.lineNumber).toEqual(2);
+        expect(conditionalNode.getChildrenQty()).toEqual(1);
 
         expect(metaNode.head).toEqual(`${Constants.EOL}    <meta content="IE=edge" http-equiv="X-UA-Compatible" />`);
         expect(metaNode.lineNumber).toEqual(3);
         expect(metaNode.getChildrenQty()).toEqual(0);
 
-        expect(closingConditionalNode.head).toEqual(`${Constants.EOL}<!--<![endif]-->`);
-        expect(closingConditionalNode.lineNumber).toEqual(4);
-        expect(closingConditionalNode.getChildrenQty()).toEqual(0);
+        expect(conditionalNode.tail).toEqual(`${Constants.EOL}<!--<![endif]-->`);
+        expect(conditionalNode.tailLineNumber).toEqual(4);
 
         expect(styleNode.head).toEqual(`${Constants.EOL}<style type="text/css">`);
         expect(styleNode.lineNumber).toEqual(5);
@@ -452,14 +450,13 @@ describe(targetObjName, () => {
     });
 
     it('ignores opening comment strings within comments', () => {
-        const rootNode     = getRootNodeFromTemplate(44);
-        const headNode     = rootNode.children[0];
-        const htmlComment0 = headNode.children[0];
-        const htmlComment1 = headNode.children[1];
+        const rootNode    = getRootNodeFromTemplate(44);
+        const headNode    = rootNode.children[0];
+        const htmlComment = headNode.children[0];
 
         expect(headNode.head).toEqual('<head>');
-        expect(htmlComment0.head).toEqual(`${Constants.EOL}    <!--[if gt IE 9]><!-->`);
-        expect(htmlComment1.head).toEqual(`${Constants.EOL}    <!--<![endif]-->`);
+        expect(htmlComment.head).toEqual(`${Constants.EOL}    <!--[if gt IE 9]><!-->`);
+        expect(htmlComment.tail).toEqual(`${Constants.EOL}    <!--<![endif]-->`);
     });
 
     it('allows an HTML element as first child of a parent node', () => {

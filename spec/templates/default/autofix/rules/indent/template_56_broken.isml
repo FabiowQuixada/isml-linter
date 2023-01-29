@@ -1,0 +1,8 @@
+<html>
+    <head>
+        <!--[if gt IE 9]><!-->
+        <isinclude sf-toolkit="off" template="/common/scripts" />
+        <!--<![endif]-->
+        <isinclude template="/common/htmlHead" />
+    </head>
+</html>

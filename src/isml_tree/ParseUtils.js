@@ -128,8 +128,9 @@ const parseNextElement = state => {
             parseTextElement(state, newElement);
     }
 
-    newElement.columnNumber  = getElementColumnNumber(newElement, state);
-    newElement.isVoidElement = !config.disableHtml5 && Constants.voidElementsArray.indexOf(newElement.tagType) >= 0;
+    newElement.columnNumber             = getElementColumnNumber(newElement, state);
+    newElement.isVoidElement            = !config.disableHtml5 && Constants.voidElementsArray.indexOf(newElement.tagType) >= 0;
+    newElement.isHtmlConditionalComment = !!(newElement.type === 'htmlOrIsmlComment' && (newElement.value.indexOf('<!--[if') >= 0 || newElement.value.indexOf('<!--<![endif]' >= 0)));
 
     if (state.isCrlfLineBreak) {
         newElement.globalPos += newElement.lineNumber - 1;
@@ -158,10 +159,11 @@ const parseNextElement = state => {
 };
 
 const parseTagOrExpressionElement = (state, newElement) => {
-    const trimmedElement      = newElement.value.trim().toLowerCase();
-    const isTag               = trimmedElement.startsWith('<') && !trimmedElement.startsWith('<!--');
-    const isExpression        = trimmedElement.startsWith('${');
-    const isHtmlOrIsmlComment = trimmedElement.startsWith('<!--');
+    const trimmedElement       = newElement.value.trim().toLowerCase();
+    const isTag                = trimmedElement.startsWith('<') && !trimmedElement.startsWith('<!--');
+    const isExpression         = trimmedElement.startsWith('${');
+    const isHtmlOrIsmlComment  = trimmedElement.startsWith('<!--');
+    const isConditionalComment = trimmedElement.indexOf('<!--[if') >= 0 || trimmedElement.indexOf('<![endif') >= 0;
 
     if (isTag) {
         if (trimmedElement.startsWith('<is') || trimmedElement.startsWith('</is')) {
@@ -171,6 +173,8 @@ const parseTagOrExpressionElement = (state, newElement) => {
         } else {
             newElement.type = 'htmlTag';
         }
+    } else if (isConditionalComment) {
+        newElement.type = 'htmlConditionalComment';
     } else if (isHtmlOrIsmlComment) {
         newElement.type = 'htmlOrIsmlComment';
     } else if (isExpression) {
@@ -180,16 +184,24 @@ const parseTagOrExpressionElement = (state, newElement) => {
     }
 
     if (isTag) {
-        newElement.tagType = getElementType(trimmedElement);
-
+        newElement.tagType     = getElementType(trimmedElement);
         newElement.isCustomTag = newElement.type === 'ismlTag' && !SfccTagContainer[newElement.tagType];
     }
 
     newElement.isSelfClosing = isSelfClosing(trimmedElement);
+    newElement.isClosingTag  = isTag && trimmedElement.startsWith('</');
+    newElement.lineNumber    = getLineBreakQty(state.pastContent) + getLeadingLineBreakQty(newElement.value) + 1;
+    newElement.globalPos     = state.pastContent.length + getLeadingEmptyChars(newElement.value).length;
 
-    newElement.isClosingTag = isTag && trimmedElement.startsWith('</');
-    newElement.lineNumber   = getLineBreakQty(state.pastContent) + getLeadingLineBreakQty(newElement.value) + 1;
-    newElement.globalPos    = state.pastContent.length + getLeadingEmptyChars(newElement.value).length;
+    // TODO Refactor this, remove this post-processing;
+    if (newElement.type === 'htmlConditionalComment') {
+        newElement.tagType       = 'html_conditional_comment';
+        newElement.isSelfClosing = false;
+
+        if (trimmedElement.indexOf('<!--<![endif]') >= 0) {
+            newElement.isClosingTag = true;
+        }
+    }
 };
 
 const parseTextElement = (state, newElement) => {
