@@ -128,9 +128,8 @@ const parseNextElement = state => {
             parseTextElement(state, newElement);
     }
 
-    newElement.columnNumber             = getElementColumnNumber(newElement, state);
-    newElement.isVoidElement            = !config.disableHtml5 && Constants.voidElementsArray.indexOf(newElement.tagType) >= 0;
-    newElement.isHtmlConditionalComment = !!(newElement.type === 'htmlOrIsmlComment' && (newElement.value.indexOf('<!--[if') >= 0 || newElement.value.indexOf('<!--<![endif]' >= 0)));
+    newElement.columnNumber  = getElementColumnNumber(newElement, state);
+    newElement.isVoidElement = !config.disableHtml5 && Constants.voidElementsArray.indexOf(newElement.tagType) >= 0;
 
     if (state.isCrlfLineBreak) {
         newElement.globalPos += newElement.lineNumber - 1;
@@ -196,7 +195,7 @@ const parseTagOrExpressionElement = (state, newElement) => {
     // TODO Refactor this, remove this post-processing;
     if (newElement.type === 'htmlConditionalComment') {
         newElement.tagType       = 'html_conditional_comment';
-        newElement.isSelfClosing = false;
+        newElement.isSelfClosing = newElement.value.indexOf('<!--[if') >= 0 && newElement.value.indexOf('<![endif') >= 0;
 
         if (trimmedElement.indexOf('<!--<![endif]') >= 0) {
             newElement.isClosingTag = true;

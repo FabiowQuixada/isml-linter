@@ -1,0 +1,9 @@
+<html>
+    <!--[if gt IE 9]><!-->
+    <isinclude sf-toolkit="off" template="/common/scripts" />
+    <!--<![endif]-->
+
+    <!--[if lt IE 10]>
+    <isinclude sf-toolkit="off" template="/common/scripts" />
+    <![endif]-->
+</html>

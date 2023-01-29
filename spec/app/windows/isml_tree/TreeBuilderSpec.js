@@ -813,6 +813,17 @@ describe(targetObjName, () => {
         expect(inputNode.tailColumnNumber).toEqual(9);
         expect(inputNode.tailGlobalPos   ).toEqual(7);
     });
+
+    it('identifies self-closing HTML conditional comments', () => {
+        const tree                              = getTreeFromTemplate(86);
+        const htmlNode                          = tree.rootNode.getChild(0);
+        const htmlConditionalComment            = htmlNode.getChild(0);
+        const htmlSelfClosingConditionalComment = htmlNode.getChild(1);
+
+        expect(tree.status                            ).toEqual(ParseStatus.NO_ERRORS);
+        expect(htmlConditionalComment.head            ).toEqual(`${Constants.EOL}    <!--[if gt IE 9]><!-->`);
+        expect(htmlSelfClosingConditionalComment.head ).toEqual(`${Constants.EOL}${Constants.EOL}    <!--[if lt IE 10]>${Constants.EOL}    <isinclude sf-toolkit="off" template="/common/scripts" />${Constants.EOL}    <![endif]-->`);
+    });
 });
 
 const getTemplatePath = number => {
