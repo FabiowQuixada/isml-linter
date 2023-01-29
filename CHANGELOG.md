@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.42.3] - 2023-01-29
+
+### Fixed
+ - Tree build fix when self-closing HTML conditional comments are present;
+ 
 ## [5.42.2] - 2023-01-29
 
 ### Fixed
@@ -1069,6 +1074,7 @@
 ### Added
 - Linter is published;
 
+[5.42.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.2...v5.42.3
 [5.42.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.1...v5.42.2
 [5.42.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.0...v5.42.1
 [5.42.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.41.0...v5.42.0
