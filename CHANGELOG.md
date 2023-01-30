@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.42.4] - 2023-01-30
+
+### Fixed
+ - "indent" rule fix - multiline self-closing HTML conditional comment;
+ - "indent" rule fix - closing tag after closing "isif" tag;
+ 
 ## [5.42.3] - 2023-01-29
 
 ### Fixed
@@ -1074,6 +1080,7 @@
 ### Added
 - Linter is published;
 
+[5.42.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.3...v5.42.4
 [5.42.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.2...v5.42.3
 [5.42.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.1...v5.42.2
 [5.42.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.0...v5.42.1
