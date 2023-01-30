@@ -1403,7 +1403,7 @@ describe(rule.id, () => {
         expect(results.actualContent.indexOf(Constants.lineBreak.windows)).toBe(-1);
     });
 
-    it('keeps indentation of closing tag after a child closing "isif" tag', () => {
+    it('keeps spacing of same-line closing tag after a child closing "isif" tag', () => {
         const results = SpecHelper.getTreeRuleFixData(rule, 55);
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
