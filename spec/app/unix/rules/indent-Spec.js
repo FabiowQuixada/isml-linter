@@ -1413,4 +1413,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('indents self-closing HTML conditional comment node lines', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 57);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

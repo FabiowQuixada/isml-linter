@@ -641,6 +641,13 @@ const addIndentation = (node, isOpeningTag) => {
         } else {
             contentResult = node.head.trim();
         }
+
+        if (node.isOfType('html_conditional_comment')) {
+            contentResult = contentResult
+                .split(Constants.EOL)
+                .map((line, i) => i > 0 ? nodeIndentation + line : line)
+                .join(Constants.EOL);
+        }
     } else {
         const nodeLastChild = node.getLastChild();
 
