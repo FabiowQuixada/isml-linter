@@ -51,7 +51,7 @@ describe(targetObjName, () => {
 
         rootNode.print();
 
-        expect(spy.firstCall.args[0]).toEqual('0 :: 0 :: <div />');
+        expect(spy.firstCall.args[0]).toEqual('0\t :: 0\t\t :: <div />');
     });
 
     it('prints its clauses', () => {
@@ -64,7 +64,7 @@ describe(targetObjName, () => {
 
         rootNode.print();
 
-        expect(spy.firstCall.args[0]).toEqual('0 :: 0 :: <isif>');
-        expect(spy.secondCall.args[0]).toEqual('0 :: 0 :: <iselse>');
+        expect(spy.firstCall.args[0]).toEqual('0\t :: 0\t\t :: <isif>');
+        expect(spy.secondCall.args[0]).toEqual('0\t :: 0\t\t :: <iselse>');
     });
 });

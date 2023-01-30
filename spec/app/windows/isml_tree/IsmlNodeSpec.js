@@ -99,7 +99,7 @@ describe(targetObjName, () => {
 
         rootNode.print();
 
-        expect(spy.firstCall.args[0]).toEqual('0 :: 0 :: (root)');
+        expect(spy.secondCall.args[0]).toEqual('0\t :: 0\t\t :: (root)');
     });
 
     it('prints its children', () => {
@@ -109,7 +109,7 @@ describe(targetObjName, () => {
         rootNode.addChild(childNode);
         rootNode.print();
 
-        expect(spy.secondCall.args[0]).toEqual('1 :: 0 ::     <span class="some_class">');
+        expect(spy.thirdCall.args[0]).toEqual('1\t :: 0\t\t ::     <span class="some_class">');
     });
 
     it('prints its inner text', () => {
@@ -119,7 +119,7 @@ describe(targetObjName, () => {
         rootNode.addChild(childNode);
         rootNode.print();
 
-        expect(spy.secondCall.args[0]).toEqual('1 :: 0 ::     ' + childNode.head);
+        expect(spy.thirdCall.args[0]).toEqual('1\t :: 0\t\t ::     ' + childNode.head);
     });
 
     it('prints its value halted if it is too long', () => {
@@ -127,7 +127,7 @@ describe(targetObjName, () => {
 
         rootNode.print();
 
-        expect(spy.firstCall.args[0]).toEqual('0 :: 0 :: <div class="the-value-of-th...');
+        expect(spy.secondCall.args[0]).toEqual('0\t :: 0\t\t :: <div class="the-value-of-th...');
     });
 
     it('prints value without duplicated spaces', () => {
@@ -135,7 +135,7 @@ describe(targetObjName, () => {
 
         rootNode.print();
 
-        expect(spy.firstCall.args[0]).toEqual('0 :: 0 :: <div class="some_class"></d...');
+        expect(spy.secondCall.args[0]).toEqual('0\t :: 0\t\t :: <div class="some_class"></d...');
     });
 
     it('prints multi-line elements in a single line', () => {
@@ -143,7 +143,7 @@ describe(targetObjName, () => {
 
         rootNode.print();
 
-        expect(spy.firstCall.args[0]).toEqual('0 :: 0 :: <div class="some_class"></d...');
+        expect(spy.secondCall.args[0]).toEqual('0\t :: 0\t\t :: <div class="some_class"></d...');
     });
 
     it('sets doctype node as self-closing', () => {

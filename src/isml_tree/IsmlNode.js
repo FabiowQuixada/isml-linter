@@ -404,7 +404,11 @@ class IsmlNode {
             indentation += '    ';
         }
 
-        console.log(this.depth + ' :: ' + this.lineNumber + ' :: ' + indentation + getDisplayText(this));
+        if(this.isRoot()) {
+            console.log('Depth\t :: LineNumber\t :: Content');
+        }
+
+        console.log(this.depth + '\t :: ' + this.lineNumber + '\t\t :: ' + indentation + getDisplayText(this));
 
         for (let i = 0; i < this.children.length; i++) {
             this.children[i].print();
