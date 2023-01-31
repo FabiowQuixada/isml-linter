@@ -59,12 +59,12 @@ const deleteDirectoryRecursively = dirPath => {
     return false;
 };
 
-const isIgnored = filePath => {
+const shouldBeIgnored = filePath => {
     const config = ConfigUtils.load();
 
-    return config.ignore && config.ignore.some( ignoredPath => {
+    return !!(config.ignore && config.ignore.some( ignoredPath => {
         return filePath.indexOf(ignoredPath) >= 0;
-    });
+    }));
 };
 
 const fileExists = filePath => fs.existsSync(filePath);
@@ -76,4 +76,4 @@ module.exports.createDirIfDoesNotExist    = createDirIfDoesNotExist;
 module.exports.deleteFile                 = deleteFile;
 module.exports.deleteDirectoryRecursively = deleteDirectoryRecursively;
 module.exports.createClientDir            = createClientDir;
-module.exports.isIgnored                  = isIgnored;
+module.exports.shouldBeIgnored            = shouldBeIgnored;

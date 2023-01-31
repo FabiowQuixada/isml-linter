@@ -225,13 +225,13 @@ Linter.run = (pathData, content, data = {}) => {
         const lintStartTime = new Date();
 
         for (let i = 0; i < templatePathArray.length; i++) {
-            const templateName = templatePathArray[i];
-            const templatePath = Array.isArray(templateData.pathData) || path.isAbsolute(templateName) || templateData.pathData === templateName ?
+            const templateName    = templatePathArray[i];
+            const templatePath    = Array.isArray(templateData.pathData) || path.isAbsolute(templateName) || templateData.pathData === templateName ?
                 templateName :
                 path.join(templateData.pathData, templateName);
-            const isIgnored    = FileUtils.isIgnored(templatePath);
+            const shouldBeIgnored = FileUtils.shouldBeIgnored(templatePath);
 
-            if (!isIgnored) {
+            if (!shouldBeIgnored) {
                 const templateResults = parseAndPossiblyFixTemplate(templatePath, data, content, templateName);
 
                 finalResult = merge(finalResult, templateResults);
