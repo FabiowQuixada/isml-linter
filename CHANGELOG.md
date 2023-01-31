@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.43.0] - 2023-01-31
+
+### Added
+ - "allowWhenDynamic" (default `true`) option to "[no-inline-style][no-inline-style-readme]" rule;
+
+### Fixed
+ - Rule-level ignore string with "/" character for directories;
+ 
 ## [5.42.4] - 2023-01-30
 
 ### Fixed
@@ -1080,6 +1088,7 @@
 ### Added
 - Linter is published;
 
+[5.43.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.4...v5.43.0
 [5.42.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.3...v5.42.4
 [5.42.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.2...v5.42.3
 [5.42.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.1...v5.42.2
@@ -1251,7 +1260,7 @@
 [strict-void-elements-readme]: <docs/rules/strict-void-elements.md>
 [disallow-tags-readme]:        <docs/rules/disallow-tags.md>
 [no-br-readme]:                <docs/rules/no-br.md>
-[no-inline-style-readme]:      <docs/rules/no-br.md>
+[no-inline-style-readme]:      <docs/rules/no-inline-style.md>
 [no-isscript-readme]:          <docs/rules/no-isscript.md>
 [enforce-security-readme]:     <docs/rules/enforce-security.md>
 [no-hardcode-readme]:          <docs/rules/no-hardcode.md>
