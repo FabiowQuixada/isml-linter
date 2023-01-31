@@ -60,10 +60,11 @@ const deleteDirectoryRecursively = dirPath => {
 };
 
 const shouldBeIgnored = filePath => {
-    const config = ConfigUtils.load();
+    const config            = ConfigUtils.load();
+    const formattedFilePath = filePath.replaceAll('\\', '/');
 
     return !!(config.ignore && config.ignore.some( ignoredPath => {
-        return filePath.indexOf(ignoredPath) >= 0;
+        return formattedFilePath.indexOf(ignoredPath) >= 0;
     }));
 };
 

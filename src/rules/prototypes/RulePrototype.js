@@ -32,11 +32,12 @@ const RulePrototype = {
     },
 
     shouldIgnore(templatePath) {
-        const ignoreArray = this.getConfigs().ignore;
+        const ignoreArray       = this.getConfigs().ignore;
+        const formattedFilePath = templatePath.replaceAll('\\', '/');
 
         if (ignoreArray) {
             return ignoreArray.some( ignore => {
-                return templatePath.includes(ignore);
+                return formattedFilePath.includes(ignore);
             });
         }
 

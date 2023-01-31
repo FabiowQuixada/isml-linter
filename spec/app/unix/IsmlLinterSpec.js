@@ -305,4 +305,20 @@ describe('On Unix, ' + targetObjName, () => {
         expect(results.issueQty).toEqual(0);
         expect(results.INVALID_TEMPLATE.length).toEqual(0);
     });
+
+    it('ignores templates at rule-level that include "/" directory character', () => {
+        ConfigUtils.load({
+            rules: {
+                'no-inline-style': {
+                    ignore: [
+                        '/experience/'
+                    ],
+                }
+            }
+        });
+        const lintResult = IsmlLinter.run(specIgnoreDirLinterTemplateDir, null, { isCrlfLineBreak });
+        const result     = JSON.stringify(lintResult);
+
+        expect(result.indexOf('experience')).toEqual(-1);
+    });
 });
