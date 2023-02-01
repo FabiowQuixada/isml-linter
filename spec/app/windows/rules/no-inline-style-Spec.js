@@ -1,4 +1,5 @@
 const SpecHelper   = require('../../../SpecHelper');
+const ConfigUtils  = require('../../../../src/util/ConfigUtils');
 const specFileName = require('path').basename(__filename);
 
 const rule            = SpecHelper.getRule(specFileName);
@@ -53,5 +54,33 @@ describe(rule.id, () => {
         const result          = rule.check(templateContent);
 
         expect(result.occurrenceList).toEqual([]);
+    });
+
+    it('allows dynamic expressions by default', () => {
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 4);
+        const result          = rule.check(templateContent);
+
+        expect(result.occurrenceList.length).toEqual(0);
+    });
+
+    it('disallows dynamic expressions if set explicitly in configuration file', () => {
+        ConfigUtils.load({
+            rules: {
+                'no-inline-style': {
+                    allowWhenDynamic: false
+                }
+            }
+        });
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 4);
+        const result          = rule.check(templateContent);
+
+        expect(result.occurrenceList.length).toEqual(1);
+    });
+
+    it('disallows style attribute even if there is an ISML expression in the same line, but outside of its value', () => {
+        const templateContent = SpecHelper.getRuleSpecTemplateContent(rule, 5);
+        const result          = rule.check(templateContent);
+
+        expect(result.occurrenceList.length).toEqual(1);
     });
 });
