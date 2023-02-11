@@ -1,6 +1,6 @@
-const path = require('path');
-const glob = require('glob');
-// const fs                   = require('fs');
+const path                 = require('path');
+const glob                 = require('glob');
+const fs                   = require('fs');
 const SpecHelper           = require('../../SpecHelper');
 const IsmlLinter           = require('../../../src/IsmlLinter');
 const Constants            = require('../../../src/Constants');
@@ -9,6 +9,7 @@ const NoInlineStyleRule    = require('../../../src/rules/line_by_line/no-inline-
 const EnforceIsprintRule   = require('../../../src/rules/line_by_line/enforce-isprint');
 const ExceptionUtils       = require('../../../src/util/ExceptionUtils');
 const ConfigUtils          = require('../../../src/util/ConfigUtils');
+const GeneralUtils         = require('../../../src/util/GeneralUtils');
 
 const specSpecificDirLinterTemplate    = Constants.specSpecificDirLinterTemplate;
 const specUnparseableDirLinterTemplate = Constants.specUnparseableDirLinterTemplate;
@@ -320,5 +321,51 @@ describe('On Unix, ' + targetObjName, () => {
         const result     = JSON.stringify(lintResult);
 
         expect(result.indexOf('experience')).toEqual(-1);
+    });
+
+    it('fixes more than one active fixable line-by-line rule in a single run', () => {
+        ConfigUtils.load({
+            autoFix: true,
+            rules: {
+                'no-git-conflict': {},
+                'no-import-package': {},
+                'no-space-only-lines': {},
+                'no-tabs': {},
+                'no-trailing-spaces': {},
+                indent: {
+                    standAloneClosingChars : {
+                        nonSelfClosingTag : 'any',
+                        selfClosingTag: 'any',
+                        quote : 'any'
+                    }
+                },
+                'no-redundant-context': {},
+                'leading-iscontent': {},
+                'no-require-in-loop': {},
+                'one-element-per-line': {
+                    except: ['iscomment']
+                },
+                'leading-iscache': {},
+                'no-deprecated-attrs': {}, 'contextual-attrs': {},
+                'custom-tags': {},
+                'no-iselse-slash': {}, 'no-inline-style': {
+                }
+            }
+        });
+
+        const templatePath            = path.join(Constants.specAutofixTemplatesDir, 'template_12.isml');
+        const originalTemplateContent = fs.readFileSync(templatePath, 'utf-8');
+        const linebreakStyle          = GeneralUtils.getFileLineBreakStyle(originalTemplateContent);
+
+        IsmlLinter.run(templatePath);
+
+        const fixedTemplateContent = fs.readFileSync(templatePath, 'utf-8');
+        const originalLineList     = originalTemplateContent.split(linebreakStyle);
+        const fixedLineList        = fixedTemplateContent.split(linebreakStyle);
+
+        fs.writeFileSync(templatePath, originalTemplateContent);
+
+        expect(originalLineList[1]).toEqual('    ');
+        expect(fixedLineList[1]   ).toEqual('');
     });
 });

@@ -77,7 +77,7 @@ const fixTemplateOrReportIssues = (config, ruleResult, templatePath, templateRes
     }
 };
 
-const fixTemplateOrReportIssuesForRuleList = (ruleArray, templatePath, root, config, data) => {
+const fixTemplateOrReportIssuesForRuleList = (ruleArray, templatePath, rootNodeOrTemplateContent, config, data) => {
     const templateResults = {
         fixed    : false,
         errors   : {},
@@ -86,13 +86,20 @@ const fixTemplateOrReportIssuesForRuleList = (ruleArray, templatePath, root, con
         data
     };
 
+    let tempRootNodeOrTemplateContent = rootNodeOrTemplateContent;
+
     for (let i = 0; i < ruleArray.length; i++) {
         const rule = ruleArray[i];
         if (!rule.shouldIgnore(templatePath)) {
             try {
                 ConsoleUtils.displayVerboseMessage(`Applying "${rule.id}" rule`, 1);
-                const ruleResults            = rule.check(root, templateResults.data);
+                const ruleResults            = rule.check(tempRootNodeOrTemplateContent, templateResults.data);
                 templateResults.finalContent = ruleResults.fixedContent;
+
+                if (typeof rootNodeOrTemplateContent === 'string') {
+                    tempRootNodeOrTemplateContent = ruleResults.fixedContent;
+                }
+
                 fixTemplateOrReportIssues(config, ruleResults, templatePath, templateResults, rule);
 
             } catch (error) {

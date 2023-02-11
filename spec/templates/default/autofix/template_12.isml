@@ -1,0 +1,73 @@
+<isdecorate template="common/layout/checkout">
+    
+    <span data-active-step="2" class="js-checkoutStepper__stepToActive">
+        <isinclude template="checkout/checkoutStepper" />
+    </span>
+
+    <div class="container">
+        <div class="js-shipmentTitle titleLeftWrapper">
+            <h2>
+                ${Resource.msg('title.shipment', 'checkout', null)}
+            </h2>
+            <p>
+                ${Resource.msg('title.subtitle.shipment', 'checkout', null)}
+            </p>
+        </div>
+
+        <div style="display: none" class="js-paymentTitle titleLeftWrapper">
+            <h2>
+                ${Resource.msg('title.payment', 'checkout', null)}
+            </h2>
+            <p>
+                ${Resource.msg('title.subtitle.payment', 'checkout', null)}
+            </p>
+        </div>
+
+        <div class="appCheckout">
+            <div class="appCheckout__mainCol">
+
+                <iscomment> Shipping Step </iscomment>
+                <section id="js-shippingInformation">
+                    <div class="appCheckout__shippingListWrapper appCheckout__cmpWrapper">
+                        <shipping-address></shipping-address>
+                    </div>
+
+                    <div class="appCheckout__shippingFormAndMethods appCheckout__cmpWrapper">
+                        <shipping-methods></shipping-methods>
+                    </div>
+
+                    <div class="appCheckout__billing appCheckout__cmpWrapper">
+                        <billing-address></billing-address>
+                    </div>
+
+                    <div class="appCheckout__billing appCheckout__cmpWrapper">
+                        <gift-options></gift-options>
+                    </div>
+
+                    <iscomment> Go to payment button toggle elements </iscomment>
+                    <go-to-payment-button></go-to-payment-button>
+                </section>
+
+                <iscomment> Payment Step </iscomment>
+                <section style="display: none" id="js-paymentInformation">
+                    <isinclude template="checkout/payment" />
+
+                    <iscomment> Place Order </iscomment>
+                    <place-order-button></place-order-button>
+                </section>
+            </div>
+
+            <div class="appCheckout__sideInfo">
+                <iscomment> Totals Component </iscomment>
+                <div class="appCheckout__cmpWrapper">
+                    <checkout-totals></checkout-totals>
+                </div>
+
+                <iscomment> Product List component </iscomment>
+                <div class="appCheckout__cmpWrapper">
+                    <product-list></product-list>
+                </div>
+            </div>
+        </div>
+    </div>
+</isdecorate>
