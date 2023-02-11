@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.43.1] - 2023-02-11
+
+### Fixed
+ - All line-by-line rules are applied, one after the other, without ovewriting the previous rule fixed content;
+ 
 ## [5.43.0] - 2023-01-31
 
 ### Added
@@ -1088,6 +1093,7 @@
 ### Added
 - Linter is published;
 
+[5.43.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.0...v5.43.1
 [5.43.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.4...v5.43.0
 [5.42.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.3...v5.42.4
 [5.42.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.2...v5.42.3
