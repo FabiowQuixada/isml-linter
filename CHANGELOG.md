@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.43.2] - 2023-02-12
+
+### Security
+ - Upgraded dependencies;
+
 ## [5.43.1] - 2023-02-11
 
 ### Fixed
@@ -1093,6 +1098,7 @@
 ### Added
 - Linter is published;
 
+[5.43.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.1...v5.43.2
 [5.43.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.0...v5.43.1
 [5.43.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.4...v5.43.0
 [5.42.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.3...v5.42.4
