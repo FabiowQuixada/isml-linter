@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.43.3] - 2023-02-20
+
+### Fixed
+ - Issue that blocked process due to a missing return value in some rules;
+ 
 ## [5.43.2] - 2023-02-12
 
 ### Security
@@ -1098,6 +1103,7 @@
 ### Added
 - Linter is published;
 
+[5.43.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.2...v5.43.3
 [5.43.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.1...v5.43.2
 [5.43.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.0...v5.43.1
 [5.43.0]: https://github.com/FabiowQuixada/isml-linter/compare/v5.42.4...v5.43.0
