@@ -96,7 +96,7 @@ const fixTemplateOrReportIssuesForRuleList = (ruleArray, templatePath, rootNodeO
                 const ruleResults            = rule.check(tempRootNodeOrTemplateContent, templateResults.data);
                 templateResults.finalContent = ruleResults.fixedContent;
 
-                if (typeof rootNodeOrTemplateContent === 'string') {
+                if (ruleResults.fixedContent && typeof rootNodeOrTemplateContent === 'string') {
                     tempRootNodeOrTemplateContent = ruleResults.fixedContent;
                 }
 

@@ -6,6 +6,7 @@
     ===========================================================================
 **/
 
+const path                  = require('path');
 const fs                    = require('fs');
 const Constants             = require('../Constants');
 const TreeBuilder           = require('../isml_tree/TreeBuilder');
@@ -13,9 +14,40 @@ const ConfigUtils           = require('./ConfigUtils');
 const lowercaseFilenameRule = require('../rules/line_by_line/lowercase-filename');
 const CustomTagContainer    = require('./CustomTagContainer');
 const CustomModulesRule     = require('../rules/tree/custom-tags');
+const ConsoleUtils          = require('./ConsoleUtils');
+const ExceptionUtils        = require('./ExceptionUtils');
 
 const lineByLineRules = [];
 const treeRules       = [];
+
+(() => {
+    const lineRuleFileArray = fs.readdirSync(Constants.lineByLineRulesDir);
+    const treeRuleFileArray = fs.readdirSync(Constants.treeRulesDir);
+
+    for (let i = 0; i < lineRuleFileArray.length; i++) {
+        const file = lineRuleFileArray[i];
+
+        if (file.endsWith('.js')) {
+            const rulePath = path.join(__dirname, '..', 'rules', 'line_by_line', file);
+            lineByLineRules.push(require(rulePath));
+        }
+    }
+
+    for (let i = 0; i < treeRuleFileArray.length; i++) {
+        const file = treeRuleFileArray[i];
+
+        if (file.endsWith('.js')) {
+            const rulePath = path.join(__dirname, '..', 'rules', 'tree', file);
+            treeRules.push(require(rulePath));
+        }
+    }
+})();
+
+const getLevelGroup = level => {
+    return level === 'errors' ? 'errors'  :
+        level === 'warning' ? 'warnings' :
+            'info';
+};
 
 const checkCustomTag = tag => {
     if (Object.prototype.hasOwnProperty.call(CustomTagContainer, tag)) {
@@ -25,12 +57,14 @@ const checkCustomTag = tag => {
             const attr = attrList[i];
             if (attr !== attr.toLowerCase()) {
                 return {
-                    line       : '',
-                    globalPos  : 0,
-                    length     : 10,
-                    lineNumber : 1,
-                    rule       : CustomModulesRule.id,
-                    message    : `Module properties need to be lower case: "${tag}" module has the invalid "${attr}" attribute`
+                    line         : '',
+                    globalPos    : 0,
+                    length       : 10,
+                    lineNumber   : 1,
+                    columnNumber : 1,
+                    level        : CustomModulesRule.level,
+                    rule         : CustomModulesRule.id,
+                    message      : `Module properties need to be lower case: "${tag}" module has the invalid "${attr}" attribute`
                 };
             }
         }
@@ -43,22 +77,42 @@ const fixTemplateOrReportIssues = (config, ruleResult, templatePath, templateRes
         templateResults.fixed = true;
     }
     else if (ruleResult.occurrenceList && ruleResult.occurrenceList.length) {
-        const occurrenceObj    = getOccurrenceObj(rule, ruleResult.occurrenceList);
-        templateResults.errors = Object.assign(templateResults.errors, occurrenceObj.errors);
+        const occurrenceObj      = getOccurrenceObj(rule, ruleResult.occurrenceList);
+
+        templateResults.errors   = Object.assign(templateResults.errors,   occurrenceObj.errors);
+        templateResults.warnings = Object.assign(templateResults.warnings, occurrenceObj.warnings);
+        templateResults.info     = Object.assign(templateResults.info,     occurrenceObj.info);
     }
 };
 
-const fixTemplateOrReportIssuesForRuleList = (ruleArray, templatePath, root, config) => {
+const fixTemplateOrReportIssuesForRuleList = (ruleArray, templatePath, rootNodeOrTemplateContent, config, data) => {
     const templateResults = {
-        fixed  : false,
-        errors : {}
+        fixed    : false,
+        errors   : {},
+        warnings : {},
+        info     : {},
+        data
     };
+
+    let tempRootNodeOrTemplateContent = rootNodeOrTemplateContent;
 
     for (let i = 0; i < ruleArray.length; i++) {
         const rule = ruleArray[i];
         if (!rule.shouldIgnore(templatePath)) {
-            const ruleResults = rule.check(root, templateResults.data);
-            fixTemplateOrReportIssues(config, ruleResults, templatePath, templateResults, rule);
+            try {
+                ConsoleUtils.displayVerboseMessage(`Applying "${rule.id}" rule`, 1);
+                const ruleResults            = rule.check(tempRootNodeOrTemplateContent, templateResults.data);
+                templateResults.finalContent = ruleResults.fixedContent;
+
+                if (ruleResults.fixedContent && typeof rootNodeOrTemplateContent === 'string') {
+                    tempRootNodeOrTemplateContent = ruleResults.fixedContent;
+                }
+
+                fixTemplateOrReportIssues(config, ruleResults, templatePath, templateResults, rule);
+
+            } catch (error) {
+                throw ExceptionUtils.ruleApplianceError(rule, error, templatePath);
+            }
         }
     }
 
@@ -72,9 +126,9 @@ const findNodeOfType = (node, type) => {
         if (child.isOfType(type)) {
             result = child;
             return true;
-        } else {
-            result = findNodeOfType(child, type) || result;
         }
+
+        result = findNodeOfType(child, type) || result;
 
         return false;
     });
@@ -95,9 +149,7 @@ const isTypeAmongTheFirstElements = (rootNode, type) => {
 };
 
 const getOccurrenceObj = (rule, occurrenceArray) => {
-    const occurrenceGroup = rule.level === 'error' ? 'errors' :
-        rule.level === 'warning' ? 'warnings' :
-            'info';
+    const occurrenceGroup = getLevelGroup(rule.level);
 
     const occurrenceObj                     = {};
     occurrenceObj[occurrenceGroup]          = {};
@@ -112,25 +164,29 @@ const getOccurrenceObj = (rule, occurrenceArray) => {
 };
 
 const checkFileName = (filename, templateContent) => {
+    const occurrenceGroup = getLevelGroup(lowercaseFilenameRule.level);
     const templateResults = {
-        fixed  : false,
-        errors : {}
+        fixed    : false,
+        errors   : {},
+        warnings : {},
+        info     : {}
     };
 
     if (lowercaseFilenameRule.isEnabled()) {
         const ruleResult = lowercaseFilenameRule.check(filename, templateContent);
 
-        if (ruleResult) {
-            const occurrenceObj    = getOccurrenceObj(lowercaseFilenameRule, ruleResult.occurrenceList);
-            templateResults.errors = Object.assign(templateResults.errors, occurrenceObj.errors);
+        if (ruleResult.occurrenceList.length > 0) {
+            const occurrenceObj              = getOccurrenceObj(lowercaseFilenameRule, ruleResult.occurrenceList);
+            templateResults[occurrenceGroup] = Object.assign(templateResults[occurrenceGroup], occurrenceObj[occurrenceGroup]);
         }
     }
 
     return templateResults;
 };
 
-const checkAndPossiblyFixTreeRules = (templatePath, templateContent, config) => {
+const checkAndPossiblyFixTreeRules = (templatePath, templateContent, config, data) => {
     if (!config.disableTreeParse) {
+        ConsoleUtils.displayVerboseMessage(`Building tree for "${templatePath}"`, 1);
         const tree = TreeBuilder.build(templatePath, templateContent);
 
         if (!tree.rootNode) {
@@ -143,31 +199,36 @@ const checkAndPossiblyFixTreeRules = (templatePath, templateContent, config) => 
             ruleArray,
             templatePath,
             tree.rootNode,
-            config);
+            config,
+            data);
     }
 };
 
-const checkAndPossiblyFixLineByLineRules = (templatePath, templateContent, config) => {
+const checkAndPossiblyFixLineByLineRules = (templatePath, templateContent, config, data) => {
     const ruleArray = getEnabledLineRules();
 
     return fixTemplateOrReportIssuesForRuleList(
         ruleArray,
         templatePath,
         templateContent,
-        config);
+        config,
+        data);
 };
 
 const checkCustomModules = () => {
-    const moduleResults = {
-        errors : []
+    const occurrenceGroup = getLevelGroup(CustomModulesRule.level);
+    const moduleResults   = {
+        errors   : [],
+        warnings : [],
+        info     : []
     };
 
     if (CustomModulesRule.isEnabled()) {
         for (const tag in CustomTagContainer) {
-            const errorObj = checkCustomTag(tag);
+            const occurrenceObj = checkCustomTag(tag);
 
-            if (errorObj) {
-                moduleResults.errors.push(errorObj);
+            if (occurrenceObj) {
+                moduleResults[occurrenceGroup].push(occurrenceObj);
             }
         }
     }
@@ -175,11 +236,12 @@ const checkCustomModules = () => {
     return moduleResults;
 };
 
-const parseAndPossiblyFixTemplate = (templatePath, content, templateName) => {
+const parseAndPossiblyFixTemplate = (templatePath, data, content = '', templateName = '') => {
+    ConsoleUtils.displayVerboseMessage(`\nChecking "${templatePath}" template`);
     const config          = ConfigUtils.load();
     const templateContent = content || fs.readFileSync(templatePath, 'utf-8');
-    const lineResults     = checkAndPossiblyFixLineByLineRules(templatePath, templateContent, config);
-    const treeResults     = checkAndPossiblyFixTreeRules(templatePath, templateContent, config) || { errors : [] };
+    const lineResults     = checkAndPossiblyFixLineByLineRules(templatePath, templateContent, config, data);
+    const treeResults     = checkAndPossiblyFixTreeRules(templatePath, lineResults.finalContent, config, data) || { errors : [] };
     const filenameResults = checkFileName(templateName, templateContent);
 
     return {
@@ -189,6 +251,16 @@ const parseAndPossiblyFixTemplate = (templatePath, content, templateName) => {
             ...lineResults.errors,
             ...treeResults.errors,
             ...filenameResults.errors
+        },
+        warnings   : {
+            ...lineResults.warnings,
+            ...treeResults.warnings,
+            ...filenameResults.warnings
+        },
+        info   : {
+            ...lineResults.info,
+            ...treeResults.info,
+            ...filenameResults.info
         }
     };
 };
@@ -200,6 +272,9 @@ const getEnabledLineRules  = () => {
 
     for (let i = 0; i < lineByLineRules.length; i++) {
         const rule = lineByLineRules[i];
+
+        // TODO Do this in a better way;
+        rule.level = rule.getConfigs().level || 'errors';
 
         if (rule.isEnabled() && rule.id !== 'lowercase-filename') {
             result.push(rule);
@@ -215,6 +290,9 @@ const getEnabledTreeRules = () => {
     for (let i = 0; i < treeRules.length; i++) {
         const rule = treeRules[i];
 
+        // TODO Do this in a better way;
+        rule.level = rule.getConfigs().level || 'errors';
+
         if (rule.isEnabled()) {
             result.push(rule);
         }
@@ -229,3 +307,4 @@ module.exports.isTypeAmongTheFirstElements = isTypeAmongTheFirstElements;
 module.exports.parseAndPossiblyFixTemplate = parseAndPossiblyFixTemplate;
 module.exports.checkCustomModules          = checkCustomModules;
 module.exports.getAvailableRulesQty        = getAvailableRulesQty;
+module.exports.getLevelGroup               = getLevelGroup;

@@ -374,4 +374,19 @@ describe(targetObjName, () => {
         expect(originalLineList[1]).toEqual('    ');
         expect(fixedLineList[1]   ).toEqual('');
     });
+
+    it('runs normally even if any of the rules does not return a fixed version of the template', () => {
+        ConfigUtils.load({
+            autoFix: true,
+            rules: {
+                'max-lines'      : {},
+                'no-git-conflict': {},
+            }
+        });
+
+        const templatePath = path.join(Constants.specAutofixTemplatesDir, 'template_12.isml');
+        const lintResult   = IsmlLinter.run(templatePath);
+
+        expect(lintResult.RULE_ERROR.length).toEqual(0);
+    });
 });
