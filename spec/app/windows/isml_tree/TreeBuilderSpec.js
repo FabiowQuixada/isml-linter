@@ -824,6 +824,13 @@ describe(targetObjName, () => {
         expect(htmlConditionalComment.head            ).toEqual(`${Constants.EOL}    <!--[if gt IE 9]><!-->`);
         expect(htmlSelfClosingConditionalComment.head ).toEqual(`${Constants.EOL}${Constants.EOL}    <!--[if lt IE 10]>${Constants.EOL}    <isinclude sf-toolkit="off" template="/common/scripts" />${Constants.EOL}    <![endif]-->`);
     });
+
+    it('accepts an empty template', () => {
+        const tree = getTreeFromTemplate(87);
+
+        expect(tree.status                  ).toEqual(ParseStatus.NO_ERRORS);
+        expect(tree.rootNode.children.length).toEqual(0);
+    });
 });
 
 const getTemplatePath = number => {

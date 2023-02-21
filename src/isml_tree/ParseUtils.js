@@ -491,6 +491,10 @@ const getElementList = (templateContent, templatePath, isCrlfLineBreak) => {
     const elementList        = state.elementList;
     let previousStateContent = state.remainingShadowContent;
 
+    if (templateContent === '') {
+        return [];
+    }
+
     do {
         initLoopState(state);
         parseNextElement(state);
