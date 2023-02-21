@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.43.5] - 2023-02-21
+
+### Fixed
+ - "indent" Rule - keep indentation of closing tag that is in same line as corresponding opening tag;
+ - Tree build for an empty template;
+ 
 ## [5.43.4] - 2023-02-20
 
 ### Fixed
@@ -1108,6 +1114,7 @@
 ### Added
 - Linter is published;
 
+[5.43.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.4...v5.43.5
 [5.43.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.3...v5.43.4
 [5.43.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.2...v5.43.3
 [5.43.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.1...v5.43.2
