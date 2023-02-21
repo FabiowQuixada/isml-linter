@@ -763,6 +763,7 @@ const checkIfShouldAddIndentationToTail = node => {
     const isInSameLineAsChild       = !node.hasChildren() || node.getLastChild().isInSameLineAsParent();
     const isTailInSameLineAsChild   = !node.hasChildren() || node.tailLineNumber === node.getLastChild().getLastLineNumber();
     const isBrokenIntoMultipleLines = !node.hasChildren() && node.tailLineNumber && node.lineNumber !== node.tailLineNumber;
+    const isInSameLineAsOpeningTag  = !node.hasChildren() && node.tailLineNumber && node.endLineNumber === node.tailLineNumber;
 
     const shouldAdd = hasTail &&
         !isTailInSameLineAsChild &&
@@ -773,6 +774,11 @@ const checkIfShouldAddIndentationToTail = node => {
         node.isOfType('iscomment') && !isTailInSameLineAsChild
     ||
         isBrokenIntoMultipleLines;
+
+    // TODO Merge this condition into the above ones;
+    if (isInSameLineAsOpeningTag) {
+        return false;
+    }
 
     return shouldAdd;
 };

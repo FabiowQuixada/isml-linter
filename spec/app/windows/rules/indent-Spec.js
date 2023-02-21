@@ -1426,4 +1426,10 @@ describe(rule.id, () => {
 
         expect(result.length).toEqual(0);
     });
+
+    it('does not add any indentation to closing tag if it is in the same line as correspoding opening tag last character', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 58);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

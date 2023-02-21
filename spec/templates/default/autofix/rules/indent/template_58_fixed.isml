@@ -1,0 +1,9 @@
+<div>
+    <textarea
+        name="text-area"
+        value=""
+        class="form-control"
+        placeholder=" "
+        aria-labelledby="text-area-label"
+    ></textarea>
+</div>
