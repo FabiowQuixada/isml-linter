@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.43.4] - 2023-02-20
+
+### Fixed
+ - [Issue #39][issue#39] - Allow closing tag to be in the same line as corresponding opening tag last character;
+ 
 ## [5.43.3] - 2023-02-20
 
 ### Fixed
@@ -1103,6 +1108,7 @@
 ### Added
 - Linter is published;
 
+[5.43.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.3...v5.43.4
 [5.43.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.2...v5.43.3
 [5.43.2]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.1...v5.43.2
 [5.43.1]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.0...v5.43.1
@@ -1270,6 +1276,7 @@
 [issue#30]: https://github.com/FabiowQuixada/isml-linter/issues/30
 [issue#31]: https://github.com/FabiowQuixada/isml-linter/issues/31
 [issue#35]: https://github.com/FabiowQuixada/isml-linter/issues/35
+[issue#39]: https://github.com/FabiowQuixada/isml-linter/issues/39
 
 [cli-docs]: <docs/cli.md>
 [api-docs]: <docs/api.md>
