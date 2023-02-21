@@ -1420,4 +1420,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('allows closing tag to be in the same line as corresponding opening tag last character', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 61, isCrlfLineBreak);
+
+        expect(result.length).toEqual(0);
+    });
 });

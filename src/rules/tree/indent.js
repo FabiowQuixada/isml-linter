@@ -63,7 +63,7 @@ Rule.isTailBroken = function(node) {
     const configIndentSize         = this.getConfigs().indent;
     const expectedIndentation      = getExpectedIndentation(node, configIndentSize);
     const actualIndentation        = getActualTailIndentation(node);
-    const isInSameLineAsOpeningTag = node.lineNumber === node.tailLineNumber;
+    const isInSameLineAsOpeningTag = node.endLineNumber === node.tailLineNumber;
     const isInSameLineAsLastChild  = node.hasChildren() && node.getLastChild().getLastLineNumber() === node.tailLineNumber;
 
     return !node.isRoot() &&
