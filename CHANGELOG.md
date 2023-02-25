@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.43.6] - 2023-02-25
+
+### Fixed
+ - "indent" Rule - don't add indentation to embbeded "isprint" tag if it's in the same line as previous attribute;
+ 
 ## [5.43.5] - 2023-02-21
 
 ### Fixed
@@ -1114,6 +1119,7 @@
 ### Added
 - Linter is published;
 
+[5.43.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.5...v5.43.6
 [5.43.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.4...v5.43.5
 [5.43.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.3...v5.43.4
 [5.43.3]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.2...v5.43.3
