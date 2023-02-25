@@ -445,16 +445,16 @@ const privateToString = (node, stream = '') => {
 };
 
 const getAttributes = node => {
-    const trimmedHead              = node.head.trim();
-    const nodeHead                 = trimmedHead.substring(1, trimmedHead.length - 1);
-    const firstSpaceAfterTagPos    = ParseUtils.getFirstEmptyCharPos(trimmedHead);
-    const leadingEmptySpaceQty     = ParseUtils.getNextNonEmptyCharPos(nodeHead);
-    const afterTagContent          = nodeHead.substring(leadingEmptySpaceQty + firstSpaceAfterTagPos);
-    const stringifiedAttributeList = getStringifiedAttributeArray(afterTagContent);
-    const attributeList            = [];
+    const trimmedHead           = node.head.trim();
+    const nodeHead              = trimmedHead.substring(1, trimmedHead.length - 1);
+    const firstSpaceAfterTagPos = ParseUtils.getFirstEmptyCharPos(trimmedHead);
+    const leadingEmptySpaceQty  = ParseUtils.getNextNonEmptyCharPos(nodeHead);
+    const afterTagContent       = nodeHead.substring(leadingEmptySpaceQty + firstSpaceAfterTagPos);
+    const rawAttributeList      = getStringifiedAttributeArray(afterTagContent);
+    const attributeList         = [];
 
-    for (let i = 0; i < stringifiedAttributeList.length; i++) {
-        const attr = parseAttribute(node, stringifiedAttributeList, i);
+    for (let i = 0; i < rawAttributeList.length; i++) {
+        const attr = parseAttribute(node, rawAttributeList, attributeList, i);
         attributeList.push(attr);
     }
 
@@ -525,8 +525,8 @@ const getStringifiedAttributeArray = content => {
     return result;
 };
 
-const parseAttribute = (node, attributeList, index) => {
-    const attribute                             = attributeList[index];
+const parseAttribute = (node, rawAttributeList, resultingAttributeList, index) => {
+    const attribute                             = rawAttributeList[index];
     const isAttributeANestedIsmlTag             = attribute.startsWith('<is');
     const isExpressionAttribute                 = attribute.startsWith('${') && attribute.endsWith('}');
     const trimmedAttribute                      = attribute.trim();
@@ -547,6 +547,7 @@ const parseAttribute = (node, attributeList, index) => {
     const isFirstValueInSameLineAsAttributeName = value && ParseUtils.getLeadingLineBreakQty(value) === 0;
     const quoteChar                             = getQuoteChar(trimmedAttribute);
     const attributeNameFirstLine                = name.split(Constants.EOL)[0];
+    const isInSameLineAsPreviousAttribute       = index >= 1 && resultingAttributeList[index - 1].lineNumber === lineNumber;
 
     const columnNumber = isInSameLineAsTagName ?
         node.columnNumber + leadingContent.length :
@@ -572,6 +573,7 @@ const parseAttribute = (node, attributeList, index) => {
             isInSameLineAsTagName,
             isFirstInLine,
             isFirstValueInSameLineAsAttributeName,
+            isInSameLineAsPreviousAttribute,
             isExpressionAttribute,
             hasMultilineValue,
             isNestedIsmlTag : isAttributeANestedIsmlTag,
@@ -594,6 +596,7 @@ const parseAttribute = (node, attributeList, index) => {
             isInSameLineAsTagName,
             isFirstInLine,
             isFirstValueInSameLineAsAttributeName,
+            isInSameLineAsPreviousAttribute,
             isExpressionAttribute,
             hasMultilineValue,
             isNestedIsmlTag: isAttributeANestedIsmlTag,

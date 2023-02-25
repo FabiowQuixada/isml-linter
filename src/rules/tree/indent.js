@@ -441,21 +441,24 @@ const addIndentationToText = node => {
 };
 
 const getIndentedNestedIsmlContent = (attribute, nodeIndentation, attributeOffset) => {
-    if (attribute.fullContent.startsWith('<isif')) {
-        const attributeRootNode = TreeBuilder.parse(attribute.fullContent, null, null, true);
-        const fixedContent      = Rule.getFixedContent(attributeRootNode);
+    const attributeRootNode = TreeBuilder.parse(attribute.fullContent, null, null, true);
+    const fixedContent      = Rule.getFixedContent(attributeRootNode);
 
-        return fixedContent
-            .split(Constants.EOL)
-            .map( (line, i) => {
-                if (i === 0 && attribute.isFirstInLine && !attribute.isInSameLineAsTagName && attribute.index !== 0) {
-                    return Constants.EOL + nodeIndentation + attributeOffset + line;
-                }
+    return fixedContent
+        .split(Constants.EOL)
+        .map( (line, i) => {
+            const shouldAddLineBreak = i === 0 && attribute.isFirstInLine && !attribute.isInSameLineAsTagName && attribute.index !== 0;
 
-                return nodeIndentation + attributeOffset + line;
-            })
-            .join(Constants.EOL);
-    }
+            if (attribute.isInSameLineAsPreviousAttribute) {
+                return ' ' + line;
+            }
+
+            return (shouldAddLineBreak ? Constants.EOL : '')
+                + nodeIndentation
+                + attributeOffset
+                + line;
+        })
+        .join(Constants.EOL);
 };
 
 const getTreeBuiltAttributeIndentedValue = (attribute, nodeIndentation, attributeOffset) => {

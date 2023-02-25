@@ -1432,4 +1432,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('does not add indentation to embedded "isprint" attribute if it is in the same line as previous attribute', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 59);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

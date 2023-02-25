@@ -1,0 +1,5 @@
+<div class="
+    <isif condition="${aCondition}">requiredInput</isif>">
+    <input
+        aria-describedby="form-stateRegistration-error" <isprint value=${expression} encoding="off" />>
+</div>
