@@ -1,14 +1,19 @@
 # Changelog
 
+## [5.43.7] - 2023-03-03
+
+### Fixed
+ - "indent" rule - keep tag type if previous element has trailing spaces;
+ 
 ## [5.43.6] - 2023-02-25
 
 ### Fixed
- - "indent" Rule - don't add indentation to embbeded "isprint" tag if it's in the same line as previous attribute;
+ - "indent" rule - don't add indentation to embbeded "isprint" tag if it's in the same line as previous attribute;
  
 ## [5.43.5] - 2023-02-21
 
 ### Fixed
- - "indent" Rule - keep indentation of closing tag that is in same line as corresponding opening tag;
+ - "indent" rule - keep indentation of closing tag that is in same line as corresponding opening tag;
  - Tree build for an empty template;
  
 ## [5.43.4] - 2023-02-20
@@ -1119,6 +1124,7 @@
 ### Added
 - Linter is published;
 
+[5.43.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.6...v5.43.7
 [5.43.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.5...v5.43.6
 [5.43.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.4...v5.43.5
 [5.43.4]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.3...v5.43.4
