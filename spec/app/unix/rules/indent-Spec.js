@@ -1437,4 +1437,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('keeps tag type when there are trailing spaces in previous element', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 60);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

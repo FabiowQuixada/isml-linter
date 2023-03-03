@@ -1,0 +1,11 @@
+<section class="styleguide">
+    <span style="margin-right: 20px">
+        <iconed-button href="${'#'}"
+            icon='menu_desktop_outline'
+            text='iconed-button right'
+            iconposition='right' />
+    </span>
+              
+    <iconed-button href="${'#'}"
+        icon='menu_desktop_outline' />
+</section>

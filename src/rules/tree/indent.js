@@ -619,17 +619,18 @@ const addIndentation = (node, isOpeningTag) => {
     const nodeIndentation     = node.isInSameLineAsParent() && isOpeningTag ? '' : Rule.getIndentation(node.depth - 1);
     const attributeOffset     = Rule.getAttributeIndentationOffset();
     const attributeList       = node.getAttributeList();
+    const leadingLineBreakQty = ParseUtils.getLeadingLineBreakQty(node.head);
     let contentResult         = '';
 
     if (isOpeningTag) {
         const shouldAddIndentationToClosingChar = shouldAddIndentationToClosingChars(node);
         const closingChars                      = getClosingChars(node);
-        const tagNameEndPos                     = ParseUtils.getLeadingLineBreakQty(node.head)
+        const tagNameEndPos                     = leadingLineBreakQty
             + ParseUtils.getFirstEmptyCharPos(node.head.trim()) + 1;
 
         if (ParseUtils.getLineBreakQty(node.head.trim()) > 0 || shouldAddIndentationToClosingChar && node.isSelfClosing()) {
             contentResult = attributeList.length > 0 ?
-                node.head.substring(0, tagNameEndPos).trimStart() :
+                node.head.trimStart().substring(0, tagNameEndPos - leadingLineBreakQty).trimStart() :
                 node.head.trimStart();
 
             for (let i = 0; i < attributeList.length; i++) {
@@ -662,7 +663,7 @@ const removeAllIndentation = node => {
     if (!node.isRoot() && !node.isContainer() && !node.parent.isOneOfTypes(['isscript', 'script'])) {
 
         const shouldRemoveHeadIndentation = node.head && !node.isInSameLineAsPreviousSibling() && !node.isInSameLineAsParent() && !(node.lineNumber === node.parent.endLineNumber);
-        const shouldRemoveTailIndentation = node.tail && !(node.hasChildren() && node.getLastChild().lineNumber === node.tailLineNumber);
+        const shouldRemoveTailIndentation = !!(node.tail && !(node.hasChildren() && node.getLastChild().lineNumber === node.tailLineNumber));
 
         if (shouldRemoveHeadIndentation) {
             node.head = removeIndentation(node.head);
