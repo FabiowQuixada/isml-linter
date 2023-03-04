@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.43.8] - 2023-03-04
+
+### Fixed
+ - Identification of HTML tag attributes even when there is no blank space separating them;
+ 
 ## [5.43.7] - 2023-03-03
 
 ### Fixed
@@ -1124,6 +1129,7 @@
 ### Added
 - Linter is published;
 
+[5.43.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.7...v5.43.8
 [5.43.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.6...v5.43.7
 [5.43.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.5...v5.43.6
 [5.43.5]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.4...v5.43.5
