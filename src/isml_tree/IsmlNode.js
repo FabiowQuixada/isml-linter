@@ -450,7 +450,7 @@ const getAttributes = node => {
     const firstSpaceAfterTagPos = ParseUtils.getFirstEmptyCharPos(trimmedHead);
     const leadingEmptySpaceQty  = ParseUtils.getNextNonEmptyCharPos(nodeHead);
     const afterTagContent       = nodeHead.substring(leadingEmptySpaceQty + firstSpaceAfterTagPos);
-    const rawAttributeList      = getStringifiedAttributeArray(afterTagContent);
+    const rawAttributeList      = getStringifiedAttributeArray(afterTagContent.trim());
     const attributeList         = [];
 
     for (let i = 0; i < rawAttributeList.length; i++) {
@@ -500,6 +500,7 @@ const getStringifiedAttributeArray = content => {
 
     const maskedAttributeList = maskedContent
         .replace(/><+/g, '> <')
+        .replace(/"</g, '" <')
         .replace(/\s\s+/g, ' ')
         .split(' ')
         .filter(attr => attr);
@@ -509,6 +510,8 @@ const getStringifiedAttributeArray = content => {
             attrStartPosList.push(i);
         } else if (maskedContent[i - 1] === ' ' && maskedContent[i] !== ' ' || maskedContent[i - 1] === '>' && maskedContent[i] === '<') {
             attrStartPosList.push(i);
+        } else if (maskedContent[i - 1] === '"' && maskedContent[i] === '<') {
+            attrStartPosList.push(i + 1);
         }
     }
 

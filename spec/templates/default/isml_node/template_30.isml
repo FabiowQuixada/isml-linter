@@ -1,0 +1,4 @@
+<input
+    value="${condition
+        ? true
+        : ''}"<isprint value=${value} encoding="htmlsinglequote"/>>

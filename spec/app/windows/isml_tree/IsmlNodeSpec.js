@@ -472,6 +472,15 @@ describe(targetObjName, () => {
 
         expect(customNode.getType()).toEqual('my-custom-tag');
     });
+
+    it('identifies separate attributes even if there is no blank space between them', () => {
+        const rootNode      = getTreeRootFromTemplate(30);
+        const inputNode     = rootNode.children[0];
+        const attributeList = inputNode.getAttributeList();
+
+        expect(attributeList[0].fullContent).toEqual('value="${condition\n        ? true\n        : \'\'}"');
+        expect(attributeList[1].fullContent).toEqual('<isprint value=${value} encoding="htmlsinglequote"/>');
+    });
 });
 
 const getIsmlNodeTemplatePath = number => {
