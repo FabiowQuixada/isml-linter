@@ -31,4 +31,11 @@ Rule.getFixedContent = function(rootNode) {
     return rootNode.toString();
 };
 
+Rule.fixContent = function(rootNode) {
+    return {
+        rootNode,
+        fixedContent : this.getFixedContent(rootNode)
+    };
+};
+
 module.exports = Rule;

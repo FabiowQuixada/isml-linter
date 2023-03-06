@@ -71,4 +71,12 @@ describe(rule.id, () => {
 
         expect(results.actualContent.indexOf(Constants.lineBreak.windows)).toBe(61);
     });
+
+    it('changes moved node and its siblings "childNo" attribute when it is moved around', () => {
+        const result = SpecHelper.getFullFixResult(rule, 4);
+
+        expect(result.rootNode.children[0].childNo).toBe(0);
+        expect(result.rootNode.children[1].childNo).toBe(1);
+        expect(result.rootNode.children[2].childNo).toBe(2);
+    });
 });

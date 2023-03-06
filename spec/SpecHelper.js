@@ -131,6 +131,14 @@ module.exports = {
         };
     },
 
+    getFullFixResult: (rule, templateNumber) => {
+        const ruleDirName        = rule.id.replaceAll('-', '_');
+        const brokenTemplatePath = path.join(Constants.specTreeRuleTemplatesDir, ruleDirName, `template_${templateNumber}.isml`);
+        const rootNode           = TreeBuilder.build(brokenTemplatePath).rootNode;
+
+        return rule.fixContent(rootNode);
+    },
+
     getTemplatePath: (dir, number) => path.join(dir, `template_${number}.isml`),
 
     /**

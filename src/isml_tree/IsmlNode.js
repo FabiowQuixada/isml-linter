@@ -351,6 +351,9 @@ class IsmlNode {
         return !this.parent || this.parent.getLastChild() === this;
     }
 
+    // No position or line number is set. To get
+    // it, it is necessary to re-parse the tree.
+    // This is valid for all nodes;
     removeChild(node) {
         let index = null;
 
@@ -365,15 +368,27 @@ class IsmlNode {
 
         const removedNode = this.children[index];
         this.children.splice(index, 1);
+
+        for (let i = 0; i < this.children.length; i++) {
+            const child   = this.children[index];
+            child.childNo = i;
+        }
+
         return removedNode;
     }
 
     // No position or line number is set. To get
-    // it, it is necessary to re-parse the tree;
+    // it, it is necessary to re-parse the tree.
+    // This is valid for all nodes;
     addChildNodeToPos(node, index) {
         node.parent = this;
         node.depth  = this.depth + 1;
         this.children.splice(index, 0, node);
+
+        for (let i = 0; i < this.children.length; i++) {
+            const child   = this.children[i];
+            child.childNo = i;
+        }
     }
 
     getRoot() {
