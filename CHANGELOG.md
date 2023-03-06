@@ -1,36 +1,41 @@
 # Changelog
 
+## [5.43.9] - 2023-03-05
+
+### Fixed
+ - "leading-iscache" and "leading-iscontent" rules - update tree data after move nodes on autofix mode;
+
 ## [5.43.8] - 2023-03-04
 
 ### Fixed
  - Identification of HTML tag attributes even when there is no blank space separating them;
- 
+
 ## [5.43.7] - 2023-03-03
 
 ### Fixed
  - "indent" rule - keep tag type if previous element has trailing spaces;
- 
+
 ## [5.43.6] - 2023-02-25
 
 ### Fixed
  - "indent" rule - don't add indentation to embbeded "isprint" tag if it's in the same line as previous attribute;
- 
+
 ## [5.43.5] - 2023-02-21
 
 ### Fixed
  - "indent" rule - keep indentation of closing tag that is in same line as corresponding opening tag;
  - Tree build for an empty template;
- 
+
 ## [5.43.4] - 2023-02-20
 
 ### Fixed
  - [Issue #39][issue#39] - Allow closing tag to be in the same line as corresponding opening tag last character;
- 
+
 ## [5.43.3] - 2023-02-20
 
 ### Fixed
  - Issue that blocked process due to a missing return value in some rules;
- 
+
 ## [5.43.2] - 2023-02-12
 
 ### Security
@@ -40,7 +45,7 @@
 
 ### Fixed
  - All line-by-line rules are applied, one after the other, without ovewriting the previous rule fixed content;
- 
+
 ## [5.43.0] - 2023-01-31
 
 ### Added
@@ -48,7 +53,7 @@
 
 ### Fixed
  - Rule-level ignore string with "/" character for directories;
- 
+
 ## [5.42.4] - 2023-01-30
 
 ### Fixed
@@ -1129,6 +1134,7 @@
 ### Added
 - Linter is published;
 
+[5.43.9]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.8...v5.43.9
 [5.43.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.7...v5.43.8
 [5.43.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.6...v5.43.7
 [5.43.6]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.5...v5.43.6
