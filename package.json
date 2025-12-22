@@ -46,7 +46,6 @@
     "ghooks": "^2.0.4",
     "jasmine": "^3.6.4",
     "jasmine-node": "^1.16.0",
-    "rmdir": "^1.0.0",
     "sinon": "^9.2.4",
     "to-snake-case": "^1.0.0"
   }
