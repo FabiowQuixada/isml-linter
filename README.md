@@ -24,10 +24,10 @@ and add the following to package.json:
 
 ```js
 "scripts": {
-    "init:isml":  "./node_modules/.bin/isml-linter --init",
-    "lint:isml":  "./node_modules/.bin/isml-linter",
-    "build:isml": "./node_modules/.bin/isml-linter --build",
-    "fix:isml":   "./node_modules/.bin/isml-linter --autofix"
+    "init:isml":  "npx isml-linter --init",
+    "lint:isml":  "npx isml-linter",
+    "build:isml": "npx isml-linter --build",
+    "fix:isml":   "npx isml-linter --autofix"
 }
 ```
 
