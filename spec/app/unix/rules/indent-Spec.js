@@ -1443,4 +1443,10 @@ describe('On Unix, ' + rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('ignores "style" tag content', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 61);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

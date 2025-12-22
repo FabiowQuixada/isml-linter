@@ -609,6 +609,12 @@ const getClosingChars = node => {
     return '';
 };
 
+const shouldChangeIndentation = node => {
+    return !node.isRoot() &&
+        !node.isContainer() &&
+        !node.parent.isOneOfTypes(['isscript', 'script', 'style']);
+}
+
 const addIndentation = (node, isOpeningTag) => {
     const content             = isOpeningTag ? node.head : node.tail;
     const startingPos         = ParseUtils.getNextNonEmptyCharPos(content);
@@ -660,7 +666,7 @@ const addIndentation = (node, isOpeningTag) => {
 };
 
 const removeAllIndentation = node => {
-    if (!node.isRoot() && !node.isContainer() && !node.parent.isOneOfTypes(['isscript', 'script'])) {
+    if (shouldChangeIndentation(node)) {
 
         const shouldRemoveHeadIndentation = node.head && !node.isInSameLineAsPreviousSibling() && !node.isInSameLineAsParent() && !(node.lineNumber === node.parent.endLineNumber);
         const shouldRemoveTailIndentation = !!(node.tail && !(node.hasChildren() && node.getLastChild().lineNumber === node.tailLineNumber));
@@ -681,7 +687,7 @@ const removeAllIndentation = node => {
 
 const addCorrectIndentation = node => {
 
-    if (!node.isRoot() && !node.isContainer() && !node.parent.isOneOfTypes(['isscript', 'script'])) {
+    if (shouldChangeIndentation(node)) {
         if (node.parent.isOfType('iscomment')) {
             const shouldAddIndentationToText = checkIfShouldAddIndentationToHead(node);
 
