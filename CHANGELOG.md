@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.43.10] - 2025-12-22
+
+### Fixed
+ - "indent" rule - content of a "style" tag should be ignored completely;
+ - Fixed README commands to use "npx";
+
+### Security
+ - Removed unncecessary dependency;
+
 ## [5.43.9] - 2023-03-05
 
 ### Fixed
