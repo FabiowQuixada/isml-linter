@@ -1450,4 +1450,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('keeps tail indentation for node with last child tail in a different line', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 62);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
 });

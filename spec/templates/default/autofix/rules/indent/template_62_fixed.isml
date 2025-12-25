@@ -1,0 +1,6 @@
+<div c="1">
+    <div c="2"><div c="3"
+        <isif condition="${condition2}">some-style</isif>>
+        </div>
+    </div>
+</div>

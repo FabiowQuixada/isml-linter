@@ -770,7 +770,7 @@ const checkIfShouldAddIndentationToHead = node => {
 const checkIfShouldAddIndentationToTail = node => {
     const hasTail                   = !!node.tail;
     const isLastClause              = !!node.parent && node.parent.isContainer() && !node.isLastChild();
-    const isInSameLineAsChild       = !node.hasChildren() || node.getLastChild().isInSameLineAsParent();
+    const isInSameLineAsChild       = !node.hasChildren() || node.getLastChild().tailLineNumber === node.tailLineNumber;
     const isTailInSameLineAsChild   = !node.hasChildren() || node.tailLineNumber === node.getLastChild().getLastLineNumber();
     const isBrokenIntoMultipleLines = !node.hasChildren() && node.tailLineNumber && node.lineNumber !== node.tailLineNumber;
     const isInSameLineAsOpeningTag  = !node.hasChildren() && node.tailLineNumber && node.endLineNumber === node.tailLineNumber;
