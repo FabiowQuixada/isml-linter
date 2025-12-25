@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.43.11] - 2025-12-25
+
+### Fixed
+ - "indent" rule - closing tags indentation;
+ - "indent" rule documentation - rule ignores `<style>` and `<script>` tags content;
+
 ## [5.43.10] - 2025-12-22
 
 ### Fixed
@@ -1143,6 +1149,8 @@
 ### Added
 - Linter is published;
 
+[5.43.11]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.10...v5.43.11
+[5.43.10]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.9...v5.43.10
 [5.43.9]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.8...v5.43.9
 [5.43.8]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.7...v5.43.8
 [5.43.7]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.6...v5.43.7
