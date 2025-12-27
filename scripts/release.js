@@ -1,27 +1,46 @@
 #!/usr/bin/env node
 
-const { exec }  = require('child_process');
+const { spawn } = require('child_process');
 const path      = require('path');
 const Constants = require('../src/Constants');
 
 const currentVersion = require(path.join(Constants.clientAppDir, 'package.json')).version;
 const tag            = `v${currentVersion}`;
 
-const commandChain = `
-    git stash -u &&
-    git tag ${tag} &&
-    echo 'Pushing code and tags...' &&
-    git push &&
-    git push --tags &&
-    echo 'Publishing to npm...' &&
-    npm publish &&
-    echo 'Done!'`;
+const isDryRun = process.argv.includes('--dry-run') || process.env.DRY_RUN === '1';
 
-exec(commandChain, (err, stdout, stderr) => {
-    if (err) {
-        return;
+const commands = [
+    'git stash -u',
+    'echo Pushing code and tags...',
+    isDryRun ? 'git push --dry-run' : 'git push',
+    `git tag ${tag}`,
+    isDryRun ? 'git push --tags --dry-run' : 'git push --tags',
+    'echo Publishing to npm...',
+    isDryRun ? 'npm publish --dry-run' : 'npm publish',
+    'echo Done!',
+    'git stash pop'
+];
+
+function run(cmd) {
+    return new Promise((resolve, reject) => {
+        console.log(`> ${cmd}`);
+        const child = spawn(cmd, { shell: true, stdio: 'inherit' });
+        child.on('error', reject);
+        child.on('exit', code => {
+            if (code === 0) {
+                resolve();
+            } else {
+                reject(new Error(`Command failed with exit code ${code}`));
+            }
+        });
+    });
+}
+
+(async () => {
+    for (const cmd of commands) {
+        await run(cmd);
     }
-
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
+})().catch(err => {
+    console.error('Release failed:', err.message);
+    process.exitCode = 1;
 });
