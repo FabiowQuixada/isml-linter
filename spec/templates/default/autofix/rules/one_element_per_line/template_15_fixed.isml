@@ -1,0 +1,6 @@
+<p>
+    <span>
+        ${value1}
+    </span>
+    ${value2}
+</p>

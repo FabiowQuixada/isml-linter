@@ -206,6 +206,12 @@ describe(rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('adds a line break between last non-tag node child and second-last tag child', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 15);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('uses config Unix line endings', () => {
         ConfigUtils.load({
             linebreakStyle : 'unix',

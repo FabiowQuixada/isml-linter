@@ -67,7 +67,17 @@ const addLineBreaks = node => {
 };
 
 const shouldAddLeadingLineBreakToChildHead = (node, child, shouldIgnoreNonTags) => {
-    return (child.isFirstChild() && child.isInSameLineAsParentEnd() || child.isTag() && child.isInSameLineAsPreviousSibling())
+    const isLastNonTagAfterTag = !child.isTag()
+        && child.isLastChild()
+        && child.getPreviousSibling()
+        && child.getPreviousSibling().isTag()
+        && child.isInSameLineAsPreviousSibling();
+
+    return (
+        child.isFirstChild() && child.isInSameLineAsParentEnd()
+        || child.isTag() && child.isInSameLineAsPreviousSibling()
+        || isLastNonTagAfterTag
+    )
         && !node.isIsmlComment()
         && !node.isOneOfTypes(IGNORED_TAGS)
         && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);
