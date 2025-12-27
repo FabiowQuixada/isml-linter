@@ -194,6 +194,12 @@ describe(rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('ignores "script" element content', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 13);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('uses config Unix line endings', () => {
         ConfigUtils.load({
             linebreakStyle : 'unix',
