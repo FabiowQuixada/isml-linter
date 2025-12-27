@@ -1,0 +1,6 @@
+<div data-slick='${JSON.stringify(
+        Object.assign({}, pdict.sliderConfigs, {
+            slidesToShow: 5,
+            infinite: value1 > value2
+        })
+    )}' />

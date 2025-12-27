@@ -356,11 +356,13 @@ const maskExpressionContent = content => {
     const closingTag       = '}';
     let isWithinExpression = false;
     let maskedContent      = '';
+    const characterStack   = [];
 
     for (let i = 0; i < content.length; i++) {
         const remainingContent = content.substring(i);
 
         if (remainingContent.startsWith(openingTag)) {
+            characterStack.push(openingTag);
             isWithinExpression = true;
             maskedContent      += openingTag;
             i                  += openingTag.length;
@@ -372,13 +374,21 @@ const maskExpressionContent = content => {
             }
         }
 
+        if (remainingContent.startsWith('{') && content[i - 1] !== '$') {
+            characterStack.push('{');
+        }
+
         maskedContent += isWithinExpression ?
             '_' :
             content[i];
 
         if (remainingContent.startsWith(closingTag)) {
-            isWithinExpression = false;
-            maskedContent      = maskedContent.slice(0, -1) + closingTag;
+            const popedElement = characterStack.pop();
+
+            if (popedElement === openingTag) {
+                isWithinExpression = false;
+                maskedContent      = maskedContent.slice(0, -1) + closingTag;
+            }
         }
     }
 

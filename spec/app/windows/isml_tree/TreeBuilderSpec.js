@@ -831,6 +831,12 @@ describe(targetObjName, () => {
         expect(tree.status                  ).toEqual(ParseStatus.NO_ERRORS);
         expect(tree.rootNode.children.length).toEqual(0);
     });
+
+    it('identifies "{}" within a ISML expression', () => {
+        const tree = getTreeFromTemplate(88);
+
+        expect(tree.status).toEqual(ParseStatus.NO_ERRORS);
+    });
 });
 
 const getTemplatePath = number => {
