@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.43.12] - 2025-12-27
+
+### Fixed
+ - "one-element-per-line" rule - add a linebreak between last non-tag node child and second-last tag child;
+ - "one-element-per-line" rule - rule ignores `<textarea>`, `<style>` and `<script>` tags content;
+
 ## [5.43.11] - 2025-12-25
 
 ### Fixed
@@ -1149,6 +1155,7 @@
 ### Added
 - Linter is published;
 
+[5.43.12]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.11...v5.43.12
 [5.43.11]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.10...v5.43.11
 [5.43.10]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.9...v5.43.10
 [5.43.9]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.8...v5.43.9
