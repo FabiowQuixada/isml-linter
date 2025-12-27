@@ -71,7 +71,7 @@ const shouldAddLeadingLineBreakToChildHead = (node, child, shouldIgnoreNonTags) 
         && !node.isIsmlComment()
         && !node.isOneOfTypes(IGNORED_TAGS)
         && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);
-    };
+};
 
 const shouldAddLeadingLineBreakToParentTail = (node, child, shouldIgnoreNonTags) => {
     return child.isLastChild()

@@ -613,7 +613,7 @@ const shouldChangeIndentation = node => {
     return !node.isRoot() &&
         !node.isContainer() &&
         !node.parent.isOneOfTypes(['isscript', 'script', 'style']);
-}
+};
 
 const addIndentation = (node, isOpeningTag) => {
     const content             = isOpeningTag ? node.head : node.tail;
