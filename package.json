@@ -8,12 +8,13 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "lint": "npx eslint . --fix",
+    "lint:js": "npx eslint .",
+    "fix:js": "npx eslint . --fix",
     "test": "jasmine-node spec/",
     "lint:isml": "node scripts/lint.js",
     "build:isml": "node scripts/lint.js --build",
     "fix:isml": "node scripts/lint.js --autofix",
-    "prepush": "npm run lint && npm test --silent",
+    "prepush": "npm run lint:js && npm test --silent",
     "release": "node scripts/release"
   },
   "bin": {
@@ -43,7 +44,7 @@
   "devDependencies": {
     "eslint-plugin-jasmine": "^4.1.2",
     "eslint-plugin-varspacing": "^1.2.2",
-    "ghooks": "^2.0.4",
+    "husky": "^9.1.7",
     "jasmine": "^3.6.4",
     "jasmine-node": "^1.16.0",
     "sinon": "^9.2.4",
