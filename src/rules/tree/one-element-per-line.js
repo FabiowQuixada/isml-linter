@@ -4,8 +4,9 @@ const ConfigUtils       = require('../../util/ConfigUtils');
 const Constants         = require('../../Constants');
 const TreeBuilder       = require('../../isml_tree/TreeBuilder');
 
-const ruleId      = require('path').basename(__filename).slice(0, -3);
-const description = 'Only one element per line is allowed';
+const ruleId       = require('path').basename(__filename).slice(0, -3);
+const description  = 'Only one element per line is allowed';
+const IGNORED_TAGS = ['textarea', 'script', 'style'];
 
 const Rule = Object.create(TreeRulePrototype);
 
@@ -29,7 +30,7 @@ Rule.isBroken = function(node) {
 
     return !node.isRoot() &&
         !node.parent.isContainer() &&
-        !node.parent.isOneOfTypes(['textarea', 'script']) &&
+        !node.parent.isOneOfTypes(IGNORED_TAGS) &&
         node.lineNumber === node.parent.endLineNumber;
 };
 
@@ -68,7 +69,7 @@ const addLineBreaks = node => {
 const shouldAddLeadingLineBreakToChildHead = (node, child, shouldIgnoreNonTags) => {
     return (child.isFirstChild() && child.isInSameLineAsParentEnd() || child.isTag() && child.isInSameLineAsPreviousSibling())
         && !node.isIsmlComment()
-        && !node.isOneOfTypes(['textarea', 'script'])
+        && !node.isOneOfTypes(IGNORED_TAGS)
         && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);
     };
 
@@ -76,7 +77,7 @@ const shouldAddLeadingLineBreakToParentTail = (node, child, shouldIgnoreNonTags)
     return child.isLastChild()
     && child.endLineNumber === node.tailLineNumber
     && !node.isIsmlComment()
-    && !node.isOneOfTypes(['textarea', 'script'])
+    && !node.isOneOfTypes(IGNORED_TAGS)
     && !node.tail.startsWith(Constants.EOL)
     && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);
 };

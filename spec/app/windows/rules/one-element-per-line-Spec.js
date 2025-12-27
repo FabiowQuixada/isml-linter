@@ -200,6 +200,12 @@ describe(rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('ignores "style" element content', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 14);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('uses config Unix line endings', () => {
         ConfigUtils.load({
             linebreakStyle : 'unix',
