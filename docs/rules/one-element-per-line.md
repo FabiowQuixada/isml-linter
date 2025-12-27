@@ -7,6 +7,7 @@ Enforces nodes that compose the ISML tree to not start at the same line number a
 - Dependent on abstract tree build (global "disableTreeParse" configuration must **not** be true);
 - Auto-fixable;
 - Autofix feature will apply [indent rule][indent-readme] even if it's not declared in the configuration file;
+- Content of `<textarea>` elements will be ignored since adding a new line break and spaces will actually add "empty" characters to the text area;
 
 ## Configuration
 

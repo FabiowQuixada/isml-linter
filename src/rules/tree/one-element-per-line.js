@@ -29,6 +29,7 @@ Rule.isBroken = function(node) {
 
     return !node.isRoot() &&
         !node.parent.isContainer() &&
+        !node.parent.isOfType('textarea') &&
         node.lineNumber === node.parent.endLineNumber;
 };
 
@@ -67,15 +68,17 @@ const addLineBreaks = node => {
 const shouldAddLeadingLineBreakToChildHead = (node, child, shouldIgnoreNonTags) => {
     return (child.isFirstChild() && child.isInSameLineAsParentEnd() || child.isTag() && child.isInSameLineAsPreviousSibling())
         && !node.isIsmlComment()
+        && !node.isOfType('textarea')
         && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);
-};
+    };
 
 const shouldAddLeadingLineBreakToParentTail = (node, child, shouldIgnoreNonTags) => {
     return child.isLastChild()
-        && child.endLineNumber === node.tailLineNumber
-        && !node.isIsmlComment()
-        && !node.tail.startsWith(Constants.EOL)
-        && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);
+    && child.endLineNumber === node.tailLineNumber
+    && !node.isIsmlComment()
+    && !node.isOfType('textarea')
+    && !node.tail.startsWith(Constants.EOL)
+    && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);
 };
 
 module.exports = Rule;

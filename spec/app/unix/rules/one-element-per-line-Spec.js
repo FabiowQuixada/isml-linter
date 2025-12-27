@@ -145,6 +145,12 @@ describe('On Unix, ' + rule.id, () => {
         expect(result.length).toEqual(0);
     });
 
+    it('ignores "textarea" element content', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 12);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('uses config Unix line endings', () => {
         ConfigUtils.load({
             linebreakStyle : 'unix',

@@ -1,0 +1,6 @@
+<span>
+    <textarea
+        class="textarea"
+    >A string
+    </textarea>
+</span>
