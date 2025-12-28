@@ -15,6 +15,7 @@ const commands = [
     isDryRun ? 'git push --dry-run' : 'git push',
     `git tag ${tag}`,
     isDryRun ? 'git push --tags --dry-run' : 'git push --tags',
+    'npm login',
     'echo Publishing to npm...',
     isDryRun ? 'npm publish --dry-run' : 'npm publish',
     'echo Done!',
