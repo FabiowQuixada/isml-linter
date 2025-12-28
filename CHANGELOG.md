@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.43.13] - 2025-12-28
+
+### Fixed
+ - Tree build for ISML expressions with "{}" inside of it;
+ - "one-element-per-line" rule - add linebreak to element closing tag;
+
 ## [5.43.12] - 2025-12-27
 
 ### Fixed
@@ -1155,6 +1161,7 @@
 ### Added
 - Linter is published;
 
+[5.43.13]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.12...v5.43.13
 [5.43.12]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.11...v5.43.12
 [5.43.11]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.10...v5.43.11
 [5.43.10]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.9...v5.43.10
