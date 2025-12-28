@@ -169,6 +169,12 @@ describe('On Unix, ' + rule.id, () => {
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
 
+    it('adds a line break to element tail if it is in the same line as last child', () => {
+        const results = SpecHelper.getTreeRuleFixData(rule, 16);
+
+        expect(results.actualContent).toEqual(results.fixedTemplateContent);
+    });
+
     it('uses config Unix line endings', () => {
         ConfigUtils.load({
             linebreakStyle : 'unix',

@@ -85,11 +85,11 @@ const shouldAddLeadingLineBreakToChildHead = (node, child, shouldIgnoreNonTags) 
 
 const shouldAddLeadingLineBreakToParentTail = (node, child, shouldIgnoreNonTags) => {
     return child.isLastChild()
-    && child.endLineNumber === node.tailLineNumber
-    && !node.isIsmlComment()
-    && !node.isOneOfTypes(IGNORED_TAGS)
-    && !node.tail.startsWith(Constants.EOL)
-    && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);
+        && child.getLastLineNumber() === node.tailLineNumber
+        && !node.isIsmlComment()
+        && !node.isOneOfTypes(IGNORED_TAGS)
+        && !node.tail.startsWith(Constants.EOL)
+        && (child.isTag() || !child.isTag() && !shouldIgnoreNonTags);
 };
 
 module.exports = Rule;
