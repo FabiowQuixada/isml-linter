@@ -177,7 +177,7 @@ Please check the [Generic Configurations for Rules][generic-rule-config] page.
 | :small_orange_diamond: [no-embedded-isml][no-embedded-isml-readme]                   | Disallows embedded isml tags, such as in `<div <isif /> />`, except for `<isprint />` |
 | :small_orange_diamond: [max-depth][max-depth-readme]                                 | Sets the maximum of nested elements in a template |
 | :small_orange_diamond: [disallow-tags][disallow-tags-readme]                         | Disallows tags specified at rule level |
-| :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]           | One element per line |
+| :wrench: :small_orange_diamond: [one-element-per-line][one-element-per-line-readme]           | One element per line |
 | :wrench: :small_orange_diamond: [leading-iscontent][leading-iscontent-readme]        | Ensures `<iscontent>` tag is the first element in the template if present |
 | :wrench: :small_orange_diamond: [leading-iscache][leading-iscache-readme]            | Ensures `<iscache>` tag is among the first element in the template if present |
 | :small_orange_diamond: [no-deprecated-attrs][no-deprecated-attrs-readme]             | Disallows deprecated attributes or attribute values |
