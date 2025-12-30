@@ -1,5 +1,10 @@
 # Changelog
 
+## [5.43.14] - 2025-12-30
+
+### Fixed
+ - "indent" rule - ignore "isscript", "script" and "style'" Tags Content;
+
 ## [5.43.13] - 2025-12-28
 
 ### Fixed
@@ -1161,6 +1166,7 @@
 ### Added
 - Linter is published;
 
+[5.43.14]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.13...v5.43.14
 [5.43.13]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.12...v5.43.13
 [5.43.12]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.11...v5.43.12
 [5.43.11]: https://github.com/FabiowQuixada/isml-linter/compare/v5.43.10...v5.43.11
