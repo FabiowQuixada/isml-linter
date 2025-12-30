@@ -1456,4 +1456,10 @@ describe(rule.id, () => {
 
         expect(results.actualContent).toEqual(results.fixedTemplateContent);
     });
+
+    it('ignores indentation of "isscript" tags', () => {
+        const result = SpecHelper.parseAndApplyRuleToTemplate(rule, 62, isCrlfLineBreak)[0];
+
+        expect(result).toBeUndefined();
+    });
 });

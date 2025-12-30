@@ -3,8 +3,9 @@ const ParseUtils        = require('../../isml_tree/ParseUtils');
 const TreeBuilder       = require('../../isml_tree/TreeBuilder');
 const Constants         = require('../../Constants');
 
-const ruleId      = require('path').basename(__filename).slice(0, -3);
-const description = 'Line incorrectly indented';
+const ruleId       = require('path').basename(__filename).slice(0, -3);
+const description  = 'Line incorrectly indented';
+const IGNORED_TAGS = ['isscript', 'script', 'style'];
 
 const Rule = Object.create(TreeRulePrototype);
 
@@ -54,6 +55,7 @@ Rule.isBroken = function(node) {
         !node.isContainer() &&
         !node.isEmpty() &&
         !node.isInSameLineAsParentEnd() &&
+        !node.parent.isOneOfTypes(IGNORED_TAGS) &&
         expectedIndentation !== actualIndentation &&
         !node.isInSameLineAsPreviousSibling();
 };
@@ -612,7 +614,7 @@ const getClosingChars = node => {
 const shouldChangeIndentation = node => {
     return !node.isRoot() &&
         !node.isContainer() &&
-        !node.parent.isOneOfTypes(['isscript', 'script', 'style']);
+        !node.parent.isOneOfTypes(IGNORED_TAGS);
 };
 
 const addIndentation = (node, isOpeningTag) => {
